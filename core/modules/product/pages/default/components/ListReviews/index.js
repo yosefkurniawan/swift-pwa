@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import React from 'react';
 import dynamic from 'next/dynamic';
 // import { useDispatch, useSelector } from 'react-redux';
-// import { setCountReview } from '@core_modules/product/pages/default/components/@core_modules/product/pages/default/components/redux/action';
 import { getReviews } from '@core_modules/product/services/graphql';
 import * as Schema from '@core_modules/product/services/graphql/schema';
 import useStyles from '@core_modules/product/pages/default/components/style';
@@ -71,6 +70,7 @@ const ListReviews = (props) => {
     };
 
     let review = {};
+
     review = data && data.getProductReviews
         ? data.getProductReviews
         : {
@@ -95,7 +95,7 @@ const ListReviews = (props) => {
                         <Typography type="regular" variant="p" letter="capitalize" className="clear-margin-padding">
                             {(review && review.totalCount) || 0}
                             {' '}
-                            {props.t('produc:review')}
+                            {props.t('product:review')}
                         </Typography>
                     </div>
                     <div className={styles.shareContainer}>

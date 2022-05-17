@@ -95,7 +95,7 @@ const TabsView = (props) => {
                         )}
                 </TabPanel>
             ))}
-            <TabPanel value={value} index={2} dir={theme.direction}>
+            <TabPanel value={value} index={dataInfo.length} dir={theme.direction}>
                 <ListReviews {...props} />
             </TabPanel>
             {
