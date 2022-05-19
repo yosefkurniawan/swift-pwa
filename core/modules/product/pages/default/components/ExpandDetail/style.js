@@ -3,7 +3,7 @@ import { CreateBorder, CreateMargin, CreatePadding } from '@theme_mixins';
 import { PRIMARY } from '@theme_color';
 import { FONT_DEFAULT, FONT_10, FONT_REGULAR } from '@theme_typography';
 
-export default makeStyles((theme) => ({
+export default makeStyles(() => ({
     root: {
         width: '100%',
         ...CreateMargin(15, 0, 15, 0),
@@ -33,49 +33,6 @@ export default makeStyles((theme) => ({
         fontSize: 16,
         color: PRIMARY,
     },
-    descriptionHtml: {
-        fontFamily: 'Montserrat',
-        fontSize: 10,
-        [theme.breakpoints.up('md')]: {
-            width: 850,
-            height: '100%',
-        },
-        [theme.breakpoints.up('sm')]: {
-            width: 700,
-            height: '100%',
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 320,
-            height: '100%',
-        },
-        '& img': {
-            width: '100%',
-            height: '100%',
-            [theme.breakpoints.up('md')]: {
-                maxWidth: 800,
-            },
-            [theme.breakpoints.up('sm')]: {
-                maxWidth: 650,
-            },
-            [theme.breakpoints.down('sm')]: {
-                maxWidth: 300,
-            },
-        },
-        '& iframe': {
-            width: '100%',
-            height: '100%',
-            [theme.breakpoints.up('md')]: {
-                maxWidth: 800,
-            },
-            [theme.breakpoints.up('sm')]: {
-                maxWidth: 650,
-            },
-            [theme.breakpoints.down('sm')]: {
-                maxWidth: 300,
-            },
-        },
-    },
-
     listLabel: {
         ...FONT_REGULAR,
     },
