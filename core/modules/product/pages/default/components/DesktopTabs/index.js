@@ -71,9 +71,72 @@ const TabsView = (props) => {
                 <TabPanel value={value} index={index} key={index} dir={theme.direction}>
                     {item.type === 'html'
                         ? (
-                            <div className={styles.descriptionHtml}>
-                                {item.content ? <span dangerouslySetInnerHTML={{ __html: item.content }} /> : null}
-                            </div>
+                            <>
+                                <div className="description-html">
+                                    {item.content ? <span dangerouslySetInnerHTML={{ __html: item.content }} /> : null}
+                                </div>
+                                <style jsx>
+                                    {`
+                                        .description-html {
+                                            font-family: 'Montserrat',
+                                            font-size: 10px,
+                                        }
+                                        
+                                        .description-html img {
+                                            width: '100%',
+                                            height: '100%',
+                                        }
+
+                                        .description-html iframe {
+                                            width: '100%',
+                                            height: '100%',
+                                        }
+
+                                        @media screen and (max-width: 768px) {
+                                            .description-html {
+                                                width: 320px,
+                                                height: '100%',
+                                            }
+
+                                            .description-html img {
+                                                max-width: 300px,
+                                            }
+
+                                            .description-html iframe {
+                                                max-width: 300px,
+                                            }
+                                        }
+                                        @media screen and (min-width: 769px) and (max-width: 1024px) {
+                                            .description-html {
+                                                width: 700px,
+                                                height: '100%',
+                                            }
+
+                                            .description-html img {
+                                                max-width: 650px,
+                                            }
+
+                                            .description-html iframe {
+                                                max-width: 650px,
+                                            }
+                                        }
+                                        @media screen and (min-width: 1025px) {
+                                            .description-html {
+                                                width: 850px,
+                                                height: '100%',
+                                            }
+
+                                            .description-html img {
+                                                max-width: 800px,
+                                            }
+
+                                            .description-html iframe {
+                                                max-width: 800px,
+                                            }
+                                        }
+                                    `}
+                                </style>
+                            </>
                         )
                         : item.type === 'array' && (
                             <List>

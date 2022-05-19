@@ -1,28 +1,26 @@
 import React from 'react';
 import classNames from 'classnames';
-import useStyles from '@plugin_productitem/components/WeltpixelLabel/style';
 
 const WeltpixelLabelView = (props) => {
     const {
         data = [], onDetailProduct, withThumbnailProduct, categoryLabel,
     } = props;
-    const styles = useStyles();
     const styleWithThumbnailProduct = (item) => {
         if (withThumbnailProduct) {
             if (item.position === 1 || item.position === 4 || item.position === 7) {
-                return styles.withThumbnailProduct;
+                return 'with-thumbnail-product';
             }
             if (item.position === 3 || item.position === 6 || item.position === 9) {
-                return styles.withThumbnailProductRight;
+                return 'with-thumbnail-product-right';
             }
         } else if (!categoryLabel && (item.position === 3 || item.position === 6 || item.position === 9)) {
-            return styles.productRight;
+            return 'product-right';
         }
         return '';
     };
     const styleTopSmallDevice = (item) => {
         if (item.position === 1 || item.position === 2 || item.position === 3) {
-            return styles.topSmall;
+            return 'top-small';
         }
         return '';
     };
@@ -35,7 +33,7 @@ const WeltpixelLabelView = (props) => {
                         className={
                             classNames(
                                 'text-container',
-                                styles[item.position],
+                                `styles-${item.position}`,
                                 styleTopSmallDevice(item),
                                 styleWithThumbnailProduct(item),
                                 ((item.position === 10 && !onDetailProduct) || item.disabled) ? 'hide' : '',
@@ -72,8 +70,113 @@ const WeltpixelLabelView = (props) => {
                                     font-size: ${item.text_font_size};
                                     color: ${item.text_font_color};
                                 }
-                              
 
+                                .styles-1 {
+                                    position: absolute;
+                                    left: 5px;
+                                    top: 5px;
+                                    z-index: 2;
+                                }
+
+                                .styles-2 {
+                                    position: absolute;
+                                    left: 50%;
+                                    transform: translate(-50%);
+                                    top: 5px;
+                                    z-index: 2;
+                                }
+
+                                .styles-3 {
+                                    position: absolute;
+                                    right: 5px;
+                                    top: 5px;
+                                    z-index: 2;
+
+                                }
+
+                                .styles-4 {
+                                    position: absolute;
+                                    left: 5px;
+                                    top: 50%;
+                                    transform: translate(0%, -50%);
+                                    z-index: 2;
+                                }
+
+                                .styles-5 {
+                                    position: absolute;
+                                    left: 50%;
+                                    top: 50%;
+                                    transform: translate(-50%, -50%);
+                                    z-index: 2;
+                                }
+
+                                .styles-6 {
+                                    position: absolute;
+                                    right: 5px;
+                                    top: 50%;
+                                    transform: translate(0%, -50%);
+                                    z-index: 2;
+                                }
+
+                                .styles-7 {
+                                    position: absolute;
+                                    left: 5px;
+                                    bottom: 5px;
+                                    z-index: 2;
+                                }
+
+                                .styles-8 {
+                                    position: absolute;
+                                    left: 50%;
+                                    transform: translate(-50%);
+                                    bottom: 5px;
+                                    z-index: 2;
+                                }
+
+                                .styles-9 {
+                                    position: absolute;
+                                    right: 5px;
+                                    bottom: 5px;
+                                    z-index: 2;
+                                }
+
+                                .styles-10 {
+                                    margin-left: 5px;
+                                    margin-right: 10px;
+                                }
+                              
+                                @media screen and (max-width: 768px) {
+                                    .top-small {
+                                        top: 50px;
+                                    }
+                                    
+                                    .with-thumbnail-product {
+                                        left: 20px;
+                                    }
+                                    
+                                    .with-thumbnail-product-right {
+                                        right: 20px;
+                                    }
+
+                                    .product-right {
+                                        right: 10px;
+                                    }
+                                }
+
+                                @media screen and (min-width: 769px) {
+                                    
+                                    .with-thumbnail-product {
+                                        left: 30px;
+                                    }
+                                    
+                                    .with-thumbnail-product-right {
+                                        right: 50px;
+                                    }
+
+                                    .product-right {
+                                        right: 20px;
+                                    }
+                                }
                             `}
                         </style>
                     </div>
