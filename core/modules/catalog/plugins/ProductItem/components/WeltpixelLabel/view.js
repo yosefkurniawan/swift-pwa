@@ -1,32 +1,26 @@
 import React from 'react';
 import classNames from 'classnames';
-// import useStyles from './style';
 
 const WeltpixelLabelView = (props) => {
     const {
         data = [], onDetailProduct, withThumbnailProduct, categoryLabel,
     } = props;
-    // const styles = useStyles();
     const styleWithThumbnailProduct = (item) => {
         if (withThumbnailProduct) {
             if (item.position === 1 || item.position === 4 || item.position === 7) {
                 return 'with-thumbnail-product';
-                // return styles.withThumbnailProduct;
             }
             if (item.position === 3 || item.position === 6 || item.position === 9) {
                 return 'with-thumbnail-product-right';
-                // return styles.withThumbnailProductRight;
             }
         } else if (!categoryLabel && (item.position === 3 || item.position === 6 || item.position === 9)) {
             return 'product-right';
-            // return styles.productRight;
         }
         return '';
     };
     const styleTopSmallDevice = (item) => {
         if (item.position === 1 || item.position === 2 || item.position === 3) {
             return 'top-small';
-            // return styles.topSmall;
         }
         return '';
     };
@@ -39,7 +33,6 @@ const WeltpixelLabelView = (props) => {
                         className={
                             classNames(
                                 'text-container',
-                                // styles[item.position],
                                 `styles-${item.position}`,
                                 styleTopSmallDevice(item),
                                 styleWithThumbnailProduct(item),
