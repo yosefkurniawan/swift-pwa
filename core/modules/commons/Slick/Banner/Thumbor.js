@@ -3,7 +3,6 @@ import { BREAKPOINTS } from '@theme_vars';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import useStyles from '@common_slick/Banner/style';
 import { useEffect, useState } from 'react';
-import { breakPointsUp } from '@helper_theme';
 
 const BannerThumbnail = (props) => {
     const {
