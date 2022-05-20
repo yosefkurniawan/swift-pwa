@@ -53,6 +53,7 @@ export const getReviews = (params) => useQuery(Schema.getReview(), {
     variables: {
         ...params,
     },
+    fetchPolicy: 'network-only',
 });
 
 export const addReview = () => useMutation(Schema.addReview, {
