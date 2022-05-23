@@ -53,6 +53,7 @@ export const getReviews = (params) => useQuery(Schema.getReview(), {
     variables: {
         ...params,
     },
+    fetchPolicy: 'cache-and-network',
 });
 
 export const addReview = () => useMutation(Schema.addReview, {
