@@ -262,7 +262,12 @@ const MagezonElement = (props) => {
                         ${background_color ? `background-color: ${background_color};` : ''}
                     }
                     .full_height {
-                        min-height: 433px;
+                        min-height: ${storeConfig.pwa.magezon_slider_mobile_width}px;
+                    }
+                    @media screen and (min-width: 768px) {
+                        .full_height {
+                            min-height: 433px;
+                        }
                     }
                     .hidden-default {
                         display: none;
@@ -272,8 +277,26 @@ const MagezonElement = (props) => {
             <style jsx global>
                 {`
                     .mgz-column > * {
-                        padding: 10px;
+                        padding: 0px;
                     }
+
+                    @media screen and (min-width: 768px) {
+                        .mgz-column > * {
+                            padding: 10px;
+                        }
+                    }
+
+                    @media screen and (max-width: 768px) {
+                        .mgz-element.full_height > .row > .mgz-column > .mgz-element {
+                            margin-top: -15px;
+                            position: absolute
+                        }
+
+                        .mgz-element > div > p {
+                            margin: 0px;
+                        }
+                    }
+
                     .animation_duration {
                         --animate-duration: ${animation_duration || 0.5}s;
                     }
