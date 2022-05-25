@@ -88,6 +88,10 @@ const OrderDetail = (props) => {
         window.location.replace(`${getHost()}/rma/customer/new/order_id/${order_number}`);
     };
 
+    const printOrder = (order_number) => {
+        window.open(`${getHost()}/sales/order/print/order_id/${order_number}`);
+    };
+
     return (
         <Layout pageConfig={pageConfig} {...props}>
             <Content
@@ -96,6 +100,7 @@ const OrderDetail = (props) => {
                 currency={currency}
                 returnUrl={returnUrl}
                 reOrder={reOrder}
+                printOrder={printOrder}
                 paymentInfo={paymentInfo.OrderPaymentInformation}
                 dataTrackingOrder={dataTrackingOrder}
             />
