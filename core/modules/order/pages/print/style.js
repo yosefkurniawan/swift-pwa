@@ -25,7 +25,7 @@ export default makeStyles((theme) => ({
             marginLeft: '10px !important',
         },
         // eslint-disable-next-line no-useless-computed-key
-        ['@media (max-width:561px)']: {
+        ['@media (max-width:560px)']: {
             '& #status_label': {
                 marginLeft: '0px !important',
             },

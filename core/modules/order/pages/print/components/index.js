@@ -332,16 +332,6 @@ const PrintOrder = (props) => {
                     .header-middle__left {
                         padding-bottom: 30px;
                     }
-                    @media (min-width: 632px) {
-                        .hide-desktop {
-                            display: none !important;
-                        }
-                    }
-                    @media (max-width: 600px) {
-                        .hide-mobile {
-                            display: none !important;
-                        }
-                    }
                 `}
             </style>
         </>

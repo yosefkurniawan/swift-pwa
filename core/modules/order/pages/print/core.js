@@ -47,7 +47,6 @@ const OrderPrint = (props) => {
         return (
             <>
                 <Layout
-                    {...props}
                     pageConfig={pageConfig}
                     withLayoutHeader={false}
                     withLayoutFooter={false}
