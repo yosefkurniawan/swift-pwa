@@ -19,6 +19,17 @@ export default makeStyles((theme) => ({
     blockHeader: {
         ...CreatePadding(30, 30, 0, 30),
         ...FlexColumn,
+        '& #status_label': {
+            border: '2px solid #cccccc',
+            padding: '3px',
+            marginLeft: '10px !important',
+        },
+        // eslint-disable-next-line no-useless-computed-key
+        ['@media (max-width:561px)']: {
+            '& #status_label': {
+                marginLeft: '0px !important',
+            },
+        },
     },
     blockContainer: {
         // ...CreateMargin(30, 30, 0, 30),
@@ -34,11 +45,6 @@ export default makeStyles((theme) => ({
         },
         display: 'flex',
         alignItems: 'center',
-        '& #status_label': {
-            border: '2px solid #cccccc',
-            padding: '3px',
-            marginLeft: '10px',
-        },
     },
     detail: {
         paddingTop: 0,

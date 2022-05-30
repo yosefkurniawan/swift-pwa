@@ -49,14 +49,21 @@ const PrintOrder = (props) => {
                             </Link>
                         </div>
                     </div>
-                    <Typography variant="h1" letter="uppercase" type="semiBold" className={classNames('clear-margin-padding', styles.headerTitle)}>
-                        {t('order:order')}
-                        {' # '}
-                        {detail[0].order_number || ''}
+                    <div className="row">
+                        <Typography
+                            variant="h1"
+                            letter="uppercase"
+                            type="semiBold"
+                            className={classNames('clear-margin-padding', styles.headerTitle)}
+                        >
+                            {t('order:order')}
+                            {' # '}
+                            {detail[0].order_number || ''}
+                        </Typography>
                         <Typography id="status_label" variant="span" size="14" letter="uppercase">
                             {detail[0].status_label || ''}
                         </Typography>
-                    </Typography>
+                    </div>
                     <Typography variant="span" className="clear-margin-padding">
                         {formatDate(detail[0].created_at)}
                     </Typography>
@@ -86,9 +93,15 @@ const PrintOrder = (props) => {
                             <div>
                                 <Table data={items} t={t} currency={currency} {...props} />
                             </div>
+                            {/* <div className="hide-desktop">
+                                {items.length > 0
+                                        && items.map((item, key) => (
+                                            <ItemProduct t={t} key={key} {...item} currency={currency} storeConfig={storeConfig} />
+                                        ))}
+                            </div> */}
                         </div>
-                        <div className="row end-xs end-md">
-                            <div className="col-xs-4 col-md-3">
+                        <div className="row end-xs end-sm end-md">
+                            <div className="col-md-4 col-sm-4">
                                 {(detail[0].detail[0].subtotal || detail[0].detail[0].subtotal_incl_tax) && (
                                     <div className={styles.listSummary}>
                                         <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
@@ -196,7 +209,7 @@ const PrintOrder = (props) => {
                         </div>
                         {Object.keys(detail[0].detail[0].shipping_address).length > 0 && (
                         // shipped to block
-                            <div className="col-xs-4">
+                            <div className="col-xs-12 col-sm-4 col-md-4">
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                     {detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store
                                         ? t('order:pickupAt')
@@ -223,7 +236,7 @@ const PrintOrder = (props) => {
                         )}
                         {detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store && (
                         // pickup store
-                            <div className="col-xs-3">
+                            <div className="col-xs-12 col-sm-3 col-md-3">
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                     {t('order:pickupBy')}
                                 </Typography>
@@ -262,7 +275,7 @@ const PrintOrder = (props) => {
                             </div>
                         )}
                         {/* billing address */}
-                        <div className="col-xs-3">
+                        <div className="col-xs-12 col-sm-3 col-md-3">
                             <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                 {t('order:billingAddress')}
                             </Typography>
@@ -284,7 +297,7 @@ const PrintOrder = (props) => {
                                 {detail[0].detail[0].billing_address.postcode || ''}
                             </Typography>
                         </div>
-                        <div className="col-xs-2">
+                        <div className="col-xs-12 col-sm-2 col-md-2">
                             <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                 {t('order:paymentMethod')}
                             </Typography>
@@ -318,6 +331,16 @@ const PrintOrder = (props) => {
                     }
                     .header-middle__left {
                         padding-bottom: 30px;
+                    }
+                    @media (min-width: 632px) {
+                        .hide-desktop {
+                            display: none !important;
+                        }
+                    }
+                    @media (max-width: 600px) {
+                        .hide-mobile {
+                            display: none !important;
+                        }
                     }
                 `}
             </style>
