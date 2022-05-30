@@ -272,9 +272,14 @@ const MagezonElement = (props) => {
                             min-height: ${(Math.round(storeConfig.pwa.magezon_slider_mobile_width * 0.9))}px;
                         }
                     }
-                    @media screen and (min-width: 384px) and (max-width: 767px) {
+                    @media screen and (min-width: 384px) and (max-width: 479px) {
                         .full_height {
                             min-height: ${(Math.round(storeConfig.pwa.magezon_slider_mobile_width * 0.95))}px;
+                        }
+                    }
+                    @media screen and (min-width: 480px) and (max-width: 767px) {
+                        .full_height {
+                            min-height: ${(Math.round(storeConfig.pwa.magezon_slider_mobile_width * 1.25))}px;
                         }
                     }
                     @media screen and (min-width: 768px) and (max-width: 800px) {
