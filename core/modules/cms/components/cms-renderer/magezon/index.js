@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import MagezonColumn from '@core_modules/cms/components/cms-renderer/magezon/MagezonColumn';
 import MagezonRow from '@core_modules/cms/components/cms-renderer/magezon/MagezonRow';
@@ -261,10 +262,27 @@ const MagezonElement = (props) => {
                         width: 100%;
                         ${background_color ? `background-color: ${background_color};` : ''}
                     }
-                    .full_height {
-                        min-height: ${storeConfig.pwa.magezon_slider_mobile_width}px;
+                    @media screen and (max-width: 360px) {
+                        .full_height {
+                            min-height: ${Math.round(storeConfig.pwa.magezon_slider_mobile_width * 0.8)}px;
+                        }
                     }
-                    @media screen and (min-width: 768px) {
+                    @media screen and (min-width: 361px) and (max-width: 383px) {
+                        .full_height {
+                            min-height: ${(Math.round(storeConfig.pwa.magezon_slider_mobile_width * 0.9))}px;
+                        }
+                    }
+                    @media screen and (min-width: 384px) and (max-width: 767px) {
+                        .full_height {
+                            min-height: ${(Math.round(storeConfig.pwa.magezon_slider_mobile_width * 0.95))}px;
+                        }
+                    }
+                    @media screen and (min-width: 768px) and (max-width: 800px) {
+                        .full_height {
+                            min-height: ${storeConfig.pwa.magezon_slider_mobile_height}px;
+                        }
+                    }
+                    @media screen and (min-width: 801px) {
                         .full_height {
                             min-height: 433px;
                         }
