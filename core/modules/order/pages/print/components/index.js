@@ -209,7 +209,7 @@ const PrintOrder = (props) => {
                         </div>
                         {Object.keys(detail[0].detail[0].shipping_address).length > 0 && (
                         // shipped to block
-                            <div className="col-xs-12 col-sm-4 col-md-4">
+                            <div className="col-xs-12 col-xs-print-4 col-sm-4 col-md-4">
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                     {detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store
                                         ? t('order:pickupAt')
@@ -236,7 +236,7 @@ const PrintOrder = (props) => {
                         )}
                         {detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store && (
                         // pickup store
-                            <div className="col-xs-12 col-sm-3 col-md-3">
+                            <div className="col-xs-12 col-xs-print-3 col-sm-3 col-md-3">
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                     {t('order:pickupBy')}
                                 </Typography>
@@ -265,7 +265,7 @@ const PrintOrder = (props) => {
                     </div> */}
                         {/* shipping method */}
                         {Object.keys(detail[0].detail[0].shipping_address).length > 0 && (
-                            <div className="col-xs-3">
+                            <div className="col-xs-3 col-xs-print-3">
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                     {t('order:shippingMethod')}
                                 </Typography>
@@ -275,7 +275,7 @@ const PrintOrder = (props) => {
                             </div>
                         )}
                         {/* billing address */}
-                        <div className="col-xs-12 col-sm-3 col-md-3">
+                        <div className="col-xs-12 col-xs-print-3 col-sm-3 col-md-3">
                             <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                 {t('order:billingAddress')}
                             </Typography>
@@ -297,7 +297,7 @@ const PrintOrder = (props) => {
                                 {detail[0].detail[0].billing_address.postcode || ''}
                             </Typography>
                         </div>
-                        <div className="col-xs-12 col-sm-2 col-md-2">
+                        <div className="col-xs-12 col-xs-print-2 col-sm-2 col-md-2">
                             <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                 {t('order:paymentMethod')}
                             </Typography>
@@ -331,6 +331,21 @@ const PrintOrder = (props) => {
                     }
                     .header-middle__left {
                         padding-bottom: 30px;
+                    }
+
+                    @media only print {
+                        .col-xs-print-4 {
+                            flex-basis: 33.333333%;
+                            max-width: 33.333333%;
+                        }
+                        .col-xs-print-3 {
+                            flex-basis: 25%;
+                            max-width: 25%;
+                        }
+                        .col-xs-print-2 {
+                            flex-basis: 16.666666%;
+                            max-width: 16.666666%;
+                        }
                     }
                 `}
             </style>
