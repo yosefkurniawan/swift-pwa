@@ -251,6 +251,12 @@ const MagezonSingleImage = (props) => {
                 && <div className="mgz-img-over mgz-img-overlay" />}
             <style jsx>
                 {`
+                    @media (min-width: 768px) and (max-width: 991px) {
+                        .magezon-image :global(.mgz-single-image) {
+                            width: 95vw;
+                            max-height: 100%;
+                        }
+                    }
                     .mgz-img-content {
                         text-align: ${content_align};
                         background-color: ${content_background};

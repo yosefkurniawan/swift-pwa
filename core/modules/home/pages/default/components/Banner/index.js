@@ -19,7 +19,7 @@ const BannerSlider = (props) => {
     });
 
     if ((loading) && !data) {
-        return <BannerSliderSkeleton logoUrl={logoUrl} />;
+        return <BannerSliderSkeleton logoUrl={logoUrl} storeConfig={storeConfig} />;
     }
     if (error) {
         return <ErrorInfo variant="error" text={t('home:errorFetchData')} />;

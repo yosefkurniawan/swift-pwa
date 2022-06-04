@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
         ...CreateMargin(30, 0, 30, 0),
     },
     header: {
+        [theme.breakpoints.between('sm', 'md')]: {
+            width: '97vw',
+        },
         width: '100%',
         display: 'flex',
         justifyContent: 'center',

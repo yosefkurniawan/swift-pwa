@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#eee',
         width: '100%',
         position: 'relative',
-        // paddingTop: '175%',
         [theme.breakpoints.up('sm')]: {
             height: 'auto',
             paddingTop: 0,
@@ -65,9 +64,6 @@ const useStyles = makeStyles((theme) => ({
     thumborImage: {
         width: '100%',
         height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
         [theme.breakpoints.up('sm')]: {
             height: 'auto',
             position: 'unset',
