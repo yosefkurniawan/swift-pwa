@@ -484,7 +484,7 @@ const PageDetail = (props) => {
             if (product.items.length > 0) {
                 const item = product.items[0];
                 let isExist = false;
-                const viewedProduct = getLocalStorage('recently_viewed_product');
+                const viewedProduct = getLocalStorage('recently_viewed_product_pwa');
 
                 if (viewedProduct) {
                     temporaryArr = viewedProduct;
@@ -498,6 +498,7 @@ const PageDetail = (props) => {
                     }
                 }
                 if (isExist === false) {
+                    temporaryArr = [];
                     const newItem = {
                         url_key: item.url_key,
                     };
