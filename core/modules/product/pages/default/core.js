@@ -416,18 +416,20 @@ const PageDetail = (props) => {
      */
     const router = useRouter();
     const productProps = router.query.productProps ? JSON.parse(router.query.productProps) : {};
-    const productVariables = Object.keys(productProps).length > 0 ? {
-        variables: {
-            includeName: productProps.name && productProps.name !== '',
-            includePrice: productProps.price && true,
-            includeImg: productProps.small_image?.url && true,
-            url: slug[0],
-        },
-    } : {
-        variables: {
-            url: slug[0],
-        },
-    };
+    const productVariables = Object.keys(productProps).length > 0
+        ? {
+            variables: {
+                includeName: productProps.name && productProps.name !== '',
+                includePrice: productProps.price && true,
+                includeImg: productProps.small_image?.url && true,
+                url: slug[0],
+            },
+        }
+        : {
+            variables: {
+                url: slug[0],
+            },
+        };
 
     const labels = getProductLabel(storeConfig, { context, variables: { url: slug[0] } });
     const { loading, data, error } = getProduct(storeConfig, { context, ...productVariables });
@@ -464,44 +466,47 @@ const PageDetail = (props) => {
         if (Object.keys(productProps).length > 0) {
             product = {
                 ...product,
-                items: [{
-                    ...product.items[0],
-                    name: productProps.name || '',
-                    small_image: productProps.small_image || {},
-                    price: productProps.price || {},
-                    price_range: { ...productProps.price.priceRange },
-                    price_tiers: [...productProps.price.priceTiers],
-                    special_from_date: { ...productProps.price.specialFromDate },
-                    special_to_date: { ...productProps.price.specialToDate },
-                }],
+                items: [
+                    {
+                        ...product.items[0],
+                        name: productProps.name || '',
+                        small_image: productProps.small_image || {},
+                        price: productProps.price || {},
+                        price_range: { ...productProps.price.priceRange },
+                        price_tiers: [...productProps.price.priceTiers],
+                        special_from_date: { ...productProps.price.specialFromDate },
+                        special_to_date: { ...productProps.price.specialToDate },
+                    },
+                ],
             };
         }
+        if (typeof window !== 'undefined') {
+            if (product.items.length > 0) {
+                const item = product.items[0];
+                let isExist = false;
+                const viewedProduct = getLocalStorage('recently_viewed_product');
 
-        if (product.items.length > 0) {
-            const item = product.items[0];
-            let isExist = false;
-            const viewedProduct = getLocalStorage('recently_viewed_product');
-
-            if (viewedProduct) {
-                temporaryArr = viewedProduct;
-                if (viewedProduct.length > 0) {
-                    viewedProduct.map((val) => {
-                        if (val.url_key === item.url_key) {
-                            isExist = true;
-                        }
-                        return null;
-                    });
+                if (viewedProduct) {
+                    temporaryArr = viewedProduct;
+                    if (viewedProduct.length > 0) {
+                        viewedProduct.map((val) => {
+                            if (val.url_key === item.url_key) {
+                                isExist = true;
+                            }
+                            return null;
+                        });
+                    }
+                }
+                if (isExist === false) {
+                    const newItem = {
+                        url_key: item.url_key,
+                    };
+                    temporaryArr.push(newItem);
+                    setLocalStorage('recently_viewed_product_pwa', temporaryArr);
                 }
             }
-            if (isExist === false) {
-                const newItem = {
-                    url_key: item.url_key,
-                };
-                temporaryArr.push(newItem);
-                setLocalStorage('recently_viewed_product', temporaryArr);
-            }
+            if (product.items.length === 0) return <Error statusCode={404} />;
         }
-        if (product.items.length === 0) return <Error statusCode={404} />;
     }
 
     if (labels.data && labels.data.products && labels.data.products.items.length > 0 && labels.data.products.items[0].weltpixel_labels) {
