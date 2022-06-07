@@ -18,7 +18,7 @@ const RecentlyViewed = (props) => {
     const desktop = breakPointsUp('sm');
     let viewedProduct = false;
     if (typeof window !== 'undefined') {
-        viewedProduct = getLocalStorage('recently_viewed_product');
+        viewedProduct = getLocalStorage('recently_viewed_product_pwa');
     }
     // console.log(viewedProduct);
     const toggleDrawer = (open) => (event) => {
