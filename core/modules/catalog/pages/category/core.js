@@ -19,7 +19,9 @@ const Page = (props) => {
     const { data: dataConfig } = getPwaConfig();
     const storeConfig = dataConfig?.storeConfig || {};
     const ogContent = {};
-    let config = {};
+    let config = {
+        ...pageConfig,
+    };
     let schemaOrg = null;
     if (data && data.categoryList[0]) {
         const category = data.categoryList[0];
@@ -28,7 +30,7 @@ const Page = (props) => {
             ogContent.description = StripHtmlTags(data.categoryList[0].description);
         }
         config = {
-            title: loading ? '' : data.categoryList[0].name,
+            title: data.categoryList[0]?.name || '',
             headerTitle: data && !data.categoryList[0].image_path ? data.categoryList[0].name : '',
             header: data && data.categoryList[0].image_path ? 'absolute' : 'relative', // available values: "absolute", "relative", false (default)
             bottomNav: 'browse',
@@ -50,7 +52,7 @@ const Page = (props) => {
         return <ErrorView statusCode={404} {...props} />;
     }
     return (
-        <Layout {...props} pageConfig={config || pageConfig}>
+        <Layout {...props} pageConfig={config}>
             <Content categoryId={categoryId} data={data} {...other} storeConfig={storeConfig} />
         </Layout>
     );

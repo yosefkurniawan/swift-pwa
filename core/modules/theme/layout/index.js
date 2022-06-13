@@ -7,6 +7,7 @@ import Head from 'next/head';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
+import crypto from 'crypto';
 import {
     custDataNameCookie, features, modules, debuging, assetsVersion, storeConfigNameCookie,
 } from '@config';
@@ -210,10 +211,17 @@ const Layout = (props) => {
             const tagManagerArgs = {
                 dataLayer: {
                     pageName: pageConfig.title,
+                    pageType: pageConfig.pageType || 'other',
                     customerGroup: isLogin === 1 ? 'GENERAL' : 'NOT LOGGED IN',
                 },
             };
-            if (custData && custData.email) tagManagerArgs.dataLayer.customerId = custData.email;
+            if (custData && custData.email) {
+                tagManagerArgs.dataLayer.customerId = custData.id || custData.email;
+                tagManagerArgs.dataLayer.eid = crypto.createHash('sha256').update(custData.email).digest('hex');
+            }
+            if (custData && custData.phonenumber) {
+                tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custData.phonenumber).digest('hex');
+            }
             TagManager.dataLayer(tagManagerArgs);
             if (enablePromo !== '' && storeConfig.global_promo && storeConfig.global_promo.enable) {
                 setShowGlobalPromo(enablePromo);
