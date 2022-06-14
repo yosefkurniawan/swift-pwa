@@ -55,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
         width: 100,
         height: '100%',
     },
+    imgLogoHamburger: {
+        width: 100,
+        height: '100%',
+    },
     skeletonWrapper: {
         padding: '0 0 12px 0',
         width: '100%',
@@ -184,6 +188,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             maxWidth: 375,
         },
+    },
+    hamburgerList: {
+        width: 250,
     },
 }));
 

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-indent */
+/* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
 import React, { useEffect, useState, useRef } from 'react';
@@ -54,6 +56,7 @@ const Layout = (props) => {
         withLayoutHeader = true,
         withLayoutFooter = true,
         showRecentlyBar = true,
+        isHomepage = false,
     } = props;
     const {
         ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true,
@@ -294,6 +297,7 @@ const Layout = (props) => {
                                     appName={appName}
                                     installMessage={installMessage}
                                     dataVesMenu={dataVesMenu}
+                                    isHomepage={isHomepage}
                                 />
                             )
                             : null}
@@ -302,7 +306,11 @@ const Layout = (props) => {
                         {React.isValidElement(CustomHeader) ? (
                             <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
                         ) : (
-                            <HeaderMobile {...headerProps} pageConfig={pageConfig} />
+                                <HeaderMobile
+                                    pageConfig={pageConfig}
+                                    storeConfig={storeConfig}
+                                    {...headerProps}
+                                />
                         )}
                     </div>
                 </header>
@@ -330,7 +338,9 @@ const Layout = (props) => {
                         {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
                         <Copyright storeConfig={storeConfig} />
                     </div>
-                    {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />}
+                    {desktop
+                        ? null : storeConfig && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation'
+                            ? <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} /> : null}
                 </footer>
             )}
             {

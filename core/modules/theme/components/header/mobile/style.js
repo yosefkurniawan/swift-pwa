@@ -45,6 +45,18 @@ const useStyles = makeStyles((theme) => ({
     title: {
         fontSize: 12,
     },
+    hamburgerList: {
+        width: 250,
+    },
+    imgLogoHamburger: {
+        width: 100,
+        height: '100%',
+    },
+    logo: {
+        position: 'absolute',
+        zIndex: 99,
+        ...CenterAbsolute,
+    },
 }));
 
 export default useStyles;
