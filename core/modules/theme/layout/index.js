@@ -217,10 +217,20 @@ const Layout = (props) => {
             };
             if (custData && custData.email) {
                 tagManagerArgs.dataLayer.customerId = custData.id || custData.email;
-                tagManagerArgs.dataLayer.eid = crypto.createHash('sha256').update(custData.email).digest('hex');
+                const custEmail = custData.email.toLowerCase();
+                tagManagerArgs.dataLayer.eid = crypto.createHash('sha256').update(custEmail).digest('hex');
             }
             if (custData && custData.phonenumber) {
-                tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custData.phonenumber).digest('hex');
+                let custPhone = custData.phonenumber;
+                custPhone = `${custPhone}`;
+                if (custPhone[0] === '0' || custPhone[0] === 0) {
+                    custPhone = `+62${custPhone.substring(1)}`;
+                }
+
+                if (custPhone[0] !== '+') {
+                    custPhone = `+62${custPhone}`;
+                }
+                tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
             }
             TagManager.dataLayer(tagManagerArgs);
             if (enablePromo !== '' && storeConfig.global_promo && storeConfig.global_promo.enable) {
