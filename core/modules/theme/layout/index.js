@@ -230,7 +230,9 @@ const Layout = (props) => {
                 if (custPhone[0] !== '+') {
                     custPhone = `+62${custPhone}`;
                 }
-                tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
+                if (custPhone.length > 5) {
+                    tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
+                }
             }
             TagManager.dataLayer(tagManagerArgs);
             if (enablePromo !== '' && storeConfig.global_promo && storeConfig.global_promo.enable) {
