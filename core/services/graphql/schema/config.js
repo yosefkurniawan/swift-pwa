@@ -122,11 +122,13 @@ export const storeConfig = `
         custom_install_app_enable
         default_robot
         drawer_filter_on_desktop_enable
+        enabler_footer_mobile
+        enabler_sticky_header
         facebook_app_id
         facebook_meta_id_app_id
         facebook_meta_id_enable
-        footer_desktop
-        footer_mobile
+        footer_version
+        header_version
         home_slider_desktop_height
         home_slider_desktop_width
         home_slider_mobile_height
@@ -145,6 +147,7 @@ export const storeConfig = `
         magezon_slider_desktop_width
         magezon_slider_mobile_height
         magezon_slider_mobile_width
+        mobile_navigation
         page_size
         paypal_debug
         paypal_enable
@@ -176,6 +179,7 @@ export const storeConfig = `
         share_icon_telegram
         share_icon_twitter
         ves_menu_alias
+        ves_menu_enable
         ves_menu_enable
       }
       store_name

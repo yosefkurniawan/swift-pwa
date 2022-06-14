@@ -46,7 +46,7 @@ const HomeCore = (props) => {
     };
 
     return (
-        <Layout {...props} pageConfig={config}>
+        <Layout {...props} pageConfig={config} isHomepage>
             <Content storeConfig={storeConfig} homePageConfig={homePageConfig} {...other} />
         </Layout>
     );
