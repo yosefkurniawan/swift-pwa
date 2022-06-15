@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 12,
     },
     hamburgerList: {
-        width: 250,
+        width: 300,
     },
     imgLogoHamburger: {
         width: 100,
@@ -56,6 +56,10 @@ const useStyles = makeStyles((theme) => ({
         position: 'absolute',
         zIndex: 99,
         ...CenterAbsolute,
+    },
+    navRightMenu: {
+        position: 'absolute',
+        right: '1rem',
     },
 }));
 
