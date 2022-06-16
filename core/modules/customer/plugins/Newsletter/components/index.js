@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const NewsletterView = (props) => {
     // base props
     const {
-        formik, loading, t, ...others
+        formik, loading, t, type, ...others
     } = props;
 
     // magezon newsletter props
@@ -53,9 +53,11 @@ const NewsletterView = (props) => {
         <div>
             <div className="newsletter-container">
                 <div className="wrapper">
+                {type === 'pwa-newsletter-subscribe' ? null :
                     <div className="title">
                         <h3>{isCms && title ? title : t('common:newsletter:title')}</h3>
                     </div>
+                }
                     {isCms && description ? (
                         <div className="description">
                             <p>{description}</p>
@@ -133,7 +135,7 @@ const NewsletterView = (props) => {
                                                 : ''
                                         }
                                     >
-                                        {loading ? <CircularProgress color="inherit" size={14} /> : <span>{t('common:newsletter:buttonLabel')}</span>}
+                                        {loading ? <CircularProgress color="inherit" size={14} /> : <span>{type === 'pwa-newsletter-subscribe' ? 'Sign Up' : t('common:newsletter:buttonLabel')}</span>}
                                     </button>
                                 </div>
                             </form>
