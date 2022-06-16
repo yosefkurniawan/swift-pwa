@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
@@ -12,12 +13,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Tabs from '@material-ui/core/Tabs';
@@ -34,9 +33,10 @@ import useStyles from '@core_modules/theme/components/header/mobile/style';
 import { getAppEnv } from '@root/core/helpers/env';
 import { modules } from '@config';
 import { getStoreHost } from '@helpers/config';
-import { getCategories } from '@core_modules/theme/services/graphql/index';
+import { getCategories, getVesMenu } from '@core_modules/theme/services/graphql/index';
 
 const CategoryList = dynamic(() => import('@core_modules/theme/components/header/mobile/CategoryList'), { ssr: true });
+const VesMenuCategoryList = dynamic(() => import('@core_modules/theme/components/header/mobile/VesMenuCategoryList'), { ssr: true });
 
 const Header = ({ LeftComponent, CenterComponent, RightComponent, className, pageConfig, storeConfig }) => {
     const styles = useStyles();
@@ -50,19 +50,25 @@ const Header = ({ LeftComponent, CenterComponent, RightComponent, className, pag
             router.back();
         }
     };
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
+    const vesMenu = storeConfig.pwa?.ves_menu_enable;
+    const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
+
+    const toggleDrawer = (open) => (event) => {
+        if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        setDrawerOpen(open);
+    };
 
     if (storeConfig && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'burger_menu') {
-        const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
-
-        const [drawerOpen, setDrawerOpen] = React.useState(false);
-        const toggleDrawer = (open) => (event) => {
-            if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-                return;
-            }
-            setDrawerOpen(open);
-        };
-
         const { loading, data, error } = getCategories();
+        const { loading: loadingVesMenu, data: dataVesMenu, error: errorVesMenu } = getVesMenu({
+            variables: {
+                alias: storeConfig?.pwa?.ves_menu_alias,
+            },
+            skip: !storeConfig,
+        });
 
         const [openModal, setOpenModal] = React.useState(false);
         const handleOpenModal = (val) => {
@@ -107,7 +113,8 @@ const Header = ({ LeftComponent, CenterComponent, RightComponent, className, pag
                             <MenuIcon />
                         </IconButton>
                         <div className={classNames(styles.logo, 'hidden-desktop')}>
-                            <img src={logoUrl} alt="logo" className={styles.imgLogoHamburger} />
+                            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
+                            <img src={logoUrl} alt="logo" className={styles.imgLogoHamburger} onClick={() => router.push('/')} />
                         </div>
                         <div className={styles.navRightMenu}>
                             <BrowseModal open={openModal} setOpenModal={handleOpenModal} />
@@ -124,47 +131,108 @@ const Header = ({ LeftComponent, CenterComponent, RightComponent, className, pag
                     <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
                         <Tab label="Menu" {...a11yProps(0)} />
                         <Tab label="Account" {...a11yProps(1)} />
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={() => setDrawerOpen(false)}
+                            style={{
+                                position: 'absolute',
+                                right: '0',
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
                     </Tabs>
                     <TabPanel value={value} index={0}>
                         <div className={styles.hamburgerList} role="presentation">
                             <List>
-                                <ListItem button divider onClick={() => router.push('/')}>
-                                    <ListItemIcon>
-                                        <HomeIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Home" />
-                                </ListItem>
-                                {data && data.categoryList[0] && <CategoryList loading={loading} data={data} error={error} />}
+                                {data && !vesMenu && data.categoryList[0] ? (
+                                    <CategoryList loading={loading} data={data} error={error} toggleDrawer={setDrawerOpen} />
+                                ) : (
+                                    <VesMenuCategoryList
+                                        loading={loadingVesMenu}
+                                        data={dataVesMenu}
+                                        error={errorVesMenu}
+                                        storeConfig={storeConfig}
+                                        toggleDrawer={setDrawerOpen}
+                                    />
+                                )}
                             </List>
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <div className={styles.hamburgerList} role="presentation">
+                        <div className={styles.hamburgerList} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
                             <List>
                                 <ListItem button divider onClick={() => router.push('/confirmpayment')}>
-                                    <ListItemText primary="Confirm Payment" />
+                                    <ListItemText
+                                        primary={
+                                            <Typography variant="label" size="14" letter="uppercase" type="bold">
+                                                Confirm Payment
+                                            </Typography>
+                                        }
+                                    />
                                 </ListItem>
                                 <ListItem button divider onClick={() => router.push('/sales/order/track')}>
-                                    <ListItemText primary="Track Order" />
+                                    <ListItemText
+                                        primary={
+                                            <Typography variant="label" size="14" letter="uppercase" type="bold">
+                                                Track Order
+                                            </Typography>
+                                        }
+                                    />
                                 </ListItem>
                                 {isLogin ? (
                                     <ListItem button divider onClick={() => router.push('/customer/account')}>
-                                        <ListItemText primary="Account Dashboard" />
+                                        <ListItemText
+                                            primary={
+                                                <Typography variant="label" size="14" letter="uppercase" type="bold">
+                                                    Account Dashboard
+                                                </Typography>
+                                            }
+                                        />
                                     </ListItem>
                                 ) : (
                                     <>
                                         <ListItem button divider onClick={() => router.push('/customer/account/create')}>
-                                            <ListItemText primary="Create an Account" />
+                                            <ListItemText
+                                                primary={
+                                                    <Typography variant="label" size="14" letter="uppercase" type="bold">
+                                                        Create an Account
+                                                    </Typography>
+                                                }
+                                            />
                                         </ListItem>
                                         <ListItem button divider onClick={() => router.push('/customer/account/login')}>
-                                            <ListItemText primary="Sign In" />
-                                            {/* eslint-disable-next-line indent, react/jsx-indent, react/jsx-closing-tag-location */}
+                                            <ListItemText
+                                                primary={
+                                                    <Typography variant="label" size="14" letter="uppercase" type="bold">
+                                                        Sign In
+                                                    </Typography>
+                                                }
+                                            />
                                         </ListItem>
                                     </>
                                 )}
                             </List>
                         </div>
                     </TabPanel>
+                    <style jsx global>
+                        {`
+                            div[id^='simple-tabpanel-'] .MuiBox-root {
+                                padding-top: 0rem !important;
+                                margin-top: -1rem;
+                            }
+
+                            div[role='tablist'] {
+                                min-height: 4rem;
+                            }
+
+                            button[id^='simple-tab-'] {
+                                padding: 1rem !important;
+                            }
+                        `}
+                    </style>
                 </SwipeableDrawer>
                 <Toolbar />
             </>
