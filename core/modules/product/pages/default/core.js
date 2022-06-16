@@ -350,11 +350,16 @@ const ContentDetail = ({
     if (storeConfig && storeConfig.pwa) {
         enablePopupImage = storeConfig.pwa.popup_detail_image_enable;
     }
-
+    let productByUrl;
+    for (let i = 0; i < product.items.length; i += 1) {
+        if (route.asPath.substr(1) === product.items[i].url_key) {
+            productByUrl = [i];
+        }
+    }
     return (
         <Content
             data={{
-                ...product.items[0],
+                ...product.items[productByUrl],
                 weltpixel_labels,
             }}
             t={t}
@@ -434,6 +439,7 @@ const PageDetail = (props) => {
     const labels = getProductLabel(storeConfig, { context, variables: { url: slug[0] } });
     const { loading, data, error } = getProduct(storeConfig, { context, ...productVariables });
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
+
     React.useEffect(() => {
         if (slug[0] !== '') {
             getProductTabs({
@@ -464,11 +470,17 @@ const PageDetail = (props) => {
         let temporaryArr = [];
         product = data.products;
         if (Object.keys(productProps).length > 0) {
+            let productByUrl;
+            for (let i = 0; i < product.items.length; i += 1) {
+                if (router.asPath.substr(1) === product.items[i].url_key) {
+                    productByUrl = [i];
+                }
+            }
             product = {
                 ...product,
                 items: [
                     {
-                        ...product.items[0],
+                        ...product.items[productByUrl],
                         name: productProps.name || '',
                         small_image: productProps.small_image || {},
                         price: productProps.price || {},
@@ -482,7 +494,13 @@ const PageDetail = (props) => {
         }
         if (typeof window !== 'undefined') {
             if (product.items.length > 0) {
-                const item = product.items[0];
+                let productByUrl;
+                for (let i = 0; i < product.items.length; i += 1) {
+                    if (router.asPath.substr(1) === product.items[i].url_key) {
+                        productByUrl = [i];
+                    }
+                }
+                const item = product.items[productByUrl];
                 let isExist = false;
                 const viewedProduct = getLocalStorage('recently_viewed_product_pwa');
 
