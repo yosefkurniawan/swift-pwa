@@ -131,8 +131,11 @@ export const getCustomer = gql`
             lastname
             email
             phonenumber
-            whatsapp_number
             customer_group
+            addresses {
+                default_shipping
+                country_code
+            }
         }
     }
 `;

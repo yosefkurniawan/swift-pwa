@@ -223,13 +223,6 @@ const Layout = (props) => {
             if (custData && custData.phonenumber) {
                 let custPhone = custData.phonenumber;
                 custPhone = `${custPhone}`;
-                if (custPhone[0] === '0' || custPhone[0] === 0) {
-                    custPhone = `+62${custPhone.substring(1)}`;
-                }
-
-                if (custPhone[0] !== '+') {
-                    custPhone = `+62${custPhone}`;
-                }
                 if (custPhone.length > 5) {
                     tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
                 }
