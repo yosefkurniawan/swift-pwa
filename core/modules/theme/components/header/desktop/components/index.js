@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // import TextField from '@material-ui/core/TextField';
@@ -7,9 +8,7 @@ import NavbarV3 from '@core_modules/theme/components/header/desktop/components/v
 import NavbarV4 from '@core_modules/theme/components/header/desktop/components/v4';
 
 const ViewTopNavigation = (props) => {
-    const {
-        storeConfig,
-    } = props;
+    const { storeConfig } = props;
 
     if (storeConfig && storeConfig.pwa) {
         if (storeConfig.pwa.header_version === 'v1') {

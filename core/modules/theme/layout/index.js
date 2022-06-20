@@ -6,12 +6,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useApolloClient } from '@apollo/client';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import classNames from 'classnames';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
-import {
-    custDataNameCookie, features, modules, debuging, assetsVersion, storeConfigNameCookie,
-} from '@config';
+import { custDataNameCookie, features, modules, debuging, assetsVersion, storeConfigNameCookie } from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
 import { setCookies, getCookies } from '@helper_cookies';
@@ -58,9 +57,7 @@ const Layout = (props) => {
         showRecentlyBar = true,
         isHomepage = false,
     } = props;
-    const {
-        ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true,
-    } = pageConfig;
+    const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
     const appEnv = getAppEnv();
     const [state, setState] = useState({
@@ -262,61 +259,65 @@ const Layout = (props) => {
                 <title>{pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}</title>
                 {schemaOrg
                     ? schemaOrg.map((val, idx) => (
-                        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
-                    ))
+                          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
+                      ))
                     : null}
-                {
-                    showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />
-                }
+                {showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />}
             </Head>
             {showPopup ? <PopupInstallAppMobile appName={appName} installMessage={installMessage} /> : null}
             {withLayoutHeader && (
                 <header ref={refHeader}>
-                    { typeof window !== 'undefined'
-                        && storeConfig.global_promo && storeConfig.global_promo.enable
-                        && (
-                            <GlobalPromoMessage
-                                t={t}
+                    {typeof window !== 'undefined' && storeConfig.global_promo && storeConfig.global_promo.enable && (
+                        <GlobalPromoMessage
+                            t={t}
+                            storeConfig={storeConfig}
+                            showGlobalPromo={showGlobalPromo}
+                            handleClose={handleClosePromo}
+                            appName={appName}
+                            installMessage={installMessage}
+                        />
+                    )}
+                    <div className="hidden-mobile">
+                        {headerDesktop ? (
+                            <HeaderDesktop
                                 storeConfig={storeConfig}
+                                isLogin={isLogin}
+                                t={t}
+                                app_cookies={app_cookies}
                                 showGlobalPromo={showGlobalPromo}
-                                handleClose={handleClosePromo}
+                                enablePopupInstallation={showPopup}
                                 appName={appName}
                                 installMessage={installMessage}
+                                dataVesMenu={dataVesMenu}
+                                isHomepage={isHomepage}
                             />
-                        )}
-                    <div className="hidden-mobile">
-                        {headerDesktop
-                            ? (
-                                <HeaderDesktop
-                                    storeConfig={storeConfig}
-                                    isLogin={isLogin}
-                                    t={t}
-                                    app_cookies={app_cookies}
-                                    showGlobalPromo={showGlobalPromo}
-                                    enablePopupInstallation={showPopup}
-                                    appName={appName}
-                                    installMessage={installMessage}
-                                    dataVesMenu={dataVesMenu}
-                                    isHomepage={isHomepage}
-                                />
-                            )
-                            : null}
+                        ) : null}
                     </div>
                     <div className="hidden-desktop">
                         {React.isValidElement(CustomHeader) ? (
                             <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
                         ) : (
-                                <HeaderMobile
-                                    pageConfig={pageConfig}
-                                    storeConfig={storeConfig}
-                                    {...headerProps}
-                                />
+                            <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} />
                         )}
                     </div>
                 </header>
             )}
-
-            <main style={{ ...styles }} className={!onlyCms ? 'main-app' : 'main-app main-app-cms'} id="maincontent">
+            <main
+                style={{ ...styles }}
+                className={classNames(
+                    !onlyCms ? 'main-app' : 'main-app main-app-cms',
+                    storeConfig && storeConfig.pwa && storeConfig.pwa.header_version === 'v2'
+                        ? storeConfig.pwa.enabler_sticky_header
+                            ? 'main-app-v2'
+                            : 'main-app-v2-not-sticky'
+                        : '',
+                    storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header
+                        ? storeConfig.pwa.header_version !== 'v2'
+                            ? storeConfig.pwa.header_version === 'v4' ? 'main-app-sticky-v4' : 'main-app-sticky' : 'main-app-v2'
+                        : 'main-app-not-sticky',
+                )}
+                id="maincontent"
+            >
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}
@@ -338,32 +339,24 @@ const Layout = (props) => {
                         {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
                         <Copyright storeConfig={storeConfig} />
                     </div>
-                    {desktop
-                        ? null : storeConfig && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation'
-                            ? <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} /> : null}
+                    {desktop ? null : storeConfig && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? (
+                        <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />
+                    ) : null}
                 </footer>
             )}
-            {
-                storeConfig.cookie_restriction && !restrictionCookies
-                && (
-                    <RestrictionPopup
-                        handleRestrictionCookies={handleRestrictionCookies}
-                        restrictionStyle={bodyStyles.cookieRestriction}
-                    />
-                )
-            }
-            {
-                showRecentlyBar && !onlyCms && (
-                    <RecentlyViewed
-                        isActive={storeConfig && storeConfig.weltpixel_RecentlyViewedBar_general_enable}
-                        recentlyBtn={bodyStyles.recentView}
-                        wrapperContent={bodyStyles.recentlyWrapperContent}
-                        recentlyBtnContent={bodyStyles.recentlyBtnContent}
-                        contentFeatured={bodyStyles.contentFeatured}
-                        className={bodyStyles.itemProduct}
-                    />
-                )
-            }
+            {storeConfig.cookie_restriction && !restrictionCookies && (
+                <RestrictionPopup handleRestrictionCookies={handleRestrictionCookies} restrictionStyle={bodyStyles.cookieRestriction} />
+            )}
+            {showRecentlyBar && !onlyCms && (
+                <RecentlyViewed
+                    isActive={storeConfig && storeConfig.weltpixel_RecentlyViewedBar_general_enable}
+                    recentlyBtn={bodyStyles.recentView}
+                    wrapperContent={bodyStyles.recentlyWrapperContent}
+                    recentlyBtnContent={bodyStyles.recentlyBtnContent}
+                    contentFeatured={bodyStyles.contentFeatured}
+                    className={bodyStyles.itemProduct}
+                />
+            )}
         </>
     );
 };

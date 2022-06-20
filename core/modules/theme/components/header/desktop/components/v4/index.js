@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // import TextField from '@material-ui/core/TextField';
@@ -7,7 +8,7 @@ import ShoppingBagIcon from '@plugin_shoppingbag';
 import ProductCompareIcon from '@core_modules/catalog/plugins/ProductCompare';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
-import DesktopInstallApp from '@core_modules/theme/components/custom-install-popup/desktop';
+import DesktopInstallAppV4 from '@core_modules/theme/components/header/desktop/components/v4/custom-install-popup/desktop';
 import Menu from '@core_modules/theme/components/header/desktop/components/v4/mcategory';
 import TopMenu from '@core_modules/theme/components/header/desktop/components/v4/mtop';
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
@@ -39,12 +40,7 @@ const ViewTopNavigation = (props) => {
         <div id="header">
             <div className="row header-top">
                 <main style={{ width: '97%' }}>
-                    {enablePopupInstallation ? (
-                        <DesktopInstallApp
-                            appName={appName}
-                            installMessage={installMessage}
-                        />
-                    ) : null}
+                    {enablePopupInstallation ? <DesktopInstallAppV4 appName={appName} installMessage={installMessage} /> : null}
                     <TopMenu
                         t={t}
                         isLogin={isLogin}
@@ -128,7 +124,9 @@ const ViewTopNavigation = (props) => {
                     }
                     @media (min-width: 768px) {
                         #header {
-                            position: fixed;
+                            ${storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header
+                                ? 'position: fixed;'
+                                : 'position: relative; z-index: 1100;'}
                             width: 100%;
                             background: white;
                             z-index: 3;

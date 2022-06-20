@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     popupInstallDesktop: {
-        display: 'initial',
+        display: 'none',
         position: 'absolute',
         top: '4px',
         fontSize: 13,
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('md')]: {
             position: 'absolute',
             top: '4px',
-            left: '0',
+            right: '0',
             background: 'unset',
             padding: 'unset',
             color: BLACK,
@@ -74,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
     },
     btnInstallDesktop: {
         fontSize: 11,
+        margin: '0rem 1rem',
     },
 }));
 

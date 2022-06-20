@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
         },
         [theme.breakpoints.up('md')]: {
             position: 'absolute',
-            top: '4px',
+            top: '1.5rem',
             left: '0',
             background: 'unset',
             padding: 'unset',

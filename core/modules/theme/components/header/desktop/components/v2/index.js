@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -9,7 +11,7 @@ import ShoppingBagIcon from '@plugin_shoppingbag';
 import ProductCompareIcon from '@core_modules/catalog/plugins/ProductCompare';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
-import DesktopInstallApp from '@core_modules/theme/components/custom-install-popup/desktop';
+import DesktopInstallAppV2 from '@core_modules/theme/components/header/desktop/components/v2/custom-install-popup/desktop';
 import Menu from '@core_modules/theme/components/header/desktop/components/v2/mcategory';
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
 import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
@@ -28,16 +30,13 @@ const ViewTopNavigation = (props) => {
         loading,
         t,
         isLogin,
-        customer,
         handleLogout,
-        app_cookies,
         showGlobalPromo,
         modules,
         vesMenuConfig,
         appName = 'Swift PWA',
         installMessage = 'Install',
         enablePopupInstallation = false,
-        isHomepage = false,
     } = props;
 
     const [triger, setTriger] = React.useState(false);
@@ -45,7 +44,7 @@ const ViewTopNavigation = (props) => {
     const maxHeigtToShow = 600;
 
     React.useEffect(() => {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== 'undefined' && storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header) {
             const header = document.getElementById('header');
             const middleSubmenu = document.getElementById('submenu-center');
             const leftSubmenu = document.getElementById('submenu-left');
@@ -76,6 +75,7 @@ const ViewTopNavigation = (props) => {
         <>
             <div id="header">
                 <main style={{ width: '100%', maxWidth: 'unset' }}>
+                    {enablePopupInstallation ? <DesktopInstallAppV2 appName={appName} installMessage={installMessage} /> : null}
                     <div id="submenu-center" className="header-main hidden-submenu">
                         <div className="header-middle">
                             <div className="header-middle__left">
@@ -144,9 +144,62 @@ const ViewTopNavigation = (props) => {
                                     </Link>
                                 </div>
                             </div>
-                            <div className="header-middle__right">
+                            <div className="header-middle__right-condensed">
                                 <div className="box">
                                     <div className="header-middle__icons">
+                                        <ul className="special-ul">
+                                            <li>
+                                                {!isLogin ? (
+                                                    t('common:header:welcome')
+                                                ) : (
+                                                    <>
+                                                        <Link href="/customer/account">
+                                                            <a>
+                                                                {data.customer
+                                                                    ? `${t('common:header:hi').replace(
+                                                                          '$',
+                                                                          `${data.customer.firstname} ${data.customer.lastname}`
+                                                                      )}`
+                                                                    : null}
+                                                            </a>
+                                                        </Link>
+                                                        <ul>
+                                                            <li>
+                                                                <Link href="/customer/account">
+                                                                    <a>{t('common:menu:myaccount')}</a>
+                                                                </Link>
+                                                            </li>
+                                                            <li>
+                                                                <Link href="/wishlist">
+                                                                    <a>
+                                                                        {t('common:menu:mywishlist')} (
+                                                                        {data.wishlist ? data.wishlist.items.length : 0} items ){' '}
+                                                                    </a>
+                                                                </Link>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" onClick={handleLogout}>
+                                                                    {t('common:menu:signout')}
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </>
+                                                )}
+                                            </li>
+                                            {modules.trackingorder.enabled ? (
+                                                <li>
+                                                    <Link href="/sales/order/track">
+                                                        <a>{t('common:menu:trackingorder')}</a>
+                                                    </Link>
+                                                </li>
+                                            ) : null}
+                                            <li>
+                                                <SwitcherLanguage {...props} />
+                                            </li>
+                                            <li>
+                                                <SwitcherCurrency {...props} />
+                                            </li>
+                                        </ul>
                                         <div className="signin">
                                             <Link href="/customer/account" passHref>
                                                 <Badge color="secondary">
@@ -166,67 +219,6 @@ const ViewTopNavigation = (props) => {
                                             <ShoppingBagIcon withLink storeConfig={storeConfig} />
                                         </div>
                                     </div>
-                                    {enablePopupInstallation ? (
-                                        <DesktopInstallApp
-                                            appName={appName}
-                                            installMessage={installMessage}
-                                        />
-                                    ) : null}
-                                    <ul>
-                                        <li>
-                                            {!isLogin ? (
-                                                t('common:header:welcome')
-                                            ) : (
-                                                <>
-                                                    <Link href="/customer/account">
-                                                        <a>
-                                                            {data.customer
-                                                                ? `${t('common:header:hi').replace('$', `${data.customer.firstname} ${data.customer.lastname}`)}`
-                                                                : null}
-                                                        </a>
-                                                    </Link>
-                                                    <ul>
-                                                        <li>
-                                                            <Link href="/customer/account">
-                                                                <a>{t('common:menu:myaccount')}</a>
-                                                            </Link>
-                                                        </li>
-                                                        <li>
-                                                            <Link href="/wishlist">
-                                                                <a>
-                                                                    {t('common:menu:mywishlist')}
-                                                                    {' '}
-                                                                    (
-                                                                    {data.wishlist ? data.wishlist.items.length : 0}
-                                                                    {' '}
-                                                                    items )
-                                                                    {' '}
-                                                                </a>
-                                                            </Link>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" onClick={handleLogout}>
-                                                                {t('common:menu:signout')}
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </>
-                                            )}
-                                        </li>
-                                        {modules.trackingorder.enabled ? (
-                                            <li>
-                                                <Link href="/sales/order/track">
-                                                    <a>{t('common:menu:trackingorder')}</a>
-                                                </Link>
-                                            </li>
-                                        ) : null}
-                                        <li>
-                                            <SwitcherLanguage {...props} />
-                                        </li>
-                                        <li>
-                                            <SwitcherCurrency {...props} />
-                                        </li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -258,7 +250,9 @@ const ViewTopNavigation = (props) => {
                 </main>
                 <div className="header-tab">
                     <div className="row menu-category">
-                        <div className="col-xs-12">{loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}</div>
+                        <div className="col-xs-12">
+                            {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
+                        </div>
                     </div>
                     <div className="header-small__menu">
                         {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
@@ -280,6 +274,10 @@ const ViewTopNavigation = (props) => {
                             font-size: 10px;
                             text-transform: uppercase;
                             font-family: Montserrat !important;
+                        }
+
+                        .special-ul {
+                            float: left !important;
                         }
 
                         li {
@@ -328,7 +326,9 @@ const ViewTopNavigation = (props) => {
                                 padding-top: 2vh;
                             }
                             #header {
-                                position: fixed;
+                                ${storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header
+                                    ? 'position: fixed;'
+                                    : 'position: relative; z-index: 1100;'}
                                 width: 100%;
                                 background-color: transparent;
                                 z-index: 3;
@@ -380,6 +380,9 @@ const ViewTopNavigation = (props) => {
                         }
                         .header-middle__right {
                             width: 600px;
+                        }
+                        .header-middle__right-condensed {
+                            width: 667px;
                         }
                         .header-small__menu {
                             display: none;
@@ -465,7 +468,7 @@ const ViewTopNavigation = (props) => {
                     `}
                 </style>
             </div>
-            {isHomepage ? (
+            {/* {isHomepage ? (
                 <>
                     <div className="header-image-top" />
                     <style global jsx>
@@ -479,7 +482,9 @@ const ViewTopNavigation = (props) => {
                         `}
                     </style>
                 </>
-            ) : ''}
+            ) : (
+                ''
+            )} */}
         </>
     );
 };

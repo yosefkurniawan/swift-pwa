@@ -11,9 +11,30 @@
         max-width: 1440px;
         width: 97%;
     }
+
     .main-app-cms {
         margin-top: 0px;
         width: 100%;
+    }
+
+    .main-app-v2 {
+        margin-top: 0px;
+    }
+
+    .main-app-not-sticky {
+        margin-top: 0px;
+    }
+
+    .main-app-sticky {
+        margin-top: 60px !important;
+    }
+
+    .main-app-sticky-v4 {
+        margin-top: 90px !important;
+    }
+
+    .main-app-v2-not-sticky {
+        margin-top: -140px;
     }
 }
 
@@ -27,15 +48,38 @@
     .hidden-desktop {
         display: none !important;
     }
+
     .header-middle__search .MuiFormControl-marginNormal {
         margin: 0;
     }
+
     .main-app {
         min-height: calc(100vh - 435px);
         margin-top: 140px;
     }
+
     .main-app-cms {
         margin-top: 0px;
+    }
+
+    .main-app-v2 {
+        margin-top: 0px;
+    }
+
+    .main-app-not-sticky {
+        margin-top: 0px;
+    }
+
+    .main-app-sticky {
+        margin-top: 60px !important;
+    }
+
+    .main-app-sticky-v4 {
+        margin-top: 90px !important;
+    }
+
+    .main-app-v2-not-sticky {
+        margin-top: -140px;
     }
 }
 
