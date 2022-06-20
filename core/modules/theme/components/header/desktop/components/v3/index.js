@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // import TextField from '@material-ui/core/TextField';
@@ -39,12 +40,7 @@ const ViewTopNavigation = (props) => {
         <div id="header">
             <div className="row header-top">
                 <main style={{ width: '97%' }}>
-                    {enablePopupInstallation ? (
-                        <DesktopInstallApp
-                            appName={appName}
-                            installMessage={installMessage}
-                        />
-                    ) : null}
+                    {enablePopupInstallation ? <DesktopInstallApp appName={appName} installMessage={installMessage} /> : null}
                     <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} app_cookies={app_cookies} />
                 </main>
             </div>
@@ -122,7 +118,9 @@ const ViewTopNavigation = (props) => {
                     }
                     @media (min-width: 768px) {
                         #header {
-                            position: fixed;
+                            ${storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header
+                                ? 'position: fixed;'
+                                : 'position: relative; z-index: 1100;'}
                             width: 100%;
                             background: white;
                             z-index: 3;
