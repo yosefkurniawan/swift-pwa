@@ -51,8 +51,8 @@ const Header = ({ LeftComponent, CenterComponent, RightComponent, className, pag
         }
     };
     const [drawerOpen, setDrawerOpen] = React.useState(false);
-    const vesMenu = storeConfig.pwa?.ves_menu_enable;
-    const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
+    const vesMenu = storeConfig && storeConfig.pwa && storeConfig.pwa?.ves_menu_enable;
+    const logoUrl = `${storeConfig && storeConfig.secure_base_media_url}logo/${storeConfig && storeConfig.header_logo_src}`;
 
     const toggleDrawer = (open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
