@@ -20,17 +20,20 @@ import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { localCompare } from '@services/graphql/schema/local';
 import { useQuery } from '@apollo/client';
+import React from 'react';
 
 const ContentDetail = ({
-    t, product, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig,
+    t, product, keyProduct, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig,
 }) => {
-    const item = product.items[0];
+    const item = product.items[keyProduct];
     const route = useRouter();
 
     const reviewValue = parseInt(item.review.rating_summary, 0) / 20;
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
     const [addProductCompare] = addProductsToCompareList();
     const { data: dataCompare, client } = useQuery(localCompare);
+    const routePaths = route.asPath.substr(1);
+    const routeKey = routePaths.split('?');
 
     React.useEffect(() => {
         if (isLogin && !dataUid && modules.productcompare.enabled) {
@@ -352,7 +355,7 @@ const ContentDetail = ({
     }
     let productByUrl;
     for (let i = 0; i < product.items.length; i += 1) {
-        if (route.asPath.substr(1) === product.items[i].url_key) {
+        if (routeKey[0] === product.items[i].url_key) {
             productByUrl = [i];
         }
     }
@@ -420,6 +423,8 @@ const PageDetail = (props) => {
      * Check if partial data exists, AKA being navigated from a PLP or search page.
      */
     const router = useRouter();
+    const routePaths = router.asPath.substr(1);
+    const routeKey = routePaths.split('?');
     const productProps = router.query.productProps ? JSON.parse(router.query.productProps) : {};
     const productVariables = Object.keys(productProps).length > 0
         ? {
@@ -439,7 +444,6 @@ const PageDetail = (props) => {
     const labels = getProductLabel(storeConfig, { context, variables: { url: slug[0] } });
     const { loading, data, error } = getProduct(storeConfig, { context, ...productVariables });
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
-
     React.useEffect(() => {
         if (slug[0] !== '') {
             getProductTabs({
@@ -472,7 +476,7 @@ const PageDetail = (props) => {
         if (Object.keys(productProps).length > 0) {
             let productByUrl;
             for (let i = 0; i < product.items.length; i += 1) {
-                if (router.asPath.substr(1) === product.items[i].url_key) {
+                if (routeKey[0] === product.items[i].url_key) {
                     productByUrl = [i];
                 }
             }
@@ -496,7 +500,7 @@ const PageDetail = (props) => {
             if (product.items.length > 0) {
                 let productByUrl;
                 for (let i = 0; i < product.items.length; i += 1) {
-                    if (router.asPath.substr(1) === product.items[i].url_key) {
+                    if (routeKey[0] === product.items[i].url_key) {
                         productByUrl = [i];
                     }
                 }
@@ -517,6 +521,7 @@ const PageDetail = (props) => {
                 }
                 if (isExist === false) {
                     temporaryArr = [];
+
                     const newItem = {
                         url_key: item.url_key,
                     };
@@ -545,32 +550,40 @@ const PageDetail = (props) => {
                 };
         }
     }
-
-    const schemaOrg = generateSchemaOrg(product.items[0]);
+    let productByUrl;
+    for (let i = 0; i < product.items.length; i += 1) {
+        if (routeKey[0] === product.items[i].url_key) {
+            productByUrl = [i];
+        }
+    }
+    const schemaOrg = generateSchemaOrg(product.items[productByUrl]);
     const config = {
-        title: product.items.length > 0 ? product.items[0].name : '',
+        title: product.items.length > 0 ? product.items[productByUrl].name : '',
         bottomNav: false,
         header: 'absolute', // available values: "absolute", "relative", false (default)
         pageType: 'product',
         ogContent: {
             description: {
                 type: 'meta',
-                value: StripHtmlTags(product.items[0].description.html),
+                value: StripHtmlTags(product.items[productByUrl].description.html),
             },
-            'og:image': product.items[0].small_image.url,
+            'og:image': product.items[productByUrl].small_image.url,
             'og:image:type': 'image/jpeg',
-            'og:description': StripHtmlTags(product.items[0].description.html),
+            'og:description': StripHtmlTags(product.items[productByUrl].description.html),
             'og:image:width': storeConfig?.pwa?.image_product_width,
             'og:image:height': storeConfig?.pwa?.image_product_height,
-            'og:image:alt': product.items[0].name || '',
+            'og:image:alt': product.items[productByUrl].name || '',
             'og:type': 'product',
-            'product:availability': product.items[0].stock_status,
-            'product:category': product.items[0].categories && product.items[0].categories.length > 0 && product.items[0].categories[0].name,
+            'product:availability': product.items[productByUrl].stock_status,
+            'product:category':
+                product.items[productByUrl].categories
+                && product.items[productByUrl].categories.length > 0
+                && product.items[productByUrl].categories[0].name,
             'product:condition': 'new',
-            'product:price:currency': product.items[0].price_range.minimum_price.final_price.currency,
-            'product:price:amount': product.items[0].price_range.minimum_price.final_price.value,
-            'product:pretax_price:currency': product.items[0].price_range.minimum_price.final_price.currency,
-            'product:pretax_price:amount': product.items[0].price_range.minimum_price.final_price.value,
+            'product:price:currency': product.items[productByUrl].price_range.minimum_price.final_price.currency,
+            'product:price:amount': product.items[productByUrl].price_range.minimum_price.final_price.value,
+            'product:pretax_price:currency': product.items[productByUrl].price_range.minimum_price.final_price.currency,
+            'product:pretax_price:amount': product.items[productByUrl].price_range.minimum_price.final_price.value,
         },
         schemaOrg,
     };
@@ -578,6 +591,7 @@ const PageDetail = (props) => {
     return (
         <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
             <ContentDetail
+                keyProduct={productByUrl}
                 product={product}
                 t={t}
                 Content={Content}
