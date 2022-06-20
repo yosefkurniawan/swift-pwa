@@ -32,8 +32,6 @@ const ContentDetail = ({
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
     const [addProductCompare] = addProductsToCompareList();
     const { data: dataCompare, client } = useQuery(localCompare);
-    const routePaths = route.asPath.substr(1);
-    const routeKey = routePaths.split('?');
 
     React.useEffect(() => {
         if (isLogin && !dataUid && modules.productcompare.enabled) {
@@ -353,16 +351,11 @@ const ContentDetail = ({
     if (storeConfig && storeConfig.pwa) {
         enablePopupImage = storeConfig.pwa.popup_detail_image_enable;
     }
-    let productByUrl;
-    for (let i = 0; i < product.items.length; i += 1) {
-        if (routeKey[0] === product.items[i].url_key) {
-            productByUrl = [i];
-        }
-    }
+
     return (
         <Content
             data={{
-                ...product.items[productByUrl],
+                ...product.items[keyProduct],
                 weltpixel_labels,
             }}
             t={t}
@@ -444,6 +437,7 @@ const PageDetail = (props) => {
     const labels = getProductLabel(storeConfig, { context, variables: { url: slug[0] } });
     const { loading, data, error } = getProduct(storeConfig, { context, ...productVariables });
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
+    let productByUrl;
     React.useEffect(() => {
         if (slug[0] !== '') {
             getProductTabs({
@@ -474,7 +468,6 @@ const PageDetail = (props) => {
         let temporaryArr = [];
         product = data.products;
         if (Object.keys(productProps).length > 0) {
-            let productByUrl;
             for (let i = 0; i < product.items.length; i += 1) {
                 if (routeKey[0] === product.items[i].url_key) {
                     productByUrl = [i];
@@ -498,7 +491,6 @@ const PageDetail = (props) => {
         }
         if (typeof window !== 'undefined') {
             if (product.items.length > 0) {
-                let productByUrl;
                 for (let i = 0; i < product.items.length; i += 1) {
                     if (routeKey[0] === product.items[i].url_key) {
                         productByUrl = [i];
@@ -550,7 +542,7 @@ const PageDetail = (props) => {
                 };
         }
     }
-    let productByUrl;
+
     for (let i = 0; i < product.items.length; i += 1) {
         if (routeKey[0] === product.items[i].url_key) {
             productByUrl = [i];
