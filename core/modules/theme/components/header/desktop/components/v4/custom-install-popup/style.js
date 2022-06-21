@@ -60,12 +60,13 @@ const useStyles = makeStyles((theme) => ({
         },
         [theme.breakpoints.up('md')]: {
             position: 'absolute',
+            display: 'block !important',
             top: '4px',
             right: '0',
             background: 'unset',
             padding: 'unset',
             color: BLACK,
-            margin: 'unset',
+            margin: '.75rem',
             '& button': {
                 background: BLACK,
                 color: WHITE,
