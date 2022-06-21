@@ -48,6 +48,7 @@ const ViewTopNavigation = (props) => {
             const header = document.getElementById('header');
             const middleSubmenu = document.getElementById('submenu-center');
             const leftSubmenu = document.getElementById('submenu-left');
+            const headerTop = document.getElementById('top-popup');
             const checkScrollTop = () => {
                 // handle show hide header
                 if (middleSubmenu && leftSubmenu) {
@@ -55,10 +56,12 @@ const ViewTopNavigation = (props) => {
                         middleSubmenu.classList.remove('hidden-submenu');
                         header.classList.add('header-bgcolor');
                         leftSubmenu.classList.add('hidden-submenu');
+                        headerTop.classList.add('hidden-submenu');
                     } else {
                         middleSubmenu.classList.add('hidden-submenu');
                         header.classList.remove('header-bgcolor');
                         leftSubmenu.classList.remove('hidden-submenu');
+                        headerTop.classList.remove('hidden-submenu');
                     }
                 }
                 if (!triger && window.pageYOffset > maxHeigtToShow) {
@@ -74,8 +77,10 @@ const ViewTopNavigation = (props) => {
     return (
         <>
             <div id="header">
-                <main style={{ width: '100%', maxWidth: 'unset' }}>
+                <div className="row header-top" id="top-popup">
                     {enablePopupInstallation ? <DesktopInstallAppV2 appName={appName} installMessage={installMessage} /> : null}
+                </div>
+                <main style={{ width: '100%', maxWidth: 'unset' }}>
                     <div id="submenu-center" className="header-main hidden-submenu">
                         <div className="header-middle">
                             <div className="header-middle__left">
