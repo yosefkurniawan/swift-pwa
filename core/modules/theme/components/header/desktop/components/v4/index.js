@@ -65,8 +65,10 @@ const ViewTopNavigation = (props) => {
     return (
         <div id="header">
             <div className="row header-top">
+                {enablePopupInstallation ? <DesktopInstallAppV4 appName={appName} installMessage={installMessage} /> : null}
+            </div>
+            <div className="row header-top">
                 <main style={{ width: '97%' }}>
-                    {enablePopupInstallation ? <DesktopInstallAppV4 appName={appName} installMessage={installMessage} /> : null}
                     <TopMenu
                         t={t}
                         isLogin={isLogin}
@@ -251,7 +253,7 @@ const ViewTopNavigation = (props) => {
             <style global jsx>
                 {`
                     .header-small {
-                        top: -4rem !important;
+                        top: -8rem !important;
                     }
                     @media (min-width: 1250px) {
                         .header-small .header-small__menu {
