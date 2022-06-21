@@ -36,6 +36,32 @@ const ViewTopNavigation = (props) => {
         enablePopupInstallation = false,
     } = props;
 
+    const [triger, setTriger] = React.useState(false);
+
+    const maxHeightToShow = 600;
+
+    React.useEffect(() => {
+        if (typeof window !== 'undefined' && storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header) {
+            const searchbar = document.getElementById('hidden-searchbar');
+            const checkScrollTop = () => {
+                // handle show hide header
+                if (searchbar) {
+                    if (window.pageYOffset > 100) {
+                        searchbar.classList.add('show-searchbox');
+                    } else {
+                        searchbar.classList.remove('show-searchbox');
+                    }
+                    if (!triger && window.pageYOffset > maxHeightToShow) {
+                        setTriger(true);
+                    } else if (triger && window.pageYOffset < maxHeightToShow) {
+                        setTriger(false);
+                    }
+                }
+            };
+            window.addEventListener('scroll', checkScrollTop);
+        }
+    }, [triger]);
+
     return (
         <div id="header">
             <div className="row header-top">
@@ -48,9 +74,11 @@ const ViewTopNavigation = (props) => {
                         handleLogout={handleLogout}
                         app_cookies={app_cookies}
                         setValue={setValue}
+                        value={value}
                         handleSearch={handleSearch}
                         OptionAutocomplete={OptionAutocomplete}
                         searchByClick={searchByClick}
+                        storeConfig={storeConfig}
                     />
                 </main>
             </div>
@@ -67,7 +95,7 @@ const ViewTopNavigation = (props) => {
                                 </Link>
                             </div>
                         </div>
-                        <div className="header-middle__right">
+                        <div id="hidden-searchbar" className="header-middle__right hidden-searchbox">
                             <div className="box">
                                 <div className="header-middle__icons">
                                     <div className="notification">
@@ -145,7 +173,7 @@ const ViewTopNavigation = (props) => {
                         background-color: #fff;
                     }
                     .header-top {
-                        height: 45px;
+                        height: 4rem;
                         border-bottom: 1px solid #d6d6d6;
                         display: flex;
                         align-items: center;
@@ -223,7 +251,7 @@ const ViewTopNavigation = (props) => {
             <style global jsx>
                 {`
                     .header-small {
-                        top: -45px !important;
+                        top: -4rem !important;
                     }
                     @media (min-width: 1250px) {
                         .header-small .header-small__menu {
@@ -240,6 +268,14 @@ const ViewTopNavigation = (props) => {
                         }
                         .header-small {
                             height: 75px !important;
+                        }
+                        .hidden-searchbox {
+                            display: none;
+                            transition: display 1s ease;
+                        }
+                        .show-searchbox {
+                            display: block !important;
+                            transition: display 1s ease;
                         }
                     }
                 `}
