@@ -75,7 +75,7 @@ const WidgetRenderer = (props) => {
                         case TYPE_PWA_PRODUCT:
                             return <WidgetListProduct {...propsWidget} />;
                             case TYPE_PWA_NEWSLETTER:
-                                return <Newsletter {...propsWidget} />;
+                                return <Newsletter {...propsWidget} storeConfig={storeConfig} />;
                         default:
                             return <div>Unable to render the content!</div>;
                     }

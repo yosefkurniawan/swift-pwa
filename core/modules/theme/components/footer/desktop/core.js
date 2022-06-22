@@ -36,6 +36,23 @@ const Footer = (props) => {
             action: linkAction,
         });
     }, [router.asPath]);
+
+    React.useEffect(() => {
+        if (typeof window !== 'undefined' && data) {
+            const btnHideNewsletter = document.getElementById('btnhideNewsletter');
+            if (btnHideNewsletter) {
+                btnHideNewsletter.onclick = () => {
+                    const dt = document.getElementById('hideNewsletter');
+                    if (dt.style.display === 'none') {
+                        dt.style.display = 'block';
+                    } else {
+                        dt.style.display = 'none';
+                    }
+                };
+            }
+        }
+    }, [window, data]);
+
     return (
         <Content
             data={data}

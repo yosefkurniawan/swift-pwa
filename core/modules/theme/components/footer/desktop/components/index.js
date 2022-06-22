@@ -7,6 +7,7 @@ const FooterView = (props) => {
     const {
         data, t, loading, error, storeConfig,
     } = props;
+
     if (error) {
         return (
             <Alert className="m-15" severity="error">
@@ -266,37 +267,58 @@ const FooterView = (props) => {
                         letter-spacing: .2em;
                         font-weight: 400;
                         padding: 10px;
+                        cursor: pointer;
                     }
 
                     .footer-v2 .toggle .togglec {
                         // display: block;
-                        // position: relative;
-                        // padding: 10px 0 0 24px;
+                        position: relative;
+                        padding: 10px 0 0 24px;
+                        // display: none;
+                    }
+
+                    .footer-v2 .toggle #hideNewsletter {
                         display: none;
                     }
 
-                    // .footer-v2 .block.newsletter {
-                    //     margin: 0 auto;
-                    // }
+                    .footer-v2 .block.newsletter {
+                        margin: 0 auto;
+                    }
 
-                    // .footer-v2 .block {
-                    //     float: initial !important;
-                    // }
+                    .footer-v2 .block.newsletter .title {
+                        display: none;
+                    }
 
-                    // .footer-v2 .block .title {
-                    //     display: block;
-                    //     margin-bottom: 10px;
-                    // }
+                    .footer-v2 .block.newsletter .content .newsletter-container {
+                        background-color: inherit;
+                        margin-top: -20px;
+                        height: 60px;
+                        margin-bottom: unset;
+                    }
 
-                    // .footer-v2 .block .title strong {
-                    //     color: #303030;
-                    //     font-style: inherit;
-                    //     font-weight: 400;
-                    //     line-height: 1.1;
-                    //     font-size: 14px;
-                    //     margin-top: 2rem;
-                    //     margin-bottom: 2rem;
-                    // }
+                    .footer-v2 .block.newsletter .content .newsletter-container .action.subscribe {
+                        margin-left: unset;
+                        border-radius: unset;
+                    }
+
+                    .footer-v2 .block {
+                        float: initial !important;
+                    }
+
+                    .footer-v2 .block .title {
+                        display: block;
+                        margin-bottom: 10px;
+                    }
+
+                    .footer-v2 .block .title strong {
+                        color: #303030;
+                        font-style: inherit;
+                        font-weight: 400;
+                        line-height: 1.1;
+                        font-size: 14px;
+                        margin-top: 2rem;
+                        margin-bottom: 2rem;
+                    }
 
 
                     // styling footer v3
