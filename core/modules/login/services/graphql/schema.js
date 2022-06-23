@@ -131,11 +131,8 @@ export const getCustomer = gql`
             lastname
             email
             phonenumber
+            is_phonenumber_valid
             customer_group
-            addresses {
-                default_shipping
-                country_code
-            }
         }
     }
 `;

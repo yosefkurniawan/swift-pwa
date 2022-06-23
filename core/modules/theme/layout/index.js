@@ -220,12 +220,10 @@ const Layout = (props) => {
                 const custEmail = custData.email.toLowerCase();
                 tagManagerArgs.dataLayer.eid = crypto.createHash('sha256').update(custEmail).digest('hex');
             }
-            if (custData && custData.phonenumber) {
+            if (custData && custData.phonenumber && custData.is_phonenumber_valid) {
                 let custPhone = custData.phonenumber;
                 custPhone = `${custPhone}`;
-                if (custPhone.length > 5) {
-                    tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
-                }
+                tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
             }
             TagManager.dataLayer(tagManagerArgs);
             if (enablePromo !== '' && storeConfig.global_promo && storeConfig.global_promo.enable) {

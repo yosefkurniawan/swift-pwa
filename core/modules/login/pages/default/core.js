@@ -20,7 +20,6 @@ import * as Yup from 'yup';
 import firebase from 'firebase/app';
 import React, { useRef } from 'react';
 import { getAppEnv } from '@helpers/env';
-import mapCountryCode from 'public/static/dialCode.json';
 
 import {
     getToken,
@@ -379,34 +378,12 @@ const Login = (props) => {
 
     React.useEffect(() => {
         if (cartData.data && custData.data && cartData.data.customerCart && cartData.data.customerCart && cartData.data.customerCart.id) {
-            let country_code = 'ID';
-            let { phonenumber } = custData.data.customer;
-            if (custData.data.addresses) {
-                if (custData.data.addresses.length === 1) {
-                    country_code = custData.data.addresses[0].country_code;
-                }
-                const primaryAddress = custData.data.addresses.filter((address) => address.default_shipping);
-                if (primaryAddress.length > 0) {
-                    country_code = primaryAddress[0].country_code;
-                }
-                country_code = country_code.toUpperCase();
-            }
-
-            if (phonenumber && phonenumber !== '') {
-                phonenumber = `${phonenumber}`;
-                if (phonenumber[0] === '0' || phonenumber[0] === 0) {
-                    phonenumber = mapCountryCode[country_code] + phonenumber.substring(1);
-                }
-
-                if (phonenumber[0] !== '+') {
-                    phonenumber = mapCountryCode[country_code] + phonenumber;
-                }
-            }
             Cookies.set(custDataNameCookie, {
                 email: custData.data.customer.email,
                 firstname: custData.data.customer.firstname,
                 customer_group: custData.data.customer.customer_group,
-                phonenumber,
+                phonenumber: custData.data.customer.phonenumber,
+                is_phonenumber_valid: custData.data.customer.is_phonenumber_valid,
             });
             const uid_product = getCookies('uid_product_compare');
             const custCartId = cartData.data.customerCart.id;
