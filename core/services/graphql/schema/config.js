@@ -147,6 +147,7 @@ export const storeConfig = `
         magezon_slider_desktop_width
         magezon_slider_mobile_height
         magezon_slider_mobile_width
+        mobile_navigation
         page_size
         paypal_debug
         paypal_enable

@@ -39,17 +39,18 @@ const Footer = (props) => {
 
     React.useEffect(() => {
         if (typeof window !== 'undefined' && data) {
-            const btnHideNewsletter = document.getElementById('btnhideNewsletter');
-            if (btnHideNewsletter) {
-                btnHideNewsletter.onclick = () => {
-                    const dt = document.getElementById('hideNewsletter');
-                    if (dt.style.display === 'none') {
-                        dt.style.display = 'block';
-                    } else {
-                        dt.style.display = 'none';
-                    }
-                };
-            }
+            // const btnHideNewsletter = document.getElementById('btnhideNewsletter');
+            // if (btnHideNewsletter) {
+            //     btnHideNewsletter.onclick = () => {
+            //         console.log('clicked');
+            //         const dt = document.getElementById('hideNewsletter');
+            //         if (dt.style.display === 'none') {
+            //             dt.style.display = 'block';
+            //         } else {
+            //             dt.style.display = 'none';
+            //         }
+            //     };
+            // }
 
             const accordionTitles = document.querySelectorAll('.accordionTitle');
             accordionTitles.forEach((accordionTitle) => {

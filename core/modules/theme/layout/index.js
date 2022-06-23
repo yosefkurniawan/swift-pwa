@@ -227,7 +227,13 @@ const Layout = (props) => {
     const desktop = breakPointsUp('sm');
 
     const styles = {
-        marginBottom: pageConfig.bottomNav ? '60px' : 0,
+        marginBottom: (pageConfig.bottomNav && storeConfig?.pwa?.mobile_navigation === 'bottom_navigation')
+                        && storeConfig?.pwa?.enabler_footer_mobile === true ? '60px' : 0,
+    };
+
+    const footerMobile = {
+        marginBottom: pageConfig.bottomNav && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? '55px' : 0,
+        display: pageConfig.bottomNav && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? 'flex' : null,
     };
 
     if (!headerDesktop) {
@@ -330,8 +336,16 @@ const Layout = (props) => {
                         {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
                         <Copyright storeConfig={storeConfig} />
                     </div>
-                    {footer && !desktop && storeConfig?.pwa?.enabler_footer_mobile === true ? <Footer storeConfig={storeConfig} t={t} /> : null}
-                    {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />}
+                    {footer && storeConfig?.pwa?.enabler_footer_mobile === true
+                        ? (
+                            <div className="hidden-desktop" style={{ ...footerMobile }}>
+                                <Footer storeConfig={storeConfig} t={t} />
+                            </div>
+                        ) : null}
+                    {/* {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />} */}
+                    {desktop ? null : storeConfig && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? (
+                        <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />
+                    ) : null}
                 </footer>
             )}
             {

@@ -299,8 +299,31 @@ const FooterView = (props) => {
                         padding: 10px 0 0 24px;
                     }
 
-                    .footer-v2 .toggle #hideNewsletter {
-                        display: none;
+                    // .footer-v2 .toggle #hideNewsletter {
+                    //     display: none;
+                    // }
+
+
+                    .footer-v2 .accordionTitle {
+                        cursor: pointer;
+                        -moz-user-select: none;
+                        -webkit-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                    }
+                    
+                    .footer-v2 .accordionTitle + .accordionContent {
+                        // display: none;
+                        opacity: 0;
+                        transition: all 1s ease-in-out;
+                        height: 0;
+                        overflow: hidden;
+                    }
+                    
+                    .footer-v2 .accordionTitle.is-open + .accordionContent {
+                        // display: block;
+                        opacity: 1;
+                        height: auto;
                     }
 
                     .footer-v2 .block.newsletter {
@@ -360,6 +383,14 @@ const FooterView = (props) => {
                         .footer-v2 .block.newsletter .content .newsletter-container .action.subscribe {
                             width: 150px;
                         }
+
+                        .footer-v2 .toggle {
+                            margin: 0;
+                        }
+
+                        .footer-v2 .togglet.newsletter {
+                            text-decoration: unset !important;
+                        }
                     }
 
 
@@ -400,6 +431,10 @@ const FooterView = (props) => {
                         text-transform: uppercase;
                         font-weight: 400;
                         color: #fff;
+                    }
+
+                    .footer-v3 h4 {
+                        margin: 20px 0;
                     }
 
                     .footer-v3 .details-v3 {
@@ -443,6 +478,10 @@ const FooterView = (props) => {
                         margin-left: unset;
                     }
 
+                    .footer-v3 .newsletter-subscribe .newsletter-container .field-newsletter input {
+                        min-width: unset;
+                    }
+
                     .footer-v3 .newsletter-subscribe .newsletter-container .action.subscribe {
                         text-transform: Capitalize;
                         background-color: #232323;
@@ -469,16 +508,25 @@ const FooterView = (props) => {
                             text-align: center;
                         }
 
+                        .footer-v3 h4.no-padding-mob {
+                            padding-bottom: 0;
+                        }
+
                         .footer-v3 .newsletter-subscribe .newsletter-container {
-                            height: 150px;
-                            margin-top: -50px;
+                            height: 80px;
+                            margin-top: -20px;
+                            margin-bottom: -15px;
+                        }
+
+                        .footer-v3 .newsletter-subscribe .newsletter-container .wrapper {
+                            top: 35%;
                         }
 
                         .footer-v3 .newsletter-subscribe .newsletter-container .form.subscribe {
                             display: flex;
                             flex-direction: row;
-                            width: 100%;
-                            margin-top: 20px;
+                            // width: 100%;
+                            // margin-top: 20px;
                         }
 
                         .footer-v3 .newsletter-subscribe .newsletter-container .actions {
@@ -660,7 +708,7 @@ const FooterView = (props) => {
                             padding-right: unset;
                         }
 
-                        .mg-mobile {
+                        .footer-v5 .mg-mobile {
                             display: flex;
                             justify-content: center;
                         }
@@ -692,7 +740,7 @@ const FooterView = (props) => {
                             content: "-";
                         }
 
-                        .accordionTitle {
+                        .footer-v5 .accordionTitle {
                             cursor: pointer;
                             -moz-user-select: none;
                             -webkit-user-select: none;
@@ -700,11 +748,11 @@ const FooterView = (props) => {
                             user-select: none;
                         }
                         
-                        .accordionTitle + .accordionContent {
+                        .footer-v5 .accordionTitle + .accordionContent {
                             display: none;
                         }
                         
-                        .accordionTitle.is-open + .accordionContent {
+                        .footer-v5 .accordionTitle.is-open + .accordionContent {
                             display: block;
                         }
 
