@@ -77,10 +77,10 @@ const NewsletterView = (props) => {
                                                 value={formik.values.email}
                                                 onChange={formik.handleChange}
                                                 error={(!!formik.errors.email).toString()}
-                                                // errormessage={formik.errors.email || null}
+                                                errormessage={formik.errors.email || null}
                                             />
                                             {formik.errors.email ? (
-                                                <span className='error-validation'>{formik.errors.email}</span>
+                                                <p className='error-validation'>{formik.errors.email}</p>
                                             ) : null}
                                         </label>
                                     </div>
@@ -307,6 +307,7 @@ const NewsletterView = (props) => {
                         font-size: 10px;
                         color: #ff0000;
                         margin: 5px;
+                        margin-bottom: -20px;
                     }
                 `}
             </style>

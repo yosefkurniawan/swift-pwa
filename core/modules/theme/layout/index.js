@@ -330,6 +330,7 @@ const Layout = (props) => {
                         {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
                         <Copyright storeConfig={storeConfig} />
                     </div>
+                    {footer && !desktop && storeConfig?.pwa?.enabler_footer_mobile === true ? <Footer storeConfig={storeConfig} t={t} /> : null}
                     {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />}
                 </footer>
             )}
