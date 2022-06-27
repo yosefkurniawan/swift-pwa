@@ -43,15 +43,16 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     popupInstallDesktop: {
-        display: 'initial',
+        display: 'inline-block !important',
         position: 'absolute',
         top: '4px',
         fontSize: 13,
         [theme.breakpoints.up('sm')]: {
+            display: 'inline-block',
             position: 'relative',
             background: '#bc2494',
             margin: '-5px -1.5% 10px -1.5%',
-            padding: '5px',
+            padding: '1rem',
             color: WHITE,
             '& button': {
                 background: WHITE,
@@ -59,11 +60,10 @@ const useStyles = makeStyles((theme) => ({
             },
         },
         [theme.breakpoints.up('md')]: {
-            position: 'absolute',
-            top: '0.35rem',
+            display: 'inline-block',
+            top: '0rem',
             left: '0.35rem',
             background: 'unset',
-            padding: 'unset',
             color: BLACK,
             margin: 'unset',
             '& button': {

@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { custDataNameCookie, features, modules, debuging, assetsVersion, storeConfigNameCookie } from '@config';
 import { getHost } from '@helper_config';
-import { breakPointsUp } from '@helper_theme';
+import { breakPointsDown, breakPointsUp } from '@helper_theme';
 import { setCookies, getCookies } from '@helper_cookies';
 import { setLocalStorage } from '@helper_localstorage';
 import { getAppEnv } from '@helpers/env';
@@ -54,8 +54,9 @@ const Layout = (props) => {
         onlyCms,
         withLayoutHeader = true,
         withLayoutFooter = true,
-        showRecentlyBar = true,
+        showRecentlyBar = false,
         isHomepage = false,
+        isPdp = false,
     } = props;
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
@@ -224,7 +225,16 @@ const Layout = (props) => {
         // setMainMinimumHeight(refFooter.current.clientHeight + refHeader.current.clientHeight);
     }, []);
 
-    const desktop = breakPointsUp('sm');
+    const desktop = breakPointsUp('md');
+
+    const ipadUp = breakPointsUp('sm');
+    const ipadDown = breakPointsDown('md');
+
+    const ipadLUp = breakPointsUp('md');
+    const ipadLDown = breakPointsDown('lg');
+
+    const ipad = !!(ipadUp && ipadDown);
+    const ipadL = !!(ipadLUp && ipadLDown);
 
     const styles = {
         marginBottom: pageConfig.bottomNav ? '60px' : 0,
@@ -236,6 +246,46 @@ const Layout = (props) => {
 
     if (typeof window !== 'undefined' && storeConfig) {
         setLocalStorage(storeConfigNameCookie, storeConfig);
+    }
+
+    let classMain;
+
+    if (storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header) {
+        if (storeConfig.pwa.header_version === 'v2') {
+            if (isHomepage) {
+                if (ipadL) {
+                    classMain = 'main-app-v2-ipad-landscape';
+                } else {
+                    classMain = 'main-app-v2';
+                }
+                classMain += ' main-app-homepage';
+            } else if (isPdp && desktop) {
+                classMain = 'main-app-v2-pdp';
+            } else if (isPdp && ipad && !desktop) {
+                classMain = 'main-app-sticky-v2-ipad';
+            } else {
+                classMain = 'main-app-v2-not-homepage';
+            }
+        } else if (storeConfig.pwa.header_version === 'v4') {
+            classMain = 'main-app-sticky-v4';
+        } else {
+            classMain = 'main-app-sticky';
+        }
+    } else if (storeConfig && storeConfig.pwa && !storeConfig.pwa.enabler_sticky_header) {
+        if (storeConfig.pwa.header_version === 'v2') {
+            if (isHomepage) {
+                classMain = 'main-app-v2-not-sticky';
+                classMain += ' main-app-homepage';
+            } else if (isPdp && ipad) {
+                classMain = 'main-app-v2-ipad';
+            } else {
+                classMain = 'main-app-v2-not-sticky-not-homepage';
+            }
+        } else if (storeConfig.pwa.header_version === 'v4') {
+            classMain = 'main-app-not-sticky';
+        } else {
+            classMain = 'main-app-not-sticky';
+        }
     }
 
     return (
@@ -264,7 +314,9 @@ const Layout = (props) => {
                     : null}
                 {showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />}
             </Head>
-            {showPopup ? <PopupInstallAppMobile appName={appName} installMessage={installMessage} /> : null}
+            {showPopup && storeConfig && storeConfig.pwa && storeConfig.pwa.header_version !== 'v2' ? (
+                <PopupInstallAppMobile appName={appName} installMessage={installMessage} />
+            ) : null}
             {withLayoutHeader && (
                 <header ref={refHeader}>
                     {typeof window !== 'undefined' && storeConfig.global_promo && storeConfig.global_promo.enable && (
@@ -302,22 +354,7 @@ const Layout = (props) => {
                     </div>
                 </header>
             )}
-            <main
-                style={{ ...styles }}
-                className={classNames(
-                    !onlyCms ? 'main-app' : 'main-app main-app-cms',
-                    storeConfig && storeConfig.pwa && storeConfig.pwa.header_version === 'v2'
-                        ? storeConfig.pwa.enabler_sticky_header
-                            ? 'main-app-v2'
-                            : 'main-app-v2-not-sticky'
-                        : '',
-                    storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header
-                        ? storeConfig.pwa.header_version !== 'v2'
-                            ? storeConfig.pwa.header_version === 'v4' ? 'main-app-sticky-v4' : 'main-app-sticky' : 'main-app-v2'
-                        : 'main-app-not-sticky',
-                )}
-                id="maincontent"
-            >
+            <main style={{ ...styles }} className={classNames(!onlyCms ? 'main-app' : 'main-app main-app-cms', classMain)} id="maincontent">
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}

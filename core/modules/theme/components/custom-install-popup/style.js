@@ -14,12 +14,40 @@ const useStyles = makeStyles((theme) => ({
         marginRight: '0px !important',
         marginLeft: '0px !important',
     },
+    containerMobileV2: {
+        width: '100%',
+        height: '100px',
+        padding: '10px',
+        background: '#bc2494',
+        color: '#fff',
+        marginTop: '56px',
+        display: 'none',
+        alignItems: 'center',
+        marginRight: '0px !important',
+        marginLeft: '0px !important',
+        [theme.breakpoints.down('md')]: {
+            width: '100%',
+            height: '100px',
+            padding: '10px',
+            background: '#bc2494',
+            color: '#fff',
+            marginTop: '0',
+            display: 'grid',
+            gridTemplateColumns: '1fr 7fr 2fr',
+            alignItems: 'center',
+            marginRight: '0px !important',
+            marginLeft: '0px !important',
+        },
+    },
     titleMobile: {
         fontWeight: 'bold',
         fontSize: 20,
     },
     iconClose: {
         width: '10%',
+    },
+    iconCloseV2: {
+        width: 'unset',
     },
     iconCloseButton: {
         width: '20px',
@@ -31,8 +59,14 @@ const useStyles = makeStyles((theme) => ({
     textContainer: {
         width: '65%',
     },
+    textContainerV2: {
+        width: 'unset',
+    },
     btnInstallContainer: {
         width: '25%',
+    },
+    btnInstallContainerV2: {
+        width: 'unset',
     },
     btnInstall: {
         background: WHITE,
