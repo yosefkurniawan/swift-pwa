@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     popupInstallDesktop: {
-        display: 'initial',
+        display: 'inline-block !important',
         position: 'absolute',
         top: '4px',
         fontSize: 13,
