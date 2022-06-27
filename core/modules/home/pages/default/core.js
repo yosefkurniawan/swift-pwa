@@ -5,12 +5,8 @@ import { keyLocalStorage } from '@config';
 import Content from '@core_modules/home/pages/default/components';
 
 const HomeCore = (props) => {
-    const {
-        pageConfig,
-        storeConfig,
-        homePageConfig,
-        ...other
-    } = props;
+    // eslint-disable-next-line object-curly-newline
+    const { pageConfig, storeConfig, homePageConfig, ...other } = props;
 
     const homeKey = keyLocalStorage.home;
 

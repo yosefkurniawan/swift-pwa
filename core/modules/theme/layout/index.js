@@ -316,7 +316,9 @@ const Layout = (props) => {
                     : null}
                 {showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />}
             </Head>
-            {showPopup ? <PopupInstallAppMobile appName={appName} installMessage={installMessage} /> : null}
+            {showPopup && storeConfig && storeConfig.pwa && storeConfig.pwa.header_version !== 'v2' ? (
+                <PopupInstallAppMobile appName={appName} installMessage={installMessage} />
+            ) : null}
             {withLayoutHeader && (
                 <header ref={refHeader}>
                     {typeof window !== 'undefined' && storeConfig.global_promo && storeConfig.global_promo.enable && (
