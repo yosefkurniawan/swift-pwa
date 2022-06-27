@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
@@ -10,6 +11,7 @@ import classNames from 'classnames';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
+// eslint-disable-next-line object-curly-newline
 import { custDataNameCookie, features, modules, debuging, assetsVersion, storeConfigNameCookie } from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsDown, breakPointsUp } from '@helper_theme';
@@ -314,9 +316,7 @@ const Layout = (props) => {
                     : null}
                 {showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />}
             </Head>
-            {showPopup && storeConfig && storeConfig.pwa && storeConfig.pwa.header_version !== 'v2' ? (
-                <PopupInstallAppMobile appName={appName} installMessage={installMessage} />
-            ) : null}
+            {showPopup ? <PopupInstallAppMobile appName={appName} installMessage={installMessage} /> : null}
             {withLayoutHeader && (
                 <header ref={refHeader}>
                     {typeof window !== 'undefined' && storeConfig.global_promo && storeConfig.global_promo.enable && (

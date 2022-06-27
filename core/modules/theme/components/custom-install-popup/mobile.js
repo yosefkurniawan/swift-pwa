@@ -6,7 +6,7 @@ import useStyles from '@core_modules/theme/components/custom-install-popup/style
 import propTypes from 'prop-types';
 import TagManager from 'react-gtm-module';
 
-const PopupInstalation = ({ appName, installMessage, v2 = false }) => {
+const PopupInstalation = ({ appName, installMessage }) => {
     const styles = useStyles();
 
     const onClick = () => {
@@ -37,17 +37,17 @@ const PopupInstalation = ({ appName, installMessage, v2 = false }) => {
     };
 
     return (
-        <div id="popup-mobile__install" className={classNames('row', !v2 ? styles.containerMobile : styles.containerMobileV2)}>
+        <div id="popup-mobile__install" className={classNames('row', styles.containerMobile)}>
             <div className={styles.iconClose}>
                 <span className={styles.iconCloseButton} onClick={() => closePopup()}>
                     x
                 </span>
             </div>
-            <div className={!v2 ? styles.textContainer : styles.textContainerV2}>
+            <div className={styles.textContainer}>
                 <div className={styles.titleMobile}>{appName}</div>
                 <p style={{ margin: 0 }}>{installMessage}</p>
             </div>
-            <div className={!v2 ? styles.btnInstallContainer : styles.btnInstallContainerV2}>
+            <div className={styles.btnInstallContainer}>
                 <Button className={styles.btnInstall} id="btn-install__mobile" variant="contained" color="primary" onClick={onClick}>
                     Install
                 </Button>

@@ -21,10 +21,7 @@ import { modules } from '@config';
 import { getStoreHost } from '@helpers/config';
 import { getCategories, getVesMenu } from '@core_modules/theme/services/graphql/index';
 
-const BurgerV1 = dynamic(() => import('@core_modules/theme/components/header/mobile/version/v1'), { ssr: true });
-const BurgerV2 = dynamic(() => import('@core_modules/theme/components/header/mobile/version/v2'), { ssr: true });
-const BurgerV3 = dynamic(() => import('@core_modules/theme/components/header/mobile/version/v3'), { ssr: true });
-const BurgerV4 = dynamic(() => import('@core_modules/theme/components/header/mobile/version/v4'), { ssr: true });
+const BurgerMenu = dynamic(() => import('@core_modules/theme/components/header/mobile/BurgerMenu'), { ssr: true });
 
 const Header = ({ LeftComponent, CenterComponent, RightComponent, className, pageConfig, storeConfig }) => {
     const styles = useStyles();
@@ -115,20 +112,10 @@ const Header = ({ LeftComponent, CenterComponent, RightComponent, className, pag
             errorVesMenu,
             TabPanel,
             handleChange,
+            pwaStoreConfig: storeConfig,
         };
 
-        if (storeConfig.pwa.header_version === 'v1') {
-            return <BurgerV1 {...burgerProps} />;
-        }
-        if (storeConfig.pwa.header_version === 'v2') {
-            return <BurgerV2 {...burgerProps} />;
-        }
-        if (storeConfig.pwa.header_version === 'v3') {
-            return <BurgerV3 {...burgerProps} />;
-        }
-        if (storeConfig.pwa.header_version === 'v4') {
-            return <BurgerV4 {...burgerProps} />;
-        }
+        return <BurgerMenu {...burgerProps} />;
     }
 
     if (pageConfig && !pageConfig.header) return null;

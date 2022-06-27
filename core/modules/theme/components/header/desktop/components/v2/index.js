@@ -160,6 +160,7 @@ const ViewTopNavigation = (props) => {
                                                                 {data.customer
                                                                     ? `${t('common:header:hi').replace(
                                                                           '$',
+                                                                          // eslint-disable-next-line comma-dangle
                                                                           `${data.customer.firstname} ${data.customer.lastname}`
                                                                       )}`
                                                                     : null}

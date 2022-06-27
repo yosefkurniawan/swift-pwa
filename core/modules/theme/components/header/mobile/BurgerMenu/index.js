@@ -23,7 +23,7 @@ import ShoppingBagIcon from '@plugin_shoppingbag';
 const CategoryList = dynamic(() => import('@core_modules/theme/components/header/mobile/CategoryList'), { ssr: true });
 const VesMenuCategoryList = dynamic(() => import('@core_modules/theme/components/header/mobile/VesMenuCategoryList'), { ssr: true });
 
-const BurgerV2 = ({
+const BurgerMenu = ({
     isLogin,
     styles,
     logoUrl,
@@ -45,9 +45,10 @@ const BurgerV2 = ({
     errorVesMenu,
     TabPanel,
     handleChange,
+    pwaStoreConfig,
 }) => (
     <>
-        <AppBar position="fixed">
+        <AppBar position={pwaStoreConfig && pwaStoreConfig.pwa.enabler_sticky_header ? 'fixed' : 'absolute'}>
             <Toolbar>
                 <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
                     <MenuIcon />
@@ -174,8 +175,8 @@ const BurgerV2 = ({
                 `}
             </style>
         </SwipeableDrawer>
-        <Toolbar />
+        {pwaStoreConfig && pwaStoreConfig.pwa.enabler_sticky_header ? null : <Toolbar />}
     </>
 );
 
-export default BurgerV2;
+export default BurgerMenu;
