@@ -6,12 +6,12 @@ import useStyles from '@core_modules/theme/components/custom-install-popup/style
 import propTypes from 'prop-types';
 import TagManager from 'react-gtm-module';
 
-const PopupInstalation = ({ appName, installMessage }) => {
+const PopupInstalation = ({ appName, installMessage, v2 = false }) => {
     const styles = useStyles();
 
     const onClick = () => {
         const timestamp = Date.now();
-        const identifier = `${(Math.floor(Math.random() * 100) * Math.floor(Math.random() * 100))}_${timestamp}`;
+        const identifier = `${Math.floor(Math.random() * 100) * Math.floor(Math.random() * 100)}_${timestamp}`;
         const dataLayer = {
             event: 'countPopupInstallation',
             eventCategory: 'Count Popup Installation',
@@ -37,22 +37,18 @@ const PopupInstalation = ({ appName, installMessage }) => {
     };
 
     return (
-        <div id="popup-mobile__install" className={classNames('row', styles.containerMobile)}>
+        <div id="popup-mobile__install" className={classNames('row', !v2 ? styles.containerMobile : styles.containerMobileV2)}>
             <div className={styles.iconClose}>
-                <span className={styles.iconCloseButton} onClick={() => closePopup()}>x</span>
+                <span className={styles.iconCloseButton} onClick={() => closePopup()}>
+                    x
+                </span>
             </div>
-            <div className={styles.textContainer}>
+            <div className={!v2 ? styles.textContainer : styles.textContainerV2}>
                 <div className={styles.titleMobile}>{appName}</div>
                 <p style={{ margin: 0 }}>{installMessage}</p>
             </div>
-            <div className={styles.btnInstallContainer}>
-                <Button
-                    className={styles.btnInstall}
-                    id="btn-install__mobile"
-                    variant="contained"
-                    color="primary"
-                    onClick={onClick}
-                >
+            <div className={!v2 ? styles.btnInstallContainer : styles.btnInstallContainerV2}>
+                <Button className={styles.btnInstall} id="btn-install__mobile" variant="contained" color="primary" onClick={onClick}>
                     Install
                 </Button>
             </div>

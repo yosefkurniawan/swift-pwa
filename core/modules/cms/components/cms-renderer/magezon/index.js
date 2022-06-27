@@ -269,17 +269,17 @@ const MagezonElement = (props) => {
                     }
                     @media screen and (min-width: 361px) and (max-width: 383px) {
                         .full_height {
-                            min-height: ${(Math.round(storeConfig.pwa.magezon_slider_mobile_width * 0.9))}px;
+                            min-height: ${Math.round(storeConfig.pwa.magezon_slider_mobile_width * 0.9)}px;
                         }
                     }
                     @media screen and (min-width: 384px) and (max-width: 479px) {
                         .full_height {
-                            min-height: ${(Math.round(storeConfig.pwa.magezon_slider_mobile_width * 0.95))}px;
+                            min-height: ${Math.round(storeConfig.pwa.magezon_slider_mobile_width * 0.95)}px;
                         }
                     }
                     @media screen and (min-width: 480px) and (max-width: 767px) {
                         .full_height {
-                            min-height: ${(Math.round(storeConfig.pwa.magezon_slider_mobile_width * 1.25))}px;
+                            min-height: ${Math.round(storeConfig.pwa.magezon_slider_mobile_width * 1.25)}px;
                         }
                     }
                     @media screen and (min-width: 768px) and (max-width: 800px) {
@@ -304,7 +304,7 @@ const MagezonElement = (props) => {
                     }
 
                     @media screen and (min-width: 768px) {
-                        .mgz-column > * {
+                        .mgz-element:not(.full_height) >.row > .mgz-column > * {
                             padding: 10px;
                         }
                     }
@@ -312,11 +312,21 @@ const MagezonElement = (props) => {
                     @media screen and (max-width: 768px) {
                         .mgz-element.full_height > .row > .mgz-column > .mgz-element {
                             margin-top: -15px;
-                            position: absolute
+                            position: absolute;
                         }
 
                         .mgz-element > div > p {
-                            margin: 0px;
+                            margin: 0px !important;
+                            padding: 0px !important;
+                        }
+                    }
+
+                    @media screen and (min-width: 1200px) {
+                        .mgz-element.full_height > .row > .mgz-column > .mgz-element {
+                            padding-top: 0px !important;
+                            padding-left: 0px !important;
+                            padding-right: 0px !important;
+                            padding-bottom: 0px !important
                         }
                     }
 
@@ -326,7 +336,7 @@ const MagezonElement = (props) => {
                     .parallax-wrapper {
                         border-radius: inherit;
                         position: absolute;
-                        top: 0;
+                        top: 0;AAA
                         bottom: 0;
                         right: 0;
                         left: 0;

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     },
     header: {
         [theme.breakpoints.between('sm', 'md')]: {
-            width: '97vw',
+            width: '100vw',
         },
         width: '100%',
         display: 'flex',

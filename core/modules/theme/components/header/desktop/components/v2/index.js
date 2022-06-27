@@ -48,7 +48,6 @@ const ViewTopNavigation = (props) => {
             const header = document.getElementById('header');
             const middleSubmenu = document.getElementById('submenu-center');
             const leftSubmenu = document.getElementById('submenu-left');
-            const headerTop = document.getElementById('top-popup');
             const checkScrollTop = () => {
                 // handle show hide header
                 if (middleSubmenu && leftSubmenu) {
@@ -56,12 +55,10 @@ const ViewTopNavigation = (props) => {
                         middleSubmenu.classList.remove('hidden-submenu');
                         header.classList.add('header-bgcolor');
                         leftSubmenu.classList.add('hidden-submenu');
-                        headerTop.classList.add('hidden-submenu');
                     } else {
                         middleSubmenu.classList.add('hidden-submenu');
                         header.classList.remove('header-bgcolor');
                         leftSubmenu.classList.remove('hidden-submenu');
-                        headerTop.classList.remove('hidden-submenu');
                     }
                 }
                 if (!triger && window.pageYOffset > maxHeigtToShow) {
@@ -77,9 +74,6 @@ const ViewTopNavigation = (props) => {
     return (
         <>
             <div id="header">
-                <div className="row header-top" id="top-popup">
-                    {enablePopupInstallation ? <DesktopInstallAppV2 appName={appName} installMessage={installMessage} /> : null}
-                </div>
                 <main style={{ width: '100%', maxWidth: 'unset' }}>
                     <div id="submenu-center" className="header-main hidden-submenu">
                         <div className="header-middle">
@@ -125,7 +119,7 @@ const ViewTopNavigation = (props) => {
                                             <ShoppingBagIcon withLink storeConfig={storeConfig} />
                                         </div>
                                     </div>
-                                    <div className="header-middle__search">
+                                    <div className="header-middle__search margin-top-1rem">
                                         <Autocomplete setValue={setValue} handleSearch={handleSearch} OptionsItem={OptionAutocomplete} t={t} />
                                         <div className="search-icon">
                                             <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">
@@ -153,6 +147,9 @@ const ViewTopNavigation = (props) => {
                                 <div className="box">
                                     <div className="header-middle__icons">
                                         <ul className="special-ul">
+                                            {enablePopupInstallation ? (
+                                                <DesktopInstallAppV2 appName={appName} installMessage={installMessage} />
+                                            ) : null}
                                             <li>
                                                 {!isLogin ? (
                                                     t('common:header:welcome')
@@ -238,7 +235,7 @@ const ViewTopNavigation = (props) => {
                                     {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
                                 </div>
                             </div>
-                            <div className="header-middle__right">
+                            <div>
                                 <div className="box">
                                     <div className="header-middle__search">
                                         <Autocomplete setValue={setValue} handleSearch={handleSearch} OptionsItem={OptionAutocomplete} t={t} />
@@ -253,16 +250,6 @@ const ViewTopNavigation = (props) => {
                         </div>
                     </div>
                 </main>
-                <div className="header-tab">
-                    <div className="row menu-category">
-                        <div className="col-xs-12">
-                            {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
-                        </div>
-                    </div>
-                    <div className="header-small__menu">
-                        {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
-                    </div>
-                </div>
                 <style jsx>
                     {`
                         .signin {
@@ -328,7 +315,7 @@ const ViewTopNavigation = (props) => {
                         }
                         @media (min-width: 768px) {
                             ul {
-                                padding-top: 2vh;
+                                // padding-top: 2vh;
                             }
                             #header {
                                 ${storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header
@@ -353,6 +340,7 @@ const ViewTopNavigation = (props) => {
                                 transition: opacity 5s ease;
                             }
                         }
+
                         main {
                             background-color: transparent;
                         }
@@ -364,16 +352,45 @@ const ViewTopNavigation = (props) => {
                             padding: 10px 0;
                             margin: 0;
                         }
+
                         @media only screen and (max-width: 1023px) and (min-width: 768px) {
                             .header-top {
                                 height: unset;
                                 padding-top: 0;
                             }
                         }
+
+                        @media only screen and (min-width: 1024px) and (max-width: 1200px) {
+                            .header-middle.second-level-header {
+                                padding-top: 10px;
+                                display: grid !important;
+                                grid-template-columns: 2fr 1fr;
+                            }
+
+                            .header-middle__center {
+                                display: block !important;
+                                margin-top: 1rem;
+                            }
+
+                            .header-middle__right {
+                                width: 300px !important;
+                            }
+                        }
+
+                        .header-middle-second-level-header {
+                            padding-bottom: 1rem;
+                            padding-top: 0px;
+                            // display: grid;
+                            // align-items: center;
+                            // justify-content: space-between;
+                        }
+
                         .second-level-header {
                             padding-bottom: 1rem;
                             padding-top: 0px;
+                            // display: grid;
                         }
+
                         .header-middle {
                             padding-top: 10px;
                             display: flex;
@@ -387,7 +404,7 @@ const ViewTopNavigation = (props) => {
                             width: 600px;
                         }
                         .header-middle__right-condensed {
-                            width: 667px;
+                            width: 1024px;
                         }
                         .header-small__menu {
                             display: none;
@@ -421,6 +438,10 @@ const ViewTopNavigation = (props) => {
                             float: right;
                             position: relative;
                         }
+
+                        .header-middle__search .margin-top-1rem {
+                            margin-top: -1rem !important;
+                        }
                         .menu-category {
                             width: fit-content;
                             display: block;
@@ -440,6 +461,10 @@ const ViewTopNavigation = (props) => {
                     {`
                         .header-middle__search .MuiAutocomplete-popupIndicator {
                             display: none !important;
+                        }
+
+                        .header-middle__search .margin-top-1rem .MuiAutocomplete-root {
+                            padding: 2px 5px 15px 5px !important;
                         }
                         .hidden-submenu {
                             display: none !important;
@@ -473,23 +498,6 @@ const ViewTopNavigation = (props) => {
                     `}
                 </style>
             </div>
-            {/* {isHomepage ? (
-                <>
-                    <div className="header-image-top" />
-                    <style global jsx>
-                        {`
-                            @media (min-width: 768px) {
-                                .header-image-top {
-                                    background: url('./assets/img/screenshots/header.webp') no-repeat center center;
-                                    min-height: 100vh;
-                                }
-                            }
-                        `}
-                    </style>
-                </>
-            ) : (
-                ''
-            )} */}
         </>
     );
 };
