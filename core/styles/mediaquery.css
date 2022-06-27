@@ -62,6 +62,10 @@
         margin-top: 140px;
     }
 
+    .main-app-v2-ipad-landscape {
+        margin-top: -1rem !important;
+    }
+
     .main-app-cms {
         margin-top: 0px;
     }
