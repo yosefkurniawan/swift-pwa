@@ -46,7 +46,7 @@ const Header = ({ LeftComponent, CenterComponent, RightComponent, className, pag
         setDrawerOpen(open);
     };
 
-    if (storeConfig && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'burger_menu') {
+    if (storeConfig && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'burger_menu' && pageConfig.pageType !== 'checkout') {
         const { loading, data, error } = getCategories();
         const { loading: loadingVesMenu, data: dataVesMenu, error: errorVesMenu } = getVesMenu({
             variables: {

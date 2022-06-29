@@ -269,7 +269,13 @@ const Layout = (props) => {
                 classMain = 'main-app-v2-not-homepage';
             }
         } else if (storeConfig.pwa.header_version === 'v4') {
-            classMain = 'main-app-sticky-v4';
+            if (isHomepage) {
+                classMain = 'main-app-sticky-v4-homepage';
+            } else if (isPdp) {
+                classMain = 'main-app-sticky-v4-pdp';
+            } else {
+                classMain = 'main-app-sticky-v4';
+            }
         } else {
             classMain = 'main-app-sticky';
         }
@@ -351,7 +357,7 @@ const Layout = (props) => {
                         {React.isValidElement(CustomHeader) ? (
                             <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
                         ) : (
-                            <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} />
+                                <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} isCheckout />
                         )}
                     </div>
                 </header>

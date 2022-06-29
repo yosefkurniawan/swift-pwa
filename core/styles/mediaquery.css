@@ -34,7 +34,15 @@
     }
 
     .main-app-sticky-v4 {
-        margin-top: 100px !important;
+        margin-top: 14rem !important;
+    }
+
+    .main-app-sticky-v4-homepage {
+        margin-top: 5rem !important
+    }
+
+    .main-app-sticky-v4-pdp {
+        margin-top: 18rem !important;
     }
 
     .main-app-v2-not-sticky {
@@ -109,7 +117,7 @@
     }
 
     .main-app-sticky-v4 {
-        margin-top: 100px !important;
+        margin-top: 14rem !important;
     }
 
     .main-app-v2 {
