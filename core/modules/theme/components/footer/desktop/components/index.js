@@ -1,4 +1,3 @@
-import Loading from '@common_loaders/Backdrop';
 import Alert from '@material-ui/lab/Alert';
 import { MAX_WIDTH } from '@theme_vars';
 import WidgetRenderer from '@core_modules/cms/components/cms-renderer/WidgetRenderer';
@@ -15,7 +14,7 @@ const FooterView = (props) => {
             </Alert>
         );
     }
-    if (loading) return <Loading open={loading} />;
+    if (loading) return null;
     return (
         <div className="cms-container wrapper-footer">
             {/* eslint-disable-next-line react/no-danger */}
@@ -299,11 +298,6 @@ const FooterView = (props) => {
                         padding: 10px 0 0 24px;
                     }
 
-                    // .footer-v2 .toggle #hideNewsletter {
-                    //     display: none;
-                    // }
-
-
                     .footer-v2 .accordionTitle {
                         cursor: pointer;
                         -moz-user-select: none;
@@ -313,7 +307,7 @@ const FooterView = (props) => {
                     }
                     
                     .footer-v2 .accordionTitle + .accordionContent {
-                        // display: none;
+                        display: none;
                         opacity: 0;
                         transition: all 1s ease-in-out;
                         height: 0;
@@ -321,9 +315,10 @@ const FooterView = (props) => {
                     }
                     
                     .footer-v2 .accordionTitle.is-open + .accordionContent {
-                        // display: block;
+                        display: block;
                         opacity: 1;
                         height: auto;
+                        transition: all 1s ease-in;
                     }
 
                     .footer-v2 .block.newsletter {
