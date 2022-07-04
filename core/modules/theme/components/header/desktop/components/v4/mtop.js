@@ -1,8 +1,10 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from 'next/link';
+import React from 'react';
 import NotificationBell from '@plugin_notificationbell';
 import ShoppingBagIcon from '@plugin_shoppingbag';
 import ProductCompareIcon from '@core_modules/catalog/plugins/ProductCompare';
@@ -11,15 +13,63 @@ import SearchIcon from '@material-ui/icons/Search';
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
 import SwitcherLanguage from '@common_language';
 import SwitcherCurrency from '@common_currency';
+import { breakPointsUp } from '@helper_theme';
 import config from '@config';
 
-const ViewTop = (props) => {
-    const { isLogin, t, data, handleLogout, value, setValue, handleSearch, OptionAutocomplete, searchByClick, storeConfig } = props;
-    const { modules } = config;
+import SwitcherMenu from './SwitcherMenu';
 
+const ViewTop = (props) => {
+    const {
+        isLogin,
+        t,
+        data,
+        handleLogout,
+        value,
+        setValue,
+        handleSearch,
+        OptionAutocomplete,
+        searchByClick,
+        storeConfig,
+        enablePopupInstallation,
+        appName,
+        installMessage,
+        DesktopInstallAppV4,
+    } = props;
+    const { modules } = config;
     const [triger, setTriger] = React.useState(false);
 
+    const desktop = breakPointsUp('lg');
+
     const maxHeightToShow = 600;
+
+    const renderAccount = () => {
+        if (!isLogin) {
+            if (desktop) {
+                return (
+                    <li>
+                        <Link href="/customer/account/login">
+                            <a>{t('common:menu:sign')}</a>
+                        </Link>
+                        {' '}
+                        {t('common:menu:or')}
+                        {' '}
+                        <Link href="/customer/account/create">
+                            <a>{t('common:menu:register')}</a>
+                        </Link>
+                        {' '}
+                    </li>
+                );
+            }
+            return (
+                <li>
+                    <Link href="/customer/account">
+                        <a>{t('common:menu:account')}</a>
+                    </Link>
+                </li>
+            );
+        }
+        return null;
+    };
 
     React.useEffect(() => {
         if (typeof window !== 'undefined' && storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header) {
@@ -46,6 +96,9 @@ const ViewTop = (props) => {
     return (
         <>
             <ul>
+                <li style={{ padding: '5px 0px !important' }}>
+                    {enablePopupInstallation ? <DesktopInstallAppV4 appName={appName} installMessage={installMessage} /> : null}
+                </li>
                 <li>
                     {!isLogin ? (
                         t('common:header:welcome')
@@ -80,36 +133,35 @@ const ViewTop = (props) => {
                         </>
                     )}
                 </li>
-                {modules.confirmpayment.enabled ? (
-                    <li>
-                        <Link href="/confirmpayment">
-                            <a>{t('common:menu:confirmpayment')}</a>
-                        </Link>
-                    </li>
-                ) : null}
-                {modules.trackingorder.enabled ? (
-                    <li>
-                        <Link href="/sales/order/track">
-                            <a>{t('common:menu:trackingorder')}</a>
-                        </Link>
-                    </li>
-                ) : null}
-                {!isLogin ? (
-                    <li>
-                        <Link href="/customer/account/login">
-                            <a>{t('common:menu:sign')}</a>
-                        </Link>{' '}
-                        {t('common:menu:or')}{' '}
-                        <Link href="/customer/account/create">
-                            <a>{t('common:menu:register')}</a>
-                        </Link>{' '}
-                    </li>
-                ) : null}
+                {!isLogin
+                    ? desktop ? (
+                        <li>
+                            <Link href="/customer/account/login">
+                                <a>{t('common:menu:sign')}</a>
+                            </Link>
+                            {' '}
+                            {t('common:menu:or')}
+                            {' '}
+                            <Link href="/customer/account/create">
+                                <a>{t('common:menu:register')}</a>
+                            </Link>
+                            {' '}
+                        </li>
+                    ) : (
+                        <li>
+                            <Link href="/customer/account">
+                                <a>{t('common:menu:account')}</a>
+                            </Link>
+                        </li>
+                    ) : null}
                 <li>
                     <SwitcherLanguage {...props} />
                 </li>
                 <li>
                     <SwitcherCurrency {...props} />
+                </li>
+                <li>
+                    <SwitcherMenu {...props} />
                 </li>
             </ul>
             <div className="header-middle__right" id="top-searchbox">
@@ -142,7 +194,7 @@ const ViewTop = (props) => {
                     ul {
                         margin: 0;
                         list-style: none;
-                        padding: 0.5rem;
+                        padding: 0;
                         float: left;
                         font-size: 10px;
                         text-transform: uppercase;
@@ -184,12 +236,25 @@ const ViewTop = (props) => {
                         border-bottom: 1px dashed #fff;
                         color: #b9acac;
                     }
-                    .header-middle__search {
-                        display: flex;
-                        align-items: center;
-                        float: right;
-                        position: relative;
-                        margin-top: -0.75rem;
+                    @media screen and (max-width: 1024px) {
+                        .header-middle__search {
+                            display: flex;
+                            align-items: center;
+                            float: right;
+                            top: -1rem;
+                            right: 1rem;
+                            position: relative;
+                            margin-top: unset;
+                        }
+                    }
+                    @media screen and (min-width: 1025px) {
+                        .header-middle__search {
+                            display: flex;
+                            align-items: center;
+                            float: right;
+                            position: relative;
+                            margin-top: -0.75rem;
+                        }
                     }
                     .search-icon {
                         position: absolute;
@@ -213,6 +278,15 @@ const ViewTop = (props) => {
                     .hide-searchbox {
                         display: none !important;
                         transition: display 1s ease;
+                    }
+                `}
+            </style>
+            <style jsx global>
+                {`
+                    @media screen and (max-width: 1024px) {
+                        #top-searchbox .header-middle__search .MuiAutocomplete-root {
+                            width: 10rem !important;
+                        }
                     }
                 `}
             </style>

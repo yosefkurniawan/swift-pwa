@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'none',
         position: 'absolute',
         top: '4px',
-        fontSize: 13,
+        fontSize: 10,
         [theme.breakpoints.up('sm')]: {
             position: 'relative',
             background: '#bc2494',
@@ -59,14 +59,14 @@ const useStyles = makeStyles((theme) => ({
             },
         },
         [theme.breakpoints.up('md')]: {
-            position: 'absolute',
-            display: 'inline-block !important',
-            top: '4px',
+            position: 'relative',
+            display: 'block !important',
+            top: 0,
             right: '0',
             background: 'unset',
             padding: 'unset',
             color: BLACK,
-            margin: '.75rem',
+            margin: 0,
             '& button': {
                 background: BLACK,
                 color: WHITE,
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     btnInstallDesktop: {
-        fontSize: 11,
+        fontSize: 10,
         margin: '0rem 1rem',
     },
 }));

@@ -268,14 +268,34 @@ const Layout = (props) => {
             } else {
                 classMain = 'main-app-v2-not-homepage';
             }
+        } else if (storeConfig.pwa.header_version === 'v1') {
+            if (isHomepage) {
+                classMain = 'main-app-v1-sticky-homepage';
+            } else {
+                classMain = 'main-app-v1-sticky-not-homepage';
+            }
         } else if (storeConfig.pwa.header_version === 'v4') {
             if (isHomepage) {
-                classMain = 'main-app-sticky-v4-homepage';
+                if (ipad) {
+                    if (storeConfig.pwa.mobile_navigation === 'burger_menu') {
+                        classMain = 'main-app-sticky-v4-homepage';
+                    } else {
+                        classMain = 'main-app-sticky-v4-homepage-not-burgermenu';
+                    }
+                } else {
+                    classMain = 'main-app-sticky-v4-homepage';
+                }
             } else if (isPdp) {
-                classMain = 'main-app-sticky-v4-pdp';
+                if (ipad) {
+                    classMain = 'main-app-sticky-v4-pdp-ipad';
+                } else {
+                    classMain = 'main-app-sticky-v4-pdp';
+                }
             } else {
                 classMain = 'main-app-sticky-v4';
             }
+        } else if (isHomepage) {
+            classMain = 'main-app-sticky-homepage';
         } else {
             classMain = 'main-app-sticky';
         }

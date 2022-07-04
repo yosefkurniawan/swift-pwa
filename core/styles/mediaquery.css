@@ -8,7 +8,7 @@
     .main-app {
         min-height: calc(100vh - 435px);
         margin-top: 140px;
-        /* max-width: 1440px; */
+        max-width: 1440px;
         width: 97%;
     }
 
@@ -30,27 +30,39 @@
     }
 
     .main-app-sticky {
-        margin-top: 60px !important;
+        margin-top: 8rem !important;
+    }
+
+    .main-app-sticky-homepage {
+        margin-top: 2rem !important;
+    }
+
+    .main-app-v1-sticky-homepage {
+        margin-top: 0rem !important;
+    }
+
+    .main-app-v1-sticky-not-homepage {
+        margin-top: 12rem !important;
     }
 
     .main-app-sticky-v4 {
-        margin-top: 14rem !important;
+        margin-top: 16rem !important;
     }
 
     .main-app-sticky-v4-homepage {
-        margin-top: 5rem !important
+        margin-top: -2rem !important
     }
 
     .main-app-sticky-v4-pdp {
-        margin-top: 18rem !important;
+        margin-top: 16rem !important;
     }
 
     .main-app-v2-not-sticky {
-        margin-top: -140px;
+        margin-top: -140px !important;
     }
 
     .main-app-v2-not-sticky-not-homepage {
-        margin-top: 0px;
+        margin-top: 0px !important;
     }
 }
 
@@ -86,28 +98,48 @@
         margin-top: 0px;
     }
 
+    .main-app-sticky-homepage {
+        margin-top: 0rem;
+    }
+
+    .main-app-v1-sticky-homepage {
+        margin-top: 0rem !important;
+    }
+
     .main-app-sticky {
-        margin-top: 60px !important;
+        margin-top: 0rem;
     }
 
     .main-app-v2-not-sticky {
-        margin-top: -140px;
+        margin-top: -140px !important;
     }
 
     .main-app-v2-not-sticky-not-homepage {
-        margin-top: 0px;
+        margin-top: 0px !important;
     }
 
     .main-app-v2 {
-        margin-top: -10px;
+        margin-top: -10px !important;
     }
 
     .main-app-v2-ipad {
         margin-top: 0px !important;
     }
 
+    .main-app-v1-sticky-not-homepage {
+        margin-top: 0rem;
+    }
+
     .main-app-sticky-v4 {
         margin-top: 100px !important;
+    }
+
+    .main-app-sticky-v4-homepage-not-burgermenu {
+        margin-top: 0rem !important
+    }
+
+    .main-app-sticky-v4-pdp-ipad {
+        margin-top: 0rem !important;
     }
 }
 
@@ -117,11 +149,12 @@
     }
 
     .main-app-sticky-v4 {
-        margin-top: 14rem !important;
+        margin-top: 16rem !important;
     }
 
     .main-app-v2 {
         margin-top: 0px;
+        max-width: initial !important;
     }
 }
 
@@ -152,6 +185,7 @@
 
     .main-app-v2 {
         margin-top: 0px !important;
+        max-width: initial !important;
     }
 
     .main-app-sticky-v2-ipad {
@@ -178,10 +212,12 @@
 
     .main-app-v2 {
         margin-top: -1rem !important;
+        max-width: initial !important;
     }
 
     .main-app-v2-ipad-landscape {
         margin-top: -16rem !important;
+        max-width: initial !important;
     }
 
     .main-app-v2-pdp {
@@ -210,5 +246,9 @@
 @media (min-width: 1200px) {
     .main-app-homepage {
         max-width: unset;
+    }
+
+    .main-app-sticky-v4-homepage {
+        margin-top: 0rem !important
     }
 }

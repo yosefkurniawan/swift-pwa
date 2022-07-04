@@ -62,11 +62,23 @@ const ViewTopNavigation = (props) => {
         }
     }, [triger]);
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    /**
+     * [METHOD] handle click popover
+     * @param {*} event
+     */
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    /**
+     * [METHOD] handle close popover
+     */
+    const handleClose = () => setAnchorEl(null);
+
     return (
         <div id="header">
-            <div className="row header-top">
-                {enablePopupInstallation ? <DesktopInstallAppV4 appName={appName} installMessage={installMessage} /> : null}
-            </div>
             <div className="row header-top">
                 <main style={{ width: '97%' }}>
                     <TopMenu
@@ -81,21 +93,27 @@ const ViewTopNavigation = (props) => {
                         OptionAutocomplete={OptionAutocomplete}
                         searchByClick={searchByClick}
                         storeConfig={storeConfig}
+                        enablePopupInstallation={enablePopupInstallation}
+                        appName={appName}
+                        installMessage={installMessage}
+                        DesktopInstallAppV4={DesktopInstallAppV4}
+                        anchorEl={anchorEl}
+                        setAnchorEl={setAnchorEl}
+                        handleClick={handleClick}
+                        handleClose={handleClose}
                     />
                 </main>
             </div>
             <main style={{ width: '100%', maxWidth: 'unset' }}>
                 <div className="header-main">
                     <div className="header-middle">
-                        <div className="header-middle__center">
-                            <div className="box header-middle__logo">
-                                <Link href="/">
-                                    <img
-                                        className="header-middle__logo-link"
-                                        src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
-                                    />
-                                </Link>
-                            </div>
+                        <div className="box header-middle__logo">
+                            <Link href="/">
+                                <img
+                                    className="header-middle__logo-link"
+                                    src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
+                                />
+                            </Link>
                         </div>
                         <div id="hidden-searchbar" className="header-middle__right hidden-searchbox">
                             <div className="box">
@@ -137,14 +155,6 @@ const ViewTopNavigation = (props) => {
                     </div>
                 </div>
             </main>
-            <div className="header-tab">
-                <div className="row menu-category">
-                    <div className="col-xs-12">{loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}</div>
-                </div>
-                <div className="header-small__menu">
-                    {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
-                </div>
-            </div>
             <style jsx>
                 {`
                     .header-main {
@@ -163,9 +173,6 @@ const ViewTopNavigation = (props) => {
                             top: ${showGlobalPromo ? '45px' : '0'};
                             transition: top 1s ease;
                         }
-                        .header-middle__center {
-                            display: none;
-                        }
                         .hidden-submenu {
                             display: none !important;
                             transition: display 1s ease;
@@ -175,14 +182,14 @@ const ViewTopNavigation = (props) => {
                         background-color: #fff;
                     }
                     .header-top {
-                        height: 4rem;
+                        height: 5rem;
                         border-bottom: 1px solid #d6d6d6;
                         display: flex;
                         align-items: center;
-                        padding: 10px 0;
+                        padding: 1rem 0;
                         margin: 0;
                     }
-                    @media only screen and (max-width: 1023px) and (min-width: 768px) {
+                    @media only screen and (min-width: 768px) and (max-width: 1023px) {
                         .header-top {
                             height: unset;
                             padding-top: 0;
@@ -253,7 +260,7 @@ const ViewTopNavigation = (props) => {
             <style global jsx>
                 {`
                     .header-small {
-                        top: -8rem !important;
+                        top: -5rem !important;
                     }
                     @media (min-width: 1250px) {
                         .header-small .header-small__menu {
@@ -262,15 +269,14 @@ const ViewTopNavigation = (props) => {
                         .header-middle__center {
                             display: block !important;
                         }
-                        .header-tab {
-                            display: none;
-                        }
                         .header-small .menu-category {
                             display: none;
                         }
                         .header-small {
                             height: 75px !important;
                         }
+                    }
+                    @media screen and (min-width: 1024px) {
                         .hidden-searchbox {
                             display: none;
                             transition: display 1s ease;
@@ -278,6 +284,16 @@ const ViewTopNavigation = (props) => {
                         .show-searchbox {
                             display: block !important;
                             transition: display 1s ease;
+                        }
+                    }
+                    @media screen and (max-width: 1024px) {
+                        #hidden-searchbar .header-middle__search .MuiAutocomplete-root {
+                            width: 12rem !important;
+                        }
+                    }
+                    @media screen and (min-width: 1026px) {
+                        #hidden-searchbar .header-middle__search .MuiAutocomplete-root {
+                            width: 300px !important;
                         }
                     }
                 `}
