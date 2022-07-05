@@ -222,7 +222,7 @@ const Menu = (props) => {
                         visibility: hidden;
                         width: 190%;
                         left: 0;
-                        margin-left: -18%;
+                        // margin-left: -18%;
                         min-height: 300px;
                     }
                     li:hover > .mega-menu {
