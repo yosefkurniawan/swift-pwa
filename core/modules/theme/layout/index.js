@@ -1,9 +1,13 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
 import React, { useEffect, useState, useRef } from 'react';
 import { useApolloClient } from '@apollo/client';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import classNames from 'classnames';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
@@ -12,7 +16,7 @@ import {
     custDataNameCookie, features, modules, debuging, assetsVersion, storeConfigNameCookie,
 } from '@config';
 import { getHost } from '@helper_config';
-import { breakPointsUp } from '@helper_theme';
+import { breakPointsDown, breakPointsUp } from '@helper_theme';
 import { setCookies, getCookies } from '@helper_cookies';
 import { setLocalStorage } from '@helper_localstorage';
 import { getAppEnv } from '@helpers/env';
@@ -34,7 +38,6 @@ const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false }
 const ScrollToTop = dynamic(() => import('@common_scrolltotop'), { ssr: false });
 const Footer = dynamic(() => import('@common_footer'), { ssr: false });
 const RestrictionPopup = dynamic(() => import('@common_restrictionPopup'), { ssr: false });
-const Newsletter = dynamic(() => import('@plugin_newsletter'), { ssr: false });
 const NewsletterPopup = dynamic(() => import('@core_modules/theme/components/newsletterPopup'), { ssr: false });
 const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/recentlyViewed'), { ssr: false });
 
@@ -54,11 +57,11 @@ const Layout = (props) => {
         onlyCms,
         withLayoutHeader = true,
         withLayoutFooter = true,
-        showRecentlyBar = true,
+        showRecentlyBar = false,
+        isHomepage = false,
+        isPdp = false,
     } = props;
-    const {
-        ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true,
-    } = pageConfig;
+    const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
     const appEnv = getAppEnv();
     const [state, setState] = useState({
@@ -235,10 +238,25 @@ const Layout = (props) => {
         // setMainMinimumHeight(refFooter.current.clientHeight + refHeader.current.clientHeight);
     }, []);
 
-    const desktop = breakPointsUp('sm');
+    const desktop = breakPointsUp('md');
+
+    const ipadUp = breakPointsUp('sm');
+    const ipadDown = breakPointsDown('md');
+
+    const ipadLUp = breakPointsUp('md');
+    const ipadLDown = breakPointsDown('lg');
+
+    const ipad = !!(ipadUp && ipadDown);
+    const ipadL = !!(ipadLUp && ipadLDown);
 
     const styles = {
-        marginBottom: pageConfig.bottomNav ? '60px' : 0,
+        marginBottom: (pageConfig.bottomNav && storeConfig?.pwa?.mobile_navigation === 'bottom_navigation')
+                        && storeConfig?.pwa?.enabler_footer_mobile === true ? '60px' : 0,
+    };
+
+    const footerMobile = {
+        marginBottom: pageConfig.bottomNav && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? '55px' : 0,
+        display: pageConfig.bottomNav && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? 'flex' : null,
     };
 
     if (!headerDesktop) {
@@ -247,6 +265,72 @@ const Layout = (props) => {
 
     if (typeof window !== 'undefined' && storeConfig) {
         setLocalStorage(storeConfigNameCookie, storeConfig);
+    }
+
+    let classMain;
+
+    if (storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header) {
+        if (storeConfig.pwa.header_version === 'v2') {
+            if (isHomepage) {
+                if (ipadL) {
+                    classMain = 'main-app-v2-ipad-landscape';
+                } else {
+                    classMain = 'main-app-v2';
+                }
+                classMain += ' main-app-homepage';
+            } else if (isPdp && desktop) {
+                classMain = 'main-app-v2-pdp';
+            } else if (isPdp && ipad && !desktop) {
+                classMain = 'main-app-sticky-v2-ipad';
+            } else {
+                classMain = 'main-app-v2-not-homepage';
+            }
+        } else if (storeConfig.pwa.header_version === 'v1') {
+            if (isHomepage) {
+                classMain = 'main-app-v1-sticky-homepage';
+            } else {
+                classMain = 'main-app-v1-sticky-not-homepage';
+            }
+        } else if (storeConfig.pwa.header_version === 'v4') {
+            if (isHomepage) {
+                if (ipad) {
+                    if (storeConfig.pwa.mobile_navigation === 'burger_menu') {
+                        classMain = 'main-app-sticky-v4-homepage';
+                    } else {
+                        classMain = 'main-app-sticky-v4-homepage-not-burgermenu';
+                    }
+                } else {
+                    classMain = 'main-app-sticky-v4-homepage';
+                }
+            } else if (isPdp) {
+                if (ipad) {
+                    classMain = 'main-app-sticky-v4-pdp-ipad';
+                } else {
+                    classMain = 'main-app-sticky-v4-pdp';
+                }
+            } else {
+                classMain = 'main-app-sticky-v4';
+            }
+        } else if (isHomepage) {
+            classMain = 'main-app-sticky-homepage';
+        } else {
+            classMain = 'main-app-sticky';
+        }
+    } else if (storeConfig && storeConfig.pwa && !storeConfig.pwa.enabler_sticky_header) {
+        if (storeConfig.pwa.header_version === 'v2') {
+            if (isHomepage) {
+                classMain = 'main-app-v2-not-sticky';
+                classMain += ' main-app-homepage';
+            } else if (isPdp && ipad) {
+                classMain = 'main-app-v2-ipad';
+            } else {
+                classMain = 'main-app-v2-not-sticky-not-homepage';
+            }
+        } else if (storeConfig.pwa.header_version === 'v4') {
+            classMain = 'main-app-not-sticky';
+        } else {
+            classMain = 'main-app-not-sticky';
+        }
     }
 
     return (
@@ -270,56 +354,52 @@ const Layout = (props) => {
                 <title>{pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}</title>
                 {schemaOrg
                     ? schemaOrg.map((val, idx) => (
-                        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
-                    ))
+                          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
+                      ))
                     : null}
-                {
-                    showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />
-                }
+                {showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />}
             </Head>
-            {showPopup ? <PopupInstallAppMobile appName={appName} installMessage={installMessage} /> : null}
+            {showPopup && storeConfig && storeConfig.pwa && storeConfig.pwa.header_version !== 'v2' ? (
+                <PopupInstallAppMobile appName={appName} installMessage={installMessage} />
+            ) : null}
             {withLayoutHeader && (
                 <header ref={refHeader}>
-                    { typeof window !== 'undefined'
-                        && storeConfig.global_promo && storeConfig.global_promo.enable
-                        && (
-                            <GlobalPromoMessage
-                                t={t}
+                    {typeof window !== 'undefined' && storeConfig.global_promo && storeConfig.global_promo.enable && (
+                        <GlobalPromoMessage
+                            t={t}
+                            storeConfig={storeConfig}
+                            showGlobalPromo={showGlobalPromo}
+                            handleClose={handleClosePromo}
+                            appName={appName}
+                            installMessage={installMessage}
+                        />
+                    )}
+                    <div className="hidden-mobile">
+                        {headerDesktop ? (
+                            <HeaderDesktop
                                 storeConfig={storeConfig}
+                                isLogin={isLogin}
+                                t={t}
+                                app_cookies={app_cookies}
                                 showGlobalPromo={showGlobalPromo}
-                                handleClose={handleClosePromo}
+                                enablePopupInstallation={showPopup}
                                 appName={appName}
                                 installMessage={installMessage}
+                                dataVesMenu={dataVesMenu}
+                                isHomepage={isHomepage}
                             />
-                        )}
-                    <div className="hidden-mobile">
-                        {headerDesktop
-                            ? (
-                                <HeaderDesktop
-                                    storeConfig={storeConfig}
-                                    isLogin={isLogin}
-                                    t={t}
-                                    app_cookies={app_cookies}
-                                    showGlobalPromo={showGlobalPromo}
-                                    enablePopupInstallation={showPopup}
-                                    appName={appName}
-                                    installMessage={installMessage}
-                                    dataVesMenu={dataVesMenu}
-                                />
-                            )
-                            : null}
+                        ) : null}
                     </div>
                     <div className="hidden-desktop">
                         {React.isValidElement(CustomHeader) ? (
                             <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
                         ) : (
-                            <HeaderMobile {...headerProps} pageConfig={pageConfig} />
+                                <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} isCheckout />
                         )}
                     </div>
                 </header>
             )}
-
-            <main style={{ ...styles }} className={!onlyCms ? 'main-app' : 'main-app main-app-cms'} id="maincontent">
+            <main style={{ ...styles }} className={classNames(!onlyCms ? 'main-app' : 'main-app main-app-cms', classMain)} id="maincontent">
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}
@@ -336,35 +416,33 @@ const Layout = (props) => {
             {withLayoutFooter && (
                 <footer className={bodyStyles.footerContainer} ref={refFooter}>
                     <div className="hidden-mobile">
-                        {modules.customer.plugin.newsletter.enabled && footer ? <Newsletter /> : null}
-
                         {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
                         <Copyright storeConfig={storeConfig} />
                     </div>
-                    {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />}
+                    {footer && storeConfig?.pwa?.enabler_footer_mobile === true
+                        ? (
+                            <div className="hidden-desktop" style={{ ...footerMobile }}>
+                                <Footer storeConfig={storeConfig} t={t} />
+                            </div>
+                        ) : null}
+                    {desktop ? null : storeConfig && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? (
+                        <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />
+                    ) : null}
                 </footer>
             )}
-            {
-                storeConfig.cookie_restriction && !restrictionCookies
-                && (
-                    <RestrictionPopup
-                        handleRestrictionCookies={handleRestrictionCookies}
-                        restrictionStyle={bodyStyles.cookieRestriction}
-                    />
-                )
-            }
-            {
-                showRecentlyBar && !onlyCms && (
-                    <RecentlyViewed
-                        isActive={storeConfig && storeConfig.weltpixel_RecentlyViewedBar_general_enable}
-                        recentlyBtn={bodyStyles.recentView}
-                        wrapperContent={bodyStyles.recentlyWrapperContent}
-                        recentlyBtnContent={bodyStyles.recentlyBtnContent}
-                        contentFeatured={bodyStyles.contentFeatured}
-                        className={bodyStyles.itemProduct}
-                    />
-                )
-            }
+            {storeConfig.cookie_restriction && !restrictionCookies && (
+                <RestrictionPopup handleRestrictionCookies={handleRestrictionCookies} restrictionStyle={bodyStyles.cookieRestriction} />
+            )}
+            {showRecentlyBar && !onlyCms && (
+                <RecentlyViewed
+                    isActive={storeConfig && storeConfig.weltpixel_RecentlyViewedBar_general_enable}
+                    recentlyBtn={bodyStyles.recentView}
+                    wrapperContent={bodyStyles.recentlyWrapperContent}
+                    recentlyBtnContent={bodyStyles.recentlyBtnContent}
+                    contentFeatured={bodyStyles.contentFeatured}
+                    className={bodyStyles.itemProduct}
+                />
+            )}
         </>
     );
 };

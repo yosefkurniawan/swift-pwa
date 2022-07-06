@@ -24,7 +24,7 @@ const SearchPage = (props) => {
     const [slideCat, setSlideCat] = useState(false);
     const [value, setValue] = React.useState('');
     const { open, storeConfig = {} } = props;
-    const vesMenu = storeConfig.pwa?.ves_menu_enable;
+    const vesMenu = storeConfig && storeConfig.pwa && storeConfig.pwa?.ves_menu_enable;
 
     const openSub = (cat) => {
         setOpenedCategory([cat]);

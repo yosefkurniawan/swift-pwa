@@ -115,6 +115,7 @@
         "trackingorder": "Tracking Order",
         "sign": "Sign In",
         "register": "Create Account",
+        "account": "Account",
         "or": "or",
         "notification": "Notification",
         "myaccount": "My Account",
@@ -139,7 +140,9 @@
         "emailFormat": "Invalid email format",
         "emptyValue": "Please insert email address",
         "firstname": "Enter your firstname",
-        "lastname": "Enter your lastname"
+        "lastname": "Enter your lastname",
+        "required": "Email is required",
+        "wrong": "Email is not valid"
     },
     "setting": {
         "title": "Setting",

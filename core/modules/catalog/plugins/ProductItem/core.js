@@ -105,11 +105,9 @@ const ProductItem = (props) => {
     let isLogin = '';
     if (typeof window !== 'undefined') isLogin = getLoginInfo();
 
-    const [getProduct, {
-        data: dataDetailProduct,
-        error: errorDetailProduct,
-        loading: loadingDetailProduct,
-    }] = getDetailProduct(storeConfig.pwa || {});
+    const [getProduct, { data: dataDetailProduct, error: errorDetailProduct, loading: loadingDetailProduct }] = getDetailProduct(
+        storeConfig.pwa || {},
+    );
 
     const [postAddWishlist] = addWishlist();
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
@@ -215,7 +213,9 @@ const ProductItem = (props) => {
         } else {
             const { name, small_image } = props;
             const sharedProp = {
-                name, small_image, price,
+                name,
+                small_image,
+                price,
             };
             const urlResolver = getResolver();
             urlResolver[`/${url_key}`] = {
@@ -223,13 +223,16 @@ const ProductItem = (props) => {
             };
             await setResolver(urlResolver);
             setCookies('lastCategory', categorySelect);
-            route.push({
-                pathname: '/[...slug]',
-                query: {
-                    slug: url_key,
-                    productProps: JSON.stringify(sharedProp),
+            route.push(
+                {
+                    pathname: '/[...slug]',
+                    query: {
+                        slug: url_key,
+                        productProps: JSON.stringify(sharedProp),
+                    },
                 },
-            }, `/${url_key}`);
+                `/${url_key}`,
+            );
         }
     };
 
@@ -246,10 +249,7 @@ const ProductItem = (props) => {
         if (errorDetailProduct) {
             window.backdropLoader(false);
         }
-        if (
-            !loadingDetailProduct
-            && dataDetailProduct?.products?.items?.length > 0
-        ) {
+        if (!loadingDetailProduct && dataDetailProduct?.products?.items?.length > 0) {
             window.backdropLoader(false);
             setOpenQuickView(true);
         }
@@ -279,6 +279,7 @@ const ProductItem = (props) => {
                         open={openQuickView}
                         onClose={() => setOpenQuickView(false)}
                         data={dataDetailProduct?.products}
+                        keyProduct={url_key}
                         t={t}
                         weltpixel_labels={weltpixel_labels}
                         storeConfig={storeConfig}

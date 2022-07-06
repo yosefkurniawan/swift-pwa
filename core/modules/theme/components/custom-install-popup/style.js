@@ -8,9 +8,11 @@ const useStyles = makeStyles((theme) => ({
         padding: '10px',
         background: '#bc2494',
         color: '#fff',
-        margin: 0,
+        marginTop: '56px',
         display: 'none',
         alignItems: 'center',
+        marginRight: '0px !important',
+        marginLeft: '0px !important',
     },
     titleMobile: {
         fontWeight: 'bold',
@@ -18,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     },
     iconClose: {
         width: '10%',
+    },
+    iconCloseV2: {
+        width: 'unset',
     },
     iconCloseButton: {
         width: '20px',
@@ -29,8 +34,14 @@ const useStyles = makeStyles((theme) => ({
     textContainer: {
         width: '65%',
     },
+    textContainerV2: {
+        width: 'unset',
+    },
     btnInstallContainer: {
         width: '25%',
+    },
+    btnInstallContainerV2: {
+        width: 'unset',
     },
     btnInstall: {
         background: WHITE,
@@ -41,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     popupInstallDesktop: {
-        display: 'none',
+        display: 'inline-block !important',
         position: 'absolute',
         top: '4px',
         fontSize: 13,
