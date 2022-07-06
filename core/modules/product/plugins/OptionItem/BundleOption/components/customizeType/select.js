@@ -8,6 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import { formatPrice } from '@helper_currency';
 import useStyles from '@plugin_optionitem/BundleOption/style';
+import React from 'react';
 
 const SelectItem = ({ data, options = [], selectOptions }) => {
     const styles = useStyles();
@@ -18,6 +19,7 @@ const SelectItem = ({ data, options = [], selectOptions }) => {
             defaultValue = element.id;
         }
     }
+
     return (
         <FormControl className={styles.selectItem}>
             <Select
@@ -26,17 +28,22 @@ const SelectItem = ({ data, options = [], selectOptions }) => {
                 value={defaultValue}
                 onChange={(e) => selectOptions(data, parseInt(e.target.value))}
             >
-                {options.map((val, idx) => (
-                    <MenuItem key={idx} value={val.id}>
-                        <label
-                            className="label-options"
-                            dangerouslySetInnerHTML={{
-                                __html: `${val.label} + <b>${formatPrice(val.product.price_range.minimum_price.final_price.value,
-                                    val.product.price_range.minimum_price.final_price.currency)}</b>`,
-                            }}
-                        />
-                    </MenuItem>
-                ))}
+                {}
+                {options
+                    .filter((opt) => opt.label != null || opt.product != null)
+                    .map((val, idx) => (
+                        <MenuItem key={idx} value={val.id}>
+                            <label
+                                className="label-options"
+                                dangerouslySetInnerHTML={{
+                                    __html: `${val.label} + <b>${formatPrice(
+                                        val.product.price_range.minimum_price.final_price.value,
+                                        val.product.price_range.minimum_price.final_price.currency,
+                                    )}</b>`,
+                                }}
+                            />
+                        </MenuItem>
+                    ))}
             </Select>
         </FormControl>
     );

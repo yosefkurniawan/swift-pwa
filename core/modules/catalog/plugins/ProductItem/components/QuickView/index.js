@@ -23,10 +23,16 @@ const QuickView = (props) => {
     const route = useRouter();
     const { t } = useTranslation(['common', 'product', 'catalog']);
     const {
-        onClose, selectedValue, open, data, weltpixel_labels, storeConfig = {},
+        onClose, selectedValue, keyProduct, open, data, weltpixel_labels, storeConfig = {},
     } = props;
+    let productKey;
+    for (let i = 0; i < data.items.length; i += 1) {
+        if (keyProduct === data.items[i].url_key) {
+            productKey = [i];
+        }
+    }
 
-    const product = data?.items[0];
+    const product = data?.items[productKey];
 
     const reviewValue = parseInt(product?.review?.rating_summary, 0) / 20;
 
@@ -126,16 +132,12 @@ const QuickView = (props) => {
                             customClassCaraousel={styles.caraousel}
                             storeConfig={storeConfig}
                         >
-                            {
-                                storeConfig?.pwa?.label_enable
-                                    && storeConfig?.pwa?.label_weltpixel_enable && (
-                                    <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel={false} />
-                                )
-                            }
+                            {storeConfig?.pwa?.label_enable && storeConfig?.pwa?.label_weltpixel_enable && (
+                                <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel={false} />
+                            )}
                         </Banner>
                     </div>
                     <div className={classNames(styles.body, 'col-xs-12 col-lg-6')}>
-
                         <div className={styles.titleContainer}>
                             <div className={styles.titlePriceContainer}>
                                 <Typography
@@ -175,25 +177,18 @@ const QuickView = (props) => {
                             </div>
                         </div>
                         <div className="row">
-                            {
-                                storeConfig?.pwa?.label_enable
-                                    && storeConfig?.pwa?.label_weltpixel_enable && (
-                                    <WeltpixelLabel
-                                        t={t}
-                                        weltpixel_labels={weltpixel_labels || []}
-                                        categoryLabel={false}
-                                        onDetailProduct
-                                    />
-                                )
-                            }
+                            {storeConfig?.pwa?.label_enable && storeConfig?.pwa?.label_weltpixel_enable && (
+                                <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels || []} categoryLabel={false} onDetailProduct />
+                            )}
                         </div>
 
                         <div className="hidden-desktop">
                             {' '}
                             <div className={styles.desc}>
                                 <Typography variant="span" type="regular" size="10">
-                                    {product.short_description.html
-                                        ? <span dangerouslySetInnerHTML={{ __html: product.short_description.html }} /> : null}
+                                    {product.short_description.html ? (
+                                        <span dangerouslySetInnerHTML={{ __html: product.short_description.html }} />
+                                    ) : null}
                                 </Typography>
                             </div>
                         </div>
@@ -201,7 +196,7 @@ const QuickView = (props) => {
                             <DesktopOptions
                                 price={price}
                                 t={t}
-                                data={data?.items[0]}
+                                data={product}
                                 setBanner={setBanner}
                                 setPrice={setPrice}
                                 setStockStatus={setStockStatus}
@@ -218,13 +213,7 @@ const QuickView = (props) => {
                                 align="left"
                                 onClick={() => route.push(`/${product.url_key}`)}
                             >
-                                <Typography
-                                    align="center"
-                                    type="bold"
-                                    letter="uppercase"
-                                    color="white"
-                                    variant="inherit"
-                                >
+                                <Typography align="center" type="bold" letter="uppercase" color="white" variant="inherit">
                                     {t('product:goToProduct')}
                                 </Typography>
                             </Button>
