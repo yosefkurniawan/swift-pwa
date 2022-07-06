@@ -125,8 +125,8 @@ export const storeConfig = `
         facebook_app_id
         facebook_meta_id_app_id
         facebook_meta_id_enable
-        footer_desktop
-        footer_mobile
+        footer_version
+        enabler_footer_mobile
         home_slider_desktop_height
         home_slider_desktop_width
         home_slider_mobile_height
@@ -145,6 +145,7 @@ export const storeConfig = `
         magezon_slider_desktop_width
         magezon_slider_mobile_height
         magezon_slider_mobile_width
+        mobile_navigation
         page_size
         paypal_debug
         paypal_enable

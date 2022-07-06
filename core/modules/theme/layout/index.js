@@ -33,7 +33,6 @@ const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false }
 const ScrollToTop = dynamic(() => import('@common_scrolltotop'), { ssr: false });
 const Footer = dynamic(() => import('@common_footer'), { ssr: false });
 const RestrictionPopup = dynamic(() => import('@common_restrictionPopup'), { ssr: false });
-const Newsletter = dynamic(() => import('@plugin_newsletter'), { ssr: false });
 const NewsletterPopup = dynamic(() => import('@core_modules/theme/components/newsletterPopup'), { ssr: false });
 const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/recentlyViewed'), { ssr: false });
 
@@ -227,7 +226,13 @@ const Layout = (props) => {
     const desktop = breakPointsUp('sm');
 
     const styles = {
-        marginBottom: pageConfig.bottomNav ? '60px' : 0,
+        marginBottom: (pageConfig.bottomNav && storeConfig?.pwa?.mobile_navigation === 'bottom_navigation')
+                        && storeConfig?.pwa?.enabler_footer_mobile === true ? '60px' : 0,
+    };
+
+    const footerMobile = {
+        marginBottom: pageConfig.bottomNav && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? '55px' : 0,
+        display: pageConfig.bottomNav && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? 'flex' : null,
     };
 
     if (!headerDesktop) {
@@ -325,12 +330,19 @@ const Layout = (props) => {
             {withLayoutFooter && (
                 <footer className={bodyStyles.footerContainer} ref={refFooter}>
                     <div className="hidden-mobile">
-                        {modules.customer.plugin.newsletter.enabled && footer ? <Newsletter /> : null}
-
                         {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
                         <Copyright storeConfig={storeConfig} />
                     </div>
-                    {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />}
+                    {footer && storeConfig?.pwa?.enabler_footer_mobile === true
+                        ? (
+                            <div className="hidden-desktop" style={{ ...footerMobile }}>
+                                <Footer storeConfig={storeConfig} t={t} />
+                            </div>
+                        ) : null}
+                    {/* {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />} */}
+                    {desktop ? null : storeConfig && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? (
+                        <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />
+                    ) : null}
                 </footer>
             )}
             {
