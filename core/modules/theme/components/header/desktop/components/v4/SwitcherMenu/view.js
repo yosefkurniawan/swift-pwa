@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
 
 const ViewSwitcherCurrency = (props) => {
     const {
-        t, title, id, open, anchorEl, currencyState, handleClick, handleClose, loading, app_cookies,
+        t, title, id, open, anchorEl, currencyState, handleClick, handleClose, loading,
     } = props;
 
     const router = useRouter();

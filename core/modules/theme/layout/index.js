@@ -11,8 +11,10 @@ import classNames from 'classnames';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
-// eslint-disable-next-line object-curly-newline
-import { custDataNameCookie, features, modules, debuging, assetsVersion, storeConfigNameCookie } from '@config';
+import crypto from 'crypto';
+import {
+    custDataNameCookie, features, modules, debuging, assetsVersion, storeConfigNameCookie,
+} from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsDown, breakPointsUp } from '@helper_theme';
 import { setCookies, getCookies } from '@helper_cookies';
@@ -212,10 +214,20 @@ const Layout = (props) => {
             const tagManagerArgs = {
                 dataLayer: {
                     pageName: pageConfig.title,
+                    pageType: pageConfig.pageType || 'other',
                     customerGroup: isLogin === 1 ? 'GENERAL' : 'NOT LOGGED IN',
                 },
             };
-            if (custData && custData.email) tagManagerArgs.dataLayer.customerId = custData.email;
+            if (custData && custData.email) {
+                tagManagerArgs.dataLayer.customerId = custData.id || custData.email;
+                const custEmail = custData.email.toLowerCase();
+                tagManagerArgs.dataLayer.eid = crypto.createHash('sha256').update(custEmail).digest('hex');
+            }
+            if (custData && custData.phonenumber && custData.is_phonenumber_valid) {
+                let custPhone = custData.phonenumber;
+                custPhone = `${custPhone}`;
+                tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
+            }
             TagManager.dataLayer(tagManagerArgs);
             if (enablePromo !== '' && storeConfig.global_promo && storeConfig.global_promo.enable) {
                 setShowGlobalPromo(enablePromo);

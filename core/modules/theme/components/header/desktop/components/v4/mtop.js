@@ -42,35 +42,6 @@ const ViewTop = (props) => {
 
     const maxHeightToShow = 600;
 
-    const renderAccount = () => {
-        if (!isLogin) {
-            if (desktop) {
-                return (
-                    <li>
-                        <Link href="/customer/account/login">
-                            <a>{t('common:menu:sign')}</a>
-                        </Link>
-                        {' '}
-                        {t('common:menu:or')}
-                        {' '}
-                        <Link href="/customer/account/create">
-                            <a>{t('common:menu:register')}</a>
-                        </Link>
-                        {' '}
-                    </li>
-                );
-            }
-            return (
-                <li>
-                    <Link href="/customer/account">
-                        <a>{t('common:menu:account')}</a>
-                    </Link>
-                </li>
-            );
-        }
-        return null;
-    };
-
     React.useEffect(() => {
         if (typeof window !== 'undefined' && storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header) {
             const topSearchbox = document.getElementById('top-searchbox');

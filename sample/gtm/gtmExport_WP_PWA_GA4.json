@@ -230,6 +230,58 @@
                 "formatValue": {}
             },
             {
+                "name": "PWA - GA4 - eid",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "eid"
+                    }
+                ],
+                "accountId": "6001204293",
+                "containerId": "31416035",
+                "variableId": 8,
+                "fingerprint": 1655177325,
+                "formatValue": {}
+            },
+            {
+                "name": "PWA - GA4 - pid",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "pid"
+                    }
+                ],
+                "accountId": "6001204293",
+                "containerId": "31416035",
+                "variableId": 9,
+                "fingerprint": 1655177325,
+                "formatValue": {}
+            },
+            {
                 "name": "PWA - GA4 - transaction_id",
                 "type": "v",
                 "parameter": [
@@ -251,7 +303,7 @@
                 ],
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "variableId": 8,
+                "variableId": 10,
                 "fingerprint": 1639454140,
                 "formatValue": {}
             },
@@ -277,7 +329,7 @@
                 ],
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "variableId": 9,
+                "variableId": 11,
                 "fingerprint": 1639454140,
                 "formatValue": {}
             },
@@ -303,7 +355,7 @@
                 ],
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "variableId": 10,
+                "variableId": 12,
                 "fingerprint": 1639454140,
                 "formatValue": {}
             },
@@ -329,7 +381,7 @@
                 ],
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "variableId": 11,
+                "variableId": 13,
                 "fingerprint": 1639454140,
                 "formatValue": {}
             },
@@ -355,7 +407,7 @@
                 ],
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "variableId": 12,
+                "variableId": 14,
                 "fingerprint": 1639454140,
                 "formatValue": {}
             },
@@ -381,7 +433,7 @@
                 ],
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "variableId": 13,
+                "variableId": 15,
                 "fingerprint": 1639454140,
                 "formatValue": {}
             },
@@ -407,7 +459,7 @@
                 ],
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "variableId": 14,
+                "variableId": 16,
                 "fingerprint": 1639454140,
                 "formatValue": {}
             },
@@ -433,7 +485,7 @@
                 ],
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "variableId": 15,
+                "variableId": 17,
                 "fingerprint": 1639454140,
                 "formatValue": {}
             },
@@ -459,7 +511,7 @@
                 ],
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "variableId": 16,
+                "variableId": 18,
                 "fingerprint": 1639454140,
                 "formatValue": {}
             },
@@ -485,7 +537,7 @@
                 ],
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "variableId": 17,
+                "variableId": 19,
                 "fingerprint": 1639454140,
                 "formatValue": {}
             }
@@ -1003,6 +1055,36 @@
                                         "value": "{{PWA - GA4 - customerId}}"
                                     }
                                 ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "eid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -1085,6 +1167,37 @@
                                         "type": "TEMPLATE",
                                         "key": "value",
                                         "value": "{{PWA - GA4 - customerId}}"
+                                    }
+                                ]
+                            },
+
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "eid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
                                     }
                                 ]
                             }
@@ -1171,6 +1284,36 @@
                                         "value": "{{PWA - GA4 - customerId}}"
                                     }
                                 ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "eid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -1255,7 +1398,38 @@
                                         "value": "{{PWA - GA4 - customerId}}"
                                     }
                                 ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "eid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
+                                    }
+                                ]
                             }
+                            
                         ]
                     },
                     {
@@ -1337,6 +1511,36 @@
                                         "type": "TEMPLATE",
                                         "key": "value",
                                         "value": "{{PWA - GA4 - customerId}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "eid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
                                     }
                                 ]
                             }
@@ -1519,6 +1723,36 @@
                                         "value": "{{PWA - GA4 - customerId}}"
                                     }
                                 ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "eid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -1601,6 +1835,36 @@
                                         "type": "TEMPLATE",
                                         "key": "value",
                                         "value": "{{PWA - GA4 - customerId}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "eid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
                                     }
                                 ]
                             },
@@ -1822,6 +2086,36 @@
                                         "value": "{{PWA - GA4 - customerId}}"
                                     }
                                 ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "eid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -1904,6 +2198,36 @@
                                         "type": "TEMPLATE",
                                         "key": "value",
                                         "value": "{{PWA - GA4 - customerId}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "eid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
                                     }
                                 ]
                             }
@@ -1990,6 +2314,36 @@
                                         "value": "{{PWA - GA4 - customerId}}"
                                     }
                                 ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "eid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -2072,6 +2426,36 @@
                                         "type": "TEMPLATE",
                                         "key": "value",
                                         "value": "{{PWA - GA4 - customerId}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "eid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
                                     }
                                 ]
                             }
@@ -2240,6 +2624,36 @@
                                         "type": "TEMPLATE",
                                         "key": "value",
                                         "value": "{{PWA - GA4 - customerId}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "eid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
                                     }
                                 ]
                             }
