@@ -21,9 +21,6 @@ const useStyles = makeStyles((theme) => ({
     iconClose: {
         width: '10%',
     },
-    iconCloseV2: {
-        width: 'unset',
-    },
     iconCloseButton: {
         width: '20px',
         height: '20px',
@@ -34,14 +31,8 @@ const useStyles = makeStyles((theme) => ({
     textContainer: {
         width: '65%',
     },
-    textContainerV2: {
-        width: 'unset',
-    },
     btnInstallContainer: {
         width: '25%',
-    },
-    btnInstallContainerV2: {
-        width: 'unset',
     },
     btnInstall: {
         background: WHITE,
@@ -52,10 +43,10 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     popupInstallDesktop: {
-        display: 'inline-block !important',
+        display: 'none',
         position: 'absolute',
         top: '4px',
-        fontSize: 13,
+        fontSize: 10,
         [theme.breakpoints.up('sm')]: {
             position: 'relative',
             background: '#bc2494',
@@ -68,13 +59,14 @@ const useStyles = makeStyles((theme) => ({
             },
         },
         [theme.breakpoints.up('md')]: {
-            position: 'absolute',
-            top: '4px',
-            left: '0',
+            position: 'relative',
+            display: 'block !important',
+            top: 0,
+            right: '0',
             background: 'unset',
             padding: 'unset',
             color: BLACK,
-            margin: 'unset',
+            margin: 0,
             '& button': {
                 background: BLACK,
                 color: WHITE,
@@ -82,7 +74,8 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     btnInstallDesktop: {
-        fontSize: 11,
+        fontSize: 10,
+        margin: '0rem 1rem',
     },
 }));
 

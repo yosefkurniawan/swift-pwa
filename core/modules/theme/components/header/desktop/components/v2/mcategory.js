@@ -5,7 +5,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { WHITE, PRIMARY } from '@theme_color';
+import { PRIMARY } from '@theme_color';
 import getPath from '@helper_getpath';
 import { setResolver, getResolver } from '@helper_localstorage';
 import Link from 'next/link';
@@ -81,7 +81,7 @@ const Menu = (props) => {
                                     </>
                                 ) : (
                                     <a href="#" dangerouslySetInnerHTML={{ __html: val.name }} />
-                                ) }
+                                )}
 
                                 {val.children.length > 0 ? (
                                     <div className="mega-menu row" aria-hidden="true" role="menu">
@@ -133,7 +133,7 @@ const Menu = (props) => {
 
                     /* menu links */
                     .nav > li > a {
-                        background: ${WHITE};
+                        background: transparent;
                         color: ${PRIMARY};
                         display: block;
                         font-weight: bold;

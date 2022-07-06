@@ -81,7 +81,7 @@ const Menu = (props) => {
                                     </>
                                 ) : (
                                     <a href="#" dangerouslySetInnerHTML={{ __html: val.name }} />
-                                ) }
+                                )}
 
                                 {val.children.length > 0 ? (
                                     <div className="mega-menu row" aria-hidden="true" role="menu">
@@ -220,9 +220,9 @@ const Menu = (props) => {
                         position: absolute;
                         transition: all 0s ease 0s;
                         visibility: hidden;
-                        width: 190%;
+                        width: 140%;
                         left: 0;
-                        // margin-left: -18%;
+                        margin-left: -18%;
                         min-height: 300px;
                     }
                     li:hover > .mega-menu {

@@ -8,7 +8,7 @@ const BannerSlider = (props) => {
     const {
         storeConfig, t, slider_id,
     } = props;
-    const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
+    const logoUrl = `${storeConfig && storeConfig.secure_base_media_url}logo/${storeConfig && storeConfig.header_logo_src}`;
     const { loading, data, error } = gqlService.getSlider({
         skip: !storeConfig,
         variables: {

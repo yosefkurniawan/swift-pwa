@@ -581,7 +581,7 @@ const PageDetail = (props) => {
     };
 
     return (
-        <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
+        <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props} isPdp>
             <ContentDetail
                 keyProduct={productByUrl}
                 product={product}
