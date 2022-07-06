@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const NewsletterView = (props) => {
     // base props
     const {
-        formik, loading, t, ...others
+        formik, loading, t, type, storeConfig, ...others
     } = props;
 
     // magezon newsletter props
@@ -53,9 +53,11 @@ const NewsletterView = (props) => {
         <div>
             <div className="newsletter-container">
                 <div className="wrapper">
+                {type === 'pwa-newsletter-subscribe' ? null :
                     <div className="title">
                         <h3>{isCms && title ? title : t('common:newsletter:title')}</h3>
                     </div>
+                }
                     {isCms && description ? (
                         <div className="description">
                             <p>{description}</p>
@@ -77,6 +79,9 @@ const NewsletterView = (props) => {
                                                 error={(!!formik.errors.email).toString()}
                                                 errormessage={formik.errors.email || null}
                                             />
+                                            {formik.errors.email ? (
+                                                <p className='error-validation'>{formik.errors.email}</p>
+                                            ) : null}
                                         </label>
                                     </div>
                                 </div>
@@ -126,14 +131,14 @@ const NewsletterView = (props) => {
                                         onClick={() =>
                                             formik.values.email === ''
                                                 ? window.toastMessage({
-                                                      open: true,
-                                                      variant: 'error',
-                                                      text: t('common:newsletter:emptyValue'),
-                                                  })
+                                                    open: true,
+                                                    variant: 'error',
+                                                    text: t('common:newsletter:emptyValue'),
+                                                })
                                                 : ''
                                         }
                                     >
-                                        {loading ? <CircularProgress color="inherit" size={14} /> : <span>{t('common:newsletter:buttonLabel')}</span>}
+                                        {loading ? <CircularProgress color="inherit" size={14} /> : <span>{storeConfig?.pwa?.footer_version !== 'pwa_footer_v2' ? 'Sign Up' : t('common:newsletter:buttonLabel')}</span>}
                                     </button>
                                 </div>
                             </form>
@@ -156,7 +161,6 @@ const NewsletterView = (props) => {
                     }
                     .wrapper {
                         position: absolute;
-                        text-align: center;
                         width: 100%;
                         top: 45%;
                         left: 50%;
@@ -296,6 +300,14 @@ const NewsletterView = (props) => {
                         margin-bottom: 10px;
                         text-align: left;
                         margin-left: 10px;
+                    }
+                    .error-validation {
+                        text-align: left;
+                        font-weight: 300;
+                        font-size: 10px;
+                        color: #ff0000;
+                        margin: 5px;
+                        margin-bottom: -20px;
                     }
                 `}
             </style>
