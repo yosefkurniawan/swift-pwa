@@ -269,7 +269,6 @@ const Layout = (props) => {
     }
 
     useEffect(() => {
-        console.log(getLocalStorage('storeConfig').pwa);
 
         if (storeConfig && storeConfig.pwa && typeof window !== 'undefined') {
             const pwaConfig = storeConfig.pwa;
