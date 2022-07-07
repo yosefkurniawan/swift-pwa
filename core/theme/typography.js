@@ -1,5 +1,9 @@
+import { getLocalStorage } from '@helper_localstorage';
+
+const pwaConfig = getLocalStorage('storeConfig');
+
 export const FONT_DEFAULT = {
-    fontFamily: 'Montserrat !important',
+    fontFamily: pwaConfig && pwaConfig.pwa && pwaConfig.pwa.default_font ? `${pwaConfig.pwa.default_font} !important` : 'Montserrat !important',
 };
 
 export const FONT_6 = {

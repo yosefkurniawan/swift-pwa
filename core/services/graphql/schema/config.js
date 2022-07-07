@@ -181,6 +181,21 @@ export const storeConfig = `
         ves_menu_alias
         ves_menu_enable
         ves_menu_enable
+        primary_color
+        secondary_color
+        background_color
+        error_color
+        warning_msg_color
+        success_msg_color
+        font_color
+        default_font
+        heading_font
+        button_background_color
+        button_background_hover_color
+        link_color
+        link_hover_color
+        link_font_decoration
+        link_font_hover_decoration
       }
       store_name
       welcome

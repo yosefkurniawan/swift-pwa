@@ -28,6 +28,7 @@ import Copyright from '@core_modules/theme/components/footer/desktop/components/
 import { localTotalCart } from '@services/graphql/schema/local';
 import { getCountCart } from '@core_modules/theme/services/graphql';
 import { getCartId } from '@helper_cartid';
+import { getLocalStorage } from "@helper_localstorage";
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
@@ -266,6 +267,37 @@ const Layout = (props) => {
     if (typeof window !== 'undefined' && storeConfig) {
         setLocalStorage(storeConfigNameCookie, storeConfig);
     }
+
+    useEffect(() => {
+        console.log(getLocalStorage('storeConfig').pwa);
+
+        if (storeConfig && storeConfig.pwa && typeof window !== 'undefined') {
+            const pwaConfig = storeConfig.pwa;
+
+            const stylesheet = document.createElement('style');
+            if (pwaConfig) {
+                stylesheet.innerHTML = `
+                    .nav > li > a {
+                        color: ${pwaConfig.primary_color};
+                    }
+                    .MuiButton-root:hover {
+                        background-color: ${pwaConfig.button_background_hover_color};
+                    }
+                    a {
+                        color: ${pwaConfig.link_color} !important;
+                        text-decoration: ${pwaConfig.link_font_decoration} !important;
+                    }
+
+                    a:hover {
+                        border-bottom: 1px dashed #fff;
+                        color: ${pwaConfig.link_hover_color} !important;
+                        text-decoration: ${pwaConfig.link_font_hover_decoration} !important;
+                    }
+                `;
+                document.head.appendChild(stylesheet);
+            }
+        }
+    }, [storeConfig])
 
     let classMain;
 
