@@ -28,7 +28,6 @@ import Copyright from '@core_modules/theme/components/footer/desktop/components/
 import { localTotalCart } from '@services/graphql/schema/local';
 import { getCountCart } from '@core_modules/theme/services/graphql';
 import { getCartId } from '@helper_cartid';
-import { getLocalStorage } from "@helper_localstorage";
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
@@ -296,7 +295,7 @@ const Layout = (props) => {
                 document.head.appendChild(stylesheet);
             }
         }
-    }, [storeConfig])
+    }, [storeConfig]);
 
     let classMain;
 
