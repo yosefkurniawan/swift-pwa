@@ -192,6 +192,13 @@ export const storeConfig = `
         heading_font
         button_background_color
         button_background_hover_color
+        button_disable_text_color
+        button_disable_background_color
+        button_text_color
+        button_text_hover_color
+        button_disable_text_color
+        button_border_color
+        button_border_hover_color
         link_color
         link_hover_color
         link_font_decoration
@@ -251,6 +258,37 @@ export const storeConfig = `
       minimum_order_enable
     }
   }  
+`;
+
+export const frontendOptions = `
+{
+    storeConfig {
+        pwa {
+            primary_color
+            secondary_color
+            background_color
+            error_color
+            warning_msg_color
+            success_msg_color
+            font_color
+            default_font
+            heading_font
+            button_background_color
+            button_background_hover_color
+            button_disable_text_color
+            button_disable_background_color
+            button_text_color
+            button_text_hover_color
+            button_disable_text_color
+            button_border_color
+            button_border_hover_color
+            link_color
+            link_hover_color
+            link_font_decoration
+            link_font_hover_decoration
+        }
+    }
+}
 `;
 
 export const getCmsList = `
