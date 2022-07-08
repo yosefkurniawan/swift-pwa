@@ -1,7 +1,7 @@
 /* eslint-disable object-curly-newline */
 import { createMuiTheme } from '@material-ui/core/styles';
 import {
-    GRAY_SECONDARY, PRIMARY, SECONDARY, BACKGROUND_COLOR, ERROR_COLOR,
+    GRAY_SECONDARY, PRIMARY, SECONDARY, BACKGROUND_COLOR, ERROR_COLOR, WARNING_COLOR, SUCCESS_COLOR,
 } from '@theme_color';
 import { FONT_24, FONT_DEFAULT, FONT_HEADING, FONT_REGULAR } from '@theme_typography';
 import { BREAKPOINTS } from '@theme_vars';
@@ -17,6 +17,12 @@ const theme = createMuiTheme({
         },
         error: {
             main: ERROR_COLOR,
+        },
+        success: {
+            main: SUCCESS_COLOR,
+        },
+        warning: {
+            main: WARNING_COLOR,
         },
         background: {
             default: BACKGROUND_COLOR,

@@ -275,10 +275,7 @@ const Layout = (props) => {
             if (pwaConfig) {
                 stylesheet.innerHTML = `
                     body {
-                        font-family: '${pwaConfig.default_font}' !important;
-                    }
-                    h1, h2, h3, h4, h5, h6 {
-                        font-family: '${pwaConfig.heading_font}' !important;
+                        color: ${pwaConfig.font_color || '#000000'};
                     }
                     .nav > li > a {
                         color: ${pwaConfig.primary_color};
@@ -302,25 +299,19 @@ const Layout = (props) => {
                         background-color: ${pwaConfig.button_background_hover_color || '#FFFFFF'};
                     }
                     .MuiButton-root.Mui-disabled {
-                        color: ${pwaConfig.button_disable_text_color || '#DEDEDE'};
+                        color: ${pwaConfig.button_disabled_text_color || '#DEDEDE'};
                     }
                     .MuiButton-textPrimary {
                         color: ${pwaConfig.button_text_color || '#000000'};
                     }
-                    // .MuiButton-textPrimary:hover {
-                    //     background-color: rgba(22, 191, 9, 0.04);
-                    // }
                     .MuiButton-textSecondary {
                         color: ${pwaConfig.button_text_color || '#000000'};
                     }
-                    // .MuiButton-textSecondary:hover {
-                    //     background-color: rgba(35, 129, 91, 0.04);
-                    // }
                     .MuiButton-outlined {
                         border: 1px solid ${pwaConfig.button_border_color || '#000000'};
                     }
                     .MuiButton-outlined.Mui-disabled {
-                        border: 1px solid ${pwaConfig.button_disable_background_color || '#DEDEDE'};
+                        border: 1px solid ${pwaConfig.button_disabled_background_color || '#DEDEDE'};
                     }
                     .MuiButton-outlinedPrimary {
                         color: ${pwaConfig.button_text_color || '#000000'};
@@ -349,11 +340,11 @@ const Layout = (props) => {
                         background-color: ${pwaConfig.button_background_hover_color || '#DEDEDE'};
                     }
                     .MuiButton-contained.Mui-disabled {
-                        color: rgba(0, 0, 0, 0.26);
-                        background-color: ${pwaConfig.button_disable_background_color || '#DEDEDE'};
+                        color: ${pwaConfig.button_disabled_text_color || '#000000'};
+                        background-color: ${pwaConfig.button_disabled_background_color || '#DEDEDE'};
                     }
                     .MuiButton-contained:hover.Mui-disabled {
-                        background-color: ${pwaConfig.button_disable_background_color || '#DEDEDE'};
+                        background-color: ${pwaConfig.button_disabled_background_color || '#DEDEDE'};
                     }
                     .MuiButton-containedPrimary {
                         color: ${pwaConfig.button_text_color || '#FFFFFF'};
@@ -389,8 +380,12 @@ const Layout = (props) => {
                         color: ${pwaConfig.button_background_color || '#000000'};
                     }
                     .MuiSvgIcon-colorDisabled {
-                        color: ${pwaConfig.button_disable_background_color || '#DEDEDE'};
+                        color: ${pwaConfig.button_disabled_background_color || '#DEDEDE'};
                     }
+
+                    // TYPOGRAPHY SECTION
+                    .MuiTypography-root {
+                        color: ${pwaConfig.font_color || '#000000'} !important;
                 `;
                 document.head.appendChild(stylesheet);
             }
