@@ -15,8 +15,18 @@ import useStyles from '@core_modules/customer/pages/profile/components/style';
 const ProfileForm = (props) => {
     const styles = useStyles();
     const {
-        t, formik, handleChangePhone, handleWa, phoneIsWa, setEditEmail,
-        editEmail, setEditPass, editPass, updateCustomerStatus, changeCustomerPasswordStatus,
+        t,
+        formik,
+        handleChangePhone,
+        handleWa,
+        phoneIsWa,
+        setEditEmail,
+        editEmail,
+        setEditPass,
+        editPass,
+        updateCustomerStatus,
+        changeCustomerPasswordStatus,
+        handleChangeWa,
     } = props;
     const desktop = breakPointsUp('sm');
     return (
@@ -26,38 +36,26 @@ const ProfileForm = (props) => {
                 name="firstName"
                 value={formik.values.firstName}
                 onChange={formik.handleChange}
-                error={
-                    !!(formik.touched.firstName && formik.errors.firstName)
-                }
-                errorMessage={
-                    (formik.touched.firstName && formik.errors.firstName)
-                    || null
-                }
+                error={!!(formik.touched.firstName && formik.errors.firstName)}
+                errorMessage={(formik.touched.firstName && formik.errors.firstName) || null}
             />
             <TextField
                 label={t('common:form:lastName')}
                 name="lastName"
                 value={formik.values.lastName}
                 onChange={formik.handleChange}
-                error={
-                    !!(formik.touched.lastName && formik.errors.lastName)
-                }
-                errorMessage={
-                    (formik.touched.lastName && formik.errors.lastName) || null
-                }
+                error={!!(formik.touched.lastName && formik.errors.lastName)}
+                errorMessage={(formik.touched.lastName && formik.errors.lastName) || null}
             />
 
             <TextField
+                type="phone"
                 label={t('common:form:phoneNumber')}
                 name="phonenumber"
                 value={formik.values.phonenumber}
                 onChange={handleChangePhone}
-                error={
-                    !!(formik.touched.phonenumber && formik.errors.phonenumber)
-                }
-                errorMessage={
-                    (formik.touched.phonenumber && formik.errors.phonenumber) || null
-                }
+                error={!!(formik.touched.phonenumber && formik.errors.phonenumber)}
+                errorMessage={(formik.touched.phonenumber && formik.errors.phonenumber) || null}
                 footer={(
                     <FormControlLabel
                         onChange={handleWa}
@@ -69,10 +67,11 @@ const ProfileForm = (props) => {
             />
             {!phoneIsWa && (
                 <TextField
+                    type="phone"
                     label={`${t('common:form:phoneNumber')} Whatsapp`}
                     name="whatsapp_number"
                     value={formik.values.whatsapp_number}
-                    onChange={formik.handleChange}
+                    onChange={handleChangeWa}
                     error={!!(formik.touched.whatsapp_number && formik.errors.whatsapp_number)}
                     errorMessage={(formik.touched.whatsapp_number && formik.errors.whatsapp_number) || null}
                 />
@@ -80,14 +79,7 @@ const ProfileForm = (props) => {
             <FormControlLabel
                 className={styles.checkboxLabel}
                 onChange={() => setEditEmail(!editEmail)}
-                control={(
-                    <Checkbox
-                        checked={editEmail}
-                        name="emailCheckbox"
-                        color="primary"
-                        size="medium"
-                    />
-                )}
+                control={<Checkbox checked={editEmail} name="emailCheckbox" color="primary" size="medium" />}
                 label={(
                     <Typography variant="span">
                         {t('common:button:change')}
@@ -100,14 +92,7 @@ const ProfileForm = (props) => {
             <FormControlLabel
                 className={styles.checkboxLabel}
                 onChange={() => setEditPass(!editPass)}
-                control={(
-                    <Checkbox
-                        checked={editPass}
-                        name="passwordCheckbox"
-                        color="primary"
-                        size="medium"
-                    />
-                )}
+                control={<Checkbox checked={editPass} name="passwordCheckbox" color="primary" size="medium" />}
                 label={(
                     <Typography variant="span">
                         {t('common:button:change')}
@@ -125,12 +110,8 @@ const ProfileForm = (props) => {
                         name="email"
                         value={formik.values.email}
                         onChange={formik.handleChange}
-                        error={
-                            !!(formik.touched.email && formik.errors.email)
-                        }
-                        errorMessage={
-                            (formik.touched.email && formik.errors.email) || null
-                        }
+                        error={!!(formik.touched.email && formik.errors.email)}
+                        errorMessage={(formik.touched.email && formik.errors.email) || null}
                     />
                 </div>
                 <div className={editEmail || editPass ? 'show' : 'hide'}>
@@ -140,15 +121,8 @@ const ProfileForm = (props) => {
                         name="currentPassword"
                         value={formik.values.currentPassword}
                         onChange={formik.handleChange}
-                        error={
-                            !!(formik.touched.currentPassword
-                            && formik.errors.currentPassword)
-                        }
-                        errorMessage={
-                            (formik.touched.currentPassword
-                                && formik.errors.currentPassword)
-                            || null
-                        }
+                        error={!!(formik.touched.currentPassword && formik.errors.currentPassword)}
+                        errorMessage={(formik.touched.currentPassword && formik.errors.currentPassword) || null}
                     />
                 </div>
                 <div className={editPass ? 'show' : 'hide'}>
@@ -159,14 +133,8 @@ const ProfileForm = (props) => {
                         name="password"
                         value={formik.values.password}
                         onChange={formik.handleChange}
-                        error={
-                            !!(formik.touched.password && formik.errors.password)
-                        }
-                        errorMessage={
-                            (formik.touched.password
-                                && formik.errors.password)
-                            || null
-                        }
+                        error={!!(formik.touched.password && formik.errors.password)}
+                        errorMessage={(formik.touched.password && formik.errors.password) || null}
                     />
                     <TextField
                         label={t('common:form:confirm')}
@@ -174,15 +142,8 @@ const ProfileForm = (props) => {
                         name="confirmPassword"
                         value={formik.values.confirmPassword}
                         onChange={formik.handleChange}
-                        error={
-                            !!(formik.touched.confirmPassword
-                            && formik.errors.confirmPassword)
-                        }
-                        errorMessage={
-                            (formik.touched.confirmPassword
-                                && formik.errors.confirmPassword)
-                            || null
-                        }
+                        error={!!(formik.touched.confirmPassword && formik.errors.confirmPassword)}
+                        errorMessage={(formik.touched.confirmPassword && formik.errors.confirmPassword) || null}
                     />
                 </div>
             </div>
@@ -208,10 +169,7 @@ const ProfilePage = (props) => {
 
     return (
         <Layout {...props}>
-            <ProfileForm
-                {...props}
-                data={data.customer}
-            />
+            <ProfileForm {...props} data={data.customer} />
         </Layout>
     );
 };

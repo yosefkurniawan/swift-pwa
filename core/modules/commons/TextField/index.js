@@ -1,12 +1,15 @@
 import FormControl from '@material-ui/core/FormControl';
+import React from 'react';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import classNames from 'classnames';
 import Typography from '@common_typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import useStyles from '@common_textfield/style';
+import PhoneInput from 'react-phone-number-input';
 
 const CustomTextField = ({
+    type = null,
     placeholder = '',
     disabled = false,
     onChange = () => {},
@@ -24,7 +27,8 @@ const CustomTextField = ({
 }) => {
     const styles = useStyles();
     const customClass = classNames(styles.container, className);
-    return (
+
+    let customTextFieldInput = (
         <FormControl disabled={disabled || loading} fullWidth={fullWidth} error={error} variant={variant} className={customClass}>
             <InputLabel shrink={shrink} htmlFor={label} className={styles.label}>
                 {label}
@@ -46,6 +50,26 @@ const CustomTextField = ({
             )}
         </FormControl>
     );
+    if (type === 'phone') {
+        customTextFieldInput = (
+            <FormControl disabled={disabled || loading} fullWidth={fullWidth} error={error} variant={variant} className={customClass}>
+                <InputLabel shrink={shrink} htmlFor={label} className={styles.label}>
+                    {label}
+                </InputLabel>
+
+                <PhoneInput international countryCallingCodeEditable={false} defaultCountry="ID" value={value} onChange={onChange} />
+
+                {React.isValidElement(footer) ? (
+                    footer
+                ) : (
+                    <Typography variant="p" color={error ? 'red' : 'default'}>
+                        {errorMessage}
+                    </Typography>
+                )}
+            </FormControl>
+        );
+    }
+    return customTextFieldInput;
 };
 
 export default CustomTextField;
