@@ -5,11 +5,7 @@ import { modules } from '@config';
 import Router from 'next/router';
 import React, { useState } from 'react';
 import TagManager from 'react-gtm-module';
-import {
-    getGuestCartId as queryGetGuestCartId,
-    getCustomerCartId,
-    addConfigurableProductsToCart,
-} from '@core_modules/product/services/graphql';
+import { getGuestCartId as queryGetGuestCartId, getCustomerCartId, addConfigurableProductsToCart } from '@core_modules/product/services/graphql';
 
 const CoreSimpleOptionItem = ({
     setOpen = () => {},
@@ -28,8 +24,7 @@ const CoreSimpleOptionItem = ({
     let cartId = '';
     let isLogin = '';
     const {
-        __typename, sku, name, categories,
-        price_range, stock_status, url_key,
+        __typename, sku, name, categories, price_range, stock_status, url_key,
     } = data;
 
     if (typeof window !== 'undefined') {
@@ -57,9 +52,7 @@ const CoreSimpleOptionItem = ({
                 if (customizable_options.length > 0) {
                     const findOptions = customizable_options.find((item) => item.id === op.option_id);
                     if (findOptions) {
-                        customizable_options = customizable_options.filter(
-                            (item) => item.id !== op.option_id,
-                        );
+                        customizable_options = customizable_options.filter((item) => item.id !== op.option_id);
                         if (op.isEnteredOption) {
                             entered_options.push({
                                 uid: op.uid,
@@ -84,7 +77,8 @@ const CoreSimpleOptionItem = ({
                     }
                 }
                 if (customizable_options.length === 0) {
-                    if (op.__typename === 'CustomizableFieldValue'
+                    if (
+                        op.__typename === 'CustomizableFieldValue'
                         || op.__typename === 'CustomizableAreaValue'
                         || op.__typename === 'CustomizableDateValue'
                     ) {
@@ -122,10 +116,11 @@ const CoreSimpleOptionItem = ({
                             setCartId(token);
                         })
                         .catch((e) => {
+                            const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                             setLoading(false);
                             window.toastMessage({
                                 ...errorMessage,
-                                text: e.message.split(':')[1] || errorMessage.text,
+                                text: originalError || errorMessage.text,
                             });
                         });
                 } else if (cartUser.data && cartUser.data.customerCart) {
@@ -154,15 +149,17 @@ const CoreSimpleOptionItem = ({
                         ecommerce: {
                             currencyCode: price_range.minimum_price.regular_price.currency || 'USD',
                             add: {
-                                products: [{
-                                    name,
-                                    id: sku,
-                                    price: price_range.minimum_price.regular_price.value || 0,
-                                    category: categories.length > 0 ? categories[0].name : '',
-                                    list: categories.length > 0 ? categories[0].name : '',
-                                    quantity: qty,
-                                    dimensions4: stock_status,
-                                }],
+                                products: [
+                                    {
+                                        name,
+                                        id: sku,
+                                        price: price_range.minimum_price.regular_price.value || 0,
+                                        category: categories.length > 0 ? categories[0].name : '',
+                                        list: categories.length > 0 ? categories[0].name : '',
+                                        quantity: qty,
+                                        dimensions4: stock_status,
+                                    },
+                                ],
                             },
                         },
                     },
@@ -182,9 +179,11 @@ const CoreSimpleOptionItem = ({
                             Router.push(`/${url_key}`);
                         }
                         setLoading(false);
+                        const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
+
                         window.toastMessage({
                             ...errorMessage,
-                            text: e.message.split(':')[1] || errorMessage.text,
+                            text: originalError || errorMessage.text,
                         });
                     });
             }

@@ -8,15 +8,9 @@ import TagManager from 'react-gtm-module';
 import { addSimpleProductsToCart, getGuestCartId as queryGetGuestCartId, getCustomerCartId } from '../../../../../../services/graphql';
 
 const OptionsitemSimple = ({
-    setOpen,
-    t,
-    data: {
-        __typename, sku, name, categories,
-        price_range, stock_status,
-    },
-    loading,
-    setLoading,
-    Footer,
+    setOpen, t, data: {
+        __typename, sku, name, categories, price_range, stock_status,
+    }, loading, setLoading, Footer,
 }) => {
     const [qty, setQty] = React.useState(1);
     const client = useApolloClient();
@@ -48,10 +42,11 @@ const OptionsitemSimple = ({
                         setCartId(token);
                     })
                     .catch((e) => {
+                        const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                         setLoading(false);
                         window.toastMessage({
                             ...errorMessage,
-                            text: e.message.split(':')[1] || errorMessage.text,
+                            text: originalError || errorMessage.text,
                         });
                     });
             } else {
@@ -68,15 +63,17 @@ const OptionsitemSimple = ({
                     ecommerce: {
                         currencyCode: price_range.minimum_price.regular_price.currency || 'USD',
                         add: {
-                            products: [{
-                                name,
-                                id: sku,
-                                price: price_range.minimum_price.regular_price.value || 0,
-                                category: categories.length > 0 ? categories[0].name : '',
-                                list: categories.length > 0 ? categories[0].name : '',
-                                quantity: qty,
-                                dimensions4: stock_status,
-                            }],
+                            products: [
+                                {
+                                    name,
+                                    id: sku,
+                                    price: price_range.minimum_price.regular_price.value || 0,
+                                    category: categories.length > 0 ? categories[0].name : '',
+                                    list: categories.length > 0 ? categories[0].name : '',
+                                    quantity: qty,
+                                    dimensions4: stock_status,
+                                },
+                            ],
                         },
                     },
                 },
@@ -99,25 +96,17 @@ const OptionsitemSimple = ({
                     setOpen(false);
                 })
                 .catch((e) => {
+                    const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                     setLoading(false);
                     window.toastMessage({
                         ...errorMessage,
-                        text: e.message.split(':')[1] || errorMessage.text,
+                        text: originalError || errorMessage.text,
                     });
                 });
         }
     };
 
-    return (
-        <Footer
-            qty={qty}
-            setQty={setQty}
-            handleAddToCart={handleAddToCart}
-            t={t}
-            loading={loading}
-            disabled={stock_status === 'OUT_OF_STOCK'}
-        />
-    );
+    return <Footer qty={qty} setQty={setQty} handleAddToCart={handleAddToCart} t={t} loading={loading} disabled={stock_status === 'OUT_OF_STOCK'} />;
 };
 
 export default OptionsitemSimple;

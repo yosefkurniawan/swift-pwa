@@ -9,7 +9,10 @@ import Router from 'next/router';
 import React from 'react';
 import TagManager from 'react-gtm-module';
 import {
-    addDownloadProductToCart, getDownloadroduct, getGuestCartId as queryGetGuestCartId, getCustomerCartId,
+    addDownloadProductToCart,
+    getDownloadroduct,
+    getGuestCartId as queryGetGuestCartId,
+    getCustomerCartId,
 } from '@core_modules/product/services/graphql';
 
 const OptionsItemDownload = ({
@@ -32,8 +35,7 @@ const OptionsItemDownload = ({
     let isLogin = 0;
 
     const {
-        __typename, sku, name, categories,
-        price_range, stock_status, url_key,
+        __typename, sku, name, categories, price_range, stock_status, url_key,
     } = data;
 
     if (typeof window !== 'undefined') {
@@ -78,10 +80,12 @@ const OptionsItemDownload = ({
                 minimum_price: {
                     ...price.priceRange.minimum_price,
                     regular_price: {
-                        ...price.priceRange.minimum_price.regular_price, value: final_price_sum,
+                        ...price.priceRange.minimum_price.regular_price,
+                        value: final_price_sum,
                     },
                     final_price: {
-                        ...price.priceRange.minimum_price.final_price, value: final_price_sum,
+                        ...price.priceRange.minimum_price.final_price,
+                        value: final_price_sum,
                     },
                 },
             },
@@ -97,9 +101,7 @@ const OptionsItemDownload = ({
                 if (customizable_options.length > 0) {
                     const findOptions = customizable_options.find((item) => item.id === op.option_id);
                     if (findOptions) {
-                        customizable_options = customizable_options.filter(
-                            (item) => item.id !== op.option_id,
-                        );
+                        customizable_options = customizable_options.filter((item) => item.id !== op.option_id);
                         if (op.isEnteredOption) {
                             entered_options.push({
                                 uid: op.uid,
@@ -158,10 +160,11 @@ const OptionsItemDownload = ({
                         setCartId(token);
                     })
                     .catch((e) => {
+                        const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                         setLoadingAdd(false);
                         window.toastMessage({
                             ...errorMessage,
-                            text: e.message.split(':')[1] || errorMessage.text,
+                            text: originalError || errorMessage.text,
                         });
                     });
             } else if (cartUser.data && cartUser.data.customerCart) {
@@ -178,15 +181,17 @@ const OptionsItemDownload = ({
                     ecommerce: {
                         currencyCode: price_range.minimum_price.regular_price.currency || 'USD',
                         add: {
-                            products: [{
-                                name,
-                                id: sku,
-                                price: price_range.minimum_price.regular_price.value || 0,
-                                category: categories.length > 0 ? categories[0].name : '',
-                                list: categories.length > 0 ? categories[0].name : '',
-                                quantity: qty,
-                                dimensions4: stock_status,
-                            }],
+                            products: [
+                                {
+                                    name,
+                                    id: sku,
+                                    price: price_range.minimum_price.regular_price.value || 0,
+                                    category: categories.length > 0 ? categories[0].name : '',
+                                    list: categories.length > 0 ? categories[0].name : '',
+                                    quantity: qty,
+                                    dimensions4: stock_status,
+                                },
+                            ],
                         },
                     },
                 },
@@ -212,13 +217,14 @@ const OptionsItemDownload = ({
                     setOpen(false);
                 })
                 .catch((e) => {
+                    const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                     if (e.message === "The product's required option(s) weren't entered. Make sure the options are entered and try again.") {
                         Router.push(`/${url_key}`);
                     }
                     setLoadingAdd(false);
                     window.toastMessage({
                         ...errorMessage,
-                        text: e.message.split(':')[1] || errorMessage.text,
+                        text: originalError || errorMessage.text,
                     });
                 });
         }

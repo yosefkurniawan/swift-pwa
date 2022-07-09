@@ -16,14 +16,14 @@ import {
 
 const OptionsItemConfig = (props) => {
     const {
-        setBanner = () => { },
-        setPrice = () => { },
+        setBanner = () => {},
+        setPrice = () => {},
         t,
         data,
-        setOpen = () => { },
+        setOpen = () => {},
         ConfigurableView,
         Footer,
-        setStockStatus = () => { },
+        setStockStatus = () => {},
         stockStatus = '',
         handleAddToCart: CustomAddToCart,
         View,
@@ -32,7 +32,7 @@ const OptionsItemConfig = (props) => {
         checkCustomizableOptionsValue,
         errorCustomizableOptions,
         customizableOptions,
-        handleSelecteProduct = () => { },
+        handleSelecteProduct = () => {},
         isGrid,
         noValidate = false,
         ...other
@@ -41,8 +41,7 @@ const OptionsItemConfig = (props) => {
     const { storeConfig = {} } = props;
 
     const {
-        __typename, sku, media_gallery, image, price_range, price_tiers,
-        small_image, name, categories, url_key, stock_status,
+        __typename, sku, media_gallery, image, price_range, price_tiers, small_image, name, categories, url_key, stock_status,
     } = data;
 
     const [selectConfigurable, setSelectConfigurable] = React.useState({});
@@ -167,9 +166,7 @@ const OptionsItemConfig = (props) => {
                      */
                     const findOptions = customizable_options.find((item) => item.id === op.option_id);
                     if (findOptions) {
-                        customizable_options = customizable_options.filter(
-                            (item) => item.id !== op.option_id,
-                        );
+                        customizable_options = customizable_options.filter((item) => item.id !== op.option_id);
 
                         if (op.isEnteredOption) {
                             entered_options.push({
@@ -193,7 +190,8 @@ const OptionsItemConfig = (props) => {
                 }
                 /** Mark ends here */
                 if (customizable_options.length === 0) {
-                    if (op.__typename === 'CustomizableFieldValue'
+                    if (
+                        op.__typename === 'CustomizableFieldValue'
                         || op.__typename === 'CustomizableAreaValue'
                         || op.__typename === 'CustomizableDateValue'
                     ) {
@@ -259,10 +257,11 @@ const OptionsItemConfig = (props) => {
                                 setCartId(token);
                             })
                             .catch((e) => {
+                                const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                                 setLoading(false);
                                 window.toastMessage({
                                     ...errorMessage,
-                                    text: e.message.split(':')[1] || errorMessage.text,
+                                    text: originalError || errorMessage.text,
                                 });
                             });
                     } else if (cartUser.data && cartUser.data.customerCart) {
@@ -317,13 +316,14 @@ const OptionsItemConfig = (props) => {
                             setOpen(false);
                         })
                         .catch((e) => {
+                            const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                             if (e.message === "The product's required option(s) weren't entered. Make sure the options are entered and try again.") {
                                 Router.push(`/${url_key}`);
                             }
                             setLoading(false);
                             window.toastMessage({
                                 ...errorMessage,
-                                text: e.message.split(':')[1] || errorMessage.text,
+                                text: originalError || errorMessage.text,
                             });
                         });
                 }
@@ -343,16 +343,19 @@ const OptionsItemConfig = (props) => {
     };
 
     React.useEffect(() => {
-        if (configProduct.data && configProduct.data.products.items.length > 0
-            && options.length === 0 && configProduct.data.products.items[0].configurable_options) {
+        if (
+            configProduct.data
+            && configProduct.data.products.items.length > 0
+            && options.length === 0
+            && configProduct.data.products.items[0].configurable_options
+        ) {
             const op = generateValue(selectConfigurable, configProduct.data.products.items[0].configurable_options, combination);
             setOptions(op);
         }
     }, [configProduct]);
 
     React.useMemo(() => {
-        if (configProduct.data && configProduct.data.products.items.length > 0
-            && configProduct.data.products.items[0].configurable_options) {
+        if (configProduct.data && configProduct.data.products.items.length > 0 && configProduct.data.products.items[0].configurable_options) {
             const op = generateValue(selectConfigurable, configProduct.data.products.items[0].configurable_options, combination);
             setOptions(op);
         }

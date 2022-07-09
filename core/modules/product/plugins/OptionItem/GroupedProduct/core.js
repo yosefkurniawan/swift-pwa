@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import { getCartId, setCartId } from '@helper_cartid';
 import { getLoginInfo } from '@helper_auth';
 import {
-    getGroupedProduct, addProductsToCart, getGuestCartId as queryGetGuestCartId, getCustomerCartId,
+    getGroupedProduct,
+    addProductsToCart,
+    getGuestCartId as queryGetGuestCartId,
+    getCustomerCartId,
 } from '@core_modules/product/services/graphql';
 
 const GroupedProductOption = ({
     View, data, setOpen, t, ...other
 }) => {
-    const {
-        sku, __typename, stock_status,
-    } = data;
+    const { sku, __typename, stock_status } = data;
 
     const { storeConfig = {} } = other;
 
@@ -32,9 +33,15 @@ const GroupedProductOption = ({
 
     let optionsData = [];
 
-    if (!loadData && products && products.products && products.products.items
+    if (
+        !loadData
+        && products
+        && products.products
+        && products.products.items
         && products.products.items.length > 0
-        && products.products.items[0].items && products.products.items[0].items.length > 0) {
+        && products.products.items[0].items
+        && products.products.items[0].items.length > 0
+    ) {
         optionsData = products.products.items[0].items;
     }
 
@@ -65,10 +72,11 @@ const GroupedProductOption = ({
                         setCartId(token);
                     })
                     .catch((e) => {
+                        const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                         setLoading(false);
                         window.toastMessage({
                             ...errorMessage,
-                            text: e.message.split(':')[1] || errorMessage.text,
+                            text: originalError || errorMessage.text,
                         });
                     });
             } else if (cartUser.data && cartUser.data.customerCart) {
@@ -83,38 +91,41 @@ const GroupedProductOption = ({
                     cartId,
                     cartItems,
                 },
-            }).then((res) => {
-                if (res.data.addProductsToCart) {
-                    if (res.data.addProductsToCart.user_errors && res.data.addProductsToCart.user_errors.length > 0) {
-                        window.toastMessage({
-                            ...errorMessage,
-                            text: res.data.addProductsToCart.user_errors[0].message || errorMessage.text,
-                        });
-                        setLoading(false);
-                    } else if (res.data.addProductsToCart && res.data.addProductsToCart.cart) {
-                        window.reloadCartQty = true;
-                        window.toastMessage({
-                            variant: 'success',
-                            text: t('product:successAddCart'),
-                            open: true,
-                        });
-                        setLoading(false);
-                        setOpen(false);
-                    } else {
-                        setLoading(false);
-                        window.toastMessage({
-                            ...errorMessage,
-                            text: errorMessage.text,
-                        });
+            })
+                .then((res) => {
+                    if (res.data.addProductsToCart) {
+                        if (res.data.addProductsToCart.user_errors && res.data.addProductsToCart.user_errors.length > 0) {
+                            window.toastMessage({
+                                ...errorMessage,
+                                text: res.data.addProductsToCart.user_errors[0].message || errorMessage.text,
+                            });
+                            setLoading(false);
+                        } else if (res.data.addProductsToCart && res.data.addProductsToCart.cart) {
+                            window.reloadCartQty = true;
+                            window.toastMessage({
+                                variant: 'success',
+                                text: t('product:successAddCart'),
+                                open: true,
+                            });
+                            setLoading(false);
+                            setOpen(false);
+                        } else {
+                            setLoading(false);
+                            window.toastMessage({
+                                ...errorMessage,
+                                text: errorMessage.text,
+                            });
+                        }
                     }
-                }
-            }).catch((e) => {
-                setLoading(false);
-                window.toastMessage({
-                    ...errorMessage,
-                    text: e.message.split(':')[1] || errorMessage.text,
+                })
+                .catch((e) => {
+                    const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
+                    setLoading(false);
+                    window.toastMessage({
+                        ...errorMessage,
+                        text: originalError || errorMessage.text,
+                    });
                 });
-            });
         } else {
             setLoading(false);
             window.toastMessage({
