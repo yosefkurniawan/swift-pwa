@@ -51,13 +51,17 @@ const CustomTextField = ({
         </FormControl>
     );
     if (type === 'phone') {
+        let inputValue = value;
+        if (value && value !== '' && value[0] === '0') {
+            inputValue = `+62${inputValue.substring(1)}`;
+        }
         customTextFieldInput = (
             <FormControl disabled={disabled || loading} fullWidth={fullWidth} error={error} variant={variant} className={customClass}>
                 <InputLabel shrink={shrink} htmlFor={label} className={styles.label}>
                     {label}
                 </InputLabel>
 
-                <PhoneInput international countryCallingCodeEditable={false} defaultCountry="ID" value={value} onChange={onChange} />
+                <PhoneInput international countryCallingCodeEditable={false} defaultCountry="ID" value={inputValue} onChange={onChange} />
 
                 {React.isValidElement(footer) ? (
                     footer

@@ -125,8 +125,6 @@ export const storeConfig = `
         facebook_app_id
         facebook_meta_id_app_id
         facebook_meta_id_enable
-        footer_desktop
-        footer_mobile
         home_slider_desktop_height
         home_slider_desktop_width
         home_slider_mobile_height
