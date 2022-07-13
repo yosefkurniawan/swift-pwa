@@ -153,7 +153,7 @@ class MyApp extends App {
             }
             storeConfig = storeConfig.storeConfig;
             frontendOptions = frontendOptions.storeConfig;
-            dataVesMenu = storeConfig.pwa.ves_menu_enable
+            dataVesMenu = storeConfig && storeConfig.pwa && storeConfig.pwa.ves_menu_enable
                 ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }) : await graphRequest(getCategories);
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null
                 ? storeConfig?.pwa?.remove_decimal_price_enable

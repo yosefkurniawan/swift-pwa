@@ -3,7 +3,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import {
     GRAY_SECONDARY, PRIMARY, SECONDARY, BACKGROUND_COLOR, ERROR_COLOR, WARNING_COLOR, SUCCESS_COLOR,
 } from '@theme_color';
-import { FONT_24, FONT_DEFAULT, FONT_HEADING, FONT_REGULAR } from '@theme_typography';
+import { FONT_24, FONT_DEFAULT, FONT_REGULAR } from '@theme_typography';
 import { BREAKPOINTS } from '@theme_vars';
 
 // Create a theme instance.
@@ -48,22 +48,7 @@ const theme = createMuiTheme({
         MuiTypography: {
             h1: {
                 ...FONT_24,
-                ...FONT_HEADING,
-            },
-            h2: {
-                ...FONT_HEADING,
-            },
-            h3: {
-                ...FONT_HEADING,
-            },
-            h4: {
-                ...FONT_HEADING,
-            },
-            h5: {
-                ...FONT_HEADING,
-            },
-            h6: {
-                ...FONT_HEADING,
+                ...FONT_DEFAULT,
             },
             root: {
                 ...FONT_DEFAULT,

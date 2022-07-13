@@ -179,7 +179,7 @@ const RegisterView = ({
                         type="submit"
                         align={desktop ? 'left' : 'center'}
                     >
-                        <Typography variant="span" type="bold" letter="uppercase" color="white">
+                        <Typography variant="span" type="bold" letter="uppercase">
                             {t('register:button')}
                         </Typography>
                     </Button>

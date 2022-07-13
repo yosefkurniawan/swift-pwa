@@ -192,11 +192,11 @@ export const storeConfig = `
         heading_font
         button_background_color
         button_background_hover_color
-        button_disable_text_color
-        button_disable_background_color
+        button_disabled_text_color
+        button_disabled_background_color
         button_text_color
         button_text_hover_color
-        button_disable_text_color
+        button_disabled_text_color
         button_border_color
         button_border_hover_color
         link_color

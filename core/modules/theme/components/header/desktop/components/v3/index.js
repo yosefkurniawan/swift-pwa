@@ -14,6 +14,10 @@ import TopMenu from '@core_modules/theme/components/header/desktop/components/mt
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
 import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
 
+import { getLocalStorage } from '@helper_localstorage';
+
+const pwaConfig = getLocalStorage('frontend_options');
+
 const ViewTopNavigation = (props) => {
     const {
         storeConfig,
@@ -41,7 +45,7 @@ const ViewTopNavigation = (props) => {
             <div className="row header-top">
                 <main style={{ width: '97%' }}>
                     {enablePopupInstallation ? <DesktopInstallApp appName={appName} installMessage={installMessage} /> : null}
-                    <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} app_cookies={app_cookies} />
+                    <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} app_cookies={app_cookies} storeConfig={storeConfig} />
                 </main>
             </div>
             <main style={{ width: '100%', maxWidth: 'unset' }}>
@@ -132,7 +136,7 @@ const ViewTopNavigation = (props) => {
                         }
                     }
                     main {
-                        background-color: #fff;
+                        background-color: ${storeConfig && storeConfig.pwa && storeConfig.pwa.background_color};
                     }
                     .header-top {
                         height: 45px;

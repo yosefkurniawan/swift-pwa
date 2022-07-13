@@ -275,10 +275,16 @@ const Layout = (props) => {
             if (pwaConfig) {
                 stylesheet.innerHTML = `
                     body {
-                        color: ${pwaConfig.font_color || '#000000'};
+                        background-color: ${pwaConfig.background_color || '#ffffff'};
+                        color: ${pwaConfig.primary_color || '#000000'};
+                    }
+
+                    main {
+                        background-color: ${pwaConfig.background_color || '#ffffff'};
                     }
                     .nav > li > a {
-                        color: ${pwaConfig.primary_color};
+                        background-color: ${pwaConfig.background_color || '#ffffff'};
+                        color: ${pwaConfig.primary_color || '#000000'};
                     }
                     a {
                         color: ${pwaConfig.link_color};
@@ -293,72 +299,74 @@ const Layout = (props) => {
 
                     // BUTTON SECTION
                     .MuiButton-root {
-                        color: ${pwaConfig.button_background_color || '#000000'};
+                        color: ${pwaConfig.button_background_color || '#000000'} !important;
                     }
                     .MuiButton-root:hover {
-                        background-color: ${pwaConfig.button_background_hover_color || '#FFFFFF'};
+                        background-color: ${pwaConfig.button_background_hover_color || '#FFFFFF'} !important;
                     }
                     .MuiButton-root.Mui-disabled {
-                        color: ${pwaConfig.button_disabled_text_color || '#DEDEDE'};
+                        color: ${pwaConfig.button_disabled_text_color || '#DEDEDE'} !important;
                     }
                     .MuiButton-textPrimary {
-                        color: ${pwaConfig.button_text_color || '#000000'};
+                        color: ${pwaConfig.button_text_color || '#000000'} !important;
                     }
                     .MuiButton-textSecondary {
-                        color: ${pwaConfig.button_text_color || '#000000'};
+                        color: ${pwaConfig.button_text_color || '#000000'} !important;
                     }
                     .MuiButton-outlined {
-                        border: 1px solid ${pwaConfig.button_border_color || '#000000'};
+                        border: 1px solid ${pwaConfig.button_border_color || '#000000'} !important;
                     }
                     .MuiButton-outlined.Mui-disabled {
-                        border: 1px solid ${pwaConfig.button_disabled_background_color || '#DEDEDE'};
+                        border: 1px solid ${pwaConfig.button_disabled_background_color || '#DEDEDE'} !important;
                     }
                     .MuiButton-outlinedPrimary {
-                        color: ${pwaConfig.button_text_color || '#000000'};
-                        border: 1px solid ${pwaConfig.button_border_color || '#000000'};
+                        color: ${pwaConfig.button_text_color || '#000000'} !important;
+                        border: 1px solid ${pwaConfig.button_border_color || '#000000'} !important;
                     }
                     .MuiButton-outlinedPrimary:hover {
-                        border: 1px solid ${pwaConfig.button_border_hover_color || '#000000'};
+                        border: 1px solid ${pwaConfig.button_border_hover_color || '#000000'} !important;
                         background-color: rgba(22, 191, 9, 0.04);
                     }
                     .MuiButton-outlinedSecondary {
-                        color: ${pwaConfig.button_text_color || '#000000'};
-                        border: 1px solid ${pwaConfig.button_border_color || '#000000'};
+                        color: ${pwaConfig.button_text_color || '#000000'} !important;
+                        border: 1px solid ${pwaConfig.button_border_color || '#000000'} !important;
                     }
                     .MuiButton-outlinedSecondary:hover {
-                        border: 1px solid ${pwaConfig.button_border_hover_color || '#000000'};
+                        border: 1px solid ${pwaConfig.button_border_hover_color || '#000000'} !important;
                         background-color: rgba(22, 191, 9, 0.04);
                     }
                     .MuiButton-outlinedSecondary.Mui-disabled {
                         border: 1px solid rgba(0, 0, 0, 0.26);
                     }
                     .MuiButton-contained {
-                        color: ${pwaConfig.button_text_color || '#FFFFFF'};
-                        background-color: ${pwaConfig.button_background_color || '#000000'};
+                        color: ${pwaConfig.button_text_color || '#FFFFFF'} !important;
+                        background-color: ${pwaConfig.button_background_color || '#000000'} !important;
                     }
                     .MuiButton-contained:hover {
-                        background-color: ${pwaConfig.button_background_hover_color || '#DEDEDE'};
+                        background-color: ${pwaConfig.button_background_hover_color || '#DEDEDE'} !important;
                     }
                     .MuiButton-contained.Mui-disabled {
-                        color: ${pwaConfig.button_disabled_text_color || '#000000'};
-                        background-color: ${pwaConfig.button_disabled_background_color || '#DEDEDE'};
+                        color: ${pwaConfig.button_disabled_text_color || '#000000'} !important;
+                        background-color: ${pwaConfig.button_disabled_background_color || '#DEDEDE'} !important;
                     }
                     .MuiButton-contained:hover.Mui-disabled {
-                        background-color: ${pwaConfig.button_disabled_background_color || '#DEDEDE'};
+                        background-color: ${pwaConfig.button_disabled_background_color || '#DEDEDE'} !important;
                     }
                     .MuiButton-containedPrimary {
-                        color: ${pwaConfig.button_text_color || '#FFFFFF'};
-                        background-color: ${pwaConfig.button_background_color};
+                        color: ${pwaConfig.button_text_color || '#FFFFFF'} !important;
+                        background-color: ${pwaConfig.button_background_color} !important;
                     }
                     .MuiButton-containedPrimary:hover {
-                        background-color: ${pwaConfig.button_background_hover_color || '#DEDEDE'};
+                        background-color: ${pwaConfig.button_background_hover_color || '#DEDEDE'} !important;
+                        color: ${pwaConfig.button_text_hover_color || '#FFFFFF'} !important;
                     }
                     .MuiButton-containedSecondary {
-                        color: ${pwaConfig.button_text_color || '#000000'};
-                        background-color: ${pwaConfig.button_background_color || '#FFFFFF'};
+                        color: ${pwaConfig.button_text_color || '#000000'} !important;
+                        background-color: ${pwaConfig.button_background_color || '#FFFFFF'} !important;
                     }
                     .MuiButton-containedSecondary:hover {
-                        background-color: ${pwaConfig.button_background_color || '#FFFFFF'};
+                        background-color: ${pwaConfig.button_background_hover_color || '#DEDEDE'} !important;
+                        color: ${pwaConfig.button_text_hover_color || '#FFFFFF'} !important;
                     }
 
 
@@ -383,9 +391,91 @@ const Layout = (props) => {
                         color: ${pwaConfig.button_disabled_background_color || '#DEDEDE'};
                     }
 
+                    // Icon Section
+                    .MuiIconButton-root {
+                        color: ${pwaConfig.button_background_color || '#000000'};
+                        transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+                    }
+                    .MuiIconButton-root.Mui-disabled {
+                        color: ${pwaConfig.button_disabled_background_color || '#DEDEDE'};
+                    }
+                    .MuiIconButton-colorPrimary {
+                        color: ${pwaConfig.button_background_color || '#000000'};
+                    }
+                    .MuiIconButton-colorSecondary {
+                        color: ${pwaConfig.button_background_color || '#000000'};
+                    }
+
                     // TYPOGRAPHY SECTION
                     .MuiTypography-root {
-                        color: ${pwaConfig.font_color || '#000000'} !important;
+                        color: ${pwaConfig.font_color || '#000000'};
+                        font-family: ${pwaConfig.default_font || 'Montserrat'} !important;
+                    }
+                    .MuiTypography-button {
+                        color: ${pwaConfig.button_text_color || '#000000'};
+                    }
+                    .MuiTypography-h1 {
+                        font-family: ${pwaConfig.heading_font || 'Montserrat'} !important;
+                    }
+                    .MuiTypography-h2 {
+                        font-family: ${pwaConfig.heading_font || 'Montserrat'} !important;
+                    }
+                    .MuiTypography-h3 {
+                        font-family: ${pwaConfig.heading_font || 'Montserrat'} !important;
+                    }
+                    .MuiTypography-h4 {
+                        font-family: ${pwaConfig.heading_font || 'Montserrat'} !important;
+                    }
+                    .MuiTypography-h5 {
+                        font-family: ${pwaConfig.heading_font || 'Montserrat'} !important;
+                    }
+                    .MuiTypography-h6 {
+                        font-family: ${pwaConfig.heading_font || 'Montserrat'} !important;
+                    }
+                    .MuiTypography-colorPrimary {
+                        color: ${pwaConfig.font_color || '#000000'};
+                    }
+                    .MuiTypography-colorSecondary {
+                        color: ${pwaConfig.font_color || '#000000'};
+                    }
+                    .MuiTypography-colorTextPrimary {
+                        color: ${pwaConfig.font_color || '#000000'};
+                    }
+                    .MuiTypography-colorTextSecondary {
+                        color: ${pwaConfig.font_color || '#000000'};
+                    }
+                    .MuiTypography-colorError {
+                        color: ${pwaConfig.font_color || '#000000'};
+                    }
+
+                    // Input Section
+                    .MuiInputBase-root {
+                        color: ${pwaConfig.primary_color || '#000000'};
+                    }
+                    .MuiInputBase-input {
+                        color: ${pwaConfig.primary_color || '#000000'};
+                    }
+                    .MuiInputBase-input::-webkit-input-placeholder {
+                        color: ${pwaConfig.primary_color || '#000000'};
+                    }
+                    .MuiInputBase-input::-moz-placeholder {
+                        color: ${pwaConfig.primary_color || '#000000'};
+                    }
+                    .MuiInputBase-input:-ms-input-placeholder {
+                        color: ${pwaConfig.primary_color || '#000000'};
+                    }
+                    .MuiInputBase-input::-ms-input-placeholder {
+                        color: ${pwaConfig.primary_color || '#000000'};
+                    }
+                    .MuiFormLabel-root {
+                        color: ${pwaConfig.primary_color || '#000000'};
+                    }
+
+                    // TextField Section
+                    .MuiTextField-root {
+                        color: ${pwaConfig.primary_color || '#000000'} !important;
+                    }
+
                 `;
                 document.head.appendChild(stylesheet);
             }

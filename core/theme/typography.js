@@ -1,15 +1,5 @@
-import { getLocalStorage } from '@helper_localstorage';
-
-const pwaConfig = getLocalStorage('frontend_options');
-
 export const FONT_DEFAULT = {
-    fontFamily: pwaConfig && pwaConfig.pwa && pwaConfig.pwa.default_font ? `${pwaConfig.pwa.default_font} !important` : 'Montserrat !important',
-    color: pwaConfig && pwaConfig.pwa && pwaConfig.pwa.font_color ? pwaConfig.pwa.font_color : '#000000',
-};
-
-export const FONT_HEADING = {
-    fontFamily: pwaConfig && pwaConfig.pwa && pwaConfig.pwa.heading_font ? `${pwaConfig.pwa.heading_font} !important` : 'Montserrat !important',
-    color: pwaConfig && pwaConfig.pwa && pwaConfig.pwa.font_color ? pwaConfig.pwa.font_color : '#000000',
+    fontFamily: 'Montserrat !important',
 };
 
 export const FONT_6 = {

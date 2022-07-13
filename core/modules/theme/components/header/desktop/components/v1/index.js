@@ -14,6 +14,10 @@ import TopMenu from '@core_modules/theme/components/header/desktop/components/mt
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
 import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
 
+import { getLocalStorage } from '@helper_localstorage';
+
+const pwaConfig = getLocalStorage('frontend_options');
+
 const ViewTopNavigation = (props) => {
     const {
         storeConfig,
@@ -177,7 +181,7 @@ const ViewTopNavigation = (props) => {
                         }
                     }
                     main {
-                        background-color: #fff;
+                        background-color: ${storeConfig && storeConfig.pwa && storeConfig.pwa.background_color};
                     }
                     .header-top {
                         height: 45px;

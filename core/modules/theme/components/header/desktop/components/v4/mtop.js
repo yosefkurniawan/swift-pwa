@@ -199,7 +199,7 @@ const ViewTop = (props) => {
                         left: 100%;
                     }
                     a {
-                        color: #000;
+                        color: ${storeConfig && storeConfig.pwa && storeConfig.pwa.primary_color} !important;
                         text-decoration: none;
                     }
 
