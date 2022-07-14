@@ -146,10 +146,11 @@ const OptionsItemConfig = (props) => {
                             setCartId(token);
                         })
                         .catch((e) => {
+                            const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                             setLoading(false);
                             window.toastMessage({
                                 ...errorMessage,
-                                text: e.message.split(':')[1] || errorMessage.text,
+                                text: originalError || errorMessage.text,
                             });
                         });
                 } else {
@@ -197,10 +198,11 @@ const OptionsItemConfig = (props) => {
                         setOpen(false);
                     })
                     .catch((e) => {
+                        const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                         setLoading(false);
                         window.toastMessage({
                             ...errorMessage,
-                            text: e.message.split(':')[1] || errorMessage.text,
+                            text: originalError || errorMessage.text,
                         });
                     });
             }
@@ -243,7 +245,6 @@ const OptionsItemConfig = (props) => {
                 loading={loading || configProduct.loading}
                 disabled={!selectedProduct || !selectedProduct.sku || stockStatus === 'OUT_OF_STOCK'}
             />
-
         </>
     );
 };

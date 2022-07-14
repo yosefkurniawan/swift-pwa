@@ -24,8 +24,7 @@ const CoreOptionsItemVirtual = ({
     let isLogin = '';
 
     const {
-        __typename, sku, name, categories,
-        price_range, stock_status, url_key,
+        __typename, sku, name, categories, price_range, stock_status, url_key,
     } = data;
 
     if (typeof window !== 'undefined') {
@@ -51,9 +50,7 @@ const CoreOptionsItemVirtual = ({
                 if (customizable_options.length > 0) {
                     const findOptions = customizable_options.find((item) => item.id === op.option_id);
                     if (findOptions) {
-                        customizable_options = customizable_options.filter(
-                            (item) => item.id !== op.option_id,
-                        );
+                        customizable_options = customizable_options.filter((item) => item.id !== op.option_id);
                         if (op.isEnteredOption) {
                             entered_options.push({
                                 uid: op.uid,
@@ -116,10 +113,11 @@ const CoreOptionsItemVirtual = ({
                             setCartId(token);
                         })
                         .catch((e) => {
+                            const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                             setLoading(false);
                             window.toastMessage({
                                 ...errorMessage,
-                                text: e.message.split(':')[1] || errorMessage.text,
+                                text: originalError || errorMessage.text,
                             });
                         });
                 } else if (cartUser.data && cartUser.data.customerCart) {
@@ -136,15 +134,17 @@ const CoreOptionsItemVirtual = ({
                         ecommerce: {
                             currencyCode: price_range.minimum_price.regular_price.currency || 'USD',
                             add: {
-                                products: [{
-                                    name,
-                                    id: sku,
-                                    price: price_range.minimum_price.regular_price.value || 0,
-                                    category: categories.length > 0 ? categories[0].name : '',
-                                    list: categories.length > 0 ? categories[0].name : '',
-                                    quantity: qty,
-                                    dimensions4: stock_status,
-                                }],
+                                products: [
+                                    {
+                                        name,
+                                        id: sku,
+                                        price: price_range.minimum_price.regular_price.value || 0,
+                                        category: categories.length > 0 ? categories[0].name : '',
+                                        list: categories.length > 0 ? categories[0].name : '',
+                                        quantity: qty,
+                                        dimensions4: stock_status,
+                                    },
+                                ],
                             },
                         },
                     },
@@ -169,13 +169,14 @@ const CoreOptionsItemVirtual = ({
                         setOpen(false);
                     })
                     .catch((e) => {
+                        const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                         if (e.message === "The product's required option(s) weren't entered. Make sure the options are entered and try again.") {
                             Router.push(`/${url_key}`);
                         }
                         setLoading(false);
                         window.toastMessage({
                             ...errorMessage,
-                            text: e.message.split(':')[1] || errorMessage.text,
+                            text: originalError || errorMessage.text,
                         });
                     });
             }

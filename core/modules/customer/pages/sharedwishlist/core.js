@@ -5,14 +5,8 @@ import { useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
 import { setCartId } from '@helper_cartid';
-import {
-    customerWishlist,
-} from '@core_modules/customer/services/graphql';
-import {
-    addSimpleProductsToCart,
-    getGuestCartId as queryGetGuestCartId,
-    getCustomerCartId,
-} from '@core_modules/product/services/graphql';
+import { customerWishlist } from '@core_modules/customer/services/graphql';
+import { addSimpleProductsToCart, getGuestCartId as queryGetGuestCartId, getCustomerCartId } from '@core_modules/product/services/graphql';
 
 const HomeCore = (props) => {
     const {
@@ -30,14 +24,12 @@ const HomeCore = (props) => {
 
     useEffect(() => {
         if (hashCode) {
-            getCustomerWishlist(
-                {
-                    variables: {
-                        sharing_code: hashCode,
-                    },
-                    skip: hashCode === '' || !hashCode,
+            getCustomerWishlist({
+                variables: {
+                    sharing_code: hashCode,
                 },
-            );
+                skip: hashCode === '' || !hashCode,
+            });
         }
     }, [hashCode]);
 
@@ -66,9 +58,10 @@ const HomeCore = (props) => {
                             setCartId(token);
                         })
                         .catch((e) => {
+                            const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                             window.toastMessage({
                                 ...errorMessage,
-                                text: e.message.split(':')[1] || errorMessage.text,
+                                text: originalError || errorMessage.text,
                             });
                         });
                 } else {
@@ -94,10 +87,11 @@ const HomeCore = (props) => {
                     });
                 })
                 .catch((e) => {
+                    const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                     window.backdropLoader(false);
                     window.toastMessage({
                         ...errorMessage,
-                        text: e.message.split(':')[1] || errorMessage.text,
+                        text: originalError || errorMessage.text,
                     });
                 });
         }
@@ -121,9 +115,10 @@ const HomeCore = (props) => {
                         setCartId(token);
                     })
                     .catch((e) => {
+                        const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                         window.toastMessage({
                             ...errorMessage,
-                            text: e.message.split(':')[1] || errorMessage.text,
+                            text: originalError || errorMessage.text,
                         });
                     });
             } else {
@@ -155,7 +150,9 @@ const HomeCore = (props) => {
                 open: true,
                 text: errorCart[0]
                     ? totalSucces > 0
-                        ? `${t('customer:wishlist:addPartToBagSuccess').split('$'[0])} ${totalSucces} ${t('customer:wishlist:addPartToBagSuccess').split('$'[1])}`
+                        ? `${t('customer:wishlist:addPartToBagSuccess').split('$'[0])} ${totalSucces} ${t(
+                              'customer:wishlist:addPartToBagSuccess'
+                          ).split('$'[1])}`
                         : errorCart[1] || t('customer:wishlist:failedAddCart')
                     : t('customer:wishlist:addAllToBagSuccess'),
                 variant: errorCart[0] ? 'error' : 'success',
