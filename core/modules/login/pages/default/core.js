@@ -222,18 +222,19 @@ const Login = (props) => {
     });
 
     const LoginPhoneEmailSchema = Yup.object().shape({
-        username: otpConfig.data && otpConfig.data.otpConfig.otp_enable && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login ?
-            Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')) :
-            Yup.string()
-                .required(t('validate:phoneEmail:required'))
-                .test('phoneEmail', t('validate:phoneEmail:wrong'), (value) => {
-                    const emailRegex = regexEmail.test(value);
-                    const phoneRegex = regexPhone.test(value);
-                    if (!emailRegex && !phoneRegex) {
-                        return false;
-                    }
-                    return true;
-                }),
+        username:
+            otpConfig.data && otpConfig.data.otpConfig.otp_enable && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login
+                ? Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required'))
+                : Yup.string()
+                    .required(t('validate:phoneEmail:required'))
+                    .test('phoneEmail', t('validate:phoneEmail:wrong'), (value) => {
+                        const emailRegex = regexEmail.test(value);
+                        const phoneRegex = regexPhone.test(value);
+                        if (!emailRegex && !phoneRegex) {
+                            return false;
+                        }
+                        return true;
+                    }),
         password: Yup.string().required(t('validate:password:required')),
     });
 
@@ -323,7 +324,11 @@ const Login = (props) => {
             sendData(variables);
         }
     };
+    const handleChangePhone = (event) => {
+        const value = event;
 
+        formikOtp.setFieldValue('username', value);
+    };
     const formikPhoneEmail = useFormik({
         initialValues: {
             username: '',
@@ -494,6 +499,7 @@ const Login = (props) => {
         <Layout {...props} pageConfig={pageConfig || config}>
             <Content
                 formik={formik}
+                handleChangePhone={handleChangePhone}
                 formikPhoneEmail={formikPhoneEmail}
                 otpConfig={otpConfig}
                 isOtp={isOtp}

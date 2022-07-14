@@ -66,8 +66,8 @@ const ForgotPassword = (props) => {
         onSubmit: (values) => {
             setLoad(true);
 
-            let email; let
-                phone;
+            let email;
+            let phone;
 
             if (useForgotWithPhone) {
                 email = values.phoneNumberEmail;
@@ -80,10 +80,9 @@ const ForgotPassword = (props) => {
             const getVariables = () => {
                 if (useForgotWithPhone) {
                     if (regexEmail.test(values.phoneNumberEmail) && !regexPhone.test(values.phoneNumberEmail)) {
-                        console.log('email');
                         return { phoneNumber: '', otp: '', email: values.phoneNumberEmail };
                     }
-                    console.log('phone number');
+
                     return { phoneNumber: values.phoneNumberEmail, otp: '', email: '' };
                 }
                 if (useEmail) {
@@ -148,7 +147,11 @@ const ForgotPassword = (props) => {
             setDisabled(!disabled);
         }
     };
+    const handleChangePhone = (event) => {
+        const value = event;
 
+        formik.setFieldValue('phoneNumber', value);
+    };
     React.useEffect(() => {
         if (data && !data.otpConfig.otp_enable[0].enable_otp_forgot_password && !useForgotWithPhone) {
             setUseEmail(true);
@@ -169,6 +172,7 @@ const ForgotPassword = (props) => {
                 handleSwitch={handleSwitch}
                 toast={toast}
                 setToast={setToast}
+                handleChangePhone={handleChangePhone}
                 setDisabled={setDisabled}
                 disabled={disabled}
                 useForgotWithPhone={useForgotWithPhone}
