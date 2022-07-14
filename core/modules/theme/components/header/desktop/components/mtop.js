@@ -96,7 +96,6 @@ const ViewTop = (props) => {
                         float: right;
                         font-size: 10px;
                         text-transform: uppercase;
-                        font-family: Montserrat !important;
                     }
 
                     li {

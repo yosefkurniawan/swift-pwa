@@ -169,7 +169,6 @@ const ViewTop = (props) => {
                         float: left;
                         font-size: 10px;
                         text-transform: uppercase;
-                        font-family: Montserrat !important;
                     }
 
                     li {
