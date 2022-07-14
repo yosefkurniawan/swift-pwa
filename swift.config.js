@@ -103,7 +103,7 @@ const nameCheckoutCookie = 'ccdt';
 const nameCheckoutState = 'ncs';
 const nameGlobalCookie = 'spwa';
 const nameToken = 'sk';
-const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
+const expiredToken = 60 * 60 * 1000;
 const expiredDefault = 365;
 const localResolverKey = 'resolver';
 

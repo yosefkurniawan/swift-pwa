@@ -9,6 +9,8 @@ import {
     changeCustomerPassword as gqlChangeCustomerPassword,
     getCustomer,
 } from '@core_modules/customer/services/graphql';
+import Cookies from 'js-cookie';
+import { custDataNameCookie } from '@config';
 
 const ProfilePage = (props) => {
     const {
@@ -76,7 +78,17 @@ const ProfilePage = (props) => {
                         whatsapp_number: values.whatsapp_number,
                     },
                 })
-                    .then(async () => {
+                    .then(async (res) => {
+                        if (res && res.data && res.data.updateCustomerCustom && res.data.updateCustomerCustom.customer) {
+                            const { customer } = res.data.updateCustomerCustom;
+                            Cookies.set(custDataNameCookie, {
+                                email: customer.email,
+                                firstname: customer.firstname,
+                                customer_group: customer.customer_group,
+                                phonenumber: customer.phonenumber,
+                                is_phonenumber_valid: customer.is_phonenumber_valid,
+                            });
+                        }
                         if (editEmail) {
                             setFieldValue('currentPassword', '', false);
                         }

@@ -21,11 +21,12 @@ import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXe
 import ModalTrackOrder from '@core_modules/trackingorder/plugins/ModalTrackOrder';
 import { setCheckoutData } from '@helper_cookies';
 import { checkJson } from '@core_modules/trackingorder/pages/default/helpers/checkJson';
+import PrintIcon from '@material-ui/icons/Print';
 
 const DetailOrder = (props) => {
     const {
         t, detail, currency, storeConfig, reOrder, returnUrl,
-        paymentInfo, dataTrackingOrder
+        paymentInfo, dataTrackingOrder, printOrder,
     } = props;
     const {
         checkout: {
@@ -44,7 +45,7 @@ const DetailOrder = (props) => {
         track_number: dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail[0].track_number,
         trackorder_type: dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail[0].trackorder_type,
     };
-  
+
     if (detail.length > 0 && detail[0].detail[0].items.length) {
         const configurableProduct = [];
         detail[0].detail[0].items.map((item) => {
@@ -116,6 +117,14 @@ const DetailOrder = (props) => {
                         <Typography variant="span" className="clear-margin-padding">
                             {formatDate(detail[0].created_at)}
                         </Typography>
+                    </div>
+                    <div className={styles.wrapperButtonPrint}>
+                        <button id="btn-print" type="button" align="right" onClick={() => printOrder(detail[0].order_number)}>
+                            <PrintIcon />
+                            <Typography id="label-print" variant="span" type="regular">
+                                {t('order:printOrder')}
+                            </Typography>
+                        </button>
                     </div>
                     <div className={styles.blockIcon}>
                         <OrderStatusIcon status={detail[0].status} t={t} />

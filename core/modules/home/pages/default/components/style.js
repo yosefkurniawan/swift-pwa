@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
         ...CreateMargin(30, 0, 30, 0),
     },
     header: {
+        [theme.breakpoints.between('sm', 'md')]: {
+            width: '100vw',
+        },
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
@@ -49,6 +52,10 @@ const useStyles = makeStyles((theme) => ({
     },
     imgLogo: {
         marginTop: '25%',
+        width: 100,
+        height: '100%',
+    },
+    imgLogoHamburger: {
         width: 100,
         height: '100%',
     },
@@ -181,6 +188,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             maxWidth: 375,
         },
+    },
+    hamburgerList: {
+        width: 250,
     },
 }));
 

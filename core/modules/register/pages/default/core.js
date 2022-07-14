@@ -284,6 +284,10 @@ const Register = (props) => {
     if (cartData.data && custData.data) {
         Cookies.set(custDataNameCookie, {
             email: custData.data.customer.email,
+            firstname: custData.data.customer.firstname,
+            customer_group: custData.data.customer.customer_group,
+            phonenumber: custData.data.customer.phonenumber,
+            is_phonenumber_valid: custData.data.customer.is_phonenumber_valid,
         });
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {

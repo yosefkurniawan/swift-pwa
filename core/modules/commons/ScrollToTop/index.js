@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function ScrollTop({ maxHeigtToShow = 600 }) {
+function ScrollTop({ maxHeigtToShow = 600, storeConfig }) {
     const classes = useStyles();
     const [triger, setTriger] = React.useState(false);
 
@@ -22,7 +22,7 @@ function ScrollTop({ maxHeigtToShow = 600 }) {
             const header = document.getElementById('header');
             const checkScrollTop = () => {
                 // handle show hide header
-                if (header) {
+                if (storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header && header) {
                     if (window.pageYOffset > 100) {
                         header.classList.add('header-small');
                     } else {

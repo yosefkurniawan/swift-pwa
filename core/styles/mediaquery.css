@@ -11,9 +11,58 @@
         max-width: 1440px;
         width: 97%;
     }
+
     .main-app-cms {
         margin-top: 0px;
         width: 100%;
+    }
+
+    .main-app-v2 {
+        margin-top: 0px;
+    }
+
+    .main-app-v2-not-homepage {
+        margin-top: 140px !important;
+    }
+
+    .main-app-not-sticky {
+        margin-top: 0px;
+    }
+
+    .main-app-sticky {
+        margin-top: 8rem !important;
+    }
+
+    .main-app-sticky-homepage {
+        margin-top: 2rem !important;
+    }
+
+    .main-app-v1-sticky-homepage {
+        margin-top: 0rem !important;
+    }
+
+    .main-app-v1-sticky-not-homepage {
+        margin-top: 12rem !important;
+    }
+
+    .main-app-sticky-v4 {
+        margin-top: 16rem !important;
+    }
+
+    .main-app-sticky-v4-homepage {
+        margin-top: -2rem !important
+    }
+
+    .main-app-sticky-v4-pdp {
+        margin-top: 16rem !important;
+    }
+
+    .main-app-v2-not-sticky {
+        margin-top: -140px !important;
+    }
+
+    .main-app-v2-not-sticky-not-homepage {
+        margin-top: 0px !important;
     }
 }
 
@@ -24,35 +73,130 @@
 }
 
 @media (min-width: 768px) {
-    .hidden-desktop {
-        display: none !important;
-    }
     .header-middle__search .MuiFormControl-marginNormal {
         margin: 0;
     }
+
     .main-app {
         min-height: calc(100vh - 435px);
         margin-top: 140px;
     }
+
+    .main-app-v2-ipad-landscape {
+        margin-top: -1rem !important;
+    }
+
     .main-app-cms {
         margin-top: 0px;
     }
+
+    .main-app-v2-not-homepage {
+        margin-top: 0px !important;
+    }
+
+    .main-app-not-sticky {
+        margin-top: 0px;
+    }
+
+    .main-app-sticky-homepage {
+        margin-top: 0rem;
+    }
+
+    .main-app-v1-sticky-homepage {
+        margin-top: 0rem !important;
+    }
+
+    .main-app-sticky {
+        margin-top: 0rem;
+    }
+
+    .main-app-v2-not-sticky {
+        margin-top: -140px !important;
+    }
+
+    .main-app-v2-not-sticky-not-homepage {
+        margin-top: 0px !important;
+    }
+
+    .main-app-v2 {
+        margin-top: -10px !important;
+    }
+
+    .main-app-v2-ipad {
+        margin-top: 0px !important;
+    }
+
+    .main-app-v1-sticky-not-homepage {
+        margin-top: 0rem;
+    }
+
+    .main-app-sticky-v4 {
+        margin-top: 100px !important;
+    }
+
+    .main-app-sticky-v4-homepage-not-burgermenu {
+        margin-top: 0rem !important
+    }
+
+    .main-app-sticky-v4-pdp-ipad {
+        margin-top: 0rem !important;
+    }
 }
 
-@media (min-width: 1920) {
+@media (min-width: 1024px) {
+    .hidden-desktop {
+        display: none !important;
+    }
+
+    .main-app-sticky-v4 {
+        margin-top: 16rem !important;
+    }
+
+    .main-app-v2 {
+        margin-top: 0px;
+        max-width: initial !important;
+    }
+}
+
+@media (min-width: 1920px) {
     .hidden-xl {
+        display: none !important;
+    }
+
+    .hidden-ipad {
         display: none !important;
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
     .hidden-mobile {
+        display: none !important;
+    }
+
+    .hidden-ipad {
         display: none !important;
     }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
+    .main-app-sticky-v4 {
+        margin-top: 0px !important;
+    }
+
+    .main-app-v2 {
+        margin-top: 0px !important;
+        max-width: initial !important;
+    }
+
+    .main-app-sticky-v2-ipad {
+        margin-top: 0px !important;
+    }
+
     .hidden-sm {
+        display: none !important;
+    }
+
+    .hidden-ipad {
         display: none !important;
     }
 }
@@ -61,10 +205,50 @@
     .hidden-md {
         display: none !important;
     }
+
+    .show-ipad {
+        display: unset !important;
+    }
+
+    .main-app-v2 {
+        margin-top: -1rem !important;
+        max-width: initial !important;
+    }
+
+    .main-app-v2-ipad-landscape {
+        margin-top: -16rem !important;
+        max-width: initial !important;
+    }
+
+    .main-app-v2-pdp {
+        margin-top: 140px !important;
+    }
+
+    .main-app-v2-not-homepage {
+        margin-top: 140px !important;
+    }
+
+    .hidden-ipad {
+        display: none !important;
+    }
 }
 
 @media (min-width: 1200px) and (max-width: 1919px) {
     .hidden-lg {
         display: none !important;
+    }
+
+    .hidden-ipad {
+        display: none !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .main-app-homepage {
+        max-width: unset;
+    }
+
+    .main-app-sticky-v4-homepage {
+        margin-top: 0rem !important
     }
 }

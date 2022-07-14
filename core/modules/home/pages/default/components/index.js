@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable max-len */
-
+import * as React from 'react';
 import dynamic from 'next/dynamic';
 import useStyles from '@core_modules/home/pages/default/components/style';
 import CmsPage from '@core_modules/cms/pages/default';
@@ -64,11 +64,13 @@ const Content = (props) => {
 
     return (
         <div className={styles.container}>
-            <div className={classNames(styles.header)}>
-                <div className={classNames(styles.logo, 'hidden-desktop')}>
-                    <img src={logoUrl} alt="logo" className={styles.imgLogo} />
+            {props.storeConfig && props.storeConfig.pwa && props.storeConfig.pwa.mobile_navigation !== 'burger_menu' && (
+                <div className={classNames(styles.header)}>
+                    <div className={classNames(styles.logo, 'hidden-desktop')}>
+                        <img src={logoUrl} alt="logo" className={styles.imgLogo} />
+                    </div>
                 </div>
-            </div>
+            )}
             {content}
         </div>
     );

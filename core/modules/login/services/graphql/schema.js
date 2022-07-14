@@ -131,7 +131,7 @@ export const getCustomer = gql`
             lastname
             email
             phonenumber
-            whatsapp_number
+            is_phonenumber_valid
             customer_group
         }
     }

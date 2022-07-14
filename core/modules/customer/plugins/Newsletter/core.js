@@ -22,7 +22,8 @@ const Newsletter = (props) => {
             ...(show_lastname && { lastname: '' }),
         },
         validationSchema: Yup.object().shape({
-            email: Yup.string().required('required'),
+            // email: Yup.string().required('required'),
+            email: Yup.string().email(t('common:newsletter:wrong')).required(t('common:newsletter:required')),
             ...(show_firstname && { firstname: Yup.string().required('required') }),
             ...(show_lastname && { lastname: Yup.string().required('required') }),
         }),

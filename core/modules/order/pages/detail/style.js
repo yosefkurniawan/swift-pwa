@@ -95,6 +95,23 @@ export default makeStyles((theme) => ({
         ...Centering,
         marginRight: 10,
     },
+    wrapperButtonPrint: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        '& #btn-print': {
+            backgroundColor: 'Transparent',
+            backgroundRepeat: 'no-repeat',
+            border: 'none',
+            cursor: 'pointer',
+            overflow: 'hidden',
+            outline: 'none',
+            display: 'flex',
+            alignItems: 'center',
+        },
+        '& #label-print': {
+            textDecoration: 'underline',
+        },
+    },
 
     reorderButton: {
         backgroundColor: 'Transparent',

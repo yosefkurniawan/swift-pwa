@@ -483,9 +483,13 @@ export const updateCustomerProfile = gql`
             }
         ) {
             customer {
-                firstname
-                lastname
-                email
+              id
+              firstname
+              lastname
+              email
+              phonenumber
+              is_phonenumber_valid
+              customer_group
             }
         }
     }
