@@ -38,6 +38,7 @@ const Toast = ({
     };
     return (
         <Snackbar
+            className="common-toastMessage-alert"
             anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'center',

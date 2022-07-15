@@ -26,6 +26,7 @@ const ConfigurableView = (props) => {
                     value={item.value}
                     isGrid={isGrid}
                     {...other}
+                    className={`product-configurableOption-${item.options.label}`}
                 />
             ))}
             <Footer

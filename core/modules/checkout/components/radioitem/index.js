@@ -81,7 +81,7 @@ const RadioDeliveryItem = (props) => {
             className={rootStyle}
             id="checkoutRadioItem"
         >
-            <Radio color="default" size="small" checked={selected} onClick={handleChange} />
+            <Radio className="checkout-radioBtn" color="default" size="small" checked={selected} onClick={handleChange} />
 
             <div className={classNames(styles.labelContainer, classContent)}>
                 {shippingLabel}

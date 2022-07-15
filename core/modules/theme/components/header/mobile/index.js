@@ -131,7 +131,7 @@ const Header = ({ LeftComponent, CenterComponent, RightComponent, className, pag
                 ) : (
                     <Button onClick={(LeftComponent && LeftComponent.onClick && LeftComponent.onClick) || back} className={styles.btnBack}>
                         {pageConfig.headerBackIcon && pageConfig.headerBackIcon === 'close' ? (
-                            <CloseIcon className={styles.backIcon} />
+                            <CloseIcon className={classNames(styles.backIcon, 'header-closeBtn')} />
                         ) : (
                             <ArrowBack className={styles.backIcon} />
                         )}

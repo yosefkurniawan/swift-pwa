@@ -124,6 +124,7 @@ const Login = (props) => {
                                     <div className="row center-xs start-sm">
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <TextField
+                                                id="login-email-textfield"
                                                 name="username"
                                                 label="Email"
                                                 placeholder="john.doe@gmail.com"
@@ -135,6 +136,7 @@ const Login = (props) => {
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <PasswordField
+                                                id="login-password-passfield"
                                                 name="password"
                                                 label="Password"
                                                 placeholder="********"
@@ -155,6 +157,7 @@ const Login = (props) => {
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <Button
+                                                id="login-signin-button"
                                                 className={styles.generalButton}
                                                 fullWidth={!desktop}
                                                 type="submit"

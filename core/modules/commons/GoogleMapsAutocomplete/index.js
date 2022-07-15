@@ -269,6 +269,7 @@ const IcubeMapsAutocomplete = (props) => {
                     }}
                 >
                     <CustomTextField
+                        className="addressForm-addressDetail-textField"
                         autoComplete="new-password"
                         label={t('common:form:addressDetail')}
                         placeholder={t('common:search:addressDetail')}

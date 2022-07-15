@@ -63,11 +63,11 @@ const Menu = (props) => {
     };
     return (
         <div className="menu-wrapper" role="navigation">
-            <ul className="nav" role="menubar">
+            <ul className="nav" role="menubar" id="header-nav-menubar">
                 {menu.map((val, idx) => {
                     if ((val.include_in_menu || storeConfig.pwa.ves_menu_enable) && val.name) {
                         return (
-                            <li key={idx} role="menuitem">
+                            <li key={idx} role="menuitem" id={`header-menuitem-${idx}`}>
                                 {val.link ? (
                                     <>
                                         <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>

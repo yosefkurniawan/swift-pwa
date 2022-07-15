@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import Typography from '@common_typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import classNames from 'classnames';
 
 import useStyles from '@plugin_optionitem/ConfigurableOption/style';
 // import SelectOption from '@common_optionconfigurable';
@@ -42,7 +43,7 @@ const ItemConfigurableView = (props) => {
                 valueData={value}
                 onChange={(val) => handleSelect(val, option.attribute_code)}
                 className={isGrid ? styles.label : ''}
-                classContainer={isGrid ? styles.classContainer : ''}
+                classContainer={isGrid ? classNames(styles.classContainer, `product-OptionItem-${option.label}`) : ''}
                 classItem={classItem}
                 error={!!error[option.attribute_code] && !selected[option.attribute_code]}
                 errorMessage={error[option.attribute_code] ? error[option.attribute_code] : ''}

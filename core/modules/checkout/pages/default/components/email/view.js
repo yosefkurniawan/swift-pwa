@@ -9,6 +9,7 @@ import Help from '@material-ui/icons/Help';
 import Button from '@common_button';
 import Spiner from '@material-ui/core/CircularProgress';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
+import classNames from 'classnames';
 
 const EmailView = (props) => {
     const {
@@ -39,7 +40,7 @@ const EmailView = (props) => {
                 <FormControl
                     fullWidth
                     error={!!(formik.errors.email && formik.touched.email)}
-                    className={styles.customFormControl}
+                    className={classNames(styles.customFormControl, 'checkout-email-input')}
                 >
                     <Input
                         name="email"
