@@ -171,20 +171,12 @@ const RegisterView = ({
                         style={{ marginBottom: enableRecaptcha ? 25 : 0 }}
                     />
 
-                    {
-                        enableRecaptcha ? (
-                            <>
-                                <ReCAPTCHA
-                                    sitekey={sitekey}
-                                    onChange={handleChangeCaptcha}
-                                    ref={recaptchaRef}
-                                />
-                                { formik.errors.captcha && (
-                                    <Typography color="red">{formik.errors.captcha}</Typography>
-                                )}
-                            </>
-                        ) : null
-                    }
+                    {enableRecaptcha ? (
+                        <>
+                            <ReCAPTCHA sitekey={sitekey} onChange={handleChangeCaptcha} ref={recaptchaRef} />
+                            {formik.errors.captcha && <Typography color="red">{formik.errors.captcha}</Typography>}
+                        </>
+                    ) : null}
                     <Button
                         id="register-btnRegister"
                         disabled={disabled}
