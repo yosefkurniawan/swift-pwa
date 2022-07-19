@@ -1,5 +1,4 @@
-import { storeConfigNameCookie } from '@config';
-import helperCookies from '@helper_cookies';
+import { getLocalStorage } from './localstorage';
 
 /* eslint-disable no-param-reassign */
 const { general } = require('@config');
@@ -44,9 +43,16 @@ export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
      * window === undefined to handle localstorage from reload
      */
     const isServer = typeof window === 'undefined';
-    const storeConfig = helperCookies.get(storeConfigNameCookie);
     // set locale from storeConfig -> locale if exists, otherwise use default locale set in swift.config.js
-    let localeConfig = !isServer && storeConfig && storeConfig.locale ? storeConfig.locale.replace('_', '-') : general.defaultCurrencyLocale;
+    let config = {};
+    let localeConfig = general.defaultCurrencyLocale;
+    let enableRemoveDecimal = false;
+
+    if (!isServer) {
+        config = getLocalStorage('pricing_config');
+        localeConfig = config.locales ? config.locales.split('_', '-') : general.defaultCurrencyLocale;
+        enableRemoveDecimal = config.remove_decimal_config;
+    }
 
     /* --- CHANGE TO CURRENT CURRENCY --- */
     const APP_CURRENCY = isServer ? undefined : cookies.get('app_currency');
@@ -62,8 +68,6 @@ export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
         style: 'currency',
         currency,
     }).format(value);
-
-    const enableRemoveDecimal = isServer ? false : cookies.getJSON('remove_decimal_config');
 
     const decimalFeature = () => {
         const decimal = price.substr(price.length - 3).substring(1);
