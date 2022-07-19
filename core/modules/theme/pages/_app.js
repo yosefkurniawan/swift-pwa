@@ -12,7 +12,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { appWithTranslation } from '@i18n';
 import { storeConfig as ConfigSchema, getVesMenu, getCategories } from '@services/graphql/schema/config';
 import {
-    GTM, custDataNameCookie, features, sentry,
+    GTM, custDataNameCookie, features, sentry, modules,
 } from '@config';
 import { getLoginInfo, getLastPathWithoutLogin } from '@helper_auth';
 import {
@@ -137,8 +137,10 @@ class MyApp extends App {
                 ctx.res.redirect('/maintenance');
             }
             storeConfig = storeConfig.storeConfig;
-            dataVesMenu = storeConfig.pwa.ves_menu_enable
-                ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }) : await graphRequest(getCategories);
+            if (!modules.checkout.checkoutOnly) {
+                dataVesMenu = storeConfig.pwa.ves_menu_enable
+                    ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }) : await graphRequest(getCategories);
+            }
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null
                 ? storeConfig?.pwa?.remove_decimal_price_enable
                 : false;
@@ -155,13 +157,15 @@ class MyApp extends App {
 
                 storeConfig = storeConfig.storeConfig;
             }
-            dataVesMenu = getLocalStorage('pwa_vesmenu');
-            if (!dataVesMenu) {
-                dataVesMenu = storeConfig.pwa.ves_menu_enable
-                    ? await pageProps.apolloClient.query(
-                        { query: gql`${getVesMenu}`, variables: { alias: storeConfig.pwa.ves_menu_alias } },
-                    ).then(({ data }) => data)
-                    : await pageProps.apolloClient.query({ query: gql`${getCategories}` }).then(({ data }) => data);
+            if (!modules.checkout.checkoutOnly) {
+                dataVesMenu = getLocalStorage('pwa_vesmenu');
+                if (!dataVesMenu) {
+                    dataVesMenu = storeConfig.pwa.ves_menu_enable
+                        ? await pageProps.apolloClient.query(
+                            { query: gql`${getVesMenu}`, variables: { alias: storeConfig.pwa.ves_menu_alias } },
+                        ).then(({ data }) => data)
+                        : await pageProps.apolloClient.query({ query: gql`${getCategories}` }).then(({ data }) => data);
+                }
             }
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null
                 ? storeConfig?.pwa?.remove_decimal_price_enable
@@ -328,7 +332,9 @@ class MyApp extends App {
         if (typeof window !== 'undefined') {
             setLocalStorage('cms_page', pageProps.storeConfig && pageProps.storeConfig.cms_page ? pageProps.storeConfig.cms_page : '');
             setLocalStorage('pwa_config', pageProps.storeConfig);
-            setLocalStorage('pwa_vesmenu', pageProps.dataVesMenu);
+            if (!modules.checkout.checkoutOnly) {
+                setLocalStorage('pwa_vesmenu', pageProps.dataVesMenu);
+            }
         }
 
         return (
