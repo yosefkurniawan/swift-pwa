@@ -4,7 +4,7 @@ export const frontendConfig = (pwaConfig) => {
         return `
             body {
                 background-color: ${pwaConfig.background_color || '#ffffff'};
-                color: ${pwaConfig.font_color || '#000000'} !important;
+                color: ${pwaConfig.font_color || '#000000'};
             }
 
             main {
@@ -110,6 +110,9 @@ export const frontendConfig = (pwaConfig) => {
             .MuiButton-root .MuiButton-label > span {
                 color: ${pwaConfig.button_text_color || '#000000'} !important;
             }
+            .MuiButton-root .MuiButton-label > p.MuiTypography-root {
+                color: ${pwaConfig.button_text_color || '#000000'} !important;
+            }
             .MuiButton-root:hover .MuiButton-label > span {
                 color: ${pwaConfig.button_text_hover_color || '#000000'} !important;
             }
@@ -191,29 +194,32 @@ export const frontendConfig = (pwaConfig) => {
             .MuiTypography-colorError {
                 color: ${pwaConfig.font_color || '#000000'};
             }
-            .MuiTypography-
+            .MuiListItem-root .MuiListItemText-root .MuiTypography-root {
+                color: ${pwaConfig.primary_color || '#000000'} !important;
+            }
 
             // Input Section
             .MuiInputBase-root {
-                color: ${pwaConfig.font_color || '#000000'} !important;
+                color: ${pwaConfig.primary_color || '#000000'} !important;
+                font-family: ${pwaConfig.default_font || 'Montserrat'} !important;
             }
             .MuiInputBase-input {
-                color: ${pwaConfig.font_color || '#000000'} !important;
+                color: ${pwaConfig.primary_color || '#000000'} !important;
             }
             .MuiInputBase-input::-webkit-input-placeholder {
-                color: ${pwaConfig.font_color || '#000000'} !important;
+                color: ${pwaConfig.primary_color || '#000000'} !important;
             }
             .MuiInputBase-input::-moz-placeholder {
-                color: ${pwaConfig.font_color || '#000000'} !important;
+                color: ${pwaConfig.primary_color || '#000000'} !important;
             }
             .MuiInputBase-input:-ms-input-placeholder {
-                color: ${pwaConfig.font_color || '#000000'} !important;
+                color: ${pwaConfig.primary_color || '#000000'} !important;
             }
             .MuiInputBase-input::-ms-input-placeholder {
-                color: ${pwaConfig.font_color || '#000000'} !important;
+                color: ${pwaConfig.primary_color || '#000000'} !important;
             }
             .MuiFormLabel-root {
-                color: ${pwaConfig.font_color || '#000000'} !important;
+                color: ${pwaConfig.primary_color || '#000000'} !important;
             }
             .MuiInput-underline:hover:not(.Mui-disabled):before {
                 border-bottom: 2px solid ${pwaConfig.font_color || '#000000'} !important;
@@ -225,8 +231,12 @@ export const frontendConfig = (pwaConfig) => {
             }
             .MuiFormLabel-root {
                 font-family: ${pwaConfig.default_font || 'Montserrat'} !important;
+                color: ${pwaConfig.primary_color || '#000000'} !important;
             }
-  
+            .MuiFormControl-root {
+                color: ${pwaConfig.primary_color || '#000000'} !important;
+            }
+
 
             // TextField Section
             .MuiTextField-root {
