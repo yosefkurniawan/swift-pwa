@@ -2,6 +2,7 @@
 
 import { gql } from '@apollo/client';
 import { modules } from '@config';
+import { useRouter } from '@root/node_modules/next/router';
 
 /**
  * generate dynamic filter query
@@ -11,7 +12,18 @@ import { modules } from '@config';
  */
 
 const filterProduct = (filter) => {
+    const router = useRouter();
+
     let queryFilter = '{ ';
+    if (router.asPath.includes('color')) {
+        const routerPaths = router.asPath.split('?');
+        const routerPathsNext = routerPaths[1].split('&');
+        const routerPathsColor = routerPathsNext[0].split('=');
+
+        queryFilter += `color: {
+        eq: "${routerPathsColor[1]}"
+      }`;
+    }
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < filter.length; index++) {
         const detailFilter = filter[index];
@@ -38,17 +50,18 @@ const filterProduct = (filter) => {
         }
     }
     queryFilter += '}';
+
     return queryFilter;
 };
 
 export const getProductAgragations = () => gql`
-  {
-    products(search:"") {
-      aggregations {
-        attribute_code
-      }
+    {
+        products(search: "") {
+            aggregations {
+                attribute_code
+            }
+        }
     }
-  }
 `;
 
 /**
@@ -66,11 +79,7 @@ export const getProduct = (config = {}) => gql`
   products( search: "${config.search}" ,filter: ${filterProduct(config.filter)},
   pageSize: $pageSize,
   currentPage: $currentPage
-  ${
-    config.sort && config.sort.key && config.sort.key !== 'position'
-        ? `, sort: {${config.sort.key} : ${config.sort.value}}`
-        : ''
-}
+  ${config.sort && config.sort.key && config.sort.key !== 'position' ? `, sort: {${config.sort.key} : ${config.sort.value}}` : ''}
     ) {
       page_info {
         current_page
@@ -78,7 +87,8 @@ export const getProduct = (config = {}) => gql`
        total_pages
      }
       total_count
-      ${!config.customFilter
+      ${
+    !config.customFilter
         ? `aggregations {
         attribute_code
         label
@@ -87,7 +97,9 @@ export const getProduct = (config = {}) => gql`
           label
           value
         }
-      }` : ''}
+      }`
+        : ''
+}
       __typename
       items {
         id
@@ -98,7 +110,9 @@ export const getProduct = (config = {}) => gql`
         short_description {
           html
         }
-        ${config.label_weltpixel_enable ? `
+        ${
+    config.label_weltpixel_enable
+        ? `
         weltpixel_labels {
           categoryLabel {
             css
@@ -127,11 +141,17 @@ export const getProduct = (config = {}) => gql`
             text_font_color  
           }
         }        
-        ` : ''}
-        ${config.configurable_options_enable ? `review {
+        `
+        : ''
+}
+        ${
+    config.configurable_options_enable
+        ? `review {
           rating_summary
           reviews_count
-        }` : ''}
+        }`
+        : ''
+}
         small_image {
           url,
           label
@@ -187,7 +207,9 @@ export const getProduct = (config = {}) => gql`
         new_from_date
         new_to_date
         ${config.label_sale_enable ? 'sale' : ''}
-        ${config.configurable_options_enable ? `
+        ${
+    config.configurable_options_enable
+        ? `
         ... on ConfigurableProduct {
           configurable_options {
             id
@@ -224,12 +246,14 @@ export const getProduct = (config = {}) => gql`
               sku
               stock_status
               url_key
-              ${config.rating_enable
+              ${
+    config.rating_enable
         ? `review {
                 rating_summary
                 reviews_count
               }`
-        : ''}
+        : ''
+}
               price_tiers {
                 discount {
                   percent_off
@@ -287,7 +311,9 @@ export const getProduct = (config = {}) => gql`
             }
           }
         }
-        ` : ''}
+        `
+        : ''
+}
       }
     }
   }
@@ -415,7 +441,9 @@ query getDetailproduct($url_key: String!){
       }
     ) {
       items {
-        ${modules.product.customizableOptions.enabled ? `
+        ${
+    modules.product.customizableOptions.enabled
+        ? `
         ... on CustomizableProductInterface {
           options {
             title
@@ -425,7 +453,9 @@ query getDetailproduct($url_key: String!){
             __typename
           }
         }
-        ` : ''}
+        `
+        : ''
+}
         ${productDetail(config)}
         ${priceRange}
         ${priceTiers}
