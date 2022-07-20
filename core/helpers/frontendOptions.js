@@ -6,7 +6,6 @@ export const frontendConfig = (pwaConfig) => {
                 background-color: ${pwaConfig.background_color || '#ffffff'};
                 color: ${pwaConfig.font_color || '#000000'};
             }
-
             main {
                 background-color: ${pwaConfig.background_color || '#ffffff'};
                 font-family: ${pwaConfig.default_font || 'Montserrat'} !important;
@@ -20,6 +19,14 @@ export const frontendConfig = (pwaConfig) => {
             }
             .checkout-button {
                 background-color: ${pwaConfig.primary_color || '#000000'} !important;
+            }
+            main a {
+                color: ${pwaConfig.link_color || '#000000'} !important;
+                text-decoration: ${pwaConfig.link_font_decoration || 'none'} !important;
+            }
+            main a:hover {
+                color: ${pwaConfig.link_hover_color || '#000000'} !important;
+                text-decoration: ${pwaConfig.link_font_hover_decoration || 'none'} !important;
             }
 
             // PAPER SECTION
