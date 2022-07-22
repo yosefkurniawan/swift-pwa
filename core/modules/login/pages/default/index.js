@@ -1,7 +1,9 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
+import dynamic from 'next/dynamic';
 import Core from '@core_modules/login/pages/default/core';
-import Content from '@core_modules/login/pages/default/components';
+
+const Content = dynamic(() => import('@core_modules/login/pages/default/components'), { ssr: false });
 
 const Page = (props) => <Core {...props} Content={Content} />;
 
