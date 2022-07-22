@@ -52,6 +52,9 @@ export const frontendConfig = (pwaConfig) => {
             .MuiButton-root.Mui-disabled {
                 color: ${pwaConfig.button_disabled_text_color || '#DEDEDE'} !important;
             }
+            .MuiButton-root.Mui-disabled .MuiButton-label .MuiTypography-root {
+                color: ${pwaConfig.button_disabled_text_color || '#DEDEDE'} !important;
+            }
             .MuiButton-textPrimary {
                 color: ${pwaConfig.button_text_color || '#000000'} !important;
             }
