@@ -1,6 +1,7 @@
-import { getLocalStorage } from './localstorage';
-
 /* eslint-disable no-param-reassign */
+const { useReactiveVar } = require('@apollo/client');
+const { currencyVar } = require('@root/core/services/graphql/cache');
+
 const { general } = require('@config');
 const cookies = require('js-cookie');
 
@@ -43,24 +44,27 @@ export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
      * window === undefined to handle localstorage from reload
      */
     const isServer = typeof window === 'undefined';
+    const currencyCache = useReactiveVar(currencyVar);
     // set locale from storeConfig -> locale if exists, otherwise use default locale set in swift.config.js
-    let config = {};
-    let localeConfig = general.defaultCurrencyLocale;
-    let enableRemoveDecimal = false;
+    let localeConfig = currencyCache.locale;
+    const { enableRemoveDecimal } = currencyCache;
 
+    // /* --- CHANGE TO CURRENT CURRENCY --- */
     if (!isServer) {
-        config = getLocalStorage('pricing_config');
-        localeConfig = config.locales ? config.locales.split('_', '-') : general.defaultCurrencyLocale;
-        enableRemoveDecimal = config.remove_decimal_config;
-    }
-
-    /* --- CHANGE TO CURRENT CURRENCY --- */
-    const APP_CURRENCY = isServer ? undefined : cookies.get('app_currency');
-    if (APP_CURRENCY !== undefined) {
-        const getCurrent = getCurrentCurrency({ APP_CURRENCY, value });
-        currency = getCurrent.currency;
-        value = getCurrent.value;
-        localeConfig = currenciesToLocale[currency];
+        if (currencyCache.appCurrency) {
+            const getCurrent = getCurrentCurrency({ APP_CURRENCY: currencyCache.appCurrency, value });
+            currency = getCurrent.currency;
+            value = getCurrent.value;
+            localeConfig = currenciesToLocale[currency];
+        } else {
+            const APP_CURRENCY = cookies.get('app_currency');
+            if (APP_CURRENCY !== undefined) {
+                const getCurrent = getCurrentCurrency({ APP_CURRENCY, value });
+                currency = getCurrent.currency;
+                value = getCurrent.value;
+                localeConfig = currenciesToLocale[currency];
+            }
+        }
     }
     /* --- CHANGE TO CURRENT CURRENCY --- */
 
