@@ -382,7 +382,7 @@ const AddressView = (props) => {
                 <div className={[styles.address_form].join(' ')}>
                     <form onSubmit={formik.handleSubmit} autoComplete="new-password">
                         <CustomTextField
-                            className="addressForm-firtsName-textField"
+                            id="addressForm-firtsName-textField"
                             autoComplete="new-password"
                             label={t('common:form:firstName')}
                             name="firstname"
@@ -392,7 +392,7 @@ const AddressView = (props) => {
                             errorMessage={(formik.touched.firstname && formik.errors.firstname) || null}
                         />
                         <CustomTextField
-                            className="addressForm-lastName-textField"
+                            id="addressForm-lastName-textField"
                             autoComplete="new-password"
                             label={t('common:form:lastName')}
                             name="lastname"
@@ -402,7 +402,7 @@ const AddressView = (props) => {
                             errorMessage={(formik.touched.lastname && formik.errors.lastname) || null}
                         />
                         <CustomTextField
-                            className="addressForm-phoneNumber-textField"
+                            id="addressForm-phoneNumber-textField"
                             autoComplete="new-password"
                             label={t('common:form:phoneNumber')}
                             name="telephone"
@@ -417,7 +417,7 @@ const AddressView = (props) => {
                         {enableSplitCity ? getDistrictRender() : null}
                         {enableSplitCity ? getVillageRender() : null}
                         <CustomTextField
-                            className="addressForm-postalCode-textField"
+                            id="addressForm-postalCode-textField"
                             autoComplete="new-password"
                             label={t('common:form:postal')}
                             name="postcode"
@@ -464,12 +464,11 @@ const AddressView = (props) => {
                         {disableDefaultAddress != null && (
                             <div>
                                 <FormControlLabel
-                                    className="addressForm-addressDefault-checkbox"
                                     value={formik.values.defaultShippingBilling}
                                     checked={formik.values.defaultShippingBilling}
                                     onChange={() => formik.setFieldValue('defaultShippingBilling', !formik.values.defaultShippingBilling)}
                                     name="defaultShippingBilling"
-                                    control={<Checkbox name="checkboxDefaultShippingBilling" color="primary" size="small" />}
+                                    control={<Checkbox id="addressForm-addressDefault-checkbox" name="checkboxDefaultShippingBilling" color="primary" size="small" />}
                                     label={(
                                         <Typography variant="p" letter="capitalize" className="row center">
                                             {t('customer:address:useDefault')}
@@ -482,12 +481,11 @@ const AddressView = (props) => {
                         {gmapKey ? (
                             <div style={{ marginTop: '1rem' }}>
                                 <FormControlLabel
-                                    className="addressForm-confirmPinPoint-checkbox"
                                     value={formik.values.confirmPinPoint}
                                     checked={formik.values.confirmPinPoint}
                                     onChange={() => formik.setFieldValue('confirmPinPoint', !formik.values.confirmPinPoint)}
                                     name="confirmPinPoint"
-                                    control={<Checkbox name="newsletter" color="primary" size="small" />}
+                                    control={<Checkbox id="addressForm-confirmPinPoint-checkbox" name="newsletter" color="primary" size="small" />}
                                     label={(
                                         <Typography variant="h4" className="row center" style={{ fontWeight: '600' }}>
                                             {`${t('customer:address:confirmPinPoint')}`}

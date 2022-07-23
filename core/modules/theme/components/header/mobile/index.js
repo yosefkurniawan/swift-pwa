@@ -129,9 +129,12 @@ const Header = ({ LeftComponent, CenterComponent, RightComponent, className, pag
                 {React.isValidElement(LeftComponent) ? (
                     LeftComponent
                 ) : (
-                    <Button onClick={(LeftComponent && LeftComponent.onClick && LeftComponent.onClick) || back} className={styles.btnBack}>
+                    <Button
+                        onClick={(LeftComponent && LeftComponent.onClick && LeftComponent.onClick) || back}
+                        className={classNames(styles.btnBack, 'header-closeBtn')}
+                    >
                         {pageConfig.headerBackIcon && pageConfig.headerBackIcon === 'close' ? (
-                            <CloseIcon className={classNames(styles.backIcon, 'header-closeBtn')} />
+                            <CloseIcon className={styles.backIcon} />
                         ) : (
                             <ArrowBack className={styles.backIcon} />
                         )}

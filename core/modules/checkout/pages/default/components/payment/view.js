@@ -18,8 +18,6 @@ import ModalHowtoPay from '@core_modules/checkout/pages/default/components/Modal
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import TravelokaPayForm from '@core_modules/checkout/pages/default/components/payment/components/TravelokaPayForm';
-import classNames from 'classnames';
-
 import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
 
 const ExpansionPanel = withStyles(ExpanPanelStyle)(MuiExpansionPanel);
@@ -198,7 +196,10 @@ const PaymentView = (props) => {
                                         <ExpansionPanelSummary
                                             aria-controls="panel1d-content"
                                             id={`panel-${item.group}`}
-                                            expandIcon={<Arrow className={classNames(styles.icon, 'checkout-paymentGroupping-expand')} />}
+                                            expandIcon={<Arrow className={styles.icon} />}
+                                            IconButtonProps={{
+                                                className: 'checkout-paymentGroupping-expand',
+                                            }}
                                         >
                                             <div className={styles.labelSummary}>
                                                 <PaymentGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />

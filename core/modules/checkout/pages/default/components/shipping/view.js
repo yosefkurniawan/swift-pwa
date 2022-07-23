@@ -10,7 +10,6 @@ import Arrow from '@material-ui/icons/ArrowDropDown';
 import DeliveryItem from '@core_modules/checkout/components/radioitem';
 import Alert from '@material-ui/lab/Alert';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
-import classNames from 'classnames';
 
 import {
     ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle,
@@ -185,7 +184,10 @@ const ShippingView = (props) => {
                                         <AccordionSummary
                                             aria-controls="panel1d-content"
                                             id={`panel-${item.group}`}
-                                            expandIcon={<Arrow className={classNames(styles.icon, 'checkout-shippingGroupping-expand')} />}
+                                            expandIcon={<Arrow className={styles.icon} />}
+                                            IconButtonProps={{
+                                                className: 'checkout-shippingGroupping-expand',
+                                            }}
                                         >
                                             <div className={styles.labelAccordion}>
                                                 <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
