@@ -1,7 +1,4 @@
 /* eslint-disable no-param-reassign */
-const { useReactiveVar } = require('@apollo/client');
-const { currencyVar } = require('@root/core/services/graphql/cache');
-
 const { general } = require('@config');
 const cookies = require('js-cookie');
 
@@ -39,24 +36,29 @@ const getCurrentCurrency = ({ APP_CURRENCY, value }) => {
  * @param {double} value
  * @param {string} currency
  */
-export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
+export const formatPrice = (value, currency = general.defaultCurrencyCode, currencyCache) => {
+    let localeConfig = general.defaultCurrencyLocale;
+    let enableRemoveDecimal = false;
+    // set locale from storeConfig -> locale if exists, otherwise use default locale set in swift.config.js
+    if (currencyCache) {
+        localeConfig = currencyCache.locale;
+        enableRemoveDecimal = currencyCache.enableRemoveDecimal;
+    }
     /**
      * window === undefined to handle localstorage from reload
      */
+
     const isServer = typeof window === 'undefined';
-    const currencyCache = useReactiveVar(currencyVar);
-    // set locale from storeConfig -> locale if exists, otherwise use default locale set in swift.config.js
-    let localeConfig = currencyCache.locale;
-    const { enableRemoveDecimal } = currencyCache;
 
     // /* --- CHANGE TO CURRENT CURRENCY --- */
     if (!isServer) {
-        if (currencyCache.appCurrency) {
+        if (currencyCache && currencyCache.appCurrency) {
             const getCurrent = getCurrentCurrency({ APP_CURRENCY: currencyCache.appCurrency, value });
             currency = getCurrent.currency;
             value = getCurrent.value;
             localeConfig = currenciesToLocale[currency];
         } else {
+            console.log('wehaha');
             const APP_CURRENCY = cookies.get('app_currency');
             if (APP_CURRENCY !== undefined) {
                 const getCurrent = getCurrentCurrency({ APP_CURRENCY, value });
