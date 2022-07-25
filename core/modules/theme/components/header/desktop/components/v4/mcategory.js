@@ -10,6 +10,9 @@ import getPath from '@helper_getpath';
 import { setResolver, getResolver } from '@helper_localstorage';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import CmsRenderer from '@core_modules/cms/components/cms-renderer';
+import { makeStyles } from '@material-ui/core/styles';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const MenuChildren = dynamic(() => import('@common_headerdesktop/components/mcategoryChildren'), { ssr: false });
 
@@ -66,26 +69,50 @@ const Menu = (props) => {
             <ul className="nav" role="menubar">
                 {menu.map((val, idx) => {
                     if ((val.include_in_menu || storeConfig.pwa.ves_menu_enable) && val.name) {
+                        const useStyles = makeStyles(() => ({
+                            linkStyle: {
+                                backgroundColor: val.bg_color || WHITE,
+                                color: val.color || PRIMARY,
+                                '&:hover': {
+                                    backgroundColor: val.bg_hover_color,
+                                    color: val.hover_color,
+                                },
+                            },
+                        }));
+
+                        const styles = useStyles();
+
                         return (
                             <li key={idx} role="menuitem">
                                 {val.link ? (
                                     <>
+                                        <i className={val.icon_classes} />
                                         <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
-                                            <a onClick={() => handleClick(val)} dangerouslySetInnerHTML={{ __html: val.name }} />
+                                            <a
+                                                onClick={() => handleClick(val)}
+                                                dangerouslySetInnerHTML={{ __html: val.name }}
+                                                className={styles.linkStyle}
+                                            />
                                         </Link>
-                                        {
-                                            val.children.length > 0 ? (
-                                                <div className="pointer" />
-                                            ) : null
-                                        }
+                                        {val.children.length > 0 ? <div className="pointer" /> : null}
                                     </>
                                 ) : (
                                     <a href="#" dangerouslySetInnerHTML={{ __html: val.name }} />
                                 )}
 
                                 {val.children.length > 0 ? (
-                                    <div className="mega-menu row" aria-hidden="true" role="menu">
-                                        <MenuChildren data={val.children} handleClick={handleClick} generateLink={generateLink} />
+                                    <div className="mega-menu grid" aria-hidden="true" role="menu">
+                                        {val.show_header && (
+                                            <div className="header-html grid">
+                                                <CmsRenderer content={val.header_html} />
+                                            </div>
+                                        )}
+                                        <MenuChildren data={val.children} handleClick={handleClick} generateLink={generateLink} mainData={val} />
+                                        {val.show_footer && (
+                                            <div className="footer-html grid">
+                                                <CmsRenderer content={val.footer_html} />
+                                            </div>
+                                        )}
                                     </div>
                                 ) : null}
                             </li>
@@ -96,6 +123,25 @@ const Menu = (props) => {
             </ul>
             <style jsx global>
                 {`
+                    .grid {
+                        display: grid;
+                    }
+                    /* ves menu config */
+                    .header-html, .footer-html {
+                        color: black;
+                    }
+                    .header-html ul, .footer-html ul {
+                        display: flex;
+                        align-items: center;
+                        height: 100%;
+                    }
+                    .header-html ul li, .footer-html ul li {
+                        text-align: center;
+                        flex-grow: 1;
+                    }
+                    .main-content {
+                        display: flex;
+                    }
                     /* mini reset */
                     .nav {
                         width: 100%;
@@ -133,8 +179,6 @@ const Menu = (props) => {
 
                     /* menu links */
                     .nav > li > a {
-                        background: ${WHITE};
-                        color: ${PRIMARY};
                         display: block;
                         font-weight: bold;
                         line-height: 3.5;
@@ -142,10 +186,6 @@ const Menu = (props) => {
                         transition: all 0.3s ease;
                         z-index: 510;
                         position: relative;
-                    }
-                    .nav > li > a:focus,
-                    .nav > li:hover > a {
-                        color: #4b4441;
                     }
                     .nav > li:hover > a  + .pointer {
                         visibility: visible;
@@ -220,10 +260,12 @@ const Menu = (props) => {
                         position: absolute;
                         transition: all 0s ease 0s;
                         visibility: hidden;
-                        width: 140%;
+                        width: 1000px;
                         left: 0;
-                        margin-left: -18%;
+                        margin-left: -50%;
                         min-height: 300px;
+                        grid-template-columns: 1fr;
+
                     }
                     li:hover > .mega-menu {
                         opacity: 1;
@@ -242,7 +284,7 @@ const Menu = (props) => {
                             position: absolute;
                             transition: all 0s ease 0s;
                             visibility: hidden;
-                            width: 140%;
+                            width: 1000px;
                             left: 0;
                             padding: auto;
                             margin: auto;
@@ -260,6 +302,12 @@ const Menu = (props) => {
                             line-height: 1.75;
                             margin: 0;
                             padding: 7px;
+                        }
+                    }
+                    
+                    @media (min-width: 1600px) {
+                        .mega-menu {
+                            width: 1200px;
                         }
                     }
 

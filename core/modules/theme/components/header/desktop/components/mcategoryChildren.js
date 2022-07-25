@@ -1,16 +1,23 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Thumbor from '@common_image';
 import Link from 'next/link';
 import React from 'react';
+import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 
-const MenuChildren = ({ data, handleClick, generateLink }) => {
+const MenuChildren = ({ data, handleClick, generateLink, mainData }) => {
     const [active, setActive] = React.useState(0);
     const child = data[active];
     return (
-        <>
-            <div className="nav-column nav-column-left col-lg-2">
+        <div className="main-content">
+            {mainData && (
+                <div className="left-sidebar" style={{ width: mainData.left_sidebar_width }}>
+                    <CmsRenderer content={mainData.left_sidebar_html} />
+                </div>
+            )}
+            <div className="nav-column nav-column-left" style={{ width: '150px' }}>
                 {data.map((val, idx) => (
                     <Link key={idx} href={generateLink(val)[0]} as={generateLink(val)[1]}>
                         <a onClick={() => handleClick(val)} className={active === idx ? 'active' : ''} onMouseEnter={() => setActive(idx)}>
@@ -19,7 +26,7 @@ const MenuChildren = ({ data, handleClick, generateLink }) => {
                     </Link>
                 ))}
             </div>
-            <div className="nav-column nav-column-right col-lg-10 row">
+            <div className="nav-column nav-column-right" style={{ width: '500px' }}>
                 <div className={`${child.image_path ? 'col-lg-9' : 'col-lg-12'} row`}>
                     {child.children.map((lvl3, id3) => (
                         <div className="col-lg-3" key={id3}>
@@ -52,6 +59,11 @@ const MenuChildren = ({ data, handleClick, generateLink }) => {
                     </div>
                 ) : null}
             </div>
+            {mainData && (
+                <div className="right-sidebar" style={{ width: mainData.right_sidebar_width }}>
+                    <CmsRenderer content={mainData.right_sidebar_html} />
+                </div>
+            )}
             <style jsx>
                 {`
                     .row {
@@ -71,7 +83,7 @@ const MenuChildren = ({ data, handleClick, generateLink }) => {
                     }
                 `}
             </style>
-        </>
+        </div>
     );
 };
 
