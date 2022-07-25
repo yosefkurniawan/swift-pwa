@@ -30,26 +30,10 @@ const ImageSlide = ({
     if (video) {
         if (imageUrl && video) {
             return <ProductVideo videoUrl={video} />;
-        } if (!imageUrl && video) {
+        }
+        if (!imageUrl && video) {
             return <ProductVideo videoUrl={video} />;
         }
-        return (
-            <Thumbor
-                src={imageUrl}
-                srcMobile={mobileImageUrl}
-                width={width || storeConfig?.pwa?.home_slider_desktop_width}
-                height={height || storeConfig?.pwa?.home_slider_desktop_height}
-                widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
-                heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
-                alt={href}
-                quality={100}
-                className={
-                    contentWidth === 'auto'
-                        ? classNames(styles.imageSliderAuto, styles.imageSlider, customClass)
-                        : classNames(styles.imageSlider, customClass)
-                }
-            />
-        );
     }
     return (
         <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })}>
