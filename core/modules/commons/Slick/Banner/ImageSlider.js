@@ -22,6 +22,7 @@ const ImageSlide = ({
     contentWidth,
     customClass = '',
     video,
+    videoUrl,
     storeConfig,
 }) => {
     const styles = useStyles();
@@ -29,10 +30,15 @@ const ImageSlide = ({
 
     if (video) {
         if (imageUrl && video) {
-            return <ProductVideo videoUrl={video} />;
+            return <ProductVideo video={video} />;
         }
         if (!imageUrl && video) {
-            return <ProductVideo videoUrl={video} />;
+            return <ProductVideo video={video} />;
+        }
+    }
+    if (videoUrl) {
+        if (videoUrl.video_url) {
+            return <ProductVideo videoUrl={videoUrl} />;
         }
     }
     return (
