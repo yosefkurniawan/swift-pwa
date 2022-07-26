@@ -4,14 +4,16 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useRef } from 'react';
 import { WHITE, PRIMARY } from '@theme_color';
 import getPath from '@helper_getpath';
 import { setResolver, getResolver } from '@helper_localstorage';
+import classNames from 'classnames';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 import { makeStyles } from '@material-ui/core/styles';
+import { useRouter } from 'next/router';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const MenuChildren = dynamic(() => import('@common_headerdesktop/components/mcategoryChildren'), { ssr: false });
@@ -23,6 +25,7 @@ const Menu = (props) => {
     if (!menu) {
         menu = [];
     }
+    const router = useRouter();
     const generateLink = (cat) => {
         const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
         if (storeConfig.pwa.ves_menu_enable) {
@@ -78,21 +81,58 @@ const Menu = (props) => {
                                     color: val.hover_color,
                                 },
                             },
+                            vesMegaMenu: {
+                                backgroundColor: val.dropdown_bgcolor || WHITE,
+                            },
                         }));
 
                         const styles = useStyles();
+
+                        const linkEl = useRef(null);
+
+                        let prefix = '';
+                        if (val.icon_classes !== '') {
+                            prefix = `<i class='${val.icon_classes}'></i>`;
+                        }
+                        if (val.show_icon === true && val.icon !== '') {
+                            prefix += `<img src='${val.icon}' />`;
+                        }
+
+                        prefix += ` ${val.name} `;
+
+                        if (val.caret !== '') {
+                            prefix += `<i class='${val.caret}'></i>`;
+                        }
 
                         return (
                             <li key={idx} role="menuitem">
                                 {val.link ? (
                                     <>
-                                        <i className={val.icon_classes} />
                                         <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
-                                            <a
-                                                onClick={() => handleClick(val)}
-                                                dangerouslySetInnerHTML={{ __html: val.name }}
-                                                className={styles.linkStyle}
-                                            />
+                                            <>
+                                                {val.before_html && <div dangerouslySetInnerHTML={{ __html: val.before_html }} />}
+                                                <a
+                                                    onClick={() => {
+                                                        if (val.linktype === 'category_link') {
+                                                            handleClick(val);
+                                                        } else if (val.linktype === 'custom_link') {
+                                                            router.push(val.link);
+                                                        }
+                                                    }}
+                                                    ref={linkEl}
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: prefix !== '' ? `${prefix}` : val.name,
+                                                    }}
+                                                    onMouseEnter={() => {
+                                                        linkEl.current.innerHTML = linkEl.current.innerHTML.replace(val.caret, val.hover_caret);
+                                                    }}
+                                                    onMouseLeave={() => {
+                                                        linkEl.current.innerHTML = linkEl.current.innerHTML.replace(val.hover_caret, val.caret);
+                                                    }}
+                                                    className={styles.linkStyle}
+                                                />
+                                                {val.after_html && <div dangerouslySetInnerHTML={{ __html: val.after_html }} />}
+                                            </>
                                         </Link>
                                         {val.children.length > 0 ? <div className="pointer" /> : null}
                                     </>
@@ -101,7 +141,7 @@ const Menu = (props) => {
                                 )}
 
                                 {val.children.length > 0 ? (
-                                    <div className="mega-menu grid" aria-hidden="true" role="menu">
+                                    <div className={classNames('mega-menu', 'grid', styles.vesMegaMenu)} aria-hidden="true" role="menu">
                                         {val.show_header && (
                                             <div className="header-html grid">
                                                 <CmsRenderer content={val.header_html} />
