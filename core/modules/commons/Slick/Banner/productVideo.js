@@ -11,7 +11,7 @@ const generateVideo = (props) => {
                 <iframe
                     width="100%"
                     height="600"
-                    src={urlVideoTag[5] || video.video_url}
+                    src={urlVideoTag[5]}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
