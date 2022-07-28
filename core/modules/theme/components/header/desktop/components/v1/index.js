@@ -9,7 +9,7 @@ import ProductCompareIcon from '@core_modules/catalog/plugins/ProductCompare';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
 import DesktopInstallApp from '@core_modules/theme/components/custom-install-popup/desktop';
-import Menu from '@core_modules/theme/components/header/desktop/components/mcategory';
+import Menu from '@core_modules/theme/components/header/desktop/components/v1/mcategory';
 import TopMenu from '@core_modules/theme/components/header/desktop/components/mtop';
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
 import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';

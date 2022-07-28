@@ -97,7 +97,7 @@ export const getVesMenu = `
                 hover_color
                 bg_color
                 bg_hover_color
-                dropdown_inline_css
+                inline_css
                 menu_id
                 name
                 content_type

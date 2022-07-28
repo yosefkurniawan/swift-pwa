@@ -15,8 +15,9 @@ import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 import { makeStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'animate.css';
 
-const MenuChildren = dynamic(() => import('@common_headerdesktop/components/mcategoryChildren'), { ssr: false });
+const MenuChildren = dynamic(() => import('@common_headerdesktop/components/v4/mcategoryChildren'), { ssr: false });
 
 const Menu = (props) => {
     const { data, storeConfig } = props;
@@ -74,21 +75,25 @@ const Menu = (props) => {
                     if ((val.include_in_menu || storeConfig.pwa.ves_menu_enable) && val.name) {
                         const useStyles = makeStyles(() => ({
                             linkStyle: {
-                                backgroundColor: val.bg_color || WHITE,
-                                color: val.color || PRIMARY,
+                                backgroundColor: `${val.bg_color} !important` || WHITE,
+                                color: `${val.color} !important` || PRIMARY,
                                 '&:hover': {
-                                    backgroundColor: val.bg_hover_color,
-                                    color: val.hover_color,
+                                    backgroundColor: `${val.bg_hover_color} !important` || '#F3F3F3',
+                                    color: `${val.hover_color} !important` || '#FF0000',
                                 },
                             },
                             vesMegaMenu: {
                                 backgroundColor: val.dropdown_bgcolor || WHITE,
+                            },
+                            animationDuration: {
+                                animationDuration: `${val.dropdown_animation_time || '1'}s`,
                             },
                         }));
 
                         const styles = useStyles();
 
                         const linkEl = useRef(null);
+                        const megaMenuRef = useRef(null);
 
                         let prefix = '';
                         if (val.icon_classes !== '') {
@@ -105,7 +110,22 @@ const Menu = (props) => {
                         }
 
                         return (
-                            <li key={idx} role="menuitem">
+                            <li
+                                key={idx}
+                                role="menuitem"
+                                onMouseEnter={() => {
+                                    if (megaMenuRef && val.dropdown_animation_in) {
+                                        megaMenuRef.current.classList.add('animate__animated');
+                                        megaMenuRef.current.classList.add(`animate__${val.dropdown_animation_in}`);
+                                    }
+                                }}
+                                onMouseLeave={() => {
+                                    if (megaMenuRef && val.dropdown_animation_in) {
+                                        megaMenuRef.current.classList.remove('animate__animated');
+                                        megaMenuRef.current.classList.remove(`animate__${val.dropdown_animation_in}`);
+                                    }
+                                }}
+                            >
                                 {val.link ? (
                                     <>
                                         <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
@@ -124,10 +144,14 @@ const Menu = (props) => {
                                                         __html: prefix !== '' ? `${prefix}` : val.name,
                                                     }}
                                                     onMouseEnter={() => {
-                                                        linkEl.current.innerHTML = linkEl.current.innerHTML.replace(val.caret, val.hover_caret);
+                                                        if (val.caret) {
+                                                            linkEl.current.innerHTML = linkEl.current.innerHTML.replace(val.caret, val.hover_caret);
+                                                        }
                                                     }}
                                                     onMouseLeave={() => {
-                                                        linkEl.current.innerHTML = linkEl.current.innerHTML.replace(val.hover_caret, val.caret);
+                                                        if (val.hover_caret) {
+                                                            linkEl.current.innerHTML = linkEl.current.innerHTML.replace(val.hover_caret, val.caret);
+                                                        }
                                                     }}
                                                     className={styles.linkStyle}
                                                 />
@@ -141,7 +165,12 @@ const Menu = (props) => {
                                 )}
 
                                 {val.children.length > 0 ? (
-                                    <div className={classNames('mega-menu', 'grid', styles.vesMegaMenu)} aria-hidden="true" role="menu">
+                                    <div
+                                        className={classNames('mega-menu', 'grid', styles.vesMegaMenu, styles.animationDuration)}
+                                        aria-hidden="true"
+                                        role="menu"
+                                        ref={megaMenuRef}
+                                    >
                                         {val.show_header && (
                                             <div className="header-html grid">
                                                 <CmsRenderer content={val.header_html} />
