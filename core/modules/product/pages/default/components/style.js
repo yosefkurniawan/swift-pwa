@@ -245,9 +245,6 @@ const useStyles = makeStyles((theme) => ({
         width: '120px',
         alignItems: 'center',
         justifyContent: 'space-between',
-        '&:hover': {
-            background: WHITE,
-        },
     },
 }));
 

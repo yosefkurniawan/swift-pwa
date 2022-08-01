@@ -343,7 +343,7 @@ const ViewTopNavigation = (props) => {
                         }
 
                         main {
-                            background-color: transparent;
+                            background-color: transparent !important;
                         }
                         .header-top {
                             height: 45px;
