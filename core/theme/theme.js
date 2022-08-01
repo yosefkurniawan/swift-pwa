@@ -1,7 +1,7 @@
-import { red } from '@material-ui/core/colors';
+/* eslint-disable object-curly-newline */
 import { createMuiTheme } from '@material-ui/core/styles';
 import {
-    GRAY_SECONDARY, PRIMARY, SECONDARY, WHITE,
+    GRAY_SECONDARY, PRIMARY, SECONDARY, BACKGROUND_COLOR, ERROR_COLOR, WARNING_COLOR, SUCCESS_COLOR,
 } from '@theme_color';
 import { FONT_24, FONT_DEFAULT, FONT_REGULAR } from '@theme_typography';
 import { BREAKPOINTS } from '@theme_vars';
@@ -16,10 +16,16 @@ const theme = createMuiTheme({
             main: SECONDARY,
         },
         error: {
-            main: red.A400,
+            main: ERROR_COLOR,
+        },
+        success: {
+            main: SUCCESS_COLOR,
+        },
+        warning: {
+            main: WARNING_COLOR,
         },
         background: {
-            default: WHITE,
+            default: BACKGROUND_COLOR,
         },
     },
     breakpoints: {

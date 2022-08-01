@@ -9,12 +9,12 @@ import {
     FONT_24,
 } from '@theme_typography';
 import {
-    PRIMARY, RED, GREEN, ORANGE, WHITE, GRAY_SECONDARY,
+    RED, GREEN, ORANGE, WHITE, GRAY_SECONDARY, FONT_COLOR,
 } from '@theme/colors';
 
 const useStyles = makeStyles(() => ({
     default: {
-        color: PRIMARY,
+        color: FONT_COLOR,
     },
     white: {
         color: WHITE,
@@ -33,7 +33,6 @@ const useStyles = makeStyles(() => ({
     },
     root: {
         margin: 5,
-        // color: PRIMARY,
     },
     p: {
         fontSize: 10,

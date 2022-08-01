@@ -69,8 +69,9 @@ const NewsletterPopup = (props) => {
                         )}`,
                     },
                 }}
+                PaperProps={{ id: 'newsletter-wrapper-dialog' }}
             >
-                <CloseIcon className={styles.closeBtn} onClick={handleClose} />
+                <CloseIcon id="newsletter-handleClose-btn" className={styles.closeBtn} onClick={handleClose} />
                 {data ? (
                     <div className={classNames(styles.newsletter, 'cms-container')}>
                         <WidgetNewsletterPopup t={t} storeConfig={storeConfig} data={data} handleClose={handleClose} />

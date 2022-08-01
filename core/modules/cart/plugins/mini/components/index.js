@@ -24,7 +24,7 @@ const MiniComponent = (props) => {
     return (
         <Drawer anchor="right" open={open} onClose={setOpen}>
             <div className={styles.container}>
-                <div className={styles.mini_top}>
+                <div className={styles.mini_top} id="minicart-top">
                     <span>
                         {count}
                         {' '}
@@ -44,6 +44,7 @@ const MiniComponent = (props) => {
                             <span>{data.prices ? formatPrice(subtotal_including_tax, subtotal_including_tax_currency) : '-'}</span>
                         </div>
                         <div
+                            id="plugin-minicart-editCartBtn"
                             className="edit-cart"
                             onClick={() => {
                                 setOpen();
@@ -56,6 +57,7 @@ const MiniComponent = (props) => {
                             <div className="checkout">
                                 <div
                                     className="checkout-button"
+                                    id="plugin-minicart-checkoutBtn"
                                     onClick={() => {
                                         const minimumOrderEnabled = storeConfig.minimum_order_enable;
                                         const grandTotalValue = data.prices.grand_total.value;

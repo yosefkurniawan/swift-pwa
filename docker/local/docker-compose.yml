@@ -8,6 +8,7 @@ services:
             - PORT=3000
             - NODE_ENV=development
             - APP_ENV=local
+            - NODE_TLS_REJECT_UNAUTHORIZED=0
         ports:
             - 3000:3000
         volumes:

@@ -34,7 +34,7 @@ const ConfigurableView = (props) => {
     return (
         <>
             {showQty && (
-                <div className={styles.qty}>
+                <div className={classNames(styles.qty, 'product-OptionItem-qty')}>
                     <Typography type="bold" variant="span">
                         {t('common:title:qty')}
                     </Typography>
@@ -44,6 +44,7 @@ const ConfigurableView = (props) => {
             {showAddToCart && (
                 <div className={styles.btnAddToCardContainer}>
                     <Button
+                        id="plugin-addToCart-btn"
                         className={classNames(styles.btnAddToCard, customStyleBtnAddToCard)}
                         color="primary"
                         onClick={handleAddToCart}

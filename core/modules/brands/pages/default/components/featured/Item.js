@@ -6,16 +6,20 @@ import useStyles from '@core_modules/brands/pages/default/components/featured/st
 const ItemFeatured = (props) => {
     const styles = useStyles();
     const {
-        key, logo, name, category_url,
+        key, logo, name, category_url, is_active,
     } = props;
     return (
-        <div
-            key={key}
-            className={styles.container}
-            onClick={() => (category_url ? Router.push('/[...slug]', `/${category_url.replace('.html', '')}`) : null)}
-        >
-            <img className={styles.imgBrand} src={logo} alt={name} />
-        </div>
+        <>
+            {is_active === 1 ? (
+                <div
+                    key={key}
+                    className={styles.container}
+                    onClick={() => (category_url ? Router.push('/[...slug]', `/${category_url.replace('.html', '')}`) : null)}
+                >
+                    <img className={styles.imgBrand} src={logo} alt={name} />
+                </div>
+            ) : null}
+        </>
     );
 };
 

@@ -7,7 +7,7 @@ import config from '@config';
 
 const ViewTop = (props) => {
     const {
-        isLogin, t, data, handleLogout,
+        isLogin, t, data, handleLogout, storeConfig,
     } = props;
     const { modules } = config;
     return (
@@ -96,7 +96,6 @@ const ViewTop = (props) => {
                         float: right;
                         font-size: 10px;
                         text-transform: uppercase;
-                        font-family: Montserrat !important;
                     }
 
                     li {
@@ -126,7 +125,7 @@ const ViewTop = (props) => {
                         left: 100%;
                     }
                     a {
-                        color: #000;
+                        color: ${storeConfig && storeConfig.pwa && storeConfig.pwa.primary_color} !important;
                         text-decoration: none;
                     }
 

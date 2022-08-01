@@ -182,7 +182,12 @@ const Summary = (props) => {
             <div className={styles.footer}>
                 {
                     !hideButton ? (
-                        <Button loading={loading} disabled={disabled} className={styles.btnCheckout} onClick={handleActionSummary}>
+                        <Button
+                            loading={loading}
+                            disabled={disabled}
+                            className={classNames(styles.btnCheckout, 'plugin-cart-checkoutBtn')}
+                            onClick={handleActionSummary}
+                        >
                             <Typography variant="span" color="white" type="bold" letter="uppercase">
                                 {t('common:button:checkout')}
                             </Typography>

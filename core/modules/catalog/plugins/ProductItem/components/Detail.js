@@ -51,7 +51,7 @@ const Detail = (props) => {
                 </Button>
             )}
             <Link onClick={handleClick} className={styles.productLinkButton}>
-                <Typography variant="p" className={styles.productTitle} letter="capitalize">
+                <Typography variant="p" className={styles.productTitle} id="plugin-productTitle-typography" letter="capitalize">
                     {name}
                 </Typography>
             </Link>

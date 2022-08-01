@@ -49,12 +49,61 @@ export const getVesMenu = `
             name
             items {
                 id
+                status
+                classes
+                category
+                target
+                show_icon
+                icon
+                hover_icon
+                icon_position
+                icon_classes
+                disable_dimension
+                caret
+                hover_caret
+                before_html
+                after_html
+                is_group
+                sub_width
+                dropdown_animation_in
+                dropdown_animation_time
+                dropdown_align
+                dropdown_bgcolor
+                dropdown_bgimage
+                dropdown_bgimagerepeat
+                dropdown_bgpositionx
+                dropdown_bgpositiony
+                dropdown_inlinecss
+                show_header
+                header_html
+                show_left_sidebar
+                left_sidebar_width
+                left_sidebar_html
+                show_content
+                content_width
+                parentcat
+                child_col
+                child_col_type
+                content_html
+                tab_position
+                isgroup_level
+                submenu_sorttype
+                show_right_sidebar
+                right_sidebar_width
+                right_sidebar_html
+                show_footer
+                footer_html
+                color
+                hover_color
+                bg_color
+                bg_hover_color
+                inline_css
+                menu_id
                 name
-                link
                 content_type
                 link_type
                 category_id
-                menu_id
+                link
                 children {
                     id
                     name
@@ -181,6 +230,28 @@ export const storeConfig = `
         ves_menu_alias
         ves_menu_enable
         ves_menu_enable
+        primary_color
+        secondary_color
+        background_color
+        error_color
+        warning_msg_color
+        success_msg_color
+        font_color
+        default_font
+        heading_font
+        button_background_color
+        button_background_hover_color
+        button_disabled_text_color
+        button_disabled_background_color
+        button_text_color
+        button_text_hover_color
+        button_disabled_text_color
+        button_border_color
+        button_border_hover_color
+        link_color
+        link_hover_color
+        link_font_decoration
+        link_font_hover_decoration
       }
       store_name
       welcome
@@ -236,6 +307,37 @@ export const storeConfig = `
       minimum_order_enable
     }
   }  
+`;
+
+export const frontendOptions = `
+{
+    storeConfig {
+        pwa {
+            primary_color
+            secondary_color
+            background_color
+            error_color
+            warning_msg_color
+            success_msg_color
+            font_color
+            default_font
+            heading_font
+            button_background_color
+            button_background_hover_color
+            button_disabled_text_color
+            button_disabled_background_color
+            button_text_color
+            button_text_hover_color
+            button_disabled_text_color
+            button_border_color
+            button_border_hover_color
+            link_color
+            link_hover_color
+            link_font_decoration
+            link_font_hover_decoration
+        }
+    }
+}
 `;
 
 export const getCmsList = `

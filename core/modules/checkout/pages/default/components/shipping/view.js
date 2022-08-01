@@ -185,6 +185,9 @@ const ShippingView = (props) => {
                                             aria-controls="panel1d-content"
                                             id={`panel-${item.group}`}
                                             expandIcon={<Arrow className={styles.icon} />}
+                                            IconButtonProps={{
+                                                className: 'checkout-shippingGroupping-expand',
+                                            }}
                                         >
                                             <div className={styles.labelAccordion}>
                                                 <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />

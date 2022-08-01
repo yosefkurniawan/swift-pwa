@@ -14,9 +14,10 @@ import dynamic from 'next/dynamic';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 import { makeStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'animate.css';
 
-const MenuChildren = dynamic(() => import('@common_headerdesktop/components/v2/mcategoryChildren'), { ssr: false });
+const MenuChildren = dynamic(() => import('@common_headerdesktop/components/v3/mcategoryChildren'), { ssr: false });
 
 const Menu = (props) => {
     const { data, storeConfig } = props;
@@ -69,7 +70,7 @@ const Menu = (props) => {
     };
     return (
         <div className="menu-wrapper" role="navigation">
-            <ul className="nav" role="menubar" id="header-nav-menubar">
+            <ul className="nav" role="menubar">
                 {menu.map((val, idx) => {
                     if ((val.include_in_menu || storeConfig.pwa.ves_menu_enable) && val.name) {
                         const useStyles = makeStyles(() => ({
@@ -112,7 +113,6 @@ const Menu = (props) => {
                             <li
                                 key={idx}
                                 role="menuitem"
-                                id={`header-menuitem-${idx}`}
                                 onMouseEnter={() => {
                                     if (megaMenuRef && val.dropdown_animation_in) {
                                         megaMenuRef.current.classList.add('animate__animated');
@@ -176,7 +176,7 @@ const Menu = (props) => {
                                                 <CmsRenderer content={val.header_html} />
                                             </div>
                                         )}
-                                        <MenuChildren data={val.children} handleClick={handleClick} generateLink={generateLink} />
+                                        <MenuChildren data={val.children} handleClick={handleClick} generateLink={generateLink} mainData={val} />
                                         {val.show_footer && (
                                             <div className="footer-html grid">
                                                 <CmsRenderer content={val.footer_html} />
@@ -248,8 +248,6 @@ const Menu = (props) => {
 
                     /* menu links */
                     .nav > li > a {
-                        background: transparent;
-                        color: ${PRIMARY};
                         display: block;
                         font-weight: bold;
                         line-height: 3.5;
@@ -257,10 +255,6 @@ const Menu = (props) => {
                         transition: all 0.3s ease;
                         z-index: 510;
                         position: relative;
-                    }
-                    .nav > li > a:focus,
-                    .nav > li:hover > a {
-                        color: #4b4441;
                     }
                     .nav > li:hover > a  + .pointer {
                         visibility: visible;
@@ -335,10 +329,12 @@ const Menu = (props) => {
                         position: absolute;
                         transition: all 0s ease 0s;
                         visibility: hidden;
-                        width: 190%;
+                        width: 1000px;
                         left: 0;
-                        // margin-left: -18%;
+                        margin-left: 0%;
                         min-height: 300px;
+                        grid-template-columns: 1fr;
+
                     }
                     li:hover > .mega-menu {
                         opacity: 1;
@@ -357,7 +353,7 @@ const Menu = (props) => {
                             position: absolute;
                             transition: all 0s ease 0s;
                             visibility: hidden;
-                            width: 140%;
+                            width: 1000px;
                             left: 0;
                             padding: auto;
                             margin: auto;
@@ -375,6 +371,12 @@ const Menu = (props) => {
                             line-height: 1.75;
                             margin: 0;
                             padding: 7px;
+                        }
+                    }
+                    
+                    @media (min-width: 1600px) {
+                        .mega-menu {
+                            width: 1200px;
                         }
                     }
 

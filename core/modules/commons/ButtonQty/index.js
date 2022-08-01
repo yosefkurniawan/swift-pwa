@@ -58,7 +58,13 @@ const ButtonQty = ({
     return (
         <div className={styles.box}>
             <div className={classNames(styles.minus, disabledMin ? styles.disabled : '')} onClick={handleMinus}>-</div>
-            <input disabled={disabled} value={localValue} className={styles.input} type="number" onChange={handleLocalChange} />
+            <input
+                disabled={disabled}
+                value={localValue}
+                className={classNames(styles.input, 'common-valueQty-input')}
+                type="number"
+                onChange={handleLocalChange}
+            />
             <div className={classNames(styles.plus, disableMax ? styles.disabled : '')} onClick={handlePlus}>+</div>
         </div>
     );

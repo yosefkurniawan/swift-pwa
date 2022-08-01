@@ -285,7 +285,10 @@ const ProductItem = (props) => {
                         storeConfig={storeConfig}
                     />
                 )}
-                <div className={classNames(styles.itemContainer, 'item-product', className, showQuickView ? styles.quickView : '')}>
+                <div
+                    className={classNames(styles.itemContainer, 'item-product', className, showQuickView ? styles.quickView : '')}
+                    id="catalog-item-product"
+                >
                     {storeConfig?.pwa?.label_enable && LabelView ? (
                         <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
                     ) : null}
