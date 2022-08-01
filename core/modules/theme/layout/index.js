@@ -131,6 +131,10 @@ const Layout = (props) => {
         setShowGlobalPromo(false);
     };
 
+    const allowHeaderCheckout = modules.checkout.checkoutOnly
+        ? !modules.checkout.checkoutOnly
+        : withLayoutHeader;
+
     const ogData = {
         'og:title': pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa',
         'og:image': storeConfig.header_logo_src
@@ -391,7 +395,7 @@ const Layout = (props) => {
             {showPopup && storeConfig && storeConfig.pwa && storeConfig.pwa.header_version !== 'v2' ? (
                 <PopupInstallAppMobile appName={appName} installMessage={installMessage} />
             ) : null}
-            {withLayoutHeader && (
+            {allowHeaderCheckout && (
                 <header ref={refHeader}>
                     {typeof window !== 'undefined' && storeConfig.global_promo && storeConfig.global_promo.enable && (
                         <GlobalPromoMessage
