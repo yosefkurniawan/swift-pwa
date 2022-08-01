@@ -333,7 +333,6 @@ class MyApp extends App {
     render() {
         const { Component, pageProps } = this.props;
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
-        Cookie.set('remove_decimal_config', pageProps.removeDecimalConfig, { expires: 365 });
         if (typeof window !== 'undefined' && testLocalStorage() === false) {
             // not available
             return (
@@ -349,6 +348,11 @@ class MyApp extends App {
             setLocalStorage('cms_page', pageProps.storeConfig && pageProps.storeConfig.cms_page ? pageProps.storeConfig.cms_page : '');
             setLocalStorage('pwa_config', pageProps.storeConfig);
             setLocalStorage('pwa_vesmenu', pageProps.dataVesMenu);
+            setLocalStorage('remove_decimal_config', pageProps.removeDecimalConfig);
+            setLocalStorage('pricing_config', {
+                locales: pageProps.storeConfig && pageProps.storeConfig.locale,
+                remove_decimal_config: pageProps.removeDecimalConfig,
+            });
             setLocalStorage('frontend_options', pageProps.frontendOptions);
         }
 
