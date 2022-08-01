@@ -7,6 +7,8 @@ import {
 } from 'react';
 import cookies from 'js-cookie';
 import { getCurrency } from '@core_modules/setting/services/graphql';
+import { currencyVar } from '@root/core/services/graphql/cache';
+import { useReactiveVar } from '@apollo/client';
 
 import ViewSwitcherCurrency from './view';
 
@@ -21,6 +23,9 @@ const SwitcherCurrency = (props) => {
     const [currencyState, setCurrencyState] = useState(null);
 
     const mount = useRef();
+
+    // cache currency
+    const cacheCurrency = useReactiveVar(currencyVar);
 
     /**
      * [useEffect] for react lifecycle
@@ -60,6 +65,10 @@ const SwitcherCurrency = (props) => {
 
                         const dataStore = { ...getDataCookies, exchange_rates };
                         cookies.set(COOKIES_APP_CURRENCY, getDataCookies);
+                        currencyVar({
+                            ...cacheCurrency,
+                            appCurrency: JSON.stringify(getDataCookies),
+                        });
                         setCurrencyState(dataStore);
                     }
                 } catch (err) {

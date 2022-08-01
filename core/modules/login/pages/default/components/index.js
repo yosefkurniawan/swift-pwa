@@ -164,7 +164,7 @@ const Login = (props) => {
                                                 disabled={desktop ? false : disabled}
                                                 align={desktop ? 'left' : 'center'}
                                             >
-                                                <Typography variant="span" type="bold" letter="uppercase" color="white">
+                                                <Typography variant="span" type="bold" letter="uppercase">
                                                     {loading ? 'Loading' : t('login:pageTitle')}
                                                 </Typography>
                                             </Button>
@@ -250,7 +250,7 @@ const Login = (props) => {
                                                 disabled={desktop ? false : disabled}
                                                 align={desktop ? 'left' : 'center'}
                                             >
-                                                <Typography variant="span" type="bold" letter="uppercase" color="white">
+                                                <Typography variant="span" type="bold" letter="uppercase">
                                                     {loading ? 'Loading' : t('login:pageTitle')}
                                                 </Typography>
                                             </Button>
@@ -330,7 +330,7 @@ const Login = (props) => {
                                                 disabled={disabled}
                                                 align={desktop ? 'left' : 'center'}
                                             >
-                                                <Typography variant="span" type="bold" letter="uppercase" color="white">
+                                                <Typography variant="span" type="bold" letter="uppercase">
                                                     {loading ? 'Loading' : t('common:button:submit')}
                                                 </Typography>
                                             </Button>
@@ -361,7 +361,7 @@ const Login = (props) => {
                                 disabled={desktop ? false : disabled}
                                 align={desktop ? 'left' : 'center'}
                             >
-                                <Typography color="white" variant="span" type="bold" letter="uppercase">
+                                <Typography variant="span" type="bold" letter="uppercase">
                                     {t('login:registerTitle')}
                                 </Typography>
                             </Button>

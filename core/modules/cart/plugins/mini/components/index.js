@@ -24,7 +24,7 @@ const MiniComponent = (props) => {
     return (
         <Drawer anchor="right" open={open} onClose={setOpen}>
             <div className={styles.container}>
-                <div className={styles.mini_top}>
+                <div className={styles.mini_top} id="minicart-top">
                     <span>
                         {count}
                         {' '}

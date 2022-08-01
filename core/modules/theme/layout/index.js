@@ -18,7 +18,7 @@ import {
 import { getHost } from '@helper_config';
 import { breakPointsDown, breakPointsUp } from '@helper_theme';
 import { setCookies, getCookies } from '@helper_cookies';
-import { setLocalStorage } from '@helper_localstorage';
+import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 import { getAppEnv } from '@helpers/env';
 import useStyles from '@core_modules/theme/layout/style';
 import { createCompareList } from '@core_modules/product/services/graphql';
@@ -28,6 +28,7 @@ import Copyright from '@core_modules/theme/components/footer/desktop/components/
 import { localTotalCart } from '@services/graphql/schema/local';
 import { getCountCart } from '@core_modules/theme/services/graphql';
 import { getCartId } from '@helper_cartid';
+import { frontendConfig } from '@helpers/frontendOptions';
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
@@ -255,8 +256,8 @@ const Layout = (props) => {
     };
 
     const footerMobile = {
-        marginBottom: pageConfig.bottomNav && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? '55px' : 0,
-        display: pageConfig.bottomNav && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? 'flex' : null,
+        marginBottom: pageConfig.bottomNav && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? '55px' : 0,
+        display: pageConfig.bottomNav && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? 'flex' : null,
     };
 
     if (!headerDesktop) {
@@ -266,6 +267,34 @@ const Layout = (props) => {
     if (typeof window !== 'undefined' && storeConfig) {
         setLocalStorage(storeConfigNameCookie, storeConfig);
     }
+
+    useEffect(() => {
+        if (storeConfig && storeConfig.pwa && typeof window !== 'undefined') {
+            const pwaConfig = getLocalStorage('frontend_options').pwa;
+
+            const stylesheet = document.createElement('style');
+            const fontStylesheet = document.createElement('link');
+            const fontStylesheetHeading = document.createElement('link');
+
+            if (pwaConfig) {
+                // eslint-disable-next-line max-len
+                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.default_font.replace(' ', '-')}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheet.id = 'font-stylesheet-id';
+                fontStylesheet.rel = 'stylesheet';
+                // eslint-disable-next-line max-len
+                fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.heading_font.replace(' ', '-')}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheetHeading.id = 'font-stylesheet-heading-id';
+                fontStylesheetHeading.rel = 'stylesheet';
+                stylesheet.innerHTML = frontendConfig(pwaConfig);
+                stylesheet.id = 'frontend-options-stylesheet';
+                if (!document.getElementById('frontend-options-stylesheet') && !document.getElementById('font-stylesheet-id')) {
+                    document.head.appendChild(fontStylesheet);
+                    document.head.appendChild(fontStylesheetHeading);
+                    document.head.appendChild(stylesheet);
+                }
+            }
+        }
+    }, [storeConfig]);
 
     let classMain;
 

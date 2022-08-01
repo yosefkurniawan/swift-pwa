@@ -171,21 +171,28 @@ const RegisterView = ({
                         style={{ marginBottom: enableRecaptcha ? 25 : 0 }}
                     />
 
-                    {enableRecaptcha ? (
-                        <>
-                            <ReCAPTCHA sitekey={sitekey} onChange={handleChangeCaptcha} ref={recaptchaRef} />
-                            {formik.errors.captcha && <Typography color="red">{formik.errors.captcha}</Typography>}
-                        </>
-                    ) : null}
+                    {
+                        enableRecaptcha ? (
+                            <>
+                                <ReCAPTCHA
+                                    sitekey={sitekey}
+                                    onChange={handleChangeCaptcha}
+                                    ref={recaptchaRef}
+                                />
+                                { formik.errors.captcha && (
+                                    <Typography color="red">{formik.errors.captcha}</Typography>
+                                )}
+                            </>
+                        ) : null
+                    }
                     <Button
-                        id="register-btnRegister"
                         disabled={disabled}
                         fullWidth={!desktop}
                         className={styles.btnSigin}
                         type="submit"
                         align={desktop ? 'left' : 'center'}
                     >
-                        <Typography variant="span" type="bold" letter="uppercase" color="white">
+                        <Typography variant="span" type="bold" letter="uppercase">
                             {t('register:button')}
                         </Typography>
                     </Button>

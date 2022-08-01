@@ -4,14 +4,12 @@ import parse, { domToReact } from 'html-react-parser';
 import WidgetPwaLink from '@core_modules/cms/components/cms-renderer/widget-link-pwa';
 import WidgetListProduct from '@core_modules/cms/components/cms-renderer/widget-list-product';
 import WidgetListBrand from '@core_modules/cms/components/cms-renderer/widget-list-brand';
-import WidgetInstagram from '@core_modules/cms/components/cms-renderer/widget-instagram';
 import WidgetSlider from '@core_modules/cms/components/cms-renderer/widget-slider';
 import WidgetView from '@core_modules/cms/components/cms-renderer/view';
 import Newsletter from '@plugin_newsletter';
 
 const TYPE_PWA_SLIDER = 'pwa-slider';
 const TYPE_PWA_FEATURED = 'pwa-featured-brands';
-const TYPE_PWA_INSTAGRAM = 'pwa-instagram';
 const TYPE_PWA_PAGELINK = 'pwa-cms-page-link';
 const TYPE_PWA_PRODUCT = 'pwa-catalog-products-list';
 const TYPE_PWA_NEWSLETTER = 'pwa-newsletter-subscribe';
@@ -68,14 +66,12 @@ const WidgetRenderer = (props) => {
                             return <WidgetSlider {...propsWidget} storeConfig={storeConfig} />;
                         case TYPE_PWA_FEATURED:
                             return <WidgetListBrand {...propsWidget} />;
-                        case TYPE_PWA_INSTAGRAM:
-                            return <WidgetInstagram {...propsWidget} />;
                         case TYPE_PWA_PAGELINK:
                             return <WidgetPwaLink {...propsWidget} />;
                         case TYPE_PWA_PRODUCT:
                             return <WidgetListProduct {...propsWidget} />;
-                            case TYPE_PWA_NEWSLETTER:
-                                return <Newsletter {...propsWidget} storeConfig={storeConfig} />;
+                        case TYPE_PWA_NEWSLETTER:
+                            return <Newsletter {...propsWidget} storeConfig={storeConfig} />;
                         default:
                             return <div>Unable to render the content!</div>;
                     }

@@ -99,7 +99,7 @@ const ListReviews = (props) => {
                         </Typography>
                     </div>
                     <div className={styles.shareContainer}>
-                        <Button onClick={() => setOpenReview(true)} variant="outlined">
+                        <Button onClick={() => setOpenReview(true)}>
                             <Typography variant="span" type="bold" letter="uppercase">
                                 {props.t('product:writeReview')}
                             </Typography>
