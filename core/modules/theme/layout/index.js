@@ -61,6 +61,7 @@ const Layout = (props) => {
         showRecentlyBar = false,
         isHomepage = false,
         isPdp = false,
+        isCheckout = false,
     } = props;
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
@@ -303,7 +304,9 @@ const Layout = (props) => {
     let classMain;
 
     if (storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header) {
-        if (storeConfig.pwa.header_version === 'v2') {
+        if (isCheckout) {
+            classMain = 'checkout-mode';
+        } else if (storeConfig.pwa.header_version === 'v2') {
             if (isHomepage) {
                 if (ipadL) {
                     classMain = 'main-app-v2-ipad-landscape';
@@ -350,7 +353,9 @@ const Layout = (props) => {
             classMain = 'main-app-sticky';
         }
     } else if (storeConfig && storeConfig.pwa && !storeConfig.pwa.enabler_sticky_header) {
-        if (storeConfig.pwa.header_version === 'v2') {
+        if (isCheckout) {
+            classMain = 'checkout-mode';
+        } else if (storeConfig.pwa.header_version === 'v2') {
             if (isHomepage) {
                 classMain = 'main-app-v2-not-sticky';
                 classMain += ' main-app-homepage';
