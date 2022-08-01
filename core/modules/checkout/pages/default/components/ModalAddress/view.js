@@ -99,7 +99,12 @@ const AddressView = (props) => {
                                 {getItemAddress()}
                             </RadioGroup>
                             <div className={[styles.address_action].join(' ')}>
-                                <Button variant="outlined" size="small" onClick={() => handleOpenNew('new')}>
+                                <Button
+                                    className="checkout-modalAddress-addAddressBtn"
+                                    variant="outlined"
+                                    size="small"
+                                    onClick={() => handleOpenNew('new')}
+                                >
                                     <Typography variant="span" letter="uppercase" type="bold">
                                         {t('customer:address:addTitle')}
                                     </Typography>

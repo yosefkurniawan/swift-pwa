@@ -37,7 +37,7 @@ const View = (props) => {
 
     const registerGuestEnabled = storeConfig.weltpixel_thankyoupage_create_account_enable;
     return (
-        <div className={styles.container}>
+        <div className={classNames(styles.container, 'thanks-pages')}>
             {
                 ordersFilter && paymentInformation && paymentInformation.OrderPaymentInformation
                 && paymentInformation.OrderPaymentInformation.invoice_url && (

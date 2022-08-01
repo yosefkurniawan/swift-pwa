@@ -14,10 +14,6 @@ import TopMenu from '@core_modules/theme/components/header/desktop/components/mt
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
 import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
 
-import { getLocalStorage } from '@helper_localstorage';
-
-const pwaConfig = getLocalStorage('frontend_options');
-
 const ViewTopNavigation = (props) => {
     const {
         storeConfig,

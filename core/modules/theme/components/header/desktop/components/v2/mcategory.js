@@ -69,7 +69,7 @@ const Menu = (props) => {
     };
     return (
         <div className="menu-wrapper" role="navigation">
-            <ul className="nav" role="menubar">
+            <ul className="nav" role="menubar" id="header-nav-menubar">
                 {menu.map((val, idx) => {
                     if ((val.include_in_menu || storeConfig.pwa.ves_menu_enable) && val.name) {
                         const useStyles = makeStyles(() => ({
@@ -112,6 +112,7 @@ const Menu = (props) => {
                             <li
                                 key={idx}
                                 role="menuitem"
+                                id={`header-menuitem-${idx}`}
                                 onMouseEnter={() => {
                                     if (megaMenuRef && val.dropdown_animation_in) {
                                         megaMenuRef.current.classList.add('animate__animated');

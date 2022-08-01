@@ -360,7 +360,7 @@ const Content = (props) => {
                         (isSelectedPurchaseOrder && !isPurchaseOrderApply) ||
                         (storeConfig.minimum_order_enable && checkout.data.cart.prices.grand_total.value < storeConfig.minimum_order_amount)
                     }
-                    className={styles.placeOrderDesktop}
+                    className={classNames(styles.placeOrderDesktop, 'checkout-placeOrder-btn')}
                 >
                     <Typography variant="span" letter="uppercase" type="bold" color="white">
                         {t('checkout:placeOrder')}

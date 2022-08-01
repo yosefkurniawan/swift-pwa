@@ -80,6 +80,7 @@ const BundleView = (props) => {
             <Accordion disabled={disabled} square expanded={open} onChange={() => setOpen(!open)}>
                 <AccordionSummary className="hidden-mobile" aria-controls="panel1d-content" id="panel1d-header">
                     <Button
+                        id="plugin-customizeAdd-btn"
                         className={styles.btnOpenSimple}
                         color="primary"
                         onClick={() => {}}
