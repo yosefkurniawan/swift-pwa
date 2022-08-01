@@ -10,7 +10,12 @@ import Cookie from 'js-cookie';
 import { getAppEnv } from '@root/core/helpers/env';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { appWithTranslation } from '@i18n';
-import { storeConfig as ConfigSchema, getVesMenu, getCategories } from '@services/graphql/schema/config';
+import {
+    storeConfig as ConfigSchema,
+    getVesMenu,
+    getCategories,
+    frontendOptions as FrontendSchema,
+} from '@services/graphql/schema/config';
 import {
     GTM, custDataNameCookie, features, sentry,
 } from '@config';
@@ -126,10 +131,20 @@ class MyApp extends App {
          * TO BE PROVIDED INTO PAGE PROPS
          */
         let dataVesMenu;
+        let frontendOptions;
         let { storeConfig } = pageProps;
+
+        if (typeof window !== 'undefined') {
+            frontendOptions = await pageProps.apolloClient.query({ query: gql`${FrontendSchema}` }).then(({ data }) => data);
+
+            if (ctx && frontendOptions.response && frontendOptions.response.status && frontendOptions.response.status > 500) {
+                ctx.res.redirect('/maintenance');
+            }
+        }
         if (typeof window === 'undefined' && (!storeConfig || typeof storeConfig.secure_base_media_url === 'undefined')) {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
             storeConfig = await graphRequest(ConfigSchema);
+            frontendOptions = await graphRequest(FrontendSchema);
 
             // Handle redirecting to tomaintenance page automatically when GQL is in maintenance mode.
             // We do this here since query storeConfig is the first query and be done in server side
@@ -137,7 +152,8 @@ class MyApp extends App {
                 ctx.res.redirect('/maintenance');
             }
             storeConfig = storeConfig.storeConfig;
-            dataVesMenu = storeConfig.pwa.ves_menu_enable
+            frontendOptions = frontendOptions.storeConfig;
+            dataVesMenu = storeConfig && storeConfig.pwa && storeConfig.pwa.ves_menu_enable
                 ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }) : await graphRequest(getCategories);
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null
                 ? storeConfig?.pwa?.remove_decimal_price_enable
@@ -155,6 +171,8 @@ class MyApp extends App {
 
                 storeConfig = storeConfig.storeConfig;
             }
+            frontendOptions = await pageProps.apolloClient.query({ query: gql`${FrontendSchema}` }).then(({ data }) => data);
+            frontendOptions = frontendOptions.storeConfig;
             dataVesMenu = getLocalStorage('pwa_vesmenu');
             if (!dataVesMenu) {
                 dataVesMenu = storeConfig.pwa.ves_menu_enable
@@ -187,6 +205,7 @@ class MyApp extends App {
                 token,
                 removeDecimalConfig,
                 dataVesMenu,
+                frontendOptions,
             },
         };
     }
@@ -212,6 +231,7 @@ class MyApp extends App {
          * remove all console.log statement when APP_ENV = 'prod'
          */
         if (getAppEnv() === 'prod') {
+            // eslint-disable-next-line no-console
             console.log = () => {};
         }
 
@@ -333,6 +353,7 @@ class MyApp extends App {
                 locales: pageProps.storeConfig && pageProps.storeConfig.locale,
                 remove_decimal_config: pageProps.removeDecimalConfig,
             });
+            setLocalStorage('frontend_options', pageProps.frontendOptions);
         }
 
         return (

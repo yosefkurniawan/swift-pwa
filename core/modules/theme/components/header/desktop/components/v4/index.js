@@ -179,7 +179,7 @@ const ViewTopNavigation = (props) => {
                         }
                     }
                     main {
-                        background-color: #fff;
+                        background-color: ${storeConfig && storeConfig.pwa && storeConfig.pwa.background_color};
                     }
                     .header-top {
                         height: 5rem;

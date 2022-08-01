@@ -225,7 +225,7 @@ const View = (props) => {
                         {checkoutData.email}
                     </Typography>
                     <Button className={styles.generalButton} fullWidth={false} onClick={() => goToRegisterPage()} align="center">
-                        <Typography color="white" variant="span" type="bold" letter="uppercase">
+                        <Typography variant="span" type="bold" letter="uppercase">
                             {t('login:registerTitle')}
                         </Typography>
                     </Button>
