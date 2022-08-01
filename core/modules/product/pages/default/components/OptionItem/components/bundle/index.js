@@ -10,7 +10,10 @@ import { formatPrice } from '@helper_currency';
 import TagManager from 'react-gtm-module';
 import { localTotalCart } from '@services/graphql/schema/local';
 import {
-    addBundleProductsToCart, getBundleProduct, getGuestCartId as queryGetGuestCartId, getCustomerCartId,
+    addBundleProductsToCart,
+    getBundleProduct,
+    getGuestCartId as queryGetGuestCartId,
+    getCustomerCartId,
 } from '../../../../../../services/graphql';
 
 const generateBundlePrice = (items) => {
@@ -23,7 +26,7 @@ const generateBundlePrice = (items) => {
             const opt = element.options[idx];
             currency = opt.product.price_range.minimum_price.final_price.currency;
             if (opt.is_default) {
-                price += (opt.quantity * opt.product.price_range.minimum_price.final_price.value) * qty;
+                price += opt.quantity * opt.product.price_range.minimum_price.final_price.value * qty;
             }
         }
     }
@@ -42,7 +45,7 @@ const changeSelectedOption = (position, id, items) => {
                 const opt = { ...element.options[idx] };
                 if (element.type === 'radio' || element.type === 'select') {
                     opt.is_default = opt.id === parseInt(id);
-                } else if ((element.type === 'checkbox' || element.type === 'multi') && (opt.id === parseInt(id))) {
+                } else if ((element.type === 'checkbox' || element.type === 'multi') && opt.id === parseInt(id)) {
                     opt.is_default = !opt.is_default;
                 }
                 optionArr.push(opt);
@@ -75,8 +78,7 @@ const OptionsItemsBundle = (props) => {
     const {
         t,
         data: {
-            __typename, sku, name, categories,
-            price_range, stock_status,
+            __typename, sku, name, categories, price_range, stock_status,
         },
         BundleView,
         Footer,
@@ -121,10 +123,11 @@ const OptionsItemsBundle = (props) => {
                         setCartId(token);
                     })
                     .catch((e) => {
+                        const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                         setLoadingAdd(false);
                         window.toastMessage({
                             ...errorMessage,
-                            text: e.message.split(':')[1] || errorMessage.text,
+                            text: originalError || errorMessage.text,
                         });
                     });
             } else {
@@ -141,15 +144,17 @@ const OptionsItemsBundle = (props) => {
                     ecommerce: {
                         currencyCode: price_range.minimum_price.regular_price.currency || 'USD',
                         add: {
-                            products: [{
-                                name,
-                                id: sku,
-                                price: price_range.minimum_price.regular_price.value || 0,
-                                category: categories.length > 0 ? categories[0].name : '',
-                                list: categories.length > 0 ? categories[0].name : '',
-                                quantity: qty,
-                                dimensions4: stock_status,
-                            }],
+                            products: [
+                                {
+                                    name,
+                                    id: sku,
+                                    price: price_range.minimum_price.regular_price.value || 0,
+                                    category: categories.length > 0 ? categories[0].name : '',
+                                    list: categories.length > 0 ? categories[0].name : '',
+                                    quantity: qty,
+                                    dimensions4: stock_status,
+                                },
+                            ],
                         },
                     },
                 },
@@ -190,10 +195,11 @@ const OptionsItemsBundle = (props) => {
                     setLoadingAdd(false);
                 })
                 .catch((e) => {
+                    const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                     setLoadingAdd(false);
                     window.toastMessage({
                         ...errorMessage,
-                        text: e.message.split(':')[1] || errorMessage.text,
+                        text: originalError || errorMessage.text,
                     });
                 });
         }

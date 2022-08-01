@@ -17,7 +17,7 @@ Launching Checklist:
 - [Checkout Only / PWA Checkout mode Checklist](https://teamwork.icubeonline.com/#/projects/120618/notebooks/362538) 
 
 ## Requirements
-- NodeJS v14
+- NodeJS v14 or higher
 
 ## Pre-Installation
 ### Setup Host and Graphql Endpoint
@@ -113,7 +113,12 @@ Click [here](core/public/readme.md) for more detail.
 Do not ever touch files under under [core](core) folder!
 Do override in [src](src) folder instead!
 
-# Homepage Setup
+# PWA Config
+Since version 2.5.0 Swift PWA must be get any config from graphql where config can be change from backoffice magento. Detail documentation can be read at [here](https://docs.google.com/document/d/1DaZhkHjANgPfISH8eHS7T2njNCQhty1uORHTZ9fYIDk)
+
+# Note for version <= 2.4.9
+
+## Homepage Setup
 By default, Swift PWA comes with hardcode contents which are sliders, highlighted products list, and highlighted categories.
 But we recommend to use CMS Page instead.
 To do so please follow this step:

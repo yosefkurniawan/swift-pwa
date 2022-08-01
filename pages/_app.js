@@ -8,6 +8,7 @@ import '../core/styles/index.css';
 import '../core/styles/mediaquery.css';
 import '../core/styles/flexboxgrid.min.css';
 import '../core/styles/fonts.css';
+import '../core/styles/stylePhone.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 

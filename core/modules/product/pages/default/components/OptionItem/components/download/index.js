@@ -10,7 +10,10 @@ import { handleSelectedDownload } from '@helper_productbyvariant';
 import React from 'react';
 import TagManager from 'react-gtm-module';
 import {
-    addDownloadProductToCart, getDownloadroduct, getGuestCartId as queryGetGuestCartId, getCustomerCartId,
+    addDownloadProductToCart,
+    getDownloadroduct,
+    getGuestCartId as queryGetGuestCartId,
+    getCustomerCartId,
 } from '../../../../../../services/graphql';
 
 const OptionsItemDownload = ({
@@ -18,8 +21,7 @@ const OptionsItemDownload = ({
     setPrice,
     t,
     data: {
-        __typename, sku, name, categories,
-        price_range, stock_status,
+        __typename, sku, name, categories, price_range, stock_status,
     },
     DownloadView,
     price,
@@ -68,10 +70,12 @@ const OptionsItemDownload = ({
                 minimum_price: {
                     ...price.priceRange.minimum_price,
                     regular_price: {
-                        ...price.priceRange.minimum_price.regular_price, value: final_price_sum,
+                        ...price.priceRange.minimum_price.regular_price,
+                        value: final_price_sum,
                     },
                     final_price: {
-                        ...price.priceRange.minimum_price.final_price, value: final_price_sum,
+                        ...price.priceRange.minimum_price.final_price,
+                        value: final_price_sum,
                     },
                 },
             },
@@ -99,10 +103,11 @@ const OptionsItemDownload = ({
                         setCartId(token);
                     })
                     .catch((e) => {
+                        const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                         setLoadingAdd(false);
                         window.toastMessage({
                             ...errorMessage,
-                            text: e.message.split(':')[1] || errorMessage.text,
+                            text: originalError || errorMessage.text,
                         });
                     });
             } else {
@@ -119,15 +124,17 @@ const OptionsItemDownload = ({
                     ecommerce: {
                         currencyCode: price_range.minimum_price.regular_price.currency || 'USD',
                         add: {
-                            products: [{
-                                name,
-                                id: sku,
-                                price: price_range.minimum_price.regular_price.value || 0,
-                                category: categories.length > 0 ? categories[0].name : '',
-                                list: categories.length > 0 ? categories[0].name : '',
-                                quantity: qty,
-                                dimensions4: stock_status,
-                            }],
+                            products: [
+                                {
+                                    name,
+                                    id: sku,
+                                    price: price_range.minimum_price.regular_price.value || 0,
+                                    category: categories.length > 0 ? categories[0].name : '',
+                                    list: categories.length > 0 ? categories[0].name : '',
+                                    quantity: qty,
+                                    dimensions4: stock_status,
+                                },
+                            ],
                         },
                     },
                 },
@@ -151,10 +158,11 @@ const OptionsItemDownload = ({
                     setOpen(false);
                 })
                 .catch((e) => {
+                    const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                     setLoadingAdd(false);
                     window.toastMessage({
                         ...errorMessage,
-                        text: e.message.split(':')[1] || errorMessage.text,
+                        text: originalError || errorMessage.text,
                     });
                 });
         }
@@ -162,13 +170,7 @@ const OptionsItemDownload = ({
 
     return (
         <>
-            <DownloadView
-                items={items}
-                handleAddToCart={handleAddToCart}
-                handleOption={handleOption}
-                loading={loadingAdd}
-                t={t}
-            />
+            <DownloadView items={items} handleAddToCart={handleAddToCart} handleOption={handleOption} loading={loadingAdd} t={t} />
             <Footer qty={qty} handleAddToCart={handleAddToCart} setQty={setQty} t={t} loading={loadingAdd | loading} />
         </>
     );

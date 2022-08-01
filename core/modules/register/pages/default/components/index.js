@@ -25,6 +25,7 @@ const RegisterView = ({
     enableRecaptcha,
     sitekey,
     handleChangeCaptcha,
+    handleChangeWa,
     disabled,
     recaptchaRef,
     gender,
@@ -64,7 +65,10 @@ const RegisterView = ({
                 {gender && (
                     <Select
                         className="genderField"
-                        options={[{ label: 'Male', value: 1 }, { label: 'Female', value: 2 }]}
+                        options={[
+                            { label: 'Male', value: 1 },
+                            { label: 'Female', value: 2 },
+                        ]}
                         label={t('common:form:gender')}
                         name="gender"
                         value={formik.values.gender}
@@ -134,10 +138,11 @@ const RegisterView = ({
                         />
                         {!phoneIsWa && (
                             <TextField
+                                type="phone"
                                 label={`${t('common:form:phoneNumber')} Whatsapp`}
                                 name="whatsappNumber"
                                 value={formik.values.whatsappNumber}
-                                onChange={formik.handleChange}
+                                onChange={handleChangeWa}
                                 error={!!(formik.touched.whatsappNumber && formik.errors.whatsappNumber)}
                                 errorMessage={(formik.touched.whatsappNumber && formik.errors.whatsappNumber) || null}
                             />
