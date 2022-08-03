@@ -39,6 +39,13 @@ export default makeStyles((theme) => ({
         borderTop: '1px solid rgba(224, 224, 224, 1)',
         width: '100%',
     },
+    tableSellerHead: {
+        borderBottom: 'none',
+    },
+    tableSellerCell: {
+        borderBottom: 'none',
+        backgroundColor: '#F8F8F8',
+    },
     tableRowHead: {
         [theme.breakpoints.down('xs')]: {
             display: 'none !important',

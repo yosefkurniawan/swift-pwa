@@ -155,6 +155,7 @@ customizable_options {
 const items = `
 items {
   id
+  note
   quantity
   ... on SimpleCartItem {
     SimpleMiniCustomizable: ${customizable_options}
@@ -227,6 +228,10 @@ items {
     url_key
     sku
     stock_status
+    seller {
+      seller_id
+      seller_name
+    }
     categories {
       name
     }
