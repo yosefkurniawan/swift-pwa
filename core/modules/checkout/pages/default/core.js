@@ -731,6 +731,9 @@ const Checkout = (props) => {
                         checkout_option: {
                             actionField: { step: 3, option: selectedPayment[0].title, action: 'checkout_option' },
                         },
+                        items_fbpixels: {
+                            total_price: cart.prices.grand_total.value,
+                        },
                     },
                 };
                 TagManager.dataLayer({ dataLayer });
