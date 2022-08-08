@@ -21,5 +21,8 @@
     "addWishlistSuccess": "Produk berhasil ditambahkan ke wishlist",
     "addWishlistFailed": "Produk gagal ditambahkan ke wishlist",
     "addWishlistWithoutLogin": "Silahkan masuk untuk menambahkan produk ini ke wishlist",
-    "oos": "Stok habis"
+    "oos": "Stok habis",
+    "saveOrderNote": "Simpan",
+    "successSaveOrderNote": "Catatan pemesanan berhasil disimpan",
+    "failedSaveOrderNote": "Catatan pemesanan gagal disimpan"
 }

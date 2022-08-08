@@ -1,24 +1,30 @@
+/* eslint-disable radix */
 /* eslint-disable max-len */
-import React from 'react';
+import Button from '@common_button';
+import TextField from '@common_forms/TextField';
+import Image from '@common_image';
+import Typography from '@common_typography';
+import ConfirmationDelete from '@core_modules/cart/pages/default/components/confirmDelete';
+import useStyles from '@core_modules/cart/pages/default/components/item/TableListItem/style';
+import { updateCartItemNote } from '@core_modules/cart/services/graphql';
+import { getCartId } from '@helpers/cartId';
+import { formatPrice } from '@helper_currency';
 import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
-import TableContainer from '@material-ui/core/TableContainer';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Typography from '@common_typography';
-import { formatPrice } from '@helper_currency';
-import Alert from '@material-ui/lab/Alert';
-import IconButton from '@material-ui/core/IconButton';
 import CreateOutlined from '@material-ui/icons/CreateOutlined';
-import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import DeleteOutlineOutlined from '@material-ui/icons/DeleteOutlineOutlined';
+import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
+import Alert from '@material-ui/lab/Alert';
+import { useFormik } from 'formik';
 import Link from 'next/link';
-import Image from '@common_image';
-import useStyles from '@core_modules/cart/pages/default/components/item/TableListItem/style';
-import ConfirmationDelete from '@core_modules/cart/pages/default/components/confirmDelete';
+import React from 'react';
 
 const TableListProduct = ({
     data, t, deleteItem, handleFeed, toggleEditDrawer, storeConfig = {},
@@ -88,10 +94,63 @@ const TableListProduct = ({
         cartItemBySeller = groupData;
     }
 
-    const [checked, setChecked] = React.useState(false);
+    const orderNote = (cartItemId, note, quantity) => {
+        const [actUpdateCartItemNote, dataUpdateCartItemNote] = updateCartItemNote();
+        const cartId = getCartId();
+        const formik = useFormik({
+            initialValues: {
+                orderNote: note || '',
+            },
+            onSubmit: (values) => {
+                console.log(values);
+                console.log(cartId);
+                actUpdateCartItemNote({
+                    variables: {
+                        cartId,
+                        cart_item_id: parseInt(cartItemId),
+                        note: values.orderNote,
+                        quantity: parseFloat(quantity),
+                    },
+                })
+                    .then(() => {
+                        window.toastMessage({
+                            open: true,
+                            variant: 'success',
+                            text: `${t('cart:successSaveOrderNote')}`,
+                        });
+                    })
+                    .catch(() => {
+                        window.toastMessage({
+                            open: true,
+                            variant: 'error',
+                            text: `${t('cart:failedSaveOrderNote')}`,
+                        });
+                    });
+            },
+        });
 
-    const handleChange = (event) => {
-        setChecked(event.target.checked);
+        return (
+            <form onSubmit={formik.handleSubmit}>
+                <TableRow>
+                    <TableCell colSpan={2}>
+                        <TextField
+                            label="Order Note"
+                            name="orderNote"
+                            value={formik.values.orderNote}
+                            onChange={formik.handleChange}
+                            error={!!(formik.touched.orderNote && formik.errors.orderNote)}
+                            errorMessage={(formik.touched.orderNote && formik.errors.orderNote) || null}
+                            fullWidth={false}
+                        />
+                    </TableCell>
+                    <TableCell>
+                        <Button type="submit" variant="contained" onClick={() => console.log('test')}>
+                            {t('cart:saveOrderNote')}
+                        </Button>
+                    </TableCell>
+                </TableRow>
+            </form>
+        );
     };
 
     return (
@@ -106,7 +165,7 @@ const TableListProduct = ({
                 <Table className={styles.table} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow className={styles.tableRowHead}>
-                            <TableCell align="left" colSpan={3}>
+                            <TableCell align="left" colSpan={2}>
                                 <Typography variant="span" type="bold">
                                     Item
                                 </Typography>
@@ -132,7 +191,7 @@ const TableListProduct = ({
                         <>
                             <TableHead className={styles.tableSellerHead}>
                                 <TableRow className={styles.tableRowHead}>
-                                    <TableCell align="left" colSpan={6} className={styles.tableSellerCell}>
+                                    <TableCell align="left" colSpan={5} className={styles.tableSellerCell}>
                                         <Typography variant="span" type="bold">
                                             {seller.seller_name ? seller.seller_name : 'Default Store'}
                                         </Typography>
@@ -149,13 +208,6 @@ const TableListProduct = ({
                                                 return (
                                                     <React.Fragment key={index}>
                                                         <TableRow className={styles.tableRowResponsive} key={index}>
-                                                            <TableCell>
-                                                                <Checkbox
-                                                                    checked={checked}
-                                                                    onChange={handleChange}
-                                                                    inputProps={{ 'aria-label': 'primary checkbox' }}
-                                                                />
-                                                            </TableCell>
                                                             <TableCell
                                                                 align="center"
                                                                 rowSpan={2}
@@ -342,7 +394,11 @@ const TableListProduct = ({
                                                                         </Alert>
                                                                     </TableCell>
                                                                 </>
-                                                            ) : (<TableCell colSpan={3} />)}
+                                                            ) : (
+                                                                <TableCell colSpan={3}>
+                                                                    {orderNote(val.id, val.note, val.quantity)}
+                                                                </TableCell>
+                                                            )}
                                                             <TableCell
                                                                 align="right"
                                                             >

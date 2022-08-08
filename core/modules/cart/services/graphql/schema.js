@@ -554,6 +554,23 @@ export const updateCartitem = gql`
     }
 `;
 
+export const updateCartItemNote = gql`
+    mutation updateCartItems($cartId: String!, $cart_item_id: Int!, $note: String!, $quantity: Float!) {
+      updateCartItems(
+        input: { 
+          cart_id: $cartId,
+          cart_items: {cart_item_id: $cart_item_id, quantity: $quantity },
+          note: $note
+        }
+      ) {
+        cart {
+          id
+          ${items}
+        }
+      }
+    }
+`;
+
 export const addWishlist = gql`
     mutation addWishlist($productId: Int!) {
         addProductToWishlist(productId: $productId) {
