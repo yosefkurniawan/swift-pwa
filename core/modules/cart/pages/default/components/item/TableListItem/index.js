@@ -102,8 +102,6 @@ const TableListProduct = ({
                 orderNote: note || '',
             },
             onSubmit: (values) => {
-                console.log(values);
-                console.log(cartId);
                 actUpdateCartItemNote({
                     variables: {
                         cartId,
