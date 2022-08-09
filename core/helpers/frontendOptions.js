@@ -40,6 +40,18 @@ export const frontendConfig = (pwaConfig) => {
                 text-decoration: ${pwaConfig.link_font_hover_decoration || 'none'} !important;
             }
 
+            .MuiAlert-standardWarning {
+                background-color: ${pwaConfig.warning_msg_color || '#ffc107'} !important;
+            }
+
+            .MuiAlert-standardError {
+                background-color: ${pwaConfig.error_color || '#f44336'} !important;
+            }
+
+            .MuiAlert-standardSuccess {
+                background-color: ${pwaConfig.success_msg_color || '#4caf50'} !important;
+            }
+
             // PAPER SECTION
             .MuiPaper-root {
                 color: ${pwaConfig.font_color || '#000000'} !important;
