@@ -3,31 +3,30 @@
 /* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
-import React, { useEffect, useState, useRef } from 'react';
 import { useApolloClient } from '@apollo/client';
+import classNames from 'classnames';
+import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import classNames from 'classnames';
-import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
-import Cookies from 'js-cookie';
-import crypto from 'crypto';
-import {
-    custDataNameCookie, features, modules, debuging, assetsVersion, storeConfigNameCookie,
-} from '@config';
-import { getHost } from '@helper_config';
-import { breakPointsDown, breakPointsUp } from '@helper_theme';
-import { setCookies, getCookies } from '@helper_cookies';
-import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
-import { getAppEnv } from '@helpers/env';
-import useStyles from '@core_modules/theme/layout/style';
+import React, { useEffect, useRef, useState } from 'react';
+import TagManager from 'react-gtm-module';
+// eslint-disable-next-line object-curly-newline
+import { assetsVersion, custDataNameCookie, debuging, features, modules, storeConfigNameCookie } from '@config';
 import { createCompareList } from '@core_modules/product/services/graphql';
+import useStyles from '@core_modules/theme/layout/style';
+import { getAppEnv } from '@helpers/env';
+import { getHost } from '@helper_config';
+import { getCookies, setCookies } from '@helper_cookies';
+import { breakPointsDown, breakPointsUp } from '@helper_theme';
+import crypto from 'crypto';
+import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
 import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
-import { localTotalCart } from '@services/graphql/schema/local';
 import { getCountCart } from '@core_modules/theme/services/graphql';
 import { getCartId } from '@helper_cartid';
+import { localTotalCart } from '@services/graphql/schema/local';
 import { frontendConfig } from '@helpers/frontendOptions';
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
@@ -62,6 +61,7 @@ const Layout = (props) => {
         isHomepage = false,
         isPdp = false,
         isCheckout = false,
+        isLoginPage = false,
     } = props;
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
@@ -256,8 +256,10 @@ const Layout = (props) => {
     const ipadL = !!(ipadLUp && ipadLDown);
 
     const styles = {
-        marginBottom: (pageConfig.bottomNav && storeConfig?.pwa?.mobile_navigation === 'bottom_navigation')
-                        && storeConfig?.pwa?.enabler_footer_mobile === true ? '60px' : 0,
+        marginBottom:
+            pageConfig.bottomNav && storeConfig?.pwa?.mobile_navigation === 'bottom_navigation' && storeConfig?.pwa?.enabler_footer_mobile === true
+                ? '60px'
+                : 0,
     };
 
     const footerMobile = {
@@ -316,6 +318,8 @@ const Layout = (props) => {
                 classMain += ' main-app-homepage';
             } else if (isPdp && desktop) {
                 classMain = 'main-app-v2-pdp';
+            } else if (isLoginPage && desktop) {
+                classMain = 'main-app-v2-login';
             } else if (isPdp && ipad && !desktop) {
                 classMain = 'main-app-sticky-v2-ipad';
             } else {
@@ -432,7 +436,7 @@ const Layout = (props) => {
                         {React.isValidElement(CustomHeader) ? (
                             <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
                         ) : (
-                                <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} isCheckout />
+                            <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} isCheckout />
                         )}
                     </div>
                 </header>
@@ -457,12 +461,11 @@ const Layout = (props) => {
                         {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
                         <Copyright storeConfig={storeConfig} />
                     </div>
-                    {footer && storeConfig?.pwa?.enabler_footer_mobile === true
-                        ? (
-                            <div className="hidden-desktop" style={{ ...footerMobile }}>
-                                <Footer storeConfig={storeConfig} t={t} />
-                            </div>
-                        ) : null}
+                    {footer && storeConfig?.pwa?.enabler_footer_mobile === true ? (
+                        <div className="hidden-desktop" style={{ ...footerMobile }}>
+                            <Footer storeConfig={storeConfig} t={t} />
+                        </div>
+                    ) : null}
                     {desktop ? null : storeConfig && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? (
                         <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />
                     ) : null}

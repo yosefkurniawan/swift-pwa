@@ -1,26 +1,23 @@
 /* eslint-disable array-callback-return */
-import Layout from '@layout';
-import Error from 'next/error';
-import { StripHtmlTags } from '@helper_text';
-import { features, modules, debuging } from '@config';
-import { useRouter } from 'next/router';
-import TagManager from 'react-gtm-module';
-import { getCookies } from '@helper_cookies';
+import { useQuery } from '@apollo/client';
+import { debuging, features, modules } from '@config';
+import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
+import Header from '@core_modules/product/pages/default/components/header';
 import Loading from '@core_modules/product/pages/default/components/Loader';
 import {
-    getProduct,
-    getProductLabel,
-    addWishlist as mutationAddWishlist,
-    smartProductTabs,
-    addProductsToCompareList,
+    addProductsToCompareList, addWishlist as mutationAddWishlist, getProduct,
+    getProductLabel, smartProductTabs
 } from '@core_modules/product/services/graphql';
-import Header from '@core_modules/product/pages/default/components/header';
-import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
-import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
+import { getCookies } from '@helper_cookies';
+import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
+import { StripHtmlTags } from '@helper_text';
+import Layout from '@layout';
 import { localCompare } from '@services/graphql/schema/local';
-import { useQuery } from '@apollo/client';
+import Error from 'next/error';
+import { useRouter } from 'next/router';
 import React from 'react';
+import TagManager from 'react-gtm-module';
 
 const ContentDetail = ({
     t, product, keyProduct, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig,
