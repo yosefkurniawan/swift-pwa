@@ -266,7 +266,7 @@ const TableListProduct = ({
                                                         align="right"
                                                         className={styles.noBorder}
                                                     >
-                                                        <Typography variant="span" align="right" letter="capitalize">
+                                                        <Typography id="plugin-tableCart-itemQty" variant="span" align="right" letter="capitalize">
                                                             {val.quantity}
                                                         </Typography>
                                                     </TableCell>
@@ -321,6 +321,7 @@ const TableListProduct = ({
                                                     >
                                                         <div>
                                                             <IconButton
+                                                                id="cart-tableCart-editCartBtn"
                                                                 className={styles.iconBtn}
                                                                 onClick={() => openEdit(val)}
                                                             >
@@ -329,7 +330,11 @@ const TableListProduct = ({
                                                             <IconButton className={styles.iconBtn} onClick={() => handleAddWishlist(val)}>
                                                                 <FavoriteBorderOutlined fontSize="small" className={styles.icon} />
                                                             </IconButton>
-                                                            <IconButton className={styles.iconBtn} onClick={() => confirmDelete(val)}>
+                                                            <IconButton
+                                                                id="cart-tableCart-removeCartBtn"
+                                                                className={styles.iconBtn}
+                                                                onClick={() => confirmDelete(val)}
+                                                            >
                                                                 <DeleteOutlineOutlined fontSize="small" className={styles.icon} />
                                                             </IconButton>
                                                         </div>

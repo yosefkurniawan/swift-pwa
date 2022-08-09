@@ -36,7 +36,7 @@ const Content = (props) => {
     };
     const styles = useStyles();
     return (
-        <div className={classNames(styles.mobileBottomSpace, 'row')}>
+        <div className={classNames(styles.mobileBottomSpace, 'row cart-pages')}>
             <div className="col-xs-12">
                 <GimmickBanner data={dataCart.promoBanner || []} t={t} {...other} />
             </div>

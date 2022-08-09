@@ -7,6 +7,7 @@ const Radio = ({
 }) => (
     <div className="options-container">
         <input
+            className="product-optionItem-radio"
             type="radio"
             onClick={() => selectOptions(data, val.id)}
             id={val.id}

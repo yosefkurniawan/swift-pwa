@@ -12,6 +12,7 @@ import Typography from '@common_typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CustomAutocomplete from '@core_modules/commons/AutoComplete';
 import useStyles from '@plugin_addressform/components/style';
+import classNames from 'classnames';
 
 const AddressView = (props) => {
     const {
@@ -49,6 +50,7 @@ const AddressView = (props) => {
     const getCountriesRender = () => (
         <div className={styles.boxField}>
             <CustomAutocomplete
+                className="addressForm-country-autoComplete"
                 id="country"
                 enableCustom={false}
                 mode="lazy"
@@ -88,6 +90,7 @@ const AddressView = (props) => {
         if (addressState.dropdown.region && addressState.dropdown.region.length > 0 && open) {
             return (
                 <Autocomplete
+                    className="addressForm-province-autoComplete"
                     disabled={!formik.values.country}
                     options={addressState.dropdown.region}
                     getOptionLabel={(option) => (option.name ? option.name : '')}
@@ -185,6 +188,7 @@ const AddressView = (props) => {
         if (addressState.dropdown.city && addressState.dropdown.city.length && addressState.dropdown.city.length > 0 && open) {
             return (
                 <Autocomplete
+                    className="addressForm-city-autoComplete"
                     disabled={!formik.values.region}
                     options={addressState.dropdown.city}
                     getOptionLabel={(option) => (option.label ? option.label : '')}
@@ -253,6 +257,7 @@ const AddressView = (props) => {
         if (addressState.dropdown.district && addressState.dropdown.district.length && addressState.dropdown.district.length > 0 && open) {
             return (
                 <Autocomplete
+                    className="addressForm-district-autoComplete"
                     disabled={!formik.values.city}
                     options={addressState.dropdown.district}
                     getOptionLabel={(option) => (option.label ? option.label : '')}
@@ -317,6 +322,7 @@ const AddressView = (props) => {
         if (addressState.dropdown.village && addressState.dropdown.village.length && addressState.dropdown.village.length > 0 && open) {
             return (
                 <Autocomplete
+                    className="addressForm-village-autoComplete"
                     disabled={!formik.values.district}
                     options={addressState.dropdown.village}
                     getOptionLabel={(option) => (option.label ? option.label : '')}
@@ -376,6 +382,7 @@ const AddressView = (props) => {
                 <div className={[styles.address_form].join(' ')}>
                     <form onSubmit={formik.handleSubmit} autoComplete="new-password">
                         <CustomTextField
+                            id="addressForm-firtsName-textField"
                             autoComplete="new-password"
                             label={t('common:form:firstName')}
                             name="firstname"
@@ -385,6 +392,7 @@ const AddressView = (props) => {
                             errorMessage={(formik.touched.firstname && formik.errors.firstname) || null}
                         />
                         <CustomTextField
+                            id="addressForm-lastName-textField"
                             autoComplete="new-password"
                             label={t('common:form:lastName')}
                             name="lastname"
@@ -394,6 +402,7 @@ const AddressView = (props) => {
                             errorMessage={(formik.touched.lastname && formik.errors.lastname) || null}
                         />
                         <CustomTextField
+                            id="addressForm-phoneNumber-textField"
                             autoComplete="new-password"
                             label={t('common:form:phoneNumber')}
                             name="telephone"
@@ -408,6 +417,7 @@ const AddressView = (props) => {
                         {enableSplitCity ? getDistrictRender() : null}
                         {enableSplitCity ? getVillageRender() : null}
                         <CustomTextField
+                            id="addressForm-postalCode-textField"
                             autoComplete="new-password"
                             label={t('common:form:postal')}
                             name="postcode"
@@ -429,6 +439,7 @@ const AddressView = (props) => {
                             </div>
                         ) : (
                             <CustomTextField
+                                className="addressForm-addressDetail-textField"
                                 autoComplete="new-password"
                                 label={t('common:form:addressDetail')}
                                 placeholder={t('common:search:addressDetail')}
@@ -457,7 +468,7 @@ const AddressView = (props) => {
                                     checked={formik.values.defaultShippingBilling}
                                     onChange={() => formik.setFieldValue('defaultShippingBilling', !formik.values.defaultShippingBilling)}
                                     name="defaultShippingBilling"
-                                    control={<Checkbox name="checkboxDefaultShippingBilling" color="primary" size="small" />}
+                                    control={<Checkbox id="addressForm-addressDefault-checkbox" name="checkboxDefaultShippingBilling" color="primary" size="small" />}
                                     label={(
                                         <Typography variant="p" letter="capitalize" className="row center">
                                             {t('customer:address:useDefault')}
@@ -474,7 +485,7 @@ const AddressView = (props) => {
                                     checked={formik.values.confirmPinPoint}
                                     onChange={() => formik.setFieldValue('confirmPinPoint', !formik.values.confirmPinPoint)}
                                     name="confirmPinPoint"
-                                    control={<Checkbox name="newsletter" color="primary" size="small" />}
+                                    control={<Checkbox id="addressForm-confirmPinPoint-checkbox" name="newsletter" color="primary" size="small" />}
                                     label={(
                                         <Typography variant="h4" className="row center" style={{ fontWeight: '600' }}>
                                             {`${t('customer:address:confirmPinPoint')}`}
@@ -492,7 +503,7 @@ const AddressView = (props) => {
                         ) : ''}
                         <div className={styles.wrapper}>
                             <Button
-                                className={addBtn}
+                                className={classNames(addBtn, 'addressForm-saveAddress-btn')}
                                 fullWidth
                                 type="submit"
                                 disabled={loading}

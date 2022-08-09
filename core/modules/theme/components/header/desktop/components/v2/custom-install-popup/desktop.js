@@ -22,7 +22,8 @@ const DesktopInstall = ({ installMessage = 'Install' }) => {
         <div id="popup-desktop__install" className={styles.popupInstallDesktop}>
             <Button id="btn-install" variant="contained" color="primary" className={styles.btnInstallDesktop} onClick={onClick}>
                 Install
-            </Button>{' '}
+            </Button>
+            {' '}
             {installMessage}
         </div>
     );

@@ -25,6 +25,7 @@ const RegisterView = ({
     enableRecaptcha,
     sitekey,
     handleChangeCaptcha,
+    handleChangeWa,
     disabled,
     recaptchaRef,
     gender,
@@ -37,6 +38,7 @@ const RegisterView = ({
         <>
             <form className={classNames('col-md-6', styles.container)} onSubmit={formik.handleSubmit}>
                 <TextField
+                    id="register-firstname-textfield"
                     label={t('common:form:firstName')}
                     name="firstName"
                     value={formik.values.firstName}
@@ -45,6 +47,7 @@ const RegisterView = ({
                     errorMessage={(formik.touched.firstName && formik.errors.firstName) || null}
                 />
                 <TextField
+                    id="register-lastname-textfield"
                     label={t('common:form:lastName')}
                     name="lastName"
                     value={formik.values.lastName}
@@ -53,6 +56,7 @@ const RegisterView = ({
                     errorMessage={(formik.touched.lastName && formik.errors.lastName) || null}
                 />
                 <TextField
+                    id="register-email-textfield"
                     label="Email"
                     type="email"
                     name="email"
@@ -64,7 +68,10 @@ const RegisterView = ({
                 {gender && (
                     <Select
                         className="genderField"
-                        options={[{ label: 'Male', value: 1 }, { label: 'Female', value: 2 }]}
+                        options={[
+                            { label: 'Male', value: 1 },
+                            { label: 'Female', value: 2 },
+                        ]}
                         label={t('common:form:gender')}
                         name="gender"
                         value={formik.values.gender}
@@ -86,6 +93,7 @@ const RegisterView = ({
                     />
                 )}
                 <PasswordField
+                    id="register-password-passfield"
                     label="Password"
                     showVisible
                     showPasswordMeter
@@ -96,6 +104,7 @@ const RegisterView = ({
                     errorMessage={(formik.touched.password && formik.errors.password) || null}
                 />
                 <TextField
+                    id="register-passwordConfirm-textfield"
                     label={t('common:form:confirm')}
                     type="password"
                     name="confirmPassword"
@@ -110,6 +119,7 @@ const RegisterView = ({
                             type="register"
                             setDisabled={setdisabled}
                             phoneProps={{
+                                id: 'register-phonenumber-textfield',
                                 name: 'phoneNumber',
                                 value: formik.values.phoneNumber,
                                 onChange: handleChangePhone,
@@ -117,6 +127,7 @@ const RegisterView = ({
                                 errorMessage: (formik.touched.phoneNumber && formik.errors.phoneNumber) || null,
                             }}
                             codeProps={{
+                                id: 'register-otp-textfield',
                                 name: 'otp',
                                 value: formik.values.otp,
                                 onChange: formik.handleChange,
@@ -126,7 +137,7 @@ const RegisterView = ({
                                     <FormControlLabel
                                         onChange={handleWa}
                                         className={styles.checkWa}
-                                        control={<Checkbox name="whastapptrue" color="primary" size="small" />}
+                                        control={<Checkbox id="register-waRegitered-checkbox" name="whastapptrue" color="primary" size="small" />}
                                         label={<Typography variant="p">{t('register:isWhatsapp')}</Typography>}
                                     />
                                 ),
@@ -134,10 +145,12 @@ const RegisterView = ({
                         />
                         {!phoneIsWa && (
                             <TextField
+                                id="register-waNumber-textfield"
+                                type="phone"
                                 label={`${t('common:form:phoneNumber')} Whatsapp`}
                                 name="whatsappNumber"
                                 value={formik.values.whatsappNumber}
-                                onChange={formik.handleChange}
+                                onChange={handleChangeWa}
                                 error={!!(formik.touched.whatsappNumber && formik.errors.whatsappNumber)}
                                 errorMessage={(formik.touched.whatsappNumber && formik.errors.whatsappNumber) || null}
                             />
@@ -149,7 +162,7 @@ const RegisterView = ({
                         value={formik.values.subscribe}
                         onChange={formik.handleChange}
                         name="subscribe"
-                        control={<Checkbox name="subscribe" color="primary" size="small" />}
+                        control={<Checkbox id="register-newsletter-checkbox" name="subscribe" color="primary" size="small" />}
                         label={(
                             <Typography variant="p" letter="capitalize" className="row center">
                                 {t('register:subscribe')}
@@ -179,7 +192,7 @@ const RegisterView = ({
                         type="submit"
                         align={desktop ? 'left' : 'center'}
                     >
-                        <Typography variant="span" type="bold" letter="uppercase" color="white">
+                        <Typography variant="span" type="bold" letter="uppercase">
                             {t('register:button')}
                         </Typography>
                     </Button>

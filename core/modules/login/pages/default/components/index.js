@@ -39,6 +39,7 @@ const Login = (props) => {
         query,
         formikPhoneEmail,
         phonePassword,
+        handleChangePhone,
     } = props;
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
@@ -123,6 +124,7 @@ const Login = (props) => {
                                     <div className="row center-xs start-sm">
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <TextField
+                                                id="login-email-textfield"
                                                 name="username"
                                                 label="Email"
                                                 placeholder="john.doe@gmail.com"
@@ -134,6 +136,7 @@ const Login = (props) => {
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <PasswordField
+                                                id="login-password-passfield"
                                                 name="password"
                                                 label="Password"
                                                 placeholder="********"
@@ -154,24 +157,22 @@ const Login = (props) => {
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <Button
+                                                id="login-signin-button"
                                                 className={styles.generalButton}
                                                 fullWidth={!desktop}
                                                 type="submit"
                                                 disabled={desktop ? false : disabled}
                                                 align={desktop ? 'left' : 'center'}
                                             >
-                                                <Typography variant="span" type="bold" letter="uppercase" color="white">
+                                                <Typography variant="span" type="bold" letter="uppercase">
                                                     {loading ? 'Loading' : t('login:pageTitle')}
                                                 </Typography>
                                             </Button>
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                            {
-                                                firebaseLoaded
-                                                && firebase.app()
-                                                && !socialLoginMethodLoading
-                                                && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-                                            }
+                                            {firebaseLoaded && firebase.app() && !socialLoginMethodLoading && (
+                                                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                                            )}
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <Button
@@ -202,9 +203,17 @@ const Login = (props) => {
                                             <TextField
                                                 name="username"
                                                 // eslint-disable-next-line max-len
-                                                label={otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login ? t('login:emailLabel') : t('login:phoneEmailLabel')}
+                                                label={
+                                                    otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login
+                                                        ? t('login:emailLabel')
+                                                        : t('login:phoneEmailLabel')
+                                                }
                                                 // eslint-disable-next-line max-len
-                                                placeholder={otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login ? t('login:emailFields') : t('login:phoneEmailFields')}
+                                                placeholder={
+                                                    otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login
+                                                        ? t('login:emailFields')
+                                                        : t('login:phoneEmailFields')
+                                                }
                                                 value={formikPhoneEmail.values.username}
                                                 onChange={formikPhoneEmail.handleChange}
                                                 error={!!formikPhoneEmail.errors.username}
@@ -241,18 +250,15 @@ const Login = (props) => {
                                                 disabled={desktop ? false : disabled}
                                                 align={desktop ? 'left' : 'center'}
                                             >
-                                                <Typography variant="span" type="bold" letter="uppercase" color="white">
+                                                <Typography variant="span" type="bold" letter="uppercase">
                                                     {loading ? 'Loading' : t('login:pageTitle')}
                                                 </Typography>
                                             </Button>
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                            {
-                                                firebaseLoaded
-                                                && firebase.app()
-                                                && !socialLoginMethodLoading
-                                                && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-                                            }
+                                            {firebaseLoaded && firebase.app() && !socialLoginMethodLoading && (
+                                                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                                            )}
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <Button
@@ -295,7 +301,7 @@ const Login = (props) => {
                                                     name: 'username',
                                                     placeholder: '+6281234xxxx',
                                                     value: formikOtp.values.username,
-                                                    onChange: formikOtp.handleChange,
+                                                    onChange: handleChangePhone,
                                                     error: !!formikOtp.errors.username,
                                                     errorMessage: formikOtp.errors.username || null,
                                                 }}
@@ -324,7 +330,7 @@ const Login = (props) => {
                                                 disabled={disabled}
                                                 align={desktop ? 'left' : 'center'}
                                             >
-                                                <Typography variant="span" type="bold" letter="uppercase" color="white">
+                                                <Typography variant="span" type="bold" letter="uppercase">
                                                     {loading ? 'Loading' : t('common:button:submit')}
                                                 </Typography>
                                             </Button>
@@ -351,15 +357,11 @@ const Login = (props) => {
                             <Button
                                 className={styles.generalButton}
                                 fullWidth={false}
-                                href={
-                                    (query && query.redirect)
-                                        ? `/customer/account/create?redirect=${query.redirect}`
-                                        : '/customer/account/create'
-                                }
+                                href={query && query.redirect ? `/customer/account/create?redirect=${query.redirect}` : '/customer/account/create'}
                                 disabled={desktop ? false : disabled}
                                 align={desktop ? 'left' : 'center'}
                             >
-                                <Typography color="white" variant="span" type="bold" letter="uppercase">
+                                <Typography variant="span" type="bold" letter="uppercase">
                                     {t('login:registerTitle')}
                                 </Typography>
                             </Button>
@@ -371,7 +373,6 @@ const Login = (props) => {
             <style jsx global>
                 {`
                     @media screen and (max-width: 768px) {
-                                            
                         .firebaseui-card-content {
                             width: 100%;
                             padding: 0px !important;
@@ -380,7 +381,7 @@ const Login = (props) => {
                             padding: 0px !important;
                         }
                     }
-                    
+
                     .firebaseui-container {
                         display: flex !important;
                         flex-direaction: column !important;

@@ -87,13 +87,19 @@ const CoreGiftCardOptionItem = ({
     }
 
     const formValidationSchema = Yup.object().shape({
-        aw_gc_recipient_name: Yup.string().nullable().required(`${t('validate:recipientName')} ${t('validate:required')}`),
+        aw_gc_recipient_name: Yup.string()
+            .nullable()
+            .required(`${t('validate:recipientName')} ${t('validate:required')}`),
         aw_gc_recipient_email: Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')),
-        aw_gc_sender_name: Yup.string().nullable().required(`${t('validate:senderName')} ${t('validate:required')}`),
+        aw_gc_sender_name: Yup.string()
+            .nullable()
+            .required(`${t('validate:senderName')} ${t('validate:required')}`),
         aw_gc_sender_email: Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')),
         aw_gc_template:
             aw_gc_type === 'VIRTUAL'
-                ? Yup.string().nullable().required(`${t('validate:emailTemplate')} ${t('validate:required')}`)
+                ? Yup.string()
+                    .nullable()
+                    .required(`${t('validate:emailTemplate')} ${t('validate:required')}`)
                 : null,
         aw_gc_amount: Yup.string().nullable(),
         aw_gc_custom_amount: Yup.number()
@@ -176,10 +182,11 @@ const CoreGiftCardOptionItem = ({
                                 setCartId(token);
                             })
                             .catch((e) => {
+                                const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                                 setLoading(false);
                                 window.toastMessage({
                                     ...errorMessage,
-                                    text: e.message.split(':')[1] || errorMessage.text,
+                                    text: originalError || errorMessage.text,
                                 });
                             });
                     } else if (cartUser.data && cartUser.data.customerCart) {
@@ -237,6 +244,7 @@ const CoreGiftCardOptionItem = ({
                             setOpen(false);
                         })
                         .catch((e) => {
+                            const originalError = e.message.includes(':') ? e.message.split(':')[1] : e.message;
                             if (e.message === "The product's required option(s) weren't entered. Make sure the options are entered and try again.") {
                                 Router.push(`/${url_key}`);
                             }
@@ -244,7 +252,7 @@ const CoreGiftCardOptionItem = ({
                             setLoading(false);
                             window.toastMessage({
                                 ...errorMessage,
-                                text: e.message.split(':')[1] || errorMessage.text,
+                                text: originalError || errorMessage.text,
                             });
                         });
                 }

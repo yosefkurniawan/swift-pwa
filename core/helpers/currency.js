@@ -1,6 +1,3 @@
-import { storeConfigNameCookie } from '@config';
-import helperCookies from '@helper_cookies';
-
 /* eslint-disable no-param-reassign */
 const { general } = require('@config');
 const cookies = require('js-cookie');
@@ -39,22 +36,37 @@ const getCurrentCurrency = ({ APP_CURRENCY, value }) => {
  * @param {double} value
  * @param {string} currency
  */
-export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
+export const formatPrice = (value, currency = general.defaultCurrencyCode, currencyCache) => {
+    let localeConfig = general.defaultCurrencyLocale;
+    let enableRemoveDecimal = false;
+    // set locale from storeConfig -> locale if exists, otherwise use default locale set in swift.config.js
+    if (currencyCache) {
+        localeConfig = currencyCache.locale;
+        enableRemoveDecimal = currencyCache.enableRemoveDecimal;
+    }
     /**
      * window === undefined to handle localstorage from reload
      */
-    const isServer = typeof window === 'undefined';
-    const storeConfig = helperCookies.get(storeConfigNameCookie);
-    // set locale from storeConfig -> locale if exists, otherwise use default locale set in swift.config.js
-    let localeConfig = !isServer && storeConfig && storeConfig.locale ? storeConfig.locale.replace('_', '-') : general.defaultCurrencyLocale;
 
-    /* --- CHANGE TO CURRENT CURRENCY --- */
-    const APP_CURRENCY = isServer ? undefined : cookies.get('app_currency');
-    if (APP_CURRENCY !== undefined) {
-        const getCurrent = getCurrentCurrency({ APP_CURRENCY, value });
-        currency = getCurrent.currency;
-        value = getCurrent.value;
-        localeConfig = currenciesToLocale[currency];
+    const isServer = typeof window === 'undefined';
+
+    // /* --- CHANGE TO CURRENT CURRENCY --- */
+    if (!isServer) {
+        if (currencyCache && currencyCache.appCurrency) {
+            const getCurrent = getCurrentCurrency({ APP_CURRENCY: currencyCache.appCurrency, value });
+            currency = getCurrent.currency;
+            value = getCurrent.value;
+            localeConfig = currenciesToLocale[currency];
+        } else {
+            console.log('wehaha');
+            const APP_CURRENCY = cookies.get('app_currency');
+            if (APP_CURRENCY !== undefined) {
+                const getCurrent = getCurrentCurrency({ APP_CURRENCY, value });
+                currency = getCurrent.currency;
+                value = getCurrent.value;
+                localeConfig = currenciesToLocale[currency];
+            }
+        }
     }
     /* --- CHANGE TO CURRENT CURRENCY --- */
 
@@ -62,8 +74,6 @@ export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
         style: 'currency',
         currency,
     }).format(value);
-
-    const enableRemoveDecimal = isServer ? false : cookies.getJSON('remove_decimal_config');
 
     const decimalFeature = () => {
         const decimal = price.substr(price.length - 3).substring(1);

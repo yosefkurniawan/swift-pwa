@@ -22,7 +22,7 @@ const ConfirmationDelete = ({
             <Button onClick={handleCancel} color="primary">
                 {t('common:button:cancel')}
             </Button>
-            <Button onClick={handleDelete} color="primary" autoFocus>
+            <Button id="cart-confirmDelete-btn" onClick={handleDelete} color="primary" autoFocus>
                 {t('common:button:yes')}
             </Button>
         </DialogActions>

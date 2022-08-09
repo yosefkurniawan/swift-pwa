@@ -255,17 +255,25 @@ const Register = (props) => {
     const handleWa = () => {
         if (phoneIsWa === false) {
             // eslint-disable-next-line no-use-before-define
+
             formik.setFieldValue('whatsappNumber', formik.values.phoneNumber);
         }
         setPhoneIsWa(!phoneIsWa);
     };
 
     const handleChangePhone = (event) => {
-        const { value } = event.target;
+        const value = event;
         if (phoneIsWa === true) {
             formik.setFieldValue('whatsappNumber', value);
         }
+
         formik.setFieldValue('phoneNumber', value);
+    };
+
+    const handleChangeWa = (event) => {
+        const value = event;
+
+        formik.setFieldValue('whatsappNumber', value);
     };
 
     const handleChangeDate = (date) => {
@@ -275,6 +283,10 @@ const Register = (props) => {
     if (cartData.data && custData.data) {
         Cookies.set(custDataNameCookie, {
             email: custData.data.customer.email,
+            firstname: custData.data.customer.firstname,
+            customer_group: custData.data.customer.customer_group,
+            phonenumber: custData.data.customer.phonenumber,
+            is_phonenumber_valid: custData.data.customer.is_phonenumber_valid,
         });
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {
@@ -358,6 +370,7 @@ const Register = (props) => {
                 handleChangePhone={handleChangePhone}
                 handleWa={handleWa}
                 phoneIsWa={phoneIsWa}
+                handleChangeWa={handleChangeWa}
                 enableRecaptcha={enableRecaptcha}
                 sitekey={sitekey}
                 handleChangeCaptcha={handleChangeCaptcha}

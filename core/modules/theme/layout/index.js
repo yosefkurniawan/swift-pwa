@@ -18,14 +18,16 @@ import useStyles from '@core_modules/theme/layout/style';
 import { getAppEnv } from '@helpers/env';
 import { getHost } from '@helper_config';
 import { getCookies, setCookies } from '@helper_cookies';
-import { setLocalStorage } from '@helper_localstorage';
 import { breakPointsDown, breakPointsUp } from '@helper_theme';
+import crypto from 'crypto';
+import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
 import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
 import { getCountCart } from '@core_modules/theme/services/graphql';
 import { getCartId } from '@helper_cartid';
 import { localTotalCart } from '@services/graphql/schema/local';
+import { frontendConfig } from '@helpers/frontendOptions';
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
@@ -130,6 +132,10 @@ const Layout = (props) => {
         setShowGlobalPromo(false);
     };
 
+    const allowHeaderCheckout = modules.checkout.checkoutOnly
+        ? !modules.checkout.checkoutOnly
+        : withLayoutHeader;
+
     const ogData = {
         'og:title': pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa',
         'og:image': storeConfig.header_logo_src
@@ -214,10 +220,20 @@ const Layout = (props) => {
             const tagManagerArgs = {
                 dataLayer: {
                     pageName: pageConfig.title,
+                    pageType: pageConfig.pageType || 'other',
                     customerGroup: isLogin === 1 ? 'GENERAL' : 'NOT LOGGED IN',
                 },
             };
-            if (custData && custData.email) tagManagerArgs.dataLayer.customerId = custData.email;
+            if (custData && custData.email) {
+                tagManagerArgs.dataLayer.customerId = custData.id || custData.email;
+                const custEmail = custData.email.toLowerCase();
+                tagManagerArgs.dataLayer.eid = crypto.createHash('sha256').update(custEmail).digest('hex');
+            }
+            if (custData && custData.phonenumber && custData.is_phonenumber_valid) {
+                let custPhone = custData.phonenumber;
+                custPhone = `${custPhone}`;
+                tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
+            }
             TagManager.dataLayer(tagManagerArgs);
             if (enablePromo !== '' && storeConfig.global_promo && storeConfig.global_promo.enable) {
                 setShowGlobalPromo(enablePromo);
@@ -247,8 +263,8 @@ const Layout = (props) => {
     };
 
     const footerMobile = {
-        marginBottom: pageConfig.bottomNav && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? '55px' : 0,
-        display: pageConfig.bottomNav && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? 'flex' : null,
+        marginBottom: pageConfig.bottomNav && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? '55px' : 0,
+        display: pageConfig.bottomNav && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? 'flex' : null,
     };
 
     if (!headerDesktop) {
@@ -258,6 +274,34 @@ const Layout = (props) => {
     if (typeof window !== 'undefined' && storeConfig) {
         setLocalStorage(storeConfigNameCookie, storeConfig);
     }
+
+    useEffect(() => {
+        if (storeConfig && storeConfig.pwa && typeof window !== 'undefined') {
+            const pwaConfig = getLocalStorage('frontend_options').pwa;
+
+            const stylesheet = document.createElement('style');
+            const fontStylesheet = document.createElement('link');
+            const fontStylesheetHeading = document.createElement('link');
+
+            if (pwaConfig) {
+                // eslint-disable-next-line max-len
+                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.default_font.replace(' ', '-')}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheet.id = 'font-stylesheet-id';
+                fontStylesheet.rel = 'stylesheet';
+                // eslint-disable-next-line max-len
+                fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.heading_font.replace(' ', '-')}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheetHeading.id = 'font-stylesheet-heading-id';
+                fontStylesheetHeading.rel = 'stylesheet';
+                stylesheet.innerHTML = frontendConfig(pwaConfig);
+                stylesheet.id = 'frontend-options-stylesheet';
+                if (!document.getElementById('frontend-options-stylesheet') && !document.getElementById('font-stylesheet-id')) {
+                    document.head.appendChild(fontStylesheet);
+                    document.head.appendChild(fontStylesheetHeading);
+                    document.head.appendChild(stylesheet);
+                }
+            }
+        }
+    }, [storeConfig]);
 
     let classMain;
 
@@ -360,7 +404,7 @@ const Layout = (props) => {
             {showPopup && storeConfig && storeConfig.pwa && storeConfig.pwa.header_version !== 'v2' ? (
                 <PopupInstallAppMobile appName={appName} installMessage={installMessage} />
             ) : null}
-            {withLayoutHeader && (
+            {allowHeaderCheckout && (
                 <header ref={refHeader}>
                     {typeof window !== 'undefined' && storeConfig.global_promo && storeConfig.global_promo.enable && (
                         <GlobalPromoMessage

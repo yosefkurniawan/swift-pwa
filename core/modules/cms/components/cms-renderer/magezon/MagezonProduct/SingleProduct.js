@@ -9,9 +9,7 @@ import RatingStar from '@common_ratingstar';
 import { modules } from '@config';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 import { useProduct } from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/helpers/useProduct';
-import Button from '@core_modules/commons/Button';
 import Typography from '@core_modules/commons/Typography';
-import OptionItem from '@core_modules/product/plugins/OptionItem';
 import { useTranslation } from '@i18n';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -21,26 +19,14 @@ import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import Link from 'next/link';
 import Image from '@common_image';
 
-const CustomButton = (props) => {
-    const { t, styles, handleClick } = props;
-
-    return (
-        <Button className={styles.btnAddToCard} onClick={handleClick}>
-            <Typography align="center" type="bold" letter="uppercase" color="white" variant="inherit">
-                {t('product:addToCart')}
-            </Typography>
-        </Button>
-    );
-};
-
 const SingleProduct = (props) => {
     // prettier-ignore
     const {
         type,
         product, product_display,
-        product_addtocart, product_compare, product_shortdescription,
+        product_compare, product_shortdescription,
         product_image, product_price, product_review,
-        product_swatches, product_wishlist, product_name,
+        product_wishlist, product_name,
         item_xl, item_lg, item_md, item_sm, item_xs, storeConfig,
     } = props;
     const isGrid = product_display && product_display === 'grid';
@@ -49,14 +35,14 @@ const SingleProduct = (props) => {
     const { t } = useTranslation();
     // prettier-ignore
     const {
-        name, url_key, id, __typename, review_count,
+        name, url_key, id, review_count,
         short_description, small_image,
     } = product;
     // prettier-ignore
 
     const {
         styles, wishlist,
-        price, setPrice,
+        price,
         handleAddtowishlist, handleClick, handleSetCompareList,
     } = useProduct({ product, t });
 
@@ -81,13 +67,6 @@ const SingleProduct = (props) => {
         }
 
         return classes;
-    };
-
-    const customButton = () => {
-        if (product_addtocart) {
-            return <CustomButton t={t} styles={styles} handleClick={handleClick} />;
-        }
-        return null;
     };
 
     let defaultWidth = storeConfig?.pwa?.image_product_width;
@@ -153,26 +132,6 @@ const SingleProduct = (props) => {
                                     <CmsRenderer content={short_description.html} />
                                 </Link>
                             )}
-                            <div className="mgz-single-product-option-item">
-                                {__typename === 'GroupedProduct' ? (
-                                    <CustomButton t={t} styles={styles} handleClick={handleClick} />
-                                ) : (
-                                    <OptionItem
-                                        data={product}
-                                        setPrice={setPrice}
-                                        t={t}
-                                        noLabel
-                                        noValidate
-                                        customPos
-                                        showSwatches={product_swatches}
-                                        showQty={false}
-                                        disabled={false}
-                                        showAddToCart={product_addtocart}
-                                        handleAddToCart={handleClick}
-                                        customButton={customButton}
-                                    />
-                                )}
-                            </div>
                         </Grid>
                         {(!isGrid && !isSlider) && (
                             <Grid item style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end' }}>

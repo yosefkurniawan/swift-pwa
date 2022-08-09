@@ -3,6 +3,8 @@ import React from 'react';
 import BundleProductTypePrice from '@common_priceformat/components/BundleProductTypePrice';
 import OtherProductTypePrice from '@common_priceformat/components/OtherProductTypePrice';
 import SimpleProductTypePrice from '@common_priceformat/components/SimpleProductTypePrice';
+import { useReactiveVar } from '@apollo/client';
+import { currencyVar } from '@root/core/services/graphql/cache';
 
 /**
  * Price Generator Component
@@ -17,6 +19,8 @@ const Price = ({
     productType = 'SimpleProduct',
     ...other
 }) => {
+    const currencyCache = useReactiveVar(currencyVar);
+
     if (!priceRange) {
         return <>Invalid price</>;
     }
@@ -26,6 +30,7 @@ const Price = ({
             <SimpleProductTypePrice
                 priceRange={priceRange}
                 priceTiers={priceTiers}
+                currencyCache={currencyCache}
                 {...other}
             />
         );
@@ -35,6 +40,7 @@ const Price = ({
             <BundleProductTypePrice
                 priceRange={priceRange}
                 priceTiers={priceTiers}
+                currencyCache={currencyCache}
                 {...other}
             />
         );
@@ -44,6 +50,7 @@ const Price = ({
         <OtherProductTypePrice
             priceRange={priceRange}
             priceTiers={priceTiers}
+            currencyCache={currencyCache}
             {...other}
         />
     );

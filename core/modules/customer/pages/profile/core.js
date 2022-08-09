@@ -1,19 +1,29 @@
 import Layout from '@layout';
 import CustomerLayout from '@layout_customer';
+import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { regexPhone } from '@helper_regex';
 import {
     updateCustomerProfile as gqlUpdateCustomer,
-    changeCustomerPassword as gqlChangeCustomerPassword, getCustomer,
+    changeCustomerPassword as gqlChangeCustomerPassword,
+    getCustomer,
 } from '@core_modules/customer/services/graphql';
+import Cookies from 'js-cookie';
+import { custDataNameCookie } from '@config';
 
 const ProfilePage = (props) => {
     const {
         data, error, loading, Content, t, Skeleton,
     } = props;
 
-    if (loading) return <CustomerLayout {...props}><Skeleton /></CustomerLayout>;
+    if (loading) {
+        return (
+            <CustomerLayout {...props}>
+                <Skeleton />
+            </CustomerLayout>
+        );
+    }
     if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return null;
 
@@ -24,17 +34,13 @@ const ProfilePage = (props) => {
     const [phoneIsWa, setPhoneIsWa] = React.useState(false);
 
     const ProfileSchema = Yup.object().shape({
-        email: editEmail && Yup.string()
-            .email(t('validate:email:wrong'))
-            .required(t('validate:email:required')),
+        email: editEmail && Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
         firstName: Yup.string().required(t('validate:firstName:required')),
         lastName: Yup.string().required(t('validate:lastName:required')),
         phonenumber: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
         whatsapp_number: Yup.string().required(t('validate:whatsappNumber:required')).matches(regexPhone, t('validate:whatsappNumber:wrong')),
-        currentPassword:
-            (editEmail || editPass) && Yup.string().required(t('validate:password:required')),
-        password:
-            editPass && Yup.string().required(t('validate:password:required')),
+        currentPassword: (editEmail || editPass) && Yup.string().required(t('validate:password:required')),
+        password: editPass && Yup.string().required(t('validate:password:required')),
         confirmPassword:
             editPass
             && Yup.string()
@@ -43,7 +49,7 @@ const ProfilePage = (props) => {
                     'check-pass',
                     t('validate:confirmPassword.wrong'),
                     // eslint-disable-next-line no-use-before-define
-                    (input) => (input === formik.values.password),
+                    (input) => input === formik.values.password,
                 ),
     });
 
@@ -71,30 +77,46 @@ const ProfilePage = (props) => {
                         phonenumber: values.phonenumber,
                         whatsapp_number: values.whatsapp_number,
                     },
-                }).then(async () => {
-                    if (editEmail) {
-                        setFieldValue('currentPassword', '', false);
-                    }
-                    if (editPass) {
-                        await changeCustomerPassword({
-                            variables: {
-                                currentPassword: values.currentPassword,
-                                newPassword: values.password,
-                            },
+                })
+                    .then(async (res) => {
+                        if (res && res.data && res.data.updateCustomerCustom && res.data.updateCustomerCustom.customer) {
+                            const { customer } = res.data.updateCustomerCustom;
+                            Cookies.set(custDataNameCookie, {
+                                email: customer.email,
+                                firstname: customer.firstname,
+                                customer_group: customer.customer_group,
+                                phonenumber: customer.phonenumber,
+                                is_phonenumber_valid: customer.is_phonenumber_valid,
+                            });
+                        }
+                        if (editEmail) {
+                            setFieldValue('currentPassword', '', false);
+                        }
+                        if (editPass) {
+                            await changeCustomerPassword({
+                                variables: {
+                                    currentPassword: values.currentPassword,
+                                    newPassword: values.password,
+                                },
+                            });
+                            setFieldValue('currentPassword', '', false);
+                            setFieldValue('password', '', false);
+                            setFieldValue('confirmPassword', '', false);
+                        }
+                        setEditEmail(false);
+                        setEditPass(false);
+                        setSubmitting(false);
+                        window.backdropLoader(false);
+                        window.toastMessage({ variant: 'success', open: true, text: t('customer:profile:successUpdate') });
+                    })
+                    .catch((e) => {
+                        window.backdropLoader(false);
+                        window.toastMessage({
+                            variant: 'error',
+                            open: true,
+                            text: e.message ? e.message.split(':')[0] : t('common:error:fetchError'),
                         });
-                        setFieldValue('currentPassword', '', false);
-                        setFieldValue('password', '', false);
-                        setFieldValue('confirmPassword', '', false);
-                    }
-                    setEditEmail(false);
-                    setEditPass(false);
-                    setSubmitting(false);
-                    window.backdropLoader(false);
-                    window.toastMessage({ variant: 'success', open: true, text: t('customer:profile:successUpdate') });
-                }).catch((e) => {
-                    window.backdropLoader(false);
-                    window.toastMessage({ variant: 'error', open: true, text: e.message ? e.message.split(':')[0] : t('common:error:fetchError') });
-                });
+                    });
             }
         },
     });
@@ -108,13 +130,17 @@ const ProfilePage = (props) => {
     };
 
     const handleChangePhone = (event) => {
-        const { value } = event.target;
+        const value = event;
         if (phoneIsWa) {
             formik.setFieldValue('whatsapp_number', value);
         }
         formik.setFieldValue('phonenumber', value);
     };
+    const handleChangeWa = (event) => {
+        const value = event;
 
+        formik.setFieldValue('whatsapp_number', value);
+    };
     return (
         <Content
             t={t}
@@ -127,6 +153,7 @@ const ProfilePage = (props) => {
             phoneIsWa={phoneIsWa}
             setEditEmail={setEditEmail}
             editEmail={editEmail}
+            handleChangeWa={handleChangeWa}
             setEditPass={setEditPass}
             editPass={editPass}
             updateCustomerStatus={updateCustomerStatus}

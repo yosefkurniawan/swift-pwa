@@ -325,7 +325,11 @@ const Login = (props) => {
             sendData(variables);
         }
     };
+    const handleChangePhone = (event) => {
+        const value = event;
 
+        formikOtp.setFieldValue('username', value);
+    };
     const formikPhoneEmail = useFormik({
         initialValues: {
             username: '',
@@ -384,6 +388,8 @@ const Login = (props) => {
                 email: custData.data.customer.email,
                 firstname: custData.data.customer.firstname,
                 customer_group: custData.data.customer.customer_group,
+                phonenumber: custData.data.customer.phonenumber,
+                is_phonenumber_valid: custData.data.customer.is_phonenumber_valid,
             });
             const uid_product = getCookies('uid_product_compare');
             const custCartId = cartData.data.customerCart.id;
@@ -494,6 +500,7 @@ const Login = (props) => {
         <Layout {...props} pageConfig={pageConfig || config} isLoginPage>
             <Content
                 formik={formik}
+                handleChangePhone={handleChangePhone}
                 formikPhoneEmail={formikPhoneEmail}
                 otpConfig={otpConfig}
                 isOtp={isOtp}

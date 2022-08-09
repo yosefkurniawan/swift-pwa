@@ -619,15 +619,13 @@ const Checkout = (props) => {
 
             if (
                 shipping
-                && shipping.selected_shipping_method
                 && shipping.available_shipping_methods
                 && shipping.available_shipping_methods.length > 0
             ) {
                 const shippingMethod = shipping.selected_shipping_method;
-                const availableShipping = shipping.available_shipping_methods.filter(
-                    (x) => x.available && x.carrier_code === shippingMethod.carrier_code && x.method_code === shippingMethod.method_code,
-                );
-                state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
+                state.selected.shipping = shippingMethod
+                    ? `${shippingMethod.carrier_code}_${shippingMethod.method_code}`
+                    : shippingMethod;
             }
 
             setCheckout(state);
