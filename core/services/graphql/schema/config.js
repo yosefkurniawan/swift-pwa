@@ -133,6 +133,7 @@ export const getVesMenu = `
 export const storeConfig = `
 {
     storeConfig {
+      enable_oms_multiseller
       secure_base_media_url
       secure_base_static_url
       customer_password_minimum_password_length

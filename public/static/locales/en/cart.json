@@ -24,5 +24,6 @@
     "oos": "Out of stock",
     "saveOrderNote": "Save",
     "successSaveOrderNote": "Save order note success",
-    "failedSaveOrderNote": "Save order note failed"
+    "failedSaveOrderNote": "Save order note failed",
+    "addANote": "Add a note"
 }

@@ -24,5 +24,6 @@
     "oos": "Stok habis",
     "saveOrderNote": "Simpan",
     "successSaveOrderNote": "Catatan pemesanan berhasil disimpan",
-    "failedSaveOrderNote": "Catatan pemesanan gagal disimpan"
+    "failedSaveOrderNote": "Catatan pemesanan gagal disimpan",
+    "addANote": "Tambahkan catatan"
 }
