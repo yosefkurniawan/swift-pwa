@@ -1,6 +1,17 @@
+/* eslint-disable indent */
 // eslint-disable-next-line import/prefer-default-export
 export const frontendConfig = (pwaConfig) => {
     if (pwaConfig) {
+        let button_text_color;
+        if (pwaConfig.button_text_color) {
+            if (pwaConfig.background_color === pwaConfig.button_text_color) {
+                button_text_color = pwaConfig.button_background_color;
+            } else {
+                button_text_color = pwaConfig.button_text_color;
+            }
+        } else {
+            button_text_color = '#FFFFFF';
+        }
         return `
             body {
                 background-color: ${pwaConfig.background_color || '#ffffff'};
@@ -27,6 +38,18 @@ export const frontendConfig = (pwaConfig) => {
             main a:hover {
                 color: ${pwaConfig.link_hover_color || '#000000'} !important;
                 text-decoration: ${pwaConfig.link_font_hover_decoration || 'none'} !important;
+            }
+
+            .MuiAlert-standardWarning {
+                background-color: ${pwaConfig.warning_msg_color || '#ffc107'} !important;
+            }
+
+            .MuiAlert-standardError {
+                background-color: ${pwaConfig.error_color || '#f44336'} !important;
+            }
+
+            .MuiAlert-standardSuccess {
+                background-color: ${pwaConfig.success_msg_color || '#4caf50'} !important;
             }
 
             // PAPER SECTION
@@ -68,7 +91,7 @@ export const frontendConfig = (pwaConfig) => {
                 border: 1px solid ${pwaConfig.button_disabled_background_color || '#DEDEDE'} !important;
             }
             .MuiButton-outlinedPrimary {
-                color: ${pwaConfig.button_text_hover_color || '#000000'} !important;
+                color: ${button_text_color} !important;
                 border: 1px solid ${pwaConfig.button_border_color || '#000000'} !important;
             }
             .MuiButton-outlinedPrimary:hover {
