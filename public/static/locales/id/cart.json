@@ -25,5 +25,7 @@
     "saveOrderNote": "Simpan",
     "successSaveOrderNote": "Catatan pemesanan berhasil disimpan",
     "failedSaveOrderNote": "Catatan pemesanan gagal disimpan",
-    "addANote": "Tambahkan catatan"
+    "addANote": "Tambahkan catatan",
+    "itemNote": "Catatan item",
+    "maxChar": "(Maks {{maxChar.value}} karakter)"
 }

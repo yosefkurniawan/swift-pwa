@@ -129,11 +129,20 @@ export default makeStyles((theme) => ({
     },
     itemNoteLink: {
         cursor: 'pointer',
+        textDecoration: 'underline',
     },
     itemNoteLinkHidden: {
         display: 'none',
     },
-    itemNote: {},
+    itemNote: {
+        display: 'block',
+    },
+    itemNoteTextarea: {
+        display: 'block',
+        resize: 'vertical',
+        width: '250px',
+        height: '50px',
+    },
     itemNoteHidden: {
         display: 'none',
     },

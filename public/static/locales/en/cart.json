@@ -25,5 +25,7 @@
     "saveOrderNote": "Save",
     "successSaveOrderNote": "Save order note success",
     "failedSaveOrderNote": "Save order note failed",
-    "addANote": "Add a note"
+    "addANote": "Add a note",
+    "itemNote": "Item note",
+    "maxChar": "(Max {{maxChar.value}} characters)"
 }

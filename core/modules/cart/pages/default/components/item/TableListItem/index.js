@@ -23,6 +23,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import CreateOutlined from '@material-ui/icons/CreateOutlined';
 import DeleteOutlineOutlined from '@material-ui/icons/DeleteOutlineOutlined';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
@@ -129,17 +130,24 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
             },
         });
 
+        const maxChar = { value: '255' };
+
         return (
             <form onSubmit={formik.handleSubmit}>
                 <TableRow>
                     <TableCell colSpan={3} className={styles.noteItem}>
-                        <Typography
-                            className={activeNoteItem === true ? styles.itemNoteLinkHidden : styles.itemNoteLink}
-                            onClick={() => setActiveNoteItem(true)}
-                        >
-                            {t('cart:addANote')}
+                        <a>
+                            <Typography
+                                className={activeNoteItem === true ? styles.itemNoteLinkHidden : styles.itemNoteLink}
+                                onClick={() => setActiveNoteItem(true)}
+                            >
+                                {t('cart:addANote')}
+                            </Typography>
+                        </a>
+                        <Typography className={activeNoteItem === true ? styles.itemNote : styles.itemNoteHidden}>
+                            {`${t('cart:itemNote')} - ${t('cart:maxChar', { maxChar })}`}
                         </Typography>
-                        <TextField
+                        <TextareaAutosize
                             label="Order Note"
                             name="orderNote"
                             value={formik.values.orderNote}
@@ -153,7 +161,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                 }
                                 formik.submitForm();
                             }}
-                            className={activeNoteItem === true ? styles.itemNote : styles.itemNoteHidden}
+                            maxLength={255}
+                            className={activeNoteItem === true ? styles.itemNoteTextarea : styles.itemNoteHidden}
                         />
                     </TableCell>
                 </TableRow>
@@ -586,7 +595,9 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                             </TableCell>
                                                         </TableRow>
                                                         <TableRow>
-                                                            <TableCell colSpan={3}>{orderNote(val.id, val.note, val.quantity)}</TableCell>
+                                                            <TableCell colSpan={6} className={styles.noBorder}>
+                                                                {orderNote(val.id, val.note, val.quantity)}
+                                                            </TableCell>
                                                         </TableRow>
                                                     </React.Fragment>
                                                 );
