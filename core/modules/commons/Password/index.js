@@ -46,6 +46,7 @@ const PasswordField = ({
 
     const handleChange = (event) => {
         onChange(event);
+        console.log(event);
         if (showPasswordMeter) {
             const strength = checkPassword({ value: event.target.value, minValue, numberOfRequiredClass });
             setErrorPasswd(strength);
@@ -121,7 +122,9 @@ const PasswordField = ({
                     <InputAdornment position="end">
                         <IconButton
                             aria-label="toggle password visibility"
-                            onClick={() => setShow(!show)}
+                            onClick={() => {
+                                setShow(!show);
+                            }}
                             onMouseDown={handleMouseDownPassword}
                         >
                             {show ? <Visibility /> : <VisibilityOff />}
