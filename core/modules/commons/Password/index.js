@@ -46,7 +46,6 @@ const PasswordField = ({
 
     const handleChange = (event) => {
         onChange(event);
-        console.log(event);
         if (showPasswordMeter) {
             const strength = checkPassword({ value: event.target.value, minValue, numberOfRequiredClass });
             setErrorPasswd(strength);
