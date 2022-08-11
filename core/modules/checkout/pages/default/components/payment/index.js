@@ -112,7 +112,7 @@ export default function CustomizedExpansionPanels({
                 checkout_option: {
                     actionField: { step: 3, option: selectedPayment[0].title, action: 'checkout_option' },
                 },
-                items_fbpixels: {
+                fbpixels: {
                     total_price: cart.prices.grand_total.value,
                 },
             },
