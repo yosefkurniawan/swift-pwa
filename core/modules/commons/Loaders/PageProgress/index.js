@@ -9,7 +9,7 @@ const useStyles = makeStyles(() => ({
         width: '100%',
         left: '0',
         top: '0',
-        zIndex: '999',
+        zIndex: '1200',
     },
 }));
 
@@ -53,7 +53,7 @@ const PageProgressLoader = () => {
         setProgress(100);
         setTimeout(() => {
             setShow(false);
-        }, 1000);
+        }, 2000);
     };
 
     const handleRouteChangeError = () => {
@@ -80,7 +80,7 @@ const PageProgressLoader = () => {
 
     return (
         <div className={styles.linearProgressWrapper}>
-            {show ? <LinearProgress variant="determinate" value={progress} color="primary" /> : null}
+            {show ? <LinearProgress variant="determinate" value={progress} color="secondary" /> : null}
         </div>
     );
 };
