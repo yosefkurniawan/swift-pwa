@@ -168,6 +168,7 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         marginLeft: 0,
         padding: '1rem',
+        fontWeight: 'bold',
     },
     itemNoteLink: {
         cursor: 'pointer',
