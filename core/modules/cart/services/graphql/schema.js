@@ -421,6 +421,7 @@ export const getMiniCart = gql`
             items {
               id
               quantity
+              note
               ... on SimpleCartItem {
                 SimpleMiniCustomizable: ${customizable_options}
               }

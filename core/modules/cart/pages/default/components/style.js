@@ -1,14 +1,7 @@
+/* eslint-disable object-curly-newline */
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {
-    PRIMARY, WHITE_IMPORTANT, GREEN, WHITE,
-} from '@theme_color';
-import {
-    FlexColumn,
-    FlexRow,
-    CreatePadding,
-    CreateMargin,
-    Centering,
-} from '@theme_mixins';
+import { GREEN, PRIMARY, WHITE, WHITE_IMPORTANT } from '@theme_color';
+import { Centering, CreateMargin, CreatePadding, FlexColumn, FlexRow } from '@theme_mixins';
 import { FONT_14, FONT_BIG } from '@theme_typography';
 
 const useStyles = makeStyles((theme) => ({
@@ -169,6 +162,35 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             marginBottom: 140,
         },
+    },
+    sellerName: {
+        backgroundColor: '#DEDEDE',
+        width: '100%',
+        marginLeft: 0,
+        padding: '1rem',
+    },
+    itemNoteLink: {
+        cursor: 'pointer',
+        textDecoration: 'underline',
+    },
+    itemNoteLinkHidden: {
+        display: 'none',
+    },
+    itemNote: {
+        display: 'block',
+    },
+    itemNoteTextarea: {
+        display: 'block',
+        resize: 'vertical',
+        width: '250px',
+        height: '100px',
+    },
+    itemNoteHidden: {
+        display: 'none',
+    },
+    noteItem: {
+        borderBottom: 'none !important',
+        paddingLeft: '0 !important',
     },
 }));
 

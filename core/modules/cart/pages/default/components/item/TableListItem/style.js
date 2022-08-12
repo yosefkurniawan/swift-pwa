@@ -141,7 +141,7 @@ export default makeStyles((theme) => ({
         display: 'block',
         resize: 'vertical',
         width: '250px',
-        height: '50px',
+        height: '100px',
     },
     itemNoteHidden: {
         display: 'none',

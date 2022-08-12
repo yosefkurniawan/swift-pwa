@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable comma-dangle */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
@@ -7,7 +8,7 @@
 /* eslint-disable radix */
 /* eslint-disable max-len */
 // import Button from '@common_button';
-import TextField from '@common_forms/TextField';
+// import TextField from '@common_forms/TextField';
 import Image from '@common_image';
 import Typography from '@common_typography';
 import ConfirmationDelete from '@core_modules/cart/pages/default/components/confirmDelete';
@@ -76,6 +77,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
     let cartItemBySeller = {};
 
     if (data) {
+        console.log(data);
         const unGroupedData = data;
         // eslint-disable-next-line no-shadow
         const groupData = unGroupedData.reduce((groupData, { SimpleMiniCustomizable, id, note, prices, product, quantity, ...other }) => {
@@ -100,11 +102,18 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
             return groupData;
         }, []);
         cartItemBySeller = groupData;
+        console.log(groupData);
     }
 
     const orderNote = (cartItemId, note, quantity) => {
         const [actUpdateCartItemNote] = updateCartItemNote();
-        const [activeNoteItem, setActiveNoteItem] = React.useState(false);
+        let noteParams = note;
+        if (note !== null) {
+            if (note.length === 0) {
+                noteParams = null;
+            }
+        }
+        const [activeNoteItem, setActiveNoteItem] = React.useState(noteParams !== null);
         const cartId = getCartId();
         const formik = useFormik({
             initialValues: {
@@ -152,9 +161,6 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                             name="orderNote"
                             value={formik.values.orderNote}
                             onChange={formik.handleChange}
-                            error={!!(formik.touched.orderNote && formik.errors.orderNote)}
-                            errorMessage={(formik.touched.orderNote && formik.errors.orderNote) || null}
-                            fullWidth={false}
                             onBlur={() => {
                                 if (formik.values.orderNote === '') {
                                     setActiveNoteItem(false);
@@ -162,6 +168,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                 formik.submitForm();
                             }}
                             maxLength={255}
+                            minRows={2}
+                            rows={2}
                             className={activeNoteItem === true ? styles.itemNoteTextarea : styles.itemNoteHidden}
                         />
                     </TableCell>
