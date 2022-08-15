@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable object-curly-newline */
@@ -118,51 +119,55 @@ const ItemView = (props) => {
             </div>
             <div className={classNames(styles.items, 'hidden-desktop')}>
                 {console.log(data)}
-                {storeConfigLocalStorage && storeConfigLocalStorage.enable_oms_multiseller && cartItemBySeller.map((seller) => (
-                    <>
-                        <Typography variant="h4" type="regular" className={styles.sellerName}>
-                            <span>{seller.seller_name}</span>
-                        </Typography>
-                        {seller.children.map((item, index) => (
-                            <ItemProduct
-                                {...item}
-                                cartItemId={item.id}
-                                key={index}
-                                t={t}
-                                editMode={editMode}
-                                toggleEditDrawer={() =>
-                                    toggleEditDrawer({
-                                        id: item.id,
-                                        quantity: item.quantity,
-                                        product_name: item.product.name,
-                                    })
-                                }
-                                deleteItem={deleteItem}
-                                handleFeed={handleFeed}
-                                {...other}
-                            />
-                        ))}
-                    </>
-                ))}
-                {storeConfigLocalStorage && !storeConfigLocalStorage.enable_oms_multiseller && data.items.map((item, idx) => (
-                    <ItemProduct
-                        {...item}
-                        cartItemId={item.id}
-                        key={idx}
-                        t={t}
-                        editMode={editMode}
-                        toggleEditDrawer={() =>
-                            toggleEditDrawer({
-                                id: item.id,
-                                quantity: item.quantity,
-                                product_name: item.product.name,
-                            })
-                        }
-                        deleteItem={deleteItem}
-                        handleFeed={handleFeed}
-                        {...other}
-                    />
-                ))}
+                {storeConfigLocalStorage &&
+                    storeConfigLocalStorage.enable_oms_multiseller &&
+                    cartItemBySeller.map((seller) => (
+                        <>
+                            <Typography variant="h4" type="regular" className={styles.sellerName}>
+                                <span>{seller.seller_name ? seller.seller_name : 'Default Store'}</span>
+                            </Typography>
+                            {seller.children.map((item, index) => (
+                                <ItemProduct
+                                    {...item}
+                                    cartItemId={item.id}
+                                    key={index}
+                                    t={t}
+                                    editMode={editMode}
+                                    toggleEditDrawer={() =>
+                                        toggleEditDrawer({
+                                            id: item.id,
+                                            quantity: item.quantity,
+                                            product_name: item.product.name,
+                                        })
+                                    }
+                                    deleteItem={deleteItem}
+                                    handleFeed={handleFeed}
+                                    {...other}
+                                />
+                            ))}
+                        </>
+                    ))}
+                {storeConfigLocalStorage &&
+                    !storeConfigLocalStorage.enable_oms_multiseller &&
+                    data.items.map((item, idx) => (
+                        <ItemProduct
+                            {...item}
+                            cartItemId={item.id}
+                            key={idx}
+                            t={t}
+                            editMode={editMode}
+                            toggleEditDrawer={() =>
+                                toggleEditDrawer({
+                                    id: item.id,
+                                    quantity: item.quantity,
+                                    product_name: item.product.name,
+                                })
+                            }
+                            deleteItem={deleteItem}
+                            handleFeed={handleFeed}
+                            {...other}
+                        />
+                    ))}
             </div>
             <div className="hidden-mobile">
                 <TableList data={data.items} t={t} deleteItem={deleteItem} handleFeed={handleFeed} toggleEditDrawer={toggleEditDrawer} {...other} />
