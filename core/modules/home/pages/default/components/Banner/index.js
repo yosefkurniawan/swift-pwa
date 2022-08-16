@@ -5,20 +5,16 @@ import BannerView from '@core_modules/home/pages/default/components/Banner/view'
 import ErrorInfo from '@core_modules/home/pages/default/components/ErrorInfo';
 
 const BannerSlider = (props) => {
-    const {
-        storeConfig, t, slider_id,
-    } = props;
+    const { storeConfig, t, slider_id } = props;
     const logoUrl = `${storeConfig && storeConfig.secure_base_media_url}logo/${storeConfig && storeConfig.header_logo_src}`;
     const { loading, data, error } = gqlService.getSlider({
         skip: !storeConfig,
         variables: {
-            input: slider_id === undefined
-                ? { title: storeConfig?.pwa?.banner_slider_title }
-                : { id: slider_id },
+            input: slider_id === undefined ? { title: storeConfig?.pwa?.banner_slider_title } : { id: slider_id },
         },
     });
 
-    if ((loading) && !data) {
+    if (loading && !data) {
         return <BannerSliderSkeleton logoUrl={logoUrl} storeConfig={storeConfig} />;
     }
     if (error) {
@@ -38,6 +34,7 @@ const BannerSlider = (props) => {
             imageUrl: image.image_url,
             mobileImageUrl: image.mobile_image_url || image.image_url,
             link: image.url_redirection,
+            video: image.video,
         }));
         return (
             <>

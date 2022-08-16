@@ -13,34 +13,33 @@ import ProductVideo from '@common_slick/Banner/productVideo';
 */
 
 const ImageSlide = ({
-    width, height, imageUrl = '', link = '#', isSlug = true, mobileImageUrl = '', noLink,
-    contentWidth, customClass = '', videoUrl, storeConfig,
+    width,
+    height,
+    imageUrl = '',
+    link = '#',
+    isSlug = true,
+    mobileImageUrl = '',
+    contentWidth,
+    customClass = '',
+    video,
+    videoUrl,
+    storeConfig,
 }) => {
     const styles = useStyles();
-    const href = link && link[0] === '/' ? link : `/${link}`;
+    const href = (link && link.includes('http://')) || link.includes('https://') ? link : link[0] === '/' ? link : `/${link}`;
 
-    if (noLink) {
-        return (
-            imageUrl && videoUrl && videoUrl.video_url
-                ? <ProductVideo videoUrl={videoUrl} />
-                : (
-                    <Thumbor
-                        src={imageUrl}
-                        srcMobile={mobileImageUrl}
-                        width={width || storeConfig?.pwa?.home_slider_desktop_width}
-                        height={height || storeConfig?.pwa?.home_slider_desktop_height}
-                        widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
-                        heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
-                        alt={href}
-                        quality={100}
-                        className={
-                            contentWidth === 'auto'
-                                ? classNames(styles.imageSliderAuto, styles.imageSlider, customClass)
-                                : classNames(styles.imageSlider, customClass)
-                        }
-                    />
-                )
-        );
+    if (video) {
+        if (imageUrl && video) {
+            return <ProductVideo video={video} />;
+        }
+        if (!imageUrl && video) {
+            return <ProductVideo video={video} />;
+        }
+    }
+    if (videoUrl) {
+        if (videoUrl.video_url) {
+            return <ProductVideo videoUrl={videoUrl} />;
+        }
     }
     return (
         <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })}>
