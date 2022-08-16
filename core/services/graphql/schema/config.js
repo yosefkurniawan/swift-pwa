@@ -152,6 +152,7 @@ export const storeConfig = `
       default_display_currency_code
       date_of_birth
       gender
+      general_country_default
       header_logo_src
       head_shortcut_icon
       icube_pinlocation_gmap_key
