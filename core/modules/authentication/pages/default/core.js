@@ -60,7 +60,7 @@ const Authentication = (props) => {
                             const { result, cartId, isLogin } = data.internalGenerateSession;
                             if (cartId) {
                                 if (cartId) {
-                                    setCheckoutSession({
+                                    await setCheckoutSession({
                                         variables: {
                                             cartId,
                                         },
