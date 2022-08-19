@@ -113,6 +113,7 @@ const Menu = (props) => {
                             <li
                                 key={idx}
                                 role="menuitem"
+                                id={`header-menuitem-${idx}`}
                                 onMouseEnter={() => {
                                     if (megaMenuRef && val.dropdown_animation_in) {
                                         megaMenuRef.current.classList.add('animate__animated');
