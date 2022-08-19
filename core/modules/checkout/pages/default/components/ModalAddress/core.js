@@ -144,22 +144,34 @@ const ModalAddressCustomer = (props) => {
                 }).then(async (res) => {
                     if (res.data && res.data.createCustomerAddress && res.data.createCustomerAddress.id) {
                         const shipping = res.data.createCustomerAddress;
-                        state.selected.address = {
-                            firstname: shipping.firstname,
-                            lastname: shipping.lastname,
-                            city: shipping.city,
-                            region: {
-                                ...shipping.region,
-                                label: shipping.region.region,
+                        const dataAddress = await updatedDefaultAddress({
+                            variables: {
+                                addressId: shipping.id,
+                                street: shipping.street[0],
                             },
-                            country: shipping.country,
-                            postcode: shipping.postcode,
-                            telephone: shipping.telephone,
-                            street: shipping.street,
-                        };
-                        state.loading.addresses = false;
-                        state.loading.order = false;
-                        await setCheckout(state);
+                        });
+                        if (dataAddress && dataAddress.data && dataAddress.data.updateCustomerAddress) {
+                            const shippingDefault = dataAddress.data.updateCustomerAddress;
+                            state.selected.address = {
+                                firstname: shippingDefault.firstname,
+                                lastname: shippingDefault.lastname,
+                                city: shippingDefault.city,
+                                region: {
+                                    ...shippingDefault.region,
+                                    label: shippingDefault.region.region,
+                                },
+                                country: shippingDefault.country,
+                                postcode: shippingDefault.postcode,
+                                telephone: shippingDefault.telephone,
+                                street: shippingDefault.street,
+                            };
+                            state.loading.addresses = false;
+                            state.loading.order = false;
+                            await setCheckout(state);
+                        }
+                        const { cart } = checkout.data;
+
+                        await setAddress(shipping, cart);
                     }
                 });
             }
