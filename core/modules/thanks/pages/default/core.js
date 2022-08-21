@@ -69,6 +69,35 @@ const PageStoreCredit = (props) => {
                         })),
                     },
                     currencyCode: storeConfig.base_currency_code || 'IDR',
+                },
+            };
+            const dataLayerFbPixel = {
+                pageType: 'purchase',
+                event: 'purchase',
+                ecommerce: {
+                    purchase: {
+                        actionField: {
+                            id: checkoutData.order_number,
+                            affiliation: storeConfig.store_name || 'Swift PWA',
+                            revenue: JSON.stringify(data.ordersFilter.data[0].detail[0].grand_total),
+                            coupon: data.ordersFilter.data[0].detail[0].coupon.is_use_coupon ? data.ordersFilter.data[0].detail[0].coupon.code : '',
+                            tax: JSON.stringify(data.ordersFilter.data[0].detail[0].tax_amount),
+                            shipping: JSON.stringify(data.ordersFilter.data[0].detail[0].payment.shipping_amount),
+                        },
+                        products: itemsProduct.map((product) => ({
+                            name: product.name,
+                            id: product.sku,
+                            category: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
+                            price: JSON.stringify(product.price),
+                            list: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
+                            quantity: JSON.stringify(product.qty_ordered),
+                            dimension4: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
+                            dimension5: JSON.stringify(product.rating.total),
+                            dimension6: JSON.stringify(product.rating.value),
+                            dimension7: data.ordersFilter.data[0].detail[0].discount_amount !== 0 ? 'YES' : 'NO',
+                        })),
+                    },
+                    currencyCode: storeConfig.base_currency_code || 'IDR',
                     fbpixels: {
                         transaction_id: checkoutData.order_number,
                         value: JSON.stringify(data.ordersFilter.data[0].detail[0].grand_total),
@@ -84,6 +113,9 @@ const PageStoreCredit = (props) => {
             };
             TagManager.dataLayer({
                 dataLayer,
+            });
+            TagManager.dataLayer({
+                dataLayer: dataLayerFbPixel,
             });
         }
     }, [data]);
