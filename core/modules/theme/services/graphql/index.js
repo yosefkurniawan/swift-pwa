@@ -52,6 +52,14 @@ export const getCountCart = () => useLazyQuery(schema.getCountCart,
         errorPolicy: 'all',
     });
 
+export const getSeller = () => useLazyQuery(schema.getSeller,
+    {
+        context: {
+            request: 'internal',
+        },
+        fetchPolicy: 'no-cache',
+    });
+
 export default {
     getCmsBlocks,
     getCategories,
@@ -62,6 +70,7 @@ export default {
     getProduct,
     getCategoryByName,
     getCurrency,
+    getSeller,
     getRecentlyProduct,
     getCountCart,
 };

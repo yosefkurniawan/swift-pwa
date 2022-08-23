@@ -8,8 +8,10 @@ import useStyles from '@core_modules/theme/components/header/desktop/components/
 const OptionsItem = (props) => {
     const styles = useStyles();
     const {
-        name, type, position, small_image, price_range, breadcrumbs,
+        name, type, position, small_image, price_range, breadcrumbs, logo, city,
     } = props;
+    console.log('isipos', position);
+    const citySplit = city?.split(',');
     let breadcrumbsText = '';
     if (breadcrumbs) {
         for (let i = 0; i < breadcrumbs.length; i++) {
@@ -58,6 +60,30 @@ const OptionsItem = (props) => {
                     </div>
                     <div className={styles.titleCategory}>
                         {name}
+                    </div>
+                </div>
+            ) : null}
+            {type === 'seller' ? (
+                <div className={position === 0 ? classNames(styles.listContainer, styles.firstListContainer) : styles.listContainer}>
+                    {position === 0
+                        ? (
+                            <div className={styles.topTitle}>
+                                Seller
+                            </div>
+                        )
+                        : null}
+
+                    <div className={styles.imageContainer}>
+                        <img
+                            className={styles.img}
+                            src={logo}
+                        />
+                    </div>
+                    <div className={styles.title}>
+                        {name}
+                    </div>
+                    <div className={styles.address}>
+                        {citySplit[0]}
                     </div>
                 </div>
             ) : null}
