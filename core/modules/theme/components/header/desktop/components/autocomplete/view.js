@@ -10,7 +10,6 @@ const OptionsItem = (props) => {
     const {
         name, type, position, small_image, price_range, breadcrumbs, logo, city,
     } = props;
-    console.log('isipos', position);
     const citySplit = city?.split(',');
     let breadcrumbsText = '';
     if (breadcrumbs) {
