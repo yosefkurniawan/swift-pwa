@@ -1,10 +1,11 @@
-import { formatPrice } from '@helper_currency';
+/* eslint-disable no-lonely-if */
 import config from '@config';
+import { formatPrice } from '@helper_currency';
 import propTypes from 'prop-types';
 
 const CoreSummary = (props) => {
     const {
-        DesktopView, MobileView, isDesktop, dataCart, globalCurrency = 'IDR',
+        DesktopView, MobileView, isDesktop, dataCart, globalCurrency = 'IDR', storeConfig,
         ...other
     } = props;
     const { t } = other;
@@ -19,6 +20,8 @@ const CoreSummary = (props) => {
         shipping_addresses = [],
         applied_extra_fee = {},
     } = dataCart;
+
+    console.log(dataCart);
 
     let {
         applied_giftcard = {},
@@ -37,6 +40,8 @@ const CoreSummary = (props) => {
         }
         total = prices.grand_total;
         const [shipping] = shipping_addresses;
+        console.log(shipping_addresses);
+        console.log('prices', prices);
 
         dataSummary.push({ item: 'Sub Total', value: subtotal });
 
@@ -59,11 +64,33 @@ const CoreSummary = (props) => {
             });
         }
 
-        if (shipping && shipping.selected_shipping_method) {
-            const shippingMethod = shipping.selected_shipping_method;
-            const price = formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency);
+        if (storeConfig.enable_oms_multiseller === '1') {
+            const multiShipping = shipping_addresses;
+            let totalShipping = 0;
+            // eslint-disable-next-line array-callback-return
+            multiShipping.map((ship) => {
+                if (ship.selected_shipping_method) {
+                    totalShipping += ship.selected_shipping_method.amount.value;
+                }
+            });
+            const price = formatPrice(totalShipping, storeConfig.base_currency_code);
             dataSummary.push({ item: 'shipping', value: price });
+            total = {
+                value: prices.subtotal_including_tax.value + parseInt(totalShipping, 10),
+                currency: prices.subtotal_including_tax.currency,
+            };
+        } else {
+            if (shipping && shipping.selected_shipping_method) {
+                const shippingMethod = shipping.selected_shipping_method;
+                const price = formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency);
+                dataSummary.push({ item: 'shipping', value: price });
+            }
         }
+        // if (shipping && shipping.selected_shipping_method) {
+        //     const shippingMethod = shipping.selected_shipping_method;
+        //     const price = formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency);
+        //     dataSummary.push({ item: 'shipping', value: price });
+        // }
         if (prices && prices.discounts && prices.discounts.length) {
             const discounts = prices.discounts.map((disc) => {
                 const price = formatPrice(disc.amount.value, disc.amount.currency);

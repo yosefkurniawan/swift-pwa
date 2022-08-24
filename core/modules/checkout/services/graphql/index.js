@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
-import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import * as PaypalSchema from '@core_modules/checkout/services/graphql/paypalSchema';
+import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import * as TravelokaSchema from '@core_modules/checkout/services/graphql/travelokaSchema';
 import { getLoginInfo } from '@helper_auth';
 
@@ -64,6 +64,11 @@ export const getItemCart = (options = {}) => useLazyQuery(Schema.getItemCart, {
 
 export const getCheckoutConfigurations = () => useQuery(Schema.getCheckoutConfigurations);
 
+export const getSeller = (options = {}) => useLazyQuery(Schema.getSeller, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export const getRewardPoint = () => useLazyQuery(Schema.getRewardPoint, { ...config(USING_INTERNAL) });
 
 export const setShippingAddress = (options = {}) => useMutation(Schema.setShippingAddressById, {
@@ -92,6 +97,11 @@ export const setBillingAddressByInput = (options = {}) => useMutation(Schema.set
 });
 
 export const setShippingMethod = (options = {}) => useMutation(Schema.setShippingMethod, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const setShippingMethodMultiseller = (options = {}) => useMutation(Schema.setShippingMethodMultiseller, {
     ...options,
     ...config(USING_INTERNAL),
 });
@@ -282,9 +292,11 @@ export default {
     getCart,
     getItemCart,
     getCheckoutConfigurations,
+    getSeller,
     getRewardPoint,
     setShippingAddress,
     setShippingMethod,
+    setShippingMethodMultiseller,
     setBillingAddressById,
     setBillingAddressVirtualProduct,
     setBillingAddressByInput,
