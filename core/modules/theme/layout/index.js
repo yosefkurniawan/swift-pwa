@@ -260,6 +260,7 @@ const Layout = (props) => {
             pageConfig.bottomNav && storeConfig?.pwa?.mobile_navigation === 'bottom_navigation' && storeConfig?.pwa?.enabler_footer_mobile === true
                 ? '60px'
                 : 0,
+        marginTop: storeConfig?.pwa?.mobile_navigation === 'burger_menu' && !isHomepage && !isPdp ? '55px' : 0,
     };
 
     const footerMobile = {
