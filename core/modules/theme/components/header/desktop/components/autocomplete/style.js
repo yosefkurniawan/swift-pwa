@@ -37,6 +37,9 @@ const useStyles = makeStyles(() => ({
         fontWeight: 'bold',
         fontSize: 10,
     },
+    address: {
+        fontSize: 10,
+    },
     listContainerCategory: {
         width: '100%',
         padding: 10,

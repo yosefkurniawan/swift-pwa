@@ -2,12 +2,12 @@
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Router from 'next/router';
-import { getProduct, getCategoryByName } from '@core_modules/theme/services/graphql';
+import { getProduct, getCategoryByName, getSeller } from '@core_modules/theme/services/graphql';
 import { useTranslation } from '@i18n';
 
 let globalTimeout = null;
 
-const generateItemData = (product, category) => {
+const generateItemData = (product, category, seller) => {
     const result = [];
     for (let index = 0; index < product.items.length; index++) {
         const element = product.items[index];
@@ -35,12 +35,30 @@ const generateItemData = (product, category) => {
         };
         result.push(cat);
     }
+    for (let index = 0; index < seller.length; index++) {
+        const element = seller[index];
+        const sell = {
+            additional_info: element.additional_info,
+            city: element.city,
+            address: element.address,
+            description: element.description,
+            id: element.id,
+            latitude: element.latitude,
+            logo: element.logo,
+            longitude: element.longitude,
+            name: element.name,
+            status: element.status,
+            position: index,
+            type: 'seller',
+        };
+        result.push(sell);
+    }
     return result;
 };
 
 export default function ComboBox(props) {
     const {
-        placeholder, handleSearch, setValue, OptionsItem, forcePopupIcon = true, width = 300, maxHeight = '80vh',
+        placeholder, handleSearch, setValue, OptionsItem, forcePopupIcon = true, width = 300, maxHeight = '80vh', storeConfig,
     } = props;
     const { t } = useTranslation(['common']);
     const [item, setItem] = React.useState([]);
@@ -48,12 +66,18 @@ export default function ComboBox(props) {
     const [close, setClose] = React.useState(false);
     const [search, setSearch] = React.useState('');
 
+    const enableMultiseller = storeConfig.enable_oms_multiseller;
+
     const [actGetProduct, { loading, data, called }] = getProduct(search);
 
     const [actGetCategory, { data: dCategory }] = getCategoryByName(search);
 
+    const [actGetSeller, { data: dSeller }] = getSeller();
+
     let itemData = [];
-    if (data && dCategory && !open && !loading) {
+    if ((enableMultiseller === '1') && data && dCategory && dSeller && !open && !loading) {
+        itemData = generateItemData(data.products, dCategory.categoryList, dSeller.getSeller);
+    } else if ((enableMultiseller === '0') && data && dCategory && !open && !loading) {
         itemData = generateItemData(data.products, dCategory.categoryList);
     }
 
@@ -80,6 +104,15 @@ export default function ComboBox(props) {
             if (!called) {
                 actGetProduct();
                 actGetCategory();
+                if (enableMultiseller === '1') {
+                    actGetSeller({
+                        variables: {
+                            input: {
+                                keyword: search,
+                            },
+                        },
+                    });
+                }
             }
         }, 300);
     };
@@ -125,12 +158,21 @@ export default function ComboBox(props) {
                     setOpen(false);
                     setClose(true);
 
-                    Router.push({
-                        pathname: '/[...slug]',
-                        query: {
-                            productProps: JSON.stringify(sharedProp),
-                        },
-                    }, `/${value.url_key}`);
+                    if (value.type === 'seller') {
+                        Router.push({
+                            pathname: '/[...slug]',
+                            query: {
+                                productProps: JSON.stringify(sharedProp),
+                            },
+                        }, `/seller/${value.id}`);
+                    } else {
+                        Router.push({
+                            pathname: '/[...slug]',
+                            query: {
+                                productProps: JSON.stringify(sharedProp),
+                            },
+                        }, `/${value.url_key}`);
+                    }
                 }
             }}
             onClose={() => {
