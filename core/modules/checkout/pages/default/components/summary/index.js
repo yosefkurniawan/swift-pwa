@@ -1,21 +1,21 @@
 /* eslint-disable no-lonely-if */
-import React, { useState, useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
-import { setCartId, removeCartId } from '@helper_cartid';
+import { modules } from '@config';
+import { removeCartId, setCartId } from '@helper_cartid';
 import { getHost, getStoreHost } from '@helper_config';
 import { setCheckoutData } from '@helper_cookies';
 import { localTotalCart } from '@services/graphql/schema/local';
-import { modules } from '@config';
+import React, { useEffect, useState } from 'react';
 
-import SummaryPlugin from '@plugin_summary';
-import Skeleton from '@material-ui/lab/Skeleton';
-import gqlService from '@core_modules/checkout/services/graphql';
 import { getIpayUrl } from '@core_modules/checkout/helpers/config';
+import gqlService from '@core_modules/checkout/services/graphql';
+import Skeleton from '@material-ui/lab/Skeleton';
+import SummaryPlugin from '@plugin_summary';
 
-import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit/index';
-import { getAppEnv } from '@root/core/helpers/env';
-import Traveloka3DSModal from '@core_modules/checkout/pages/default/components/payment/components/Traveloka3DSModal';
 import useTravelokaPay from '@core_modules/checkout/helpers/useTravelokaPay';
+import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit/index';
+import Traveloka3DSModal from '@core_modules/checkout/pages/default/components/payment/components/Traveloka3DSModal';
+import { getAppEnv } from '@root/core/helpers/env';
 
 const Summary = ({
     t,
@@ -595,6 +595,7 @@ const Summary = ({
                         updateCart={updateCart}
                         deleteCart={deleteCart}
                         withAction
+                        storeConfig={storeConfig}
                     />
                 </div>
                 <SummaryPlugin
@@ -611,6 +612,7 @@ const Summary = ({
                     updateCart={updateCart}
                     deleteCart={deleteCart}
                     withAction
+                    storeConfig={storeConfig}
                 />
             </>
         );

@@ -206,6 +206,10 @@ items {
         name
         }
         url_key
+        seller {
+            seller_id
+            seller_name
+        }
         sku
         stock_status
         small_image {
@@ -347,6 +351,7 @@ const shortAddressData = `
 const cartShippingAddress = `
     shipping_addresses {
         is_valid_city
+        seller_id
         ${modules.checkout.inStorePickup.enabled ? 'pickup_location_code' : ''}
         ${shortAddressData}
         ${selected_shipping_method}
@@ -547,6 +552,16 @@ export const getCheckoutConfigurations = gql`
     }
 `;
 
+export const getSeller = gql`
+    query getSeller($sellerId: Int!) {
+        getSeller(input: { seller_id: $sellerId }) {
+            id
+            name
+            city
+        }
+    }
+`;
+
 export const setShippingAddressById = gql`
     mutation setShippingAddressById(
         $addressId: Int!,
@@ -568,7 +583,7 @@ export const setShippingAddressById = gql`
             input: { 
                 cart_id: $cartId,
                 billing_address: { 
-                    same_as_shipping: true, 
+                    same_as_shipping: false, 
                     customer_address_id: $addressId
                 }
             }
@@ -752,6 +767,40 @@ export const setShippingMethod = gql`
                 shipping_methods: {
                     carrier_code: $carrierCode,
                     method_code: $methodCode
+                }
+        }) {
+            cart {
+                id
+                ${promoBanner}
+                shipping_addresses {
+                    ${selected_shipping_method}
+                }
+                ${modules.checkout.cashback.enabled ? applied_cashback : ''}
+                ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
+                ${prices}
+                ${modules.promo.enabled ? applied_coupons : ''}
+                ${modules.rewardpoint.enabled ? applied_reward_points : ''}
+                ${modules.giftcard.enabled ? applied_giftcard : ''}
+                ${modules.storecredit.enabled ? applied_store_credit : ''}
+            }
+        }
+    }
+`;
+
+export const setShippingMethodMultiseller = gql`
+    mutation setShippingMethod(
+        $cartId: String!,
+        $carrierCode: String!,
+        $methodCode: String!,
+        $sellerId: String!
+    ) {
+        setShippingMethodsOnCart(
+            input: {
+                cart_id: $cartId,
+                shipping_methods: {
+                    carrier_code: $carrierCode,
+                    method_code: $methodCode,
+                    seller_id: $sellerId
                 }
         }) {
             cart {
