@@ -58,7 +58,6 @@ export const formatPrice = (value, currency = general.defaultCurrencyCode, curre
             value = getCurrent.value;
             localeConfig = currenciesToLocale[currency];
         } else {
-            console.log('wehaha');
             const APP_CURRENCY = cookies.get('app_currency');
             if (APP_CURRENCY !== undefined) {
                 const getCurrent = getCurrentCurrency({ APP_CURRENCY, value });

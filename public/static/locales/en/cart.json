@@ -21,5 +21,11 @@
     "addWishlistSuccess": "Item has been added into your wishlist",
     "addWishlistFailed": "Failed on adding item into wishlist",
     "addWishlistWithoutLogin": "Please login to add this item to your wishlist",
-    "oos": "Out of stock"
+    "oos": "Out of stock",
+    "saveOrderNote": "Save",
+    "successSaveOrderNote": "Save order note success",
+    "failedSaveOrderNote": "Save order note failed",
+    "addANote": "Add a note",
+    "itemNote": "Item note",
+    "maxChar": "(Max {{maxChar.value}} characters)"
 }
