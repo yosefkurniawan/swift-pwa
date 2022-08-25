@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable no-undef */
 /* eslint-disable react/no-danger */
 /* eslint-disable array-callback-return */
 import Typography from '@common_typography';
@@ -64,12 +66,19 @@ const ProductPage = (props) => {
         isLogin,
         handleSetCompareList,
         enablePopupImage,
+        enableMultiSeller,
         storeConfig,
+        dataSeller,
     } = props;
     const desktop = breakPointsUp('sm');
 
     const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
     const [getBannerLite, bannerLiteResult] = getProductBannerLite(route.asPath.slice(1), { context });
+
+    let citySplit;
+    if (enableMultiSeller && dataSeller && dataSeller.length > 0) {
+        citySplit = dataSeller[0].city?.split(',');
+    }
 
     React.useEffect(() => {
         getBannerLite();
@@ -243,6 +252,27 @@ const ProductPage = (props) => {
                             </Typography>
                         </div>
                     </div>
+
+                    {enableMultiSeller && dataSeller && dataSeller.length > 0 ? (
+                        <div className={styles.titleContainer}>
+                            <div className={styles.sellerContainer}>
+                                <div className={styles.imageContainer}>
+                                    <img
+                                        className={styles.img}
+                                        src={dataSeller[0].logo}
+                                    />
+                                </div>
+                                <div>
+                                    <Typography variant="p" type="bold" letter="capitalize" size="14">
+                                        {dataSeller[0].name}
+                                    </Typography>
+                                    <Typography variant="p" type="regular" letter="capitalize" size="14">
+                                        {citySplit[0]}
+                                    </Typography>
+                                </div>
+                            </div>
+                        </div>
+                    ) : null}
 
                     <div className={styles.titleContainer}>
                         <div className={styles.priceTiersContainer}>
