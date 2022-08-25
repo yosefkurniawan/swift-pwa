@@ -1,6 +1,5 @@
 /* eslint-disable operator-linebreak */
 import Typography from '@common_typography';
-import SingleProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/SingleProduct';
 import Skeleton from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/Skeleton';
 import ProductSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/Slider';
 import { generateQueries, getProductListConditions } from '@core_modules/cms/helpers/getProductListConditions';
@@ -8,7 +7,10 @@ import { getProductList } from '@core_modules/cms/services/graphql';
 import { useTranslation } from '@i18n';
 import Grid from '@material-ui/core/Grid';
 import ErrorMessage from '@plugin_productlist/components/ErrorMessage';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
+import dynamic from 'next/dynamic';
+
+const SingleProduct = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/SingleProduct'), { ssr: false });
 
 const MagezonProductList = (props) => {
     // prettier-ignore
@@ -51,7 +53,14 @@ const MagezonProductList = (props) => {
     const dataCondition = useMemo(() => getProductListConditions(condition), [condition]);
     const dataFilter = generateQueries(type, type === 'single_product' ? { sku: { eq: product_sku } } : dataCondition, orer_by);
     const context = type !== 'single_product' && dataFilter.sort.random ? { request: 'internal' } : {};
-    const { data, error, loading } = getProductList({ ...dataFilter, pageSize: max_items }, context);
+    const [fetchProductList, { data, loading, error }] = getProductList();
+
+    React.useEffect(() => {
+        fetchProductList({
+            variables: { ...dataFilter, pageSize: max_items },
+            context,
+        });
+    }, []);
 
     if (loading) return <Skeleton />;
 

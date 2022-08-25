@@ -3,8 +3,6 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-
-import PriceFormat from '@common_priceformat';
 import RatingStar from '@common_ratingstar';
 import { modules } from '@config';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
@@ -17,7 +15,52 @@ import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import Link from 'next/link';
-import Image from '@common_image';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
+
+const PriceFormat = dynamic(() => import('@common_priceformat'), { ssr: false });
+
+const CustomImage = ({
+    src,
+    width = 500,
+    height = 500,
+    className = '',
+    alt = 'Image',
+    quality = 100,
+    lazy = false,
+    optimize = true,
+}) => {
+    const onError = (event) => {
+        event.target.classList.add('has-error');
+    };
+
+    return (
+        <>
+            <Image
+                src={src || '/assets/img/placeholder.png'}
+                width={width}
+                height={height}
+                alt={alt}
+                loading={lazy ? 'lazy' : 'eager'}
+                unoptimized={!optimize}
+                onError={onError}
+                quality={quality}
+                className={`img-bg-load ${className}`}
+            />
+            <style jsx global>
+                {`
+                    img.has-error {
+                        // fallback to placeholder image on error
+                        content: url(/assets/img/placeholder.png);
+                    }
+                    .img-bg-load {
+                        background: #f8f8f8;
+                    }
+                `}
+            </style>
+        </>
+    );
+};
 
 const SingleProduct = (props) => {
     // prettier-ignore
@@ -98,10 +141,11 @@ const SingleProduct = (props) => {
                         alignItems={isProductGrid ? 'center' : 'stretch'}
                     >
                         <div onClick={handleClick} style={{ width: defaultWidth }}>
-                            <Image
+                            <CustomImage
                                 src={small_image.url}
                                 width={defaultWidth}
                                 height={defaultHeight}
+                                alt={name}
                             />
                         </div>
                     </Grid>
@@ -124,7 +168,9 @@ const SingleProduct = (props) => {
                         <Grid item>
                             {product_price && (
                                 <div className="mgz-single-product-price">
-                                    <PriceFormat {...price} />
+                                    {
+                                        price && <PriceFormat {...price} />
+                                    }
                                 </div>
                             )}
                             {product_shortdescription && (
