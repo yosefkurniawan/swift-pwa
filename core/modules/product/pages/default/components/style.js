@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         },
         position: 'relative',
         '& .customizable-container': {
-            marginTop: 20,
+            marginTop: 15,
         },
         '& .product-video': {
             overflow: 'hidden',
