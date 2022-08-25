@@ -229,6 +229,23 @@ export const getProduct = (key) => {
     return query;
 };
 
+export const getSeller = gql`
+    query getSeller($input: SellerInput) {
+        getSeller(input: $input ) {
+            id
+            name
+            logo
+            status
+            address
+            description
+            city
+            latitude
+            longitude
+            additional_info
+        }
+    }
+`;
+
 export const getRecentlyProduct = () => {
     const query = gql`
     query getRecentlyProduct($filter: ProductAttributeFilterInput) {
@@ -354,6 +371,7 @@ export default {
     vesMenu,
     getCurrencySchema,
     getProduct,
+    getSeller,
     getCategoryByName,
     getRecentlyProduct,
     getCountCart,

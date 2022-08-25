@@ -1,26 +1,32 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable operator-linebreak */
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
-import * as Yup from 'yup';
-import React, { useEffect, useState } from 'react';
-import { useFormik } from 'formik';
-import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
-import { setLocalStorage } from '@helper_localstorage';
-import { getCartId } from '@helpers/cartId';
-import Router from 'next/router';
-import Layout from '@layout';
-import Head from 'next/head';
-import { modules, nameCheckoutState } from '@config';
-import { updatePwaCheckoutLog } from '@services/graphql/repository/log';
-import { getStoreHost } from '@helpers/config';
-import Cookies from 'js-cookie';
-import { getAppEnv } from '@root/core/helpers/env';
 import Toast from '@common_toast';
-import gqlService from '@core_modules/checkout/services/graphql';
-import TagManager from 'react-gtm-module';
+import { modules, nameCheckoutState } from '@config';
 import {
-    getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
+    getCartCallbackUrl,
+    getIpayUrl,
+    getLoginCallbackUrl,
+    getSuccessCallbackUrl
 } from '@core_modules/checkout/helpers/config';
+import gqlService from '@core_modules/checkout/services/graphql';
+import { getCartId } from '@helpers/cartId';
+import { getStoreHost } from '@helpers/config';
+import { getCheckoutData, removeCheckoutData } from '@helpers/cookies';
 import { formatPrice } from '@helper_currency';
+import { setLocalStorage } from '@helper_localstorage';
+import Layout from '@layout';
+import { getAppEnv } from '@root/core/helpers/env';
+import { updatePwaCheckoutLog } from '@services/graphql/repository/log';
+import { useFormik } from 'formik';
+import Cookies from 'js-cookie';
+import Head from 'next/head';
+import Router from 'next/router';
+import React, { useEffect, useState } from 'react';
+import TagManager from 'react-gtm-module';
+import * as Yup from 'yup';
 
 function equalTo(ref, msg) {
     return this.test({
@@ -38,7 +44,11 @@ function equalTo(ref, msg) {
 
 const Checkout = (props) => {
     const {
-        t, storeConfig, pageConfig, Content, cartId: propsCardId,
+        t,
+        storeConfig,
+        pageConfig,
+        Content,
+        cartId: propsCardId,
     } = props;
     const config = {
         successRedirect: {
@@ -90,9 +100,11 @@ const Checkout = (props) => {
                 variables: {
                     cartId: cartId || propsCardId,
                 },
-            }).then(async (result) => { }).catch((e) => {
-                console.log(e);
-            });
+            })
+                .then(async (result) => { })
+                .catch((e) => {
+                    console.log(e);
+                });
         }
     }, [cartId]);
 
@@ -242,7 +254,7 @@ const Checkout = (props) => {
         email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
         payment: Yup.string().nullable().required(t('validate:required')),
         oldEmail: checkout.data.isGuest ? Yup.string().equalTo(Yup.ref('email')) : null,
-        address: (isOnlyVirtualProductOnCart || checkout.selectStore.id !== null) ? null : Yup.object().nullable().required(t('validate:required')),
+        address: isOnlyVirtualProductOnCart || checkout.selectStore.id !== null ? null : Yup.object().nullable().required(t('validate:required')),
         billing: checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
         shipping: isOnlyVirtualProductOnCart
             ? null
@@ -290,6 +302,7 @@ const Checkout = (props) => {
 
     const initData = () => {
         let { cart } = dataCart;
+        console.log('dataCart', cart);
         const { items } = itemCart.cart;
         const state = { ...checkout };
         cart = { ...cart, items };
@@ -359,26 +372,51 @@ const Checkout = (props) => {
         state.data.isCouponAppliedToCart = cart && cart.applied_coupons ? cart.applied_coupons : false;
 
         // init shipping address
-        const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
+        let shipping;
+        if (storeConfig.enable_oms_multiseller === '1') {
+            shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
+        } else {
+            shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
+        }
 
         if (shipping) {
-            state.selected.address = {
-                firstname: shipping.firstname,
-                lastname: shipping.lastname,
-                city: shipping.city,
-                region: shipping.region,
-                country: shipping.country,
-                postcode: shipping.postcode,
-                telephone: shipping.telephone,
-                street: shipping.street,
-                pickup_location_code: shipping.pickup_location_code,
-            };
+            if (storeConfig.enable_oms_multiseller === '1') {
+                state.selected.address = {
+                    firstname: shipping[0].firstname,
+                    lastname: shipping[0].lastname,
+                    city: shipping[0].city,
+                    region: shipping[0].region,
+                    country: shipping[0].country,
+                    postcode: shipping[0].postcode,
+                    telephone: shipping[0].telephone,
+                    street: shipping[0].street,
+                    pickup_location_code: shipping[0].pickup_location_code,
+                };
 
-            if (typeof shipping.is_valid_city !== 'undefined') {
-                state.error.shippingAddress = !shipping.is_valid_city;
+                if (typeof shipping[0].is_valid_city !== 'undefined') {
+                    state.error.shippingAddress = !shipping[0].is_valid_city;
+                }
+
+                state.pickup_location_code = shipping[0].pickup_location_code;
+            } else {
+                state.selected.address = {
+                    firstname: shipping.firstname,
+                    lastname: shipping.lastname,
+                    city: shipping.city,
+                    region: shipping.region,
+                    country: shipping.country,
+                    postcode: shipping.postcode,
+                    telephone: shipping.telephone,
+                    street: shipping.street,
+                    pickup_location_code: shipping.pickup_location_code,
+                };
+
+                if (typeof shipping.is_valid_city !== 'undefined') {
+                    state.error.shippingAddress = !shipping.is_valid_city;
+                }
+
+                state.pickup_location_code = shipping.pickup_location_code;
             }
-
-            state.pickup_location_code = shipping.pickup_location_code;
         } else if (!state.data.isGuest && address) {
             state.selected.address = {
                 firstname: address.firstname,
@@ -392,54 +430,112 @@ const Checkout = (props) => {
                 telephone: address.telephone,
                 street: address.street,
                 country: address.country,
-                pickup_location_code: shipping.pickup_location_code,
+                pickup_location_code: storeConfig.enable_oms_multiseller === '1' ? shipping[0].pickup_location_code : shipping.pickup_location_code,
             };
         }
 
         // init shipping method
-        if (shipping && shipping.available_shipping_methods) {
-            const availableShipping = shipping.available_shipping_methods.filter((x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore');
+        // if multiseller active
+        if (storeConfig.enable_oms_multiseller === '1') {
+            if (shipping && shipping[0].available_shipping_methods) {
+                const availableMultiShipping = shipping.map((shippingPerSeller) => ({
+                    seller_id: shippingPerSeller.seller_id,
+                    available_shipping_methods: shippingPerSeller.available_shipping_methods.filter(
+                        (item) => item.carrier_code !== 'pickup' && item.carrier_code !== 'instore'
+                    ),
+                }));
+                console.log(availableMultiShipping);
 
-            state.data.shippingMethods = availableShipping.map((item) => ({
-                ...item,
-                label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
-                promoLabel: `${item.shipping_promo_name}`,
-                value: `${item.carrier_code}_${item.method_code}`,
-            }));
-        }
-
-        if (shipping && shipping.selected_shipping_method) {
-            const shippingMethod = shipping.selected_shipping_method;
-            state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
-
-            if (modules.checkout.pickupStore.enabled) {
-                if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
-                    const custAddress = cart.shipping_addresses[0];
-                    state.selected.delivery = 'pickup';
-                    state.error.shippingAddress = false;
-                    state.selectStore = {
-                        city: custAddress.city,
-                        country_code: custAddress.country.code,
-                        name: custAddress.firstname,
-                        postcode: custAddress.postcode,
-                        region: custAddress.region.label,
-                        street: custAddress.street,
-                        telephone: custAddress.telephone,
-                        code: cart.items[0].pickup_item_store_info.loc_code,
-                    };
-                    if (cart.pickup_store_person) {
-                        state.pickupInformation = {
-                            pickup_person_email: cart.pickup_store_person.email,
-                            pickup_person_name: cart.pickup_store_person.name,
-                            pickup_person_phone: cart.pickup_store_person.handphone,
-                        };
-                    }
-                }
+                state.data.shippingMethods = availableMultiShipping.map(({ seller_id, available_shipping_methods }) => ({
+                    seller_id,
+                    available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
+                        ...shippingItemMultiseller,
+                        label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title} `,
+                        promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
+                        value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
+                    })),
+                }));
             }
 
-            if (shipping.pickup_location_code) {
-                state.selected.delivery = 'instore';
-                state.error.shippingAddress = false;
+            if (shipping && shipping[0].selected_shipping_method) {
+                // const shippingMethod = shipping.map((ship) => ship.selected_shipping_method);
+                state.selected.shipping = shipping.map((ship) => (ship && ship.carrier_code ? `${ship.carrier_code}_${ship.method_code}` : null));
+
+                // if (modules.checkout.pickupStore.enabled) {
+                //     if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
+                //         const custAddress = cart.shipping_addresses[0];
+                //         state.selected.delivery = 'pickup';
+                //         state.error.shippingAddress = false;
+                //         state.selectStore = {
+                //             city: custAddress.city,
+                //             country_code: custAddress.country.code,
+                //             name: custAddress.firstname,
+                //             postcode: custAddress.postcode,
+                //             region: custAddress.region.label,
+                //             street: custAddress.street,
+                //             telephone: custAddress.telephone,
+                //             code: cart.items[0].pickup_item_store_info.loc_code,
+                //         };
+                //         if (cart.pickup_store_person) {
+                //             state.pickupInformation = {
+                //                 pickup_person_email: cart.pickup_store_person.email,
+                //                 pickup_person_name: cart.pickup_store_person.name,
+                //                 pickup_person_phone: cart.pickup_store_person.handphone,
+                //             };
+                //         }
+                //     }
+                // }
+
+                // if (shipping.pickup_location_code) {
+                //     state.selected.delivery = 'instore';
+                //     state.error.shippingAddress = false;
+                // }
+            }
+        } else {
+            if (shipping && shipping.available_shipping_methods) {
+                const availableShipping = shipping.available_shipping_methods.filter((x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore');
+
+                state.data.shippingMethods = availableShipping.map((item) => ({
+                    ...item,
+                    label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
+                    promoLabel: `${item.shipping_promo_name}`,
+                    value: `${item.carrier_code}_${item.method_code}`,
+                }));
+            }
+
+            if (shipping && shipping.selected_shipping_method) {
+                const shippingMethod = shipping.selected_shipping_method;
+                state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
+
+                if (modules.checkout.pickupStore.enabled) {
+                    if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
+                        const custAddress = cart.shipping_addresses[0];
+                        state.selected.delivery = 'pickup';
+                        state.error.shippingAddress = false;
+                        state.selectStore = {
+                            city: custAddress.city,
+                            country_code: custAddress.country.code,
+                            name: custAddress.firstname,
+                            postcode: custAddress.postcode,
+                            region: custAddress.region.label,
+                            street: custAddress.street,
+                            telephone: custAddress.telephone,
+                            code: cart.items[0].pickup_item_store_info.loc_code,
+                        };
+                        if (cart.pickup_store_person) {
+                            state.pickupInformation = {
+                                pickup_person_email: cart.pickup_store_person.email,
+                                pickup_person_name: cart.pickup_store_person.name,
+                                pickup_person_phone: cart.pickup_store_person.handphone,
+                            };
+                        }
+                    }
+                }
+
+                if (shipping.pickup_location_code) {
+                    state.selected.delivery = 'instore';
+                    state.error.shippingAddress = false;
+                }
             }
         }
 
@@ -462,8 +558,11 @@ const Checkout = (props) => {
 
         if (cart.selected_payment_method) {
             state.selected.payment = cart.selected_payment_method.code;
-            if (storeConfig?.pwa?.paypal_enable && cart.selected_payment_method.code === 'paypal_express'
-                && initialOptionPaypal['data-order-id'] === '') {
+            if (
+                storeConfig?.pwa?.paypal_enable &&
+                cart.selected_payment_method.code === 'paypal_express' &&
+                initialOptionPaypal['data-order-id'] === ''
+            ) {
                 getPaypalToken({
                     variables: {
                         cartId: cart.id,
@@ -548,11 +647,11 @@ const Checkout = (props) => {
         }
 
         if (
-            dataCart
-            && dataCart.cart
-            && dataCart.cart.shipping_addresses
-            && dataCart.cart.shipping_addresses.length === 0
-            && !checkout.data.isGuest
+            dataCart &&
+            dataCart.cart &&
+            dataCart.cart.shipping_addresses &&
+            dataCart.cart.shipping_addresses.length === 0 &&
+            !checkout.data.isGuest
         ) {
             setCheckout({
                 ...checkout,
@@ -586,11 +685,11 @@ const Checkout = (props) => {
         let customer;
         let address;
         if (
-            !state.data.isGuest
-            && addressCustomer
-            && addressCustomer.data
-            && addressCustomer.data.customer
-            && addressCustomer.data.customer.addresses
+            !state.data.isGuest &&
+            addressCustomer &&
+            addressCustomer.data &&
+            addressCustomer.data.customer &&
+            addressCustomer.data.customer.addresses
         ) {
             customer = addressCustomer.data.customer;
             [address] = customer ? customer.addresses.filter((item) => item.default_shipping) : [null];
@@ -605,27 +704,49 @@ const Checkout = (props) => {
             const { cart } = checkout.data;
             const state = { ...checkout };
             // init shipping address
-            const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
-            if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
-                const availableShipping = shipping.available_shipping_methods.filter((x) => x.carrier_code !== 'pickup');
+            if (storeConfig.enable_oms_multiseller === '1') {
+                const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
+                if (shipping && shipping[0].available_shipping_methods && shipping[0].available_shipping_methods.length > 0) {
+                    const availableMultiShipping = shipping.map((shippingPerSeller) => ({
+                        seller_id: shippingPerSeller.seller_id,
+                        available_shipping_methods: shippingPerSeller.available_shipping_methods.filter(
+                            (item) => item.carrier_code !== 'pickup'
+                        ),
+                    }));
+                    console.log(availableMultiShipping);
 
-                state.data.shippingMethods = availableShipping.map((item) => ({
-                    ...item,
-                    label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
-                    promoLabel: `${item.shipping_promo_name}`,
-                    value: `${item.carrier_code}_${item.method_code}`,
-                }));
-            }
+                    state.data.shippingMethods = availableMultiShipping.map(({ seller_id, available_shipping_methods }) => ({
+                        seller_id,
+                        available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
+                            ...shippingItemMultiseller,
+                            label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title} `,
+                            promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
+                            value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
+                        })),
+                    }));
+                }
 
-            if (
-                shipping
-                && shipping.available_shipping_methods
-                && shipping.available_shipping_methods.length > 0
-            ) {
-                const shippingMethod = shipping.selected_shipping_method;
-                state.selected.shipping = shippingMethod
-                    ? `${shippingMethod.carrier_code}_${shippingMethod.method_code}`
-                    : shippingMethod;
+                if (shipping && shipping[0].available_shipping_methods && shipping[0].available_shipping_methods.length > 0) {
+                    // const shippingMethod = shipping.map((ship) => ship.selected_shipping_method);
+                    state.selected.shipping = shipping.map((ship) => (ship && ship.carrier_code ? `${ship.carrier_code}_${ship.method_code}` : null));
+                }
+            } else {
+                const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
+                if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
+                    const availableShipping = shipping.available_shipping_methods.filter((x) => x.carrier_code !== 'pickup');
+
+                    state.data.shippingMethods = availableShipping.map((item) => ({
+                        ...item,
+                        label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
+                        promoLabel: `${item.shipping_promo_name}`,
+                        value: `${item.carrier_code}_${item.method_code}`,
+                    }));
+                }
+
+                if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
+                    const shippingMethod = shipping.selected_shipping_method;
+                    state.selected.shipping = shippingMethod ? `${shippingMethod.carrier_code}_${shippingMethod.method_code}` : shippingMethod;
+                }
             }
 
             setCheckout(state);

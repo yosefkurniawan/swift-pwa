@@ -120,7 +120,13 @@ const ViewTopNavigation = (props) => {
                                         </div>
                                     </div>
                                     <div className="header-middle__search margin-top-1rem">
-                                        <Autocomplete setValue={setValue} handleSearch={handleSearch} OptionsItem={OptionAutocomplete} t={t} />
+                                        <Autocomplete
+                                            setValue={setValue}
+                                            handleSearch={handleSearch}
+                                            OptionsItem={OptionAutocomplete}
+                                            t={t}
+                                            storeConfig={storeConfig}
+                                        />
                                         <div className="search-icon">
                                             <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">
                                                 <SearchIcon />
@@ -239,7 +245,13 @@ const ViewTopNavigation = (props) => {
                             <div>
                                 <div className="box">
                                     <div className="header-middle__search">
-                                        <Autocomplete setValue={setValue} handleSearch={handleSearch} OptionsItem={OptionAutocomplete} t={t} />
+                                        <Autocomplete
+                                            setValue={setValue}
+                                            handleSearch={handleSearch}
+                                            OptionsItem={OptionAutocomplete}
+                                            t={t}
+                                            storeConfig={storeConfig}
+                                        />
                                         <div className="search-icon">
                                             <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">
                                                 <SearchIcon />

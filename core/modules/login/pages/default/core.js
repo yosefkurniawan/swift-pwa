@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable object-curly-newline */
 /* eslint-disable consistent-return */
@@ -5,37 +6,37 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-shadow */
-import Layout from '@layout';
-import { setLogin, getLastPathWithoutLogin } from '@helper_auth';
-import { getCookies, setCookies } from '@helper_cookies';
-import { setCartId, getCartId } from '@helper_cartid';
 import { useQuery } from '@apollo/client';
-import { expiredToken, custDataNameCookie } from '@config';
-import Router from 'next/router';
-import Cookies from 'js-cookie';
-import { regexPhone, regexEmail } from '@helper_regex';
-import { useFormik } from 'formik';
-import dynamic from 'next/dynamic';
-import * as Yup from 'yup';
-import firebase from 'firebase/app';
-import React, { useRef } from 'react';
+import { custDataNameCookie, expiredToken } from '@config';
 import { getAppEnv } from '@helpers/env';
+import { getLastPathWithoutLogin, setLogin } from '@helper_auth';
+import { getCartId, setCartId } from '@helper_cartid';
+import { getCookies, setCookies } from '@helper_cookies';
+import { regexEmail, regexPhone } from '@helper_regex';
+import Layout from '@layout';
+import firebase from 'firebase/app';
+import { useFormik } from 'formik';
+import Cookies from 'js-cookie';
+import dynamic from 'next/dynamic';
+import Router from 'next/router';
+import React, { useRef } from 'react';
+import * as Yup from 'yup';
 
 import {
+    getCustomerCartId,
+    getSigninMethodSocialLogin,
     getToken,
     getTokenOtp,
     getTokenPhoneEmail,
-    removeToken as deleteToken,
-    otpConfig as queryOtpConfig,
-    getCustomerCartId,
     mergeCart as mutationMergeCart,
-    socialLogin,
-    getSigninMethodSocialLogin,
+    otpConfig as queryOtpConfig,
+    removeToken as deleteToken,
+    socialLogin
 } from '@core_modules/login/services/graphql';
-import { loginConfig } from '@services/graphql/repository/pwa_config';
 import { getCustomer } from '@core_modules/login/services/graphql/schema';
-import { localCompare } from '@services/graphql/schema/local';
 import { assignCompareListToCustomer } from '@core_modules/productcompare/service/graphql';
+import { loginConfig } from '@services/graphql/repository/pwa_config';
+import { localCompare } from '@services/graphql/schema/local';
 
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const appEnv = getAppEnv();
@@ -226,15 +227,15 @@ const Login = (props) => {
             otpConfig.data && otpConfig.data.otpConfig.otp_enable && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login
                 ? Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required'))
                 : Yup.string()
-                    .required(t('validate:phoneEmail:required'))
-                    .test('phoneEmail', t('validate:phoneEmail:wrong'), (value) => {
-                        const emailRegex = regexEmail.test(value);
-                        const phoneRegex = regexPhone.test(value);
-                        if (!emailRegex && !phoneRegex) {
-                            return false;
-                        }
-                        return true;
-                    }),
+                      .required(t('validate:phoneEmail:required'))
+                      .test('phoneEmail', t('validate:phoneEmail:wrong'), (value) => {
+                          const emailRegex = regexEmail.test(value);
+                          const phoneRegex = regexPhone.test(value);
+                          if (!emailRegex && !phoneRegex) {
+                              return false;
+                          }
+                          return true;
+                      }),
         password: Yup.string().required(t('validate:password:required')),
     });
 
@@ -386,6 +387,7 @@ const Login = (props) => {
             Cookies.set(custDataNameCookie, {
                 email: custData.data.customer.email,
                 firstname: custData.data.customer.firstname,
+                lastname: custData.data.customer.lastname,
                 customer_group: custData.data.customer.customer_group,
                 phonenumber: custData.data.customer.phonenumber,
                 is_phonenumber_valid: custData.data.customer.is_phonenumber_valid,
@@ -496,7 +498,7 @@ const Login = (props) => {
     }
 
     return (
-        <Layout {...props} pageConfig={pageConfig || config}>
+        <Layout {...props} pageConfig={pageConfig || config} isLoginPage>
             <Content
                 formik={formik}
                 handleChangePhone={handleChangePhone}

@@ -90,8 +90,8 @@
         margin-top: 0px;
     }
 
-    .main-app-v2-not-homepage {
-        margin-top: 0px !important;
+    .main-app-v2-login {
+        margin-top: 140px !important;
     }
 
     .main-app-not-sticky {
@@ -186,6 +186,10 @@
     .main-app-v2 {
         margin-top: 0px !important;
         max-width: initial !important;
+    }
+
+    .main-app-v2-not-homepage {
+        margin-top: 0px !important;
     }
 
     .main-app-sticky-v2-ipad {
