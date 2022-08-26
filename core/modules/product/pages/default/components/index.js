@@ -22,6 +22,7 @@ import ModalPopupImage from '@core_modules/product/pages/default/components/Moda
 import { modules } from '@config';
 import { getProductBannerLite } from '@core_modules/product/services/graphql';
 import { formatPrice } from '@helper_currency';
+import Link from '@material-ui/core/Link';
 
 const Button = dynamic(() => import('@common_button'), { ssr: true });
 const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: true });
@@ -252,24 +253,27 @@ const ProductPage = (props) => {
                             </Typography>
                         </div>
                     </div>
-
                     {enableMultiSeller && dataSeller && dataSeller.length > 0 ? (
                         <div className={styles.titleContainer}>
                             <div className={styles.sellerContainer}>
-                                <div className={styles.imageContainer}>
-                                    <img
-                                        className={styles.img}
-                                        src={dataSeller[0].logo}
-                                    />
-                                </div>
-                                <div>
-                                    <Typography variant="p" type="bold" letter="capitalize" size="14">
-                                        {dataSeller[0].name}
-                                    </Typography>
-                                    <Typography variant="p" type="regular" letter="capitalize" size="14">
-                                        {citySplit[0]}
-                                    </Typography>
-                                </div>
+                                <Link href={`/seller/${dataSeller[0].id}`}>
+                                    <div className={styles.imageContainer}>
+                                        <img
+                                            className={styles.img}
+                                            src={dataSeller[0].logo}
+                                        />
+                                    </div>
+                                </Link>
+                                <Link href={`/seller/${dataSeller[0].id}`}>
+                                    <div>
+                                        <Typography variant="p" type="bold" letter="capitalize" size="14">
+                                            {dataSeller[0].name}
+                                        </Typography>
+                                        <Typography variant="p" type="regular" letter="capitalize" size="14">
+                                            {citySplit[0]}
+                                        </Typography>
+                                    </div>
+                                </Link>
                             </div>
                         </div>
                     ) : null}
