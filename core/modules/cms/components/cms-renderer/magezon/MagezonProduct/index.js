@@ -47,7 +47,7 @@ const MagezonProductList = (props) => {
         item_xs,
         storeConfig,
     };
-    let content;
+    let content = '';
     const showLineClass = show_line ? 'mgz-product-heading-line' : '';
     const linePosClass = show_line && line_position === 'bottom' ? 'mgz-product-heading-line--bottom' : '';
     const dataCondition = useMemo(() => getProductListConditions(condition), [condition]);
@@ -64,15 +64,15 @@ const MagezonProductList = (props) => {
 
     if (loading) return <Skeleton />;
 
-    if (type === 'single_product') {
+    if (type === 'single_product' && data && data.products && data.products.items) {
         content = data?.products?.items[0] && <SingleProduct product={data.products.items[0]} {...productProps} />;
     }
 
-    if (type === 'product_list') {
+    if (type === 'product_list' && data && data.products && data.products.items) {
         content = data?.products?.items.map((product, index) => <SingleProduct key={index} product={product} {...productProps} />);
     }
 
-    if (type === 'product_grid') {
+    if (type === 'product_grid' && data && data.products && data.products.items) {
         content = (
             <Grid container>
                 {data?.products?.items.map((product, index) => (
@@ -82,7 +82,7 @@ const MagezonProductList = (props) => {
         );
     }
 
-    if (type === 'product_slider') {
+    if (type === 'product_slider' && data && data.products && data.products.items) {
         content = (
             <ProductSlider {...rest}>
                 {data?.products?.items.map((product, index) => (
