@@ -4,13 +4,15 @@ const useStyles = makeStyles((theme) => ({
     fab: (props) => ({
         position: 'fixed',
         bottom: '50%',
+        transform: 'rotate(270deg)',
+        transformOrigin: 'right center',
         right: theme.spacing(2),
         zIndex: theme.zIndex.drawer + 3,
         color: props.color,
         backgroundColor: props.bgColor,
-        [theme.breakpoints.down('sm')]: {
-            bottom: theme.spacing(10),
-        },
+        // [theme.breakpoints.down('sm')]: {
+        //     bottom: theme.spacing(10),
+        // },
         '&:hover': {
             backgroundColor: `${props.bgColor}E6`,
         },
