@@ -115,7 +115,7 @@ const ViewTopNavigation = (props) => {
                                                 <ProductCompareIcon withLink isLogin={isLogin} />
                                             </div>
                                         )}
-                                        <div className="shopping-bag">
+                                        <div id="header-shoppingBag-icon" className="shopping-bag">
                                             <ShoppingBagIcon withLink storeConfig={storeConfig} />
                                         </div>
                                     </div>
@@ -218,7 +218,7 @@ const ViewTopNavigation = (props) => {
                                                 <ProductCompareIcon withLink isLogin={isLogin} />
                                             </div>
                                         )}
-                                        <div className="shopping-bag">
+                                        <div id="header-shoppingBag-icon" className="shopping-bag">
                                             <ShoppingBagIcon withLink storeConfig={storeConfig} />
                                         </div>
                                     </div>
