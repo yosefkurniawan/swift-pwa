@@ -31,7 +31,7 @@ import {
     mergeCart as mutationMergeCart,
     otpConfig as queryOtpConfig,
     removeToken as deleteToken,
-    socialLogin,
+    socialLogin
 } from '@core_modules/login/services/graphql';
 import { getCustomer } from '@core_modules/login/services/graphql/schema';
 import { assignCompareListToCustomer } from '@core_modules/productcompare/service/graphql';
@@ -387,6 +387,7 @@ const Login = (props) => {
             Cookies.set(custDataNameCookie, {
                 email: custData.data.customer.email,
                 firstname: custData.data.customer.firstname,
+                lastname: custData.data.customer.lastname,
                 customer_group: custData.data.customer.customer_group,
                 phonenumber: custData.data.customer.phonenumber,
                 is_phonenumber_valid: custData.data.customer.is_phonenumber_valid,
