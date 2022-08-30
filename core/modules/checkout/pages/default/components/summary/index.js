@@ -309,14 +309,14 @@ const Summary = ({
                 if (!validateResponse(result, state)) return;
 
                 let orderNumber = '';
-                if (result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
-                    orderNumber = result.data.placeOrder.order.order_number;
+                if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
+                    orderNumber = result.data.placeOrder[0].order.order_number;
                 }
                 if (orderNumber && orderNumber !== '') {
                     setCheckoutData({
                         email: isGuest ? formik.values.email : cart.email,
                         order_number: orderNumber,
-                        order_id: result.data.placeOrder.order.order_id,
+                        order_id: result.data.placeOrder[0].order.order_id,
                     });
                     if (client && client.query && typeof client.query === 'function') {
                         await client.query({ query: localTotalCart, data: { totalCart: 0 } });
