@@ -302,7 +302,7 @@ const Checkout = (props) => {
 
     const initData = () => {
         let { cart } = dataCart;
-        console.log('dataCart', cart);
+        // console.log('dataCart', cart);
         const { items } = itemCart.cart;
         const state = { ...checkout };
         cart = { ...cart, items };
@@ -444,7 +444,6 @@ const Checkout = (props) => {
                         (item) => item.carrier_code !== 'pickup' && item.carrier_code !== 'instore'
                     ),
                 }));
-                console.log(availableMultiShipping);
 
                 state.data.shippingMethods = availableMultiShipping.map(({ seller_id, available_shipping_methods }) => ({
                     seller_id,
@@ -457,9 +456,37 @@ const Checkout = (props) => {
                 }));
             }
 
-            if (shipping && shipping[0].selected_shipping_method) {
-                // const shippingMethod = shipping.map((ship) => ship.selected_shipping_method);
-                state.selected.shipping = shipping.map((ship) => (ship && ship.carrier_code ? `${ship.carrier_code}_${ship.method_code}` : null));
+            if (shipping) {
+                console.log(state.selected.shipping);
+                const tempSelectedShipping = [];
+                shipping.map((ship) => {
+                    if (ship.selected_shipping_method) {
+                        tempSelectedShipping.push({
+                            seller_id: ship.seller_id,
+                            selected_shipping_method: `${ship.selected_shipping_method.carrier_code}_${ship.selected_shipping_method.method_code}`,
+                        });
+                    }
+                    return null;
+                });
+                console.log(shipping);
+                state.selected.shipping = shipping.map((ship) => {
+                    if (ship.selected_shipping_method) {
+                        return {
+                            seller_id: ship.seller_id,
+                            name: { carrier_code: ship.selected_shipping_method.carrier_code, method_code: ship.selected_shipping_method.method_code },
+                            price: ship.selected_shipping_method.amount.value,
+                            original_price: ship.selected_shipping_method.amount.value,
+                        };
+                    }
+                    return {
+                        seller_id: ship.seller_id,
+                        name: { carrier_code: null, method_code: null },
+                        price: null,
+                        original_price: null,
+                    };
+                });
+                // state.selected.shipping = shipping.map((ship) => (ship && ship.carrier_code ? `${ship.carrier_code}_${ship.method_code}` : null));
+                console.log(state.selected.shipping);
 
                 // if (modules.checkout.pickupStore.enabled) {
                 //     if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
@@ -726,9 +753,25 @@ const Checkout = (props) => {
                     }));
                 }
 
-                if (shipping && shipping[0].available_shipping_methods && shipping[0].available_shipping_methods.length > 0) {
+                if (shipping) {
                     // const shippingMethod = shipping.map((ship) => ship.selected_shipping_method);
-                    state.selected.shipping = shipping.map((ship) => (ship && ship.carrier_code ? `${ship.carrier_code}_${ship.method_code}` : null));
+                    state.selected.shipping = shipping.map((ship) => {
+                        if (ship.selected_shipping_method) {
+                            return {
+                                seller_id: ship.seller_id,
+                                name: { carrier_code: ship.selected_shipping_method.carrier_code, method_code: ship.selected_shipping_method.method_code },
+                                price: ship.selected_shipping_method.amount.value,
+                                original_price: ship.selected_shipping_method.amount.value,
+                            };
+                        }
+                        return {
+                            seller_id: ship.seller_id,
+                            name: { carrier_code: null, method_code: null },
+                            price: null,
+                            original_price: null,
+                        };
+                    });
+                    // state.selected.shipping = shipping.map((ship) => (ship && ship.carrier_code ? `${ship.carrier_code}_${ship.method_code}` : null));
                 }
             } else {
                 const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;

@@ -1,11 +1,9 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
-    GRAY_LIGHT, GRAY_PRIMARY, GREEN, WHITE,
+    GRAY_LIGHT, GRAY_PRIMARY, GREEN, WHITE
 } from '@theme_color';
 import {
-    FlexColumn,
-    CreateBorder,
-    Centering,
+    Centering, CreateBorder, FlexColumn
 } from '@theme_mixins';
 
 const useStyles = makeStyles(() => ({
@@ -112,6 +110,11 @@ const useStyles = makeStyles(() => ({
                 },
             },
         },
+    },
+    sellerLabel: {
+        backgroundColor: 'lightgray',
+        paddingTop: '1rem',
+        paddingBottom: '1rem',
     },
 }));
 

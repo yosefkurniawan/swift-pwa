@@ -1,13 +1,13 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable array-callback-return */
 /* eslint-disable comma-dangle */
-// import { useApolloClient } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import Radio from '@common_forms/Radio';
 import Typography from '@common_typography';
 import DeliveryItem from '@core_modules/checkout/components/radioitem';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 // import gqlService from '@core_modules/checkout/services/graphql';
-// import * as Schema from '@core_modules/checkout/services/graphql/schema';
+import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import { formatPrice } from '@helper_currency';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
@@ -16,6 +16,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Arrow from '@material-ui/icons/ArrowDropDown';
 import Alert from '@material-ui/lab/Alert';
 import Skeleton from '@material-ui/lab/Skeleton';
+import React from 'react';
 
 import {
     ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle
@@ -82,21 +83,49 @@ const ShippingView = (props) => {
         setExpandedActive(false);
         setExpanded(newExpanded ? panel : false);
     };
-    console.log('checkout data from shipping component', checkout);
+    // console.log('checkout data from shipping component', checkout);
     // const [getSeller, { data: dataSeller }] = gqlService.getSeller();
     const [expandedMulti, setExpandedMulti] = React.useState(null);
     const [expandedActiveMulti, setExpandedActiveMulti] = React.useState(true);
+    const [dataShippingMethods, setDataShippingMethods] = React.useState(null);
+    const [dataShippingMethodsModified, setDataShippingMethodsModified] = React.useState(null);
     const handleChangeMulti = (panel) => (event, newExpanded) => {
         setExpandedActiveMulti(false);
         setExpandedMulti(newExpanded ? panel : false);
     };
 
-    // const apolloClient = useApolloClient();
+    const apolloClient = useApolloClient();
 
-    // if (apolloClient && apolloClient.query && typeof apolloClient.query === 'function') {
-    //     const sellerData = apolloClient.query({ query: Schema.getSeller, variables: { sellerId: parseInt('2', 10) } });
-    //     console.log(sellerData && sellerData);
-    // }
+    React.useEffect(() => {
+        console.log(data.shippingMethods);
+        if (data.shippingMethods.length > 0) {
+            setDataShippingMethods(() => ({ ...dataShippingMethods, shippingMethods: data.shippingMethods }));
+        }
+    }, [data.shippingMethods]);
+
+    React.useEffect(() => {
+        if (dataShippingMethods) {
+            console.log(dataShippingMethods);
+            const newArray = dataShippingMethods.shippingMethods.map(async (item) => {
+                const sellerDataInfo = await apolloClient.query({ query: Schema.getSeller, variables: { sellerId: parseInt(item.seller_id, 10) } })
+                    .then((res) => {
+                        console.log('res', res);
+                        return {
+                            ...item,
+                            seller_name: res.data.getSeller[0].name,
+                            seller_city: res.data.getSeller[0].city.split(',')[0],
+                        };
+                    });
+                return ({
+                    ...sellerDataInfo,
+                });
+            });
+            if (newArray) {
+                console.log('new array', newArray);
+                setDataShippingMethodsModified(() => ({ ...dataShippingMethodsModified, newArray }));
+            }
+        }
+    }, [dataShippingMethods]);
 
     if (checkout.selected.delivery === 'pickup') {
         const price = formatPrice(0, storeConfig.base_currency_code || 'IDR');
@@ -273,22 +302,24 @@ const ShippingView = (props) => {
 
                     return false;
                 });
-                // console.log(uniqueSellerGroup);
+                console.log(uniqueSellerGroup);
 
                 uniqueSellerGroup.map((seller) => {
-                    // getSeller({ variables: { sellerId: parseInt(seller, 10) } });
+                    const sellerDataInfo = apolloClient.query({ query: Schema.getSeller, variables: { sellerId: parseInt(seller, 10) } })
+                        .then(({ data: resData }) => resData);
+                    // console.log(sellerDataInfo && sellerDataInfo);
                     const sellerData = shipping.map((ship) => ({
                         data: ship.data.filter((item) => item.seller_id === seller),
                         group: ship.group,
                     }));
                     unique.push({
                         seller_id: seller,
-                        // seller_name: dataSeller && dataSeller.getSeller[0].name,
-                        // seller_city: dataSeller && dataSeller.getSeller[0].city.split(',')[0],
+                        seller_name: sellerDataInfo.length > 0 ? sellerDataInfo[0].getSeller[0].name : 'Seller Name',
+                        seller_city: sellerDataInfo.length > 0 ? sellerDataInfo[0].getSeller[0].city.split(',')[0] : 'Seller City',
                         sellerData
                     });
                 });
-                // console.log(unique);
+                console.log(unique);
                 // console.log('shipping below unique', shipping);
             }
             // check if have active on group data by default selected if
@@ -314,20 +345,11 @@ const ShippingView = (props) => {
             //     setExpandedMulti(newExpanded ? panel : false);
             // };
             if (storeConfig.enable_oms_multiseller === '1') {
-                unique.map((seller) => console.log(seller));
                 content = unique.map((seller, keySeller) => {
-                    // let sellerData;
-                    // if (apolloClient && apolloClient.query && typeof apolloClient.query === 'function') {
-                    //     sellerData = await apolloClient.query({ query: Schema.getSeller, variables: { sellerId: parseInt(seller.seller_id, 10) } });
-                    // }
-                    // if (sellerData) {
-                    //     console.log('sellerData', sellerData);
-                    // }
-                    // console.log(seller);
                     return (
                         <>
                             <Typography letter="uppercase" variant="span" type="bold">
-                                Seller Name
+                                {`${seller.seller_name} - ${seller.seller_city}`}
                             </Typography>
                             <div className="column">
                                 <div className={styles.paymentExpansionContainer}>
@@ -485,93 +507,12 @@ const ShippingView = (props) => {
         content = <Typography variant="p">{t('checkout:noShipping')}</Typography>;
     }
 
-    // const generateContent = (seller) => {
-    //     // check if have active on group data by default selected if
-    //     let itemActive = false;
-    //     const error = [];
-    //     // const [expandedMulti, setExpandedMulti] = React.useState(null);
-    //     // const [expandedActiveMulti, setExpandedActiveMulti] = React.useState(true);
-    //     // const handleChangeMulti = (panel) => (event, newExpanded) => {
-    //     //     setExpandedActiveMulti(false);
-    //     //     setExpandedMulti(newExpanded ? panel : false);
-    //     // };
-    //     return (
-    //         <div className="column">
-    //             <div className={styles.paymentExpansionContainer}>
-    //                 {seller.sellerData.map((item, keyIndex) => {
-    //                     if (item.data.length !== 0) {
-    //                         return (
-    //                             <Accordion
-    //                                 expanded={
-    //                                     expandedMulti === keyIndex // if key index same with expanded active
-    //                                     || (item.active && expandedActiveMulti) // expand if item active and not change expand
-    //                                     || (!itemActive && expandedActiveMulti && keyIndex === 0)
-    //                                 } // if dont have item active, set index 0 to active
-    //                                 onChange={handleChangeMulti(keyIndex)}
-    //                                 key={keyIndex}
-    //                             >
-    //                                 <AccordionSummary
-    //                                     aria-controls="panel1d-content"
-    //                                     id={`panel-${item.group}`}
-    //                                     expandIcon={<Arrow className={styles.icon} />}
-    //                                     IconButtonProps={{
-    //                                         className: 'checkout-shippingGroupping-expand',
-    //                                     }}
-    //                                 >
-    //                                     <div className={styles.labelAccordion}>
-    //                                         <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
-    //                                         <Typography letter="uppercase" variant="span" type="bold">
-    //                                             {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
-    //                                                 === `shippingGrouping.${item.group.replace('sg-', '')}`
-    //                                                 ? item.group.replace('sg-', '')
-    //                                                 : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
-    //                                         </Typography>
-    //                                     </div>
-    //                                 </AccordionSummary>
-    //                                 <AccordionDetails>
-    //                                     <div className="column">
-    //                                         {item.data.length !== 0 ? (
-    //                                             <Radio
-    //                                                 value={selected.shipping}
-    //                                                 onChange={handleShipping}
-    //                                                 valueData={item.data}
-    //                                                 CustomItem={DeliveryItem}
-    //                                                 classContainer={styles.radioShiping}
-    //                                                 storeConfig={storeConfig}
-    //                                                 propsItem={{
-    //                                                     borderBottom: false,
-    //                                                     classContent: styles.listShippingGroup,
-    //                                                 }}
-    //                                             />
-    //                                         ) : null}
-    //                                     </div>
-    //                                 </AccordionDetails>
-    //                             </Accordion>
-    //                         );
-    //                     }
-    //                     return null;
-    //                 })}
-    //             </div>
-
-    //             <div className={styles.listError}>
-    //                 {error
-    //                     && error.length > 0
-    //                     && error.map((msg, key) => (
-    //                         <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
-    //                             {msg}
-    //                         </Alert>
-    //                     ))}
-    //             </div>
-    //         </div>
-    //     );
-    // };
-
     return isOnlyVirtualProductOnCart ? null : (
         <div className={styles.block} id="checkoutShipping">
             <Typography variant="title" type="bold" letter="uppercase">
                 {t('checkout:shippingMethod')}
             </Typography>
-            {/* {storeConfig.enable_oms_multiseller !== '1' ? content : unique && unique.map((seller) => generateContent(seller))} */}
+            {dataShippingMethodsModified && console.log(dataShippingMethodsModified)}
             {content}
         </div>
     );

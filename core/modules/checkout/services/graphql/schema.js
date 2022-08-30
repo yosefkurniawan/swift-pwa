@@ -553,7 +553,7 @@ export const getCheckoutConfigurations = gql`
 `;
 
 export const getSeller = gql`
-    query getSeller($sellerId: Int!) {
+    query getSeller($sellerId: [Int!]) {
         getSeller(input: { seller_id: $sellerId }) {
             id
             name

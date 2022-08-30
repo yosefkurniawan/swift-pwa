@@ -26,6 +26,7 @@ const Shipping = (props) => {
             const { cart } = checkout.data;
             if (storeConfig.enable_oms_multiseller === '1') {
                 const [carrier_code, method_code, seller_id] = val.split('_');
+                // let completeShipping = true;
                 let state = {
                     ...checkout,
                     loading: {
@@ -36,8 +37,27 @@ const Shipping = (props) => {
                         order: true,
                     },
                 };
-                state.selected.shipping[seller_id] = val;
+                console.log(val);
+                console.log(state);
+                // state.selected.shipping[seller_id] = val;
+                const setBySellerId = state.selected.shipping.find((item) => item.seller_id === seller_id);
+                if (setBySellerId) {
+                    state.selected.shipping.find((item) => item.seller_id === seller_id).name.carrier_code = carrier_code;
+                    state.selected.shipping.find((item) => item.seller_id === seller_id).name.method_code = method_code;
+                }
+                console.log(state);
+
+                // eslint-disable-next-line array-callback-return
+                // state.selected.shipping.map((ship) => {
+                //     if (ship.name.carrier_code === null || ship.name.method_code === null) {
+                //         completeShipping = false;
+                //     }
+                // });
                 setCheckout(state);
+
+                // if (completeShipping) {
+
+                // }
 
                 let updatedCart = {};
                 await setShippingMethodMultiseller({

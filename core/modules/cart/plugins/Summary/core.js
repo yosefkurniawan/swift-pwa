@@ -43,7 +43,7 @@ const CoreSummary = (props) => {
         console.log(shipping_addresses);
         console.log('prices', prices);
 
-        dataSummary.push({ item: 'Sub Total', value: subtotal });
+        dataSummary.push({ item: 'Total', value: subtotal });
 
         if (prices && prices.applied_taxes && prices.applied_taxes.length) {
             const taxes = prices.applied_taxes.reduce(
@@ -75,10 +75,10 @@ const CoreSummary = (props) => {
             });
             const price = formatPrice(totalShipping, storeConfig.base_currency_code);
             dataSummary.push({ item: 'shipping', value: price });
-            total = {
-                value: prices.subtotal_including_tax.value + parseInt(totalShipping, 10),
-                currency: prices.subtotal_including_tax.currency,
-            };
+            // total = {
+            //     value: prices.subtotal_including_tax.value + parseInt(totalShipping, 10),
+            //     currency: prices.subtotal_including_tax.currency,
+            // };
         } else {
             if (shipping && shipping.selected_shipping_method) {
                 const shippingMethod = shipping.selected_shipping_method;
