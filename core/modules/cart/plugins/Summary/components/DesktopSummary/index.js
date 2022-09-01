@@ -62,7 +62,6 @@ const Summary = (props) => {
     let cartItemBySeller = {};
 
     if (items.length > 0) {
-        console.log(items);
         const unGroupedData = items;
 
         // eslint-disable-next-line no-shadow
@@ -103,7 +102,6 @@ const Summary = (props) => {
             return groupData;
         }, []);
         cartItemBySeller = groupData;
-        console.log(groupData);
     }
 
     return (

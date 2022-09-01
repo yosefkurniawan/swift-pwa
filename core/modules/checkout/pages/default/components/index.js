@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
 import Button from '@common_button';
+import Modal from '@common_confirmdialog';
 import Typography from '@common_typography';
-import classNames from 'classnames';
+import Address from '@core_modules/checkout/pages/default/components/address';
+import Confirmation from '@core_modules/checkout/pages/default/components/Confirmation';
+import Credit from '@core_modules/checkout/pages/default/components/credit';
 import Delivery from '@core_modules/checkout/pages/default/components/delivery';
 import Email from '@core_modules/checkout/pages/default/components/email';
-import Summary from '@core_modules/checkout/pages/default/components/summary';
-import Address from '@core_modules/checkout/pages/default/components/address';
-import Shipping from '@core_modules/checkout/pages/default/components/shipping';
-import PaymentList from '@core_modules/checkout/pages/default/components/payment';
-import Promo from '@core_modules/checkout/pages/default/components/promo';
-import GiftCard from '@core_modules/checkout/pages/default/components/giftcard';
-import OrderComment from '@core_modules/checkout/pages/default/components/OrderComment';
-import RewardPoint from '@core_modules/checkout/pages/default/components/rewardpoint';
-import Credit from '@core_modules/checkout/pages/default/components/credit';
-import PickupInfo from '@core_modules/checkout/pages/default/components/PickupInformation';
 import ExtraFee from '@core_modules/checkout/pages/default/components/ExtraFee';
-import PromoModalItem from '@core_modules/checkout/pages/default/components/PromoModalItem';
-import useStyles from '@core_modules/checkout/pages/default/components/style';
+import GiftCard from '@core_modules/checkout/pages/default/components/giftcard';
 import InStorePickup from '@core_modules/checkout/pages/default/components/instorepickup';
-import Confirmation from '@core_modules/checkout/pages/default/components/Confirmation';
+import OrderComment from '@core_modules/checkout/pages/default/components/OrderComment';
+import PaymentList from '@core_modules/checkout/pages/default/components/payment';
+import PickupInfo from '@core_modules/checkout/pages/default/components/PickupInformation';
+import Promo from '@core_modules/checkout/pages/default/components/promo';
+import PromoModalItem from '@core_modules/checkout/pages/default/components/PromoModalItem';
+import RewardPoint from '@core_modules/checkout/pages/default/components/rewardpoint';
+import Shipping from '@core_modules/checkout/pages/default/components/shipping';
+import useStyles from '@core_modules/checkout/pages/default/components/style';
+import Summary from '@core_modules/checkout/pages/default/components/summary';
+import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import Router from 'next/router';
-import Modal from '@common_confirmdialog';
+import React, { useState } from 'react';
 
 const GimmickBanner = dynamic(() => import('@plugin_gimmickbanner'), { ssr: false });
 
@@ -67,6 +67,7 @@ const Content = (props) => {
         ConfirmationView,
         checkoutTokenState,
         setCheckoutTokenState,
+        loadingSellerInfo,
     } = props;
 
     const styles = useStyles();
@@ -204,6 +205,7 @@ const Content = (props) => {
                         isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                         checkoutTokenState={checkoutTokenState}
                         setCheckoutTokenState={setCheckoutTokenState}
+                        loadingSellerInfo={loadingSellerInfo}
                     />
 
                     <div className={classNames(styles.block)}>

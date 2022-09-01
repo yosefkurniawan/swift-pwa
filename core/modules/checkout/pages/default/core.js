@@ -1,17 +1,18 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable object-curly-newline */
+/* eslint-disable prefer-const */
 /* eslint-disable comma-dangle */
 /* eslint-disable operator-linebreak */
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
+import { useApolloClient } from '@apollo/client';
 import Toast from '@common_toast';
 import { modules, nameCheckoutState } from '@config';
-import {
-    getCartCallbackUrl,
-    getIpayUrl,
-    getLoginCallbackUrl,
-    getSuccessCallbackUrl
-} from '@core_modules/checkout/helpers/config';
+import { getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '@core_modules/checkout/helpers/config';
 import gqlService from '@core_modules/checkout/services/graphql';
+import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import { getCartId } from '@helpers/cartId';
 import { getStoreHost } from '@helpers/config';
 import { getCheckoutData, removeCheckoutData } from '@helpers/cookies';
@@ -43,13 +44,7 @@ function equalTo(ref, msg) {
 }
 
 const Checkout = (props) => {
-    const {
-        t,
-        storeConfig,
-        pageConfig,
-        Content,
-        cartId: propsCardId,
-    } = props;
+    const { t, storeConfig, pageConfig, Content, cartId: propsCardId } = props;
     const config = {
         successRedirect: {
             link: getSuccessCallbackUrl(),
@@ -63,6 +58,7 @@ const Checkout = (props) => {
         },
     };
     const [actUpdatePwaCheckoutLog] = updatePwaCheckoutLog();
+    const apolloClient = useApolloClient();
 
     let { isLogin } = props;
     let pwaCheckoutState = null;
@@ -75,6 +71,15 @@ const Checkout = (props) => {
 
     const [setCheckoutSession] = gqlService.setCheckoutSession();
     const [checkoutTokenState, setCheckoutTokenState] = useState();
+    const [loadingSellerInfo, setLoadingSellerInfo] = useState(true);
+    const [amountSeller, setAmountSeller] = useState(0);
+    const [currentIndexSeller, setCurrentIndexSeller] = useState(0);
+
+    React.useEffect(() => {
+        if (currentIndexSeller === amountSeller - 1) {
+            setLoadingSellerInfo(false);
+        }
+    }, [currentIndexSeller, amountSeller]);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -149,6 +154,7 @@ const Checkout = (props) => {
                 items: null,
                 shipping_addresses: null,
             },
+            seller: [],
         },
         selected: {
             address: null,
@@ -445,6 +451,29 @@ const Checkout = (props) => {
                     ),
                 }));
 
+                setAmountSeller(availableMultiShipping.length);
+
+                availableMultiShipping.map(async ({ seller_id, available_shipping_methods }, index) => {
+                    let sellerInfo;
+                    sellerInfo = await apolloClient
+                        .query({ query: Schema.getSeller, variables: { sellerId: parseInt(seller_id, 10) } })
+                        .then(({ data }) => {
+                            return {
+                                seller_id,
+                                seller_name: data.getSeller[0].name,
+                                seller_city: data.getSeller[0].city,
+                                available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
+                                    ...shippingItemMultiseller,
+                                    label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title} `,
+                                    promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
+                                    value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
+                                })),
+                            };
+                        });
+                    state.data.seller.push(sellerInfo);
+                    setCurrentIndexSeller(index);
+                });
+
                 state.data.shippingMethods = availableMultiShipping.map(({ seller_id, available_shipping_methods }) => ({
                     seller_id,
                     available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
@@ -457,7 +486,6 @@ const Checkout = (props) => {
             }
 
             if (shipping) {
-                console.log(state.selected.shipping);
                 const tempSelectedShipping = [];
                 shipping.map((ship) => {
                     if (ship.selected_shipping_method) {
@@ -468,12 +496,14 @@ const Checkout = (props) => {
                     }
                     return null;
                 });
-                console.log(shipping);
                 state.selected.shipping = shipping.map((ship) => {
                     if (ship.selected_shipping_method) {
                         return {
                             seller_id: ship.seller_id,
-                            name: { carrier_code: ship.selected_shipping_method.carrier_code, method_code: ship.selected_shipping_method.method_code },
+                            name: {
+                                carrier_code: ship.selected_shipping_method.carrier_code,
+                                method_code: ship.selected_shipping_method.method_code,
+                            },
                             price: ship.selected_shipping_method.amount.value,
                             original_price: ship.selected_shipping_method.amount.value,
                         };
@@ -485,42 +515,13 @@ const Checkout = (props) => {
                         original_price: null,
                     };
                 });
-                // state.selected.shipping = shipping.map((ship) => (ship && ship.carrier_code ? `${ship.carrier_code}_${ship.method_code}` : null));
                 console.log(state.selected.shipping);
-
-                // if (modules.checkout.pickupStore.enabled) {
-                //     if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
-                //         const custAddress = cart.shipping_addresses[0];
-                //         state.selected.delivery = 'pickup';
-                //         state.error.shippingAddress = false;
-                //         state.selectStore = {
-                //             city: custAddress.city,
-                //             country_code: custAddress.country.code,
-                //             name: custAddress.firstname,
-                //             postcode: custAddress.postcode,
-                //             region: custAddress.region.label,
-                //             street: custAddress.street,
-                //             telephone: custAddress.telephone,
-                //             code: cart.items[0].pickup_item_store_info.loc_code,
-                //         };
-                //         if (cart.pickup_store_person) {
-                //             state.pickupInformation = {
-                //                 pickup_person_email: cart.pickup_store_person.email,
-                //                 pickup_person_name: cart.pickup_store_person.name,
-                //                 pickup_person_phone: cart.pickup_store_person.handphone,
-                //             };
-                //         }
-                //     }
-                // }
-
-                // if (shipping.pickup_location_code) {
-                //     state.selected.delivery = 'instore';
-                //     state.error.shippingAddress = false;
-                // }
             }
         } else {
             if (shipping && shipping.available_shipping_methods) {
-                const availableShipping = shipping.available_shipping_methods.filter((x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore');
+                const availableShipping = shipping.available_shipping_methods.filter(
+                    (x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore'
+                );
 
                 state.data.shippingMethods = availableShipping.map((item) => ({
                     ...item,
@@ -618,6 +619,7 @@ const Checkout = (props) => {
         state.loading.paypal = false;
 
         setCheckout(state);
+        console.log(checkout);
         updateFormik(cart);
     };
 
@@ -736,11 +738,8 @@ const Checkout = (props) => {
                 if (shipping && shipping[0].available_shipping_methods && shipping[0].available_shipping_methods.length > 0) {
                     const availableMultiShipping = shipping.map((shippingPerSeller) => ({
                         seller_id: shippingPerSeller.seller_id,
-                        available_shipping_methods: shippingPerSeller.available_shipping_methods.filter(
-                            (item) => item.carrier_code !== 'pickup'
-                        ),
+                        available_shipping_methods: shippingPerSeller.available_shipping_methods.filter((item) => item.carrier_code !== 'pickup'),
                     }));
-                    console.log(availableMultiShipping);
 
                     state.data.shippingMethods = availableMultiShipping.map(({ seller_id, available_shipping_methods }) => ({
                         seller_id,
@@ -754,12 +753,16 @@ const Checkout = (props) => {
                 }
 
                 if (shipping) {
+                    console.log(shipping);
                     // const shippingMethod = shipping.map((ship) => ship.selected_shipping_method);
                     state.selected.shipping = shipping.map((ship) => {
                         if (ship.selected_shipping_method) {
                             return {
                                 seller_id: ship.seller_id,
-                                name: { carrier_code: ship.selected_shipping_method.carrier_code, method_code: ship.selected_shipping_method.method_code },
+                                name: {
+                                    carrier_code: ship.selected_shipping_method.carrier_code,
+                                    method_code: ship.selected_shipping_method.method_code,
+                                },
                                 price: ship.selected_shipping_method.amount.value,
                                 original_price: ship.selected_shipping_method.amount.value,
                             };
@@ -942,9 +945,10 @@ const Checkout = (props) => {
         // const { shipping_addresses } = params;
     };
 
-    const createOrderPaypal = (data, actions) => new Promise((resolve, reject) => {
-        resolve(initialOptionPaypal['data-order-id']);
-    });
+    const createOrderPaypal = (data, actions) =>
+        new Promise((resolve, reject) => {
+            resolve(initialOptionPaypal['data-order-id']);
+        });
 
     const paypalHandlingProps = {
         onClick: onClickPaypal,
@@ -974,6 +978,7 @@ const Checkout = (props) => {
         setTokenData,
         checkoutTokenState,
         setCheckoutTokenState,
+        loadingSellerInfo,
     };
 
     return (

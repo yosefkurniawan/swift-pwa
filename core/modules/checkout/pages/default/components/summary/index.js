@@ -4,6 +4,7 @@ import { modules } from '@config';
 import { removeCartId, setCartId } from '@helper_cartid';
 import { getHost, getStoreHost } from '@helper_config';
 import { setCheckoutData } from '@helper_cookies';
+import { getLocalStorage } from '@helper_localstorage';
 import { localTotalCart } from '@services/graphql/schema/local';
 import React, { useEffect, useState } from 'react';
 
@@ -51,6 +52,7 @@ const Summary = ({
     const [placeOrderWithOrderComment] = gqlService.placeOrderWithOrderComment({ onError: () => {} });
     const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
+    const storeConfigLocalStorage = getLocalStorage('storeConfig');
     // indodana
     const [getIndodanaRedirect, urlIndodana] = gqlService.getIndodanaUrl();
     // xendit
@@ -310,6 +312,16 @@ const Summary = ({
 
                 let orderNumber = '';
                 if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
+                    if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
+                        // eslint-disable-next-line array-callback-return
+                        result.data.placeOrder.map((order, index) => {
+                            if (index !== result.data.placeOrder.length - 1) {
+                                orderNumber += `${order.order.order_number}+`;
+                            } else {
+                                orderNumber += `${order.order.order_number}`;
+                            }
+                        });
+                    }
                     orderNumber = result.data.placeOrder[0].order.order_number;
                 }
                 if (orderNumber && orderNumber !== '') {

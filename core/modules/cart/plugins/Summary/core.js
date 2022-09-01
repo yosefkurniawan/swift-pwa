@@ -21,8 +21,6 @@ const CoreSummary = (props) => {
         applied_extra_fee = {},
     } = dataCart;
 
-    console.log(dataCart);
-
     let {
         applied_giftcard = {},
     } = dataCart;
@@ -40,8 +38,6 @@ const CoreSummary = (props) => {
         }
         total = prices.grand_total;
         const [shipping] = shipping_addresses;
-        console.log(shipping_addresses);
-        console.log('prices', prices);
 
         dataSummary.push({ item: 'Total', value: subtotal });
 

@@ -1,13 +1,16 @@
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable operator-linebreak */
+/* eslint-disable max-len */
 /* eslint-disable arrow-body-style */
 /* eslint-disable array-callback-return */
 /* eslint-disable comma-dangle */
-import { useApolloClient } from '@apollo/client';
+// import { useApolloClient } from '@apollo/client';
 import Radio from '@common_forms/Radio';
 import Typography from '@common_typography';
 import DeliveryItem from '@core_modules/checkout/components/radioitem';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 // import gqlService from '@core_modules/checkout/services/graphql';
-import * as Schema from '@core_modules/checkout/services/graphql/schema';
+// import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import { formatPrice } from '@helper_currency';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
@@ -72,8 +75,16 @@ const ShippingGroupIcon = (props) => {
 const ShippingView = (props) => {
     const styles = useStyles();
     const {
-        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected,
-        handleShipping, data, t, shippingMethodList,
+        isOnlyVirtualProductOnCart,
+        checkout,
+        storeConfig,
+        loading,
+        selected,
+        handleShipping,
+        data,
+        t,
+        shippingMethodList,
+        loadingSellerInfo,
     } = props;
     let content;
     const unique = [];
@@ -83,49 +94,16 @@ const ShippingView = (props) => {
         setExpandedActive(false);
         setExpanded(newExpanded ? panel : false);
     };
-    // console.log('checkout data from shipping component', checkout);
-    // const [getSeller, { data: dataSeller }] = gqlService.getSeller();
     const [expandedMulti, setExpandedMulti] = React.useState(null);
     const [expandedActiveMulti, setExpandedActiveMulti] = React.useState(true);
-    const [dataShippingMethods, setDataShippingMethods] = React.useState(null);
-    const [dataShippingMethodsModified, setDataShippingMethodsModified] = React.useState(null);
     const handleChangeMulti = (panel) => (event, newExpanded) => {
         setExpandedActiveMulti(false);
         setExpandedMulti(newExpanded ? panel : false);
     };
 
-    const apolloClient = useApolloClient();
-
     React.useEffect(() => {
-        console.log(data.shippingMethods);
-        if (data.shippingMethods.length > 0) {
-            setDataShippingMethods(() => ({ ...dataShippingMethods, shippingMethods: data.shippingMethods }));
-        }
-    }, [data.shippingMethods]);
-
-    React.useEffect(() => {
-        if (dataShippingMethods) {
-            console.log(dataShippingMethods);
-            const newArray = dataShippingMethods.shippingMethods.map(async (item) => {
-                const sellerDataInfo = await apolloClient.query({ query: Schema.getSeller, variables: { sellerId: parseInt(item.seller_id, 10) } })
-                    .then((res) => {
-                        console.log('res', res);
-                        return {
-                            ...item,
-                            seller_name: res.data.getSeller[0].name,
-                            seller_city: res.data.getSeller[0].city.split(',')[0],
-                        };
-                    });
-                return ({
-                    ...sellerDataInfo,
-                });
-            });
-            if (newArray) {
-                console.log('new array', newArray);
-                setDataShippingMethodsModified(() => ({ ...dataShippingMethodsModified, newArray }));
-            }
-        }
-    }, [dataShippingMethods]);
+        console.log(checkout);
+    }, [data.shippingMethods, checkout]);
 
     if (checkout.selected.delivery === 'pickup') {
         const price = formatPrice(0, storeConfig.base_currency_code || 'IDR');
@@ -135,10 +113,9 @@ const ShippingView = (props) => {
         content = <DeliveryItem value={{ price }} label={t('checkout:instorePickup')} selected borderBottom={false} />;
     } else if (loading.shipping || loading.addresses || loading.all) {
         content = <Loader />;
-    } else if (data.shippingMethods.length !== 0) {
+    } else if (data.shippingMethods.length !== 0 && data.shippingMethods[0].available_shipping_methods && !loadingSellerInfo) {
         const available = data.shippingMethods;
-        const config = shippingMethodList && shippingMethodList.storeConfig
-            ? JSON.parse(`${shippingMethodList.storeConfig.shipments_configuration}`) : {};
+        const config = shippingMethodList && shippingMethodList.storeConfig ? JSON.parse(`${shippingMethodList.storeConfig.shipments_configuration}`) : {};
         const group = config ? Object.keys(config) : [];
         const sellerGroup = [];
 
@@ -161,10 +138,11 @@ const ShippingView = (props) => {
                             for (let idc = 0; idc < cnf.length; idc += 1) {
                                 // check if shipping method already exist on groupData
                                 const checkShipping = groupData.find(
-                                    (x) => x.method_code === element.method_code
-                                        && x.carrier_code === element.carrier_code
-                                        && x.carrier_title === element.carrier_title
-                                        && x.seller_id === avx.seller_id,
+                                    (x) =>
+                                        x.method_code === element.method_code &&
+                                        x.carrier_code === element.carrier_code &&
+                                        x.carrier_title === element.carrier_title &&
+                                        x.seller_id === avx.seller_id
                                 );
 
                                 if (identifier.match(new RegExp(`^${cnf[idc]}`, 'i')) !== null && !checkShipping) {
@@ -186,9 +164,10 @@ const ShippingView = (props) => {
                         for (let idc = 0; idc < cnf.length; idc += 1) {
                             // check if shipping method already exist on groupData
                             const checkShipping = groupData.find(
-                                (x) => x.method_code === element.method_code
-                                    && x.carrier_code === element.carrier_code
-                                    && x.carrier_title === element.carrier_title,
+                                (x) =>
+                                    x.method_code === element.method_code &&
+                                    x.carrier_code === element.carrier_code &&
+                                    x.carrier_title === element.carrier_title
                             );
 
                             if (identifier.match(new RegExp(`^${cnf[idc]}`, 'i')) !== null && !checkShipping) {
@@ -244,9 +223,10 @@ const ShippingView = (props) => {
                     for (let idc = 0; idc < cnf.length; idc += 1) {
                         // check if shipping method already exist on groupData
                         const checkShipping = groupData.find(
-                            (x) => x.method_code === element.method_code
-                                && x.carrier_code === element.carrier_code
-                                && x.carrier_title === element.carrier_title,
+                            (x) =>
+                                x.method_code === element.method_code &&
+                                x.carrier_code === element.carrier_code &&
+                                x.carrier_title === element.carrier_title
                         );
 
                         if (identifier.match(new RegExp(`^${cnf[idc]}`, 'i')) !== null && !checkShipping) {
@@ -302,25 +282,21 @@ const ShippingView = (props) => {
 
                     return false;
                 });
-                console.log(uniqueSellerGroup);
 
                 uniqueSellerGroup.map((seller) => {
-                    const sellerDataInfo = apolloClient.query({ query: Schema.getSeller, variables: { sellerId: parseInt(seller, 10) } })
-                        .then(({ data: resData }) => resData);
-                    // console.log(sellerDataInfo && sellerDataInfo);
                     const sellerData = shipping.map((ship) => ({
                         data: ship.data.filter((item) => item.seller_id === seller),
                         group: ship.group,
                     }));
+                    const sellerDataInfo = checkout.data.seller.find((items) => items.seller_id === seller);
+                    // }
                     unique.push({
                         seller_id: seller,
-                        seller_name: sellerDataInfo.length > 0 ? sellerDataInfo[0].getSeller[0].name : 'Seller Name',
-                        seller_city: sellerDataInfo.length > 0 ? sellerDataInfo[0].getSeller[0].city.split(',')[0] : 'Seller City',
-                        sellerData
+                        seller_name: sellerDataInfo ? sellerDataInfo.seller_name : 'Default Seller',
+                        seller_city: sellerDataInfo ? sellerDataInfo.seller_city.split(', ')[0] : 'Default City',
+                        sellerData,
                     });
                 });
-                console.log(unique);
-                // console.log('shipping below unique', shipping);
             }
             // check if have active on group data by default selected if
             let itemActive = false;
@@ -346,6 +322,7 @@ const ShippingView = (props) => {
             // };
             if (storeConfig.enable_oms_multiseller === '1') {
                 content = unique.map((seller, keySeller) => {
+                    console.log(selected.shipping);
                     return (
                         <>
                             <Typography letter="uppercase" variant="span" type="bold">
@@ -358,9 +335,9 @@ const ShippingView = (props) => {
                                             return (
                                                 <Accordion
                                                     expanded={
-                                                        expandedMulti === keyIndex // if key index same with expanded active
-                                                        || (item.active && expandedActiveMulti) // expand if item active and not change expand
-                                                        || (!itemActive && expandedActiveMulti && keyIndex === 0)
+                                                        expandedMulti === keyIndex || // if key index same with expanded active
+                                                        (item.active && expandedActiveMulti) || // expand if item active and not change expand
+                                                        (!itemActive && expandedActiveMulti && keyIndex === 0)
                                                     } // if dont have item active, set index 0 to active
                                                     onChange={handleChangeMulti(keyIndex)}
                                                     key={keyIndex}
@@ -376,8 +353,8 @@ const ShippingView = (props) => {
                                                         <div className={styles.labelAccordion}>
                                                             <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
                                                             <Typography letter="uppercase" variant="span" type="bold">
-                                                                {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
-                                                                    === `shippingGrouping.${item.group.replace('sg-', '')}`
+                                                                {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`) ===
+                                                                    `shippingGrouping.${item.group.replace('sg-', '')}`
                                                                     ? item.group.replace('sg-', '')
                                                                     : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
                                                             </Typography>
@@ -387,7 +364,7 @@ const ShippingView = (props) => {
                                                         <div className="column">
                                                             {item.data.length !== 0 ? (
                                                                 <Radio
-                                                                    value={selected.shipping[keySeller]}
+                                                                    value={`${selected.shipping[keySeller].name.carrier_code}_${selected.shipping[keySeller].name.method_code}`}
                                                                     onChange={handleShipping}
                                                                     valueData={item.data}
                                                                     CustomItem={DeliveryItem}
@@ -409,9 +386,9 @@ const ShippingView = (props) => {
                                 </div>
 
                                 <div className={styles.listError}>
-                                    {error
-                                        && error.length > 0
-                                        && error.map((msg, key) => (
+                                    {error &&
+                                        error.length > 0 &&
+                                        error.map((msg, key) => (
                                             <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
                                                 {msg}
                                             </Alert>
@@ -430,9 +407,9 @@ const ShippingView = (props) => {
                                     return (
                                         <Accordion
                                             expanded={
-                                                expanded === keyIndex // if key index same with expanded active
-                                                || (item.active && expandedActive) // expand if item active and not change expand
-                                                || (!itemActive && expandedActive && keyIndex === 0)
+                                                expanded === keyIndex || // if key index same with expanded active
+                                                (item.active && expandedActive) || // expand if item active and not change expand
+                                                (!itemActive && expandedActive && keyIndex === 0)
                                             } // if dont have item active, set index 0 to active
                                             onChange={handleChange(keyIndex)}
                                             key={keyIndex}
@@ -448,8 +425,8 @@ const ShippingView = (props) => {
                                                 <div className={styles.labelAccordion}>
                                                     <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
                                                     <Typography letter="uppercase" variant="span" type="bold">
-                                                        {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
-                                                            === `shippingGrouping.${item.group.replace('sg-', '')}`
+                                                        {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`) ===
+                                                            `shippingGrouping.${item.group.replace('sg-', '')}`
                                                             ? item.group.replace('sg-', '')
                                                             : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
                                                     </Typography>
@@ -481,9 +458,9 @@ const ShippingView = (props) => {
                         </div>
 
                         <div className={styles.listError}>
-                            {error
-                                && error.length > 0
-                                && error.map((msg, key) => (
+                            {error &&
+                                error.length > 0 &&
+                                error.map((msg, key) => (
                                     <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
                                         {msg}
                                     </Alert>
@@ -503,6 +480,8 @@ const ShippingView = (props) => {
                 />
             );
         }
+    } else if (loadingSellerInfo) {
+        content = <Loader />;
     } else {
         content = <Typography variant="p">{t('checkout:noShipping')}</Typography>;
     }
@@ -512,8 +491,7 @@ const ShippingView = (props) => {
             <Typography variant="title" type="bold" letter="uppercase">
                 {t('checkout:shippingMethod')}
             </Typography>
-            {dataShippingMethodsModified && console.log(dataShippingMethodsModified)}
-            {content}
+            {!loadingSellerInfo && content}
         </div>
     );
 };
