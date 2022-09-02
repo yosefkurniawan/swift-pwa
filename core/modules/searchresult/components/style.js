@@ -52,6 +52,55 @@ const useStyles = makeStyles(() => ({
         overflow: 'hidden',
         ...CreatePadding(0, 0, 50, 0),
     },
+    titleContainer: {
+        ...FlexRow,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingLeft: 15,
+        paddingRight: 15,
+    },
+    sellerContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 10,
+    },
+    imageContainer: {
+        float: 'left',
+        marginRight: 20,
+    },
+    img: {
+        width: '60px',
+        height: 'auto',
+        borderRadius: '50%',
+    },
+    listContainerCategory: {
+        width: '100%',
+        padding: 10,
+        borderTop: '1px solid rgba(224, 224, 224, 1)',
+    },
+    breadcrumbs: {
+        paddingBottom: 5,
+        textTransform: 'uppercase',
+        color: '#929292',
+        fontSize: 10,
+        fontStyle: 'italic',
+    },
+    titleCategory: {
+        textTransform: 'uppercase',
+        fontSize: 10,
+    },
+    topTitle: {
+        display: 'block',
+        width: '100%',
+        height: '20px',
+        paddingLeft: '13px',
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        marginBottom: '8px',
+    },
+    wrapper: {
+        paddingTop: 15,
+    },
 }));
 
 export default useStyles;
