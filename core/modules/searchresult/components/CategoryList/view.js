@@ -56,10 +56,10 @@ const CategoryView = (props) => {
             <div>
                 {data.length > slice.length ? (
                     <Button
-                        variant="contained"
+                        align="left"
                         color="primary"
                         onClick={() => loadMore()}
-                        style={{ margin: 10 }}
+                        style={{ margin: 10, fontSize: 8 }}
                     >
                         Load More
                     </Button>
