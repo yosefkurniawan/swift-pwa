@@ -16,9 +16,23 @@ const CategoryItem = (props) => {
     return (
         <>
             <Link href={`/${url_key}`}>
-                <div className={styles.listContainerCategory}>
-                    <div className={styles.breadcrumbs}>{breadcrumbsText}</div>
-                    <div className={styles.titleCategory}>{name}</div>
+                <div className="hidden-mobile">
+                    <div className={styles.listContainerCategory}>
+                        {breadcrumbsText === '' ? (
+                            <div className={styles.titleCategory}>{name}</div>
+                        ) : (
+                            <>
+                                <div className={styles.breadcrumbs}>{breadcrumbsText}</div>
+                                <div className={styles.titleCategory}>{name}</div>
+                            </>
+                        )}
+                    </div>
+                </div>
+                <div className="hidden-desktop">
+                    <div className={styles.listContainerCategoryMobile}>
+                        <div className={styles.breadcrumbsMobile}>{breadcrumbsText}</div>
+                        <div className={styles.titleCategory}>{name}</div>
+                    </div>
                 </div>
             </Link>
         </>
@@ -45,6 +59,7 @@ const CategoryView = (props) => {
                         variant="contained"
                         color="primary"
                         onClick={() => loadMore()}
+                        style={{ margin: 10 }}
                     >
                         Load More
                     </Button>

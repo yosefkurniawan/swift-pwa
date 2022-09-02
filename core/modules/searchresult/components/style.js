@@ -73,17 +73,30 @@ const useStyles = makeStyles(() => ({
         height: 'auto',
         borderRadius: '50%',
     },
-    listContainerCategory: {
+    listContainerCategoryMobile: {
         width: '100%',
         padding: 10,
         borderTop: '1px solid rgba(224, 224, 224, 1)',
     },
-    breadcrumbs: {
+    breadcrumbsMobile: {
         paddingBottom: 5,
         textTransform: 'uppercase',
         color: '#929292',
         fontSize: 10,
         fontStyle: 'italic',
+    },
+    listContainerCategory: {
+        width: '100%',
+        display: 'flex',
+        padding: 5,
+        paddingLeft: 10,
+    },
+    breadcrumbs: {
+        textTransform: 'uppercase',
+        color: '#929292',
+        fontSize: 10,
+        fontStyle: 'italic',
+        paddingRight: 10,
     },
     titleCategory: {
         textTransform: 'uppercase',
@@ -93,7 +106,7 @@ const useStyles = makeStyles(() => ({
         display: 'block',
         width: '100%',
         height: '20px',
-        paddingLeft: '13px',
+        paddingLeft: '10px',
         fontWeight: 'bold',
         textTransform: 'uppercase',
         marginBottom: '8px',
