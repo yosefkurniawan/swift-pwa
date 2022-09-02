@@ -1,12 +1,6 @@
 /* eslint-disable arrow-body-style */
 
-import { features } from '@config';
-
-const { thumbor } = features;
-
-export const generateThumborUrl = (src = '', width = 400, height = 400) => {
-    const { enable, useHttpsOrHttp } = thumbor;
-    let { url } = thumbor;
+export const generateThumborUrl = (src = '', width = 400, height = 400, enable, useHttpsOrHttp, url) => {
     if (enable) {
         let source = src;
         if (!useHttpsOrHttp) {
