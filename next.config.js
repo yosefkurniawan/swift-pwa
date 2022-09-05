@@ -6,15 +6,6 @@ const { createSecureHeaders } = require('next-secure-headers');
 // const withCSS = require('@zeit/next-css');
 
 module.exports = withOffline({
-    // image
-    images: {
-        domains: [
-            'swift-sprint.testingnow.me',
-            'thumbor.sirclocdn.com',
-            'b2cdemo.getswift.asia',
-            'b2cdemonew.gcp-staging.testingnow.me',
-        ],
-    },
     // Secure Header
     async headers() {
         return [{ source: '/(.*)', headers: createSecureHeaders() }];
