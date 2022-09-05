@@ -4,6 +4,7 @@ import Typography from '@common_typography';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import useStyles from '@core_modules/searchresult/components/style';
+import Skeleton from '@core_modules/searchresult/components/SellerList/skeleton';
 
 const SellerItem = (props) => {
     const styles = useStyles();
@@ -37,7 +38,7 @@ const SellerItem = (props) => {
 };
 
 const SellerView = (props) => {
-    const { data } = props;
+    const { data, loading } = props;
     const styles = useStyles();
 
     return (
@@ -45,13 +46,23 @@ const SellerView = (props) => {
             <div className={styles.topTitle}>
                 Seller
             </div>
-            <Grid container>
-                {data.map((item, idx) => (
-                    <Grid key={idx} item xs={12} sm={4} md={3}>
-                        <SellerItem {...item} />
-                    </Grid>
-                ))}
-            </Grid>
+            {loading ? (
+                <Grid container>
+                    {[1, 2, 3, 4].map((idx) => (
+                        <Grid key={idx} item xs={12} sm={4} md={3}>
+                            <Skeleton />
+                        </Grid>
+                    ))}
+                </Grid>
+            ) : (
+                <Grid container>
+                    {data.map((item, idx) => (
+                        <Grid key={idx} item xs={12} sm={4} md={3}>
+                            <SellerItem {...item} />
+                        </Grid>
+                    ))}
+                </Grid>
+            )}
         </div>
     );
 };

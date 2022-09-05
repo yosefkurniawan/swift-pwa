@@ -17,7 +17,7 @@ const sellerList = (props) => {
 
     const generateItemData = (seller) => {
         const result = [];
-        for (let index = 0; index < seller.length; index++) {
+        for (let index = 0; index < seller?.length; index++) {
             const element = seller[index];
             const sell = {
                 additional_info: element.additional_info,
@@ -39,7 +39,6 @@ const sellerList = (props) => {
     };
 
     let itemData = [];
-    if (loading && !data) return <>Loading</>;
 
     if (data && data.getSeller.length > 0) {
         itemData = generateItemData(data.getSeller);
@@ -48,7 +47,7 @@ const sellerList = (props) => {
     return (
         <>
             {itemData && itemData.length > 0 ? (
-                <SellerItem {...props} data={itemData} />
+                <SellerItem {...props} data={itemData} loading={loading} />
             ) : null}
         </>
     );
