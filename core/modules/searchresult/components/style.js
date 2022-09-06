@@ -114,6 +114,9 @@ const useStyles = makeStyles(() => ({
     wrapper: {
         paddingTop: 15,
     },
+    wrapperSkeleton: {
+        padding: 15,
+    },
 }));
 
 export default useStyles;

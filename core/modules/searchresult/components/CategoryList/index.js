@@ -32,7 +32,6 @@ const categoryList = (props) => {
 
     let itemData = [];
     let slice = [];
-    if (loading && !data) return <>Loading</>;
 
     if (data) {
         itemData = generateItemData(data.categoryList);
@@ -45,7 +44,7 @@ const categoryList = (props) => {
     return (
         <>
             {itemData && itemData.length > 0 ? (
-                <CategoryItem {...props} data={itemData} slice={slice} loadMore={loadMore} />
+                <CategoryItem {...props} data={itemData} slice={slice} loadMore={loadMore} loading={loading} />
             ) : null}
         </>
     );

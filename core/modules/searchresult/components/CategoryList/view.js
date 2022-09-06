@@ -2,6 +2,7 @@
 import Button from '@common_button';
 import Link from '@material-ui/core/Link';
 import useStyles from '@core_modules/searchresult/components/style';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const CategoryItem = (props) => {
     const styles = useStyles();
@@ -40,7 +41,9 @@ const CategoryItem = (props) => {
 };
 
 const CategoryView = (props) => {
-    const { slice, data, loadMore } = props;
+    const {
+        slice, data, loadMore, loading,
+    } = props;
     const styles = useStyles();
 
     return (
@@ -49,9 +52,33 @@ const CategoryView = (props) => {
                 <div className={styles.topTitle}>
                     Category
                 </div>
-                {slice.map((item) => (
-                    <CategoryItem {...item} />
-                ))}
+                {loading && (
+                    <>
+                        <div className="hidden-mobile">
+                            {[1, 2, 3, 4].map((idx) => (
+                                <div className={styles.listContainerCategory}>
+                                    <Skeleton key={idx} variant="text" width="20%" height={30} />
+                                </div>
+                            ))}
+                        </div>
+                        <div className="hidden-desktop">
+                            {[1, 2, 3, 4].map((idx) => (
+                                <div className={styles.listContainerCategoryMobile}>
+                                    <Skeleton key={idx} variant="text" width="20%" height={30} />
+                                    <Skeleton key={idx} variant="text" width="40%" height={30} />
+                                </div>
+                            ))}
+                        </div>
+
+                    </>
+                )}
+                {slice && (
+                    <>
+                        {slice.map((item) => (
+                            <CategoryItem {...item} />
+                        ))}
+                    </>
+                )}
             </div>
             <div>
                 {data.length > slice.length ? (
