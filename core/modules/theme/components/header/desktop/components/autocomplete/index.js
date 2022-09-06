@@ -7,7 +7,7 @@ import { useTranslation } from '@i18n';
 
 let globalTimeout = null;
 
-const generateItemData = (product, category, seller) => {
+const generateItemData = (product, category, seller, enableMultiseller) => {
     const result = [];
     for (let index = 0; index < product.items.length; index++) {
         const element = product.items[index];
@@ -35,23 +35,25 @@ const generateItemData = (product, category, seller) => {
         };
         result.push(cat);
     }
-    for (let index = 0; index < seller.length; index++) {
-        const element = seller[index];
-        const sell = {
-            additional_info: element.additional_info,
-            city: element.city,
-            address: element.address,
-            description: element.description,
-            id: element.id,
-            latitude: element.latitude,
-            logo: element.logo,
-            longitude: element.longitude,
-            name: element.name,
-            status: element.status,
-            position: index,
-            type: 'seller',
-        };
-        result.push(sell);
+    if (enableMultiseller === '1') {
+        for (let index = 0; index < seller.length; index++) {
+            const element = seller[index];
+            const sell = {
+                additional_info: element.additional_info,
+                city: element.city,
+                address: element.address,
+                description: element.description,
+                id: element.id,
+                latitude: element.latitude,
+                logo: element.logo,
+                longitude: element.longitude,
+                name: element.name,
+                status: element.status,
+                position: index,
+                type: 'seller',
+            };
+            result.push(sell);
+        }
     }
     return result;
 };
@@ -76,9 +78,9 @@ export default function ComboBox(props) {
 
     let itemData = [];
     if ((enableMultiseller === '1') && data && dCategory && dSeller && !open && !loading) {
-        itemData = generateItemData(data.products, dCategory.categoryList, dSeller.getSeller);
+        itemData = generateItemData(data.products, dCategory.categoryList, dSeller.getSeller, enableMultiseller);
     } else if ((enableMultiseller === '0') && data && dCategory && !open && !loading) {
-        itemData = generateItemData(data.products, dCategory.categoryList);
+        itemData = generateItemData(data.products, dCategory.categoryList, enableMultiseller);
     }
 
     React.useEffect(() => {
