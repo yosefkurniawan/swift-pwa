@@ -62,8 +62,12 @@ const MagezonSliderContent = (props) => {
         youtube_id, vimeo_id, local_link,
         image, background_type, slider_height,
     } = props;
+    const storeConfig = JSON.parse(localStorage.getItem('storeConfig'));
+    const enable = storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
+    const url = storeConfig.pwa.thumbor_url;
     const mediaUrl = `${getStoreHost()}media`;
-    const getImgThumbor = generateThumborUrl(`${mediaUrl}/${image}`, 0, 0);
+    const getImgThumbor = generateThumborUrl(`${mediaUrl}/${image}`, 0, 0, enable, useHttpsOrHttp, url);
 
     return (
         <>

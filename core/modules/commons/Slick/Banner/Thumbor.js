@@ -19,8 +19,12 @@ const BannerThumbnail = (props) => {
     if (typeof heightMobile === 'string') heightMobile = parseInt(heightMobile, 0);
 
     const styles = useStyles();
-    const imageUrl = generateThumborUrl(src, width, height);
-    const mobileImageUrl = srcMobile ? generateThumborUrl(srcMobile, widthMobile, heightMobile) : null;
+    const storeConfig = JSON.parse(localStorage.getItem('storeConfig'));
+    const enable = storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
+    const url = storeConfig.pwa.thumbor_url;
+    const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, url);
+    const mobileImageUrl = srcMobile ? generateThumborUrl(srcMobile, widthMobile, heightMobile, enable, useHttpsOrHttp, url) : null;
     const placeholderImage = '/assets/img/placeholder.png';
     const [imgSource, setImgSource] = useState(imageUrl);
     const [mobileImgSource, setMobileImgSource] = useState(mobileImageUrl);

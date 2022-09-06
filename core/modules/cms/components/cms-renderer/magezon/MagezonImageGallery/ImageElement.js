@@ -27,7 +27,11 @@ const ImageElement = (props) => {
                 ? `${baseUrl}${full_image}`
                 : `${baseUrl}${image}`
             : `${baseUrl}${image}`;
-    const getImgUrl = generateThumborUrl(imgUrl, 0, 0);
+    const storeConfig = JSON.parse(localStorage.getItem('storeConfig'));
+    const enable = storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
+    const url = storeConfig.pwa.thumbor_url;
+    const getImgUrl = generateThumborUrl(imgUrl, 0, 0, enable, useHttpsOrHttp, url);
 
     if (type === 'link' || type === 'media') {
         return (
