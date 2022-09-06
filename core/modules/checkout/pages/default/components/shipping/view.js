@@ -101,10 +101,6 @@ const ShippingView = (props) => {
         setExpandedMulti(newExpanded ? panel : false);
     };
 
-    React.useEffect(() => {
-        console.log(checkout);
-    }, [data.shippingMethods, checkout]);
-
     if (checkout.selected.delivery === 'pickup') {
         const price = formatPrice(0, storeConfig.base_currency_code || 'IDR');
         content = <DeliveryItem value={{ price }} label={t('checkout:pickupStore')} selected borderBottom={false} />;
@@ -206,8 +202,6 @@ const ShippingView = (props) => {
                     }
                 }
             }
-            // console.log('shipping groupData', shipping);
-            // console.log('seller group', sellerGroup);
         } else {
             for (let index = 0; index < group.length; index += 1) {
                 const groupData = [];
@@ -314,15 +308,8 @@ const ShippingView = (props) => {
                     });
                 }
             }
-            // const [expandedMulti, setExpandedMulti] = React.useState(null);
-            // const [expandedActiveMulti, setExpandedActiveMulti] = React.useState(true);
-            // const handleChangeMulti = (panel) => (event, newExpanded) => {
-            //     setExpandedActiveMulti(false);
-            //     setExpandedMulti(newExpanded ? panel : false);
-            // };
             if (storeConfig.enable_oms_multiseller === '1') {
                 content = unique.map((seller, keySeller) => {
-                    console.log(selected.shipping);
                     return (
                         <>
                             <Typography letter="uppercase" variant="span" type="bold">
@@ -492,6 +479,9 @@ const ShippingView = (props) => {
                 {t('checkout:shippingMethod')}
             </Typography>
             {!loadingSellerInfo && content}
+            {/* {storeConfig.enable_oms_multiseller === '1' && (
+
+            )} */}
         </div>
     );
 };

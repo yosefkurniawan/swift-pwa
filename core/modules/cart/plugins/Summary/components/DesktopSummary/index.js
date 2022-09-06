@@ -195,8 +195,8 @@ const Summary = (props) => {
                                                 </div>
                                             </div>
                                         ))}
-                                        <List className="col-xs-12">
-                                            <ListItem className={classNames(styles.list, 'listSummary')}>
+                                        <List className={classNames('col-xs-12', styles.removeBottomPadding)}>
+                                            <ListItem className={classNames(styles.list, styles.listSubtotal)}>
                                                 <ListItemText
                                                     className={styles.labelItem}
                                                     primary={(
@@ -293,7 +293,7 @@ const Summary = (props) => {
             ) : null}
             <List>
                 {summary.data.map((dt, index) => (
-                    <ListItem className={classNames(styles.list, 'listSummary')} key={index}>
+                    <ListItem className={classNames(styles.list, styles.listSummary)} key={index}>
                         <ListItemText
                             className={styles.labelItem}
                             primary={(
@@ -309,7 +309,7 @@ const Summary = (props) => {
                         </ListItemSecondaryAction>
                     </ListItem>
                 ))}
-                <ListItem className={classNames(styles.list, 'listSummary')}>
+                <ListItem className={classNames(styles.list, styles.listSummary, styles.listItemGrandtotal)}>
                     <ListItemText
                         className={styles.labelItem}
                         primary={(

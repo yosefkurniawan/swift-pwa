@@ -108,6 +108,7 @@ const Checkout = (props) => {
             })
                 .then(async (result) => { })
                 .catch((e) => {
+                    // eslint-disable-next-line no-console
                     console.log(e);
                 });
         }
@@ -308,7 +309,6 @@ const Checkout = (props) => {
 
     const initData = () => {
         let { cart } = dataCart;
-        // console.log('dataCart', cart);
         const { items } = itemCart.cart;
         const state = { ...checkout };
         cart = { ...cart, items };
@@ -453,25 +453,40 @@ const Checkout = (props) => {
 
                 setAmountSeller(availableMultiShipping.length);
 
+                // eslint-disable-next-line consistent-return
                 availableMultiShipping.map(async ({ seller_id, available_shipping_methods }, index) => {
                     let sellerInfo;
-                    sellerInfo = await apolloClient
-                        .query({ query: Schema.getSeller, variables: { sellerId: parseInt(seller_id, 10) } })
-                        .then(({ data }) => {
-                            return {
-                                seller_id,
-                                seller_name: data.getSeller[0].name,
-                                seller_city: data.getSeller[0].city,
-                                available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
-                                    ...shippingItemMultiseller,
-                                    label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title} `,
-                                    promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
-                                    value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
-                                })),
-                            };
-                        });
-                    state.data.seller.push(sellerInfo);
-                    setCurrentIndexSeller(index);
+                    if (seller_id !== null) {
+                        sellerInfo = await apolloClient
+                            .query({ query: Schema.getSeller, variables: { sellerId: parseInt(seller_id, 10) } })
+                            .then(({ data }) => {
+                                return {
+                                    seller_id,
+                                    seller_name: data.getSeller[0].name,
+                                    seller_city: data.getSeller[0].city,
+                                    available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
+                                        ...shippingItemMultiseller,
+                                        label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title} `,
+                                        promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
+                                        value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
+                                    })),
+                                };
+                            });
+                        state.data.seller.push(sellerInfo);
+                        setCurrentIndexSeller(index);
+                    } else {
+                        return {
+                            seller_id,
+                            seller_name: 'Seller Name',
+                            seller_city: 'Seller City',
+                            available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
+                                ...shippingItemMultiseller,
+                                label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title} `,
+                                promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
+                                value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
+                            })),
+                        };
+                    }
                 });
 
                 state.data.shippingMethods = availableMultiShipping.map(({ seller_id, available_shipping_methods }) => ({
@@ -515,11 +530,11 @@ const Checkout = (props) => {
                         original_price: null,
                     };
                 });
-                console.log(state.selected.shipping);
             }
         } else {
-            if (shipping && shipping.available_shipping_methods) {
-                const availableShipping = shipping.available_shipping_methods.filter(
+            if (shipping && shipping[0].available_shipping_methods) {
+                setLoadingSellerInfo(false);
+                const availableShipping = shipping[0].available_shipping_methods.filter(
                     (x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore'
                 );
 
@@ -531,8 +546,8 @@ const Checkout = (props) => {
                 }));
             }
 
-            if (shipping && shipping.selected_shipping_method) {
-                const shippingMethod = shipping.selected_shipping_method;
+            if (shipping && shipping[0].selected_shipping_method) {
+                const shippingMethod = shipping[0].selected_shipping_method;
                 state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
 
                 if (modules.checkout.pickupStore.enabled) {
@@ -619,7 +634,6 @@ const Checkout = (props) => {
         state.loading.paypal = false;
 
         setCheckout(state);
-        console.log(checkout);
         updateFormik(cart);
     };
 
@@ -753,7 +767,6 @@ const Checkout = (props) => {
                 }
 
                 if (shipping) {
-                    console.log(shipping);
                     // const shippingMethod = shipping.map((ship) => ship.selected_shipping_method);
                     state.selected.shipping = shipping.map((ship) => {
                         if (ship.selected_shipping_method) {
@@ -777,7 +790,7 @@ const Checkout = (props) => {
                     // state.selected.shipping = shipping.map((ship) => (ship && ship.carrier_code ? `${ship.carrier_code}_${ship.method_code}` : null));
                 }
             } else {
-                const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
+                const shipping = cart && cart.shipping_addresses[0] && cart.shipping_addresses[0].length > 0 ? cart.shipping_addresses[0] : null;
                 if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
                     const availableShipping = shipping.available_shipping_methods.filter((x) => x.carrier_code !== 'pickup');
 

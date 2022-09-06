@@ -316,20 +316,29 @@ const Summary = ({
                         // eslint-disable-next-line array-callback-return
                         result.data.placeOrder.map((order, index) => {
                             if (index !== result.data.placeOrder.length - 1) {
-                                orderNumber += `${order.order.order_number}+`;
+                                orderNumber = `${orderNumber}${order.order.order_number}+`;
                             } else {
-                                orderNumber += `${order.order.order_number}`;
+                                orderNumber = `${orderNumber}${order.order.order_number}`;
                             }
                         });
+                    } else {
+                        orderNumber = result.data.placeOrder[0].order.order_number;
                     }
-                    orderNumber = result.data.placeOrder[0].order.order_number;
                 }
                 if (orderNumber && orderNumber !== '') {
-                    setCheckoutData({
-                        email: isGuest ? formik.values.email : cart.email,
-                        order_number: orderNumber,
-                        order_id: result.data.placeOrder[0].order.order_id,
-                    });
+                    if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
+                        setCheckoutData({
+                            email: isGuest ? formik.values.email : cart.email,
+                            order_number: orderNumber,
+                            order_id: orderNumber,
+                        });
+                    } else {
+                        setCheckoutData({
+                            email: isGuest ? formik.values.email : cart.email,
+                            order_number: orderNumber,
+                            order_id: result.data.placeOrder[0].order.order_id,
+                        });
+                    }
                     if (client && client.query && typeof client.query === 'function') {
                         await client.query({ query: localTotalCart, data: { totalCart: 0 } });
                     }
