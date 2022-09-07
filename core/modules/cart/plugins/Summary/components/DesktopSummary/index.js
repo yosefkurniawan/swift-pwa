@@ -1,21 +1,23 @@
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from 'react';
 import Button from '@common_button';
-import Typography from '@common_typography';
 import Thumbor from '@common_image';
+import Typography from '@common_typography';
+import { formatPrice } from '@helper_currency';
+import { getLocalStorage } from '@helper_localstorage';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import { formatPrice } from '@helper_currency';
-import classNames from 'classnames';
 import Skeleton from '@material-ui/lab/Skeleton';
+import classNames from 'classnames';
+import React from 'react';
 
-import useStyles from '@plugin_summary/components/DesktopSummary/style';
 import PaypalButtonView from '@plugin_paypalbutton';
+import useStyles from '@plugin_summary/components/DesktopSummary/style';
 
 const Summary = (props) => {
     const {
@@ -25,6 +27,7 @@ const Summary = (props) => {
         labelItemAlign = 'left', dataCart, storeConfig,
     } = props;
     const styles = useStyles();
+    const storeConfigLocalStorage = getLocalStorage('storeConfig');
     const [openItem, setOpenItem] = React.useState(false);
     const Loader = () => (
         <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
@@ -56,6 +59,51 @@ const Summary = (props) => {
         return <Loader />;
     }
 
+    let cartItemBySeller = {};
+
+    if (items.length > 0) {
+        const unGroupedData = items;
+
+        // eslint-disable-next-line no-shadow
+        const groupData = unGroupedData.reduce((groupData, {
+            id,
+            quantity,
+            pickup_item_store_info,
+            prices,
+            product,
+            ...other
+        }) => {
+            let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+            if (!item) {
+                item = {
+                    seller_id: product.seller.seller_id,
+                    seller_name: product.seller.seller_name,
+                    productList: [],
+                    subtotal: {
+                        currency: '',
+                        value: 0,
+                    },
+                };
+                groupData.push(item);
+            }
+            let child = item.productList.find((ch) => ch.name === product.name);
+            if (!child) {
+                child = {
+                    id,
+                    prices,
+                    product,
+                    quantity,
+                    ...other,
+                };
+                item.productList.push(child);
+                item.subtotal.currency = prices.row_total_including_tax.currency;
+                item.subtotal.value += prices.row_total_including_tax.value;
+            }
+            return groupData;
+        }, []);
+        cartItemBySeller = groupData;
+    }
+
     return (
         <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
             {withLabel && (
@@ -71,7 +119,105 @@ const Summary = (props) => {
                         </div>
                         <div className="col-xs-2">{openItem ? <ExpandLess /> : <ExpandMore />}</div>
                     </div>
-                    {openItem ? (
+                    {storeConfigLocalStorage.enable_oms_multiseller === '1' && openItem ? (
+                        <div className={classNames('row')}>
+                            {
+                                cartItemBySeller.map((seller) => (
+                                    <>
+                                        <div className={classNames('col-xs-12', styles.sellerLabel)}>
+                                            <Typography variant="span" style={{ fontWeight: 'bold' }}>{seller.seller_name}</Typography>
+                                        </div>
+                                        {seller.productList.map((item, index) => (
+                                            <div
+                                                id="listItemProductSummary"
+                                                className={classNames('col-xs-12 row between-xs', styles.list, styles.listProduct)}
+                                                key={index}
+                                            >
+                                                {withAction && (
+                                                    <div
+                                                        className="delete"
+                                                        onClick={() => {
+                                                            deleteCart(item.id);
+                                                        }}
+                                                    >
+                                                        x
+                                                    </div>
+                                                )}
+                                                <div className="col-xs-4">
+                                                    <Thumbor
+                                                        className="product-image-photo"
+                                                        src={item.product.small_image.url}
+                                                        alt={item.product.name}
+                                                        width={61}
+                                                        height={75}
+                                                    />
+                                                </div>
+                                                <div className={classNames('col-xs-8', styles.bodyProductItem)}>
+                                                    <Typography variant="span">{item.product.name}</Typography>
+                                                    {item.configurable_options && item.configurable_options.length ? (
+                                                        <div className="product-options">
+                                                            {item.configurable_options.map((val, idx) => (
+                                                                <div className="option-wrapper" key={idx}>
+                                                                    <strong>{val.option_label}</strong>
+                                                                    {' '}
+                                                                    :
+                                                                    {val.value_label}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    ) : null}
+                                                    <div className="flex-grow" />
+                                                    {withAction && (
+                                                        <div>
+                                                            <span
+                                                                className="item-minus qty-update"
+                                                                onClick={() => {
+                                                                    if (item.quantity > 1) {
+                                                                        updateCart(item.id, item.quantity - 1);
+                                                                    }
+                                                                }}
+                                                            />
+                                                            <span className="item-count">{item.quantity}</span>
+
+                                                            <span
+                                                                className="item-plus qty-update"
+                                                                onClick={() => {
+                                                                    updateCart(item.id, item.quantity + 1);
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    )}
+                                                    <Typography variant="span" size="14" letter="uppercase">
+                                                        {item.prices.row_total.value === 0
+                                                            ? t('common:title:free')
+                                                            : formatPrice(item.prices.row_total.value, item.prices.row_total.currency || 'IDR')}
+                                                    </Typography>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        <List className={classNames('col-xs-12', styles.removeBottomPadding)}>
+                                            <ListItem className={classNames(styles.list, styles.listSubtotal)}>
+                                                <ListItemText
+                                                    className={styles.labelItem}
+                                                    primary={(
+                                                        <Typography variant="p" letter="capitalize" size="12" align={labelItemAlign}>
+                                                            Subtotal
+                                                        </Typography>
+                                                    )}
+                                                />
+                                                <ListItemSecondaryAction>
+                                                    <Typography variant="span" type="regular">
+                                                        {`${formatPrice(seller.subtotal.value, seller.subtotal.currency)}`}
+                                                    </Typography>
+                                                </ListItemSecondaryAction>
+                                            </ListItem>
+                                        </List>
+                                    </>
+                                ))
+                            }
+                        </div>
+                    ) : null}
+                    {storeConfigLocalStorage.enable_oms_multiseller !== '1' && openItem ? (
                         <div className={classNames('row')}>
                             {items.map((item, index) => (
                                 <div
@@ -147,7 +293,7 @@ const Summary = (props) => {
             ) : null}
             <List>
                 {summary.data.map((dt, index) => (
-                    <ListItem className={classNames(styles.list, 'listSummary')} key={index}>
+                    <ListItem className={classNames(styles.list, styles.listSummary)} key={index}>
                         <ListItemText
                             className={styles.labelItem}
                             primary={(
@@ -163,12 +309,12 @@ const Summary = (props) => {
                         </ListItemSecondaryAction>
                     </ListItem>
                 ))}
-                <ListItem className={classNames(styles.list, 'listSummary')}>
+                <ListItem className={classNames(styles.list, styles.listSummary, styles.listItemGrandtotal)}>
                     <ListItemText
                         className={styles.labelItem}
                         primary={(
                             <Typography variant="title" type="bold" align={labelItemAlign}>
-                                Total
+                                Grand Total
                             </Typography>
                         )}
                     />

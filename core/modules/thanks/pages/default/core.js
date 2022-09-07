@@ -1,11 +1,12 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
-import Layout from '@layout';
-import TagManager from 'react-gtm-module';
-import { removeCheckoutData, getCheckoutData } from '@helper_cookies';
-import Router from 'next/router';
 import { debuging } from '@config';
 import { getOrder, getPaymentBankList, getPaymentInformation } from '@core_modules/thanks/services/graphql';
+import { getCheckoutData, removeCheckoutData } from '@helper_cookies';
+import Layout from '@layout';
+import Router from 'next/router';
+import * as React from 'react';
+import TagManager from 'react-gtm-module';
 
 const PageStoreCredit = (props) => {
     const {
@@ -18,6 +19,7 @@ const PageStoreCredit = (props) => {
         pageType: 'purchase',
         ...pageConfig,
     };
+
     const { data, loading, error } = getOrder(typeof checkoutData === 'string' ? JSON.parse(checkoutData) : checkoutData);
     const [getBankList, { data: bankList, error: errorBankList }] = getPaymentBankList();
     const { data: paymentInformation, loading: paymentLoading, error: paymentError } = getPaymentInformation(
@@ -37,7 +39,7 @@ const PageStoreCredit = (props) => {
     React.useEffect(() => {
         if (data && data.ordersFilter && data.ordersFilter.data.length > 0) {
             let itemsProduct = [];
-            const itemsChild = data.ordersFilter.data[0].detail[0].items.filter((item) => {
+            const itemsChild = data.ordersFilter.data[0].detail[1].items.filter((item) => {
                 if (item.parent_item_id !== null) return item;
             });
             const simpleData = data.ordersFilter.data[0].detail[0].items.filter((item) => !itemsChild.find(({ sku }) => item.sku === sku) && item);

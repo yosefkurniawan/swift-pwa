@@ -4,6 +4,7 @@ import { modules } from '@config';
 import { removeCartId, setCartId } from '@helper_cartid';
 import { getHost, getStoreHost } from '@helper_config';
 import { setCheckoutData } from '@helper_cookies';
+import { getLocalStorage } from '@helper_localstorage';
 import { localTotalCart } from '@services/graphql/schema/local';
 import React, { useEffect, useState } from 'react';
 
@@ -51,6 +52,7 @@ const Summary = ({
     const [placeOrderWithOrderComment] = gqlService.placeOrderWithOrderComment({ onError: () => {} });
     const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
+    const storeConfigLocalStorage = getLocalStorage('storeConfig');
     // indodana
     const [getIndodanaRedirect, urlIndodana] = gqlService.getIndodanaUrl();
     // xendit
@@ -309,15 +311,34 @@ const Summary = ({
                 if (!validateResponse(result, state)) return;
 
                 let orderNumber = '';
-                if (result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
-                    orderNumber = result.data.placeOrder.order.order_number;
+                if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
+                    if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
+                        // eslint-disable-next-line array-callback-return
+                        result.data.placeOrder.map((order, index) => {
+                            if (index !== result.data.placeOrder.length - 1) {
+                                orderNumber = `${orderNumber}${order.order.order_number}+`;
+                            } else {
+                                orderNumber = `${orderNumber}${order.order.order_number}`;
+                            }
+                        });
+                    } else {
+                        orderNumber = result.data.placeOrder[0].order.order_number;
+                    }
                 }
                 if (orderNumber && orderNumber !== '') {
-                    setCheckoutData({
-                        email: isGuest ? formik.values.email : cart.email,
-                        order_number: orderNumber,
-                        order_id: result.data.placeOrder.order.order_id,
-                    });
+                    if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
+                        setCheckoutData({
+                            email: isGuest ? formik.values.email : cart.email,
+                            order_number: orderNumber,
+                            order_id: orderNumber,
+                        });
+                    } else {
+                        setCheckoutData({
+                            email: isGuest ? formik.values.email : cart.email,
+                            order_number: orderNumber,
+                            order_id: result.data.placeOrder[0].order.order_id,
+                        });
+                    }
                     if (client && client.query && typeof client.query === 'function') {
                         await client.query({ query: localTotalCart, data: { totalCart: 0 } });
                     }

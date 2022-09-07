@@ -553,7 +553,7 @@ export const getCheckoutConfigurations = gql`
 `;
 
 export const getSeller = gql`
-    query getSeller($sellerId: Int!) {
+    query getSeller($sellerId: [Int!]) {
         getSeller(input: { seller_id: $sellerId }) {
             id
             name
@@ -790,18 +790,12 @@ export const setShippingMethod = gql`
 export const setShippingMethodMultiseller = gql`
     mutation setShippingMethod(
         $cartId: String!,
-        $carrierCode: String!,
-        $methodCode: String!,
-        $sellerId: String!
+        $shippingMethodInput: [ShippingMethodInput]!
     ) {
         setShippingMethodsOnCart(
             input: {
                 cart_id: $cartId,
-                shipping_methods: {
-                    carrier_code: $carrierCode,
-                    method_code: $methodCode,
-                    seller_id: $sellerId
-                }
+                shipping_methods: $shippingMethodInput
         }) {
             cart {
                 id

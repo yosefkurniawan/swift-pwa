@@ -1,11 +1,11 @@
-import React from 'react';
-import View from '@core_modules/paypal/pages/review/components/PlaceOrder/view';
+import { useApolloClient } from '@apollo/client';
 import { modules } from '@config';
 import gqlService from '@core_modules/checkout/services/graphql';
-import { setCheckoutData } from '@helper_cookies';
-import { useApolloClient } from '@apollo/client';
+import View from '@core_modules/paypal/pages/review/components/PlaceOrder/view';
 import { removeCartId } from '@helper_cartid';
+import { setCheckoutData } from '@helper_cookies';
 import { localTotalCart } from '@services/graphql/schema/local';
+import React from 'react';
 
 const PlaceOrder = (props) => {
     const {
@@ -56,8 +56,8 @@ const PlaceOrder = (props) => {
         setCheckout(state);
 
         let orderNumber = '';
-        if (result && result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
-            orderNumber = result.data.placeOrder.order.order_number;
+        if (result && result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
+            orderNumber = result.data.placeOrder[0].order.order_number;
         }
         if (orderNumber && orderNumber !== '') {
             let { email } = cart;
