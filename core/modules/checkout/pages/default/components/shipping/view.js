@@ -479,9 +479,6 @@ const ShippingView = (props) => {
                 {t('checkout:shippingMethod')}
             </Typography>
             {!loadingSellerInfo && content}
-            {/* {storeConfig.enable_oms_multiseller === '1' && (
-
-            )} */}
         </div>
     );
 };

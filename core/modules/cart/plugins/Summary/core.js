@@ -71,10 +71,6 @@ const CoreSummary = (props) => {
             });
             const price = formatPrice(totalShipping, storeConfig.base_currency_code);
             dataSummary.push({ item: 'shipping', value: price });
-            // total = {
-            //     value: prices.subtotal_including_tax.value + parseInt(totalShipping, 10),
-            //     currency: prices.subtotal_including_tax.currency,
-            // };
         } else {
             if (shipping && shipping.selected_shipping_method) {
                 const shippingMethod = shipping.selected_shipping_method;
@@ -82,11 +78,6 @@ const CoreSummary = (props) => {
                 dataSummary.push({ item: 'shipping', value: price });
             }
         }
-        // if (shipping && shipping.selected_shipping_method) {
-        //     const shippingMethod = shipping.selected_shipping_method;
-        //     const price = formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency);
-        //     dataSummary.push({ item: 'shipping', value: price });
-        // }
         if (prices && prices.discounts && prices.discounts.length) {
             const discounts = prices.discounts.map((disc) => {
                 const price = formatPrice(disc.amount.value, disc.amount.currency);
