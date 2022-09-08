@@ -24,18 +24,20 @@ const ShippingView = (props) => {
                 {t('checkout:deliveryMethod:label')}
             </Typography>
             <div className="row">
-                <div className="col-xs-6">
-                    <div className={checkStyles('home')} onClick={() => handleSelect('home')}>
-                        <div className="column">
-                            <Typography variant="span" type="bold">
-                                {t('checkout:deliveryMethod:homeDelivery')}
-                            </Typography>
-                            <Typography className="hidden-mobile">
-                                {t('checkout:deliveryMethod:homeDeliveryDesc')}
-                            </Typography>
+                {storeConfigLocalStorage.enable_oms_multiseller !== '1' && (
+                    <div className="col-xs-6">
+                        <div className={checkStyles('home')} onClick={() => handleSelect('home')}>
+                            <div className="column">
+                                <Typography variant="span" type="bold">
+                                    {t('checkout:deliveryMethod:homeDelivery')}
+                                </Typography>
+                                <Typography className="hidden-mobile">
+                                    {t('checkout:deliveryMethod:homeDeliveryDesc')}
+                                </Typography>
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
                 {modules.checkout.pickupStore.enabled && storeConfigLocalStorage.enable_oms_multiseller !== '1' && (
                     <div className="col-xs-6">
                         <div className={checkStyles('pickup')} onClick={() => handleSelect('pickup')}>
