@@ -133,16 +133,6 @@ const Summary = (props) => {
                                                 className={classNames('col-xs-12 row between-xs', styles.list, styles.listProduct)}
                                                 key={index}
                                             >
-                                                {withAction && (
-                                                    <div
-                                                        className="delete"
-                                                        onClick={() => {
-                                                            deleteCart(item.id);
-                                                        }}
-                                                    >
-                                                        x
-                                                    </div>
-                                                )}
                                                 <div className="col-xs-4">
                                                     <Thumbor
                                                         className="product-image-photo"
@@ -167,26 +157,12 @@ const Summary = (props) => {
                                                         </div>
                                                     ) : null}
                                                     <div className="flex-grow" />
-                                                    {withAction && (
-                                                        <div>
-                                                            <span
-                                                                className="item-minus qty-update"
-                                                                onClick={() => {
-                                                                    if (item.quantity > 1) {
-                                                                        updateCart(item.id, item.quantity - 1);
-                                                                    }
-                                                                }}
-                                                            />
-                                                            <span className="item-count">{item.quantity}</span>
-
-                                                            <span
-                                                                className="item-plus qty-update"
-                                                                onClick={() => {
-                                                                    updateCart(item.id, item.quantity + 1);
-                                                                }}
-                                                            />
-                                                        </div>
-                                                    )}
+                                                    <div>
+                                                        <span className="item-count" style={{ padding: '0' }}>
+                                                            Qty:
+                                                            {` ${item.quantity}`}
+                                                        </span>
+                                                    </div>
                                                     <Typography variant="span" size="14" letter="uppercase">
                                                         {item.prices.row_total.value === 0
                                                             ? t('common:title:free')
