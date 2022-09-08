@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Typography from '@common_typography';
-import classNames from 'classnames';
+import { modules } from '@config';
 import useStyles from '@core_modules/checkout/pages/default/components/delivery/style';
 import useStylesRoot from '@core_modules/checkout/pages/default/components/style';
-import { modules } from '@config';
+import { getLocalStorage } from '@helper_localstorage';
+import classNames from 'classnames';
 
 const ShippingView = (props) => {
     const {
@@ -15,6 +16,7 @@ const ShippingView = (props) => {
     const checkStyles = (delivery) => ((checkout.selected.delivery === delivery)
         ? classNames(classes.item, classes.active, `${delivery}Delivery`)
         : classNames(classes.item, `${delivery}Delivery`));
+    const storeConfigLocalStorage = getLocalStorage('storeConfig');
 
     return (
         <div id="checkoutDeliveryMethod" className={styles.block}>
@@ -34,7 +36,7 @@ const ShippingView = (props) => {
                         </div>
                     </div>
                 </div>
-                {modules.checkout.pickupStore.enabled && (
+                {modules.checkout.pickupStore.enabled && storeConfigLocalStorage.enable_oms_multiseller !== '1' && (
                     <div className="col-xs-6">
                         <div className={checkStyles('pickup')} onClick={() => handleSelect('pickup')}>
                             <div className="column">
@@ -48,7 +50,7 @@ const ShippingView = (props) => {
                         </div>
                     </div>
                 )}
-                {modules.checkout.inStorePickup.enabled && (
+                {modules.checkout.inStorePickup.enabled && storeConfigLocalStorage.enable_oms_multiseller !== '1' && (
                     <div className="col-xs-6">
                         <div className={checkStyles('instore')} onClick={() => handleSelect('instore')}>
                             <div className="column">
