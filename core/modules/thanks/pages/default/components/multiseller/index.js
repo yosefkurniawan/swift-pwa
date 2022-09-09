@@ -2,18 +2,13 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 import { useApolloClient } from '@apollo/client';
-import { debuging } from '@config';
-import ErrorInfo from '@core_modules/thanks/pages/default/components/ErrorInfo';
-import Skeleton from '@core_modules/thanks/pages/default/components/Loader';
-import ContentMultiseller from '@core_modules/thanks/pages/default/components/multiseller/components';
-import { getOrder, getPaymentBankList, getPaymentInformation } from '@core_modules/thanks/services/graphql';
 import * as Schema from '@core_modules/thanks/services/graphql/schema';
-import { getCheckoutData, removeCheckoutData } from '@helper_cookies';
-import Layout from '@layout';
-import Router from 'next/router';
 import propTypes from 'prop-types';
 import * as React from 'react';
-import TagManager from 'react-gtm-module';
+import ErrorInfo from '@core_modules/thanks/pages/default/components/ErrorInfo';
+import Layout from '@layout';
+import Content from '@core_modules/thanks/pages/default/components/multiseller/view';
+import Loader from '@core_modules/thanks/pages/default/components/multiseller/Loader';
 
 const CoreMultiseller = (props) => {
     const {
@@ -28,85 +23,94 @@ const CoreMultiseller = (props) => {
         ...pageConfig,
     };
 
-    const checkoutDataCollection = [];
-    console.log(checkoutData);
-    const parsedCheckoutData = checkoutData;
-    const orderNumberCollection = parsedCheckoutData.order_number.split('+');
-    const [customerOrder, setCustomerOrder] = React.useState(null);
-    const [customerOrderCollection, setCustomerOrderCollection] = React.useState([]);
-    const [loadingStateThankyou, setLoadingStateThankyou] = React.useState(true);
+    const [customerOrder, setCustomerOrder] = React.useState([]);
+    const [loader, setLoader] = React.useState(true);
 
-    orderNumberCollection.forEach((order) => {
-        checkoutDataCollection.push({
-            email: parsedCheckoutData.email,
-            order_id: order,
-            order_number: order,
-        });
+    const getCustomerOrder = (order_number) => new Promise((resolve, reject) => {
+        try {
+            apolloClient
+                .query({
+                    query: Schema.getCustomerOrder,
+                    variables: { order_number },
+                    context: {
+                        request: 'internal',
+                    },
+                    errorPolicy: 'all',
+                })
+                .then(({ data }) => {
+                    const orderDataInfo = {
+                        order_number,
+                        seller_id: data.customer.orders.items[0].detail[1].items[0].seller_id,
+                        seller_name: data.customer.orders.items[0].detail[1].items[0].seller_name,
+                    };
+                    resolve(orderDataInfo);
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+        } catch (e) {
+            reject(e);
+        }
     });
 
-    console.log(checkoutDataCollection);
-
     React.useEffect(() => {
-        const getCustomerOrder = (order_number) => {
-            return new Promise((resolve, reject) => {
-                try {
-                    apolloClient
-                        .query({
-                            query: Schema.getCustomerOrder,
-                            variables: { order_number },
-                            context: {
-                                request: 'internal',
-                            },
-                        })
-                        .then(({ data }) => {
-                            const orderDataInfo = {
-                                order_number,
-                                seller_id: data.customer.orders.items[0].detail[1].items[0].seller_id,
-                                seller_name: data.customer.orders.items[0].detail[1].items[0].seller_name,
-                            };
-                            resolve(orderDataInfo);
-                        })
-                        .catch((e) => {
-                            reject(e);
-                        });
-                } catch (e) {
-                    reject(e);
-                }
-            });
-        };
+        const parsedCheckoutData = checkoutData;
+        const orderNumberCollection = parsedCheckoutData.order_number.split('+');
 
-        if (checkoutDataCollection.length === orderNumberCollection.length) {
-            if (customerOrder === null) {
-                const tempArray = [];
-                checkoutDataCollection.forEach(async (order) => {
-                    const orderData = await getCustomerOrder(order.order_number);
-                    if (orderData && orderData.order_number) {
-                        tempArray.push(orderData);
-                        console.log(orderData.order_number);
-                        // setCustomerOrder((prev) => ({ ...prev, ...orderData }));
-                    }
-                });
-                setCustomerOrder(tempArray);
+        if (orderNumberCollection && orderNumberCollection.length > 0 && typeof window !== 'undefined') {
+            let count = 1;
+            const getData = [];
+            for (let key = 0; key < orderNumberCollection.length; key += 1) {
+                const order = orderNumberCollection[key];
+                getData.push(getCustomerOrder(order));
+                count += 1;
             }
+            Promise.all(getData).then((res) => {
+                setCustomerOrder(res);
+            });
+            if (count === orderNumberCollection.length) {
+                setTimeout(() => {
+                    setLoader(false);
+                }, 2000);
+            }
+        } else {
+            setLoader(false);
         }
-    }, [customerOrder]);
+    }, [checkoutData]);
 
-    console.log(customerOrder);
+    if (!loader && (!customerOrder || customerOrder.length === 0)) {
+        return (
+            <Layout t={t} {...other} pageConfig={config} storeConfig={storeConfig}>
+                <ErrorInfo variant="warning" text={t('common:error:notFound')} />
+            </Layout>
+        );
+    }
+
+    if (customerOrder && customerOrder.length > 0) {
+        return (
+            <Layout t={t} {...other} pageConfig={config} storeConfig={storeConfig} showRecentlyBar={false}>
+                <Content
+                    {...other}
+                    t={t}
+                    checkoutData={checkoutData}
+                    storeConfig={storeConfig}
+                    customerOrder={customerOrder}
+                />
+            </Layout>
+        );
+    }
 
     return (
-        // <ErrorInfo variant="warning" text={t('common:error:notFound')} />
-        <>
-            {customerOrder && customerOrder.length > 0 && (
-                <p>Halo</p>
-            )}
-        </>
+        <Layout t={t} {...other} pageConfig={config} storeConfig={storeConfig}>
+            <Loader />
+        </Layout>
     );
 };
 
 CoreMultiseller.propTypes = {
-    pageConfig: propTypes.array.isRequired,
-    storeConfig: propTypes.array.isRequired,
+    storeConfig: propTypes.object.isRequired,
     checkoutData: propTypes.object.isRequired,
+    t: propTypes.func.isRequired,
 };
 
 export default CoreMultiseller;
