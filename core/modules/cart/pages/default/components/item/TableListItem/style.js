@@ -1,6 +1,6 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { FlexColumn, FlexRow, Centering } from '@theme_mixins';
 import { GREEN, WHITE } from '@theme_color';
+import { Centering, FlexColumn, FlexRow } from '@theme_mixins';
 
 export default makeStyles((theme) => ({
     rowCenter: {
@@ -38,6 +38,13 @@ export default makeStyles((theme) => ({
     table: {
         borderTop: '1px solid rgba(224, 224, 224, 1)',
         width: '100%',
+    },
+    tableSellerHead: {
+        borderBottom: 'none',
+    },
+    tableSellerCell: {
+        borderBottom: 'none',
+        backgroundColor: '#F8F8F8',
     },
     tableRowHead: {
         [theme.breakpoints.down('xs')]: {
@@ -114,10 +121,33 @@ export default makeStyles((theme) => ({
         paddingTop: 30,
     },
     noBorder: {
-        borderBottom: 'none',
+        borderBottom: 'none !important',
     },
     iconBtn: {
         width: 30,
         height: 30,
+    },
+    itemNoteLink: {
+        cursor: 'pointer',
+        textDecoration: 'underline',
+    },
+    itemNoteLinkHidden: {
+        display: 'none',
+    },
+    itemNote: {
+        display: 'block',
+    },
+    itemNoteTextarea: {
+        display: 'block',
+        resize: 'vertical',
+        width: '250px',
+        height: '100px',
+    },
+    itemNoteHidden: {
+        display: 'none',
+    },
+    noteItem: {
+        borderBottom: 'none !important',
+        paddingLeft: '0 !important',
     },
 }));
