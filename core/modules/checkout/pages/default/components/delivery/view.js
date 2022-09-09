@@ -4,7 +4,6 @@ import Typography from '@common_typography';
 import { modules } from '@config';
 import useStyles from '@core_modules/checkout/pages/default/components/delivery/style';
 import useStylesRoot from '@core_modules/checkout/pages/default/components/style';
-import { getLocalStorage } from '@helper_localstorage';
 import classNames from 'classnames';
 
 const ShippingView = (props) => {
@@ -16,7 +15,6 @@ const ShippingView = (props) => {
     const checkStyles = (delivery) => ((checkout.selected.delivery === delivery)
         ? classNames(classes.item, classes.active, `${delivery}Delivery`)
         : classNames(classes.item, `${delivery}Delivery`));
-    const storeConfigLocalStorage = getLocalStorage('storeConfig');
 
     return (
         <div id="checkoutDeliveryMethod" className={styles.block}>
@@ -24,21 +22,19 @@ const ShippingView = (props) => {
                 {t('checkout:deliveryMethod:label')}
             </Typography>
             <div className="row">
-                {storeConfigLocalStorage.enable_oms_multiseller !== '1' && (
-                    <div className="col-xs-6">
-                        <div className={checkStyles('home')} onClick={() => handleSelect('home')}>
-                            <div className="column">
-                                <Typography variant="span" type="bold">
-                                    {t('checkout:deliveryMethod:homeDelivery')}
-                                </Typography>
-                                <Typography className="hidden-mobile">
-                                    {t('checkout:deliveryMethod:homeDeliveryDesc')}
-                                </Typography>
-                            </div>
+                <div className="col-xs-6">
+                    <div className={checkStyles('home')} onClick={() => handleSelect('home')}>
+                        <div className="column">
+                            <Typography variant="span" type="bold">
+                                {t('checkout:deliveryMethod:homeDelivery')}
+                            </Typography>
+                            <Typography className="hidden-mobile">
+                                {t('checkout:deliveryMethod:homeDeliveryDesc')}
+                            </Typography>
                         </div>
                     </div>
-                )}
-                {modules.checkout.pickupStore.enabled && storeConfigLocalStorage.enable_oms_multiseller !== '1' && (
+                </div>
+                {modules.checkout.pickupStore.enabled && (
                     <div className="col-xs-6">
                         <div className={checkStyles('pickup')} onClick={() => handleSelect('pickup')}>
                             <div className="column">
@@ -52,7 +48,7 @@ const ShippingView = (props) => {
                         </div>
                     </div>
                 )}
-                {modules.checkout.inStorePickup.enabled && storeConfigLocalStorage.enable_oms_multiseller !== '1' && (
+                {modules.checkout.inStorePickup.enabled && (
                     <div className="col-xs-6">
                         <div className={checkStyles('instore')} onClick={() => handleSelect('instore')}>
                             <div className="column">
