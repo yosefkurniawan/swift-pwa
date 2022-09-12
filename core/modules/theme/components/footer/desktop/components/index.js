@@ -461,7 +461,7 @@ const FooterView = (props) => {
                     }
 
                     .w ul li a, .w ul li a:visited, .w ul li a:hover {
-                        color: #ccc;
+                        color: #ccc!important;
                     }
 
                     .footer-v3 .newsletter-subscribe .newsletter-container {
@@ -642,7 +642,7 @@ const FooterView = (props) => {
                     }
 
                     .footer-v5 .white-lnk {
-                        color: #ccc;
+                        color: #ccc!important;
                     }
 
                     .footer-v5 a:hover {
@@ -652,8 +652,8 @@ const FooterView = (props) => {
                     }
 
                     .footer-v5 .underline {
-                        text-decoration: underline;
-                        color: #cccccc;
+                        text-decoration: underline!important;
+                        color: #cccccc!important;
                     }
 
                     .footer-v5 .underline:hover {
@@ -668,6 +668,7 @@ const FooterView = (props) => {
                     .footer-v5 .horizontal-list {
                         display: flex;
                         padding: 0px;
+                        flex-direction: row;
                     }
 
                     .footer-v5 .horizontal-list .first-store {
