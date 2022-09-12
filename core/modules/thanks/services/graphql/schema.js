@@ -86,8 +86,46 @@ export const getPaymentBankList = gql`
     }
 `;
 
+export const getSeller = gql`
+    query getSeller($sellerId: [Int!]) {
+        getSeller(input: { seller_id: $sellerId }) {
+            id
+            name
+            city
+        }
+    }
+`;
+
+export const getCustomerOrder = gql`
+    query getCustomerOrder($order_number: String!) {
+        customer {
+            orders(filters: {
+                ids: {
+                    eq: $order_number
+                }
+            }) {
+                items {
+                    id
+                    detail {
+                        items {
+                            item_id
+                            sku
+                            name
+                            price
+                            note
+                            seller_id
+                            seller_name
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
 export default {
     getOrder,
     getPaymentBankList,
     getPaymentInformation,
+    getSeller,
 };
