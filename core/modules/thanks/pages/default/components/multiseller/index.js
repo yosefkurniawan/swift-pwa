@@ -2,19 +2,23 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 import { useApolloClient } from '@apollo/client';
+import ErrorInfo from '@core_modules/thanks/pages/default/components/ErrorInfo';
+import Loader from '@core_modules/thanks/pages/default/components/Loader';
+import Content from '@core_modules/thanks/pages/default/components/multiseller/view';
 import * as Schema from '@core_modules/thanks/services/graphql/schema';
+import { getCheckoutData, removeCheckoutData } from '@helper_cookies';
+import Layout from '@layout';
+import Router from 'next/router';
 import propTypes from 'prop-types';
 import * as React from 'react';
-import ErrorInfo from '@core_modules/thanks/pages/default/components/ErrorInfo';
-import Layout from '@layout';
-import Content from '@core_modules/thanks/pages/default/components/multiseller/view';
-import Loader from '@core_modules/thanks/pages/default/components/multiseller/Loader';
 
 const CoreMultiseller = (props) => {
     const {
         t, pageConfig, checkoutData, storeConfig, ...other
     } = props;
+
     const apolloClient = useApolloClient();
+
     const config = {
         title: t('thanks:title'),
         headerTitle: t('thanks:title'),
@@ -86,6 +90,16 @@ const CoreMultiseller = (props) => {
         );
     }
 
+    const deleteCheckoutData = () => {
+        const cdt = getCheckoutData();
+        if (cdt) removeCheckoutData();
+    };
+
+    const handleContinue = () => {
+        deleteCheckoutData();
+        Router.push('/');
+    };
+
     if (customerOrder && customerOrder.length > 0) {
         return (
             <Layout t={t} {...other} pageConfig={config} storeConfig={storeConfig} showRecentlyBar={false}>
@@ -95,6 +109,7 @@ const CoreMultiseller = (props) => {
                     checkoutData={checkoutData}
                     storeConfig={storeConfig}
                     customerOrder={customerOrder}
+                    handleContinue={handleContinue}
                 />
             </Layout>
         );

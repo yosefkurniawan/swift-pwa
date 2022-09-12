@@ -5,6 +5,33 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Button from '@common_button';
 import Typography from '@common_typography';
+
+import useStyles from '@core_modules/thanks/pages/default/components/style';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import IconArrow from '@material-ui/icons/ArrowForwardIos';
+import { GRAY_PRIMARY } from '@theme_color';
+import classNames from 'classnames';
+import Link from 'next/link';
+import propTypes from 'prop-types';
+
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+        backgroundColor: GRAY_PRIMARY,
+        color: theme.palette.common.black,
+    },
+    body: {
+        fontSize: 14,
+    },
+}))(TableCell);
+
+=======
 import IconArrow from '@material-ui/icons/ArrowForwardIos';
 import classNames from 'classnames';
 import useStyles from '@core_modules/thanks/pages/default/components/style';
@@ -15,11 +42,10 @@ const ViewThanksMultiSeller = (props) => {
     const {
         t,
         isLogin,
-        handleCotinue,
-        ordersFilter,
-        handleConfirmPayment,
+        handleContinue,
         customerOrder,
     } = props;
+    
     const styles = useStyles();
 
     return (
@@ -32,53 +58,48 @@ const ViewThanksMultiSeller = (props) => {
                     {t('thanks:placeInfo')}
                 </Typography>
             </div>
-            {
-                customerOrder && customerOrder.length > 0 && customerOrder.map((item, key) => (
-                    <div className={styles.info} key={key}>
-                        <Typography variant="span" className={styles.infoOrderId} letter="none">
-                            {`${t('thanks:yourOrderId')} : `}
-                            {isLogin && isLogin === 1 ? (
-                                <Link href={`/customer/account/create?order_id=${item?.order_number}`} pashref>
-                                    <a>
-                                        <b>{item?.order_number}</b>
-                                    </a>
-                                </Link>
-                            ) : (
-                                <b>{item?.order_number}</b>
-                            )}
-                        </Typography>
-                        <Typography variant="span" className="clear-margin-padding" letter="none">
-                            {`${t('thanks:seller')} : `}
-                            {item?.seller_name}
-                        </Typography>
-                    </div>
-                ))
-            }
-            <div className={classNames(styles.footer, 'hidden-desktop')}>
-                {ordersFilter && ordersFilter.data[0].detail[0].payment.method === 'banktransfer' ? (
-                    <>
-                        <Button onClick={handleConfirmPayment} className={[styles.btnConfirm, styles.btnConfirmFirst].join(' ')}>
-                            <Typography variant="p" letter="uppercase" color="white" type="bold" align="center">
-                                {t('thanks:paymentConfirmation')}
-                            </Typography>
-                        </Button>
-                        <Button
-                            onClick={handleCotinue}
-                            className={styles.btnConfirm}
-                            variant="text"
-                            endIcon={<IconArrow className={styles.btnConfirmIcon} />}
-                        >
-                            {t('thanks:continue')}
-                        </Button>
-                    </>
-                ) : (
-                    <Button onClick={handleCotinue} className={styles.btnConfirm} endIcon={<IconArrow className={styles.btnConfirmIcon} />}>
-                        <Typography size="10" type="bold" color="white" letter="uppercase" className={styles.txtConfirm}>
-                            {t('thanks:continue')}
-                        </Typography>
-                    </Button>
-                )}
-            </div>
+            <TableContainer component={Paper} className={styles.table}>
+                <Table aria-label="customized table">
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell>{`${t('thanks:seller')}`}</StyledTableCell>
+                            <StyledTableCell align="right">Order ID</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            customerOrder && customerOrder.length > 0 && customerOrder.map((item, key) => (
+                                <TableRow key={key}>
+                                    <StyledTableCell component="th" scope="row">
+                                        {item.seller_name}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="right">
+                                        {isLogin && isLogin === 1 ? (
+                                            <Link href={`/sales/order/view/order_id/${item?.order_number}`} passhref>
+                                                <a>
+                                                    <b>{`#${item?.order_number}`}</b>
+                                                </a>
+                                            </Link>
+                                        ) : (
+                                            <b>{`#${item?.order_number}`}</b>
+                                        )}
+                                    </StyledTableCell>
+                                </TableRow>
+                            ))
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Link href="/sales/order/history" passHref>
+                <Typography size="10" type="bold" color="primary" letter="uppercase" className={styles.txtConfirmMultiseller}>
+                    {t('thanks:orderInfo')}
+                </Typography>
+            </Link>
+            <Button onClick={handleContinue} className={styles.btnConfirmMultiseller} endIcon={<IconArrow className={styles.btnConfirmIcon} />}>
+                <Typography size="10" type="bold" color="white" letter="uppercase" className={styles.txtConfirm}>
+                    {t('thanks:continue')}
+                </Typography>
+            </Button>
         </div>
     );
 };

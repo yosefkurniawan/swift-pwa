@@ -21,5 +21,6 @@
     "paynow": "Bayar Sekarang",    
     "duedate": "Batas Waktu",    
     "onboarding": "Silahkan melakukan pembayaran untuk menyelesaikan transaksi",
-    "seller": "Penjual"
+    "seller": "Penjual",
+    "orderInfo": "Check informasi pesanan anda"
 }
