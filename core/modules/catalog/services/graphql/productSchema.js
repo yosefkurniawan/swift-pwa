@@ -2,18 +2,15 @@
 
 import { gql } from '@apollo/client';
 import { modules } from '@config';
-import { useRouter } from '@root/node_modules/next/router';
 
 /**
  * generate dynamic filter query
- * @param catId number
  * @param filter array of filter value
+ * @param router Object router from nextjs (useRouter hook)
  * @returns string query to generate on grapql tag
  */
 
-const filterProduct = (filter) => {
-    const router = useRouter();
-
+const filterProduct = (filter, router) => {
     let queryFilter = '{ ';
     if (router.asPath.includes('color')) {
         const routerPaths = router.asPath.split('?');
@@ -66,17 +63,17 @@ export const getProductAgragations = () => gql`
 
 /**
  * scema dynamic product
- * @param catId number
+ * @param config Object (Variable, etc)
  * @param config Object {pageSize: number, currentPage: Number}
  * @returns grapql query
  */
 
-export const getProduct = (config = {}) => gql`
+export const getProduct = (config = {}, router) => gql`
   query getProducts(
     $pageSize: Int,
     $currentPage: Int,
   ){
-  products( search: "${config.search}" ,filter: ${filterProduct(config.filter)},
+  products( search: "${config.search}" ,filter: ${filterProduct(config.filter, router)},
   pageSize: $pageSize,
   currentPage: $currentPage
   ${config.sort && config.sort.key && config.sort.key !== 'position' ? `, sort: {${config.sort.key} : ${config.sort.value}}` : ''}

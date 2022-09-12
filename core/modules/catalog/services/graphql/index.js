@@ -2,7 +2,14 @@ import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import * as schemaCategory from '@core_modules/catalog/services/graphql/categorySchema';
 import * as productSchema from '@core_modules/catalog/services/graphql/productSchema';
 
-export const getProduct = (config, otherConfig = {}) => useQuery(productSchema.getProduct(config), {
+/**
+ * Function Get Product Schema
+ * @param config Object Config like variables
+ * @param otherConfig Object config useQuery like context
+ * @param router router Object from nextjs (useRouter hook)
+ * @returns Schema get product
+ */
+export const getProduct = (config, otherConfig = {}, router) => useQuery(productSchema.getProduct(config, router), {
     ...otherConfig,
 });
 export const getProductAgragations = () => useQuery(productSchema.getProductAgragations(), {});
