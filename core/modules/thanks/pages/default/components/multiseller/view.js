@@ -31,13 +31,6 @@ const StyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
-=======
-import IconArrow from '@material-ui/icons/ArrowForwardIos';
-import classNames from 'classnames';
-import useStyles from '@core_modules/thanks/pages/default/components/style';
-import Link from 'next/link';
-import propTypes from 'prop-types';
-
 const ViewThanksMultiSeller = (props) => {
     const {
         t,
@@ -45,7 +38,7 @@ const ViewThanksMultiSeller = (props) => {
         handleContinue,
         customerOrder,
     } = props;
-    
+
     const styles = useStyles();
 
     return (
