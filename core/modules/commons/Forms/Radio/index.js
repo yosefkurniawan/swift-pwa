@@ -1,11 +1,13 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-expressions */
-import React from 'react';
+import useStyles from '@common_forms/Radio/style';
+import Typography from '@common_typography';
+import { getLocalStorage } from '@helper_localstorage';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Typography from '@common_typography';
 import classNames from 'classnames';
-import useStyles from '@common_forms/Radio/style';
+import React from 'react';
 
 const RadioItem = (props) => {
     const styles = useStyles();
@@ -33,7 +35,10 @@ function CustomRadio({
     disabled = false,
     ComponentOptional = () => {},
     storeConfig,
+    isShipping = false,
 }) {
+    const storeConfigLocalStorage = getLocalStorage('storeConfig');
+    const checkoutShippingMethod = getLocalStorage('checkout_shipping_method');
     const styles = useStyles();
 
     const rootStyle = classNames(styles.root, className);
@@ -62,6 +67,67 @@ function CustomRadio({
             >
                 {valueData.map((item, index) => {
                     if (CustomItem) {
+                        if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
+                            let isTrue;
+                            let itemValue;
+
+                            if (isShipping) {
+                                if (value[0].seller_id === null) {
+                                    if (checkoutShippingMethod.length === value.length) {
+                                        if (checkoutShippingMethod[0].name.method_code === value[0].name.method_code) {
+                                            itemValue = `${item.value.split('_')[1]}_${item.value.split('_')[2]}`;
+                                            isTrue = itemValue === `${checkoutShippingMethod.find((items) => items.seller_id === item.value.split('_')[2]).name.method_code}_${checkoutShippingMethod.find((items) => items.seller_id === item.value.split('_')[2]).seller_id}`;
+                                            return (
+                                                <>
+                                                    <CustomItem
+                                                        key={index}
+                                                        {...item}
+                                                        selected={isTrue}
+                                                        onChange={handleChangeCustom}
+                                                        className={classItem}
+                                                        storeConfig={storeConfig}
+                                                        {...propsItem}
+                                                    />
+                                                    {ComponentOptional(item)}
+                                                </>
+                                            );
+                                        }
+                                    }
+                                }
+
+                                itemValue = `${item.value.split('_')[1]}_${item.value.split('_')[2]}`;
+                                isTrue = itemValue === `${value.find((items) => items.seller_id === item.value.split('_')[2]).name.method_code}_${value.find((items) => items.seller_id === item.value.split('_')[2]).seller_id}`;
+                                return (
+                                    <>
+                                        <CustomItem
+                                            key={index}
+                                            {...item}
+                                            selected={isTrue}
+                                            onChange={handleChangeCustom}
+                                            className={classItem}
+                                            storeConfig={storeConfig}
+                                            {...propsItem}
+                                        />
+                                        {ComponentOptional(item)}
+                                    </>
+                                );
+                            }
+
+                            return (
+                                <>
+                                    <CustomItem
+                                        key={index}
+                                        {...item}
+                                        selected={JSON.stringify(value) === JSON.stringify(item.value)}
+                                        onChange={handleChangeCustom}
+                                        className={classItem}
+                                        storeConfig={storeConfig}
+                                        {...propsItem}
+                                    />
+                                    {ComponentOptional(item)}
+                                </>
+                            );
+                        }
                         return (
                             <>
                                 <CustomItem

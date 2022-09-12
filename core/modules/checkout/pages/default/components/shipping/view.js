@@ -283,7 +283,6 @@ const ShippingView = (props) => {
                         group: ship.group,
                     }));
                     const sellerDataInfo = checkout.data.seller.find((items) => items.seller_id === seller);
-                    // }
                     unique.push({
                         seller_id: seller,
                         seller_name: sellerDataInfo ? sellerDataInfo.seller_name : 'Default Seller',
@@ -309,7 +308,7 @@ const ShippingView = (props) => {
                 }
             }
             if (storeConfig.enable_oms_multiseller === '1') {
-                content = unique.map((seller, keySeller) => {
+                content = unique.map((seller) => {
                     return (
                         <>
                             <Typography letter="uppercase" variant="span" type="bold">
@@ -351,7 +350,7 @@ const ShippingView = (props) => {
                                                         <div className="column">
                                                             {item.data.length !== 0 ? (
                                                                 <Radio
-                                                                    value={`${selected.shipping[keySeller].name.carrier_code}_${selected.shipping[keySeller].name.method_code}`}
+                                                                    value={selected.shipping}
                                                                     onChange={handleShipping}
                                                                     valueData={item.data}
                                                                     CustomItem={DeliveryItem}
@@ -361,6 +360,7 @@ const ShippingView = (props) => {
                                                                         borderBottom: false,
                                                                         classContent: styles.listShippingGroup,
                                                                     }}
+                                                                    isShipping
                                                                 />
                                                             ) : null}
                                                         </div>

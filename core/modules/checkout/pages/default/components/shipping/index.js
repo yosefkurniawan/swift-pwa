@@ -1,5 +1,5 @@
 import gqlService from '@core_modules/checkout/services/graphql';
-
+import { setLocalStorage } from '@helper_localstorage';
 import React from 'react';
 import TagManager from 'react-gtm-module';
 
@@ -28,21 +28,13 @@ const Shipping = (props) => {
             const { cart } = checkout.data;
             if (storeConfig.enable_oms_multiseller === '1') {
                 const [carrier_code, method_code, seller_id] = val.split('_');
-                let state = {
-                    ...checkout,
-                    loading: {
-                        ...checkout.loading,
-                        all: false,
-                        shipping: false,
-                        extraFee: true,
-                        order: true,
-                    },
-                };
+                let state = { ...checkout };
                 const setBySellerId = state.selected.shipping.find((item) => item.seller_id === seller_id);
                 if (setBySellerId) {
                     state.selected.shipping.find((item) => item.seller_id === seller_id).name.carrier_code = carrier_code;
                     state.selected.shipping.find((item) => item.seller_id === seller_id).name.method_code = method_code;
                 }
+                setCheckout(state);
                 const inputShippingMethod = [];
 
                 const checkEmpty = state.selected.shipping.find((item) => item.name.carrier_code === null);
@@ -59,7 +51,20 @@ const Shipping = (props) => {
 
                 let updatedCart = {};
 
+                setLocalStorage('checkout_shipping_method', state.selected.shipping);
+
                 if (!checkEmpty) {
+                    state = {
+                        ...checkout,
+                        loading: {
+                            ...checkout.loading,
+                            all: false,
+                            shipping: false,
+                            extraFee: true,
+                            order: true,
+                        },
+                    };
+                    setCheckout(state);
                     await setShippingMethodMultiseller({
                         variables: {
                             cartId: cart.id,

@@ -368,6 +368,7 @@ const Summary = ({
 
                     setTimeout(() => {
                         removeCartId();
+                        localStorage.removeItem('checkout_shipping_method');
                     }, 1000);
                 } else {
                     state.loading.order = false;
