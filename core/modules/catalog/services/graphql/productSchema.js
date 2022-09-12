@@ -467,6 +467,7 @@ query getDetailproduct($url_key: String!){
           label,
           url
         }
+        seller_id
       }
       total_count
     }

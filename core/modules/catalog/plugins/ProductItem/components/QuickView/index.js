@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -13,10 +14,12 @@ import classNames from 'classnames';
 import Button from '@common_button';
 import RatingStar from '@common_ratingstar';
 import { getHost } from '@helper_config';
+import { getSeller } from '@core_modules/theme/services/graphql';
 import useStyles from '@plugin_productitem/components/QuickView/style';
 import DesktopOptions from '@core_modules/product/pages/default/components/OptionItem/DesktopOptions';
 import ItemShare from '@core_modules/product/pages/default/components/SharePopup/item';
 import WeltpixelLabel from '@plugin_productitem/components/WeltpixelLabel';
+import Link from '@material-ui/core/Link';
 
 const QuickView = (props) => {
     const styles = useStyles();
@@ -35,6 +38,35 @@ const QuickView = (props) => {
     const product = data?.items[productKey];
 
     const reviewValue = parseInt(product?.review?.rating_summary, 0) / 20;
+
+    let enableMultiSeller = false;
+    if (storeConfig) {
+        enableMultiSeller = storeConfig.enable_oms_multiseller === '1';
+    }
+
+    // getSeller gql
+    const [actGetSeller, { data: dSeller }] = getSeller();
+
+    React.useEffect(() => {
+        if (product) {
+            actGetSeller({
+                variables: {
+                    input: {
+                        seller_id: [parseFloat(product.seller_id)],
+                    },
+                },
+            });
+        }
+    }, [product]);
+
+    let dataSeller;
+    let citySplit;
+    if (enableMultiSeller && dSeller && dSeller.getSeller) {
+        dataSeller = dSeller && dSeller.getSeller;
+    }
+    if (enableMultiSeller && dataSeller && dataSeller.length > 0) {
+        citySplit = dataSeller[0].city?.split(',');
+    }
 
     // generate banner image
     const bannerData = [];
@@ -176,6 +208,30 @@ const QuickView = (props) => {
                                 </Typography>
                             </div>
                         </div>
+                        {enableMultiSeller && dataSeller && dataSeller.length > 0 ? (
+                            <div className={styles.titleContainer}>
+                                <div className={styles.sellerContainer}>
+                                    <Link href={`/seller/${dataSeller[0].id}`}>
+                                        <div className={styles.imageContainer}>
+                                            <img
+                                                className={styles.img}
+                                                src={dataSeller[0].logo}
+                                            />
+                                        </div>
+                                    </Link>
+                                    <Link href={`/seller/${dataSeller[0].id}`}>
+                                        <div>
+                                            <Typography variant="p" type="bold" letter="capitalize" size="14">
+                                                {dataSeller[0].name}
+                                            </Typography>
+                                            <Typography variant="p" type="regular" letter="capitalize" size="14">
+                                                {citySplit[0]}
+                                            </Typography>
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>
+                        ) : null}
                         <div className="row">
                             {storeConfig?.pwa?.label_enable && storeConfig?.pwa?.label_weltpixel_enable && (
                                 <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels || []} categoryLabel={false} onDetailProduct />
