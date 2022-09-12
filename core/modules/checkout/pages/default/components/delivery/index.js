@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import TagManager from 'react-gtm-module';
-import gqlService from '@core_modules/checkout/services/graphql';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
+import gqlService from '@core_modules/checkout/services/graphql';
+import TagManager from 'react-gtm-module';
 
 const DeliveryComp = (props) => {
     const {
@@ -170,6 +170,7 @@ const DeliveryComp = (props) => {
         }
     };
     if (checkout.loading.all) return <Skeleton styles={styles} />;
+    if (storeConfig.enable_oms_multiseller === '1') return null;
     if (isOnlyVirtualProductOnCart) return null;
     return <DeliveryView {...props} handleSelect={handleSelect} />;
 };

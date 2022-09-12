@@ -1,8 +1,7 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {
-    CreatePadding, CenterAbsolute, FlexColumn, CreateMargin, Centering,
-} from '@theme_mixins';
-import { WHITE, GRAY_PRIMARY } from '@theme_color';
+import { GRAY_PRIMARY, GRAY_THIRD, WHITE } from '@theme_color';
+// eslint-disable-next-line object-curly-newline
+import { CenterAbsolute, Centering, CreateMargin, CreatePadding, FlexColumn } from '@theme_mixins';
 
 export default makeStyles((theme) => ({
     container: {
@@ -47,6 +46,7 @@ export default makeStyles((theme) => ({
 
     info: {
         marginTop: 20,
+        marginBottom: '1rem',
         width: '100%',
         ...FlexColumn,
         alignItems: 'center',
@@ -135,9 +135,28 @@ export default makeStyles((theme) => ({
             paddingLeft: 0,
         },
     },
+    btnConfirmMultiseller: {
+        height: 30,
+        fontSize: 10,
+        marginTop: '.5rem',
+        [theme.breakpoints.up('sm')]: {
+            paddingLeft: 0,
+        },
+    },
     txtConfirm: {
         [theme.breakpoints.up('sm')]: {
             paddingLeft: 10,
+        },
+    },
+    txtConfirmMultiseller: {
+        marginTop: '1rem',
+        textDecoration: 'underline',
+        cursor: 'pointer',
+        [theme.breakpoints.up('sm')]: {
+            paddingLeft: 10,
+        },
+        '&:hover': {
+            color: GRAY_THIRD,
         },
     },
     btnConfirmFirst: {
@@ -242,5 +261,8 @@ export default makeStyles((theme) => ({
     },
     generalButton: {
         marginTop: 20,
+    },
+    table: {
+        maxWidth: '480px',
     },
 }));
