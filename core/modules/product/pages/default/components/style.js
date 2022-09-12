@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         },
         position: 'relative',
         '& .customizable-container': {
-            marginTop: 20,
+            marginTop: 15,
         },
         '& .product-video': {
             overflow: 'hidden',
@@ -245,6 +245,20 @@ const useStyles = makeStyles((theme) => ({
         width: '120px',
         alignItems: 'center',
         justifyContent: 'space-between',
+    },
+    sellerContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 10,
+    },
+    imageContainer: {
+        float: 'left',
+        marginRight: 20,
+    },
+    img: {
+        width: '60px',
+        height: 'auto',
+        borderRadius: '50%',
     },
 }));
 

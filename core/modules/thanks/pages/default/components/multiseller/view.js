@@ -5,6 +5,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Button from '@common_button';
 import Typography from '@common_typography';
+
 import useStyles from '@core_modules/thanks/pages/default/components/style';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
@@ -30,6 +31,13 @@ const StyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
+=======
+import IconArrow from '@material-ui/icons/ArrowForwardIos';
+import classNames from 'classnames';
+import useStyles from '@core_modules/thanks/pages/default/components/style';
+import Link from 'next/link';
+import propTypes from 'prop-types';
+
 const ViewThanksMultiSeller = (props) => {
     const {
         t,
@@ -37,7 +45,7 @@ const ViewThanksMultiSeller = (props) => {
         handleContinue,
         customerOrder,
     } = props;
-
+    
     const styles = useStyles();
 
     return (
