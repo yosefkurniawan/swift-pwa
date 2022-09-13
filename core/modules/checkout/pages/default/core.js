@@ -423,8 +423,6 @@ const Checkout = (props) => {
 
         if (shipping) {
             if (storeConfig.enable_oms_multiseller === '1') {
-                console.log(shipping);
-                console.log(cart);
                 state.selected.address = {
                     firstname: shipping[0].firstname,
                     lastname: shipping[0].lastname,
@@ -442,14 +440,12 @@ const Checkout = (props) => {
                         cartId: cart.id,
                         city: state.selected.address.city,
                         countryCode: state.selected.address.country.code,
-                        company: 'Default Company',
                         firstname: state.selected.address.firstname,
                         lastname: state.selected.address.lastname,
                         telephone: state.selected.address.telephone,
                         postcode: state.selected.address.postcode,
                         street: state.selected.address.street[0],
-                        region: state.selected.address.region.code,
-                        regionId: shipping[0].region.region_id
+                        region: state.selected.address.region.code
                     },
                 })
                     .then(async () => {
@@ -458,14 +454,12 @@ const Checkout = (props) => {
                                 cartId: cart.id,
                                 city: state.selected.address.city,
                                 countryCode: state.selected.address.country.code,
-                                company: 'Default Company',
                                 firstname: state.selected.address.firstname,
                                 lastname: state.selected.address.lastname,
                                 telephone: state.selected.address.telephone,
                                 postcode: state.selected.address.postcode,
                                 street: state.selected.address.street[0],
-                                region: state.selected.address.region.code,
-                                regionId: shipping[0].region.region_id
+                                region: state.selected.address.region.code
                             },
                         })
                             .then(async (resBilling) => {
@@ -824,7 +818,6 @@ const Checkout = (props) => {
             state.loading.addresses = false;
             setCheckout(state);
         }
-        console.log(checkout);
     }, [addressCustomer]);
 
     React.useMemo(() => {

@@ -659,8 +659,6 @@ export const initiateShippingAddressMultiseller = gql`
         $postcode: String!
         $street: String!
         $region: String!
-        $regionId: Int!
-        $company: String!
         $latitude: String
         $longitude: String
     ) {
@@ -671,12 +669,10 @@ export const initiateShippingAddressMultiseller = gql`
                     address: {
                         city: $city
                         country_code: $countryCode
-                        company: $company
                         firstname: $firstname
                         lastname: $lastname
                         telephone: $telephone
                         region: $region
-                        region_id: $regionId
                         street: [$street]
                         postcode: $postcode
                         latitude: $latitude
@@ -708,8 +704,6 @@ export const initiateBillingAddressMultiseller = gql`
         $postcode: String!
         $street: String!
         $region: String!
-        $regionId: Int!
-        $company: String!
         $latitude: String
         $longitude: String
     ) {
@@ -721,12 +715,10 @@ export const initiateBillingAddressMultiseller = gql`
                     address: {
                         city: $city
                         country_code: $countryCode
-                        company: $company
                         firstname: $firstname
                         lastname: $lastname
                         telephone: $telephone
                         region: $region
-                        region_id: $regionId
                         street: [$street]
                         postcode: $postcode
                         latitude: $latitude
