@@ -72,31 +72,39 @@ function CustomRadio({
                             let itemValue;
 
                             if (isShipping) {
-                                if (value[0].seller_id === null) {
-                                    if (checkoutShippingMethod.length === value.length) {
-                                        if (checkoutShippingMethod[0].name.method_code === value[0].name.method_code) {
-                                            itemValue = `${item.value.split('_')[1]}_${item.value.split('_')[2]}`;
-                                            isTrue = itemValue === `${checkoutShippingMethod.find((items) => items.seller_id === item.value.split('_')[2]).name.method_code}_${checkoutShippingMethod.find((items) => items.seller_id === item.value.split('_')[2]).seller_id}`;
-                                            return (
-                                                <>
-                                                    <CustomItem
-                                                        key={index}
-                                                        {...item}
-                                                        selected={isTrue}
-                                                        onChange={handleChangeCustom}
-                                                        className={classItem}
-                                                        storeConfig={storeConfig}
-                                                        {...propsItem}
-                                                    />
-                                                    {ComponentOptional(item)}
-                                                </>
-                                            );
+                                if (value.length > 1) {
+                                    if (!value[0].seller_id) {
+                                        if (checkoutShippingMethod && checkoutShippingMethod.length === value.length) {
+                                            if (checkoutShippingMethod[0].name.method_code === value[0].name.method_code) {
+                                                itemValue = `${item.value.split('_')[1]}_${item.value.split('_')[2]}`;
+                                                isTrue = itemValue === `${checkoutShippingMethod.find((items) => items.seller_id === item.value.split('_')[2]).name.method_code}_${checkoutShippingMethod.find((items) => items.seller_id === item.value.split('_')[2]).seller_id}`;
+                                                return (
+                                                    <>
+                                                        <CustomItem
+                                                            key={index}
+                                                            {...item}
+                                                            selected={isTrue}
+                                                            onChange={handleChangeCustom}
+                                                            className={classItem}
+                                                            storeConfig={storeConfig}
+                                                            {...propsItem}
+                                                        />
+                                                        {ComponentOptional(item)}
+                                                    </>
+                                                );
+                                            }
+                                        } else {
+                                            isTrue = false;
                                         }
+                                    } else {
+                                        isTrue = false;
                                     }
-                                }
 
-                                itemValue = `${item.value.split('_')[1]}_${item.value.split('_')[2]}`;
-                                isTrue = itemValue === `${value.find((items) => items.seller_id === item.value.split('_')[2]).name.method_code}_${value.find((items) => items.seller_id === item.value.split('_')[2]).seller_id}`;
+                                    itemValue = `${item.value.split('_')[1]}_${item.value.split('_')[2]}`;
+                                    isTrue = itemValue === `${value.find((items) => items.seller_id === item.value.split('_')[2]).name.method_code}_${value.find((items) => items.seller_id === item.value.split('_')[2]).seller_id}`;
+                                } else {
+                                    isTrue = false;
+                                }
                                 return (
                                     <>
                                         <CustomItem
