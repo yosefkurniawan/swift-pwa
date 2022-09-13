@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable max-len */
 /* eslint-disable no-unused-expressions */
 import useStyles from '@common_forms/Radio/style';
@@ -7,6 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import classNames from 'classnames';
+import propTypes from 'prop-types';
 import React from 'react';
 
 const RadioItem = (props) => {
@@ -162,5 +164,44 @@ function CustomRadio({
         </div>
     );
 }
+
+CustomRadio.propTypes = {
+    valueData: propTypes.array.isRequired,
+    onChange: propTypes.func,
+    value: propTypes.array,
+    name: propTypes.string,
+    ariaLabel: propTypes.string,
+    label: propTypes.string,
+    CustomItem: propTypes.element.isRequired,
+    className: propTypes.object,
+    classContainer: propTypes.object,
+    classItem: propTypes.object,
+    flex: propTypes.string,
+    error: propTypes.bool,
+    errorMessage: propTypes.string,
+    propsItem: propTypes.object,
+    disabled: propTypes.bool,
+    ComponentOptional: propTypes.func,
+    storeConfig: propTypes.object.isRequired,
+    isShipping: propTypes.bool,
+};
+
+CustomRadio.defaultProps = {
+    onChange: () => { },
+    value: '',
+    name: 'radio',
+    ariaLabel: 'radio',
+    label: '',
+    className: {},
+    classContainer: {},
+    classItem: {},
+    flex: 'column',
+    error: false,
+    errorMessage: '',
+    propsItem: {},
+    disabled: false,
+    ComponentOptional: () => { },
+    isShipping: false,
+};
 
 export default CustomRadio;

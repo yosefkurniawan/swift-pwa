@@ -7,7 +7,7 @@
 import Radio from '@common_forms/Radio';
 import Typography from '@common_typography';
 import DeliveryItem from '@core_modules/checkout/components/radioitem';
-import RadioMultiseller from '@core_modules/checkout/components/shipping/plugin/Radio';
+import RadioMultiseller from '@core_modules/checkout/pages/default/components/shipping/plugin/Radio';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 import { formatPrice } from '@helper_currency';
 import MuiAccordion from '@material-ui/core/Accordion';
