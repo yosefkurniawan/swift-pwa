@@ -439,13 +439,15 @@ const Checkout = (props) => {
                     variables: {
                         cartId: cart.id,
                         city: state.selected.address.city,
+                        company: 'Default Company',
                         countryCode: state.selected.address.country.code,
                         firstname: state.selected.address.firstname,
                         lastname: state.selected.address.lastname,
                         telephone: state.selected.address.telephone,
                         postcode: state.selected.address.postcode,
                         street: state.selected.address.street[0],
-                        region: state.selected.address.region.code
+                        region: state.selected.address.region.code,
+                        regionId: shipping[0].region.region_id
                     },
                 })
                     .then(async () => {
@@ -453,13 +455,15 @@ const Checkout = (props) => {
                             variables: {
                                 cartId: cart.id,
                                 city: state.selected.address.city,
+                                company: 'Default Company',
                                 countryCode: state.selected.address.country.code,
                                 firstname: state.selected.address.firstname,
                                 lastname: state.selected.address.lastname,
                                 telephone: state.selected.address.telephone,
                                 postcode: state.selected.address.postcode,
                                 street: state.selected.address.street[0],
-                                region: state.selected.address.region.code
+                                region: state.selected.address.region.code,
+                                regionId: shipping[0].region.region_id
                             },
                         })
                             .then(async (resBilling) => {
