@@ -42,6 +42,7 @@ const PageStoreCredit = (props) => {
             });
             const simpleData = data.ordersFilter.data[0].detail[0].items.filter((item) => !itemsChild.find(({ sku }) => item.sku === sku) && item);
             itemsProduct = [...itemsChild, ...simpleData];
+            // GTM UA dataLayer
             const dataLayer = {
                 pageType: 'purchase',
                 event: 'checkout',
@@ -115,7 +116,39 @@ const PageStoreCredit = (props) => {
                 dataLayer,
             });
             TagManager.dataLayer({
-                dataLayer: dataLayerFbPixel,
+                dataLayerFbPixel,
+            });
+            // GA 4 dataLayer
+            TagManager.dataLayer({
+                dataLayer: {
+                    pageType: 'purchase',
+                    pageName: t('thanks:title'),
+                    event: 'purchase',
+                    ecommerce: {
+                        purchase: {
+                            transaction_id: checkoutData.order_number,
+                            affiliation: storeConfig.store_name || 'Swift PWA',
+                            value: JSON.stringify(data.ordersFilter.data[0].detail[0].grand_total),
+                            coupon: data.ordersFilter.data[0].detail[0].coupon.is_use_coupon ? data.ordersFilter.data[0].detail[0].coupon.code : '',
+                            tax: JSON.stringify(data.ordersFilter.data[0].detail[0].tax_amount),
+                            shipping: JSON.stringify(data.ordersFilter.data[0].detail[0].payment.shipping_amount),
+                            currency: storeConfig.base_currency_code || 'IDR',
+                            total_lifetime_value: JSON.stringify(data.ordersFilter.data[0].detail[0].grand_total),
+                            items: itemsProduct.map((product, review) => ({
+                                currency: storeConfig.base_currency_code || 'IDR',
+                                item_name: product.name,
+                                item_id: product.sku,
+                                price: JSON.stringify(product.price),
+                                item_category: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
+                                item_list_name: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
+                                quantity: JSON.stringify(product.qty_ordered),
+                                item_stock_status: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
+                                item_reviews_score: review.rating_summary ? parseInt(review.rating_summary, 0) / 20 : '',
+                                item_reviews_count: review.reviews_count ? review.reviews_count : '',
+                            })),
+                        },
+                    },
+                },
             });
         }
     }, [data]);
