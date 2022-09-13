@@ -8,6 +8,19 @@ export const generateThumborUrl = (src = '', width = 400, height = 400) => {
     const { enable, useHttpsOrHttp } = thumbor;
     let { url } = thumbor;
     if (enable) {
+        if (navigator && navigator?.appVersion) {
+            const userAgent = navigator.appVersion;
+            const regex = (/iPhone|iPad|iPod/i);
+            const isIOS = regex.test(userAgent);
+            if (isIOS) {
+                const version = userAgent.match(/\b[0-9]+_[0-9]+(?:_[0-9]+)?\b/)[0];
+                const majorVersion = version.split('_')[0];
+                // webp is not supported on IOS version 14 and below
+                if (majorVersion < 14) {
+                    return src;
+                }
+            }
+        }
         let source = src;
         if (!useHttpsOrHttp) {
             if (source.includes('http')) {
