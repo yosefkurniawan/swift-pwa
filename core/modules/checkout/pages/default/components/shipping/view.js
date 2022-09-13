@@ -4,13 +4,11 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable array-callback-return */
 /* eslint-disable comma-dangle */
-// import { useApolloClient } from '@apollo/client';
 import Radio from '@common_forms/Radio';
 import Typography from '@common_typography';
 import DeliveryItem from '@core_modules/checkout/components/radioitem';
+import RadioMultiseller from '@core_modules/checkout/pages/default/components/shipping/plugin/Radio';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
-// import gqlService from '@core_modules/checkout/services/graphql';
-// import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import { formatPrice } from '@helper_currency';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
@@ -349,7 +347,7 @@ const ShippingView = (props) => {
                                                     <AccordionDetails>
                                                         <div className="column">
                                                             {item.data.length !== 0 ? (
-                                                                <Radio
+                                                                <RadioMultiseller
                                                                     value={selected.shipping}
                                                                     onChange={handleShipping}
                                                                     valueData={item.data}

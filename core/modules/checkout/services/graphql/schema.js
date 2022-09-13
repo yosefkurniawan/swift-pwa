@@ -340,6 +340,7 @@ const shortAddressData = `
         region {
             code
             label
+            region_id
         }
         company
         country {
@@ -631,7 +632,7 @@ export const setShippingAddressByInput = gql`
                         postcode: $postcode
                         latitude: $latitude
                         longitude: $longitude
-                        save_in_address_book: true
+                        save_in_address_book: false
                     }
                 }
             }
@@ -642,6 +643,95 @@ export const setShippingAddressByInput = gql`
                     is_valid_city
                     ${shortAddressData}
                 }
+            }
+        }
+    }
+`;
+
+export const initiateShippingAddressMultiseller = gql`
+    mutation setShippingAddressByInput(
+        $cartId: String!
+        $city: String!
+        $countryCode: String!
+        $firstname: String!
+        $lastname: String!
+        $telephone: String!
+        $postcode: String!
+        $street: String!
+        $region: String!
+        $latitude: String
+        $longitude: String
+    ) {
+        setShippingAddressesOnCart(
+            input: {
+                cart_id: $cartId
+                shipping_addresses: {
+                    address: {
+                        city: $city
+                        country_code: $countryCode
+                        firstname: $firstname
+                        lastname: $lastname
+                        telephone: $telephone
+                        region: $region
+                        street: [$street]
+                        postcode: $postcode
+                        latitude: $latitude
+                        longitude: $longitude
+                        save_in_address_book: false
+                    }
+                }
+            }
+        ) {
+            cart {
+                id
+                shipping_addresses {
+                    is_valid_city
+                    ${shortAddressData}
+                }
+            }
+        }
+    }
+`;
+
+export const initiateBillingAddressMultiseller = gql`
+    mutation setBillingAddressByInput(
+        $cartId: String!
+        $city: String!
+        $countryCode: String!
+        $firstname: String!
+        $lastname: String!
+        $telephone: String!
+        $postcode: String!
+        $street: String!
+        $region: String!
+        $latitude: String
+        $longitude: String
+    ) {
+        setBillingAddressOnCart(
+            input: {
+                cart_id: $cartId
+                billing_address: {
+                    same_as_shipping: true
+                    address: {
+                        city: $city
+                        country_code: $countryCode
+                        firstname: $firstname
+                        lastname: $lastname
+                        telephone: $telephone
+                        region: $region
+                        street: [$street]
+                        postcode: $postcode
+                        latitude: $latitude
+                        longitude: $longitude
+                        save_in_address_book: true
+                    }
+                }
+            }
+        ) {
+            cart {
+                ${dest_location}
+                ${cartBillingAddress}
+                ${cartShippingAddress}
             }
         }
     }

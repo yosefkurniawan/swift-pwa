@@ -81,6 +81,11 @@ export const setShippingAddressByInput = (options = {}) => useMutation(Schema.se
     ...config(USING_INTERNAL),
 });
 
+export const initiateShippingAddressMultiseller = (options = {}) => useMutation(Schema.initiateShippingAddressMultiseller, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export const setBillingAddressById = (options = {}) => useMutation(Schema.setBillingAddressById, {
     ...options,
     ...config(USING_INTERNAL),
@@ -92,6 +97,11 @@ export const setBillingAddressVirtualProduct = (options = {}) => useMutation(Sch
 });
 
 export const setBillingAddressByInput = (options = {}) => useMutation(Schema.setBillingAddressByInput, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const initiateBillingAddressMultiseller = (options = {}) => useMutation(Schema.initiateBillingAddressMultiseller, {
     ...options,
     ...config(USING_INTERNAL),
 });
@@ -301,6 +311,8 @@ export default {
     setBillingAddressVirtualProduct,
     setBillingAddressByInput,
     setShippingAddressByInput,
+    initiateShippingAddressMultiseller,
+    initiateBillingAddressMultiseller,
     placeOrder,
     placeOrderWithOrderComment,
     setPaymentMethod,

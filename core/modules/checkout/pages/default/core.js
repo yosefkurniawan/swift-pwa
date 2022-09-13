@@ -226,6 +226,8 @@ const Checkout = (props) => {
     const [getItemCart, { data: itemCart, error: errorItem, refetch: refetchItemCart }] = gqlService.getItemCart();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
+    const [setShippingAddressByInput] = gqlService.initiateShippingAddressMultiseller();
+    const [setBillingAddressByInput] = gqlService.initiateBillingAddressMultiseller();
     const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
     const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
     // end init graphql
@@ -305,6 +307,40 @@ const Checkout = (props) => {
         formik.setFieldValue('shipping', shipping);
         formik.setFieldValue('payment', payment);
         formik.setFieldValue('billing', billing);
+    };
+
+    const updateAddressState = (result) => {
+        const state = { ...checkout };
+        const updatedCart = result.data.setBillingAddressOnCart.cart;
+        if (isOnlyVirtualProductOnCart) {
+            state.selected.billing = updatedCart?.billing_address;
+            state.selected.address = updatedCart?.billing_address;
+        } else {
+            const [shippingAddress] = updatedCart.shipping_addresses;
+            if (shippingAddress && state.data.isGuest) {
+                state.selected.address = shippingAddress;
+            }
+
+            if (checkout.selected.delivery === 'home' && typeof shippingAddress.is_valid_city !== 'undefined') {
+                state.error.shippingAddress = !shippingAddress.is_valid_city;
+            }
+        }
+        state.loading.addresses = false;
+        const mergeCart = {
+            ...state.data.cart,
+            ...updatedCart,
+        };
+        state.data.cart = mergeCart;
+
+        if (refetchDataCart && typeof refetchDataCart() === 'function') {
+            refetchDataCart();
+        }
+        if (refetchItemCart && typeof refetchItemCart() === 'function') {
+            refetchItemCart();
+        }
+        setCheckout(state);
+
+        updateFormik(mergeCart);
     };
 
     const initData = () => {
@@ -398,6 +434,48 @@ const Checkout = (props) => {
                     street: shipping[0].street,
                     pickup_location_code: shipping[0].pickup_location_code,
                 };
+
+                setShippingAddressByInput({
+                    variables: {
+                        cartId: cart.id,
+                        city: state.selected.address.city,
+                        countryCode: state.selected.address.country.code,
+                        firstname: state.selected.address.firstname,
+                        lastname: state.selected.address.lastname,
+                        telephone: state.selected.address.telephone,
+                        postcode: state.selected.address.postcode,
+                        street: state.selected.address.street[0],
+                        region: state.selected.address.region.code
+                    },
+                })
+                    .then(async () => {
+                        setBillingAddressByInput({
+                            variables: {
+                                cartId: cart.id,
+                                city: state.selected.address.city,
+                                countryCode: state.selected.address.country.code,
+                                firstname: state.selected.address.firstname,
+                                lastname: state.selected.address.lastname,
+                                telephone: state.selected.address.telephone,
+                                postcode: state.selected.address.postcode,
+                                street: state.selected.address.street[0],
+                                region: state.selected.address.region.code
+                            },
+                        })
+                            .then(async (resBilling) => {
+                                updateAddressState(resBilling);
+                            })
+                            .catch((e) => {
+                                if (e.message.includes('Token is wrong.')) {
+                                    setCheckoutTokenState(!checkoutTokenState);
+                                }
+                            });
+                    })
+                    .catch((e) => {
+                        if (e.message.includes('Token is wrong.')) {
+                            setCheckoutTokenState(!checkoutTokenState);
+                        }
+                    });
 
                 if (typeof shipping[0].is_valid_city !== 'undefined') {
                     state.error.shippingAddress = !shipping[0].is_valid_city;
