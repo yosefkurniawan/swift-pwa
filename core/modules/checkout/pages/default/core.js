@@ -637,27 +637,6 @@ const Checkout = (props) => {
     React.useMemo(() => {
         if (checkout && checkout.data && checkout.data.cart && checkout.data.cart.items.length > 0) {
             const { cart } = checkout.data;
-            // const dataLayer = {
-            //     pageName: 'Checkout',
-            //     pageType: 'checkout',
-            //     event: 'begin_checkout',
-            //     cart_total: cart.prices.grand_total.value,
-            //     currency: cart.prices.grand_total.currency || storeConfig.base_currency_code,
-            //     ecommerce: {
-            //         items: [
-            //             cart.items.map((item) => ({
-            //                 currency: item.prices.price.currency || storeConfig.base_currency_code,
-            //                 item_name: item.product.name,
-            //                 item_id: item.product.sku,
-            //                 price: item.prices.price.value || 0,
-            //                 item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
-            //                 item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
-            //                 quantity: item.quantity,
-            //                 item_stock_status: item.product.stock_status,
-            //             })),
-            //         ],
-            //     },
-            // };
             TagManager.dataLayer({ dataLayer: { ecommerce: null } });
             TagManager.dataLayer({
                 dataLayer: {

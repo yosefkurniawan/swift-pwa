@@ -91,7 +91,6 @@ const DeliveryComp = (props) => {
                 },
             };
             // GA 4 dataLayer
-            console.log('isi cart', checkout.data.cart.items);
             const dataLayerOpt = {
                 event: 'add_shipping_info',
                 ecommerce: {

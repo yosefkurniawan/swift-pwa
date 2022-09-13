@@ -131,7 +131,6 @@ const MiniCart = (props) => {
     };
 
     const deleteCart = (itemProps) => {
-        console.log('isi data delete', itemProps);
         // GA 4 dataLayer
         const dataLayer = {
             event: 'remove_from_cart',
