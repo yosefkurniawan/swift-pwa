@@ -14,7 +14,9 @@ import Cookies from 'js-cookie';
 import Link from 'next/link';
 
 const OrderView = (props) => {
-    const { customerOrders, styles, t, reOrder } = props;
+    const {
+        customerOrders, styles, t, reOrder,
+    } = props;
     const customerData = JSON.parse(Cookies.get('cdt'));
     const currencyData = JSON.parse(Cookies.get('app_currency'));
     return (
@@ -44,8 +46,6 @@ const OrderView = (props) => {
                             <TableBody>
                                 {customerOrders.items && customerOrders.items.length > 0 ? (
                                     <>
-                                        {console.log(customerOrders.items)}
-                                        {console.log(customerData)}
                                         {customerOrders.items.map((val, idx) => (
                                             <TableRow key={idx}>
                                                 <TableCell component="td" scope="row">
@@ -67,7 +67,7 @@ const OrderView = (props) => {
                                                         val.grand_total,
                                                         val.detail[0].global_currency_code
                                                             ? val.detail[0].global_currency_code
-                                                            : currencyData.default_display_currency_code
+                                                            : currencyData.default_display_currency_code,
                                                     )}
                                                 </TableCell>
                                                 <TableCell component="td" scope="row">
