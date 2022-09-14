@@ -343,8 +343,6 @@ const Checkout = (props) => {
         updateFormik(mergeCart);
     };
 
-    // console.log(checkout);
-
     const initData = () => {
         let { cart } = dataCart;
         const { items } = itemCart.cart;
@@ -411,8 +409,6 @@ const Checkout = (props) => {
 
         // init cart & customer
         state.data.cart = cart;
-
-        console.log(cart);
 
         // init coupon
         state.data.isCouponAppliedToCart = cart && cart.applied_coupons ? cart.applied_coupons : false;
