@@ -343,6 +343,8 @@ const Checkout = (props) => {
         updateFormik(mergeCart);
     };
 
+    // console.log(checkout);
+
     const initData = () => {
         let { cart } = dataCart;
         const { items } = itemCart.cart;
@@ -410,6 +412,8 @@ const Checkout = (props) => {
         // init cart & customer
         state.data.cart = cart;
 
+        console.log(cart);
+
         // init coupon
         state.data.isCouponAppliedToCart = cart && cart.applied_coupons ? cart.applied_coupons : false;
 
@@ -435,51 +439,51 @@ const Checkout = (props) => {
                     pickup_location_code: shipping[0].pickup_location_code,
                 };
 
-                setShippingAddressByInput({
-                    variables: {
-                        cartId: cart.id,
-                        city: state.selected.address.city,
-                        company: 'Default Company',
-                        countryCode: state.selected.address.country.code,
-                        firstname: state.selected.address.firstname,
-                        lastname: state.selected.address.lastname,
-                        telephone: state.selected.address.telephone,
-                        postcode: state.selected.address.postcode,
-                        street: state.selected.address.street[0],
-                        region: state.selected.address.region.code,
-                        regionId: shipping[0].region.region_id
-                    },
-                })
-                    .then(async () => {
-                        setBillingAddressByInput({
-                            variables: {
-                                cartId: cart.id,
-                                city: state.selected.address.city,
-                                company: 'Default Company',
-                                countryCode: state.selected.address.country.code,
-                                firstname: state.selected.address.firstname,
-                                lastname: state.selected.address.lastname,
-                                telephone: state.selected.address.telephone,
-                                postcode: state.selected.address.postcode,
-                                street: state.selected.address.street[0],
-                                region: state.selected.address.region.code,
-                                regionId: shipping[0].region.region_id
-                            },
-                        })
-                            .then(async (resBilling) => {
-                                updateAddressState(resBilling);
-                            })
-                            .catch((e) => {
-                                if (e.message.includes('Token is wrong.')) {
-                                    setCheckoutTokenState(!checkoutTokenState);
-                                }
-                            });
+                if (shipping[0].seller_id === null) {
+                    setShippingAddressByInput({
+                        variables: {
+                            cartId: cart.id,
+                            city: state.selected.address.city,
+                            countryCode: state.selected.address.country.code,
+                            firstname: state.selected.address.firstname,
+                            lastname: state.selected.address.lastname,
+                            telephone: state.selected.address.telephone,
+                            postcode: state.selected.address.postcode,
+                            street: state.selected.address.street[0],
+                            region: state.selected.address.region.code,
+                            regionId: shipping[0].region.region_id
+                        },
                     })
-                    .catch((e) => {
-                        if (e.message.includes('Token is wrong.')) {
-                            setCheckoutTokenState(!checkoutTokenState);
-                        }
-                    });
+                        .then(async () => {
+                            setBillingAddressByInput({
+                                variables: {
+                                    cartId: cart.id,
+                                    city: state.selected.address.city,
+                                    countryCode: state.selected.address.country.code,
+                                    firstname: state.selected.address.firstname,
+                                    lastname: state.selected.address.lastname,
+                                    telephone: state.selected.address.telephone,
+                                    postcode: state.selected.address.postcode,
+                                    street: state.selected.address.street[0],
+                                    region: state.selected.address.region.code,
+                                    regionId: shipping[0].region.region_id
+                                },
+                            })
+                                .then(async (resBilling) => {
+                                    updateAddressState(resBilling);
+                                })
+                                .catch((e) => {
+                                    if (e.message.includes('Token is wrong.')) {
+                                        setCheckoutTokenState(!checkoutTokenState);
+                                    }
+                                });
+                        })
+                        .catch((e) => {
+                            if (e.message.includes('Token is wrong.')) {
+                                setCheckoutTokenState(!checkoutTokenState);
+                            }
+                        });
+                }
 
                 if (typeof shipping[0].is_valid_city !== 'undefined') {
                     state.error.shippingAddress = !shipping[0].is_valid_city;
