@@ -103,7 +103,11 @@ function CustomRadio({
                                     }
 
                                     itemValue = `${item.value.split('_')[1]}_${item.value.split('_')[2]}`;
-                                    isTrue = itemValue === `${value.find((items) => items.seller_id === item.value.split('_')[2]).name.method_code}_${value.find((items) => items.seller_id === item.value.split('_')[2]).seller_id}`;
+                                    if (value.find((items) => items.seller_id === item.value.split('_')[2])) {
+                                        isTrue = itemValue === `${value.find((items) => items.seller_id === item.value.split('_')[2]).name.method_code}_${value.find((items) => items.seller_id === item.value.split('_')[2]).seller_id}`;
+                                    } else {
+                                        isTrue = false;
+                                    }
                                 } else {
                                     isTrue = false;
                                 }

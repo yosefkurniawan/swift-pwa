@@ -159,8 +159,10 @@ const Summary = (props) => {
                                                     <div className="flex-grow" />
                                                     <div>
                                                         <span className="item-count" style={{ padding: '0' }}>
-                                                            Qty:
-                                                            {` ${item.quantity}`}
+                                                            <Typography variant="span" type="regular">
+                                                                Qty:
+                                                                {` ${item.quantity}`}
+                                                            </Typography>
                                                         </span>
                                                     </div>
                                                     <Typography variant="span" size="14" letter="uppercase">
