@@ -6,7 +6,7 @@ import Header from '@core_modules/product/pages/default/components/header';
 import Loading from '@core_modules/product/pages/default/components/Loader';
 import {
     addProductsToCompareList, addWishlist as mutationAddWishlist, getProduct,
-    getProductLabel, smartProductTabs
+    getProductLabel, smartProductTabs,
 } from '@core_modules/product/services/graphql';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { getCookies } from '@helper_cookies';
@@ -578,7 +578,7 @@ const PageDetail = (props) => {
     };
 
     return (
-        <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props} isPdp>
+        <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props} data={data} isPdp>
             <ContentDetail
                 keyProduct={productByUrl}
                 product={product}
