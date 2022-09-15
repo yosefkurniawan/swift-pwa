@@ -182,6 +182,9 @@ export const getProduct = (key) => {
             pageSize: 5
           ) {
             items {
+                seller{
+                    seller_name
+                }
                 id
                 name
                 url_key
