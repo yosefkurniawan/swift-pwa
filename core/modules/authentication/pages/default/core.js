@@ -39,7 +39,6 @@ const Authentication = (props) => {
         cartId: '',
         isLogin: false,
         redirect_path: '',
-        storeCode: '',
     };
 
     const [setCheckoutSession] = gqlService.setCheckoutSession();
@@ -89,9 +88,6 @@ const Authentication = (props) => {
                                     router.replace(objectProps.redirect_path);
                                 } else {
                                     router.replace('/');
-                                }
-                                if (objectProps && objectProps.storeCode && objectProps.storeCode !== '') {
-                                    Cookies.set('store_code_storage', objectProps.storeCode, { expires: expiredDefault });
                                 }
                             } else {
                                 setAuthFailed(true);
