@@ -1,5 +1,5 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { PRIMARY, WHITE } from '@theme_color';
+import { PRIMARY, WHITE, GRAY_PRIMARY } from '@theme_color';
 import { CreateMargin } from '@theme_mixins';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,6 +61,15 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             padding: '0',
         },
+    },
+    infoSeller: {
+        display: 'flex',
+    },
+    iconSeller: {
+        fontSize: 18,
+        color: GRAY_PRIMARY,
+        fontWeight: '200',
+        marginRight: 5,
     },
 }));
 

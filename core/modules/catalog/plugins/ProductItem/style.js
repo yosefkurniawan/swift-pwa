@@ -239,4 +239,13 @@ export default makeStyles((theme) => ({
         borderRadius: 100,
         fontSize: 12,
     },
+    infoSeller: {
+        display: 'flex',
+    },
+    iconSeller: {
+        fontSize: 18,
+        color: GRAY_PRIMARY,
+        fontWeight: '200',
+        marginRight: 5,
+    },
 }));

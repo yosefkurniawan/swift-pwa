@@ -102,6 +102,9 @@ export const getProduct = (config = {}) => gql`
 }
       __typename
       items {
+        seller {
+          seller_name
+        }
         id
         sku
         name

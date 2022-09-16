@@ -3,12 +3,13 @@
 /* eslint-disable jsx-a11y/alt-text */
 import classNames from 'classnames';
 import { formatPrice } from '@helper_currency';
+import StorefrontIcon from '@material-ui/icons/Storefront';
 import useStyles from '@core_modules/theme/components/header/desktop/components/autocomplete/style';
 
 const OptionsItem = (props) => {
     const styles = useStyles();
     const {
-        name, type, position, small_image, price_range, breadcrumbs, logo, city,
+        name, type, position, small_image, price_range, breadcrumbs, logo, city, seller_name,
     } = props;
     const citySplit = city?.split(',');
     let breadcrumbsText = '';
@@ -39,6 +40,14 @@ const OptionsItem = (props) => {
                     <div className={styles.title}>
                         {name}
                     </div>
+                    {seller_name && (
+                        <div className={styles.infoSeller}>
+                            <StorefrontIcon className={styles.iconSeller} />
+                            <div className={styles.titleSeller}>
+                                {seller_name}
+                            </div>
+                        </div>
+                    )}
                     <div className={styles.price}>
                         {formatPrice(price_range.minimum_price.final_price.value, price_range.minimum_price.final_price.currency)}
                     </div>

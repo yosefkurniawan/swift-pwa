@@ -34,6 +34,10 @@ weltpixel_labels {
 `;
 
 const productDetail = (config = {}) => `
+    seller_id
+    seller {
+      seller_name
+    }
     id
     name
     sku

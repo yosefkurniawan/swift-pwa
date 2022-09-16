@@ -1,5 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 
+import { GRAY_PRIMARY } from '@theme_color';
+
 const useStyles = makeStyles(() => ({
     listContainer: {
         height: 75,
@@ -32,6 +34,21 @@ const useStyles = makeStyles(() => ({
         paddingBottom: 5,
         textTransform: 'uppercase',
         fontSize: 10,
+    },
+    titleSeller: {
+        paddingTop: 2,
+        paddingBottom: 5,
+        textTransform: 'uppercase',
+        fontSize: 10,
+    },
+    infoSeller: {
+        display: 'flex',
+    },
+    iconSeller: {
+        fontSize: 18,
+        color: GRAY_PRIMARY,
+        fontWeight: '200',
+        marginRight: 5,
     },
     price: {
         fontWeight: 'bold',
