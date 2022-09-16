@@ -614,9 +614,9 @@ const Checkout = (props) => {
                 });
             }
         } else {
-            if (shipping && shipping[0].available_shipping_methods) {
+            if (shipping && shipping.available_shipping_methods) {
                 setLoadingSellerInfo(false);
-                const availableShipping = shipping[0].available_shipping_methods.filter(
+                const availableShipping = shipping.available_shipping_methods.filter(
                     (x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore'
                 );
 
@@ -628,8 +628,8 @@ const Checkout = (props) => {
                 }));
             }
 
-            if (shipping && shipping[0].selected_shipping_method) {
-                const shippingMethod = shipping[0].selected_shipping_method;
+            if (shipping && shipping.selected_shipping_method) {
+                const shippingMethod = shipping.selected_shipping_method;
                 state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
 
                 if (modules.checkout.pickupStore.enabled) {
