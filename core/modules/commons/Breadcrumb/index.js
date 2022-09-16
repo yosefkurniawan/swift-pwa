@@ -37,7 +37,7 @@ const CustomBreadcrumb = ({ data = [], variant = 'text' }) => {
     const styles = useStyles();
     return (
         <Breadcrumbs separator={<NavigateNext fontSize="small" />} className={styles.root}>
-            <Link color="secondary" onClick={() => Router.push('/')} className={styles.home}>
+            <Link color="secondary" href="/" className={styles.home}>
                 <Typography variant="p">Home</Typography>
             </Link>
             {
