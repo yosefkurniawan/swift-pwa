@@ -271,6 +271,7 @@ const Shipping = (props) => {
     return (
         <ShippingView
             checkout={checkout}
+            setCheckout={setCheckout}
             storeConfig={storeConfig}
             t={t}
             shippingMethodList={shippingMethodList}
