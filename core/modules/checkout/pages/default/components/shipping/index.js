@@ -1,5 +1,6 @@
 import gqlService from '@core_modules/checkout/services/graphql';
-import { setLocalStorage } from '@helper_localstorage';
+import { getCartId } from '@helper_cartid';
+import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import React from 'react';
 import TagManager from 'react-gtm-module';
 
@@ -51,7 +52,43 @@ const Shipping = (props) => {
 
                 let updatedCart = {};
 
-                setLocalStorage('checkout_shipping_method', state.selected.shipping);
+                const cartIdCookie = getCartId();
+                const checkoutShippingMethodLocalStorage = getLocalStorage('checkout_shipping_method');
+
+                if (!checkEmpty) {
+                    if (checkoutShippingMethodLocalStorage && checkoutShippingMethodLocalStorage.length > 0) {
+                        const matchData = checkoutShippingMethodLocalStorage.find((item) => item.cartId === cartIdCookie);
+                        if (matchData) {
+                            const tempArray = checkoutShippingMethodLocalStorage.map(({ cartId, data: dataShipping }) => {
+                                if (cartId === cartIdCookie) {
+                                    return {
+                                        cartId,
+                                        data: state.selected.shipping,
+                                    };
+                                }
+                                return {
+                                    cartId,
+                                    data: dataShipping,
+                                };
+                            });
+                            setLocalStorage('checkout_shipping_method', tempArray);
+                        } else {
+                            const tempArray = [];
+                            tempArray.push({
+                                cartId: cartIdCookie,
+                                data: state.selected.shipping,
+                            });
+                            setLocalStorage('checkout_shipping_method', tempArray);
+                        }
+                    } else {
+                        const tempArray = [];
+                        tempArray.push({
+                            cartId: cartIdCookie,
+                            data: state.selected.shipping,
+                        });
+                        setLocalStorage('checkout_shipping_method', tempArray);
+                    }
+                }
 
                 if (!checkEmpty) {
                     state = {

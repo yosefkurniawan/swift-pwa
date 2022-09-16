@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-expressions */
 import useStyles from '@common_forms/Radio/style';
 import Typography from '@common_typography';
+import { getCartId } from '@helper_cartid';
 import { getLocalStorage } from '@helper_localstorage';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
@@ -40,7 +41,6 @@ function CustomRadio({
     isShipping = false,
 }) {
     const storeConfigLocalStorage = getLocalStorage('storeConfig');
-    const checkoutShippingMethod = getLocalStorage('checkout_shipping_method');
     const styles = useStyles();
 
     const rootStyle = classNames(styles.root, className);
@@ -72,14 +72,17 @@ function CustomRadio({
                         if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
                             let isTrue;
                             let itemValue;
+                            const cartIdCookie = getCartId();
+                            const checkoutShippingMethod = getLocalStorage('checkout_shipping_method');
 
                             if (isShipping) {
-                                if (value.length > 1) {
-                                    if (!value[0].seller_id) {
-                                        if (checkoutShippingMethod && checkoutShippingMethod.length === value.length) {
-                                            if (checkoutShippingMethod[0].name.method_code === value[0].name.method_code) {
+                                if (value && value.length > 1) {
+                                    if (!value[0].seller_id && checkoutShippingMethod.length > 0) {
+                                        const matchData = checkoutShippingMethod.find((items) => items.cartId === cartIdCookie);
+                                        if (matchData && matchData.data && matchData.data.length === value.length) {
+                                            if (matchData.data[0].name.method_code === value[0].name.method_code) {
                                                 itemValue = `${item.value.split('_')[1]}_${item.value.split('_')[2]}`;
-                                                isTrue = itemValue === `${checkoutShippingMethod.find((items) => items.seller_id === item.value.split('_')[2]).name.method_code}_${checkoutShippingMethod.find((items) => items.seller_id === item.value.split('_')[2]).seller_id}`;
+                                                isTrue = itemValue === `${matchData.data.find((items) => items.seller_id === item.value.split('_')[2]).name.method_code}_${matchData.data.find((items) => items.seller_id === item.value.split('_')[2]).seller_id}`;
                                                 return (
                                                     <>
                                                         <CustomItem

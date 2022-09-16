@@ -100,7 +100,6 @@ const ItemView = (props) => {
             return groupData;
         }, []);
         cartItemBySeller = groupData;
-        console.log('groupdatamobile', groupData);
     }
 
     return (
@@ -118,7 +117,6 @@ const ItemView = (props) => {
                 </div>
             </div>
             <div className={classNames(styles.items, 'hidden-desktop')}>
-                {console.log(data)}
                 {storeConfigLocalStorage &&
                     storeConfigLocalStorage.enable_oms_multiseller &&
                     cartItemBySeller.map((seller) => (
