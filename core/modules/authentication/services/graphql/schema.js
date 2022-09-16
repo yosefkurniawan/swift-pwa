@@ -7,6 +7,7 @@ export const internalGenerateSession = gql`
                    isLogin
                    cartId
                    redirect_path
+                   storeCode
                }
            }
        `;
