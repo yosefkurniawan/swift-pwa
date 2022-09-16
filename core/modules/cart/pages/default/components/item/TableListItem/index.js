@@ -77,7 +77,6 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
     let cartItemBySeller = {};
 
     if (data) {
-        console.log(data);
         const unGroupedData = data;
         // eslint-disable-next-line no-shadow
         const groupData = unGroupedData.reduce((groupData, { SimpleMiniCustomizable, id, note, prices, product, quantity, ...other }) => {
@@ -102,7 +101,6 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
             return groupData;
         }, []);
         cartItemBySeller = groupData;
-        console.log(groupData);
     }
 
     const orderNote = (cartItemId, note, quantity) => {
@@ -207,7 +205,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                             </TableCell>
                         </TableRow>
                     </TableHead>
-                    {storeConfig && !storeConfig.enable_oms_multiseller && (
+                    {storeConfig && storeConfig.enable_oms_multiseller !== '1' && (
                         <TableBody>
                             {data && data.length > 0 ? (
                                 <>
@@ -412,7 +410,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                         </TableBody>
                     )}
                     {storeConfig &&
-                        storeConfig.enable_oms_multiseller &&
+                        storeConfig.enable_oms_multiseller === '1' &&
                         cartItemBySeller &&
                         cartItemBySeller.length > 0 &&
                         cartItemBySeller.map((seller) => (
