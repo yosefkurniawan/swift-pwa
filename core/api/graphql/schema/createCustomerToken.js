@@ -39,6 +39,7 @@ type internalGenerateSessionOutput {
     isLogin: Boolean
     cartId: String
     redirect_path: String
+    storeCode: String
 }
 
 type internalDeleteSessionOutput {
