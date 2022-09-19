@@ -1,8 +1,8 @@
 {
     "exportFormatVersion": 2,
-    "exportTime": "2022-09-13 10:13:22",
+    "exportTime": "2022-09-19 05:03:50",
     "containerVersion": {
-        "path": "accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/versions/2",
+        "path": "accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/versions/3",
         "accountId": "<<@ACCOUNT_ID>>",
         "containerId": "<<@CONTAINER_ID>>",
         "containerVersionId": "0",
@@ -10,7 +10,7 @@
             "path": "accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>",
             "accountId": "<<@ACCOUNT_ID>>",
             "containerId": "<<@CONTAINER_ID>>",
-            "name": "SwiftPWA_GA4",
+            "name": "swiftpwa.testingnow.me/GA4",
             "publicId": "<<@GTM_ID>>",
             "usageContext": [
                 "WEB"
@@ -57,6 +57,11 @@
                 "type": "gaawe",
                 "parameter": [
                     {
+                        "type": "BOOLEAN",
+                        "key": "sendEcommerceData",
+                        "value": "false"
+                    },
+                    {
                         "type": "LIST",
                         "key": "userProperties",
                         "list": [
@@ -72,21 +77,6 @@
                                         "type": "TEMPLATE",
                                         "key": "value",
                                         "value": "{{PWA - GA4 - customerGroup}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerId"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
                                     }
                                 ]
                             },
@@ -154,7 +144,7 @@
                         "value": "PWA - GA4"
                     }
                 ],
-                "fingerprint": "1660978991561",
+                "fingerprint": "1663495405038",
                 "firingTriggerId": [
                     "6"
                 ],
@@ -174,6 +164,11 @@
                 "type": "gaawe",
                 "parameter": [
                     {
+                        "type": "BOOLEAN",
+                        "key": "sendEcommerceData",
+                        "value": "false"
+                    },
+                    {
                         "type": "LIST",
                         "key": "userProperties",
                         "list": [
@@ -189,21 +184,6 @@
                                         "type": "TEMPLATE",
                                         "key": "value",
                                         "value": "{{PWA - GA4 - customerGroup}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerId"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
                                     }
                                 ]
                             },
@@ -406,7 +386,7 @@
                         "value": "PWA - GA4"
                     }
                 ],
-                "fingerprint": "1660978991566",
+                "fingerprint": "1663495490180",
                 "firingTriggerId": [
                     "15"
                 ],
@@ -451,245 +431,16 @@
             {
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "tagId": "30",
-                "name": "PWA - GA4 - Add To Wishlist",
-                "type": "gaawe",
-                "parameter": [
-                    {
-                        "type": "LIST",
-                        "key": "userProperties",
-                        "list": [
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerGroup"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerGroup}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerId"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "eid"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - eid}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "pid"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - pid}}"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "eventName",
-                        "value": "addToWishlist"
-                    },
-                    {
-                        "type": "LIST",
-                        "key": "eventParameters",
-                        "list": [
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "items"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - ecommerce.action.items}}"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "type": "TAG_REFERENCE",
-                        "key": "measurementId",
-                        "value": "PWA - GA4"
-                    }
-                ],
-                "fingerprint": "1660978991569",
-                "firingTriggerId": [
-                    "29"
-                ],
-                "tagFiringOption": "ONCE_PER_EVENT",
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
-                "tagId": "33",
-                "name": "PWA - GA4 - Remove From Cart",
-                "type": "gaawe",
-                "parameter": [
-                    {
-                        "type": "LIST",
-                        "key": "userProperties",
-                        "list": [
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerGroup"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerGroup}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerId"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "eid"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - eid}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "pid"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - pid}}"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "eventName",
-                        "value": "removeFromCart"
-                    },
-                    {
-                        "type": "LIST",
-                        "key": "eventParameters",
-                        "list": [
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "items"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - ecommerce.action.items}}"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "type": "TAG_REFERENCE",
-                        "key": "measurementId",
-                        "value": "PWA - GA4"
-                    }
-                ],
-                "fingerprint": "1660978991570",
-                "firingTriggerId": [
-                    "32"
-                ],
-                "tagFiringOption": "ONCE_PER_EVENT",
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": "36",
                 "name": "PWA - GA4 - remove from cart",
                 "type": "gaawe",
                 "parameter": [
                     {
+                        "type": "BOOLEAN",
+                        "key": "sendEcommerceData",
+                        "value": "false"
+                    },
+                    {
                         "type": "LIST",
                         "key": "userProperties",
                         "list": [
@@ -705,21 +456,6 @@
                                         "type": "TEMPLATE",
                                         "key": "value",
                                         "value": "{{PWA - GA4 - customerGroup}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerId"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
                                     }
                                 ]
                             },
@@ -787,7 +523,7 @@
                         "value": "PWA - GA4"
                     }
                 ],
-                "fingerprint": "1660978991571",
+                "fingerprint": "1663495505493",
                 "firingTriggerId": [
                     "35"
                 ],
@@ -841,123 +577,6 @@
                 "fingerprint": "1660978991572",
                 "firingTriggerId": [
                     "37"
-                ],
-                "tagFiringOption": "ONCE_PER_EVENT",
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
-                "tagId": "42",
-                "name": "PWA - GA4 - Checkout Option",
-                "type": "gaawe",
-                "parameter": [
-                    {
-                        "type": "LIST",
-                        "key": "userProperties",
-                        "list": [
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerGroup"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerGroup}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerId"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "eid"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - eid}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "pid"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - pid}}"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "eventName",
-                        "value": "checkoutOption"
-                    },
-                    {
-                        "type": "LIST",
-                        "key": "eventParameters",
-                        "list": [
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "items"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - ecommerce.items}}"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "type": "TAG_REFERENCE",
-                        "key": "measurementId",
-                        "value": "PWA - GA4"
-                    }
-                ],
-                "fingerprint": "1660978991574",
-                "firingTriggerId": [
-                    "41"
                 ],
                 "tagFiringOption": "ONCE_PER_EVENT",
                 "monitoringMetadata": {
@@ -1026,6 +645,11 @@
                 "type": "gaawe",
                 "parameter": [
                     {
+                        "type": "BOOLEAN",
+                        "key": "sendEcommerceData",
+                        "value": "false"
+                    },
+                    {
                         "type": "LIST",
                         "key": "userProperties",
                         "list": [
@@ -1041,21 +665,6 @@
                                         "type": "TEMPLATE",
                                         "key": "value",
                                         "value": "{{PWA - GA4 - customerGroup}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerId"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
                                     }
                                 ]
                             },
@@ -1123,7 +732,7 @@
                         "value": "PWA - GA4"
                     }
                 ],
-                "fingerprint": "1660978991574",
+                "fingerprint": "1663495464150",
                 "firingTriggerId": [
                     "31"
                 ],
@@ -1143,6 +752,11 @@
                 "type": "gaawe",
                 "parameter": [
                     {
+                        "type": "BOOLEAN",
+                        "key": "sendEcommerceData",
+                        "value": "false"
+                    },
+                    {
                         "type": "LIST",
                         "key": "userProperties",
                         "list": [
@@ -1158,21 +772,6 @@
                                         "type": "TEMPLATE",
                                         "key": "value",
                                         "value": "{{PWA - GA4 - customerGroup}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerId"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
                                     }
                                 ]
                             },
@@ -1240,7 +839,7 @@
                         "value": "PWA - GA4"
                     }
                 ],
-                "fingerprint": "1660978991575",
+                "fingerprint": "1663495361731",
                 "firingTriggerId": [
                     "39"
                 ],
@@ -1260,6 +859,11 @@
                 "type": "gaawe",
                 "parameter": [
                     {
+                        "type": "BOOLEAN",
+                        "key": "sendEcommerceData",
+                        "value": "false"
+                    },
+                    {
                         "type": "LIST",
                         "key": "userProperties",
                         "list": [
@@ -1275,21 +879,6 @@
                                         "type": "TEMPLATE",
                                         "key": "value",
                                         "value": "{{PWA - GA4 - customerGroup}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerId"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
                                     }
                                 ]
                             },
@@ -1357,126 +946,9 @@
                         "value": "PWA - GA4"
                     }
                 ],
-                "fingerprint": "1660978991575",
+                "fingerprint": "1663495442024",
                 "firingTriggerId": [
                     "26"
-                ],
-                "tagFiringOption": "ONCE_PER_EVENT",
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
-                "tagId": "48",
-                "name": "PWA - GA4 - Checkout",
-                "type": "gaawe",
-                "parameter": [
-                    {
-                        "type": "LIST",
-                        "key": "userProperties",
-                        "list": [
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerGroup"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerGroup}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerId"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "eid"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - eid}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "pid"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - pid}}"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "eventName",
-                        "value": "checkout"
-                    },
-                    {
-                        "type": "LIST",
-                        "key": "eventParameters",
-                        "list": [
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "items"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - ecommerce.items}}"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "type": "TAG_REFERENCE",
-                        "key": "measurementId",
-                        "value": "PWA - GA4"
-                    }
-                ],
-                "fingerprint": "1660978991576",
-                "firingTriggerId": [
-                    "47"
                 ],
                 "tagFiringOption": "ONCE_PER_EVENT",
                 "monitoringMetadata": {
@@ -1494,6 +966,11 @@
                 "type": "gaawe",
                 "parameter": [
                     {
+                        "type": "BOOLEAN",
+                        "key": "sendEcommerceData",
+                        "value": "false"
+                    },
+                    {
                         "type": "LIST",
                         "key": "userProperties",
                         "list": [
@@ -1509,21 +986,6 @@
                                         "type": "TEMPLATE",
                                         "key": "value",
                                         "value": "{{PWA - GA4 - customerGroup}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerId"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
                                     }
                                 ]
                             },
@@ -1591,213 +1053,9 @@
                         "value": "PWA - GA4"
                     }
                 ],
-                "fingerprint": "1660978991576",
+                "fingerprint": "1663495288750",
                 "firingTriggerId": [
                     "34"
-                ],
-                "tagFiringOption": "ONCE_PER_EVENT",
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
-                "tagId": "51",
-                "name": "PWA - GA4 - Add To Cart",
-                "type": "gaawe",
-                "parameter": [
-                    {
-                        "type": "LIST",
-                        "key": "userProperties",
-                        "list": [
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerGroup"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerGroup}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerId"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "eid"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - eid}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "pid"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - pid}}"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "eventName",
-                        "value": "addToCart"
-                    },
-                    {
-                        "type": "LIST",
-                        "key": "eventParameters",
-                        "list": [
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "items"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - ecommerce.action.items}}"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "type": "TAG_REFERENCE",
-                        "key": "measurementId",
-                        "value": "PWA - GA4"
-                    }
-                ],
-                "fingerprint": "1660978991577",
-                "firingTriggerId": [
-                    "50"
-                ],
-                "tagFiringOption": "ONCE_PER_EVENT",
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
-                "tagId": "54",
-                "name": "PWA - GA4 - Impression",
-                "type": "gaawe",
-                "parameter": [
-                    {
-                        "type": "LIST",
-                        "key": "userProperties",
-                        "list": [
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerGroup"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerGroup}}"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "customerId"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "eventName",
-                        "value": "impression"
-                    },
-                    {
-                        "type": "LIST",
-                        "key": "eventParameters",
-                        "list": [
-                            {
-                                "type": "MAP",
-                                "map": [
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "name",
-                                        "value": "items"
-                                    },
-                                    {
-                                        "type": "TEMPLATE",
-                                        "key": "value",
-                                        "value": "{{PWA - GA4 - ecommerce.items}}"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "type": "TAG_REFERENCE",
-                        "key": "measurementId",
-                        "value": "PWA - GA4"
-                    }
-                ],
-                "fingerprint": "1660978991665",
-                "firingTriggerId": [
-                    "53"
                 ],
                 "tagFiringOption": "ONCE_PER_EVENT",
                 "monitoringMetadata": {
@@ -1844,12 +1102,27 @@
                                     {
                                         "type": "TEMPLATE",
                                         "key": "name",
-                                        "value": "customerId"
+                                        "value": "eid"
                                     },
                                     {
                                         "type": "TEMPLATE",
                                         "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
                                     }
                                 ]
                             }
@@ -1887,7 +1160,7 @@
                         "value": "PWA - GA4"
                     }
                 ],
-                "fingerprint": "1663028474954",
+                "fingerprint": "1663495336593",
                 "firingTriggerId": [
                     "57"
                 ],
@@ -1936,12 +1209,27 @@
                                     {
                                         "type": "TEMPLATE",
                                         "key": "name",
-                                        "value": "customerId"
+                                        "value": "eid"
                                     },
                                     {
                                         "type": "TEMPLATE",
                                         "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
                                     }
                                 ]
                             }
@@ -1979,7 +1267,7 @@
                         "value": "PWA - GA4"
                     }
                 ],
-                "fingerprint": "1663028789368",
+                "fingerprint": "1663495543543",
                 "firingTriggerId": [
                     "59"
                 ],
@@ -2028,12 +1316,27 @@
                                     {
                                         "type": "TEMPLATE",
                                         "key": "name",
-                                        "value": "customerId"
+                                        "value": "eid"
                                     },
                                     {
                                         "type": "TEMPLATE",
                                         "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
                                     }
                                 ]
                             }
@@ -2086,7 +1389,7 @@
                         "value": "PWA - GA4"
                     }
                 ],
-                "fingerprint": "1663029172603",
+                "fingerprint": "1663495190783",
                 "firingTriggerId": [
                     "61"
                 ],
@@ -2135,12 +1438,27 @@
                                     {
                                         "type": "TEMPLATE",
                                         "key": "name",
-                                        "value": "customerId"
+                                        "value": "eid"
                                     },
                                     {
                                         "type": "TEMPLATE",
                                         "key": "value",
-                                        "value": "{{PWA - GA4 - customerId}}"
+                                        "value": "{{PWA - GA4 - eid}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "pid"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{PWA - GA4 - pid}}"
                                     }
                                 ]
                             }
@@ -2193,7 +1511,7 @@
                         "value": "PWA - GA4"
                     }
                 ],
-                "fingerprint": "1663029268604",
+                "fingerprint": "1663495248016",
                 "firingTriggerId": [
                     "62"
                 ],
@@ -2874,32 +2192,6 @@
             {
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "variableId": "10",
-                "name": "PWA - GA4 - customerId",
-                "type": "v",
-                "parameter": [
-                    {
-                        "type": "INTEGER",
-                        "key": "dataLayerVersion",
-                        "value": "2"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "setDefaultValue",
-                        "value": "false"
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "name",
-                        "value": "customerId"
-                    }
-                ],
-                "fingerprint": "1660978991561",
-                "formatValue": {}
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
                 "variableId": "12",
                 "name": "PWA - GA4 - shipping",
                 "type": "v",
@@ -3326,7 +2618,7 @@
                 "name": "New History Fragment"
             }
         ],
-        "fingerprint": "1663063735300",
-        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/versions/2?apiLink=version"
+        "fingerprint": "1663563793433",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/versions/3?apiLink=version"
     }
 }
