@@ -311,8 +311,8 @@ const Summary = ({
                 if (!validateResponse(result, state)) return;
 
                 let orderNumber = '';
-                if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
-                    if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
+                if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
+                    if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
                         // eslint-disable-next-line array-callback-return
                         result.data.placeOrder.map((order, index) => {
                             if (index !== result.data.placeOrder.length - 1) {
@@ -321,8 +321,10 @@ const Summary = ({
                                 orderNumber = `${orderNumber}${order.order.order_number}`;
                             }
                         });
-                    } else {
-                        orderNumber = result.data.placeOrder[0].order.order_number;
+                    }
+                } else {
+                    if (result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
+                        orderNumber = result.data.placeOrder.order.order_number;
                     }
                 }
                 if (orderNumber && orderNumber !== '') {

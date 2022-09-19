@@ -73,7 +73,6 @@ const ShippingView = (props) => {
     const {
         isOnlyVirtualProductOnCart,
         checkout,
-        // setCheckout,
         storeConfig,
         loading,
         selected,
@@ -298,9 +297,6 @@ const ShippingView = (props) => {
                     return false;
                 });
 
-                // state.loading.shipping = true;
-                // setCheckout(state);
-
                 uniqueSellerGroup.forEach((seller) => {
                     const sellerData = shipping.map((ship) => ({
                         data: ship.data.filter((item) => item.seller_id === seller),
@@ -314,9 +310,6 @@ const ShippingView = (props) => {
                         sellerData,
                     });
                 });
-
-                // state.loading.shipping = false;
-                // setCheckout(state);
             }
             // check if have active on group data by default selected if
             let itemActive = false;
