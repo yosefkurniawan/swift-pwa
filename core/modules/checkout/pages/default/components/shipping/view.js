@@ -1,8 +1,6 @@
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable operator-linebreak */
 /* eslint-disable max-len */
-/* eslint-disable arrow-body-style */
-/* eslint-disable array-callback-return */
 /* eslint-disable comma-dangle */
 import Radio from '@common_forms/Radio';
 import Typography from '@common_typography';
@@ -75,7 +73,7 @@ const ShippingView = (props) => {
     const {
         isOnlyVirtualProductOnCart,
         checkout,
-        setCheckout,
+        // setCheckout,
         storeConfig,
         loading,
         selected,
@@ -93,12 +91,35 @@ const ShippingView = (props) => {
         setExpandedActive(false);
         setExpanded(newExpanded ? panel : false);
     };
-    const [expandedMulti, setExpandedMulti] = React.useState(null);
-    const [expandedActiveMulti, setExpandedActiveMulti] = React.useState(true);
-    const handleChangeMulti = (panel) => (event, newExpanded) => {
-        setExpandedActiveMulti(false);
-        setExpandedMulti(newExpanded ? panel : false);
+    const [expandedMulti, setExpandedMulti] = React.useState([]);
+    const [expandedActiveMulti, setExpandedActiveMulti] = React.useState([]);
+    const handleChangeMulti = (panel, seller_id) => (event, newExpanded) => {
+        const tempData = expandedMulti;
+        const tempDataActive = expandedActiveMulti;
+        const index = expandedMulti.findIndex((item) => item.seller_id === seller_id);
+        const indexActive = expandedActiveMulti.findIndex((item) => item.seller_id === seller_id);
+        tempData[index].expanded = panel;
+        tempDataActive[indexActive].expanded = false;
+        setExpandedActiveMulti(tempDataActive);
+        setExpandedMulti(newExpanded ? tempData : false);
     };
+
+    React.useEffect(() => {
+        if (data.shippingMethods.length !== 0 && storeConfig.enable_oms_multiseller === '1' && setExpandedMulti.length === 0 && setExpandedActiveMulti.length === 0) {
+            data.shippingMethods.forEach((item) => {
+                const tempData = {
+                    seller_id: item.seller_id,
+                    expanded: false
+                };
+                const tempDataActive = {
+                    seller_id: item.seller_id,
+                    expanded: true
+                };
+                setExpandedMulti((prevState) => [...prevState, tempData]);
+                setExpandedActiveMulti((prevState) => [...prevState, tempDataActive]);
+            });
+        }
+    }, [data.shippingMethods]);
 
     if (checkout.selected.delivery === 'pickup') {
         const price = formatPrice(0, storeConfig.base_currency_code || 'IDR');
@@ -115,7 +136,7 @@ const ShippingView = (props) => {
         const sellerGroup = [];
 
         const shipping = [];
-        const state = { ...checkout };
+        // const state = { ...checkout };
         if (storeConfig.enable_oms_multiseller === '1') {
             for (let index = 0; index < group.length; index += 1) {
                 const groupData = [];
@@ -125,7 +146,7 @@ const ShippingView = (props) => {
 
                 // create group data if same label on config
                 if (storeConfig.enable_oms_multiseller === '1') {
-                    data.shippingMethods.map((avx) => {
+                    data.shippingMethods.forEach((avx) => {
                         sellerGroup.push({ seller_id: avx.seller_id, data: [] });
                         for (let idx = 0; idx < avx.available_shipping_methods.length; idx += 1) {
                             const element = avx.available_shipping_methods[idx];
@@ -277,10 +298,10 @@ const ShippingView = (props) => {
                     return false;
                 });
 
-                state.loading.shipping = true;
-                setCheckout(state);
+                // state.loading.shipping = true;
+                // setCheckout(state);
 
-                uniqueSellerGroup.map((seller) => {
+                uniqueSellerGroup.forEach((seller) => {
                     const sellerData = shipping.map((ship) => ({
                         data: ship.data.filter((item) => item.seller_id === seller),
                         group: ship.group,
@@ -294,8 +315,8 @@ const ShippingView = (props) => {
                     });
                 });
 
-                state.loading.shipping = false;
-                setCheckout(state);
+                // state.loading.shipping = false;
+                // setCheckout(state);
             }
             // check if have active on group data by default selected if
             let itemActive = false;
@@ -314,87 +335,83 @@ const ShippingView = (props) => {
                 }
             }
             if (storeConfig.enable_oms_multiseller === '1') {
-                if (checkout.loading.shipping) {
-                    content = <Loader />;
-                } else {
-                    content = unique.map((seller) => {
-                        return (
-                            <>
-                                <Typography letter="uppercase" variant="span" type="bold">
-                                    {`${seller.seller_name} - ${seller.seller_city}`}
-                                </Typography>
-                                <div className="column">
-                                    <div className={styles.paymentExpansionContainer}>
-                                        {seller.sellerData.map((item, keyIndex) => {
-                                            if (item.data.length !== 0) {
-                                                return (
-                                                    <Accordion
-                                                        expanded={
-                                                            expandedMulti === keyIndex || // if key index same with expanded active
-                                                            (item.active && expandedActiveMulti) || // expand if item active and not change expand
-                                                            (!itemActive && expandedActiveMulti && keyIndex === 0)
-                                                        } // if dont have item active, set index 0 to active
-                                                        onChange={handleChangeMulti(keyIndex)}
-                                                        key={keyIndex}
-                                                    >
-                                                        <AccordionSummary
-                                                            aria-controls="panel1d-content"
-                                                            id={`panel-${item.group}`}
-                                                            expandIcon={<Arrow className={styles.icon} />}
-                                                            IconButtonProps={{
-                                                                className: 'checkout-shippingGroupping-expand',
-                                                            }}
-                                                        >
-                                                            <div className={styles.labelAccordion}>
-                                                                <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
-                                                                <Typography letter="uppercase" variant="span" type="bold">
-                                                                    {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`) ===
-                                                                        `shippingGrouping.${item.group.replace('sg-', '')}`
-                                                                        ? item.group.replace('sg-', '')
-                                                                        : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
-                                                                </Typography>
-                                                            </div>
-                                                        </AccordionSummary>
-                                                        <AccordionDetails>
-                                                            <div className="column">
-                                                                {item.data.length !== 0 ? (
-                                                                    <RadioMultiseller
-                                                                        value={selected.shipping}
-                                                                        onChange={handleShipping}
-                                                                        valueData={item.data}
-                                                                        CustomItem={DeliveryItem}
-                                                                        classContainer={styles.radioShiping}
-                                                                        storeConfig={storeConfig}
-                                                                        propsItem={{
-                                                                            borderBottom: false,
-                                                                            classContent: styles.listShippingGroup,
-                                                                        }}
-                                                                        isShipping
-                                                                    />
-                                                                ) : null}
-                                                            </div>
-                                                        </AccordionDetails>
-                                                    </Accordion>
-                                                );
-                                            }
-                                            return null;
-                                        })}
-                                    </div>
+                content = unique.map((seller) => (
+                    <>
+                        <Typography letter="uppercase" variant="span" type="bold">
+                            {`${seller.seller_name} - ${seller.seller_city}`}
+                        </Typography>
+                        <div className="column">
+                            <div className={styles.paymentExpansionContainer}>
+                                {seller.sellerData.map((item, keyIndex) => {
+                                    if (item.data.length !== 0) {
+                                        const indexes = expandedMulti.findIndex((items) => items.seller_id === seller.seller_id);
+                                        const indexesActive = expandedActiveMulti.findIndex((items) => items.seller_id === seller.seller_id);
+                                        return (
+                                            <Accordion
+                                                expanded={
+                                                    (expandedMulti[indexes] && expandedMulti[indexes].expanded === keyIndex) || // if key index same with expanded active
+                                                    (item.active && (expandedMulti[indexes] && expandedActiveMulti[indexesActive].expanded)) || // expand if item active and not change expand
+                                                    (!itemActive && (expandedMulti[indexes] && expandedActiveMulti[indexesActive].expanded && keyIndex === 0))
+                                                } // if dont have item active, set index 0 to active
+                                                onChange={handleChangeMulti(keyIndex, seller.seller_id)}
+                                                key={keyIndex}
+                                            >
+                                                <AccordionSummary
+                                                    aria-controls="panel1d-content"
+                                                    id={`panel-${item.group}`}
+                                                    expandIcon={<Arrow className={styles.icon} />}
+                                                    IconButtonProps={{
+                                                        className: 'checkout-shippingGroupping-expand',
+                                                    }}
+                                                >
+                                                    <div className={styles.labelAccordion}>
+                                                        <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
+                                                        <Typography letter="uppercase" variant="span" type="bold">
+                                                            {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`) ===
+                                                                `shippingGrouping.${item.group.replace('sg-', '')}`
+                                                                ? item.group.replace('sg-', '')
+                                                                : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
+                                                        </Typography>
+                                                    </div>
+                                                </AccordionSummary>
+                                                <AccordionDetails>
+                                                    <div className="column">
+                                                        {item.data.length !== 0 ? (
+                                                            <RadioMultiseller
+                                                                value={selected.shipping}
+                                                                onChange={handleShipping}
+                                                                valueData={item.data}
+                                                                CustomItem={DeliveryItem}
+                                                                classContainer={styles.radioShiping}
+                                                                storeConfig={storeConfig}
+                                                                propsItem={{
+                                                                    borderBottom: false,
+                                                                    classContent: styles.listShippingGroup,
+                                                                }}
+                                                                isShipping
+                                                            />
+                                                        ) : null}
+                                                    </div>
+                                                </AccordionDetails>
+                                            </Accordion>
+                                        );
+                                    }
+                                    return <Typography variant="p">{t('checkout:noShipping')}</Typography>;
+                                })}
+                            </div>
 
-                                    <div className={styles.listError}>
-                                        {error &&
-                                            error.length > 0 &&
-                                            error.map((msg, key) => (
-                                                <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
-                                                    {msg}
-                                                </Alert>
-                                            ))}
-                                    </div>
-                                </div>
-                            </>
-                        );
-                    });
-                }
+                            <div className={styles.listError}>
+                                {error &&
+                                    error.length > 0 &&
+                                    error.map((msg, key) => (
+                                        <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
+                                            {msg}
+                                        </Alert>
+                                    ))}
+                            </div>
+                        </div>
+                    </>
+                ));
             } else {
                 content = (
                     <div className="column">
@@ -488,7 +505,7 @@ const ShippingView = (props) => {
             <Typography variant="title" type="bold" letter="uppercase">
                 {t('checkout:shippingMethod')}
             </Typography>
-            {!loadingSellerInfo && content}
+            {!loadingSellerInfo ? content : <Loader />}
         </div>
     );
 };
