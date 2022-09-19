@@ -1,8 +1,8 @@
 {
     "exportFormatVersion": 2,
-    "exportTime": "2022-09-19 05:03:50",
+    "exportTime": "2022-09-19 22:55:56",
     "containerVersion": {
-        "path": "accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/versions/3",
+        "path": "accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/versions/0",
         "accountId": "<<@ACCOUNT_ID>>",
         "containerId": "<<@CONTAINER_ID>>",
         "containerVersionId": "0",
@@ -10,7 +10,7 @@
             "path": "accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>",
             "accountId": "<<@ACCOUNT_ID>>",
             "containerId": "<<@CONTAINER_ID>>",
-            "name": "swiftpwa.testingnow.me/GA4",
+            "name": "SwiftPWA_GA4",
             "publicId": "<<@GTM_ID>>",
             "usageContext": [
                 "WEB"
@@ -1670,31 +1670,6 @@
             {
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "triggerId": "29",
-                "name": "PWA - GA4 - addToWishlist",
-                "type": "CUSTOM_EVENT",
-                "customEventFilter": [
-                    {
-                        "type": "EQUALS",
-                        "parameter": [
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg0",
-                                "value": "{{_event}}"
-                            },
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg1",
-                                "value": "addToWishlist"
-                            }
-                        ]
-                    }
-                ],
-                "fingerprint": "1660978991568"
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": "31",
                 "name": "PWA - GA4 - select_item",
                 "type": "CUSTOM_EVENT",
@@ -1716,31 +1691,6 @@
                     }
                 ],
                 "fingerprint": "1660978991569"
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
-                "triggerId": "32",
-                "name": "PWA - GA4 - removeFromCart",
-                "type": "CUSTOM_EVENT",
-                "customEventFilter": [
-                    {
-                        "type": "EQUALS",
-                        "parameter": [
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg0",
-                                "value": "{{_event}}"
-                            },
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg1",
-                                "value": "removeFromCart"
-                            }
-                        ]
-                    }
-                ],
-                "fingerprint": "1660978991570"
             },
             {
                 "accountId": "<<@ACCOUNT_ID>>",
@@ -1866,106 +1816,6 @@
                     }
                 ],
                 "fingerprint": "1660978991573"
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
-                "triggerId": "41",
-                "name": "PWA - GA4 - checkoutOption",
-                "type": "CUSTOM_EVENT",
-                "customEventFilter": [
-                    {
-                        "type": "EQUALS",
-                        "parameter": [
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg0",
-                                "value": "{{_event}}"
-                            },
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg1",
-                                "value": "checkoutOption"
-                            }
-                        ]
-                    }
-                ],
-                "fingerprint": "1660978991573"
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
-                "triggerId": "47",
-                "name": "PWA - GA4 - checkout",
-                "type": "CUSTOM_EVENT",
-                "customEventFilter": [
-                    {
-                        "type": "EQUALS",
-                        "parameter": [
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg0",
-                                "value": "{{_event}}"
-                            },
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg1",
-                                "value": "checkout"
-                            }
-                        ]
-                    }
-                ],
-                "fingerprint": "1660978991575"
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
-                "triggerId": "50",
-                "name": "PWA - GA4 - addToCart",
-                "type": "CUSTOM_EVENT",
-                "customEventFilter": [
-                    {
-                        "type": "EQUALS",
-                        "parameter": [
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg0",
-                                "value": "{{_event}}"
-                            },
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg1",
-                                "value": "addToCart"
-                            }
-                        ]
-                    }
-                ],
-                "fingerprint": "1660978991577"
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
-                "triggerId": "53",
-                "name": "PWA - GA4 - impression",
-                "type": "CUSTOM_EVENT",
-                "customEventFilter": [
-                    {
-                        "type": "EQUALS",
-                        "parameter": [
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg0",
-                                "value": "{{_event}}"
-                            },
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg1",
-                                "value": "impression"
-                            }
-                        ]
-                    }
-                ],
-                "fingerprint": "1660978991664"
             },
             {
                 "accountId": "<<@ACCOUNT_ID>>",
@@ -2618,7 +2468,7 @@
                 "name": "New History Fragment"
             }
         ],
-        "fingerprint": "1663563793433",
-        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/versions/3?apiLink=version"
+        "fingerprint": "1663628136639",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/versions/0?apiLink=version"
     }
 }

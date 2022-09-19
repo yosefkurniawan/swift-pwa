@@ -45,7 +45,6 @@ const PageStoreCredit = (props) => {
                 }
             });
             const simpleData = data.ordersFilter.data[0].detail[0].items.filter((item) => !itemsChild.find(({ sku }) => item.sku === sku) && item);
-            // const simpleData1 = data.ordersFilter.data[0].detail[0].items.filter((item) => !itemsChild.find(({ price }) => item.price === price) && item);
             itemsProduct = [...itemsChild, ...simpleData];
             // GTM UA dataLayer
             const dataLayer = {
