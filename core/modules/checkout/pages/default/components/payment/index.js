@@ -155,41 +155,6 @@ export default function CustomizedExpansionPanels({
                     },
                 };
                 setCheckout(state);
-            } else if (val === 'paypal_express') {
-                state = {
-                    ...checkout,
-                    selected: {
-                        ...checkout.selected,
-                        payment: val,
-                        purchaseOrderNumber: null,
-                    },
-                    loading: {
-                        ...checkout.loading,
-                        all: false,
-                        order: false,
-                    },
-                };
-                setCheckout(state);
-                if (storeConfig?.pwa?.paypal_enable
-                    && initialOptionPaypal['data-order-id'] === '' && checkout.selected.payment === 'paypal_express') {
-                    getPaypalToken({
-                        variables: {
-                            cartId: cart.id,
-                            code: 'paypal_express',
-                            returnUrl: modules.paypal.returnUrl,
-                            cancelUrl: modules.paypal.cancelUrl,
-                        },
-                    }).then((res) => {
-                        if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
-                            const { token } = res.data.createPaypalExpressToken;
-                            setTokenData(res.data.createPaypalExpressToken);
-                            setInitialOptionPaypal({
-                                ...initialOptionPaypal,
-                                'data-order-id': token,
-                            });
-                        }
-                    });
-                }
             } else {
                 const payment_method = { code: val };
                 await setPaymentMethod({
@@ -198,12 +163,49 @@ export default function CustomizedExpansionPanels({
                         payment_method,
                     },
                 }).then((result) => {
-                    onHandleResult({
-                        state,
-                        result,
-                        val,
-                        cart,
-                    });
+                    if (val === 'paypal_express') {
+                        state = {
+                            ...checkout,
+                            selected: {
+                                ...checkout.selected,
+                                payment: val,
+                                purchaseOrderNumber: null,
+                            },
+                            loading: {
+                                ...checkout.loading,
+                                all: false,
+                                order: false,
+                            },
+                        };
+                        setCheckout(state);
+                        if (storeConfig?.pwa?.paypal_enable
+                            && initialOptionPaypal['data-order-id'] === '' && checkout.selected.payment === 'paypal_express') {
+                            getPaypalToken({
+                                variables: {
+                                    cartId: cart.id,
+                                    code: 'paypal_express',
+                                    returnUrl: modules.paypal.returnUrl,
+                                    cancelUrl: modules.paypal.cancelUrl,
+                                },
+                            }).then((res) => {
+                                if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
+                                    const { token } = res.data.createPaypalExpressToken;
+                                    setTokenData(res.data.createPaypalExpressToken);
+                                    setInitialOptionPaypal({
+                                        ...initialOptionPaypal,
+                                        'data-order-id': token,
+                                    });
+                                }
+                            });
+                        }
+                    } else {
+                        onHandleResult({
+                            state,
+                            result,
+                            val,
+                            cart,
+                        });
+                    }
                 }).catch((err) => {
                     const result = err;
                     onHandleResult({
