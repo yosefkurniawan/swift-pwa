@@ -85,7 +85,11 @@ const OrderDetail = (props) => {
     };
 
     const returnUrl = (order_number) => {
-        window.location.replace(`${getHost()}/rma/customer/new/order_id/${order_number}`);
+        if (storeConfig && storeConfig.OmsRma.enable_oms_pwa_request_return === true) {
+            window.location.replace(storeConfig.OmsRma.oms_rma_link);
+        } else {
+            window.location.replace(`${getHost()}/rma/customer/new/order_id/${order_number}`);
+        }
     };
 
     const printOrder = (order_number) => {

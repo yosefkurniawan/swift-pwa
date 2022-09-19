@@ -9,7 +9,7 @@ import { getOrder, reOrder as mutationReorder } from '@core_modules/order/servic
 
 const HistoryOrder = (props) => {
     const {
-        t, Content, Skeleton, ErrorView, size,
+        t, Content, Skeleton, ErrorView, size, storeConfig,
     } = props;
     const router = useRouter();
     const pageConfig = {
@@ -93,7 +93,11 @@ const HistoryOrder = (props) => {
     };
 
     const returnUrl = (order_number) => {
-        window.location.replace(`${getHost()}/rma/customer/new/order_id/${order_number}`);
+        if (storeConfig && storeConfig.OmsRma.enable_oms_pwa_request_return === true) {
+            window.location.replace(storeConfig.OmsRma.oms_rma_link);
+        } else {
+            window.location.replace(`${getHost()}/rma/customer/new/order_id/${order_number}`);
+        }
     };
 
     return (
