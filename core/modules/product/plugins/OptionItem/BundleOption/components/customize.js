@@ -88,6 +88,7 @@ const Customize = (props) => {
                                     max={10000}
                                 />
                                 <Button
+                                    id="plugin-addToCart-btn"
                                     className={styles.btnAddToCard}
                                     color="primary"
                                     onClick={() => handleAddToCart(qty)}

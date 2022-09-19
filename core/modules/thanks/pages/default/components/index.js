@@ -37,7 +37,7 @@ const View = (props) => {
 
     const registerGuestEnabled = storeConfig.weltpixel_thankyoupage_create_account_enable;
     return (
-        <div className={styles.container}>
+        <div className={classNames(styles.container, 'thanks-pages')}>
             {
                 ordersFilter && paymentInformation && paymentInformation.OrderPaymentInformation
                 && paymentInformation.OrderPaymentInformation.invoice_url && (
@@ -225,7 +225,7 @@ const View = (props) => {
                         {checkoutData.email}
                     </Typography>
                     <Button className={styles.generalButton} fullWidth={false} onClick={() => goToRegisterPage()} align="center">
-                        <Typography color="white" variant="span" type="bold" letter="uppercase">
+                        <Typography variant="span" type="bold" letter="uppercase">
                             {t('login:registerTitle')}
                         </Typography>
                     </Button>

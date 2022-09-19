@@ -3,31 +3,31 @@
 /* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
-import React, { useEffect, useState, useRef } from 'react';
 import { useApolloClient } from '@apollo/client';
+import classNames from 'classnames';
+import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import classNames from 'classnames';
-import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
-import Cookies from 'js-cookie';
-import crypto from 'crypto';
-import {
-    custDataNameCookie, features, modules, debuging, assetsVersion, storeConfigNameCookie,
-} from '@config';
-import { getHost } from '@helper_config';
-import { breakPointsDown, breakPointsUp } from '@helper_theme';
-import { setCookies, getCookies } from '@helper_cookies';
-import { setLocalStorage } from '@helper_localstorage';
-import { getAppEnv } from '@helpers/env';
-import useStyles from '@core_modules/theme/layout/style';
+import React, { useEffect, useRef, useState } from 'react';
+import TagManager from 'react-gtm-module';
+// eslint-disable-next-line object-curly-newline
+import { assetsVersion, custDataNameCookie, debuging, features, modules, storeConfigNameCookie } from '@config';
 import { createCompareList } from '@core_modules/product/services/graphql';
+import useStyles from '@core_modules/theme/layout/style';
+import { getAppEnv } from '@helpers/env';
+import { getHost } from '@helper_config';
+import { getCookies, setCookies } from '@helper_cookies';
+import { breakPointsDown, breakPointsUp } from '@helper_theme';
+import crypto from 'crypto';
+import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
 import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
-import { localTotalCart } from '@services/graphql/schema/local';
 import { getCountCart } from '@core_modules/theme/services/graphql';
 import { getCartId } from '@helper_cartid';
+import { localTotalCart } from '@services/graphql/schema/local';
+import { frontendConfig } from '@helpers/frontendOptions';
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
@@ -60,6 +60,8 @@ const Layout = (props) => {
         showRecentlyBar = false,
         isHomepage = false,
         isPdp = false,
+        isCheckout = false,
+        isLoginPage = false,
     } = props;
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
@@ -129,6 +131,10 @@ const Layout = (props) => {
     const handleClosePromo = () => {
         setShowGlobalPromo(false);
     };
+
+    const allowHeaderCheckout = modules.checkout.checkoutOnly
+        ? !modules.checkout.checkoutOnly
+        : withLayoutHeader;
 
     const ogData = {
         'og:title': pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa',
@@ -249,13 +255,16 @@ const Layout = (props) => {
     const ipadL = !!(ipadLUp && ipadLDown);
 
     const styles = {
-        marginBottom: (pageConfig.bottomNav && storeConfig?.pwa?.mobile_navigation === 'bottom_navigation')
-                        && storeConfig?.pwa?.enabler_footer_mobile === true ? '60px' : 0,
+        marginBottom:
+            pageConfig.bottomNav && storeConfig?.pwa?.mobile_navigation === 'bottom_navigation' && storeConfig?.pwa?.enabler_footer_mobile === true
+                ? '60px'
+                : 0,
+        marginTop: storeConfig?.pwa?.mobile_navigation === 'burger_menu' && !isHomepage && !isPdp ? '55px' : 0,
     };
 
     const footerMobile = {
-        marginBottom: pageConfig.bottomNav && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? '55px' : 0,
-        display: pageConfig.bottomNav && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? 'flex' : null,
+        marginBottom: pageConfig.bottomNav && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? '55px' : 0,
+        display: pageConfig.bottomNav && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? 'flex' : null,
     };
 
     if (!headerDesktop) {
@@ -266,10 +275,40 @@ const Layout = (props) => {
         setLocalStorage(storeConfigNameCookie, storeConfig);
     }
 
+    useEffect(() => {
+        if (storeConfig && storeConfig.pwa && typeof window !== 'undefined') {
+            const pwaConfig = getLocalStorage('frontend_options').pwa;
+
+            const stylesheet = document.createElement('style');
+            const fontStylesheet = document.createElement('link');
+            const fontStylesheetHeading = document.createElement('link');
+
+            if (pwaConfig) {
+                // eslint-disable-next-line max-len
+                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.default_font.replace(' ', '-')}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheet.id = 'font-stylesheet-id';
+                fontStylesheet.rel = 'stylesheet';
+                // eslint-disable-next-line max-len
+                fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.heading_font.replace(' ', '-')}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheetHeading.id = 'font-stylesheet-heading-id';
+                fontStylesheetHeading.rel = 'stylesheet';
+                stylesheet.innerHTML = frontendConfig(pwaConfig);
+                stylesheet.id = 'frontend-options-stylesheet';
+                if (!document.getElementById('frontend-options-stylesheet') && !document.getElementById('font-stylesheet-id')) {
+                    document.head.appendChild(fontStylesheet);
+                    document.head.appendChild(fontStylesheetHeading);
+                    document.head.appendChild(stylesheet);
+                }
+            }
+        }
+    }, [storeConfig]);
+
     let classMain;
 
     if (storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header) {
-        if (storeConfig.pwa.header_version === 'v2') {
+        if (isCheckout) {
+            classMain = 'checkout-mode';
+        } else if (storeConfig.pwa.header_version === 'v2') {
             if (isHomepage) {
                 if (ipadL) {
                     classMain = 'main-app-v2-ipad-landscape';
@@ -279,6 +318,8 @@ const Layout = (props) => {
                 classMain += ' main-app-homepage';
             } else if (isPdp && desktop) {
                 classMain = 'main-app-v2-pdp';
+            } else if (isLoginPage && desktop) {
+                classMain = 'main-app-v2-login';
             } else if (isPdp && ipad && !desktop) {
                 classMain = 'main-app-sticky-v2-ipad';
             } else {
@@ -316,7 +357,9 @@ const Layout = (props) => {
             classMain = 'main-app-sticky';
         }
     } else if (storeConfig && storeConfig.pwa && !storeConfig.pwa.enabler_sticky_header) {
-        if (storeConfig.pwa.header_version === 'v2') {
+        if (isCheckout) {
+            classMain = 'checkout-mode';
+        } else if (storeConfig.pwa.header_version === 'v2') {
             if (isHomepage) {
                 classMain = 'main-app-v2-not-sticky';
                 classMain += ' main-app-homepage';
@@ -361,7 +404,7 @@ const Layout = (props) => {
             {showPopup && storeConfig && storeConfig.pwa && storeConfig.pwa.header_version !== 'v2' ? (
                 <PopupInstallAppMobile appName={appName} installMessage={installMessage} />
             ) : null}
-            {withLayoutHeader && (
+            {allowHeaderCheckout && (
                 <header ref={refHeader}>
                     {typeof window !== 'undefined' && storeConfig.global_promo && storeConfig.global_promo.enable && (
                         <GlobalPromoMessage
@@ -393,7 +436,7 @@ const Layout = (props) => {
                         {React.isValidElement(CustomHeader) ? (
                             <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
                         ) : (
-                                <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} isCheckout />
+                            <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} isCheckout />
                         )}
                     </div>
                 </header>
@@ -418,12 +461,11 @@ const Layout = (props) => {
                         {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
                         <Copyright storeConfig={storeConfig} />
                     </div>
-                    {footer && storeConfig?.pwa?.enabler_footer_mobile === true
-                        ? (
-                            <div className="hidden-desktop" style={{ ...footerMobile }}>
-                                <Footer storeConfig={storeConfig} t={t} />
-                            </div>
-                        ) : null}
+                    {footer && storeConfig?.pwa?.enabler_footer_mobile === true ? (
+                        <div className="hidden-desktop" style={{ ...footerMobile }}>
+                            <Footer storeConfig={storeConfig} t={t} />
+                        </div>
+                    ) : null}
                     {desktop ? null : storeConfig && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? (
                         <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />
                     ) : null}

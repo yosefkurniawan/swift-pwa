@@ -18,14 +18,17 @@ const Item = (props) => {
                 {group}
                 <ul>
                     {children.map((val, idx) => (
-                        <li key={idx} className={styles.listBrand}>
-                            {val.attribute_id ? (
-                                <Link href={`/catalogsearch/advanced/result?brand[]=${val.attribute_id}`}>
-                                    <a>{val.name}</a>
-                                </Link>
-                            ) : val.name}
-
-                        </li>
+                        <>
+                            {val.is_active === 1 ? (
+                                <li key={idx} className={styles.listBrand}>
+                                    {val.attribute_id ? (
+                                        <Link href={`/catalogsearch/advanced/result?brand[]=${val.attribute_id}`}>
+                                            <a>{val.name}</a>
+                                        </Link>
+                                    ) : val.name}
+                                </li>
+                            ) : null}
+                        </>
                     ))}
                 </ul>
             </Typography>

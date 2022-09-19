@@ -10,6 +10,7 @@ export const getSlider = gql`
                 thumb_image_url
                 mobile_image_url
                 url_redirection
+                video
             }
         }
     }
@@ -23,7 +24,7 @@ export const getBannerSlider = gql`
                 image_id
                 image_url
                 mobile_image_url
-                thumb_image_url 
+                thumb_image_url
                 url_redirection
             }
         }
@@ -52,7 +53,9 @@ export const getFeaturedProducts = (config = {}) => gql`
                         small_image {
                             url,
                         }
-                        ${config?.pwa?.label_weltpixel_enable ? `
+                        ${
+                            config?.pwa?.label_weltpixel_enable
+                                ? `
                             weltpixel_labels {
                             categoryLabel {
                                 css
@@ -81,7 +84,9 @@ export const getFeaturedProducts = (config = {}) => gql`
                                 text_font_color  
                             }
                         }        
-                        ` : ''}
+                        `
+                                : ''
+}
                         price_tiers {
                             discount {
                                 amount_off

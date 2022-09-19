@@ -1,26 +1,27 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable max-len */
-import Layout from '@layout';
-import React, { useRef } from 'react';
-import { setLogin, setEmailConfirmationFlag, getLastPathWithoutLogin } from '@helper_auth';
-import { setCartId, getCartId } from '@helper_cartid';
-import { expiredToken, custDataNameCookie } from '@config';
-import Cookies from 'js-cookie';
 import { useQuery } from '@apollo/client';
+import { custDataNameCookie, expiredToken } from '@config';
+import { getLastPathWithoutLogin, setEmailConfirmationFlag, setLogin } from '@helper_auth';
+import { getCartId, setCartId } from '@helper_cartid';
+import Layout from '@layout';
+import Cookies from 'js-cookie';
+import React, { useRef } from 'react';
 
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import Router from 'next/router';
+import * as Yup from 'yup';
 
-import { regexPhone } from '@helper_regex';
 import { getAppEnv } from '@helpers/env';
+import { regexPhone } from '@helper_regex';
 
 import {
-    register,
-    getGuestCustomer,
-    otpConfig as queryOtpConfig,
-    mergeCart as mutationMergeCart,
     getCustomerCartId,
+    getGuestCustomer,
+    mergeCart as mutationMergeCart,
+    otpConfig as queryOtpConfig,
+    register,
 } from '@core_modules/register/services/graphql';
 import { getCustomer } from '@core_modules/register/services/graphql/schema';
 
@@ -29,9 +30,7 @@ import { registerConfig } from '@services/graphql/repository/pwa_config';
 const appEnv = getAppEnv();
 
 const Register = (props) => {
-    const {
-        t, storeConfig, pageConfig, Content, query, lastPathNoAuth,
-    } = props;
+    const { t, storeConfig, pageConfig, Content, query, lastPathNoAuth } = props;
 
     const config = {
         title: t('register:pageTitle'),
@@ -361,7 +360,7 @@ const Register = (props) => {
     }
 
     return (
-        <Layout pageConfig={pageConfig || config} {...props}>
+        <Layout pageConfig={pageConfig || config} {...props} isLoginPage>
             <Content
                 {...props}
                 t={t}

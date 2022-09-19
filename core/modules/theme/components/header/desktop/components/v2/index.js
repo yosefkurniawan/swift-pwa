@@ -115,7 +115,7 @@ const ViewTopNavigation = (props) => {
                                                 <ProductCompareIcon withLink isLogin={isLogin} />
                                             </div>
                                         )}
-                                        <div className="shopping-bag">
+                                        <div id="header-shoppingBag-icon" className="shopping-bag">
                                             <ShoppingBagIcon withLink storeConfig={storeConfig} />
                                         </div>
                                     </div>
@@ -218,7 +218,7 @@ const ViewTopNavigation = (props) => {
                                                 <ProductCompareIcon withLink isLogin={isLogin} />
                                             </div>
                                         )}
-                                        <div className="shopping-bag">
+                                        <div id="header-shoppingBag-icon" className="shopping-bag">
                                             <ShoppingBagIcon withLink storeConfig={storeConfig} />
                                         </div>
                                     </div>
@@ -343,7 +343,7 @@ const ViewTopNavigation = (props) => {
                         }
 
                         main {
-                            background-color: transparent;
+                            background-color: transparent !important;
                         }
                         .header-top {
                             height: 45px;

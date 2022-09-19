@@ -42,6 +42,7 @@ const EmailView = (props) => {
                     className={styles.customFormControl}
                 >
                     <Input
+                        id="checkout-email-input"
                         name="email"
                         placeholder="john.doe@gmail.com"
                         value={formik.values.email}

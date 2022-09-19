@@ -3,6 +3,8 @@ import { getHost } from '@helper_config';
 import { setLocalStorage } from '@helper_localstorage';
 import { keyLocalStorage } from '@config';
 import Content from '@core_modules/home/pages/default/components';
+import { currencyVar } from '@root/core/services/graphql/cache';
+import Cookies from 'js-cookie';
 
 const HomeCore = (props) => {
     // eslint-disable-next-line object-curly-newline
@@ -12,6 +14,13 @@ const HomeCore = (props) => {
 
     if (typeof window !== 'undefined' && homePageConfig) {
         setLocalStorage(homeKey, homePageConfig);
+        const appCurrency = Cookies.get('app_currency');
+        currencyVar({
+            currency: storeConfig.base_currency_code,
+            locale: storeConfig.locale,
+            enableRemoveDecimal: storeConfig?.pwa?.remove_decimal_price_enable,
+            appCurrency,
+        });
     }
 
     const schemaOrg = [

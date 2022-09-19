@@ -111,11 +111,10 @@ const useStyles = makeStyles((theme) => ({
             display: 'flex',
             justifyContent: 'center',
             backgroundColor: WHITE,
-            marginTop: '-20px',
             '& iframe': {
                 position: 'absolute',
                 top: '0',
-                height: '572px',
+                height: '600px',
             },
         },
     },

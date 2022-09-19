@@ -108,13 +108,13 @@ const ViewTop = (props) => {
                     ? desktop ? (
                         <li>
                             <Link href="/customer/account/login">
-                                <a>{t('common:menu:sign')}</a>
+                                <a id="header-menu-btnsign">{t('common:menu:sign')}</a>
                             </Link>
                             {' '}
                             {t('common:menu:or')}
                             {' '}
                             <Link href="/customer/account/create">
-                                <a>{t('common:menu:register')}</a>
+                                <a id="header-menu-btnregister">{t('common:menu:register')}</a>
                             </Link>
                             {' '}
                         </li>
@@ -146,7 +146,7 @@ const ViewTop = (props) => {
                                 <ProductCompareIcon withLink isLogin={isLogin} />
                             </div>
                         )}
-                        <div className="shopping-bag">
+                        <div id="header-shoppingBag-icon" className="shopping-bag">
                             <ShoppingBagIcon withLink storeConfig={storeConfig} />
                         </div>
                     </div>
@@ -169,7 +169,6 @@ const ViewTop = (props) => {
                         float: left;
                         font-size: 10px;
                         text-transform: uppercase;
-                        font-family: Montserrat !important;
                     }
 
                     li {
@@ -199,7 +198,7 @@ const ViewTop = (props) => {
                         left: 100%;
                     }
                     a {
-                        color: #000;
+                        color: ${storeConfig && storeConfig.pwa && storeConfig.pwa.primary_color} !important;
                         text-decoration: none;
                     }
 

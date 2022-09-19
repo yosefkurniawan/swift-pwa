@@ -7,7 +7,7 @@ import config from '@config';
 
 const ViewTop = (props) => {
     const {
-        isLogin, t, data, handleLogout,
+        isLogin, t, data, handleLogout, storeConfig,
     } = props;
     const { modules } = config;
     return (
@@ -69,13 +69,13 @@ const ViewTop = (props) => {
             {!isLogin ? (
                 <li>
                     <Link href="/customer/account/login">
-                        <a>{t('common:menu:sign')}</a>
+                        <a id="header-menu-btnsign">{t('common:menu:sign')}</a>
                     </Link>
                     {' '}
                     {t('common:menu:or')}
                     {' '}
                     <Link href="/customer/account/create">
-                        <a>{t('common:menu:register')}</a>
+                        <a id="header-menu-btnregister">{t('common:menu:register')}</a>
                     </Link>
                     {' '}
                 </li>
@@ -96,7 +96,6 @@ const ViewTop = (props) => {
                         float: right;
                         font-size: 10px;
                         text-transform: uppercase;
-                        font-family: Montserrat !important;
                     }
 
                     li {
@@ -126,7 +125,7 @@ const ViewTop = (props) => {
                         left: 100%;
                     }
                     a {
-                        color: #000;
+                        color: ${storeConfig && storeConfig.pwa && storeConfig.pwa.primary_color} !important;
                         text-decoration: none;
                     }
 
