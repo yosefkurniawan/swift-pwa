@@ -114,7 +114,7 @@ const CoreLanding = (props) => {
         };
 
         return (
-            <DefaultLayout {...props} pageConfig={config}>
+            <DefaultLayout {...props} pageConfig={config} data={loadCategory.data} isBlp>
                 <Content
                     data={contentData}
                     {...contentprops}

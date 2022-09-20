@@ -60,10 +60,13 @@ const MagezonSliderContent = (props) => {
         content_align, content_padding, content_position,
         content_width, content_wrapper_width,
         youtube_id, vimeo_id, local_link,
-        image, background_type, slider_height,
+        image, background_type, slider_height, storeConfig,
     } = props;
+    const enable = storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
+    const url = storeConfig.pwa.thumbor_url;
     const mediaUrl = `${getStoreHost()}media`;
-    const getImgThumbor = generateThumborUrl(`${mediaUrl}/${image}`, 0, 0);
+    const getImgThumbor = generateThumborUrl(`${mediaUrl}/${image}`, 0, 0, enable, useHttpsOrHttp, url);
 
     return (
         <>
@@ -258,7 +261,6 @@ const MagezonSlider = (props) => {
     const [, setSlideIndex] = useState(0);
     const { unhoverStyle, hoverStyle } = useHoverStyle(image_hover_effect);
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('sm'));
-
     let slideHeight = isDesktop ? storeConfig.pwa?.magezon_slider_desktop_height : storeConfig.pwa?.magezon_slider_mobile_height;
     let slideWidth = isDesktop ? storeConfig.pwa?.magezon_slider_desktop_width : storeConfig.pwa?.magezon_slider_mobile_width;
     slideHeight = (typeof slideHeight === 'string') ? parseInt(slideHeight, 0) : slideHeight;
@@ -357,7 +359,7 @@ const MagezonSlider = (props) => {
                 <div className="magezon-slider-inner">
                     <Slider ref={(slider) => (sliderRef = slider)} {...settings}>
                         {items.map((item, i) => (
-                            <MagezonSliderContent key={i} slider_height={slider_height} content_position={content_position} {...item} />
+                            <MagezonSliderContent key={i} slider_height={slider_height} content_position={content_position} storeConfig={storeConfig} {...item} />
                         ))}
                     </Slider>
                 </div>

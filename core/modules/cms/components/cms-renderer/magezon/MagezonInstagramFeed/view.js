@@ -9,23 +9,32 @@ import Typography from '@common_typography';
 import Link from 'next/link';
 import PhotoSwipe from '@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed/components/PhotoSwipe';
 import SimpleReactLightbox, { SRLWrapper } from 'simple-react-lightbox';
+import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 
-const ImageItem = ({ src, alt, onClick = () => {} }) => (
-    <picture>
-        <img
-            onClick={onClick}
-            className="magezon-instagram-img"
-            data-pagespeed-no-defer
-            src={src}
-            onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = '/assets/img/placeholder.png';
-            }}
-            alt={alt}
-        />
+const ImageItem = ({ src, alt, onClick = () => {}, storeConfig }) => {
+    const enable = storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
+    const url_thumbor = storeConfig.pwa.thumbor_url;
+    const imageUrl = generateThumborUrl(src, 500, 500, enable, useHttpsOrHttp, url_thumbor);
+    return (
+        <picture>
+            <source srcSet={imageUrl} type="image/webp" />
+            <source srcSet={getImageFallbackUrl(imageUrl)} type="image/jpeg" />
+            <img
+                onClick={onClick}
+                className="magezon-instagram-img"
+                data-pagespeed-no-defer
+                src={imageUrl}
+                onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/assets/img/placeholder.png';
+                }}
+                alt={alt}
+            />
 
-    </picture>
-);
+        </picture>
+    );
+};
 
 const MagezonInstagramFeedView = (props) => {
     const {
@@ -33,7 +42,7 @@ const MagezonInstagramFeedView = (props) => {
         title_align, line_position, line_color, line_width, title_color,
         link_text, instagram_username, data, max_items,
         item_xl, item_lg, item_md, item_sm, item_xs, gap, hover_effect,
-        onclick, link_target,
+        onclick, link_target, storeConfig,
     } = props;
     let Popup = <></>;
 
@@ -122,6 +131,7 @@ const MagezonInstagramFeedView = (props) => {
                                                         <ImageItem
                                                             src={item.media_url}
                                                             alt={item.caption || ''}
+                                                            storeConfig={storeConfig}
                                                         />
                                                     </div>
                                                 ) : null))
@@ -143,7 +153,7 @@ const MagezonInstagramFeedView = (props) => {
                                                 <a
                                                     target={link_target}
                                                 >
-                                                    <ImageItem src={item.media_url} alt={item.id} />
+                                                    <ImageItem src={item.media_url} alt={item.id} storeConfig={storeConfig} />
                                                 </a>
                                             </Link>
                                         ) : (
@@ -151,6 +161,7 @@ const MagezonInstagramFeedView = (props) => {
                                                 src={item.media_url}
                                                 alt={item.id}
                                                 onClick={() => handleClick(key)}
+                                                storeConfig={storeConfig}
                                             />
                                         )
                                     }

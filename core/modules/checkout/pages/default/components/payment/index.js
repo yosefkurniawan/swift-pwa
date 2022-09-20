@@ -163,6 +163,29 @@ export default function CustomizedExpansionPanels({
                 },
             },
         };
+        // GA 4 dataLayer
+        const dataLayerOpt = {
+            event: 'add_payment_info',
+            ecommerce: {
+                payment_type: selectedPayment[0].title,
+                items: [
+                    cart.items.map(({ quantity, product, prices }) => ({
+                        currency: storeConfig.base_currency_code || 'IDR',
+                        item_name: product.name,
+                        item_id: product.sku,
+                        price: JSON.stringify(prices.price.value),
+                        item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                        item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                        quantity: JSON.stringify(quantity),
+                        item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                        item_sale_product: '',
+                        item_reviews_count: '',
+                        item_reviews_score: '',
+                    })),
+
+                ],
+            },
+        };
         TagManager.dataLayer({ dataLayer });
         TagManager.dataLayer({ dataLayer: dataLayerOption });
         TagManager.dataLayer({ dataLayer: dataLayerOpt });
@@ -205,41 +228,6 @@ export default function CustomizedExpansionPanels({
                     },
                 };
                 setCheckout(state);
-            } else if (val === 'paypal_express') {
-                state = {
-                    ...checkout,
-                    selected: {
-                        ...checkout.selected,
-                        payment: val,
-                        purchaseOrderNumber: null,
-                    },
-                    loading: {
-                        ...checkout.loading,
-                        all: false,
-                        order: false,
-                    },
-                };
-                setCheckout(state);
-                if (storeConfig?.pwa?.paypal_enable
-                    && initialOptionPaypal['data-order-id'] === '' && checkout.selected.payment === 'paypal_express') {
-                    getPaypalToken({
-                        variables: {
-                            cartId: cart.id,
-                            code: 'paypal_express',
-                            returnUrl: modules.paypal.returnUrl,
-                            cancelUrl: modules.paypal.cancelUrl,
-                        },
-                    }).then((res) => {
-                        if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
-                            const { token } = res.data.createPaypalExpressToken;
-                            setTokenData(res.data.createPaypalExpressToken);
-                            setInitialOptionPaypal({
-                                ...initialOptionPaypal,
-                                'data-order-id': token,
-                            });
-                        }
-                    });
-                }
             } else {
                 const payment_method = { code: val };
                 await setPaymentMethod({
@@ -248,12 +236,49 @@ export default function CustomizedExpansionPanels({
                         payment_method,
                     },
                 }).then((result) => {
-                    onHandleResult({
-                        state,
-                        result,
-                        val,
-                        cart,
-                    });
+                    if (val === 'paypal_express') {
+                        state = {
+                            ...checkout,
+                            selected: {
+                                ...checkout.selected,
+                                payment: val,
+                                purchaseOrderNumber: null,
+                            },
+                            loading: {
+                                ...checkout.loading,
+                                all: false,
+                                order: false,
+                            },
+                        };
+                        setCheckout(state);
+                        if (storeConfig?.pwa?.paypal_enable
+                            && initialOptionPaypal['data-order-id'] === '' && checkout.selected.payment === 'paypal_express') {
+                            getPaypalToken({
+                                variables: {
+                                    cartId: cart.id,
+                                    code: 'paypal_express',
+                                    returnUrl: modules.paypal.returnUrl,
+                                    cancelUrl: modules.paypal.cancelUrl,
+                                },
+                            }).then((res) => {
+                                if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
+                                    const { token } = res.data.createPaypalExpressToken;
+                                    setTokenData(res.data.createPaypalExpressToken);
+                                    setInitialOptionPaypal({
+                                        ...initialOptionPaypal,
+                                        'data-order-id': token,
+                                    });
+                                }
+                            });
+                        }
+                    } else {
+                        onHandleResult({
+                            state,
+                            result,
+                            val,
+                            cart,
+                        });
+                    }
                 }).catch((err) => {
                     const result = err;
                     onHandleResult({

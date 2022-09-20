@@ -463,8 +463,7 @@ const Checkout = (props) => {
 
         if (cart.selected_payment_method) {
             state.selected.payment = cart.selected_payment_method.code;
-            if (storeConfig?.pwa?.paypal_enable && cart.selected_payment_method.code === 'paypal_express'
-                && initialOptionPaypal['data-order-id'] === '') {
+            if (storeConfig?.pwa?.paypal_enable && cart.selected_payment_method.code === 'paypal_express') {
                 getPaypalToken({
                     variables: {
                         cartId: cart.id,
@@ -690,7 +689,7 @@ const Checkout = (props) => {
     };
 
     const onCancelPaypal = () => {
-        Router.push('/checkout/cart');
+        Router.push(!modules.checkout.checkoutOnly ? `/${modules.paypal.cancelUrl}` : `${getStoreHost(getAppEnv())}${modules.paypal.cancelUrl}`);
     };
 
     const onErrorPaypal = (err) => {
@@ -854,7 +853,9 @@ const Checkout = (props) => {
                 window.backdropLoader(false);
                 state.loading.order = false;
                 setCheckout(state);
-                Router.push(`/${modules.paypal.returnUrl}`);
+
+                const redirectMagentoUrl = `${getStoreHost(getAppEnv())}${modules.paypal.returnUrl}`;
+                Router.push(!modules.checkout.checkoutOnly ? `/${modules.paypal.returnUrl}` : redirectMagentoUrl);
             })
             .catch((e) => {
                 onErrorPaypal(e);

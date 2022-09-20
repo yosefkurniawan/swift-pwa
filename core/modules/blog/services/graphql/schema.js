@@ -17,6 +17,9 @@ const itemBlog = `
     publish_date
     featured_image_url
     meta_twitter_site
+    meta_keywords
+    meta_description
+    meta_title
 `;
 
 export const getCategory = gql`
