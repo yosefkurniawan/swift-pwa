@@ -9,8 +9,13 @@ const CustomImage = ({
     src, width = 500, height = 500, magezon,
     classContainer = '', className = '', alt = 'Image', quality = 100, style = {}, lazy = false, ...other
 }) => {
-    const imageUrl = generateThumborUrl(src, width, height);
+    const storeConfig = JSON.parse(localStorage.getItem('storeConfig'));
+    const enable = storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
+    const url = storeConfig.pwa.thumbor_url;
+    const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, url);
     const [imgSource, setImgSource] = useState(imageUrl);
+
     const styleImage = magezon ? {
         maxWidth: '100%',
         maxHeight: '100%',

@@ -1,14 +1,9 @@
 /* eslint-disable arrow-body-style */
 
-import { features } from '@config';
-
-const { thumbor } = features;
-
-export const generateThumborUrl = (src = '', width = 400, height = 400) => {
-    const { enable, useHttpsOrHttp } = thumbor;
-    let { url } = thumbor;
+export const generateThumborUrl = (src = '', width = 400, height = 400, enable, useHttpsOrHttp, url) => {
     if (enable) {
         let source = src;
+        let newurl = url;
         if (!useHttpsOrHttp) {
             if (source.includes('http')) {
                 source = source.replace('http://', '');
@@ -17,9 +12,9 @@ export const generateThumborUrl = (src = '', width = 400, height = 400) => {
                 source = source.replace('https://', '');
             }
         }
-        url = url.replace('width', width);
-        url = url.replace('height', height);
-        return url + source;
+        newurl = newurl.replace('width', width);
+        newurl = newurl.replace('height', height);
+        return newurl + source;
     }
 
     return src;

@@ -12,11 +12,12 @@ import { getAppEnv } from '@root/core/helpers/env';
 import SimpleReactLightbox, { SRLWrapper, useLightbox } from 'simple-react-lightbox';
 import Link from '@material-ui/core/Link';
 import PopupMapVideo from '@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/PopupMapVideo';
+import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 
 const Carousel = dynamic(import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel/components'));
 
 const ImageWithAction = ({
-    withPopup, onClick = null, url, alt_tag, position,
+    withPopup, onClick = null, url, alt_tag, position, storeConfig,
 }) => {
     const { openLightbox } = useLightbox();
     const handleClick = () => {
@@ -28,12 +29,19 @@ const ImageWithAction = ({
             }, 100);
         }
     };
+    const enable = storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
+    const url_thumbor = storeConfig.pwa.thumbor_url;
+    const src = url || '/assets/img/placeholder.png';
+    const imageUrl = generateThumborUrl(src, 500, 500, enable, useHttpsOrHttp, url_thumbor);
     return (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <Link onClick={handleClick}>
+            <source srcSet={imageUrl} type="image/webp" />
+            <source srcSet={getImageFallbackUrl(imageUrl)} type="image/jpeg" />
             <img
                 className="mgz-carousel-content-image"
-                src={url || '/assets/img/placeholder.png'}
+                src={imageUrl}
                 alt={alt_tag || 'magezon image'}
                 onError={(e) => {
                     e.target.onerror = null;
@@ -57,7 +65,7 @@ const MagezonText = (props) => {
         owl_item_xs, owl_item_sm, owl_item_md, owl_item_lg, owl_item_xl, owl_margin,
         owl_nav, owl_nav_size, owl_nav_position,
         owl_rtl, owl_autoplay, owl_autoplay_speed, owl_autoplay_timeout, owl_autoplay_hover_pause,
-        owl_auto_height, owl_center, owl_dots, owl_loop, owl_slide_by, owl_lazyload, owl_stage_padding,
+        owl_auto_height, owl_center, owl_dots, owl_loop, owl_slide_by, owl_lazyload, owl_stage_padding, storeConfig,
     } = props;
 
     const [openPopup, setOpenPoup] = React.useState(false);
@@ -257,6 +265,7 @@ const MagezonText = (props) => {
                                 alt_tag={item.title || '' || 'magezon image'}
                                 onClick={null}
                                 position={item.position}
+                                storeConfig={storeConfig}
                             />
                         </ImageWrapper>
                     </MagezonLink>
@@ -278,6 +287,7 @@ const MagezonText = (props) => {
                                 : null}
                             withPopup={onclick === 'magnific' && !item.video_map}
                             position={item.position}
+                            storeConfig={storeConfig}
                         />
                     </ImageWrapper>
                 )
