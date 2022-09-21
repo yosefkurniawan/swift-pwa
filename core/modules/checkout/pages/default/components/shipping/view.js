@@ -118,7 +118,6 @@ const ShippingView = (props) => {
                 setExpandedActiveMulti((prevState) => [...prevState, tempDataActive]);
             });
         }
-        console.log(data.shippingMethods);
     }, [data.shippingMethods]);
 
     if (checkout.selected.delivery === 'pickup') {
@@ -129,7 +128,7 @@ const ShippingView = (props) => {
         content = <DeliveryItem value={{ price }} label={t('checkout:instorePickup')} selected borderBottom={false} />;
     } else if (loading.shipping || loading.addresses || loading.all || loadingSellerInfo) {
         content = <Loader />;
-    } else if (data.shippingMethods.length !== 0 && data.shippingMethods[0].available_shipping_methods && !loadingSellerInfo) {
+    } else if (data.shippingMethods.length !== 0 && (data.shippingMethods[0].available_shipping_methods || data.shippingMethods) && !loadingSellerInfo) {
         const available = data.shippingMethods;
         const config = shippingMethodList && shippingMethodList.storeConfig ? JSON.parse(`${shippingMethodList.storeConfig.shipments_configuration}`) : {};
         const group = config ? Object.keys(config) : [];
