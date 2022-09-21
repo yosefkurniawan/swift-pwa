@@ -229,7 +229,7 @@ const Checkout = (props) => {
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
     const [setShippingAddressByInput] = gqlService.initiateShippingAddressMultiseller();
     const [setBillingAddressByInput] = gqlService.initiateBillingAddressMultiseller();
-    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
+    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => { } });
     const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
     // end init graphql
 
