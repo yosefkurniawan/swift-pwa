@@ -872,7 +872,7 @@ const Checkout = (props) => {
             } else {
                 const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
                 if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
-                    const availableShipping = shipping.available_shipping_methods.filter((x) => x.carrier_code !== 'pickup');
+                    const availableShipping = shipping[0].available_shipping_methods.filter((x) => x.carrier_code !== 'pickup');
 
                     state.data.shippingMethods = availableShipping.map((item) => ({
                         ...item,
