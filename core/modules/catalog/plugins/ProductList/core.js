@@ -32,7 +32,6 @@ const Product = (props) => {
     } = props;
     const router = useRouter();
 
-    const [page, setPage] = React.useState(1);
     const [loadmore, setLoadmore] = React.useState(false);
     const [filterSaved, setFilterSaved] = React.useState(false);
     const elastic = catalog_search_engine === 'elasticsuite';
@@ -128,19 +127,17 @@ const Product = (props) => {
     };
 
     const handleLoadMore = async () => {
-        const pageSize = storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 0) : 10;
         setFilterSaved(false);
+        const pageSize = storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 0) : 10;
+        const pageTemp = (data.products.items.length / (parseInt(storeConfig?.pwa?.page_size, 0) || 10) + 1);
         try {
-            const totalProduct = products && products.total_count ? products.total_count : 0;
-            const totalPage = Math.ceil(totalProduct / pageSize);
-            if (fetchMore && typeof fetchMore !== 'undefined' && page < totalPage) {
+            if (fetchMore && typeof fetchMore !== 'undefined') {
                 setLoadmore(true);
-                setPage(page + 1);
                 fetchMore({
-                    query: Schema.getProduct({ ...config, currentPage: page + 1 }, router),
+                    query: Schema.getProduct({ ...config, currentPage: pageTemp }, router),
                     variables: {
                         pageSize,
-                        currentPage: page + 1,
+                        currentPage: pageTemp,
                     },
                     context,
                     updateQuery: (previousResult, { fetchMoreResult }) => {
