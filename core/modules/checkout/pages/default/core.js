@@ -71,15 +71,16 @@ const Checkout = (props) => {
 
     const [setCheckoutSession] = gqlService.setCheckoutSession();
     const [checkoutTokenState, setCheckoutTokenState] = useState();
-    const [loadingSellerInfo, setLoadingSellerInfo] = useState(true);
+    const [loadingSellerInfo, setLoadingSellerInfo] = useState(storeConfig.enable_oms_multiseller === '1');
     const [amountSeller, setAmountSeller] = useState(0);
     const [currentIndexSeller, setCurrentIndexSeller] = useState(0);
+    const [sellerInfoState, setSellerInfoState] = useState([]);
 
     React.useEffect(() => {
-        if (currentIndexSeller === amountSeller - 1) {
+        if (currentIndexSeller === amountSeller - 1 && sellerInfoState.length > 0) {
             setLoadingSellerInfo(false);
         }
-    }, [currentIndexSeller, amountSeller]);
+    }, [currentIndexSeller, amountSeller, sellerInfoState]);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -415,11 +416,7 @@ const Checkout = (props) => {
 
         // init shipping address
         let shipping;
-        if (storeConfig.enable_oms_multiseller === '1') {
-            shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
-        } else {
-            shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
-        }
+        shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
 
         if (shipping) {
             if (storeConfig.enable_oms_multiseller === '1') {
@@ -488,15 +485,15 @@ const Checkout = (props) => {
                 state.pickup_location_code = shipping[0].pickup_location_code;
             } else {
                 state.selected.address = {
-                    firstname: shipping.firstname,
-                    lastname: shipping.lastname,
-                    city: shipping.city,
-                    region: shipping.region,
-                    country: shipping.country,
-                    postcode: shipping.postcode,
-                    telephone: shipping.telephone,
-                    street: shipping.street,
-                    pickup_location_code: shipping.pickup_location_code,
+                    firstname: shipping[0].firstname,
+                    lastname: shipping[0].lastname,
+                    city: shipping[0].city,
+                    region: shipping[0].region,
+                    country: shipping[0].country,
+                    postcode: shipping[0].postcode,
+                    telephone: shipping[0].telephone,
+                    street: shipping[0].street,
+                    pickup_location_code: shipping[0].pickup_location_code ? shipping[0].pickup_location_code : null,
                 };
 
                 if (typeof shipping.is_valid_city !== 'undefined') {
@@ -555,8 +552,10 @@ const Checkout = (props) => {
                                 };
                             });
                         state.data.seller.push(sellerInfo);
+                        setSellerInfoState((prevState) => [...prevState, sellerInfo]);
                         setCurrentIndexSeller(index);
                     } else {
+                        setCurrentIndexSeller(index);
                         return {
                             seller_id,
                             seller_name: 'Seller Name',
@@ -614,9 +613,8 @@ const Checkout = (props) => {
                 });
             }
         } else {
-            if (shipping && shipping.available_shipping_methods) {
-                setLoadingSellerInfo(false);
-                const availableShipping = shipping.available_shipping_methods.filter(
+            if (shipping[0] && shipping[0].available_shipping_methods) {
+                const availableShipping = shipping[0].available_shipping_methods.filter(
                     (x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore'
                 );
 
@@ -872,7 +870,7 @@ const Checkout = (props) => {
                     // state.selected.shipping = shipping.map((ship) => (ship && ship.carrier_code ? `${ship.carrier_code}_${ship.method_code}` : null));
                 }
             } else {
-                const shipping = cart && cart.shipping_addresses[0] && cart.shipping_addresses[0].length > 0 ? cart.shipping_addresses[0] : null;
+                const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
                 if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
                     const availableShipping = shipping.available_shipping_methods.filter((x) => x.carrier_code !== 'pickup');
 

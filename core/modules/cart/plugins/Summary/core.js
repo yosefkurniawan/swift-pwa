@@ -119,12 +119,16 @@ const CoreSummary = (props) => {
             dataSummary = dataSummary.concat(giftCards);
         }
 
-        // if (modules.promo.enabled && applied_coupons && applied_coupons.length > 0) {
-        //     dataSummary.push({
-        //         item: `Promo (${applied_coupons[0].code})`,
-        //         value: '',
-        //     });
-        // }
+        if (modules.promo.enabled) {
+            const { applied_coupons } = dataCart;
+            if (applied_coupons && applied_coupons.length > 0) {
+                const price = formatPrice(prices.subtotal_including_tax.value - prices.grand_total.value, globalCurrency);
+                dataSummary.push({
+                    item: `Promo (${applied_coupons[0].code})`,
+                    value: `-${price}`,
+                });
+            }
+        }
     }
 
     if (isDesktop) {
