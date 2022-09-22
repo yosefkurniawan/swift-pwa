@@ -1,6 +1,6 @@
 {
     "exportFormatVersion": 2,
-    "exportTime": "2022-09-19 17:11:09",
+    "exportTime": "2022-09-22 06:45:43",
     "containerVersion": {
         "path": "accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/versions/0",
         "accountId": "<<@ACCOUNT_ID>>",
@@ -2244,7 +2244,7 @@
                                     {
                                         "type": "TEMPLATE",
                                         "key": "value",
-                                        "value": "{{PWA - GA4 - ecommerce.items}}"
+                                        "value": "{{PWA - FB - initiateCheckout - contents}}"
                                     }
                                 ]
                             },
@@ -2336,7 +2336,7 @@
                         "value": "false"
                     }
                 ],
-                "fingerprint": "1663292441180",
+                "fingerprint": "1663827801341",
                 "firingTriggerId": [
                     "48"
                 ],
@@ -3866,32 +3866,6 @@
             {
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
-                "variableId": "90",
-                "name": "PWA - FB - initiateCheckout - contents",
-                "type": "v",
-                "parameter": [
-                    {
-                        "type": "INTEGER",
-                        "key": "dataLayerVersion",
-                        "value": "2"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "setDefaultValue",
-                        "value": "false"
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "name",
-                        "value": "ecommerce.checkout.products"
-                    }
-                ],
-                "fingerprint": "1663285668242",
-                "formatValue": {}
-            },
-            {
-                "accountId": "<<@ACCOUNT_ID>>",
-                "containerId": "<<@CONTAINER_ID>>",
                 "variableId": "91",
                 "name": "PWA - FB - initiateCheckout - qty",
                 "type": "v",
@@ -4070,6 +4044,32 @@
                 ],
                 "fingerprint": "1663289380845",
                 "formatValue": {}
+            },
+            {
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
+                "variableId": "101",
+                "name": "PWA - FB - initiateCheckout - contents",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "ecommerce.fbpixels.contents"
+                    }
+                ],
+                "fingerprint": "1663827760484",
+                "formatValue": {}
             }
         ],
         "builtInVariable": [
@@ -4110,8 +4110,8 @@
                 "name": "New History Fragment"
             }
         ],
-        "fingerprint": "1663607441067",
-        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/versions/2?apiLink=version",
+        "fingerprint": "1663829125203",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/versions/0?apiLink=version",
         "customTemplate": [
             {
                 "accountId": "<<@ACCOUNT_ID>>",

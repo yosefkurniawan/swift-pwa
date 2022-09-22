@@ -661,6 +661,18 @@ const Checkout = (props) => {
                             content_ids: cart.items.map(({ product }) => product.sku),
                             quantity: cart.items.length,
                             value: cart.prices.grand_total.value,
+                            contents: [
+                                cart.items.map((item) => ({
+                                    currency: item.prices.price.currency || storeConfig.base_currency_code,
+                                    name: item.product.name,
+                                    id: item.product.sku,
+                                    price: item.prices.price.value || 0,
+                                    category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                                    list: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                                    quantity: item.quantity,
+                                    stock_status: item.product.stock_status,
+                                })),
+                            ],
                         },
                     },
                 },
