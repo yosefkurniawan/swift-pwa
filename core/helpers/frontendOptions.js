@@ -166,9 +166,6 @@ export const frontendConfig = (pwaConfig) => {
             .MuiSvgIcon-colorPrimary {
                 color: ${pwaConfig.primary_color || button_text_color || '#FFFFFF'} !important;
             }
-            // .MuiSvgIcon-root {
-            //     color: ${button_text_color || '#FFFFFF'} !important;
-            // }
             .MuiSvgIcon-colorSecondary {
                 color: ${pwaConfig.primary_color || '#000000'} !important;
             }
@@ -411,9 +408,6 @@ export const frontendConfig = (pwaConfig) => {
         .MuiSvgIcon-colorPrimary {
             color: #FFFFFF !important;
         }
-        // .MuiSvgIcon-root {
-        //     color: #FFFFFF !important;
-        // }
         .MuiSvgIcon-colorSecondary {
             color: #000000 !important;
         }
