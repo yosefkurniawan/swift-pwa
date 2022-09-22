@@ -481,15 +481,7 @@ const ShippingView = (props) => {
                 );
             }
         } else {
-            content = (
-                <Radio
-                    value={selected.shipping}
-                    onChange={handleShipping}
-                    classContainer={styles.listShipping}
-                    CustomItem={DeliveryItem}
-                    valueData={data.shippingMethods}
-                />
-            );
+            content = <Typography variant="p">{t('checkout:noShipping')}</Typography>;
         }
     } else if (loadingSellerInfo) {
         content = <Loader />;
