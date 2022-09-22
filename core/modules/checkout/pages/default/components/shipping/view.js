@@ -338,6 +338,7 @@ const ShippingView = (props) => {
                             </Typography>
                             <div className="column">
                                 <div className={styles.paymentExpansionContainer}>
+                                    {/* eslint-disable-next-line consistent-return, array-callback-return */}
                                     {seller.sellerData.map((item, keyIndex) => {
                                         if (item.data.length !== 0) {
                                             const indexes = expandedMulti.findIndex((items) => items.seller_id === seller.seller_id);
@@ -392,7 +393,6 @@ const ShippingView = (props) => {
                                                 </Accordion>
                                             );
                                         }
-                                        return <Typography variant="p">{t('checkout:noShipping')}</Typography>;
                                     })}
                                 </div>
 
