@@ -44,8 +44,8 @@ const CoreMultiseller = (props) => {
                 .then(({ data }) => {
                     const orderDataInfo = {
                         order_number,
-                        seller_id: data.customer.orders.items[0].detail[1].items[0].seller_id,
-                        seller_name: data.customer.orders.items[0].detail[1].items[0].seller_name,
+                        seller_id: data.customer.orders.items[0].detail[0].items[0].seller_id,
+                        seller_name: data.customer.orders.items[0].detail[0].items[0].seller_name,
                     };
                     resolve(orderDataInfo);
                 })

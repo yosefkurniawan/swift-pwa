@@ -1027,7 +1027,7 @@ export const removeRewardPointsFromCart = gql`
 `;
 
 export const getSnapToken = gql`
-    query($orderId: String!) {
+    query($orderId: [String!]!) {
         getSnapTokenByOrderId(order_id: $orderId) {
             snap_token
         }
@@ -1035,7 +1035,7 @@ export const getSnapToken = gql`
 `;
 
 export const getSnapOrderStatusByOrderId = gql`
-    query($orderId: String!) {
+    query($orderId: [String!]!) {
         getSnapOrderStatusByOrderId(order_id: $orderId) {
             order_id
             status_message
