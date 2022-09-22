@@ -76,7 +76,7 @@ function CustomRadio({
                             const checkoutShippingMethod = getLocalStorage('checkout_shipping_method');
 
                             if (isShipping) {
-                                if (value && value.length > 1) {
+                                if (value && value.length > 0) {
                                     if (!value[0].seller_id && checkoutShippingMethod.length > 0) {
                                         const matchData = checkoutShippingMethod.find((items) => items.cartId === cartIdCookie);
                                         if (matchData && matchData.data && matchData.data.length === value.length) {
