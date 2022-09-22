@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
 import GridList from '@common_gridlist';
 import Typography from '@common_typography';
-import classNames from 'classnames';
-import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
+import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
+import LabelView from '@plugin_productitem/components/LabelView';
+import ProductItem from '@plugin_productitem/index';
 import Filter from '@plugin_productlist/components/Filter';
 import FilterDesktop from '@plugin_productlist/components/FilterDesktop';
-import ProductItem from '@plugin_productitem/index';
-import LabelView from '@plugin_productitem/components/LabelView';
-import useStyles from '@plugin_productlist/components/style';
 import Sort from '@plugin_productlist/components/FilterDesktop/sort';
+import useStyles from '@plugin_productlist/components/style';
+import classNames from 'classnames';
+import React, { useEffect, useState } from 'react';
 
 const Content = (props) => {
     const {

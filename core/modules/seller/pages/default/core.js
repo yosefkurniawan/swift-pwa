@@ -1,13 +1,13 @@
 /* eslint-disable object-curly-newline */
-import { getProduct } from '@core_modules/catalog/services/graphql';
-import { getSeller } from '@core_modules/seller/services/graphql';
+// import { getProduct } from '@core_modules/catalog/services/graphql';
+import { getProductBySellerId, getSeller } from '@core_modules/seller/services/graphql';
 import { getHost } from '@helper_config';
 import Layout from '@layout';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 const Seller = (props) => {
-    const { t, storeConfig, pageConfig, Content } = props;
+    const { t, storeConfig, pageConfig, Content, ...other } = props;
     const router = useRouter();
 
     const { data, error, loading } = getSeller({
@@ -32,10 +32,15 @@ const Seller = (props) => {
     const context = config.sort && config.sort.key === 'random' ? { request: 'internal' } : {};
 
     // const { loading: loadingProduct, data: dataProduct, fetchMore } = getProduct(config, {
-    const { loading: loadingProduct, data: dataProduct } = getProduct(config, {
+    const { loading: loadingProduct, data: dataProduct } = getProductBySellerId({
         variables: {
             pageSize: parseInt(storeConfig?.pwa?.page_size, 0) || 10,
             currentPage: 1,
+            filter: {
+                seller_id: {
+                    match: router.query.sellerId,
+                },
+            },
         },
         context,
         fetchPolicy: 'cache-and-network',
@@ -57,6 +62,7 @@ const Seller = (props) => {
                 loadingProduct={loadingProduct}
                 dataProduct={dataProduct}
                 products={products}
+                {...other}
             />
         </Layout>
     );

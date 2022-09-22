@@ -12,9 +12,6 @@ export const getSeller = (options = {}) =>
 export const getProductBySellerId = (options = {}) =>
     useQuery(Schema.getProductBySellerId, {
         ...options,
-        context: {
-            request: 'internal',
-        },
     });
 
 export default {

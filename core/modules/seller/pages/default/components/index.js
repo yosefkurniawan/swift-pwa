@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/no-danger */
 /* eslint-disable object-curly-newline */
 import GridList from '@common_gridlist';
 import Typography from '@common_typography';
 import useStyles from '@core_modules/seller/pages/default/components/style';
+import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
@@ -17,6 +20,9 @@ import InfoIcon from '@material-ui/icons/Info';
 import ShareIcon from '@material-ui/icons/Share';
 import LabelView from '@plugin_productitem/components/LabelView';
 import ProductItem from '@plugin_productitem/index';
+import Filter from '@plugin_productlist/components/Filter';
+import FilterDesktop from '@plugin_productlist/components/FilterDesktop';
+import Sort from '@plugin_productlist/components/FilterDesktop/sort';
 import dynamic from 'next/dynamic';
 import React from 'react';
 
