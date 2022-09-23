@@ -92,9 +92,31 @@ const HistoryOrder = (props) => {
         }
     };
 
+    let detail = [];
+    let customerEmail;
+    if (!loading && data && data.customer.orders) {
+        // eslint-disable-next-line prefer-destructuring
+        detail = data.customer.orders.items;
+    }
+
+    if (detail.length > 0) {
+        // eslint-disable-next-line array-callback-return
+        detail.map((item) => {
+            if (item.detail.length > 0) {
+                customerEmail = item.detail[0].customer_email;
+            }
+        });
+    }
+
     const returnUrl = (order_number) => {
         if (storeConfig && storeConfig.OmsRma.enable_oms_pwa_request_return === true) {
-            window.location.replace(storeConfig.OmsRma.oms_rma_link);
+            const omsRmaLink = storeConfig.OmsRma.oms_rma_link;
+            const omsChannelCode = storeConfig.oms_channel_code;
+            const backUrl = window.location.href;
+            // eslint-disable-next-line max-len
+            const encodedQuerystring = `email=${encodeURIComponent(customerEmail)}&order_number=${encodeURIComponent(order_number)}&channel_code=${encodeURIComponent(omsChannelCode)}&from=${encodeURIComponent(backUrl)}`;
+            const omsUrl = `${omsRmaLink}/request/request?${encodedQuerystring}`;
+            window.location.replace(omsUrl);
         } else {
             window.location.replace(`${getHost()}/rma/customer/new/order_id/${order_number}`);
         }

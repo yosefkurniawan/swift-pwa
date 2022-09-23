@@ -311,6 +311,7 @@ export const storeConfig = `
         enable_oms_pwa_request_return
         oms_rma_link
       }
+      oms_channel_code
     }
   }  
 `;
