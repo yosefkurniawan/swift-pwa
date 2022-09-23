@@ -318,7 +318,7 @@ const Summary = ({
                         // eslint-disable-next-line array-callback-return
                         result.data.placeOrder.map((order, index) => {
                             if (index !== result.data.placeOrder.length - 1) {
-                                orderNumber = `${orderNumber}${order.order.order_number}+`;
+                                orderNumber = `${orderNumber}${order.order.order_number}|`;
                             } else {
                                 orderNumber = `${orderNumber}${order.order.order_number}`;
                             }
