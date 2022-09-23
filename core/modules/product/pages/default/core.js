@@ -6,7 +6,7 @@ import Header from '@core_modules/product/pages/default/components/header';
 import Loading from '@core_modules/product/pages/default/components/Loader';
 import {
     addProductsToCompareList, addWishlist as mutationAddWishlist, getProduct,
-    getProductLabel, smartProductTabs
+    getProductLabel, smartProductTabs,
 } from '@core_modules/product/services/graphql';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { getCookies } from '@helper_cookies';
@@ -546,16 +546,24 @@ const PageDetail = (props) => {
         }
     }
     const schemaOrg = generateSchemaOrg(product.items[productByUrl]);
+    let keywords = {};
+    if (product.items[productByUrl]?.meta_keywords) {
+        keywords = {
+            type: 'meta',
+            value: product.items[productByUrl]?.meta_keywords,
+        };
+    }
     const config = {
-        title: product.items.length > 0 ? product.items[productByUrl].name : '',
+        title: product.items[productByUrl].meta_title || product.items[productByUrl].name || '',
         bottomNav: false,
         header: 'absolute', // available values: "absolute", "relative", false (default)
         pageType: 'product',
         ogContent: {
             description: {
                 type: 'meta',
-                value: StripHtmlTags(product.items[productByUrl].description.html),
+                value: StripHtmlTags(product.items[productByUrl].meta_description || product.items[productByUrl].description.html),
             },
+            keywords,
             'og:image': product.items[productByUrl].small_image.url,
             'og:image:type': 'image/jpeg',
             'og:description': StripHtmlTags(product.items[productByUrl].description.html),

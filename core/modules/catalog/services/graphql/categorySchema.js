@@ -19,6 +19,9 @@ export const getCategory = (
           url_path
           image
           image_path
+          meta_title
+          meta_description
+          meta_keywords
           breadcrumbs {
             category_id
             category_name
