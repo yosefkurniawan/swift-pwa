@@ -70,7 +70,6 @@ const FilterDialog = ({
                     </div>
                 )}
                 {loading ? <Loading size="20px" /> : null}
-                {console.log(data)}
                 {data.map((itemFilter, idx) => {
                     const ItemValueByLabel = [];
                     // eslint-disable-next-line no-plusplus
