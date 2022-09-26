@@ -2,9 +2,9 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable object-curly-newline */
 import GridList from '@common_gridlist';
+import TabView from '@common_tabs';
 import Typography from '@common_typography';
 import useStyles from '@core_modules/seller/pages/default/components/style';
-import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
@@ -18,19 +18,21 @@ import ChatIcon from '@material-ui/icons/Chat';
 import CloseIcon from '@material-ui/icons/Close';
 import InfoIcon from '@material-ui/icons/Info';
 import ShareIcon from '@material-ui/icons/Share';
-import LabelView from '@plugin_productitem/components/LabelView';
-import ProductItem from '@plugin_productitem/index';
-import Filter from '@plugin_productlist/components/Filter';
-import FilterDesktop from '@plugin_productlist/components/FilterDesktop';
-import Sort from '@plugin_productlist/components/FilterDesktop/sort';
+import DetailProductView from '@plugin_productitem/components/Detail';
+import ImageProductView from '@plugin_productitem/components/Image';
+import CoreBase from '@plugin_productlist/core';
 import dynamic from 'next/dynamic';
 import React from 'react';
 
-const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: false });
+const ErrorMessage = dynamic(() => import('@plugin_productlist/components/ErrorMessage'), { ssr: false });
 const ProductListSkeleton = dynamic(() => import('@plugin_productlist/components/ProductListSkeleton'), { ssr: false });
+const FilterView = dynamic(() => import('@plugin_productlist/components/Filter/view'), { ssr: false });
+const FilterModalView = dynamic(() => import('@plugin_productlist/components/Filter/FilterDialog'), { ssr: false });
+
+const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: false });
 
 const Content = (props) => {
-    const { storeConfig, t, data, error, loading, link, loadingProduct, dataProduct, products, ...other } = props;
+    const { storeConfig, t, data, error, loading, link, sellerId, ...other } = props;
     const styles = useStyles();
 
     const [openInfoPanel, setOpenInfoPanel] = React.useState(false);
@@ -154,7 +156,18 @@ const Content = (props) => {
                     <Typography type="bold" variant="h2" letter="capitalize" style={{ paddingBottom: '1rem', paddingLeft: '1rem' }}>
                         {t('seller:popularProducts')}
                     </Typography>
-                    <div className="row">
+                    <CoreBase
+                        t={t}
+                        ErrorMessage={ErrorMessage}
+                        ProductListSkeleton={ProductListSkeleton}
+                        ImageProductView={ImageProductView}
+                        DetailProductView={DetailProductView}
+                        TabView={TabView}
+                        FilterView={FilterView}
+                        FilterModalView={FilterModalView}
+                        {...props}
+                    />
+                    {/* <div className="row">
                         <div className="col-sm-12 col-xs-12 col-lg-12">
                             <div className={styles.productContainer}>
                                 {loadingProduct && <ProductListSkeleton />}
@@ -180,7 +193,7 @@ const Content = (props) => {
                                 )}
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </>
             )}
         </>

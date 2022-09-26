@@ -189,6 +189,7 @@ const RegisterView = ({
                         disabled={disabled}
                         fullWidth={!desktop}
                         className={styles.btnSigin}
+                        id="register-btnRegister"
                         type="submit"
                         align={desktop ? 'left' : 'center'}
                     >

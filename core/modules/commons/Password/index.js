@@ -121,7 +121,9 @@ const PasswordField = ({
                     <InputAdornment position="end">
                         <IconButton
                             aria-label="toggle password visibility"
-                            onClick={() => setShow(!show)}
+                            onClick={() => {
+                                setShow(!show);
+                            }}
                             onMouseDown={handleMouseDownPassword}
                         >
                             {show ? <Visibility /> : <VisibilityOff />}
