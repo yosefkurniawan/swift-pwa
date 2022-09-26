@@ -1,23 +1,39 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable operator-linebreak */
 /* eslint-disable no-empty */
 /* eslint-disable array-callback-return */
 /* eslint-disable guard-for-in */
-import React from 'react';
-import PropTypes from 'prop-types';
-import Router, { useRouter } from 'next/router';
-import getQueryFromPath from '@helper_generatequery';
-import TagManager from 'react-gtm-module';
+import generateConfig from '@core_modules/catalog/helpers/generateConfig';
+import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
 import { getProduct, getProductAgragations } from '@core_modules/catalog/services/graphql';
 import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
-import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
-import generateConfig from '@core_modules/catalog/helpers/generateConfig';
+import getQueryFromPath from '@helper_generatequery';
 import Content from '@plugin_productlist/components';
+import Router, { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
+import React from 'react';
+import TagManager from 'react-gtm-module';
 
 const Product = (props) => {
     const {
-        catId = 0, catalog_search_engine, customFilter, url_path, defaultSort, t,
-        categoryPath, ErrorMessage, storeConfig, query, path, availableFilter,
-        token, isLogin, ...other
+        catId = 0,
+        catalog_search_engine,
+        customFilter,
+        url_path,
+        defaultSort,
+        t,
+        categoryPath,
+        ErrorMessage,
+        storeConfig,
+        query,
+        path,
+        availableFilter,
+        token,
+        isLogin,
+        sellerId = null,
+        ...other
     } = props;
+    const router = useRouter();
 
     const [page, setPage] = React.useState(1);
     const [loadmore, setLoadmore] = React.useState(false);
@@ -62,7 +78,25 @@ const Product = (props) => {
         });
     }
 
-    config = generateConfig(query, config, elastic, availableFilter);
+    if (sellerId === null) {
+        config = generateConfig(query, config, elastic, availableFilter);
+    } else {
+        config = {
+            customFilter: false,
+            search: '',
+            pageSize: 8,
+            currentPage: 1,
+            filter: [
+                {
+                    type: 'seller_id',
+                    value: sellerId,
+                },
+            ],
+            ...storeConfig.pwa,
+        };
+        config = generateConfig(query, config, elastic, availableFilter);
+        console.log(config);
+    }
     let context = (isLogin && isLogin === 1) || (config.sort && config.sort.key === 'random') ? { request: 'internal' } : {};
     if (token && token !== '') {
         context = {
@@ -73,19 +107,20 @@ const Product = (props) => {
         };
     }
 
-    const { loading, data, fetchMore } = getProduct(config, {
-        variables: {
-            pageSize: parseInt(storeConfig?.pwa?.page_size, 0) || 10,
-            currentPage: 1,
+    const { loading, data, fetchMore } = getProduct(
+        config,
+        {
+            variables: {
+                pageSize: parseInt(storeConfig?.pwa?.page_size, 0) || 10,
+                currentPage: 1,
+            },
+            context,
+            fetchPolicy: config.sort && config.sort.key === 'random' && filterSaved ? 'cache-and-network' : 'cache-first',
         },
-        context,
-        fetchPolicy: (config.sort && config.sort.key === 'random') && filterSaved ? 'cache-and-network' : 'cache-first',
-    });
+        router
+    );
     let products = {};
-    products = data && data.products ? data.products : {
-        total_count: 0,
-        items: [],
-    };
+    products = data && data.products ? data.products : { total_count: 0, items: [] };
     // generate filter if donthave custom filter
     const aggregations = [];
     if (!customFilter && !loading && products.aggregations) {
@@ -115,33 +150,29 @@ const Product = (props) => {
             const totalProduct = products && products.total_count ? products.total_count : 0;
             const totalPage = Math.ceil(totalProduct / pageSize);
             if (fetchMore && typeof fetchMore !== 'undefined' && page < totalPage) {
-                await setLoadmore(true);
+                setLoadmore(true);
                 setPage(page + 1);
                 fetchMore({
-                    query: Schema.getProduct({ ...config, currentPage: page + 1 }),
+                    query: Schema.getProduct({ ...config, currentPage: page + 1 }, router),
                     variables: {
                         pageSize,
                         currentPage: page + 1,
                     },
                     context,
-                    updateQuery: (
-                        previousResult,
-                        { fetchMoreResult },
-                    ) => {
+                    updateQuery: (previousResult, { fetchMoreResult }) => {
                         setLoadmore(false);
                         return {
                             products: {
                                 ...fetchMoreResult.products,
-                                items: [
-                                    ...previousResult.products.items,
-                                    ...fetchMoreResult.products.items,
-                                ],
+                                items: [...previousResult.products.items, ...fetchMoreResult.products.items],
                             },
                         };
                     },
                 });
             }
-        } catch (error) {}
+        } catch (error) {
+            setLoadmore(false);
+        }
     };
 
     React.useEffect(() => {
@@ -157,10 +188,11 @@ const Product = (props) => {
                         impressions: data.products.items.map((product, index) => {
                             let categoryProduct = '';
                             // eslint-disable-next-line no-unused-expressions
-                            product.categories.length > 0 && product.categories.map(({ name }, indx) => {
-                                if (indx > 0) categoryProduct += `/${name}`;
-                                else categoryProduct += name;
-                            });
+                            product.categories.length > 0 &&
+                                product.categories.map(({ name }, indx) => {
+                                    if (indx > 0) categoryProduct += `/${name}`;
+                                    else categoryProduct += name;
+                                });
                             return {
                                 name: product.name,
                                 id: product.sku,
@@ -196,12 +228,7 @@ const Product = (props) => {
         storeConfig,
     };
 
-    return (
-        <Content
-            {...contentProps}
-            {...other}
-        />
-    );
+    return <Content {...contentProps} {...other} />;
 };
 
 Product.propTypes = {
@@ -225,14 +252,7 @@ const ProductWrapper = (props) => {
     if (loadingAgg) {
         return <span />;
     }
-    return (
-        <Product
-            {...props}
-            availableFilter={availableFilter}
-            path={path}
-            query={query}
-        />
-    );
+    return <Product {...props} availableFilter={availableFilter} path={path} query={query} />;
 };
 
 export default ProductWrapper;

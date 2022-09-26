@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
 import GridList from '@common_gridlist';
 import Typography from '@common_typography';
-import classNames from 'classnames';
-import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
-import Filter from '@plugin_productlist/components/Filter';
-import FilterDesktop from '@plugin_productlist/components/FilterDesktop';
-import ProductItem from '@plugin_productitem/index';
+import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import LabelView from '@plugin_productitem/components/LabelView';
+import ProductItem from '@plugin_productitem/index';
 import useStyles from '@plugin_productlist/components/style';
-import Sort from '@plugin_productlist/components/FilterDesktop/sort';
+import classNames from 'classnames';
+import dynamic from 'next/dynamic';
+import React, { useEffect, useState } from 'react';
+
+const Filter = dynamic(() => import('@plugin_productlist/components/Filter'));
+const FilterDesktop = dynamic(() => import('@plugin_productlist/components/FilterDesktop'));
+const Sort = dynamic(() => import('@plugin_productlist/components/FilterDesktop/sort'));
 
 const Content = (props) => {
     const {
@@ -130,7 +132,6 @@ const Content = (props) => {
                             <GridList
                                 data={products.items}
                                 ItemComponent={ProductItem}
-                                className="grid"
                                 itemProps={{
                                     categorySelect: categoryPath,
                                     LabelView,
