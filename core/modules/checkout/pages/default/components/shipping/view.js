@@ -298,16 +298,24 @@ const ShippingView = (props) => {
                 });
 
                 uniqueSellerGroup.forEach((seller) => {
-                    const sellerData = shipping.map((ship) => ({
-                        data: ship.data.filter((item) => item.seller_id === seller),
-                        group: ship.group,
-                    }));
+                    let setNull = 0;
+                    const groupSize = shipping.length;
+                    const sellerData = shipping.map((ship) => {
+                        const tempData = ship.data.filter((item) => item.seller_id === seller);
+                        if (tempData < 1) {
+                            setNull += 1;
+                        }
+                        return {
+                            data: tempData,
+                            group: ship.group,
+                        };
+                    });
                     const sellerDataInfo = checkout.data.seller.find((items) => items.seller_id === seller);
                     unique.push({
                         seller_id: seller,
                         seller_name: sellerDataInfo ? sellerDataInfo.seller_name : 'Default Seller',
                         seller_city: sellerDataInfo ? sellerDataInfo.seller_city.split(', ')[0] : 'Default City',
-                        sellerData,
+                        sellerData: setNull !== groupSize ? sellerData : null
                     });
                 });
             }
@@ -338,8 +346,9 @@ const ShippingView = (props) => {
                             </Typography>
                             <div className="column">
                                 <div className={styles.paymentExpansionContainer}>
+                                    {seller.sellerData === null && (<Typography variant="p">{t('checkout:noShipping')}</Typography>)}
                                     {/* eslint-disable-next-line consistent-return, array-callback-return */}
-                                    {seller.sellerData.map((item, keyIndex) => {
+                                    {seller.sellerData !== null && seller.sellerData.map((item, keyIndex) => {
                                         if (item.data.length !== 0) {
                                             const indexes = expandedMulti.findIndex((items) => items.seller_id === seller.seller_id);
                                             const indexesActive = expandedActiveMulti.findIndex((items) => items.seller_id === seller.seller_id);
@@ -387,7 +396,7 @@ const ShippingView = (props) => {
                                                                     }}
                                                                     isShipping
                                                                 />
-                                                            ) : <Typography variant="p">{t('checkout:noShipping')}</Typography>}
+                                                            ) : null}
                                                         </div>
                                                     </AccordionDetails>
                                                 </Accordion>
