@@ -894,9 +894,7 @@ export const setShippingMethodMultiseller = gql`
             cart {
                 id
                 ${promoBanner}
-                shipping_addresses {
-                    ${selected_shipping_method}
-                }
+                ${cartShippingAddress}
                 ${modules.checkout.cashback.enabled ? applied_cashback : ''}
                 ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
                 ${prices}

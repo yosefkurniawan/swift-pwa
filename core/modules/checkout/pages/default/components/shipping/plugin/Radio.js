@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable max-len */
 /* eslint-disable no-unused-expressions */
@@ -72,17 +73,19 @@ function CustomRadio({
                         if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
                             let isTrue;
                             let itemValue;
+                            let matchDataValue;
                             const cartIdCookie = getCartId();
                             const checkoutShippingMethod = getLocalStorage('checkout_shipping_method');
 
                             if (isShipping) {
                                 if (value && value.length > 0) {
-                                    if (!value[0].seller_id && checkoutShippingMethod.length > 0) {
+                                    if (!value[0].seller_id && checkoutShippingMethod && checkoutShippingMethod.length > 0) {
                                         const matchData = checkoutShippingMethod.find((items) => items.cartId === cartIdCookie);
                                         if (matchData && matchData.data && matchData.data.length === value.length) {
                                             if (matchData.data[0].name.method_code === value[0].name.method_code) {
                                                 itemValue = `${item.value.split('_')[1]}_${item.value.split('_')[2]}`;
-                                                isTrue = itemValue === `${matchData.data.find((items) => items.seller_id === item.value.split('_')[2]).name.method_code}_${matchData.data.find((items) => items.seller_id === item.value.split('_')[2]).seller_id}`;
+                                                matchDataValue = matchData.data.find((items) => items.seller_id === item.value.split('_')[2]);
+                                                isTrue = itemValue === `${matchDataValue.name.method_code}_${matchDataValue.seller_id}`;
                                                 return (
                                                     <>
                                                         <CustomItem
@@ -107,7 +110,10 @@ function CustomRadio({
 
                                     itemValue = `${item.value.split('_')[1]}_${item.value.split('_')[2]}`;
                                     if (value.find((items) => items.seller_id === item.value.split('_')[2])) {
-                                        isTrue = itemValue === `${value.find((items) => items.seller_id === item.value.split('_')[2]).name.method_code}_${value.find((items) => items.seller_id === item.value.split('_')[2]).seller_id}`;
+                                        isTrue =
+                                            itemValue ===
+                                            `${value.find((items) => items.seller_id === item.value.split('_')[2]).name.method_code}_${value.find((items) => items.seller_id === item.value.split('_')[2]).seller_id
+                                            }`;
                                     } else {
                                         isTrue = false;
                                     }

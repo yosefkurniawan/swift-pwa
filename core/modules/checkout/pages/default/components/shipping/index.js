@@ -39,6 +39,8 @@ const Shipping = (props) => {
                 const inputShippingMethod = [];
 
                 const checkEmpty = state.selected.shipping.find((item) => item.name.carrier_code === null);
+                const cartIdCookie = getCartId();
+                const checkoutShippingMethodLocalStorage = getLocalStorage('checkout_shipping_method');
 
                 if (!checkEmpty) {
                     state.selected.shipping.forEach((selectedShipping) => {
@@ -52,18 +54,20 @@ const Shipping = (props) => {
 
                 let updatedCart = {};
 
-                const cartIdCookie = getCartId();
-                const checkoutShippingMethodLocalStorage = getLocalStorage('checkout_shipping_method');
-
                 if (!checkEmpty) {
                     if (checkoutShippingMethodLocalStorage && checkoutShippingMethodLocalStorage.length > 0) {
                         const matchData = checkoutShippingMethodLocalStorage.find((item) => item.cartId === cartIdCookie);
                         if (matchData) {
                             const tempArray = checkoutShippingMethodLocalStorage.map(({ cartId, data: dataShipping }) => {
+                                const tempShippingData = dataShipping.map((item, index) => ({
+                                    ...item,
+                                    ...state.selected.shipping[index],
+                                }));
                                 if (cartId === cartIdCookie) {
                                     return {
                                         cartId,
-                                        data: state.selected.shipping,
+                                        // data: state.selected.shipping,
+                                        data: tempShippingData,
                                     };
                                 }
                                 return {
