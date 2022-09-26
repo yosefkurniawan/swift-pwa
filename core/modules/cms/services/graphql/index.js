@@ -12,6 +12,7 @@ export const getCmsPage = (variables) => useQuery(Schema.getCmsPage, {
     context: {
         request: isLogin ? 'internal' : '',
     },
+    ssr: true,
     ...(isLogin && { fetchPolicy: 'network-only' }),
 });
 export const getInstagramToken = () => useLazyQuery(Schema.getInstagramToken);
