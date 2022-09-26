@@ -59,7 +59,7 @@ const CoreMultiseller = (props) => {
 
     React.useEffect(() => {
         const parsedCheckoutData = checkoutData;
-        const orderNumberCollection = parsedCheckoutData.order_number.split('+');
+        const orderNumberCollection = parsedCheckoutData.order_number.split('|');
 
         if (orderNumberCollection && orderNumberCollection.length > 0 && typeof window !== 'undefined') {
             let count = 1;
