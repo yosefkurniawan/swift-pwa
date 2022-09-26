@@ -9,9 +9,10 @@ import {
 import PaypalButtonView from '@plugin_paypalbutton/view';
 import TagManager from 'react-gtm-module';
 import { getCartId } from '@helper_cartid';
-import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
+import { setLocalStorage } from '@helper_localstorage';
 import { getLoginInfo } from '@helper_auth';
 import Router from 'next/router';
+import gqlService from '@core_modules/checkout/services/graphql';
 
 const PaypalButton = (props) => {
     const { t, cart, storeConfig } = props;
@@ -39,7 +40,7 @@ const PaypalButton = (props) => {
     });
 
     const [tokenData, setTokenData] = React.useState({});
-
+    const [setCheckoutSession] = gqlService.setCheckoutSession();
     const [setPaymentMethod] = setPaypalPaymentMethod({ onError: () => {} });
     const [getPaypalToken, paypalToken] = createPaypalExpressToken();
 
@@ -60,8 +61,7 @@ const PaypalButton = (props) => {
 
     React.useEffect(() => {
         if (typeof window !== 'undefined' && storeConfig?.pwa?.paypal_enable) {
-            const initialTokenData = getLocalStorage(modules.paypal.keyToken);
-            if (!initialTokenData && cartId) {
+            if (cartId) {
                 getPaypalToken({
                     variables: {
                         cartId: cart.id,
@@ -72,7 +72,6 @@ const PaypalButton = (props) => {
                 }).then((res) => {
                     if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
                         const { token } = res.data.createPaypalExpressToken;
-                        setLocalStorage(modules.paypal.keyToken, res.data.createPaypalExpressToken);
                         setTokenData(res.data.createPaypalExpressToken);
                         setInitialOptionPaypal({
                             ...initialOptionPaypal,
@@ -80,18 +79,21 @@ const PaypalButton = (props) => {
                         });
                     }
                 });
-            } else {
-                setTokenData(initialTokenData);
-                setInitialOptionPaypal({
-                    ...initialOptionPaypal,
-                    'data-order-id': initialTokenData.token,
-                });
             }
         }
     }, []);
 
     const onClickPaypal = () => {
-
+        if (cartId) {
+            setCheckoutSession({
+                variables: {
+                    cartId,
+                },
+            });
+            // .then(async (result) => { }).catch((e) => {
+            //     console.log(e);
+            // });
+        }
     };
 
     const onCancelPaypal = () => {
