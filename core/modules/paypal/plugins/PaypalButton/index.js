@@ -272,7 +272,7 @@ const PaypalButton = (props) => {
         onShippingChange: onShippingChangePaypal,
         createOrder: createOrderPaypal,
     };
-    if (storeConfig?.pwa?.paypal_enable) {
+    if (storeConfig?.pwa?.paypal_enable && isLogin) {
         return (
             <PaypalButtonView
                 {...props}

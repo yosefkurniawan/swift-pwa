@@ -7,8 +7,8 @@ import classNames from 'classnames';
 const ShippingAddress = (props) => {
     const { t, checkout } = props;
     let paypallShippingAddress = {};
-    if (checkout && checkout.cart && checkout.cart.shipping_addresses && checkout.cart.shipping_addresses.length > 0) {
-        [paypallShippingAddress] = checkout.cart.shipping_addresses;
+    if (checkout && checkout.cart && checkout.shippingAddress) {
+        paypallShippingAddress = checkout.shippingAddress;
     }
 
     const styles = useStyles();
@@ -29,7 +29,7 @@ const ShippingAddress = (props) => {
                     )
                 }
                 <Typography variant="span" letter="capitalize">
-                    {paypallShippingAddress.steet ? paypallShippingAddress.street[0] : ''}
+                    {paypallShippingAddress.street ? paypallShippingAddress.street[0] : ''}
                 </Typography>
                 <Typography variant="span" letter="capitalize">
                     {`
