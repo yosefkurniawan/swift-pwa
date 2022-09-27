@@ -267,11 +267,6 @@ const Layout = (props) => {
         marginTop: storeConfig?.pwa?.mobile_navigation === 'burger_menu' && !isHomepage && !isPdp ? '55px' : 0,
     };
 
-    const footerMobile = {
-        marginBottom: pageConfig.bottomNav && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? '55px' : 0,
-        display: pageConfig.bottomNav && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? 'flex' : null,
-    };
-
     if (!headerDesktop) {
         styles.marginTop = 0;
     }
@@ -290,7 +285,8 @@ const Layout = (props) => {
 
             if (pwaConfig) {
                 // eslint-disable-next-line max-len
-                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.default_font ? pwaConfig.default_font.replace(' ', '-') : 'Montserrat'}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                const default_font = pwaConfig.default_font === '0' ? pwaConfig.default_font : 'Montserrat';
+                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${default_font.replace(' ', '-')}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
                 fontStylesheet.id = 'font-stylesheet-id';
                 fontStylesheet.rel = 'stylesheet';
                 // eslint-disable-next-line max-len
@@ -511,11 +507,6 @@ const Layout = (props) => {
                         {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
                         <Copyright storeConfig={storeConfig} />
                     </div>
-                    {footer && storeConfig?.pwa?.enabler_footer_mobile === true ? (
-                        <div className="hidden-desktop" style={{ ...footerMobile }}>
-                            <Footer storeConfig={storeConfig} t={t} />
-                        </div>
-                    ) : null}
                     {desktop ? null : storeConfig && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? (
                         <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />
                     ) : null}
