@@ -4,7 +4,7 @@ import Item from '@plugin_minicart/components/product/item';
 const ItemCart = (props) => {
     const styles = useStyles();
     const {
-        data, deleteCart, updateCart, t,
+        data, deleteCart, updateCart, t, storeConfig,
     } = props;
     if (data.length === 0) {
         return <div className={styles.emptyCart}>{t('common:cart:emptyCart')}</div>;
@@ -13,7 +13,7 @@ const ItemCart = (props) => {
     return (
         <ol className={styles.miniCartItems} style={{ height: heightFinal }}>
             {data.map((val, idx) => (
-                <Item {...val} key={idx} deleteCart={deleteCart} updateCart={updateCart} />
+                <Item {...val} key={idx} deleteCart={deleteCart} updateCart={updateCart} storeConfig={storeConfig} />
             ))}
         </ol>
     );

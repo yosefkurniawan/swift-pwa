@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 const BannerThumbnail = (props) => {
     const {
-        className = '', alt = 'Image', lazy = false, src, srcMobile,
+        className = '', alt = 'Image', lazy = false, src, srcMobile, storeConfig = {},
     } = props;
 
     let {
@@ -19,7 +19,6 @@ const BannerThumbnail = (props) => {
     if (typeof heightMobile === 'string') heightMobile = parseInt(heightMobile, 0);
 
     const styles = useStyles();
-    const storeConfig = JSON.parse(localStorage.getItem('storeConfig'));
     const enable = storeConfig.pwa.thumbor_enable;
     const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
     const url = storeConfig.pwa.thumbor_url;
