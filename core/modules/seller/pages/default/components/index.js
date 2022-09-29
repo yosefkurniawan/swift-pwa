@@ -165,6 +165,7 @@ const Content = (props) => {
                         TabView={TabView}
                         FilterView={FilterView}
                         FilterModalView={FilterModalView}
+                        defaultSort={{ key: 'position', value: 'ASC' }}
                         {...props}
                     />
                     {/* <div className="row">
