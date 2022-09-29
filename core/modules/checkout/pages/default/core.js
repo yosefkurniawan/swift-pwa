@@ -113,7 +113,7 @@ const Checkout = (props) => {
                     console.log(e);
                 });
         }
-    }, [cartId]);
+    }, [cartId, propsCardId, setCheckoutSession]);
 
     const { snap_is_production, snap_client_key, allow_guest_checkout } = storeConfig;
     if (storeConfig && !allow_guest_checkout && !isLogin) {
@@ -432,52 +432,6 @@ const Checkout = (props) => {
                     pickup_location_code: shipping[0].pickup_location_code,
                 };
 
-                if (shipping[0].seller_id === null) {
-                    setShippingAddressByInput({
-                        variables: {
-                            cartId: cart.id,
-                            city: state.selected.address.city,
-                            countryCode: state.selected.address.country.code,
-                            firstname: state.selected.address.firstname,
-                            lastname: state.selected.address.lastname,
-                            telephone: state.selected.address.telephone,
-                            postcode: state.selected.address.postcode,
-                            street: state.selected.address.street[0],
-                            region: state.selected.address.region.code,
-                            regionId: shipping[0].region.region_id
-                        },
-                    })
-                        .then(async () => {
-                            setBillingAddressByInput({
-                                variables: {
-                                    cartId: cart.id,
-                                    city: state.selected.address.city,
-                                    countryCode: state.selected.address.country.code,
-                                    firstname: state.selected.address.firstname,
-                                    lastname: state.selected.address.lastname,
-                                    telephone: state.selected.address.telephone,
-                                    postcode: state.selected.address.postcode,
-                                    street: state.selected.address.street[0],
-                                    region: state.selected.address.region.code,
-                                    regionId: shipping[0].region.region_id
-                                },
-                            })
-                                .then(async (resBilling) => {
-                                    updateAddressState(resBilling);
-                                })
-                                .catch((e) => {
-                                    if (e.message.includes('Token is wrong.')) {
-                                        setCheckoutTokenState(!checkoutTokenState);
-                                    }
-                                });
-                        })
-                        .catch((e) => {
-                            if (e.message.includes('Token is wrong.')) {
-                                setCheckoutTokenState(!checkoutTokenState);
-                            }
-                        });
-                }
-
                 if (typeof shipping[0].is_valid_city !== 'undefined') {
                     state.error.shippingAddress = !shipping[0].is_valid_city;
                 }
@@ -518,6 +472,8 @@ const Checkout = (props) => {
                 pickup_location_code: storeConfig.enable_oms_multiseller === '1' ? shipping[0].pickup_location_code : shipping.pickup_location_code,
             };
         }
+
+        if (shipping === null) setLoadingSellerInfo(false);
 
         // init shipping method
         // if multiseller active
@@ -613,7 +569,7 @@ const Checkout = (props) => {
                 });
             }
         } else {
-            if (shipping[0] && shipping[0].available_shipping_methods) {
+            if (shipping && shipping.available_shipping_methods) {
                 const availableShipping = shipping[0].available_shipping_methods.filter(
                     (x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore'
                 );
@@ -787,6 +743,104 @@ const Checkout = (props) => {
         }
 
         if (dataCart && dataCart.cart && itemCart && itemCart.cart && cartId) {
+            const { cart } = dataCart;
+            const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
+
+            let cartItemBySeller = {};
+
+            if (itemCart.cart.items.length > 0) {
+                const unGroupedData = itemCart.cart.items;
+
+                // eslint-disable-next-line no-shadow
+                const groupData = unGroupedData.reduce((groupData, {
+                    id,
+                    quantity,
+                    pickup_item_store_info,
+                    prices,
+                    product,
+                    ...other
+                }) => {
+                    let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+                    if (!item) {
+                        item = {
+                            seller_id: product.seller.seller_id,
+                            seller_name: product.seller.seller_name,
+                            productList: [],
+                            subtotal: {
+                                currency: '',
+                                value: 0,
+                            },
+                        };
+                        groupData.push(item);
+                    }
+                    let child = item.productList.find((ch) => ch.name === product.name);
+                    if (!child) {
+                        child = {
+                            id,
+                            prices,
+                            product,
+                            quantity,
+                            ...other,
+                        };
+                        item.productList.push(child);
+                        item.subtotal.currency = prices.row_total_including_tax.currency;
+                        item.subtotal.value += prices.row_total_including_tax.value;
+                    }
+                    return groupData;
+                }, []);
+                cartItemBySeller = groupData;
+            }
+
+            if (
+                shipping
+                && storeConfig.enable_oms_multiseller === '1'
+                && shipping[0].seller_id === null
+                && cartItemBySeller.length !== shipping.length
+            ) {
+                setShippingAddressByInput({
+                    variables: {
+                        cartId: cart.id,
+                        city: shipping[0].city,
+                        countryCode: shipping[0].country.code,
+                        firstname: shipping[0].firstname,
+                        lastname: shipping[0].lastname,
+                        telephone: shipping[0].telephone,
+                        postcode: shipping[0].postcode,
+                        street: shipping[0].street[0],
+                        region: shipping[0].region.code,
+                        regionId: shipping[0].region.region_id,
+                    },
+                })
+                    .then(async () => {
+                        setBillingAddressByInput({
+                            variables: {
+                                cartId: cart.id,
+                                city: shipping[0].city,
+                                countryCode: shipping[0].country.code,
+                                firstname: shipping[0].firstname,
+                                lastname: shipping[0].lastname,
+                                telephone: shipping[0].telephone,
+                                postcode: shipping[0].postcode,
+                                street: shipping[0].street[0],
+                                region: shipping[0].region.code,
+                                regionId: shipping[0].region.region_id,
+                            },
+                        })
+                            .then(async (resBilling) => {
+                                updateAddressState(resBilling);
+                            })
+                            .catch((e) => {
+                                if (e.message.includes('Token is wrong.')) {
+                                    setCheckoutTokenState(!checkoutTokenState);
+                                }
+                            });
+                    })
+                    .catch((e) => {
+                        if (e.message.includes('Token is wrong.')) {
+                            setCheckoutTokenState(!checkoutTokenState);
+                        }
+                    });
+            }
             initData();
         }
     }, [manageCustomer.data, dataCart, itemCart, cartId, errorCart, errorItem]);

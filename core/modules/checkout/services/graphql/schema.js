@@ -594,6 +594,7 @@ export const setShippingAddressById = gql`
                 ${cartBillingAddress}
                 shipping_addresses {
                     is_valid_city
+                    seller_id
                     ${available_shipping_methods}
                     ${selected_shipping_method}
                 }
@@ -641,6 +642,7 @@ export const setShippingAddressByInput = gql`
                 id
                 shipping_addresses {
                     is_valid_city
+                    seller_id
                     ${shortAddressData}
                 }
             }
@@ -688,6 +690,7 @@ export const initiateShippingAddressMultiseller = gql`
                 id
                 shipping_addresses {
                     is_valid_city
+                    seller_id
                     ${shortAddressData}
                 }
             }
@@ -1146,14 +1149,8 @@ export const mergeCart = gql`
 `;
 
 export const setCheckoutSession = gql`
-    mutation setCheckoutSession(
-        $cartId: String!
-    ) {
-        internalGenerateCartTokenSession(
-            input: {
-                cart_id: $cartId
-            }
-        ) {
+    mutation setCheckoutSession($cartId: String!) {
+        internalGenerateCartTokenSession(input: { cart_id: $cartId }) {
             message
         }
     }
@@ -1354,11 +1351,11 @@ export const getCmsPage = gql`
 `;
 
 export const getIndodanaUrl = gql`
-query IndodanaUrl($order_number: String!) {
-    indodanaRedirectUrl(order_number: $order_number) {
-      redirect_url
+    query IndodanaUrl($order_number: String!) {
+        indodanaRedirectUrl(order_number: $order_number) {
+            redirect_url
+        }
     }
-  }
 `;
 
 export const pickupLocations = gql`
@@ -1379,7 +1376,7 @@ export const pickupLocations = gql`
                 street
                 postcode
                 phone
-            },
+            }
             total_count
             page_info {
                 page_size
@@ -1429,6 +1426,7 @@ export const setInstoreShippingAddress = gql`
             cart {
                 shipping_addresses {
                     is_valid_city
+                    seller_id
                     ${shortAddressData}
                     pickup_location_code
                 }
@@ -1457,6 +1455,7 @@ export const setInstoreShippingAddress = gql`
                 ${cartBillingAddress}
                 shipping_addresses {
                     is_valid_city
+                    seller_id
                     ${available_shipping_methods}
                     ${selected_shipping_method}
                 }
