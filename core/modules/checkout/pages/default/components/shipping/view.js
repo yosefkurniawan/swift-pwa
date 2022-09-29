@@ -104,21 +104,26 @@ const ShippingView = (props) => {
     };
 
     React.useEffect(() => {
-        if (data.shippingMethods.length !== 0 && storeConfig.enable_oms_multiseller === '1' && setExpandedMulti.length === 0 && setExpandedActiveMulti.length === 0) {
+        if (
+            data.shippingMethods.length !== 0 &&
+            storeConfig.enable_oms_multiseller === '1' &&
+            setExpandedMulti.length === 0 &&
+            setExpandedActiveMulti.length === 0
+        ) {
             data.shippingMethods.forEach((item) => {
                 const tempData = {
                     seller_id: item.seller_id,
-                    expanded: false
+                    expanded: false,
                 };
                 const tempDataActive = {
                     seller_id: item.seller_id,
-                    expanded: true
+                    expanded: true,
                 };
                 setExpandedMulti((prevState) => [...prevState, tempData]);
                 setExpandedActiveMulti((prevState) => [...prevState, tempDataActive]);
             });
         }
-    }, [data.shippingMethods]);
+    }, [data.shippingMethods, storeConfig.enable_oms_multiseller]);
 
     if (checkout.selected.delivery === 'pickup') {
         const price = formatPrice(0, storeConfig.base_currency_code || 'IDR');
@@ -128,9 +133,14 @@ const ShippingView = (props) => {
         content = <DeliveryItem value={{ price }} label={t('checkout:instorePickup')} selected borderBottom={false} />;
     } else if (loading.shipping || loading.addresses || loading.all || loadingSellerInfo) {
         content = <Loader />;
-    } else if (data.shippingMethods.length !== 0 && (data.shippingMethods[0].available_shipping_methods || data.shippingMethods) && !loadingSellerInfo) {
+    } else if (
+        data.shippingMethods.length !== 0 &&
+        (data.shippingMethods[0].available_shipping_methods || data.shippingMethods) &&
+        !loadingSellerInfo
+    ) {
         const available = data.shippingMethods;
-        const config = shippingMethodList && shippingMethodList.storeConfig ? JSON.parse(`${shippingMethodList.storeConfig.shipments_configuration}`) : {};
+        const config =
+            shippingMethodList && shippingMethodList.storeConfig ? JSON.parse(`${shippingMethodList.storeConfig.shipments_configuration}`) : {};
         const group = config ? Object.keys(config) : [];
         const sellerGroup = [];
 
@@ -315,7 +325,7 @@ const ShippingView = (props) => {
                         seller_id: seller,
                         seller_name: sellerDataInfo ? sellerDataInfo.seller_name : 'Default Seller',
                         seller_city: sellerDataInfo ? sellerDataInfo.seller_city.split(', ')[0] : 'Default City',
-                        sellerData: setNull !== groupSize ? sellerData : null
+                        sellerData: setNull !== groupSize ? sellerData : null,
                     });
                 });
             }
@@ -336,19 +346,18 @@ const ShippingView = (props) => {
                 }
             }
             if (storeConfig.enable_oms_multiseller === '1') {
-                if (loadingSellerInfo) {
-                    content = <Loader />;
-                } else {
-                    content = unique.map((seller) => (
-                        <>
-                            <Typography letter="uppercase" variant="span" type="bold">
-                                {`${seller.seller_name} - ${seller.seller_city}`}
-                            </Typography>
-                            <div className="column">
-                                <div className={styles.paymentExpansionContainer}>
-                                    {seller.sellerData === null && (<Typography variant="p">{t('checkout:noShipping')}</Typography>)}
-                                    {/* eslint-disable-next-line consistent-return, array-callback-return */}
-                                    {seller.sellerData !== null && seller.sellerData.map((item, keyIndex) => {
+                content = unique.map((seller) => (
+                    <>
+                        <Typography letter="uppercase" variant="span" type="bold">
+                            {`${seller.seller_name} - ${seller.seller_city}`}
+                        </Typography>
+                        <div className="column">
+                            <div className={styles.paymentExpansionContainer}>
+                                {seller.sellerData === null && <Typography variant="p">{t('checkout:noShipping')}</Typography>}
+                                {/* eslint-disable-next-line consistent-return, array-callback-return */}
+                                {seller.sellerData !== null &&
+                                    // eslint-disable-next-line array-callback-return, consistent-return
+                                    seller.sellerData.map((item, keyIndex) => {
                                         if (item.data.length !== 0) {
                                             const indexes = expandedMulti.findIndex((items) => items.seller_id === seller.seller_id);
                                             const indexesActive = expandedActiveMulti.findIndex((items) => items.seller_id === seller.seller_id);
@@ -356,8 +365,11 @@ const ShippingView = (props) => {
                                                 <Accordion
                                                     expanded={
                                                         (expandedMulti[indexes] && expandedMulti[indexes].expanded === keyIndex) || // if key index same with expanded active
-                                                        (item.active && (expandedMulti[indexes] && expandedActiveMulti[indexesActive].expanded)) || // expand if item active and not change expand
-                                                        (!itemActive && (expandedMulti[indexes] && expandedActiveMulti[indexesActive].expanded && keyIndex === 0))
+                                                        (item.active && expandedMulti[indexes] && expandedActiveMulti[indexesActive].expanded) || // expand if item active and not change expand
+                                                        (!itemActive &&
+                                                            expandedMulti[indexes] &&
+                                                            expandedActiveMulti[indexesActive].expanded &&
+                                                            keyIndex === 0)
                                                     } // if dont have item active, set index 0 to active
                                                     onChange={handleChangeMulti(keyIndex, seller.seller_id)}
                                                     key={keyIndex}
@@ -374,7 +386,7 @@ const ShippingView = (props) => {
                                                             <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
                                                             <Typography letter="uppercase" variant="span" type="bold">
                                                                 {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`) ===
-                                                                    `shippingGrouping.${item.group.replace('sg-', '')}`
+                                                                `shippingGrouping.${item.group.replace('sg-', '')}`
                                                                     ? item.group.replace('sg-', '')
                                                                     : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
                                                             </Typography>
@@ -403,21 +415,20 @@ const ShippingView = (props) => {
                                             );
                                         }
                                     })}
-                                </div>
-
-                                <div className={styles.listError}>
-                                    {error &&
-                                        error.length > 0 &&
-                                        error.map((msg, key) => (
-                                            <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
-                                                {msg}
-                                            </Alert>
-                                        ))}
-                                </div>
                             </div>
-                        </>
-                    ));
-                }
+
+                            <div className={styles.listError}>
+                                {error &&
+                                    error.length > 0 &&
+                                    error.map((msg, key) => (
+                                        <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
+                                            {msg}
+                                        </Alert>
+                                    ))}
+                            </div>
+                        </div>
+                    </>
+                ));
             } else {
                 content = (
                     <div className="column">
@@ -446,7 +457,7 @@ const ShippingView = (props) => {
                                                     <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
                                                     <Typography letter="uppercase" variant="span" type="bold">
                                                         {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`) ===
-                                                            `shippingGrouping.${item.group.replace('sg-', '')}`
+                                                        `shippingGrouping.${item.group.replace('sg-', '')}`
                                                             ? item.group.replace('sg-', '')
                                                             : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
                                                     </Typography>
