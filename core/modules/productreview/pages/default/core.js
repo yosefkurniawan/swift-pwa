@@ -3,7 +3,7 @@ import { getReview } from '@core_modules/productreview/services/graphql';
 
 const PageReview = (props) => {
     const {
-        t, Content, pageConfig, rowsPerPage = 10,
+        t, Content, pageConfig, rowsPerPage = 10, storeConfig,
     } = props;
     const config = {
         title: t('productreview:title'),
@@ -43,6 +43,7 @@ const PageReview = (props) => {
                 page={page}
                 handleChangePage={handleChangePage}
                 handleChangeRowsPerPage={handleChangeRowsPerPage}
+                storeConfig={storeConfig}
             />
         </Layout>
     );
