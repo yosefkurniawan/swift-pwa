@@ -90,6 +90,7 @@ const ShippingMethod = (props) => {
                 state.selectedShippingMethod = value;
                 setCheckout(state);
                 const selectedShipping = checkout.shippingMethods.filter((item) => item.method_code === method_code);
+                // GTM UA dataLayer
                 const dataLayer = {
                     event: 'checkout',
                     ecommerce: {
@@ -120,11 +121,36 @@ const ShippingMethod = (props) => {
                         },
                     },
                 };
+                // GA 4 dataLayer
+                const dataLayerOpt = {
+                    event: 'add_shipping_info',
+                    ecommerce: {
+                        shipping_tier: selectedShipping[0].label,
+                        items: [
+                            cart.items.map(({ quantity, product, prices }) => ({
+                                currency: storeConfig.base_currency_code || 'IDR',
+                                item_name: product.name,
+                                item_id: product.sku,
+                                price: JSON.stringify(prices.price.value),
+                                item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                                item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                                quantity: JSON.stringify(quantity),
+                                item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                item_sale_product: '',
+                                item_reviews_count: '',
+                                item_reviews_score: '',
+                            })),
+                        ],
+                    },
+                };
                 TagManager.dataLayer({
                     dataLayer,
                 });
                 TagManager.dataLayer({
                     dataLayer: dataLayerOption,
+                });
+                TagManager.dataLayer({
+                    dataLayer: dataLayerOpt,
                 });
             } else {
                 window.toastMessage({

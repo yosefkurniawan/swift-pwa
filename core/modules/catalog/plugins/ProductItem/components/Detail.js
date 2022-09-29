@@ -44,7 +44,7 @@ const Detail = (props) => {
     return (
         <div className={styles.descItem}>
             {showWishlist && (
-                <Button className={styles.btnFeed} onClick={handleFeed}>
+                <Button className={styles.btnFeed} onClick={() => handleFeed(props)}>
                     {FeedIcon}
                 </Button>
             )}
@@ -53,7 +53,7 @@ const Detail = (props) => {
                     <CompareArrowsIcon className={styles.iconCompare} />
                 </Button>
             )}
-            <Link onClick={handleClick} className={styles.productLinkButton}>
+            <Link onClick={() => handleClick(props)} className={styles.productLinkButton}>
                 <Typography variant="p" className={styles.productTitle} id="plugin-productTitle-typography" letter="capitalize">
                     {name}
                 </Typography>
