@@ -9,8 +9,13 @@ WORKDIR /usr/src/app
 # Copying source files
 COPY . .
 
-# Build image
-RUN yarn install; \
-    yarn build; 
+# Install all dependencies pwa
+RUN yarn install;
+
+# Patch pwa
+RUN sh patch.sh
+
+# build pwa
+RUN yarn build; 
 
 EXPOSE 3000
