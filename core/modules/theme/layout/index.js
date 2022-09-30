@@ -260,6 +260,10 @@ const Layout = (props) => {
                 : 0,
         marginTop: storeConfig?.pwa?.mobile_navigation === 'burger_menu' && !isHomepage && !isPdp ? '55px' : 0,
     };
+    const footerMobile = {
+        marginBottom: pageConfig.bottomNav && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? '55px' : 0,
+        display: pageConfig.bottomNav && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? 'flex' : null,
+    };
 
     if (!headerDesktop) {
         styles.marginTop = 0;
@@ -455,6 +459,11 @@ const Layout = (props) => {
                         {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
                         <Copyright storeConfig={storeConfig} />
                     </div>
+                    {footer && storeConfig?.pwa?.enabler_footer_mobile === true ? (
+                        <div className="hidden-desktop" style={{ ...footerMobile }}>
+                            <Footer storeConfig={storeConfig} t={t} />
+                        </div>
+                    ) : null}
                     {desktop ? null : storeConfig && storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? (
                         <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />
                     ) : null}

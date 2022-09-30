@@ -163,7 +163,7 @@ const ViewMobile = (props) => {
                         </Button>
                     </li>
                 </ul>
-                {storeConfig?.pwa?.enabler_footer_mobile === true ? (
+                {storeConfig?.pwa?.enabler_footer_mobile === false ? (
                     <div className="hidden-desktop" style={{ ...footerMobile }}>
                         <Footer storeConfig={storeConfig} t={t} />
                     </div>
