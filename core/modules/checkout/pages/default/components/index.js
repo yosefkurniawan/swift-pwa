@@ -67,6 +67,7 @@ const Content = (props) => {
         ConfirmationView,
         checkoutTokenState,
         setCheckoutTokenState,
+        setLoadingSellerInfo,
         loadingSellerInfo,
     } = props;
 
@@ -112,14 +113,9 @@ const Content = (props) => {
                 confirmationMessage={`${t('checkout:invalidTokenConfirmation')}`}
             />
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
-                {
-                    checkout
-                    && checkout.data
-                    && checkout.data.cart
-                    && checkout.data.cart.promoBanner.length > 0 && (
-                        <GimmickBanner data={checkout.data.cart.promoBanner || []} />
-                    )
-                }
+                {checkout && checkout.data && checkout.data.cart && checkout.data.cart.promoBanner.length > 0 && (
+                    <GimmickBanner data={checkout.data.cart.promoBanner || []} />
+                )}
             </div>
             <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>
                 {modules.checkout.cashback.enabled && checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
@@ -187,6 +183,7 @@ const Content = (props) => {
                             refetchItemCart={refetchItemCart}
                             checkoutTokenState={checkoutTokenState}
                             setCheckoutTokenState={setCheckoutTokenState}
+                            setLoadingSellerInfo={setLoadingSellerInfo}
                         />
                     ) : checkout.selected.delivery === 'pickup' ? (
                         <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
@@ -300,13 +297,7 @@ const Content = (props) => {
                         setCheckoutTokenState={setCheckoutTokenState}
                     />
 
-                    <Confirmation
-                        t={t}
-                        checkout={checkout}
-                        setCheckout={setCheckout}
-                        storeConfig={storeConfig}
-                        ConfirmationView={ConfirmationView}
-                    />
+                    <Confirmation t={t} checkout={checkout} setCheckout={setCheckout} storeConfig={storeConfig} ConfirmationView={ConfirmationView} />
 
                     <div className={classNames(styles.block)}>
                         <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">

@@ -77,7 +77,7 @@ const Summary = (props) => {
             if (!item) {
                 item = {
                     seller_id: product.seller.seller_id,
-                    seller_name: product.seller.seller_name,
+                    seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
                     productList: [],
                     subtotal: {
                         currency: '',

@@ -1,8 +1,9 @@
+/* eslint-disable indent */
+import gqlService from '@core_modules/checkout/services/graphql';
 import Skeleton from '@material-ui/lab/Skeleton';
+import _ from 'lodash';
 import { useEffect } from 'react';
 import TagManager from 'react-gtm-module';
-import _ from 'lodash';
-import gqlService from '@core_modules/checkout/services/graphql';
 
 const Loader = () => (
     <>
@@ -14,8 +15,20 @@ const Loader = () => (
 
 const Address = (props) => {
     const {
-        isOnlyVirtualProductOnCart, checkout, t, setCheckout, defaultAddress, updateFormik, AddressView, storeConfig,
-        refetchDataCart, refetchItemCart, checkoutTokenState, setCheckoutTokenState, ...other
+        isOnlyVirtualProductOnCart,
+        checkout,
+        t,
+        setCheckout,
+        defaultAddress,
+        updateFormik,
+        AddressView,
+        storeConfig,
+        refetchDataCart,
+        refetchItemCart,
+        checkoutTokenState,
+        setCheckoutTokenState,
+        setLoadingSellerInfo,
+        ...other
     } = props;
 
     const [setShippingAddressById] = gqlService.setShippingAddress();
@@ -53,18 +66,18 @@ const Address = (props) => {
     if (data.isGuest) {
         dialogProps = address
             ? {
-                region: address.region.label,
-                country: {
-                    id: address.country.code,
-                    full_name_locale: address.country.label,
-                },
-                city: address.city,
-                street,
-                firstname: address.firstname,
-                lastname: address.lastname,
-                postcode: address.postcode,
-                telephone: address.telephone,
-            }
+                  region: address.region.label,
+                  country: {
+                      id: address.country.code,
+                      full_name_locale: address.country.label,
+                  },
+                  city: address.city,
+                  street,
+                  firstname: address.firstname,
+                  lastname: address.lastname,
+                  postcode: address.postcode,
+                  telephone: address.telephone,
+              }
             : {};
     }
 
@@ -116,150 +129,152 @@ const Address = (props) => {
         updateFormik(mergeCart);
     };
 
-    const setAddress = (selectedAddress, cart, firstLoad = false) => new Promise((resolve, reject) => {
-        const state = { ...checkout };
-        if (checkout.data.isGuest) {
-            state.loading.addresses = true;
-            setCheckout(state);
-        }
-        const { latitude, longitude } = selectedAddress;
-
-        if (checkout.data.isGuest) {
-            if (isOnlyVirtualProductOnCart) {
-                setBillingAddressVirtualProduct({
-                    variables: {
-                        cartId: cart.id,
-                        ...selectedAddress,
-                        latitude,
-                        longitude,
-                    },
-                })
-                    .then((resBilling) => {
-                        updateAddressState(resBilling);
-                        resolve();
-                    })
-                    .catch((e) => {
-                        if (e.message.includes('Token is wrong.')) {
-                            setCheckoutTokenState(!checkoutTokenState);
-                        } else {
-                            reject(e);
-                        }
-                    });
-            } else {
-                setShippingAddressByInput({
-                    variables: {
-                        cartId: cart.id,
-                        ...selectedAddress,
-                        latitude,
-                        longitude,
-                    },
-                })
-                    .then(async () => {
-                        setBillingAddressByInput({
-                            variables: {
-                                cartId: cart.id,
-                                ...selectedAddress,
-                                latitude,
-                                longitude,
-                            },
-                        })
-                            .then(async (resBilling) => {
-                                updateAddressState(resBilling);
-                                resolve();
-                            })
-                            .catch((e) => {
-                                if (e.message.includes('Token is wrong.')) {
-                                    setCheckoutTokenState(!checkoutTokenState);
-                                } else {
-                                    reject(e);
-                                }
-                            });
-                    })
-                    .catch((e) => {
-                        if (e.message.includes('Token is wrong.')) {
-                            setCheckoutTokenState(!checkoutTokenState);
-                        } else {
-                            reject(e);
-                        }
-                    });
-            }
-        } else if (isOnlyVirtualProductOnCart) {
-            setBillingAddressById({
-                variables: {
-                    cartId: cart.id,
-                    addressId: selectedAddress.id,
-                },
-            })
-                .then((resBilling) => {
-                    updateAddressState(resBilling);
-                    resolve();
-                })
-                .catch((e) => {
-                    if (e.message.includes('Token is wrong.')) {
-                        setCheckoutTokenState(!checkoutTokenState);
-                    } else {
-                        reject(e);
-                    }
-                });
-        } else {
-            const setShippingBilling = () => {
-                setShippingAddressById({
-                    variables: {
-                        cartId: cart.id,
-                        addressId: selectedAddress.id,
-                    },
-                })
-                    .then((resBilling) => {
-                        updateAddressState(resBilling);
-                        resolve();
-                    })
-                    .catch((e) => {
-                        if (e.message.includes('Token is wrong.')) {
-                            setCheckoutTokenState(!checkoutTokenState);
-                        } else {
-                            reject(e);
-                        }
-                    });
-            };
-            if (firstLoad) {
+    const setAddress = (selectedAddress, cart, firstLoad = false) =>
+        new Promise((resolve, reject) => {
+            const state = { ...checkout };
+            if (checkout.data.isGuest) {
                 state.loading.addresses = true;
                 setCheckout(state);
-                setDefaultAddress({
+            }
+            const { latitude, longitude } = selectedAddress;
+
+            if (checkout.data.isGuest) {
+                if (isOnlyVirtualProductOnCart) {
+                    setBillingAddressVirtualProduct({
+                        variables: {
+                            cartId: cart.id,
+                            ...selectedAddress,
+                            latitude,
+                            longitude,
+                        },
+                    })
+                        .then((resBilling) => {
+                            updateAddressState(resBilling);
+                            resolve();
+                        })
+                        .catch((e) => {
+                            if (e.message.includes('Token is wrong.')) {
+                                setCheckoutTokenState(!checkoutTokenState);
+                            } else {
+                                reject(e);
+                            }
+                        });
+                } else {
+                    setShippingAddressByInput({
+                        variables: {
+                            cartId: cart.id,
+                            ...selectedAddress,
+                            latitude,
+                            longitude,
+                        },
+                    })
+                        .then(async () => {
+                            setBillingAddressByInput({
+                                variables: {
+                                    cartId: cart.id,
+                                    ...selectedAddress,
+                                    latitude,
+                                    longitude,
+                                },
+                            })
+                                .then(async (resBilling) => {
+                                    updateAddressState(resBilling);
+                                    resolve();
+                                })
+                                .catch((e) => {
+                                    if (e.message.includes('Token is wrong.')) {
+                                        setCheckoutTokenState(!checkoutTokenState);
+                                    } else {
+                                        reject(e);
+                                    }
+                                });
+                        })
+                        .catch((e) => {
+                            if (e.message.includes('Token is wrong.')) {
+                                setCheckoutTokenState(!checkoutTokenState);
+                            } else {
+                                reject(e);
+                            }
+                        });
+                }
+            } else if (isOnlyVirtualProductOnCart) {
+                setBillingAddressById({
                     variables: {
+                        cartId: cart.id,
                         addressId: selectedAddress.id,
-                        street: selectedAddress.street[0],
                     },
                 })
-                    .then((dataAddress) => {
-                        if (dataAddress && dataAddress.data && dataAddress.data.updateCustomerAddress) {
-                            const shipping = dataAddress.data.updateCustomerAddress;
-                            checkout.selected.address = {
-                                firstname: shipping.firstname,
-                                lastname: shipping.lastname,
-                                city: shipping.city,
-                                region: {
-                                    ...shipping.region,
-                                    label: shipping.region.region,
-                                },
-                                country: shipping.country,
-                                postcode: shipping.postcode,
-                                telephone: shipping.telephone,
-                                street: shipping.street,
-                            };
-                            state.loading.addresses = false;
-                            state.loading.order = false;
-                            setCheckout(state);
-                        }
-                        setShippingBilling();
+                    .then((resBilling) => {
+                        updateAddressState(resBilling);
+                        resolve();
                     })
                     .catch((e) => {
-                        reject(e);
+                        if (e.message.includes('Token is wrong.')) {
+                            setCheckoutTokenState(!checkoutTokenState);
+                        } else {
+                            reject(e);
+                        }
                     });
             } else {
-                setShippingBilling();
+                const setShippingBilling = () => {
+                    setLoadingSellerInfo(true);
+                    setShippingAddressById({
+                        variables: {
+                            cartId: cart.id,
+                            addressId: selectedAddress.id,
+                        },
+                    })
+                        .then((resBilling) => {
+                            updateAddressState(resBilling);
+                            resolve();
+                        })
+                        .catch((e) => {
+                            if (e.message.includes('Token is wrong.')) {
+                                setCheckoutTokenState(!checkoutTokenState);
+                            } else {
+                                reject(e);
+                            }
+                        });
+                };
+                if (firstLoad) {
+                    state.loading.addresses = true;
+                    setCheckout(state);
+                    setDefaultAddress({
+                        variables: {
+                            addressId: selectedAddress.id,
+                            street: selectedAddress.street[0],
+                        },
+                    })
+                        .then((dataAddress) => {
+                            if (dataAddress && dataAddress.data && dataAddress.data.updateCustomerAddress) {
+                                const shipping = dataAddress.data.updateCustomerAddress;
+                                checkout.selected.address = {
+                                    firstname: shipping.firstname,
+                                    lastname: shipping.lastname,
+                                    city: shipping.city,
+                                    region: {
+                                        ...shipping.region,
+                                        label: shipping.region.region,
+                                    },
+                                    country: shipping.country,
+                                    postcode: shipping.postcode,
+                                    telephone: shipping.telephone,
+                                    street: shipping.street,
+                                };
+                                state.loading.addresses = false;
+                                state.loading.order = false;
+                                setCheckout(state);
+                            }
+                            setShippingBilling();
+                        })
+                        .catch((e) => {
+                            reject(e);
+                        });
+                } else {
+                    setShippingBilling();
+                }
             }
-        }
-    });
+        });
 
     useEffect(() => {
         if (defaultAddress && !checkout.data.isGuest) {
