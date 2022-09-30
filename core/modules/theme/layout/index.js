@@ -3,6 +3,8 @@
 /* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
+/* eslint-disable max-len */
+
 import { useApolloClient } from '@apollo/client';
 import classNames from 'classnames';
 import Cookies from 'js-cookie';
@@ -283,15 +285,11 @@ const Layout = (props) => {
 
             if (pwaConfig) {
                 // eslint-disable-next-line max-len
-                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${
-                    pwaConfig.default_font ? pwaConfig.default_font.replace(' ', '-') : 'Montserrat'
-                }:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.default_font ? pwaConfig.default_font.replace(' ', '-') : 'Montserrat'}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
                 fontStylesheet.id = 'font-stylesheet-id';
                 fontStylesheet.rel = 'stylesheet';
                 // eslint-disable-next-line max-len
-                fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${
-                    pwaConfig.heading_font ? pwaConfig.heading_font.replace(' ', '-') : 'Montserrat'
-                }:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.heading_font ? pwaConfig.heading_font.replace(' ', '-') : 'Montserrat'}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
                 fontStylesheetHeading.id = 'font-stylesheet-heading-id';
                 fontStylesheetHeading.rel = 'stylesheet';
                 stylesheet.innerHTML = frontendConfig(pwaConfig);
