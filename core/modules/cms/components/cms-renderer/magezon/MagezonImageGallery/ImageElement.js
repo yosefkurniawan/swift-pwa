@@ -6,6 +6,7 @@
 import WidgetRenderer from '@core_modules/cms/components/cms-renderer/WidgetRenderer';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import React from 'react';
 
 const ImageElement = (props) => {
     // prettier-ignore
@@ -14,7 +15,7 @@ const ImageElement = (props) => {
         video_url, baseUrl,
         full_image, pauseSlick,
         height, fit, caption,
-        captions,
+        captions, storeConfig,
     } = props;
     const videoCover = React.useRef();
 
@@ -27,7 +28,10 @@ const ImageElement = (props) => {
                 ? `${baseUrl}${full_image}`
                 : `${baseUrl}${image}`
             : `${baseUrl}${image}`;
-    const getImgUrl = generateThumborUrl(imgUrl, 0, 0);
+    const enable = storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
+    const url = storeConfig.pwa.thumbor_url;
+    const getImgUrl = generateThumborUrl(imgUrl, 0, 0, enable, useHttpsOrHttp, url);
 
     if (type === 'link' || type === 'media') {
         return (

@@ -231,6 +231,7 @@ const PaypalButton = (props) => {
                     event: 'add_payment_info',
                     ecommerce: {
                         payment_type: selectedPayment[0].title,
+                        currency: storeConfig.base_currency_code || 'IDR',
                         items: [
                             cart && cart.items && cart.items.map(({ quantity, product, prices }) => ({
                                 currency: storeConfig.base_currency_code || 'IDR',
@@ -245,8 +246,29 @@ const PaypalButton = (props) => {
                                 item_reviews_count: '',
                                 item_reviews_score: '',
                             })),
-
                         ],
+                        fbpixels: {
+                            total_price: cart.prices.grand_total.value,
+                            content_ids: [
+                                {
+                                    payment_type: selectedPayment[0].title,
+                                    items: cart && cart.items.map(({ quantity, product, prices }) => ({
+                                        currency: storeConfig.base_currency_code || 'IDR',
+                                        item_name: product.name,
+                                        item_id: product.sku,
+                                        price: JSON.stringify(prices.price.value),
+                                        item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                                        item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                                        quantity: JSON.stringify(quantity),
+                                        item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                        item_sale_product: '',
+                                        item_reviews_count: '',
+                                        item_reviews_score: '',
+                                    })),
+                                },
+                            ],
+                            catalog_id: cart.items.map(({ product }) => (product.categories.length > 0 ? product.categories[0].name : '')),
+                        },
                     },
                 };
                 TagManager.dataLayer({ dataLayer });

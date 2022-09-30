@@ -55,6 +55,7 @@ const Layout = (props) => {
         storeConfig = {},
         isLogin,
         headerProps = {},
+        data = {},
         t,
         onlyCms,
         withLayoutHeader = true,
@@ -62,6 +63,10 @@ const Layout = (props) => {
         showRecentlyBar = false,
         isHomepage = false,
         isPdp = false,
+        isCms = false,
+        isPlp = false,
+        isBdp = false,
+        isBlp = false,
         isCheckout = false,
         isLoginPage = false,
     } = props;
@@ -375,23 +380,68 @@ const Layout = (props) => {
         }
     }
 
+    let metaDescValue = ogData['og:description'];
+    let metaTitleValue = ogData['og:title'];
+    let metaKeywordValue = pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa';
+
+    if (isPlp) {
+        metaDescValue = data && data?.meta_description ? data?.meta_description : ogData['og:description'];
+        metaTitleValue = data && data?.meta_title ? data?.meta_title : ogData['og:title'];
+        metaKeywordValue = data && data?.meta_keywords ? data?.meta_keywords : '';
+    }
+    if (isPdp) {
+        metaDescValue = data && data.products?.items[0].meta_description ? data.products?.items[0].meta_description : ogData['og:description'];
+        metaTitleValue = data && data.products?.items[0].meta_title ? data.products?.items[0].meta_title : ogData['og:title'];
+        metaKeywordValue = data && data.products?.items[0].meta_keyword ? data.products?.items[0].meta_keyword : '';
+    }
+    if (isCms) {
+        metaDescValue = data && data.cmsPage?.meta_description ? data.cmsPage?.meta_description : ogData['og:description'];
+        metaTitleValue = data && data.cmsPage?.meta_title ? data.cmsPage?.meta_title : ogData['og:title'];
+        metaKeywordValue = data && data.cmsPage?.meta_keywords ? data.cmsPage?.meta_keywords : '';
+    }
+    if (isBdp) {
+        metaDescValue = data && data?.meta_description ? data?.meta_description : ogData['og:description'];
+        metaTitleValue = data && data?.meta_title ? data?.meta_title : ogData['og:title'];
+        metaKeywordValue = data && data?.meta_keywords ? data?.meta_keywords : '';
+    }
+    if (isBlp) {
+        const dataBlp = data?.getBlogCategory?.data[0];
+        metaDescValue = data && dataBlp.meta_description ? dataBlp.meta_description : ogData['og:description'];
+        metaTitleValue = data && dataBlp.meta_title ? dataBlp.meta_title : ogData['og:title'];
+        metaKeywordValue = data && dataBlp.meta_keywords ? dataBlp.meta_keywords : '';
+    }
     return (
         <>
             <Head>
                 <meta
                     name="keywords"
-                    content={pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}
+                    content={metaKeywordValue}
                 />
                 <meta name="robots" content={appEnv === 'prod' && storeConfig.pwa ? storeConfig.pwa.default_robot : 'NOINDEX,NOFOLLOW'} />
                 <link rel="apple-touch-icon" href={iconAppleTouch} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="format-detection" content="telephone=no" />
-                <meta name="description" content={ogData['og:description']} />
+                <meta name="title" content={metaTitleValue} />
+                <meta name="description" content={metaDescValue} />
                 {Object.keys(ogData).map((key, idx) => {
-                    if (typeof ogData[key] === 'object' && ogData[key].type && ogData[key].type === 'meta') {
-                        return <meta name={`${key}`} content={ogData[key].value} key={idx} />;
+                    let valueWithMeta = ogData[key];
+                    if (key === 'og:description') {
+                           valueWithMeta = metaDescValue;
                     }
-                    return <meta property={`${key}`} content={ogData[key]} key={idx} />;
+                    if (key === 'og:title') {
+                           valueWithMeta = metaTitleValue;
+                    }
+                    if (typeof ogData[key] === 'object' && ogData[key].type && ogData[key].type === 'meta') {
+                        valueWithMeta = ogData[key].value;
+                        if (key === 'description') {
+                            valueWithMeta = metaDescValue;
+                        }
+                        if (key === 'title') {
+                            valueWithMeta = metaTitleValue;
+                        }
+                        return <meta name={`${key}`} content={valueWithMeta} key={idx} />;
+                    }
+                    return <meta property={`${key}`} content={valueWithMeta} key={idx} />;
                 })}
                 <title>{pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}</title>
                 {schemaOrg
