@@ -177,6 +177,7 @@ const Cart = (props) => {
 
     // delete items
     const deleteItem = (itemProps) => {
+        // GTM UA dataLayer
         const dataLayer = {
             event: 'removeFromCart',
             eventLabel: itemProps.product.name,
@@ -195,8 +196,28 @@ const Cart = (props) => {
                 },
             },
         };
+        // GA 4 dataLayer
+        const dataLayerGA4 = {
+            event: 'remove_from_cart',
+            ecommerce: {
+                action: {
+                    items: [
+                        {
+                            item_name: itemProps.product.name,
+                            item_id: itemProps.product.sku,
+                            price: itemProps.prices.price.value || 0,
+                            item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                            item_list_name: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                            quantity: itemProps.quantity,
+                            currency: itemProps.prices.price.currency || storeConfig.base_currency_code,
+                        },
+                    ],
+                },
+            },
+        };
 
         TagManager.dataLayer({ dataLayer });
+        TagManager.dataLayer({ dataLayerGA4 });
         window.backdropLoader(true);
 
         const cartId = getCartId();
@@ -347,6 +368,7 @@ const Cart = (props) => {
         }
     }, [removedCouponResult.loading]);
 
+    // GTM UA dataLayer
     React.useMemo(() => {
         if (cart.items.length > 0) {
             const dataLayer = {
@@ -363,10 +385,40 @@ const Cart = (props) => {
             TagManager.dataLayer({ dataLayer });
         }
     }, [cart.items.length]);
+
+    // GA 4 dataLayer
+    React.useMemo(() => {
+        if (cart.items.length > 0) {
+            const dataLayer = {
+                pageName: t('cart:pageTitle'),
+                pageType: 'cart',
+                event: 'view_cart',
+                cart_total: cart.prices.grand_total.value,
+                currency: cart.prices.grand_total.currency || storeConfig.base_currency_code,
+                ecommerce: {
+                    items: [
+                        cart.items.map((item) => ({
+                            currency: item.prices.price.currency || storeConfig.base_currency_code,
+                            item_name: item.product.name,
+                            item_id: item.product.sku,
+                            price: item.prices.price.value || 0,
+                            item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                            item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                            quantity: item.quantity,
+                            item_stock_status: item.product.stock_status,
+                        })),
+                    ],
+                },
+            };
+            TagManager.dataLayer({ dataLayer });
+        }
+    }, [cart.items.length]);
+
     // add to wishlist
     const [addWishlist] = mutationWishlist();
     const handleFeed = (itemProps) => {
         if (isLogin && isLogin === 1) {
+            // GTM UA dataLayer
             TagManager.dataLayer({
                 dataLayer: {
                     event: 'addToWishlist',
@@ -387,6 +439,26 @@ const Cart = (props) => {
                             ],
                         },
                     },
+                },
+            });
+            // GA 4 dataLayer
+            TagManager.dataLayer({
+                dataLayer: {
+                    ecommerce: {
+                        action: {
+                            items: [
+                                {
+                                    currency: itemProps.prices.price.currency,
+                                    item_name: itemProps.product.name,
+                                    item_id: itemProps.product.sku,
+                                    price: itemProps.prices.price.value || 0,
+                                    item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                                    item_stock_status: itemProps.product.stock_status,
+                                },
+                            ],
+                        },
+                    },
+                    event: 'add_to_wishlist',
                 },
             });
             window.backdropLoader(true);

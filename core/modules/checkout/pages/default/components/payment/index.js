@@ -84,6 +84,7 @@ export default function CustomizedExpansionPanels({
         setCheckout(state);
 
         const selectedPayment = data.paymentMethod.filter((item) => item.code === val);
+        // GTM UA dataLayer
         const dataLayer = {
             event: 'checkout',
             ecommerce: {
@@ -114,8 +115,32 @@ export default function CustomizedExpansionPanels({
                 },
             },
         };
+        // GA 4 dataLayer
+        const dataLayerOpt = {
+            event: 'add_payment_info',
+            ecommerce: {
+                payment_type: selectedPayment[0].title,
+                items: [
+                    cart.items.map(({ quantity, product, prices }) => ({
+                        currency: storeConfig.base_currency_code || 'IDR',
+                        item_name: product.name,
+                        item_id: product.sku,
+                        price: JSON.stringify(prices.price.value),
+                        item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                        item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                        quantity: JSON.stringify(quantity),
+                        item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                        item_sale_product: '',
+                        item_reviews_count: '',
+                        item_reviews_score: '',
+                    })),
+
+                ],
+            },
+        };
         TagManager.dataLayer({ dataLayer });
         TagManager.dataLayer({ dataLayer: dataLayerOption });
+        TagManager.dataLayer({ dataLayer: dataLayerOpt });
     };
 
     /**

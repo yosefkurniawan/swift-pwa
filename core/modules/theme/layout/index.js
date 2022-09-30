@@ -225,7 +225,6 @@ const Layout = (props) => {
                 },
             };
             if (custData && custData.email) {
-                tagManagerArgs.dataLayer.customerId = custData.id || custData.email;
                 const custEmail = custData.email.toLowerCase();
                 tagManagerArgs.dataLayer.eid = crypto.createHash('sha256').update(custEmail).digest('hex');
             }
