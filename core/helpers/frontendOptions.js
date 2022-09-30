@@ -4,6 +4,7 @@ export const frontendConfig = (pwaConfig) => {
     if (pwaConfig) {
         let button_text_color = pwaConfig.button_text_color || pwaConfig.font_color || '#FFFFFF';
         const button_background_color = pwaConfig.button_background_color || '#000000';
+        const button_disabled_text_color = pwaConfig.button_disabled_text_color || '#FFFFFF';
         if (button_text_color === button_background_color) {
             button_text_color = button_background_color === '#FFFFFF' ? '#000000' : '#FFFFFF';
         }
@@ -68,10 +69,10 @@ export const frontendConfig = (pwaConfig) => {
                 background-color: ${pwaConfig.button_background_hover_color || '#FFFFFF'} !important;
             }
             .MuiButton-root.Mui-disabled {
-                color: ${pwaConfig.button_disabled_text_color || '#DEDEDE'} !important;
+                color: ${button_disabled_text_color} !important;
             }
             .MuiButton-root.Mui-disabled .MuiButton-label .MuiTypography-root {
-                color: ${pwaConfig.button_disabled_text_color || '#DEDEDE'} !important;
+                color: ${button_disabled_text_color} !important;
             }
             .MuiButton-textPrimary > span.MuiButton-label > span {
                 color: ${pwaConfig.button_border_color || '#000000'} !important;
@@ -118,7 +119,7 @@ export const frontendConfig = (pwaConfig) => {
                 background-color: ${pwaConfig.button_background_hover_color || '#DEDEDE'} !important;
             }
             .MuiButton-contained.Mui-disabled {
-                color: ${pwaConfig.button_disabled_text_color || '#000000'} !important;
+                color: ${button_disabled_text_color} !important;
                 background-color: ${pwaConfig.button_disabled_background_color || '#DEDEDE'} !important;
             }
             .MuiButton-contained:hover.Mui-disabled {
@@ -163,7 +164,7 @@ export const frontendConfig = (pwaConfig) => {
 
             // SVG Section
             .MuiSvgIcon-colorPrimary {
-                color: ${pwaConfig.primary_color || '#000000'} !important;
+                color: ${pwaConfig.primary_color || button_text_color || '#FFFFFF'} !important;
             }
             .MuiSvgIcon-colorSecondary {
                 color: ${pwaConfig.primary_color || '#000000'} !important;
@@ -405,7 +406,7 @@ export const frontendConfig = (pwaConfig) => {
 
         // SVG Section
         .MuiSvgIcon-colorPrimary {
-            color: #000000 !important;
+            color: #FFFFFF !important;
         }
         .MuiSvgIcon-colorSecondary {
             color: #000000 !important;

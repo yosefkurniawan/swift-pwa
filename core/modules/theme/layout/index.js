@@ -20,16 +20,16 @@ import useStyles from '@core_modules/theme/layout/style';
 import { getAppEnv } from '@helpers/env';
 import { getHost } from '@helper_config';
 import { getCookies, setCookies } from '@helper_cookies';
+import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import { breakPointsDown, breakPointsUp } from '@helper_theme';
 import crypto from 'crypto';
-import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
 import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
 import { getCountCart } from '@core_modules/theme/services/graphql';
+import { frontendConfig } from '@helpers/frontendOptions';
 import { getCartId } from '@helper_cartid';
 import { localTotalCart } from '@services/graphql/schema/local';
-import { frontendConfig } from '@helpers/frontendOptions';
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
@@ -139,9 +139,7 @@ const Layout = (props) => {
         setShowGlobalPromo(false);
     };
 
-    const allowHeaderCheckout = modules.checkout.checkoutOnly
-        ? !modules.checkout.checkoutOnly
-        : withLayoutHeader;
+    const allowHeaderCheckout = modules.checkout.checkoutOnly ? !modules.checkout.checkoutOnly : withLayoutHeader;
 
     const ogData = {
         'og:title': pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa',
@@ -292,12 +290,11 @@ const Layout = (props) => {
 
             if (pwaConfig) {
                 // eslint-disable-next-line max-len
-                const default_font = pwaConfig.default_font === '0' ? pwaConfig.default_font : 'Montserrat';
-                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${default_font.replace(' ', '-')}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.default_font ? pwaConfig.default_font.replace(' ', '-') : 'Montserrat'}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
                 fontStylesheet.id = 'font-stylesheet-id';
                 fontStylesheet.rel = 'stylesheet';
                 // eslint-disable-next-line max-len
-                fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.heading_font.replace(' ', '-')}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.heading_font ? pwaConfig.heading_font.replace(' ', '-') : 'Montserrat'}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
                 fontStylesheetHeading.id = 'font-stylesheet-heading-id';
                 fontStylesheetHeading.rel = 'stylesheet';
                 stylesheet.innerHTML = frontendConfig(pwaConfig);
