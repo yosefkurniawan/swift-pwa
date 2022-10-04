@@ -133,6 +133,8 @@ export const getCustomer = gql`
             phonenumber
             is_phonenumber_valid
             customer_group
+            default_billing
+            default_shipping
         }
     }
 `;

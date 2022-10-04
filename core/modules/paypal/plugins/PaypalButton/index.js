@@ -3,23 +3,24 @@ import React from 'react';
 import { modules } from '@config';
 import { getAppEnv } from '@helpers/env';
 import {
-    setPaypalPaymentMethod, createPaypalExpressToken, setShippingAddressByInput, setBillingAddressByInput,
-    setGuestEmailAddressOnCart,
+    setPaypalPaymentMethod, createPaypalExpressToken,
+    // setShippingAddressByInput, setBillingAddressByInput, setGuestEmailAddressOnCart,
 } from '@core_modules/paypal/services/graphql';
 import PaypalButtonView from '@plugin_paypalbutton/view';
 import TagManager from 'react-gtm-module';
 import { getCartId } from '@helper_cartid';
-import { setLocalStorage } from '@helper_localstorage';
+// import { setLocalStorage } from '@helper_localstorage';
 import { getLoginInfo } from '@helper_auth';
 import Router from 'next/router';
 import gqlService from '@core_modules/checkout/services/graphql';
+import { getCookies } from '@helper_cookies';
 
 const PaypalButton = (props) => {
     const { t, cart, storeConfig } = props;
     const appEnv = getAppEnv();
     let cartId = cart ? cart.id : null;
     let isLogin = 0;
-
+    const isCustomerAddress = getCookies('is_cust_address') ?? null;
     if (typeof window !== 'undefined' && !cartId) {
         cartId = getCartId();
     }
@@ -39,17 +40,17 @@ const PaypalButton = (props) => {
         'merchant-id': storeConfig?.pwa?.paypal_merchant_id,
     });
 
-    const [tokenData, setTokenData] = React.useState({});
+    // const [tokenData, setTokenData] = React.useState({});
     const [setCheckoutSession] = gqlService.setCheckoutSession();
     const [setPaymentMethod] = setPaypalPaymentMethod({ onError: () => {} });
     const [getPaypalToken, paypalToken] = createPaypalExpressToken();
 
     // set address
 
-    const [setShippingAddress] = setShippingAddressByInput();
-    const [setBillingAddress] = setBillingAddressByInput();
+    // const [setShippingAddress] = setShippingAddressByInput();
+    // const [setBillingAddress] = setBillingAddressByInput();
 
-    const [setGuestEmail] = setGuestEmailAddressOnCart();
+    // const [setGuestEmail] = setGuestEmailAddressOnCart();
 
     const handleOpenMessage = async ({ variant, text }) => {
         window.toastMessage({
@@ -72,7 +73,7 @@ const PaypalButton = (props) => {
                 }).then((res) => {
                     if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
                         const { token } = res.data.createPaypalExpressToken;
-                        setTokenData(res.data.createPaypalExpressToken);
+                        // setTokenData(res.data.createPaypalExpressToken);
                         setInitialOptionPaypal({
                             ...initialOptionPaypal,
                             'data-order-id': token,
@@ -111,82 +112,82 @@ const PaypalButton = (props) => {
 
     const onApprovePaypall = async (data) => {
         window.backdropLoader(true);
-        let details = await fetch('/paypal/detail-transaction', {
-            method: 'post',
-            headers: {
-                'content-type': 'application/json',
-            },
-            body: JSON.stringify({
-                orderID: data.orderID,
-            }),
-        });
-        if (details) {
-            details = await details.json();
-        }
+        // let details = await fetch('/paypal/detail-transaction', {
+        //     method: 'post',
+        //     headers: {
+        //         'content-type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         orderID: data.orderID,
+        //     }),
+        // });
+        // if (details) {
+        //     details = await details.json();
+        // }
 
-        let address = null;
-        let email;
-        if (details && details.data && details.data.result && details.data.result.purchase_units
-            && details.data.result.purchase_units.length > 0 && details.data.result.purchase_units[0].shipping
-            && details.data.result.purchase_units[0].shipping.address) {
-            let firstname = '';
-            let lastname = '';
-            if (details.data.result.purchase_units[0].shipping.name && details.data.result.purchase_units[0].shipping.name.full_name) {
-                firstname = details.data.result.purchase_units[0].shipping.name.full_name.split(/ (.+)/)[0];
-                lastname = details.data.result.purchase_units[0].shipping.name.full_name.split(/ (.+)/)[1];
-            }
-            address = {
-                ...details.data.result.purchase_units[0].shipping.address,
-                firstname,
-                lastname,
-            };
-        }
+        // let address = null;
+        // let email;
+        // if (details && details.data && details.data.result && details.data.result.purchase_units
+        //     && details.data.result.purchase_units.length > 0 && details.data.result.purchase_units[0].shipping
+        //     && details.data.result.purchase_units[0].shipping.address) {
+        //     let firstname = '';
+        //     let lastname = '';
+        //     if (details.data.result.purchase_units[0].shipping.name && details.data.result.purchase_units[0].shipping.name.full_name) {
+        //         firstname = details.data.result.purchase_units[0].shipping.name.full_name.split(/ (.+)/)[0];
+        //         lastname = details.data.result.purchase_units[0].shipping.name.full_name.split(/ (.+)/)[1];
+        //     }
+        //     address = {
+        //         ...details.data.result.purchase_units[0].shipping.address,
+        //         firstname,
+        //         lastname,
+        //     };
+        // }
 
-        if (details && details.data && details.data.result && details && details.data && details.data.result.payer
-            && details && details.data && details.data.result.payer.email_address) {
-            email = details.data.result.payer.email_address;
-        }
+        // if (details && details.data && details.data.result && details && details.data && details.data.result.payer
+        //     && details && details.data && details.data.result.payer.email_address) {
+        //     email = details.data.result.payer.email_address;
+        // }
 
-        if (!isLogin && email) {
-            await setGuestEmail({
-                variables: {
-                    cartId: cart.id,
-                    email,
-                },
-            })
-                .catch((e) => {
-                    onErrorPaypal(e);
-                });
-        }
+        // if (!isLogin && email) {
+        //     await setGuestEmail({
+        //         variables: {
+        //             cartId: cart.id,
+        //             email,
+        //         },
+        //     })
+        //         .catch((e) => {
+        //             onErrorPaypal(e);
+        //         });
+        // }
 
-        if (address) {
-            const variableAddress = {
-                cartId: cart.id,
-                city: address.admin_area_2,
-                countryCode: address.country_code,
-                firstname: address.firstname,
-                lastname: address.lastname,
-                telephone: '12345678',
-                postcode: address.postal_code,
-                street: address.address_line_1,
-                region: address.admin_area_1,
-            };
+        // if (address) {
+        //     const variableAddress = {
+        //         cartId: cart.id,
+        //         city: address.admin_area_2,
+        //         countryCode: address.country_code,
+        //         firstname: address.firstname,
+        //         lastname: address.lastname,
+        //         telephone: '12345678',
+        //         postcode: address.postal_code,
+        //         street: address.address_line_1,
+        //         region: address.admin_area_1,
+        //     };
 
-            await setShippingAddress({
-                variables: variableAddress,
-            })
-                .then(async () => {
-                    setBillingAddress({
-                        variables: variableAddress,
-                    })
-                        .catch((e) => {
-                            onErrorPaypal(e);
-                        });
-                })
-                .catch((e) => {
-                    onErrorPaypal(e);
-                });
-        }
+        //     await setShippingAddress({
+        //         variables: variableAddress,
+        //     })
+        //         .then(async () => {
+        //             setBillingAddress({
+        //                 variables: variableAddress,
+        //             })
+        //                 .catch((e) => {
+        //                     onErrorPaypal(e);
+        //                 });
+        //         })
+        //         .catch((e) => {
+        //             onErrorPaypal(e);
+        //         });
+        // }
 
         setPaymentMethod({
             variables: {
@@ -235,23 +236,26 @@ const PaypalButton = (props) => {
 
             // set local data
 
-            const paypalData = {
-                data: {
-                    ...data,
-                    ...initialOptionPaypal,
-                    ...tokenData,
-                },
-                details: {},
-            };
-            if (details && details.data && details.data.result) {
-                paypalData.details = details.data.result;
-            }
-            setLocalStorage(modules.paypal.keyData, paypalData);
+            // const paypalData = {
+            //     data: {
+            //         ...data,
+            //         ...initialOptionPaypal,
+            //         ...tokenData,
+            //     },
+            //     details: {},
+            // };
+            // if (details && details.data && details.data.result) {
+            //     paypalData.details = details.data.result;
+            // }
+            // setLocalStorage(modules.paypal.keyData, paypalData);
             window.backdropLoader(false);
             Router.push(`/${modules.paypal.returnUrl}`);
-        }).catch((e) => {
+        }).catch((
+            // e
+        ) => {
             // console.log(e);
-            onErrorPaypal(e);
+            // onErrorPaypal(e);
+            Router.push(`/${modules.paypal.returnUrl}`);
         });
     };
 
@@ -272,7 +276,7 @@ const PaypalButton = (props) => {
         onShippingChange: onShippingChangePaypal,
         createOrder: createOrderPaypal,
     };
-    if (storeConfig?.pwa?.paypal_enable && isLogin) {
+    if (storeConfig?.pwa?.paypal_enable && isLogin && isCustomerAddress) {
         return (
             <PaypalButtonView
                 {...props}
