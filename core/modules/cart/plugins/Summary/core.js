@@ -41,23 +41,73 @@ const CoreSummary = (props) => {
 
         dataSummary.push({ item: 'Total', value: subtotal });
 
+        let cartItemBySeller = {};
+
+        if (items.length > 0) {
+            const unGroupedData = items;
+
+            // eslint-disable-next-line no-shadow, object-curly-newline
+            const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices: pricesItem, product, ...others }) => {
+                let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+                if (!item) {
+                    item = {
+                        seller_id: product.seller.seller_id,
+                        seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
+                        productList: [],
+                        subtotal: {
+                            currency: '',
+                            value: 0,
+                        },
+                    };
+                    groupData.push(item);
+                }
+                let child = item.productList.find((ch) => ch.name === product.name);
+                if (!child) {
+                    child = {
+                        id,
+                        prices: pricesItem,
+                        product,
+                        quantity,
+                        ...others,
+                    };
+                    item.productList.push(child);
+                    item.subtotal.currency = pricesItem.row_total_including_tax.currency;
+                    item.subtotal.value += pricesItem.row_total_including_tax.value;
+                }
+                return groupData;
+            }, []);
+            cartItemBySeller = groupData;
+        }
+
         if (prices && prices.applied_taxes && prices.applied_taxes.length) {
             const taxes = prices.applied_taxes.reduce(
                 (prev, curr) => ({
                     value: prev.value + curr.amount.value,
                     currency: curr.amount.currency,
                 }),
-                { value: 0 },
+                // eslint-disable-next-line comma-dangle
+                { value: 0 }
             );
             const price = formatPrice(taxes.value, taxes.currency);
             dataSummary.push({ item: t('common:summary:tax'), value: price });
         }
 
         if (modules.checkout.extraFee.enabled && applied_extra_fee && applied_extra_fee.extrafee_value) {
-            dataSummary.push({
-                item: applied_extra_fee.title || '',
-                value: formatPrice(applied_extra_fee.extrafee_value.value || 0, globalCurrency),
-            });
+            if (storeConfig.enable_oms_multiseller === '1') {
+                dataSummary.push({
+                    item: applied_extra_fee.title || '',
+                    value: formatPrice(
+                        applied_extra_fee.extrafee_value.value ? applied_extra_fee.extrafee_value.value * cartItemBySeller.length : 0,
+                        // eslint-disable-next-line comma-dangle
+                        globalCurrency
+                    ),
+                });
+            } else {
+                dataSummary.push({
+                    item: applied_extra_fee.title || '',
+                    value: formatPrice(applied_extra_fee.extrafee_value.value ? applied_extra_fee.extrafee_value.value : 0, globalCurrency),
+                });
+            }
         }
 
         if (storeConfig.enable_oms_multiseller === '1') {

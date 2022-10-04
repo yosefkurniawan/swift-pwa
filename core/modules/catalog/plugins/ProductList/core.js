@@ -62,7 +62,9 @@ const Product = (props) => {
                 // eslint-disable-next-line no-restricted-syntax
                 for (const idx in v.selectedFilter) {
                     if (v.selectedFilter[idx] !== '' && !v[idx]) {
-                        queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                        if (v.selectedFilter[idx] !== undefined && !idx.includes('seller/')) {
+                            queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                        }
                     }
                 }
             } else if (v[key] !== 0 && v[key] !== '') {
@@ -95,7 +97,6 @@ const Product = (props) => {
             ...storeConfig.pwa,
         };
         config = generateConfig(query, config, elastic, availableFilter);
-        console.log(config);
     }
     let context = (isLogin && isLogin === 1) || (config.sort && config.sort.key === 'random') ? { request: 'internal' } : {};
     if (token && token !== '') {
