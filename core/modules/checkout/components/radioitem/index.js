@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Typography from '@common_typography';
+import useStyles from '@core_modules/checkout/components/radioitem/style';
+import { formatPrice } from '@helpers/currency';
 import Radio from '@material-ui/core/Radio';
 import classNames from 'classnames';
-import { formatPrice } from '@helpers/currency';
-import useStyles from '@core_modules/checkout/components/radioitem/style';
 
 const RadioDeliveryItem = (props) => {
     const styles = useStyles();
@@ -46,6 +46,16 @@ const RadioDeliveryItem = (props) => {
                 <div className="col-xs-12 col-sm-6">
                     <Typography variant="p" type={labelType} className={styles.notPromo} align="right">
                         {formatPrice(price_incl_tax.value, amount.currency || base_currency_code)}
+                    </Typography>
+                </div>
+            </div>
+        );
+    } else if (price_incl_tax && price_incl_tax.value === 0 && amount && amount.value === 0) {
+        rightSide = (
+            <div className="row">
+                <div className="col-xs-12 col-sm-6">
+                    <Typography variant="p" type={labelType} className={styles.freeShipping} align="right">
+                        {price_incl_tax.value !== 0 ? formatPrice(price_incl_tax.value, amount.currency || base_currency_code) : 'FREE'}
                     </Typography>
                 </div>
             </div>
