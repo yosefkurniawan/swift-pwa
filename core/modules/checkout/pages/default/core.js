@@ -76,12 +76,6 @@ const Checkout = (props) => {
     const [currentIndexSeller, setCurrentIndexSeller] = useState(0);
     const [sellerInfoState, setSellerInfoState] = useState([]);
 
-    React.useEffect(() => {
-        if (currentIndexSeller === amountSeller - 1 && sellerInfoState.length > 0) {
-            setLoadingSellerInfo(false);
-        }
-    }, [currentIndexSeller, amountSeller, sellerInfoState]);
-
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const cartid = getCartId();
@@ -107,7 +101,7 @@ const Checkout = (props) => {
                     cartId: cartId || propsCardId,
                 },
             })
-                .then(async (result) => { })
+                .then(async (result) => {})
                 .catch((e) => {
                     // eslint-disable-next-line no-console
                     console.log(e);
@@ -229,7 +223,7 @@ const Checkout = (props) => {
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
     const [setShippingAddressByInput] = gqlService.initiateShippingAddressMultiseller();
     const [setBillingAddressByInput] = gqlService.initiateBillingAddressMultiseller();
-    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => { } });
+    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
     const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
     // end init graphql
 
@@ -285,7 +279,7 @@ const Checkout = (props) => {
             confirmation: false,
         },
         validationSchema: CheckoutSchema,
-        onSubmit: () => { },
+        onSubmit: () => {},
     });
 
     const updateFormik = (cart) => {
@@ -343,6 +337,53 @@ const Checkout = (props) => {
 
         updateFormik(mergeCart);
     };
+
+    React.useEffect(() => {
+        if (currentIndexSeller === amountSeller - 1 && sellerInfoState.length > 0) {
+            const { cart } = dataCart;
+            const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
+
+            let cartItemBySeller = {};
+
+            if (itemCart.cart.items.length > 0) {
+                const unGroupedData = itemCart.cart.items;
+
+                // eslint-disable-next-line no-shadow
+                const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, ...other }) => {
+                    let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+                    if (!item) {
+                        item = {
+                            seller_id: product.seller.seller_id ? product.seller.seller_id : null,
+                            seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
+                            productList: [],
+                            subtotal: {
+                                currency: '',
+                                value: 0,
+                            },
+                        };
+                        groupData.push(item);
+                    }
+                    let child = item.productList.find((ch) => ch.name === product.name);
+                    if (!child) {
+                        child = {
+                            id,
+                            prices,
+                            product,
+                            quantity,
+                            ...other,
+                        };
+                        item.productList.push(child);
+                        item.subtotal.currency = prices.row_total_including_tax.currency;
+                        item.subtotal.value += prices.row_total_including_tax.value;
+                    }
+                    return groupData;
+                }, []);
+                cartItemBySeller = groupData;
+            }
+
+            if (cartItemBySeller.length === shipping.length) setLoadingSellerInfo(false);
+        }
+    }, [currentIndexSeller, amountSeller, sellerInfoState]);
 
     const initData = () => {
         let { cart } = dataCart;
@@ -473,14 +514,52 @@ const Checkout = (props) => {
             };
         }
 
-        if (shipping === null) setLoadingSellerInfo(false);
+        let cartItemBySeller = {};
+
+        if (itemCart.cart.items.length > 0) {
+            const unGroupedData = itemCart.cart.items;
+
+            // eslint-disable-next-line no-shadow
+            const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, ...other }) => {
+                let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+                if (!item) {
+                    item = {
+                        seller_id: product.seller.seller_id ? product.seller.seller_id : null,
+                        seller_name: product.seller.seller_name ? product.seller.seller_name : null,
+                        productList: [],
+                        subtotal: {
+                            currency: '',
+                            value: 0,
+                        },
+                    };
+                    groupData.push(item);
+                }
+                let child = item.productList.find((ch) => ch.name === product.name);
+                if (!child) {
+                    child = {
+                        id,
+                        prices,
+                        product,
+                        quantity,
+                        ...other,
+                    };
+                    item.productList.push(child);
+                    item.subtotal.currency = prices.row_total_including_tax.currency;
+                    item.subtotal.value += prices.row_total_including_tax.value;
+                }
+                return groupData;
+            }, []);
+            cartItemBySeller = groupData;
+        }
+
+        if (shipping && shipping[0].available_shipping_methods.length === 0) setLoadingSellerInfo(false);
 
         // init shipping method
         // if multiseller active
         if (storeConfig.enable_oms_multiseller === '1') {
             if (shipping && shipping[0].available_shipping_methods) {
                 const availableMultiShipping = shipping.map((shippingPerSeller) => ({
-                    seller_id: shippingPerSeller.seller_id,
+                    seller_id: shippingPerSeller.seller_id ? shippingPerSeller.seller_id : 0,
                     available_shipping_methods: shippingPerSeller.available_shipping_methods.filter(
                         (item) => item.carrier_code !== 'pickup' && item.carrier_code !== 'instore'
                     ),
@@ -491,17 +570,19 @@ const Checkout = (props) => {
                 // eslint-disable-next-line consistent-return
                 availableMultiShipping.map(async ({ seller_id, available_shipping_methods }, index) => {
                     let sellerInfo;
-                    if (seller_id !== null) {
+                    if (seller_id !== 0 || seller_id !== null) {
                         sellerInfo = await apolloClient
                             .query({ query: Schema.getSeller, variables: { sellerId: parseInt(seller_id, 10) } })
                             .then(({ data }) => {
                                 return {
                                     seller_id,
-                                    seller_name: data.getSeller[0].name,
-                                    seller_city: data.getSeller[0].city,
+                                    seller_name: data.getSeller.length > 0 ? data.getSeller[0].name : 'Default Seller',
+                                    seller_city: data.getSeller.length > 0 ? data.getSeller[0].city : 'Default Seller City',
                                     available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
                                         ...shippingItemMultiseller,
-                                        label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title} `,
+                                        label: `${
+                                            shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `
+                                        } ${shippingItemMultiseller.carrier_title} `,
                                         promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
                                         value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
                                     })),
@@ -513,12 +594,14 @@ const Checkout = (props) => {
                     } else {
                         setCurrentIndexSeller(index);
                         return {
-                            seller_id,
-                            seller_name: 'Seller Name',
-                            seller_city: 'Seller City',
+                            seller_id: 0,
+                            seller_name: 'Default Seller',
+                            seller_city: 'Default Seller City',
                             available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
                                 ...shippingItemMultiseller,
-                                label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title} `,
+                                label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${
+                                    shippingItemMultiseller.carrier_title
+                                } `,
                                 promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
                                 value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
                             })),
@@ -527,10 +610,12 @@ const Checkout = (props) => {
                 });
 
                 state.data.shippingMethods = availableMultiShipping.map(({ seller_id, available_shipping_methods }) => ({
-                    seller_id,
+                    seller_id: seller_id || 0,
                     available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
                         ...shippingItemMultiseller,
-                        label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title} `,
+                        label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${
+                            shippingItemMultiseller.carrier_title
+                        } `,
                         promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
                         value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
                     })),
@@ -752,19 +837,12 @@ const Checkout = (props) => {
                 const unGroupedData = itemCart.cart.items;
 
                 // eslint-disable-next-line no-shadow
-                const groupData = unGroupedData.reduce((groupData, {
-                    id,
-                    quantity,
-                    pickup_item_store_info,
-                    prices,
-                    product,
-                    ...other
-                }) => {
+                const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, ...other }) => {
                     let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
                     if (!item) {
                         item = {
-                            seller_id: product.seller.seller_id,
-                            seller_name: product.seller.seller_name,
+                            seller_id: product.seller.seller_id ? product.seller.seller_id : 0,
+                            seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
                             productList: [],
                             subtotal: {
                                 currency: '',
@@ -791,55 +869,65 @@ const Checkout = (props) => {
                 cartItemBySeller = groupData;
             }
 
-            if (
-                shipping
-                && storeConfig.enable_oms_multiseller === '1'
-                && shipping[0].seller_id === null
-                && cartItemBySeller.length !== shipping.length
-            ) {
-                setShippingAddressByInput({
-                    variables: {
-                        cartId: cart.id,
-                        city: shipping[0].city,
-                        countryCode: shipping[0].country.code,
-                        firstname: shipping[0].firstname,
-                        lastname: shipping[0].lastname,
-                        telephone: shipping[0].telephone,
-                        postcode: shipping[0].postcode,
-                        street: shipping[0].street[0],
-                        region: shipping[0].region.code,
-                        regionId: shipping[0].region.region_id,
-                    },
-                })
-                    .then(async () => {
-                        setBillingAddressByInput({
-                            variables: {
-                                cartId: cart.id,
-                                city: shipping[0].city,
-                                countryCode: shipping[0].country.code,
-                                firstname: shipping[0].firstname,
-                                lastname: shipping[0].lastname,
-                                telephone: shipping[0].telephone,
-                                postcode: shipping[0].postcode,
-                                street: shipping[0].street[0],
-                                region: shipping[0].region.code,
-                                regionId: shipping[0].region.region_id,
-                            },
-                        })
-                            .then(async (resBilling) => {
-                                updateAddressState(resBilling);
-                            })
-                            .catch((e) => {
-                                if (e.message.includes('Token is wrong.')) {
-                                    setCheckoutTokenState(!checkoutTokenState);
-                                }
-                            });
+            if (shipping && storeConfig.enable_oms_multiseller === '1') {
+                if (
+                    // Multi product not yet initialized (mix/all have seller_id)
+                    (shipping.length > 0 &&
+                        cartItemBySeller.length !== shipping.length &&
+                        shipping[0].seller_id === null &&
+                        cartItemBySeller[0].seller_id !== 0) ||
+                    // Single product not yet initialized (have seller_id)
+                    (shipping.length === 1 &&
+                        cartItemBySeller.length === shipping.length &&
+                        shipping[0].seller_id === null &&
+                        cartItemBySeller[0].seller_id !== 0) ||
+                    // Added new product with seller_id (more/less seller on shipping_address)
+                    (shipping && cartItemBySeller.length !== shipping.length && !cartItemBySeller.find((x) => x.seller_id === null))
+                ) {
+                    setShippingAddressByInput({
+                        variables: {
+                            cartId: cart.id,
+                            city: shipping[0].city,
+                            countryCode: shipping[0].country.code,
+                            firstname: shipping[0].firstname,
+                            lastname: shipping[0].lastname,
+                            telephone: shipping[0].telephone,
+                            postcode: shipping[0].postcode,
+                            street: shipping[0].street[0],
+                            region: shipping[0].region.code,
+                            regionId: shipping[0].region.region_id,
+                        },
                     })
-                    .catch((e) => {
-                        if (e.message.includes('Token is wrong.')) {
-                            setCheckoutTokenState(!checkoutTokenState);
-                        }
-                    });
+                        .then(async () => {
+                            setBillingAddressByInput({
+                                variables: {
+                                    cartId: cart.id,
+                                    city: shipping[0].city,
+                                    countryCode: shipping[0].country.code,
+                                    firstname: shipping[0].firstname,
+                                    lastname: shipping[0].lastname,
+                                    telephone: shipping[0].telephone,
+                                    postcode: shipping[0].postcode,
+                                    street: shipping[0].street[0],
+                                    region: shipping[0].region.code,
+                                    regionId: shipping[0].region.region_id,
+                                },
+                            })
+                                .then(async (resBilling) => {
+                                    updateAddressState(resBilling);
+                                })
+                                .catch((e) => {
+                                    if (e.message.includes('Token is wrong.')) {
+                                        setCheckoutTokenState(!checkoutTokenState);
+                                    }
+                                });
+                        })
+                        .catch((e) => {
+                            if (e.message.includes('Token is wrong.')) {
+                                setCheckoutTokenState(!checkoutTokenState);
+                            }
+                        });
+                }
             }
             initData();
         }
@@ -893,7 +981,9 @@ const Checkout = (props) => {
                         seller_id,
                         available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
                             ...shippingItemMultiseller,
-                            label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title} `,
+                            label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${
+                                shippingItemMultiseller.carrier_title
+                            } `,
                             promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
                             value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
                         })),
@@ -901,7 +991,6 @@ const Checkout = (props) => {
                 }
 
                 if (shipping) {
-                    // const shippingMethod = shipping.map((ship) => ship.selected_shipping_method);
                     state.selected.shipping = shipping.map((ship) => {
                         if (ship.selected_shipping_method) {
                             return {
@@ -921,7 +1010,6 @@ const Checkout = (props) => {
                             original_price: null,
                         };
                     });
-                    // state.selected.shipping = shipping.map((ship) => (ship && ship.carrier_code ? `${ship.carrier_code}_${ship.method_code}` : null));
                 }
             } else {
                 const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
@@ -1125,6 +1213,7 @@ const Checkout = (props) => {
         setTokenData,
         checkoutTokenState,
         setCheckoutTokenState,
+        setLoadingSellerInfo,
         loadingSellerInfo,
     };
 
