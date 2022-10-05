@@ -5,7 +5,7 @@ import { useTranslation } from '@i18n';
 import route from 'next/router';
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { setResolver, getResolver } from '@helper_localstorage';
+import { setResolver, getResolver, setLocalStorage } from '@helper_localstorage';
 import classNames from 'classnames';
 import ConfigurableOpt from '@plugin_optionitem';
 import Favorite from '@material-ui/icons/Favorite';
@@ -17,6 +17,7 @@ import { addProductsToCompareList } from '@core_modules/product/services/graphql
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { localCompare } from '@services/graphql/schema/local';
 import { getStoreHost } from '@helpers/config';
+
 import { getAppEnv } from '@root/core/helpers/env';
 import CustomizableOption from '@plugin_customizableitem';
 import ModalQuickView from '@plugin_productitem/components/QuickView';
@@ -212,6 +213,7 @@ const ProductItem = (props) => {
             window.open(`${getStoreHost(getAppEnv()) + url_key}.html`);
         } else {
             const { name, small_image } = props;
+            const currentPageOffset = window.scrollY;
             const sharedProp = {
                 name,
                 small_image,
@@ -223,6 +225,7 @@ const ProductItem = (props) => {
             };
             await setResolver(urlResolver);
             setCookies('lastCategory', categorySelect);
+            setLocalStorage('last_plp_offset', currentPageOffset);
             route.push(
                 {
                     pathname: '/[...slug]',

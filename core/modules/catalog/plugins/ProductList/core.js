@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helper_generatequery';
+import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import TagManager from 'react-gtm-module';
 import { getProduct, getProductAgragations } from '@core_modules/catalog/services/graphql';
 import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
@@ -31,6 +32,10 @@ const Product = (props) => {
         ...other
     } = props;
     const router = useRouter();
+    const [products, setProducts] = React.useState({
+        total_count: 0,
+        items: [],
+    });
 
     const [loadmore, setLoadmore] = React.useState(false);
     const [filterSaved, setFilterSaved] = React.useState(false);
@@ -97,13 +102,6 @@ const Product = (props) => {
         },
         router,
     );
-    let products = {};
-    products = data && data.products
-        ? data.products
-        : {
-            total_count: 0,
-            items: [],
-        };
     // generate filter if donthave custom filter
     const aggregations = [];
     if (!customFilter && !loading && products.aggregations) {
@@ -125,6 +123,22 @@ const Product = (props) => {
         }
         return <ErrorMessage variant="warning" text={t('catalog:emptyProductSearchResult')} open />;
     };
+
+    const handleScroll = () => {
+        const lastPageOffset = getLocalStorage('last_plp_offset');
+        const currentPageOffset = window.scrollY;
+        if (currentPageOffset > lastPageOffset) {
+            setLocalStorage('last_plp_offset', 0);
+        }
+    };
+
+    React.useEffect(() => {
+        window.history.scrollRestoration = 'manual';
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     const handleLoadMore = async () => {
         setFilterSaved(false);
@@ -158,6 +172,7 @@ const Product = (props) => {
 
     React.useEffect(() => {
         if (data && data.products) {
+            setProducts(data.products);
             const tagManagerArgs = {
                 dataLayer: {
                     event: 'impression',
@@ -189,6 +204,18 @@ const Product = (props) => {
             TagManager.dataLayer(tagManagerArgs);
         }
     }, [data]);
+
+    React.useEffect(() => {
+        if (products.items.length !== 0) {
+            console.log(products);
+            const lastPageoffset = getLocalStorage('last_plp_offset');
+            if (lastPageoffset !== 0) {
+                window.scrollTo({
+                    top: lastPageoffset,
+                });
+            }
+        }
+    }, [products, loading]);
 
     const contentProps = {
         loadmore,
