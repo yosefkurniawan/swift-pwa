@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -18,10 +19,12 @@ const Item = (props) => {
     return (
         <li>
             <div id="plugin-minicart-itemsProduct" className="product">
-                <a className="product-item-photo">
-                    <Thumbor className="product-image-photo" src={product.small_image.url} alt={product.small_image.label} width={75} height={92} />
-                    {prices?.row_total_including_tax?.value === 0 ? <span>{t('common:title:free')}</span> : null}
-                </a>
+                <Link href="/[...slug]" as={`/${product.url_key}`}>
+                    <a className="product-item-photo">
+                        <Thumbor className="product-image-photo" src={product.small_image.url} alt={product.small_image.label} width={75} height={92} />
+                        {prices?.row_total_including_tax?.value === 0 ? <span>{t('common:title:free')}</span> : null}
+                    </a>
+                </Link>
                 <div className="product-item-details">
                     <strong className="product-item-name">
                         <Link href="/[...slug]" as={`/${product.url_key}`}>
