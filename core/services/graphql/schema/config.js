@@ -188,6 +188,9 @@ export const storeConfig = `
         image_category_width
         image_product_height
         image_product_width
+        thumbor_enable
+        thumbor_https_http
+        thumbor_url
         install_message
         label_enable
         label_new_enable

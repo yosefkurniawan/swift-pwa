@@ -129,7 +129,7 @@ const Item = (props) => {
                 <div
                     className="delete"
                     onClick={() => {
-                        deleteCart(id);
+                        deleteCart(props);
                     }}
                 >
                     x

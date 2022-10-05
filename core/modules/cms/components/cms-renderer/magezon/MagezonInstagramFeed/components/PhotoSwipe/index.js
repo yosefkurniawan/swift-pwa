@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -28,12 +29,13 @@ import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import Link from 'next/link';
 import fscreen from 'fscreen';
 import { useTranslation } from '@i18n';
+import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 
 const Transition = React.forwardRef((props, ref) => <Zoom ref={ref} {...props} />);
 
 const PhotoSwipe = (props) => {
     const {
-        open, setOpen, data, max_items, imagePosition,
+        open, setOpen, data, max_items, imagePosition, storeConfig,
     } = props;
     const styles = useStyles();
     let sliderRef = React.createRef();
@@ -44,7 +46,9 @@ const PhotoSwipe = (props) => {
     const [openShare, setOpenShare] = React.useState(false);
     const [zoom, setZoom] = React.useState(false);
     const [zoomId, setZoomId] = React.useState(null);
-
+    const enable = storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
+    const url_thumbor = storeConfig.pwa.thumbor_url;
     const handleLeftArrow = () => {
         sliderRef.slickGoTo(slideIndex - 1);
         setZoom(false);
@@ -274,10 +278,12 @@ const PhotoSwipe = (props) => {
                         data && data.length > 0 && data.map((item, idx) => (idx < max_items ? (
                             <div key={idx}>
                                 <div className={styles.itemPopup}>
+                                    <source srcSet={generateThumborUrl(item.media_url, 500, 500, enable, useHttpsOrHttp, url_thumbor)} type="image/webp" />
+                                    <source srcSet={getImageFallbackUrl(generateThumborUrl(item.media_url, 500, 500, enable, useHttpsOrHttp, url_thumbor))} type="image/jpeg" />
                                     <img
                                         className={`${styles.imagePopup} ${item.id}`}
                                         data-pagespeed-no-defer
-                                        src={item.media_url}
+                                        src={generateThumborUrl(item.media_url, 500, 500, enable, useHttpsOrHttp, url_thumbor)}
                                         onError={(e) => {
                                             e.target.onerror = null;
                                             e.target.src = '/assets/img/placeholder.png';

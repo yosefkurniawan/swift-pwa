@@ -84,7 +84,33 @@ const DeliveryComp = (props) => {
                             option: selectedShipping.length > 0 ? selectedShipping[0].label : 'Pickup at Store Pickup at Store',
                             action: 'checkout_option',
                         },
+                        fbpixels: {
+                            total_price: checkout.data.cart.prices.grand_total.value,
+                        },
                     },
+                },
+            };
+            // GA 4 dataLayer
+            const dataLayerOpt = {
+                event: 'add_shipping_info',
+                ecommerce: {
+                    shipping_tier: selectedShipping.length > 0 ? selectedShipping[0].label : 'Pickup at Store Pickup at Store',
+                    items: [
+                        checkout.data.cart.items.map(({ quantity, product, prices }) => ({
+                            currency: storeConfig.base_currency_code || 'IDR',
+                            item_name: product.name,
+                            item_id: product.sku,
+                            price: JSON.stringify(prices.price.value),
+                            item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                            item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                            quantity: JSON.stringify(quantity),
+                            item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                            item_sale_product: '',
+                            item_reviews_count: '',
+                            item_reviews_score: '',
+                        })),
+
+                    ],
                 },
             };
             TagManager.dataLayer({
@@ -92,6 +118,9 @@ const DeliveryComp = (props) => {
             });
             TagManager.dataLayer({
                 dataLayer: dataLayerOption,
+            });
+            TagManager.dataLayer({
+                dataLayer: dataLayerOpt,
             });
             window.backdropLoader(false);
             await setCheckout({

@@ -9,9 +9,10 @@ import { addSimpleProductsToCart, getGuestCartId as queryGetGuestCartId, getCust
 
 const OptionsitemSimple = ({
     setOpen, t, data: {
-        __typename, sku, name, categories, price_range, stock_status,
+        __typename, sku, name, categories, price_range, stock_status, sale, review,
     }, loading, setLoading, Footer,
 }) => {
+    const reviewValue = parseInt(review.rating_summary, 0) / 20;
     const [qty, setQty] = React.useState(1);
     const client = useApolloClient();
     let cartId = '';
@@ -56,6 +57,7 @@ const OptionsitemSimple = ({
             }
         }
         if (__typename === 'SimpleProduct') {
+            // GTM UA dataLayer
             TagManager.dataLayer({
                 dataLayer: {
                     event: 'addToCart',
@@ -72,6 +74,31 @@ const OptionsitemSimple = ({
                                     list: categories.length > 0 ? categories[0].name : '',
                                     quantity: qty,
                                     dimensions4: stock_status,
+                                },
+                            ],
+                        },
+                    },
+                },
+            });
+            // GA 4 dataLayer
+            TagManager.dataLayer({
+                dataLayer: {
+                    event: 'add_to_cart',
+                    ecommerce: {
+                        action: {
+                            items: [
+                                {
+                                    item_name: name,
+                                    item_id: sku,
+                                    price: price_range.minimum_price.regular_price.value || 0,
+                                    item_category: categories.length > 0 ? categories[0].name : '',
+                                    item_list_name: categories.length > 0 ? categories[0].name : '',
+                                    quantity: qty,
+                                    currency: price_range.minimum_price.regular_price.currency || 'USD',
+                                    item_stock_status: stock_status,
+                                    item_reviews_score: reviewValue,
+                                    item_reviews_count: review.reviews_count,
+                                    item_sale_product: sale === 0 ? 'NO' : 'YES',
                                 },
                             ],
                         },

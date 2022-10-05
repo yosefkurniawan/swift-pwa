@@ -334,7 +334,11 @@ export const getProduct = (config = {}) => {
               aw_gc_open_amount_max
               aw_gc_open_amount_min
               aw_gc_type
+             
             }
+            meta_description
+            meta_keyword
+            meta_title
             description {
               html
             }
