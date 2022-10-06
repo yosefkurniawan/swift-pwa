@@ -97,7 +97,7 @@ const CoreSummary = (props) => {
                 dataSummary.push({
                     item: applied_extra_fee.title || '',
                     value: formatPrice(
-                        applied_extra_fee.extrafee_value.value ? applied_extra_fee.extrafee_value.value * cartItemBySeller.length : 0,
+                        applied_extra_fee.extrafee_value.value ? applied_extra_fee.extrafee_value.value / cartItemBySeller.length : 0,
                         // eslint-disable-next-line comma-dangle
                         globalCurrency
                     ),
