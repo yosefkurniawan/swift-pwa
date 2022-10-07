@@ -100,12 +100,10 @@ const Checkout = (props) => {
                 variables: {
                     cartId: cartId || propsCardId,
                 },
-            })
-                .then(async (result) => {})
-                .catch((e) => {
-                    // eslint-disable-next-line no-console
-                    console.log(e);
-                });
+            }).then(async (result) => { }).catch((e) => {
+                // eslint-disable-next-line no-console
+                console.log(e);
+            });
         }
     }, [cartId, propsCardId, setCheckoutSession]);
 
@@ -1034,6 +1032,37 @@ const Checkout = (props) => {
         }
     }, [checkout.data.cart]);
 
+    // GA 4 dataLayer
+    React.useMemo(() => {
+        if (checkout && checkout.data && checkout.data.cart && checkout.data.cart.items.length > 0) {
+            const { cart } = checkout.data;
+            TagManager.dataLayer({ dataLayer: { ecommerce: null } });
+            TagManager.dataLayer({
+                dataLayer: {
+                    pageName: 'Checkout',
+                    pageType: 'checkout',
+                    event: 'begin_checkout',
+                    cart_total: cart.prices.grand_total.value,
+                    currency: cart.prices.grand_total.currency || storeConfig.base_currency_code,
+                    ecommerce: {
+                        items: [
+                            cart.items.map((item) => ({
+                                currency: item.prices.price.currency || storeConfig.base_currency_code,
+                                item_name: item.product.name,
+                                item_id: item.product.sku,
+                                price: item.prices.price.value || 0,
+                                item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                                item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                                quantity: item.quantity,
+                                item_stock_status: item.product.stock_status,
+                            })),
+                        ],
+                    },
+                },
+            });
+        }
+    }, [checkout?.data?.cart?.items]);
+
     const handleOpenMessage = async ({ variant, text }) => {
         const state = { ...checkout };
         window.toastMessage({
@@ -1105,6 +1134,7 @@ const Checkout = (props) => {
                 setCheckout(state);
 
                 const selectedPayment = checkout.data.paymentMethod.filter((item) => item.code === 'paypal_express');
+                //  GTM UA dataLayer
                 const dataLayer = {
                     event: 'checkout',
                     ecommerce: {
@@ -1135,8 +1165,32 @@ const Checkout = (props) => {
                         },
                     },
                 };
+                // GA 4 dataLayer
+                const dataLayerOpt = {
+                    event: 'add_payment_info',
+                    ecommerce: {
+                        payment_type: selectedPayment[0].title,
+                        items: [
+                            cart.items.map(({ quantity, product, prices }) => ({
+                                currency: storeConfig.base_currency_code || 'IDR',
+                                item_name: product.name,
+                                item_id: product.sku,
+                                price: JSON.stringify(prices.price.value),
+                                item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                                item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                                quantity: JSON.stringify(quantity),
+                                item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                item_sale_product: '',
+                                item_reviews_count: '',
+                                item_reviews_score: '',
+                            })),
+
+                        ],
+                    },
+                };
                 TagManager.dataLayer({ dataLayer });
                 TagManager.dataLayer({ dataLayer: dataLayerOption });
+                TagManager.dataLayer({ dataLayer: dataLayerOpt });
 
                 let details = await fetch('/paypal/detail-transaction', {
                     method: 'post',

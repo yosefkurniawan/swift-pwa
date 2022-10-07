@@ -37,6 +37,7 @@ const Shipping = (props) => {
                 }
                 setCheckout(state);
                 const inputShippingMethod = [];
+                const GTMShippingMethod = [];
 
                 const checkEmpty = state.selected.shipping.find((item) => item.name.carrier_code === null);
                 const cartIdCookie = getCartId();
@@ -48,6 +49,14 @@ const Shipping = (props) => {
                             carrier_code: selectedShipping.name.carrier_code,
                             method_code: selectedShipping.name.method_code,
                             seller_id: selectedShipping.seller_id,
+                        });
+                        const sellerShipping = data.shippingMethods.filter((item) => item.seller_id === selectedShipping.seller_id);
+                        const sellerSelectedShipping = sellerShipping[0].available_shipping_methods.filter(
+                            (item) => item.method_code === selectedShipping.name.method_code,
+                        );
+                        GTMShippingMethod.push({
+                            seller_id: selectedShipping.seller_id,
+                            ...sellerSelectedShipping[0],
                         });
                     });
                 }
@@ -66,7 +75,6 @@ const Shipping = (props) => {
                                 if (cartId === cartIdCookie) {
                                     return {
                                         cartId,
-                                        // data: state.selected.shipping,
                                         data: tempShippingData,
                                     };
                                 }
@@ -149,6 +157,74 @@ const Shipping = (props) => {
                         state.data.paymentMethod = paymentMethod;
                         state.data.cart = updatedCart;
                         setCheckout(state);
+                        let selectedShipping = '';
+                        // eslint-disable-next-line array-callback-return
+                        GTMShippingMethod.map((item, index) => {
+                            if (index !== GTMShippingMethod.length - 1) selectedShipping += `${item.label}| `;
+                            else selectedShipping += `${item.label}`;
+                        });
+                        // GTM UA dataLayer
+                        const dataLayer = {
+                            event: 'checkout',
+                            ecommerce: {
+                                checkout: {
+                                    actionField: { step: 2, option: selectedShipping, action: 'checkout' },
+                                    products: cart.items.map(({ quantity, product, prices }) => ({
+                                        name: product.name,
+                                        id: product.sku,
+                                        price: JSON.stringify(prices.price.value),
+                                        category: product.categories.length > 0 ? product.categories[0].name : '',
+                                        list: product.categories.length > 0 ? product.categories[0].name : '',
+                                        quantity: JSON.stringify(quantity),
+                                        dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                        dimension5: '',
+                                        dimension6: '',
+                                        dimension7: prices.discount ? 'YES' : 'NO',
+                                    })),
+                                },
+                                currencyCode: storeConfig.base_currency_code || 'IDR',
+                            },
+                        };
+                        const dataLayerOption = {
+                            event: 'checkoutOption',
+                            ecommerce: {
+                                currencyCode: storeConfig.base_currency_code || 'IDR',
+                                checkout_option: {
+                                    actionField: { step: 2, option: selectedShipping, action: 'checkout_option' },
+                                },
+                            },
+                        };
+                        // GA 4 dataLayer
+                        const dataLayerOpt = {
+                            event: 'add_shipping_info',
+                            ecommerce: {
+                                shipping_tier: selectedShipping,
+                                items: [
+                                    cart.items.map(({ quantity, product, prices }) => ({
+                                        currency: storeConfig.base_currency_code || 'IDR',
+                                        item_name: product.name,
+                                        item_id: product.sku,
+                                        price: JSON.stringify(prices.price.value),
+                                        item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                                        item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                                        quantity: JSON.stringify(quantity),
+                                        item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                        item_sale_product: '',
+                                        item_reviews_count: '',
+                                        item_reviews_score: '',
+                                    })),
+                                ],
+                            },
+                        };
+                        TagManager.dataLayer({
+                            dataLayer,
+                        });
+                        TagManager.dataLayer({
+                            dataLayer: dataLayerOption,
+                        });
+                        TagManager.dataLayer({
+                            dataLayer: dataLayerOpt,
+                        });
                     } else {
                         state.selected.shipping = null;
                         if (updatedCart.message.includes('Token is wrong.')) {
@@ -221,6 +297,8 @@ const Shipping = (props) => {
                     state.data.cart = updatedCart;
                     setCheckout(state);
                     const selectedShipping = data.shippingMethods.filter((item) => item.method_code === method_code);
+
+                    // GTM UA dataLayer
                     const dataLayer = {
                         event: 'checkout',
                         ecommerce: {
@@ -251,11 +329,36 @@ const Shipping = (props) => {
                             },
                         },
                     };
+                    // GA 4 dataLayer
+                    const dataLayerOpt = {
+                        event: 'add_shipping_info',
+                        ecommerce: {
+                            shipping_tier: selectedShipping[0].label,
+                            items: [
+                                cart.items.map(({ quantity, product, prices }) => ({
+                                    currency: storeConfig.base_currency_code || 'IDR',
+                                    item_name: product.name,
+                                    item_id: product.sku,
+                                    price: JSON.stringify(prices.price.value),
+                                    item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                                    item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                                    quantity: JSON.stringify(quantity),
+                                    item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                    item_sale_product: '',
+                                    item_reviews_count: '',
+                                    item_reviews_score: '',
+                                })),
+                            ],
+                        },
+                    };
                     TagManager.dataLayer({
                         dataLayer,
                     });
                     TagManager.dataLayer({
                         dataLayer: dataLayerOption,
+                    });
+                    TagManager.dataLayer({
+                        dataLayer: dataLayerOpt,
                     });
                 } else {
                     state.selected.shipping = null;
