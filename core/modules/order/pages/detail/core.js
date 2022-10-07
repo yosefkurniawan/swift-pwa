@@ -1,13 +1,13 @@
+import {
+    getOrderDetail, getPaymentInformation, getTrackingOrder, reOrder as mutationReorder,
+} from '@core_modules/order/services/graphql';
+import { getHost } from '@helpers/config';
+import { setCartId } from '@helper_cartid';
 import Layout from '@layout';
 import CustomerLayout from '@layout_customer';
+import Alert from '@material-ui/lab/Alert';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { setCartId } from '@helper_cartid';
-import { getHost } from '@helpers/config';
-import Alert from '@material-ui/lab/Alert';
-import {
-    getOrderDetail, reOrder as mutationReorder, getPaymentInformation, getTrackingOrder,
-} from '@core_modules/order/services/graphql';
 
 const OrderDetail = (props) => {
     const {
@@ -70,28 +70,32 @@ const OrderDetail = (props) => {
                 variables: {
                     order_id: id,
                 },
-            }).then(async (res) => {
-                if (res.data && res.data.reorder && res.data.reorder.cart_id) {
-                    await setCartId(res.data.reorder.cart_id);
-                    setTimeout(() => {
-                        router.push('/checkout/cart');
-                    }, 1000);
-                }
-                window.backdropLoader(false);
-            }).catch(() => {
-                window.backdropLoader(false);
-            });
+            })
+                .then(async (res) => {
+                    if (res.data && res.data.reorder && res.data.reorder.cart_id) {
+                        await setCartId(res.data.reorder.cart_id);
+                        setTimeout(() => {
+                            router.push('/checkout/cart');
+                        }, 1000);
+                    }
+                    window.backdropLoader(false);
+                })
+                .catch(() => {
+                    window.backdropLoader(false);
+                });
         }
     };
 
     const returnUrl = (order_number) => {
-        if (storeConfig && storeConfig.OmsRma.enable_oms_pwa_request_return === true) {
+        if (storeConfig && storeConfig.OmsRma.enable_oms_rma && storeConfig.OmsRma.enable_oms_pwa_request_return) {
             const omsRmaLink = storeConfig.OmsRma.oms_rma_link;
             const omsChannelCode = storeConfig.oms_channel_code;
             const backUrl = window.location.href;
             // eslint-disable-next-line max-len
-            const encodedQuerystring = `email=${encodeURIComponent(detail[0].detail[0].customer_email)}&order_number=${encodeURIComponent(detail[0].order_number)}&channel_code=${encodeURIComponent(omsChannelCode)}&from=${encodeURIComponent(backUrl)}`;
-            const omsUrl = `${omsRmaLink}/request/request?${encodedQuerystring}`;
+            const encodedQuerystring = `email=${encodeURIComponent(detail[0].detail[0].customer_email)}&order_number=${encodeURIComponent(
+                detail[0].order_number,
+            )}&channel_code=${encodeURIComponent(omsChannelCode)}&from=${encodeURIComponent(backUrl)}`;
+            const omsUrl = `${omsRmaLink}?${encodedQuerystring}`;
             window.location.replace(omsUrl);
         } else {
             window.location.replace(`${getHost()}/rma/customer/new/order_id/${order_number}`);
@@ -124,8 +128,8 @@ OrderDetail.propTypes = {
 };
 
 OrderDetail.defaultProps = {
-    Content: () => { },
-    Skeleton: () => { },
+    Content: () => {},
+    Skeleton: () => {},
 };
 
 export default OrderDetail;
