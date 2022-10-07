@@ -6,10 +6,10 @@ const DiscountSection = (props) => {
     const {
         t, checkout, setCheckout, handleOpenMessage, storeConfig, StoreCreditView,
     } = props;
+    let items = [];
+    if (checkout.data.cart && checkout.data.cart.items) items = checkout.data.cart.items;
 
-    const { items = [] } = checkout.data.cart;
-
-    let cartItemBySeller = {};
+    let cartItemBySeller = [];
 
     if (items.length > 0) {
         const unGroupedData = items;
@@ -81,9 +81,19 @@ const DiscountSection = (props) => {
         }
 
         credit = store_credit.current_balance.value || 0;
-        credit = store_credit.is_use_store_credit
-            ? `${modules.storecredit.useCommerceModule ? store_credit.applied_balance.value : store_credit.store_credit_amount}`
-            : credit;
+        if (storeConfig.enable_oms_multiseller === '1') {
+            credit = store_credit.is_use_store_credit
+                ? `${
+                    modules.storecredit.useCommerceModule
+                        ? store_credit.applied_balance.value * cartItemBySeller.length
+                        : store_credit.store_credit_amount * cartItemBySeller.length
+                }`
+                : credit;
+        } else {
+            credit = store_credit.is_use_store_credit
+                ? `${modules.storecredit.useCommerceModule ? store_credit.applied_balance.value : store_credit.store_credit_amount}`
+                : credit;
+        }
         total = checkout.data.cart.prices.grand_total.value;
     }
 

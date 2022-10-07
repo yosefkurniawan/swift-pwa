@@ -7,7 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const StoreCreditView = (props) => {
     const styles = useStyles();
     const {
-        store_credit, credit, storeConfig, checkout, handleUseCredit, total, t, cartItemBySeller,
+        store_credit, credit, storeConfig, checkout, handleUseCredit, total, t,
     } = props;
     return (
         <div className={styles.cardPoint} id="checkoutUserCredit">
@@ -17,7 +17,7 @@ const StoreCreditView = (props) => {
                 </Typography>
                 <Typography variant="title" type="bold" className={styles.pointText}>
                     {formatPrice(
-                        `${storeConfig.enable_oms_multiseller === '1' ? credit * cartItemBySeller.length : credit}`.toLocaleString(undefined, {
+                        `${credit}`.toLocaleString(undefined, {
                             minimumFractionDigits: 0,
                         }),
                         storeConfig.default_display_currency_code,

@@ -5,9 +5,10 @@ import gqlService from '@core_modules/checkout/services/graphql';
 const RewardPoint = ({
     t, checkout, setCheckout, handleOpenMessage, formik, RewardPointView, storeConfig,
 }) => {
-    const { items = [] } = checkout.data.cart;
+    let items = [];
+    if (checkout.data.cart && checkout.data.cart.items) items = checkout.data.cart.items;
 
-    let cartItemBySeller = {};
+    let cartItemBySeller = [];
 
     if (items.length > 0) {
         const unGroupedData = items;
