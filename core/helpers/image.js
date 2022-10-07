@@ -15,19 +15,24 @@ export const generateThumborUrl = (src = '', width = 400, height = 400, enable, 
                 }
             }
         }
-        let source = src;
-        let newurl = url;
-        if (!useHttpsOrHttp) {
-            if (source.includes('http')) {
-                source = source.replace('http://', '');
+
+        if (url) {
+            let source = src;
+            let newurl = url;
+            if (!useHttpsOrHttp) {
+                if (source.includes('http')) {
+                    source = source.replace('http://', '');
+                }
+                if (source.includes('https')) {
+                    source = source.replace('https://', '');
+                }
             }
-            if (source.includes('https')) {
-                source = source.replace('https://', '');
-            }
+            newurl = newurl.replace('width', width);
+            newurl = newurl.replace('height', height);
+            return newurl + source;
         }
-        newurl = newurl.replace('width', width);
-        newurl = newurl.replace('height', height);
-        return newurl + source;
+
+        return src;
     }
 
     return src;
