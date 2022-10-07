@@ -2,10 +2,10 @@ import { debuging, modules } from '@config';
 import { getLoginInfo } from '@helper_auth';
 import { setCookies, getCookies } from '@helper_cookies';
 import { useTranslation } from '@i18n';
-import route from 'next/router';
+import route, { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { setResolver, getResolver, setLocalStorage } from '@helper_localstorage';
+import { setResolver, getResolver } from '@helper_localstorage';
 import classNames from 'classnames';
 import ConfigurableOpt from '@plugin_optionitem';
 import Favorite from '@material-ui/icons/Favorite';
@@ -43,6 +43,7 @@ const ProductItem = (props) => {
     } = props;
     const { storeConfig = {} } = props;
     const styles = useStyles();
+    const router = useRouter();
     const { t } = useTranslation(['catalog', 'common']);
     const [feed, setFeed] = React.useState(false);
     const [spesificProduct, setSpesificProduct] = React.useState({});
@@ -52,6 +53,21 @@ const ProductItem = (props) => {
     const [customizableOptions, setCustomizableOptions] = React.useState([]);
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
     const [additionalPrice, setAdditionalPrice] = React.useState(0);
+
+    React.useEffect(() => {
+        router.beforePopState(({ as }) => {
+            const lastCatalogVisited = sessionStorage.getItem('lastCatalogVisited');
+            const lastCatalogSearchVisited = sessionStorage.getItem('lastCatalogSearchVisited');
+            const isBackToCatalog = as.includes('/catalogsearch/result')
+                ? as === lastCatalogSearchVisited
+                : as === lastCatalogVisited;
+            if (isBackToCatalog) {
+                const item = as.includes('/catalogsearch/result') ? 'restoreCatalogSearchPosition' : 'restoreCatalogPosition';
+                sessionStorage.setItem(item, true);
+            }
+            return true;
+        });
+    }, []);
 
     React.useEffect(() => {
         if (errorCustomizableOptions && errorCustomizableOptions.length > 0) {
@@ -225,7 +241,15 @@ const ProductItem = (props) => {
             };
             await setResolver(urlResolver);
             setCookies('lastCategory', categorySelect);
-            setLocalStorage('last_plp_offset', currentPageOffset);
+            if (router.pathname === '/catalogsearch/result') {
+                sessionStorage.setItem('lastCatalogSearchOffset', currentPageOffset);
+                sessionStorage.setItem('lastCatalogSearchVisited', sessionStorage.getItem('currentUrl'));
+                sessionStorage.setItem('lastProductSearchVisited', `/${url_key}`);
+            } else {
+                sessionStorage.setItem('lastCatalogOffset', currentPageOffset);
+                sessionStorage.setItem('lastCatalogVisited', sessionStorage.getItem('currentUrl'));
+                sessionStorage.setItem('lastProductVisited', `/${url_key}`);
+            }
             route.push(
                 {
                     pathname: '/[...slug]',

@@ -1,11 +1,10 @@
 /* eslint-disable no-empty */
 /* eslint-disable array-callback-return */
-/* eslint-disable guard-for-in */
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helper_generatequery';
-import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import TagManager from 'react-gtm-module';
 import { getProduct, getProductAgragations } from '@core_modules/catalog/services/graphql';
 import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
@@ -124,22 +123,6 @@ const Product = (props) => {
         return <ErrorMessage variant="warning" text={t('catalog:emptyProductSearchResult')} open />;
     };
 
-    const handleScroll = () => {
-        const lastPageOffset = getLocalStorage('last_plp_offset');
-        const currentPageOffset = window.scrollY;
-        if (currentPageOffset > lastPageOffset) {
-            setLocalStorage('last_plp_offset', 0);
-        }
-    };
-
-    React.useEffect(() => {
-        window.history.scrollRestoration = 'manual';
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
     const handleLoadMore = async () => {
         setFilterSaved(false);
         const pageSize = storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 0) : 10;
@@ -206,16 +189,48 @@ const Product = (props) => {
     }, [data]);
 
     React.useEffect(() => {
-        if (products.items.length !== 0) {
-            console.log(products);
-            const lastPageoffset = getLocalStorage('last_plp_offset');
-            if (lastPageoffset !== 0) {
+        const handleRouteChange = () => {
+            if (router.pathname === '/catalogsearch/result') {
+                window.history.scrollRestoration = 'manual';
+                const sessionStorageItems = ['lastCatalogSearchOffset', 'lastProductSearchVisited', 'lastCatalogSearchVisited', 'restoreCatalogSearchPosition'];
+                const lastCatalogOffset = parseFloat(sessionStorage.getItem('lastCatalogSearchOffset'));
+                const prevUrl = sessionStorage.getItem('prevUrl');
+                const lastProductVisited = sessionStorage.getItem('lastProductSearchVisited');
+                const restoreCatalogSearchPosition = sessionStorage.getItem('restoreCatalogSearchPosition');
+                if (prevUrl === lastProductVisited && restoreCatalogSearchPosition && lastCatalogOffset !== 0) {
+                    window.scrollTo({
+                        top: lastCatalogOffset,
+                    });
+                    sessionStorageItems.forEach((item) => {
+                        sessionStorage.removeItem(item);
+                    });
+                }
+            }
+        };
+        router.events.on('routeChangeComplete', handleRouteChange);
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange);
+        };
+    }, [router.events]);
+
+    React.useEffect(() => {
+        if (router.pathname !== '/catalogsearch/result') {
+            const sessionStorageItems = ['lastCatalogOffset', 'lastProductVisited', 'lastCatalogVisited', 'restoreCatalogPosition'];
+            window.history.scrollRestoration = 'manual';
+            const lastCatalogOffset = parseFloat(sessionStorage.getItem('lastCatalogOffset'));
+            const prevUrl = sessionStorage.getItem('prevUrl');
+            const lastProductVisited = sessionStorage.getItem('lastProductVisited');
+            const restoreCatalogPosition = sessionStorage.getItem('restoreCatalogPosition');
+            if (prevUrl === lastProductVisited && restoreCatalogPosition && lastCatalogOffset !== 0) {
                 window.scrollTo({
-                    top: lastPageoffset,
+                    top: lastCatalogOffset,
+                });
+                sessionStorageItems.forEach((item) => {
+                    sessionStorage.removeItem(item);
                 });
             }
         }
-    }, [products, loading]);
+    }, [storeConfig]);
 
     const contentProps = {
         loadmore,
