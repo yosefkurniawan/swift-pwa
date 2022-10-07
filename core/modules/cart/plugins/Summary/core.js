@@ -97,7 +97,7 @@ const CoreSummary = (props) => {
                 dataSummary.push({
                     item: applied_extra_fee.title || '',
                     value: formatPrice(
-                        applied_extra_fee.extrafee_value.value ? applied_extra_fee.extrafee_value.value * cartItemBySeller.length : 0,
+                        applied_extra_fee.extrafee_value.value ? applied_extra_fee.extrafee_value.value / cartItemBySeller.length : 0,
                         // eslint-disable-next-line comma-dangle
                         globalCurrency
                     ),
@@ -138,17 +138,31 @@ const CoreSummary = (props) => {
 
         if (modules.storecredit.enabled) {
             let price = '';
-            if (modules.storecredit.useCommerceModule && applied_store_credit.applied_balance && applied_store_credit.applied_balance.value > 0) {
-                price = formatPrice(Math.abs(applied_store_credit.applied_balance.value), globalCurrency);
-            } else if (applied_store_credit.is_use_store_credit) {
-                price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
+            if (storeConfig.enable_oms_multiseller === '1') {
+                if (modules.storecredit.useCommerceModule && applied_store_credit.applied_balance && applied_store_credit.applied_balance.value > 0) {
+                    price = formatPrice(Math.abs(applied_store_credit.applied_balance.value) * cartItemBySeller.length, globalCurrency);
+                } else if (applied_store_credit.is_use_store_credit) {
+                    price = formatPrice(Math.abs(applied_store_credit.store_credit_amount) * cartItemBySeller.length, globalCurrency);
+                }
+                if (price !== '') dataSummary.push({ item: `${t('common:summary:storeCredit')} `, value: `-${price}` });
+            } else {
+                if (modules.storecredit.useCommerceModule && applied_store_credit.applied_balance && applied_store_credit.applied_balance.value > 0) {
+                    price = formatPrice(Math.abs(applied_store_credit.applied_balance.value), globalCurrency);
+                } else if (applied_store_credit.is_use_store_credit) {
+                    price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
+                }
+                if (price !== '') dataSummary.push({ item: `${t('common:summary:storeCredit')} `, value: `-${price}` });
             }
-            if (price !== '') dataSummary.push({ item: ' ', value: `-${price}` });
         }
 
         if (modules.rewardpoint.enabled && applied_reward_points.is_use_reward_points) {
-            const price = formatPrice(Math.abs(applied_reward_points.reward_points_amount), globalCurrency);
-            dataSummary.push({ item: `${t('common:summary:rewardPoint')} `, value: `-${price}` });
+            if (storeConfig.enable_oms_multiseller === '1') {
+                const price = formatPrice(Math.abs(applied_reward_points.reward_points_amount) * cartItemBySeller.length, globalCurrency);
+                dataSummary.push({ item: `${t('common:summary:rewardPoint')} `, value: `-${price}` });
+            } else {
+                const price = formatPrice(Math.abs(applied_reward_points.reward_points_amount), globalCurrency);
+                dataSummary.push({ item: `${t('common:summary:rewardPoint')} `, value: `-${price}` });
+            }
         }
 
         if (modules.giftcard.enabled && applied_giftcard) {
