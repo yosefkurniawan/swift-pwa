@@ -5,46 +5,6 @@ import gqlService from '@core_modules/checkout/services/graphql';
 const RewardPoint = ({
     t, checkout, setCheckout, handleOpenMessage, formik, RewardPointView, storeConfig,
 }) => {
-    let items = [];
-    if (checkout.data.cart && checkout.data.cart.items) items = checkout.data.cart.items;
-
-    let cartItemBySeller = [];
-
-    if (items.length > 0) {
-        const unGroupedData = items;
-
-        // eslint-disable-next-line no-shadow, object-curly-newline
-        const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices: pricesItem, product, ...others }) => {
-            let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
-            if (!item) {
-                item = {
-                    seller_id: product.seller.seller_id,
-                    seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
-                    productList: [],
-                    subtotal: {
-                        currency: '',
-                        value: 0,
-                    },
-                };
-                groupData.push(item);
-            }
-            let child = item.productList.find((ch) => ch.name === product.name);
-            if (!child) {
-                child = {
-                    id,
-                    prices: pricesItem,
-                    product,
-                    quantity,
-                    ...others,
-                };
-                item.productList.push(child);
-                item.subtotal.currency = pricesItem.row_total_including_tax.currency;
-                item.subtotal.value += pricesItem.row_total_including_tax.value;
-            }
-            return groupData;
-        }, []);
-        cartItemBySeller = groupData;
-    }
     const [loading, setLoading] = React.useState(false);
     const [removeRewardPointsFromCart, applRewardPoint] = gqlService.removeRewardPointsFromCart({
         onError: (e) => {
@@ -117,7 +77,6 @@ const RewardPoint = ({
                 loading={loading}
                 reward_point={reward_point}
                 total={total}
-                cartItemBySeller={cartItemBySeller}
                 storeConfig={storeConfig}
             />
         );
