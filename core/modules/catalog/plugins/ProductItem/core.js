@@ -6,6 +6,7 @@ import route, { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import React from 'react';
 import { setResolver, getResolver } from '@helper_localstorage';
+import { getSessionStorage, setSessionStorage } from '@helpers/sessionstorage';
 import classNames from 'classnames';
 import ConfigurableOpt from '@plugin_optionitem';
 import Favorite from '@material-ui/icons/Favorite';
@@ -17,7 +18,6 @@ import { addProductsToCompareList } from '@core_modules/product/services/graphql
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { localCompare } from '@services/graphql/schema/local';
 import { getStoreHost } from '@helpers/config';
-
 import { getAppEnv } from '@root/core/helpers/env';
 import CustomizableOption from '@plugin_customizableitem';
 import ModalQuickView from '@plugin_productitem/components/QuickView';
@@ -56,14 +56,9 @@ const ProductItem = (props) => {
 
     React.useEffect(() => {
         router.beforePopState(({ as }) => {
-            const lastCatalogVisited = sessionStorage.getItem('lastCatalogVisited');
-            const lastCatalogSearchVisited = sessionStorage.getItem('lastCatalogSearchVisited');
-            const isBackToCatalog = as.includes('/catalogsearch/result')
-                ? as === lastCatalogSearchVisited
-                : as === lastCatalogVisited;
-            if (isBackToCatalog) {
-                const item = as.includes('/catalogsearch/result') ? 'restoreCatalogSearchPosition' : 'restoreCatalogPosition';
-                sessionStorage.setItem(item, true);
+            const lastCatalogsVisited = getSessionStorage('lastCatalogsVisited');
+            if (lastCatalogsVisited && as === lastCatalogsVisited[0]) {
+                setSessionStorage('restoreCatalogPosition', true);
             }
             return true;
         });
@@ -241,15 +236,12 @@ const ProductItem = (props) => {
             };
             await setResolver(urlResolver);
             setCookies('lastCategory', categorySelect);
-            if (router.pathname === '/catalogsearch/result') {
-                sessionStorage.setItem('lastCatalogSearchOffset', currentPageOffset);
-                sessionStorage.setItem('lastCatalogSearchVisited', sessionStorage.getItem('currentUrl'));
-                sessionStorage.setItem('lastProductSearchVisited', `/${url_key}`);
-            } else {
-                sessionStorage.setItem('lastCatalogOffset', currentPageOffset);
-                sessionStorage.setItem('lastCatalogVisited', sessionStorage.getItem('currentUrl'));
-                sessionStorage.setItem('lastProductVisited', `/${url_key}`);
-            }
+            const lastCatalogsOffset = getSessionStorage('lastCatalogsOffset') || [];
+            const lastCatalogsVisited = getSessionStorage('lastCatalogsVisited') || [];
+            const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
+            setSessionStorage('lastCatalogsOffset', [currentPageOffset, ...lastCatalogsOffset]);
+            setSessionStorage('lastCatalogsVisited', [sessionStorage.getItem('currentUrl'), ...lastCatalogsVisited]);
+            setSessionStorage('lastProductsVisited', [`/${url_key}`, ...lastProductsVisited]);
             route.push(
                 {
                     pathname: '/[...slug]',

@@ -7,6 +7,7 @@ import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helper_generatequery';
 import TagManager from 'react-gtm-module';
 import { getProduct, getProductAgragations } from '@core_modules/catalog/services/graphql';
+import { getSessionStorage, setSessionStorage } from '@helpers/sessionstorage';
 import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
 import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
 import generateConfig from '@core_modules/catalog/helpers/generateConfig';
@@ -192,18 +193,21 @@ const Product = (props) => {
         const handleRouteChange = () => {
             if (router.pathname === '/catalogsearch/result') {
                 window.history.scrollRestoration = 'manual';
-                const sessionStorageItems = ['lastCatalogSearchOffset', 'lastProductSearchVisited', 'lastCatalogSearchVisited', 'restoreCatalogSearchPosition'];
-                const lastCatalogOffset = parseFloat(sessionStorage.getItem('lastCatalogSearchOffset'));
+                const sessionStorageItems = ['lastCatalogsOffset', 'lastCatalogsVisited', 'lastProductsVisited'];
+                const lastCatalogsOffset = getSessionStorage('lastCatalogsOffset') || [];
                 const prevUrl = sessionStorage.getItem('prevUrl');
-                const lastProductVisited = sessionStorage.getItem('lastProductSearchVisited');
-                const restoreCatalogSearchPosition = sessionStorage.getItem('restoreCatalogSearchPosition');
-                if (prevUrl === lastProductVisited && restoreCatalogSearchPosition && lastCatalogOffset !== 0) {
+                const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
+                const restoreCatalogPosition = getSessionStorage('restoreCatalogPosition');
+
+                if (prevUrl === lastProductsVisited[0] && restoreCatalogPosition && lastCatalogsOffset[0] !== 0) {
                     window.scrollTo({
-                        top: lastCatalogOffset,
+                        top: lastCatalogsOffset[0],
                     });
                     sessionStorageItems.forEach((item) => {
-                        sessionStorage.removeItem(item);
+                        const itemData = getSessionStorage(item);
+                        setSessionStorage(item, itemData.slice(1, itemData.length));
                     });
+                    sessionStorage.removeItem('restoreCatalogPosition');
                 }
             }
         };
@@ -215,19 +219,21 @@ const Product = (props) => {
 
     React.useEffect(() => {
         if (router.pathname !== '/catalogsearch/result') {
-            const sessionStorageItems = ['lastCatalogOffset', 'lastProductVisited', 'lastCatalogVisited', 'restoreCatalogPosition'];
+            const sessionStorageItems = ['lastCatalogsOffset', 'lastCatalogsVisited', 'lastProductsVisited'];
             window.history.scrollRestoration = 'manual';
-            const lastCatalogOffset = parseFloat(sessionStorage.getItem('lastCatalogOffset'));
             const prevUrl = sessionStorage.getItem('prevUrl');
-            const lastProductVisited = sessionStorage.getItem('lastProductVisited');
-            const restoreCatalogPosition = sessionStorage.getItem('restoreCatalogPosition');
-            if (prevUrl === lastProductVisited && restoreCatalogPosition && lastCatalogOffset !== 0) {
+            const lastCatalogsOffset = getSessionStorage('lastCatalogsOffset') || [];
+            const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
+            const restoreCatalogPosition = getSessionStorage('restoreCatalogPosition');
+            if (prevUrl === lastProductsVisited[0] && restoreCatalogPosition && lastCatalogsOffset[0] !== 0) {
                 window.scrollTo({
-                    top: lastCatalogOffset,
+                    top: lastCatalogsOffset[0],
                 });
                 sessionStorageItems.forEach((item) => {
-                    sessionStorage.removeItem(item);
+                    const itemData = getSessionStorage(item);
+                    setSessionStorage(item, itemData.slice(1, itemData.length));
                 });
+                sessionStorage.removeItem('restoreCatalogPosition');
             }
         }
     }, [storeConfig]);
