@@ -87,16 +87,20 @@ const OrderDetail = (props) => {
     };
 
     const returnUrl = (order_number) => {
-        if (storeConfig && storeConfig.OmsRma.enable_oms_rma && storeConfig.OmsRma.enable_oms_pwa_request_return) {
-            const omsRmaLink = storeConfig.OmsRma.oms_rma_link;
-            const omsChannelCode = storeConfig.oms_channel_code;
-            const backUrl = window.location.href;
-            // eslint-disable-next-line max-len
-            const encodedQuerystring = `email=${encodeURIComponent(detail[0].detail[0].customer_email)}&order_number=${encodeURIComponent(
-                detail[0].order_number,
-            )}&channel_code=${encodeURIComponent(omsChannelCode)}&from=${encodeURIComponent(backUrl)}`;
-            const omsUrl = `${omsRmaLink}?${encodedQuerystring}`;
-            window.location.replace(omsUrl);
+        if (storeConfig && storeConfig.OmsRma.enable_oms_rma) {
+            if (storeConfig.OmsRma.enable_oms_pwa_request_return) {
+                const omsRmaLink = storeConfig.OmsRma.oms_rma_link;
+                const omsChannelCode = storeConfig.oms_channel_code;
+                const backUrl = window.location.href;
+                // eslint-disable-next-line max-len
+                const encodedQuerystring = `email=${encodeURIComponent(detail[0].detail[0].customer_email)}&order_number=${encodeURIComponent(
+                    detail[0].order_number,
+                )}&channel_code=${encodeURIComponent(omsChannelCode)}&from=${encodeURIComponent(backUrl)}`;
+                const omsUrl = `${omsRmaLink}?${encodedQuerystring}`;
+                window.location.replace(omsUrl);
+            } else {
+                window.location.replace(`${getHost()}/rma/customer/new/order_id/${order_number}`);
+            }
         } else {
             window.location.replace(`${getHost()}/rma/customer/new/order_id/${order_number}`);
         }
