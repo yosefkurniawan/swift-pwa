@@ -44,6 +44,7 @@ const Summary = ({
 
     const client = useApolloClient();
     const [orderId, setOrderId] = useState(null);
+    const [orderNumberMidtrans, setOrderNumberMidtrans] = useState([]);
     const [snapOrderId, setSnapOrderId] = useState([]);
     const [snapOpened, setSnapOpened] = useState(false);
     const [snapClosed, setSnapClosed] = useState(false);
@@ -60,13 +61,18 @@ const Summary = ({
     const [getXenditUrl] = gqlService.xenditCreateInvoice();
 
     // travelokapay
-    const {
-        payment_travelokapay_public_key, payment_travelokapay_user_id, payment_travelokapay_bin_whitelist,
-    } = storeConfig;
+    const { payment_travelokapay_public_key, payment_travelokapay_user_id, payment_travelokapay_bin_whitelist } = storeConfig;
     const {
         open: openTraveloka, setOpen: setOpenTraveloka, handleClose, handleTravelokaPay,
     } = useTravelokaPay({
-        t, travelokaPayRef, config, handleOpenMessage, checkout, setCheckout, payment_travelokapay_user_id, payment_travelokapay_bin_whitelist,
+        t,
+        travelokaPayRef,
+        config,
+        handleOpenMessage,
+        checkout,
+        setCheckout,
+        payment_travelokapay_user_id,
+        payment_travelokapay_bin_whitelist,
     });
 
     // mutation update delete
@@ -125,35 +131,52 @@ const Summary = ({
         setCheckout(state);
         getXenditUrl({
             variables: { order_id },
-        }).then((res) => {
-            if (res && res.data && res.data.xenditCreateInvoice && res.data.xenditCreateInvoice.invoice_url) {
-                setXenditIframeUrl(res.data.xenditCreateInvoice.invoice_url);
-                setXenditState({
-                    order_id,
-                    payment_code: checkout.data.cart.selected_payment_method.code,
-                    mode: res.data.xenditCreateInvoice.mode,
-                    xendit_qrcode_external_id: res.data.xenditCreateInvoice.xendit_qrcode_external_id,
-                    amount: checkout.data.cart.prices.grand_total.value,
-                });
-                if (modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)) {
-                    handleOpenMessage({
-                        variant: 'success',
-                        text: t('checkout:message:placeOrder'),
+        })
+            .then((res) => {
+                if (res && res.data && res.data.xenditCreateInvoice && res.data.xenditCreateInvoice.invoice_url) {
+                    setXenditIframeUrl(res.data.xenditCreateInvoice.invoice_url);
+                    setXenditState({
+                        order_id,
+                        payment_code: checkout.data.cart.selected_payment_method.code,
+                        mode: res.data.xenditCreateInvoice.mode,
+                        xendit_qrcode_external_id: res.data.xenditCreateInvoice.xendit_qrcode_external_id,
+                        amount: checkout.data.cart.prices.grand_total.value,
                     });
-                    window.location.replace(generatesuccessRedirect(order_id));
-                } else if (checkout.data.cart.selected_payment_method.code === 'cc_subscription') {
-                    window.location.replace(res.data.xenditCreateInvoice.invoice_url);
+                    if (modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)) {
+                        handleOpenMessage({
+                            variant: 'success',
+                            text: t('checkout:message:placeOrder'),
+                        });
+                        window.location.replace(generatesuccessRedirect(order_id));
+                    } else if (checkout.data.cart.selected_payment_method.code === 'cc_subscription') {
+                        window.location.replace(res.data.xenditCreateInvoice.invoice_url);
+                    } else {
+                        setOpenXendit(true);
+                    }
+
+                    state.loading.order = false;
+                    setCheckout(state);
                 } else {
-                    setOpenXendit(true);
+                    state.loading.order = false;
+                    setCheckout(state);
+
+                    const msg = t('checkout:message:serverError');
+
+                    handleOpenMessage({
+                        variant: 'error',
+                        text: msg,
+                    });
+
+                    setTimeout(() => {
+                        window.location.replace(generateCartRedirect(orderId));
+                    }, 1000);
                 }
-
-                state.loading.order = false;
-                setCheckout(state);
-            } else {
+            })
+            .catch((e) => {
                 state.loading.order = false;
                 setCheckout(state);
 
-                const msg = t('checkout:message:serverError');
+                const msg = e.graphQLErrors.length > 0 ? e.graphQLErrors[0].message : t('checkout:message:serverError');
 
                 handleOpenMessage({
                     variant: 'error',
@@ -161,24 +184,9 @@ const Summary = ({
                 });
 
                 setTimeout(() => {
-                    window.location.replace(generateCartRedirect(orderId));
+                    window.location.replace(generateCartRedirect(order_id));
                 }, 1000);
-            }
-        }).catch((e) => {
-            state.loading.order = false;
-            setCheckout(state);
-
-            const msg = e.graphQLErrors.length > 0 ? e.graphQLErrors[0].message : t('checkout:message:serverError');
-
-            handleOpenMessage({
-                variant: 'error',
-                text: msg,
             });
-
-            setTimeout(() => {
-                window.location.replace(generateCartRedirect(order_id));
-            }, 1000);
-        });
     };
 
     const handlePlaceOrder = async () => {
@@ -199,11 +207,13 @@ const Summary = ({
                         code: 'free',
                     },
                 },
-            }).then((res) => {
-                result = res;
-            }).catch((err) => {
-                result = err;
-            });
+            })
+                .then((res) => {
+                    result = res;
+                })
+                .catch((err) => {
+                    result = err;
+                });
 
             if (!validateResponse(result, state)) return;
 
@@ -224,7 +234,9 @@ const Summary = ({
         if (checkout.data.cart.selected_payment_method.code.match(/travelokapay/)) {
             window.Xendit.setPublishableKey(payment_travelokapay_public_key);
 
-            const { values: { cardNumber, cvv, expiryDate } } = travelokaPayRef.current;
+            const {
+                values: { cardNumber, cvv, expiryDate },
+            } = travelokaPayRef.current;
             const expiryDatas = expiryDate.split('/');
             const errorMessages = [];
 
@@ -241,18 +253,24 @@ const Summary = ({
             }
 
             if (!window.Xendit.card.validateCardNumber(cardNumber)) {
-                travelokaPayRef.current.setFieldError('cardNumber',
-                    `${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`);
+                travelokaPayRef.current.setFieldError(
+                    'cardNumber',
+                    `${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`,
+                );
                 errorMessages.push(`${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`);
             }
             if (!window.Xendit.card.validateExpiry(expiryDatas[0], `20${expiryDatas[1]}`)) {
-                travelokaPayRef.current.setFieldError('expiryDate',
-                    `${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:invalid')}`);
+                travelokaPayRef.current.setFieldError(
+                    'expiryDate',
+                    `${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:invalid')}`,
+                );
                 errorMessages.push(`${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:invalid')}`);
             }
             if (!window.Xendit.card.validateCvn(cvv)) {
-                travelokaPayRef.current.setFieldError('cvv',
-                    `${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:invalid')}`);
+                travelokaPayRef.current.setFieldError(
+                    'cvv',
+                    `${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:invalid')}`,
+                );
                 errorMessages.push(`${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:invalid')}`);
             }
 
@@ -264,7 +282,7 @@ const Summary = ({
                 state.loading.order = false;
                 setCheckout(state);
                 return;
-            // eslint-disable-next-line no-else-return
+                // eslint-disable-next-line no-else-return
             } else {
                 handleOpenMessage({
                     variant: 'success',
@@ -298,11 +316,13 @@ const Summary = ({
                             cartId: cart.id,
                             origin: originName,
                         },
-                    }).then((res) => {
-                        result = res;
-                    }).catch((err) => {
-                        result = err;
-                    });
+                    })
+                        .then((res) => {
+                            result = res;
+                        })
+                        .catch((err) => {
+                            result = err;
+                        });
                 }
 
                 state = { ...checkout };
@@ -312,7 +332,7 @@ const Summary = ({
                 if (!validateResponse(result, state)) return;
 
                 let orderNumber = '';
-                const orderNumberMidtrans = [];
+                const tempMidtransOrderId = [];
                 if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
                     if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
                         // eslint-disable-next-line array-callback-return
@@ -322,13 +342,15 @@ const Summary = ({
                             } else {
                                 orderNumber = `${orderNumber}${order.order.order_number}`;
                             }
-                            orderNumberMidtrans.push(order.order.order_number);
+                            tempMidtransOrderId.push(order.order.order_number);
                         });
+                        setOrderNumberMidtrans(tempMidtransOrderId);
                     }
                 } else {
                     if (result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
                         orderNumber = result.data.placeOrder.order.order_number;
-                        orderNumberMidtrans.push(result.data.placeOrder.order.order_number);
+                        tempMidtransOrderId.push(result.data.placeOrder.order.order_number);
+                        setOrderNumberMidtrans(tempMidtransOrderId);
                     }
                 }
                 if (orderNumber && orderNumber !== '') {
@@ -355,13 +377,15 @@ const Summary = ({
                         await getSnapToken({ variables: { orderId: orderNumberMidtrans } });
                     } else if (
                         checkout.data.cart.selected_payment_method.code.match(/ovo.*/)
-                        || checkout.data.cart.selected_payment_method.code.match(/ipay88*/)
+                               || checkout.data.cart.selected_payment_method.code.match(/ipay88*/)
                     ) {
                         window.location.href = getIpayUrl(orderNumber);
                     } else if (checkout.data.cart.selected_payment_method.code.match(/indodana/)) {
                         await getIndodanaRedirect({ variables: { order_number: orderNumber } });
-                    } else if (modules.checkout.xendit.paymentPrefixCode.includes(checkout.data.cart.selected_payment_method.code)
-                    || modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)) {
+                    } else if (
+                        modules.checkout.xendit.paymentPrefixCode.includes(checkout.data.cart.selected_payment_method.code)
+                               || modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)
+                    ) {
                         handleXendit(orderNumber);
                     } else if (checkout.data.cart.selected_payment_method.code.match(/travelokapay/)) {
                         handleTravelokaPay(orderNumber);
@@ -439,7 +463,7 @@ const Summary = ({
                     window.backdropLoader(true);
                     getSnapOrderStatusByOrderId({
                         variables: {
-                            snapOrderId,
+                            orderId: orderNumberMidtrans,
                         },
                     });
 
@@ -453,7 +477,7 @@ const Summary = ({
                     window.backdropLoader(true);
                     getSnapOrderStatusByOrderId({
                         variables: {
-                            snapOrderId,
+                            orderId: orderNumberMidtrans,
                         },
                     });
 

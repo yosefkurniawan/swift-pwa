@@ -7,7 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const RewardPointView = (props) => {
     const styles = useStyles();
     const {
-        checkout, t, handleUsePoint, loading, reward_point, total, cartItemBySeller, storeConfig,
+        checkout, t, handleUsePoint, loading, reward_point, total, storeConfig,
     } = props;
     return (
         <div className={styles.cardPoint} id="checkoutRewardPoint">
@@ -23,7 +23,7 @@ const RewardPointView = (props) => {
                     {checkout.data.cart.applied_reward_points.is_use_reward_points
                         ? formatPrice(
                             storeConfig.enable_oms_multiseller === '1'
-                                ? checkout.data.cart.applied_reward_points.reward_points_amount * cartItemBySeller.length
+                                ? checkout.data.cart.applied_reward_points.reward_points_amount
                                 : checkout.data.cart.applied_reward_points.reward_points_amount,
                             checkout.data.cart.prices.grand_total.currency,
                         )
