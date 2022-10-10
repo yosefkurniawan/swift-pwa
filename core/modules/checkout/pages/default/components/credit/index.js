@@ -6,46 +6,6 @@ const DiscountSection = (props) => {
     const {
         t, checkout, setCheckout, handleOpenMessage, storeConfig, StoreCreditView,
     } = props;
-    let items = [];
-    if (checkout.data.cart && checkout.data.cart.items) items = checkout.data.cart.items;
-
-    let cartItemBySeller = [];
-
-    if (items.length > 0) {
-        const unGroupedData = items;
-
-        // eslint-disable-next-line no-shadow, object-curly-newline
-        const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices: pricesItem, product, ...others }) => {
-            let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
-            if (!item) {
-                item = {
-                    seller_id: product.seller.seller_id,
-                    seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
-                    productList: [],
-                    subtotal: {
-                        currency: '',
-                        value: 0,
-                    },
-                };
-                groupData.push(item);
-            }
-            let child = item.productList.find((ch) => ch.name === product.name);
-            if (!child) {
-                child = {
-                    id,
-                    prices: pricesItem,
-                    product,
-                    quantity,
-                    ...others,
-                };
-                item.productList.push(child);
-                item.subtotal.currency = pricesItem.row_total_including_tax.currency;
-                item.subtotal.value += pricesItem.row_total_including_tax.value;
-            }
-            return groupData;
-        }, []);
-        cartItemBySeller = groupData;
-    }
 
     const [applyStoreCreditToCart] = gqlService.applyStoreCreditToCart({
         onError: (e) => {
@@ -81,19 +41,9 @@ const DiscountSection = (props) => {
         }
 
         credit = store_credit.current_balance.value || 0;
-        if (storeConfig.enable_oms_multiseller === '1') {
-            credit = store_credit.is_use_store_credit
-                ? `${
-                    modules.storecredit.useCommerceModule
-                        ? store_credit.applied_balance.value * cartItemBySeller.length
-                        : store_credit.store_credit_amount * cartItemBySeller.length
-                }`
-                : credit;
-        } else {
-            credit = store_credit.is_use_store_credit
-                ? `${modules.storecredit.useCommerceModule ? store_credit.applied_balance.value : store_credit.store_credit_amount}`
-                : credit;
-        }
+        credit = store_credit.is_use_store_credit
+            ? `${modules.storecredit.useCommerceModule ? store_credit.applied_balance.value : store_credit.store_credit_amount}`
+            : credit;
         total = checkout.data.cart.prices.grand_total.value;
     }
 
@@ -144,7 +94,6 @@ const DiscountSection = (props) => {
                 credit={credit}
                 storeConfig={storeConfig}
                 checkout={checkout}
-                cartItemBySeller={cartItemBySeller}
                 handleUseCredit={handleUseCredit}
                 total={total}
                 t={t}
