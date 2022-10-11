@@ -12,7 +12,7 @@ import Layout from '@layout_customer';
 import { modules } from '@config';
 import useStyles from '@core_modules/order/pages/detail/style';
 import ItemProduct from '@core_modules/order/pages/detail/components/product';
-import Footer from '@core_modules/order/pages/detail/components/footer';
+// import Footer from '@core_modules/order/pages/detail/components/footer';
 import Table from '@core_modules/order/pages/detail/components/TableListItem';
 import OrderStatusIcon from '@core_modules/order/pages/detail/components/OrderStatusIcon';
 import dayjs from 'dayjs';
@@ -503,9 +503,9 @@ const DetailOrder = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className={styles.block}>
+                    {/* <div className={styles.block}>
                         <Footer {...props} />
-                    </div>
+                    </div> */}
                 </div>
             </Layout>
         );
