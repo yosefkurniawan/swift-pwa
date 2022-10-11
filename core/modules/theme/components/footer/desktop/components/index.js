@@ -22,7 +22,6 @@ const FooterView = (props) => {
             <WidgetRenderer content={data.cmsBlocks.items[0].content} storeConfig={storeConfig} />
             <style jsx global>
                 {`
-                    // styling pwa footer old
                     .wrapper-footer {
                         background-color: #fff;
                         padding : 0;
@@ -52,8 +51,6 @@ const FooterView = (props) => {
                     .container-footer .content-assets ul li a {
                         color: #575757;
                     }
-
-                    // styling icons pwa footer weltpixel
 
                     body:not(.device-touch) .social-icons {
                         transition: all .3s ease;
@@ -151,8 +148,6 @@ const FooterView = (props) => {
                         border-radius: 50%;
                     }
 
-                    // styling footer v1
-
                     .footer-v1 {
                         background-color: #f4f4f4;
                     }
@@ -248,8 +243,7 @@ const FooterView = (props) => {
                         }
                     }
 
-                    
-                    // styling footer-v2
+                
 
                     .footer-v2 {
                         max-width: 100%;
@@ -293,7 +287,6 @@ const FooterView = (props) => {
                     }
 
                     .footer-v2 .toggle .togglec {
-                        // display: block;
                         position: relative;
                         padding: 10px 0 0 24px;
                     }
@@ -388,8 +381,6 @@ const FooterView = (props) => {
                         }
                     }
 
-
-                    // styling footer v3
 
                     .w  {
                         background: #232323;
@@ -520,8 +511,6 @@ const FooterView = (props) => {
                         .footer-v3 .newsletter-subscribe .newsletter-container .form.subscribe {
                             display: flex;
                             flex-direction: row;
-                            // width: 100%;
-                            // margin-top: 20px;
                         }
 
                         .footer-v3 .newsletter-subscribe .newsletter-container .actions {
@@ -540,8 +529,6 @@ const FooterView = (props) => {
                             margin: 0 auto;
                         }
                     }
-
-                    // styling footer-v5
 
                     .footer-v5 {
                         max-width: 100%;

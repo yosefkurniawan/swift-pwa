@@ -78,7 +78,7 @@ const Footer = (props) => {
             });
             setListAcc(accList);
         }
-    }, [window, data]);
+    }, [data]);
 
     return (
         <Content
