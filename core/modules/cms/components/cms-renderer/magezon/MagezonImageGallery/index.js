@@ -243,7 +243,7 @@ const MagezonImageGallery = (props) => {
                                     }}
                                 >
                                     {nav === 'thumbs'
-                                        ? <Image src={imgUrl} />
+                                        ? <Image src={imgUrl} storeConfig={storeConfig} />
                                         : <span />}
                                 </div>
                             );

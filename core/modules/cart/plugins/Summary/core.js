@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 
 const CoreSummary = (props) => {
     const {
-        DesktopView, MobileView, isDesktop, dataCart, globalCurrency = 'IDR',
+        DesktopView, MobileView, isDesktop, dataCart, globalCurrency = 'IDR', storeConfig,
         ...other
     } = props;
     const { t } = other;
@@ -121,6 +121,7 @@ const CoreSummary = (props) => {
                 isDesktop={isDesktop}
                 {...other}
                 dataCart={dataCart}
+                storeConfig={storeConfig}
             />
         );
     }
@@ -132,6 +133,7 @@ const CoreSummary = (props) => {
             {...other}
             t={t}
             dataCart={dataCart}
+            storeConfig={storeConfig}
         />
     );
 };

@@ -130,7 +130,7 @@ const ViewMobile = (props) => {
                         </div>
                         {modules.wishlist.enabled ? (
                             <div className={styles.account_clearfix}>
-                                <Carousel data={wishlist} className={[styles.wishlistBlock, styles.margin20].join(' ')} Item={ProductItem} />
+                                <Carousel data={wishlist} className={[styles.wishlistBlock, styles.margin20].join(' ')} Item={ProductItem} storeConfig={storeConfig} />
                             </div>
                         ) : null}
                     </div>

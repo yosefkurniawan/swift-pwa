@@ -29,6 +29,7 @@ const ImageDetail = (props) => {
                 height={defaultHeight}
                 quality={80}
                 alt={small_image && small_image.url ? small_image.label : name}
+                storeConfig={storeConfig}
                 lazy
             />
         </Link>

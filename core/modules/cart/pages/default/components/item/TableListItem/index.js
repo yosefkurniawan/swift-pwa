@@ -122,6 +122,7 @@ const TableListProduct = ({
                                                                         width={defaultWidth}
                                                                         height={defaultHeight}
                                                                         quality={80}
+                                                                        storeConfig={storeConfig}
                                                                     />
                                                                 </a>
                                                             </Link>

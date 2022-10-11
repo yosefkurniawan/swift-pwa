@@ -20,7 +20,7 @@ const TestimonialItem = (props) => {
             {testimonial_type === 'type1' && (
                 <div className="mgz-testimonial-item">
                     <div className="mgz-testimonial-img">
-                        <Image src={`${secure_base_media_url}${image}`} width={image_width} height={image_width} lazy />
+                        <Image src={`${secure_base_media_url}${image}`} width={image_width} height={image_width} storeConfig={storeConfig} lazy />
                     </div>
                     <div className="mgz-testimonial-content">{content}</div>
                     <div className="mgz-testimonial-meta">
@@ -42,7 +42,7 @@ const TestimonialItem = (props) => {
                     <div className="mgz-testimonial-content">{content}</div>
                     <div className="mgz-testimonial-type2">
                         <div className="mgz-testimonial-img">
-                            <Image src={`${secure_base_media_url}${image}`} width={image_width} height={image_width} lazy />
+                            <Image src={`${secure_base_media_url}${image}`} width={image_width} height={image_width} storeConfig={storeConfig} lazy />
                         </div>
                         <div className="mgz-testimonial-meta">
                             {link ? (
@@ -66,7 +66,7 @@ const TestimonialItem = (props) => {
                     </div>
                     <div className="mgz-testimonial-type3">
                         <div className="mgz-testimonial-img">
-                            <Image src={`${secure_base_media_url}${image}`} width={image_width} height={image_width} lazy />
+                            <Image src={`${secure_base_media_url}${image}`} width={image_width} height={image_width} storeConfig={storeConfig} lazy />
                         </div>
                         <div className="mgz-testimonial-meta">
                             {link ? (

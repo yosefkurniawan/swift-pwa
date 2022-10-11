@@ -56,6 +56,7 @@ const ImageSlide = ({
                     className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
                     contentWidth={contentWidth}
                     customClass={customClass}
+                    storeConfig={storeConfig}
                 />
             </a>
         </Link>
