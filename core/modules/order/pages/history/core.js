@@ -106,7 +106,7 @@ const HistoryOrder = (props) => {
     }
 
     const returnUrl = (order_number) => {
-        if (storeConfig && storeConfig.OmsRma.enable_oms_rma && storeConfig.OmsRma.enable_oms_pwa_request_return) {
+        if (storeConfig && storeConfig.OmsRma.enable_oms_rma) {
             const omsRmaLink = storeConfig.OmsRma.oms_rma_link;
             const omsChannelCode = storeConfig.oms_channel_code;
             const backUrl = window.location.href;
