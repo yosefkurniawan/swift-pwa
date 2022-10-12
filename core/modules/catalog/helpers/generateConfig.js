@@ -14,7 +14,17 @@ const generateConfig = (query, config, elastic, availableFilter = []) => {
     const resolveConfig = config;
     // eslint-disable-next-line no-restricted-syntax
     for (const q in query) {
-        if (q === 'q') {
+        if (q === 'seller_id') {
+            resolveConfig.filter.push({
+                type: q,
+                value: query[q],
+            });
+        } else if (q === 'seller_name') {
+            resolveConfig.filter.push({
+                type: q,
+                value: query[q],
+            });
+        } else if (q === 'q') {
             let search = query[q];
             search = search.replace(/[^a-zA-Z0-9 ]/g, '');
             resolveConfig.search = search;

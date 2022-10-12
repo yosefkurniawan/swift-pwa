@@ -44,6 +44,10 @@ const filterProduct = (filter, router) => {
             queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type}: {
             match: "${detailFilter.value}"
           }`;
+        } else if (detailFilter.type === 'seller_name') {
+            queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type}: {
+            match: "${detailFilter.value}"
+          }`;
         } else {
             queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type} : {
                   eq: "${detailFilter.value}"
