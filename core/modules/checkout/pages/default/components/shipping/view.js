@@ -104,6 +104,10 @@ const ShippingView = (props) => {
     };
 
     React.useEffect(() => {
+        console.log(loadingSellerInfo);
+    }, [loadingSellerInfo]);
+
+    React.useEffect(() => {
         if (
             data.shippingMethods.length !== 0 &&
             storeConfig.enable_oms_multiseller === '1' &&
@@ -506,6 +510,8 @@ const ShippingView = (props) => {
     } else if (loadingSellerInfo) {
         content = <Loader />;
     } else {
+        console.log('test');
+        console.log(data.shippingMethods);
         content = <Typography variant="p">{t('checkout:noShipping')}</Typography>;
     }
 

@@ -654,10 +654,11 @@ const Checkout = (props) => {
                 });
             }
         } else {
-            if (shipping && shipping.available_shipping_methods) {
+            if (shipping && shipping[0].available_shipping_methods) {
                 const availableShipping = shipping[0].available_shipping_methods.filter(
                     (x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore'
                 );
+                console.log(availableShipping);
 
                 state.data.shippingMethods = availableShipping.map((item) => ({
                     ...item,
@@ -665,10 +666,11 @@ const Checkout = (props) => {
                     promoLabel: `${item.shipping_promo_name}`,
                     value: `${item.carrier_code}_${item.method_code}`,
                 }));
+                console.log(state.data.shippingMethods);
             }
 
-            if (shipping && shipping.selected_shipping_method) {
-                const shippingMethod = shipping.selected_shipping_method;
+            if (shipping && shipping[0].selected_shipping_method) {
+                const shippingMethod = shipping[0].selected_shipping_method;
                 state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
 
                 if (modules.checkout.pickupStore.enabled) {
@@ -1013,8 +1015,9 @@ const Checkout = (props) => {
                 }
             } else {
                 const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
-                if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
+                if (shipping && shipping[0].available_shipping_methods && shipping[0].available_shipping_methods.length > 0) {
                     const availableShipping = shipping[0].available_shipping_methods.filter((x) => x.carrier_code !== 'pickup');
+                    console.log(availableShipping);
 
                     state.data.shippingMethods = availableShipping.map((item) => ({
                         ...item,
@@ -1024,8 +1027,8 @@ const Checkout = (props) => {
                     }));
                 }
 
-                if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
-                    const shippingMethod = shipping.selected_shipping_method;
+                if (shipping && shipping[0].available_shipping_methods && shipping[0].available_shipping_methods.length > 0) {
+                    const shippingMethod = shipping[0].selected_shipping_method;
                     state.selected.shipping = shippingMethod ? `${shippingMethod.carrier_code}_${shippingMethod.method_code}` : shippingMethod;
                 }
             }
