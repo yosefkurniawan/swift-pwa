@@ -218,6 +218,9 @@ export const configpwa = gql`
           share_icon_twitter
           ves_menu_alias
           ves_menu_enable
+          thumbor_enable
+          thumbor_https_http
+          thumbor_url
         }
     }
   }

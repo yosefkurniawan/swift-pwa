@@ -309,6 +309,12 @@ export const storeConfig = `
       pin_location_longitude
       minimum_order_amount
       minimum_order_enable
+      OmsRma{
+        enable_oms_rma
+        enable_oms_pwa_request_return
+        oms_rma_link
+      }
+      oms_channel_code
     }
   }  
 `;

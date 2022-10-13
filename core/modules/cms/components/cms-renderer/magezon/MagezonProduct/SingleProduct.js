@@ -105,6 +105,7 @@ const SingleProduct = (props) => {
                                     width={defaultWidth}
                                     height={defaultHeight}
                                     alt={name}
+                                    storeConfig={storeConfig}
                                 />
                             </a>
                         </Link>

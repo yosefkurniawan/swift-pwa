@@ -8,7 +8,7 @@ import useStyles from '@layout_customer/style';
 
 const Layout = (props) => {
     const {
-        children, t, title, activeMenu,
+        children, t, title, activeMenu, storeConfig,
     } = props;
     const pushIf = (condition, ...elements) => (condition ? elements : []);
     const styles = useStyles();
@@ -38,7 +38,7 @@ const Layout = (props) => {
             title: t('customer:menu:notification'),
         }),
         { href: '/customer/newsletter', title: t('customer:setting:newsletter') },
-        ...pushIf(modules.rma.enabled, {
+        ...pushIf(storeConfig && !storeConfig.OmsRma.enable_oms_pwa_request_return, {
             href: '/rma/customer',
             title: t('customer:menu:return'),
         }),
