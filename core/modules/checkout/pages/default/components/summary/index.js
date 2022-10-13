@@ -43,8 +43,8 @@ const Summary = ({
     const isPurchaseOrderApply = isSelectedPurchaseOrder && checkout.status.purchaseOrderApply;
 
     const client = useApolloClient();
+    const tempMidtransOrderId = [];
     const [orderId, setOrderId] = useState(null);
-    const [orderNumberMidtrans, setOrderNumberMidtrans] = useState([]);
     const [snapOrderId, setSnapOrderId] = useState([]);
     const [snapOpened, setSnapOpened] = useState(false);
     const [snapClosed, setSnapClosed] = useState(false);
@@ -62,9 +62,7 @@ const Summary = ({
 
     // travelokapay
     const { payment_travelokapay_public_key, payment_travelokapay_user_id, payment_travelokapay_bin_whitelist } = storeConfig;
-    const {
-        open: openTraveloka, setOpen: setOpenTraveloka, handleClose, handleTravelokaPay,
-    } = useTravelokaPay({
+    const { open: openTraveloka, setOpen: setOpenTraveloka, handleClose, handleTravelokaPay } = useTravelokaPay({
         t,
         travelokaPayRef,
         config,
@@ -255,21 +253,21 @@ const Summary = ({
             if (!window.Xendit.card.validateCardNumber(cardNumber)) {
                 travelokaPayRef.current.setFieldError(
                     'cardNumber',
-                    `${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`,
+                    `${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`
                 );
                 errorMessages.push(`${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`);
             }
             if (!window.Xendit.card.validateExpiry(expiryDatas[0], `20${expiryDatas[1]}`)) {
                 travelokaPayRef.current.setFieldError(
                     'expiryDate',
-                    `${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:invalid')}`,
+                    `${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:invalid')}`
                 );
                 errorMessages.push(`${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:invalid')}`);
             }
             if (!window.Xendit.card.validateCvn(cvv)) {
                 travelokaPayRef.current.setFieldError(
                     'cvv',
-                    `${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:invalid')}`,
+                    `${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:invalid')}`
                 );
                 errorMessages.push(`${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:invalid')}`);
             }
@@ -332,7 +330,6 @@ const Summary = ({
                 if (!validateResponse(result, state)) return;
 
                 let orderNumber = '';
-                const tempMidtransOrderId = [];
                 if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
                     if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
                         // eslint-disable-next-line array-callback-return
@@ -344,13 +341,11 @@ const Summary = ({
                             }
                             tempMidtransOrderId.push(order.order.order_number);
                         });
-                        setOrderNumberMidtrans(tempMidtransOrderId);
                     }
                 } else {
                     if (result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
                         orderNumber = result.data.placeOrder.order.order_number;
                         tempMidtransOrderId.push(result.data.placeOrder.order.order_number);
-                        setOrderNumberMidtrans(tempMidtransOrderId);
                     }
                 }
                 if (orderNumber && orderNumber !== '') {
@@ -373,18 +368,18 @@ const Summary = ({
 
                     if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
                         setOrderId(orderNumber);
-                        setSnapOrderId(orderNumberMidtrans);
-                        await getSnapToken({ variables: { orderId: orderNumberMidtrans } });
+                        setSnapOrderId(tempMidtransOrderId);
+                        await getSnapToken({ variables: { orderId: tempMidtransOrderId } });
                     } else if (
-                        checkout.data.cart.selected_payment_method.code.match(/ovo.*/)
-                               || checkout.data.cart.selected_payment_method.code.match(/ipay88*/)
+                        checkout.data.cart.selected_payment_method.code.match(/ovo.*/) ||
+                        checkout.data.cart.selected_payment_method.code.match(/ipay88*/)
                     ) {
                         window.location.href = getIpayUrl(orderNumber);
                     } else if (checkout.data.cart.selected_payment_method.code.match(/indodana/)) {
                         await getIndodanaRedirect({ variables: { order_number: orderNumber } });
                     } else if (
-                        modules.checkout.xendit.paymentPrefixCode.includes(checkout.data.cart.selected_payment_method.code)
-                               || modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)
+                        modules.checkout.xendit.paymentPrefixCode.includes(checkout.data.cart.selected_payment_method.code) ||
+                        modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)
                     ) {
                         handleXendit(orderNumber);
                     } else if (checkout.data.cart.selected_payment_method.code.match(/travelokapay/)) {
@@ -443,12 +438,12 @@ const Summary = ({
 
     // Start - Manage Snap Pop Up When Opened (Waiting Response From SnapToken)
     if (
-        manageSnapToken.data
-        && orderId
-        && snapOrderId
-        && !snapOpened
-        && manageSnapToken.data.getSnapTokenByOrderId
-        && manageSnapToken.data.getSnapTokenByOrderId.snap_token
+        manageSnapToken.data &&
+        orderId &&
+        snapOrderId &&
+        !snapOpened &&
+        manageSnapToken.data.getSnapTokenByOrderId &&
+        manageSnapToken.data.getSnapTokenByOrderId.snap_token
     ) {
         const snapToken = manageSnapToken.data.getSnapTokenByOrderId.snap_token;
         if (snap && snap.pay) {
@@ -463,7 +458,7 @@ const Summary = ({
                     window.backdropLoader(true);
                     getSnapOrderStatusByOrderId({
                         variables: {
-                            orderId: orderNumberMidtrans,
+                            orderId: tempMidtransOrderId,
                         },
                     });
 
@@ -477,7 +472,7 @@ const Summary = ({
                     window.backdropLoader(true);
                     getSnapOrderStatusByOrderId({
                         variables: {
-                            orderId: orderNumberMidtrans,
+                            orderId: tempMidtransOrderId,
                         },
                     });
 
@@ -624,17 +619,8 @@ const Summary = ({
     if (checkout && checkout.data && checkout.data.cart && checkout.loading) {
         return (
             <>
-                <ModalXendit
-                    open={openXendit}
-                    setOpen={() => setOpenXendit(!openXendit)}
-                    iframeUrl={xenditIframeUrl}
-                    {...xenditState}
-                />
-                <Traveloka3DSModal
-                    open={openTraveloka}
-                    setOpen={setOpenTraveloka}
-                    handleClose={handleClose}
-                />
+                <ModalXendit open={openXendit} setOpen={() => setOpenXendit(!openXendit)} iframeUrl={xenditIframeUrl} {...xenditState} />
+                <Traveloka3DSModal open={openTraveloka} setOpen={setOpenTraveloka} handleClose={handleClose} />
                 <div className="hidden-desktop">
                     <SummaryPlugin
                         t={t}
