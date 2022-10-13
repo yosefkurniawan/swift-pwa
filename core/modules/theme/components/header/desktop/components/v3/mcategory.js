@@ -51,6 +51,7 @@ const Menu = (props) => {
                     id: cat.category_id,
                 };
                 await setResolver(urlResolver);
+                router.push(link);
             } else {
                 const cms = cmsPages.find((cmsPage) => cmsPage === link.replace('/', ''));
                 if (cms) {
@@ -134,9 +135,9 @@ const Menu = (props) => {
                                                 {val.before_html && <div dangerouslySetInnerHTML={{ __html: val.before_html }} />}
                                                 <a
                                                     onClick={() => {
-                                                        if (val.linktype === 'category_link') {
+                                                        if (val.link_type === 'category_link') {
                                                             handleClick(val);
-                                                        } else if (val.linktype === 'custom_link') {
+                                                        } else if (val.link_type === 'custom_link') {
                                                             router.push(val.link);
                                                         }
                                                     }}

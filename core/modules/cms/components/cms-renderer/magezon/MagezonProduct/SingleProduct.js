@@ -98,14 +98,16 @@ const SingleProduct = (props) => {
                         justify="center"
                         alignItems={isProductGrid ? 'center' : 'stretch'}
                     >
-                        <div onClick={handleClick} style={{ width: defaultWidth }}>
-                            <Image
-                                src={small_image.url}
-                                width={defaultWidth}
-                                height={defaultHeight}
-                                alt={name}
-                            />
-                        </div>
+                        <Link href={handleClick}>
+                            <a style={{ width: defaultWidth }}>
+                                <Image
+                                    src={small_image.url}
+                                    width={defaultWidth}
+                                    height={defaultHeight}
+                                    alt={name}
+                                />
+                            </a>
+                        </Link>
                     </Grid>
                 )}
                 <Grid item xs container direction="column" alignItems={isGrid || isProductGrid || isSlider ? 'center' : 'stretch'}>

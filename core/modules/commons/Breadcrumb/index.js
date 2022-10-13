@@ -35,7 +35,9 @@ const CustomBreadcrumb = ({ data = [], variant = 'text' }) => {
     return (
         <Breadcrumbs separator={<NavigateNext fontSize="small" />} className={styles.root}>
             <Link color="secondary" href="/" className={styles.home}>
-                <Typography variant="p">Home</Typography>
+                <a>
+                    <Typography variant="p">Home</Typography>
+                </a>
             </Link>
             {
                 variant === 'chip' ? data.map(({
@@ -56,7 +58,9 @@ const CustomBreadcrumb = ({ data = [], variant = 'text' }) => {
                             onClick={index === data.length - 1 ? () => {} : () => handleClick(link, id)}
                             key={index}
                         >
-                            <Typography variant="p" type={active ? 'bold' : 'regular'}>{label}</Typography>
+                            <a>
+                                <Typography variant="p" type={active ? 'bold' : 'regular'}>{label}</Typography>
+                            </a>
                         </Link>
                     ))
             }

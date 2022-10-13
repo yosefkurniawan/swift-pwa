@@ -57,9 +57,11 @@ export const useProduct = (props) => {
         }
     }, [isLogin, dataUid]);
 
-    const handleClick = () => {
-        router.push(url_key);
-    };
+    // const handleClick = () => {
+    //     router.push(url_key);
+    // };
+
+    const handleClick = `/${url_key}`;
 
     const handleAddtowishlist = () => {
         if (isLogin && isLogin === 1) {
