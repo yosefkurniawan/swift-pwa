@@ -62,7 +62,9 @@ const Summary = ({
 
     // travelokapay
     const { payment_travelokapay_public_key, payment_travelokapay_user_id, payment_travelokapay_bin_whitelist } = storeConfig;
-    const { open: openTraveloka, setOpen: setOpenTraveloka, handleClose, handleTravelokaPay } = useTravelokaPay({
+    const {
+        open: openTraveloka, setOpen: setOpenTraveloka, handleClose, handleTravelokaPay,
+    } = useTravelokaPay({
         t,
         travelokaPayRef,
         config,
@@ -253,21 +255,21 @@ const Summary = ({
             if (!window.Xendit.card.validateCardNumber(cardNumber)) {
                 travelokaPayRef.current.setFieldError(
                     'cardNumber',
-                    `${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`
+                    `${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`,
                 );
                 errorMessages.push(`${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`);
             }
             if (!window.Xendit.card.validateExpiry(expiryDatas[0], `20${expiryDatas[1]}`)) {
                 travelokaPayRef.current.setFieldError(
                     'expiryDate',
-                    `${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:invalid')}`
+                    `${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:invalid')}`,
                 );
                 errorMessages.push(`${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:invalid')}`);
             }
             if (!window.Xendit.card.validateCvn(cvv)) {
                 travelokaPayRef.current.setFieldError(
                     'cvv',
-                    `${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:invalid')}`
+                    `${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:invalid')}`,
                 );
                 errorMessages.push(`${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:invalid')}`);
             }
@@ -371,15 +373,15 @@ const Summary = ({
                         setSnapOrderId(tempMidtransOrderId);
                         await getSnapToken({ variables: { orderId: tempMidtransOrderId } });
                     } else if (
-                        checkout.data.cart.selected_payment_method.code.match(/ovo.*/) ||
-                        checkout.data.cart.selected_payment_method.code.match(/ipay88*/)
+                        checkout.data.cart.selected_payment_method.code.match(/ovo.*/)
+                        || checkout.data.cart.selected_payment_method.code.match(/ipay88*/)
                     ) {
                         window.location.href = getIpayUrl(orderNumber);
                     } else if (checkout.data.cart.selected_payment_method.code.match(/indodana/)) {
                         await getIndodanaRedirect({ variables: { order_number: orderNumber } });
                     } else if (
-                        modules.checkout.xendit.paymentPrefixCode.includes(checkout.data.cart.selected_payment_method.code) ||
-                        modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)
+                        modules.checkout.xendit.paymentPrefixCode.includes(checkout.data.cart.selected_payment_method.code)
+                        || modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)
                     ) {
                         handleXendit(orderNumber);
                     } else if (checkout.data.cart.selected_payment_method.code.match(/travelokapay/)) {
@@ -438,12 +440,12 @@ const Summary = ({
 
     // Start - Manage Snap Pop Up When Opened (Waiting Response From SnapToken)
     if (
-        manageSnapToken.data &&
-        orderId &&
-        snapOrderId &&
-        !snapOpened &&
-        manageSnapToken.data.getSnapTokenByOrderId &&
-        manageSnapToken.data.getSnapTokenByOrderId.snap_token
+        manageSnapToken.data
+        && orderId
+        && snapOrderId
+        && !snapOpened
+        && manageSnapToken.data.getSnapTokenByOrderId
+        && manageSnapToken.data.getSnapTokenByOrderId.snap_token
     ) {
         const snapToken = manageSnapToken.data.getSnapTokenByOrderId.snap_token;
         if (snap && snap.pay) {
@@ -458,7 +460,7 @@ const Summary = ({
                     window.backdropLoader(true);
                     getSnapOrderStatusByOrderId({
                         variables: {
-                            orderId: tempMidtransOrderId,
+                            orderId: snapOrderId,
                         },
                     });
 
@@ -472,7 +474,7 @@ const Summary = ({
                     window.backdropLoader(true);
                     getSnapOrderStatusByOrderId({
                         variables: {
-                            orderId: tempMidtransOrderId,
+                            orderId: snapOrderId,
                         },
                     });
 
