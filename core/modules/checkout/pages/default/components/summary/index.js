@@ -345,9 +345,9 @@ const Summary = ({
                         });
                     }
                 } else {
-                    if (result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
-                        orderNumber = result.data.placeOrder.order.order_number;
-                        tempMidtransOrderId.push(result.data.placeOrder.order.order_number);
+                    if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
+                        orderNumber = result.data.placeOrder[0].order.order_number;
+                        tempMidtransOrderId.push(orderNumber);
                     }
                 }
                 if (orderNumber && orderNumber !== '') {
