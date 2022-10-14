@@ -656,7 +656,6 @@ const Checkout = (props) => {
                 const availableShipping = shipping[0].available_shipping_methods.filter(
                     (x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore'
                 );
-                console.log(availableShipping);
 
                 state.data.shippingMethods = availableShipping.map((item) => ({
                     ...item,
@@ -664,7 +663,6 @@ const Checkout = (props) => {
                     promoLabel: `${item.shipping_promo_name}`,
                     value: `${item.carrier_code}_${item.method_code}`,
                 }));
-                console.log(state.data.shippingMethods);
             }
 
             if (shipping && shipping[0].selected_shipping_method) {
@@ -701,6 +699,7 @@ const Checkout = (props) => {
                     state.error.shippingAddress = false;
                 }
             }
+            setLoadingSellerInfo(false);
         }
 
         // init payment method
@@ -1015,7 +1014,6 @@ const Checkout = (props) => {
                 const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
                 if (shipping && shipping[0].available_shipping_methods && shipping[0].available_shipping_methods.length > 0) {
                     const availableShipping = shipping[0].available_shipping_methods.filter((x) => x.carrier_code !== 'pickup');
-                    console.log(availableShipping);
 
                     state.data.shippingMethods = availableShipping.map((item) => ({
                         ...item,
