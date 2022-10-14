@@ -30,6 +30,7 @@ const ItemProduct = (props) => {
                         width={defaultWidth}
                         height={defaultHeight}
                         quality={80}
+                        storeConfig={storeConfig}
                     />
                 </div>
                 <div className={styles.detailItem}>

@@ -188,6 +188,9 @@ export const storeConfig = `
         image_category_width
         image_product_height
         image_product_width
+        thumbor_enable
+        thumbor_https_http
+        thumbor_url
         install_message
         label_enable
         label_new_enable
@@ -306,6 +309,12 @@ export const storeConfig = `
       pin_location_longitude
       minimum_order_amount
       minimum_order_enable
+      OmsRma{
+        enable_oms_rma
+        enable_oms_pwa_request_return
+        oms_rma_link
+      }
+      oms_channel_code
     }
   }  
 `;

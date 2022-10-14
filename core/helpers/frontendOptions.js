@@ -2,15 +2,11 @@
 // eslint-disable-next-line import/prefer-default-export
 export const frontendConfig = (pwaConfig) => {
     if (pwaConfig) {
-        let button_text_color;
-        if (pwaConfig.button_text_color) {
-            if (pwaConfig.background_color === pwaConfig.button_text_color) {
-                button_text_color = pwaConfig.button_background_color;
-            } else {
-                button_text_color = pwaConfig.button_text_color;
-            }
-        } else {
-            button_text_color = '#FFFFFF';
+        let button_text_color = pwaConfig.button_text_color || pwaConfig.font_color || '#FFFFFF';
+        const button_background_color = pwaConfig.button_background_color || '#000000';
+        const button_disabled_text_color = pwaConfig.button_disabled_text_color || '#FFFFFF';
+        if (button_text_color === button_background_color) {
+            button_text_color = button_background_color === '#FFFFFF' ? '#000000' : '#FFFFFF';
         }
         return `
             body {
@@ -59,7 +55,7 @@ export const frontendConfig = (pwaConfig) => {
 
             // BUTTON SECTION
             .MuiButton-root {
-                color: ${pwaConfig.button_text_color || '#000000'} !important;
+                color: ${button_text_color} !important;
                 font-family: ${pwaConfig.default_font || 'Montserrat'} !important;
             }
             .MuiButton-label {
@@ -73,16 +69,16 @@ export const frontendConfig = (pwaConfig) => {
                 background-color: ${pwaConfig.button_background_hover_color || '#FFFFFF'} !important;
             }
             .MuiButton-root.Mui-disabled {
-                color: ${pwaConfig.button_disabled_text_color || '#DEDEDE'} !important;
+                color: ${button_disabled_text_color} !important;
             }
             .MuiButton-root.Mui-disabled .MuiButton-label .MuiTypography-root {
-                color: ${pwaConfig.button_disabled_text_color || '#DEDEDE'} !important;
+                color: ${button_disabled_text_color} !important;
             }
-            .MuiButton-textPrimary {
-                color: ${pwaConfig.button_text_color || '#000000'} !important;
+            .MuiButton-textPrimary > span.MuiButton-label > span {
+                color: ${pwaConfig.button_border_color || '#000000'} !important;
             }
             .MuiButton-textSecondary {
-                color: ${pwaConfig.button_text_color || '#000000'} !important;
+                color: ${button_text_color} !important;
             }
             .MuiButton-outlined {
                 border: 1px solid ${pwaConfig.button_border_color || '#000000'} !important;
@@ -91,8 +87,13 @@ export const frontendConfig = (pwaConfig) => {
                 border: 1px solid ${pwaConfig.button_disabled_background_color || '#DEDEDE'} !important;
             }
             .MuiButton-outlinedPrimary {
-                color: ${button_text_color} !important;
                 border: 1px solid ${pwaConfig.button_border_color || '#000000'} !important;
+            }
+            .MuiButton-outlinedPrimary > span.MuiButton-label > p.MuiTypography-root {
+                color: ${pwaConfig.button_border_color || '#000000'} !important;
+            }
+            .MuiButton-outlinedPrimary > span.MuiButton-label > span {
+                color: ${pwaConfig.button_border_color || '#000000'} !important;
             }
             .MuiButton-outlinedPrimary:hover {
                 border: 1px solid ${pwaConfig.button_border_hover_color || '#000000'} !important;
@@ -110,41 +111,41 @@ export const frontendConfig = (pwaConfig) => {
                 border: 1px solid rgba(0, 0, 0, 0.26);
             }
             .MuiButton-contained {
-                color: ${pwaConfig.button_text_color || '#FFFFFF'} !important;
-                background-color: ${pwaConfig.button_background_color || '#000000'} !important;
+                color: ${button_text_color} !important;
+                background-color: ${button_background_color} !important;
             }
             .MuiButton-contained:hover {
                 color: ${pwaConfig.button_text_hover_color || '#FFFFFF'} !important;
                 background-color: ${pwaConfig.button_background_hover_color || '#DEDEDE'} !important;
             }
             .MuiButton-contained.Mui-disabled {
-                color: ${pwaConfig.button_disabled_text_color || '#000000'} !important;
+                color: ${button_disabled_text_color} !important;
                 background-color: ${pwaConfig.button_disabled_background_color || '#DEDEDE'} !important;
             }
             .MuiButton-contained:hover.Mui-disabled {
                 background-color: ${pwaConfig.button_disabled_background_color || '#DEDEDE'} !important;
             }
             .MuiButton-containedPrimary {
-                color: ${pwaConfig.button_text_color || '#FFFFFF'} !important;
-                background-color: ${pwaConfig.button_background_color} !important;
+                color: ${button_text_color} !important;
+                background-color: ${button_background_color} !important;
             }
             .MuiButton-containedPrimary:hover {
                 background-color: ${pwaConfig.button_background_hover_color || '#DEDEDE'} !important;
                 color: ${pwaConfig.button_text_hover_color || '#FFFFFF'} !important;
             }
             .MuiButton-containedSecondary {
-                color: ${pwaConfig.button_text_color || '#000000'} !important;
-                background-color: ${pwaConfig.button_background_color || '#FFFFFF'} !important;
+                color: ${button_text_color} !important;
+                background-color: ${button_background_color} !important;
             }
             .MuiButton-containedSecondary:hover {
                 background-color: ${pwaConfig.button_background_hover_color || '#DEDEDE'} !important;
                 color: ${pwaConfig.button_text_hover_color || '#FFFFFF'} !important;
             }
             .MuiButton-root .MuiButton-label > span {
-                color: ${pwaConfig.button_text_color || '#000000'} !important;
+                color: ${button_text_color} !important;
             }
             .MuiButton-root .MuiButton-label > p.MuiTypography-root {
-                color: ${pwaConfig.button_text_color || '#000000'} !important;
+                color: ${button_text_color} !important;
             }
             .MuiButton-root:hover .MuiButton-label > span {
                 color: ${pwaConfig.button_text_hover_color || '#000000'} !important;
@@ -153,17 +154,17 @@ export const frontendConfig = (pwaConfig) => {
 
             // BADGE SECTION
             .MuiBadge-colorPrimary {
-                color: ${pwaConfig.button_text_color || '#FFFFFF'} !important;
+                color: ${button_text_color} !important;
                 background-color: ${pwaConfig.primary_color || '#000000'} !important;
             }
             .MuiBadge-colorSecondary {
-                color: ${pwaConfig.button_text_color || '#FFFFFF'} !important;
+                color: ${button_text_color} !important;
                 background-color: ${pwaConfig.primary_color || '#000000'} !important;
             }
 
             // SVG Section
             .MuiSvgIcon-colorPrimary {
-                color: ${pwaConfig.primary_color || '#000000'} !important;
+                color: ${pwaConfig.primary_color || button_text_color || '#FFFFFF'} !important;
             }
             .MuiSvgIcon-colorSecondary {
                 color: ${pwaConfig.primary_color || '#000000'} !important;
@@ -192,7 +193,7 @@ export const frontendConfig = (pwaConfig) => {
                 font-family: ${pwaConfig.default_font || 'Montserrat'} !important;
             }
             .MuiTypography-button {
-                color: ${pwaConfig.button_text_color || '#000000'};
+                color: ${button_text_color};
             }
             .MuiTypography-h1 {
                 font-family: ${pwaConfig.heading_font || 'Montserrat'} !important;
@@ -405,7 +406,7 @@ export const frontendConfig = (pwaConfig) => {
 
         // SVG Section
         .MuiSvgIcon-colorPrimary {
-            color: #000000 !important;
+            color: #FFFFFF !important;
         }
         .MuiSvgIcon-colorSecondary {
             color: #000000 !important;

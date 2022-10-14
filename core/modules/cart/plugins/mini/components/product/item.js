@@ -10,7 +10,7 @@ const Item = (props) => {
     const {
         quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options, customizable_options,
         SimpleMiniCustomizable, ConfigurableMiniCustomizable,
-        aw_giftcard_option,
+        aw_giftcard_option, storeConfig,
     } = props;
     const { t } = useTranslation(['common']);
     const cartCustomOptions = SimpleMiniCustomizable || ConfigurableMiniCustomizable || customizable_options;
@@ -19,7 +19,14 @@ const Item = (props) => {
         <li>
             <div id="plugin-minicart-itemsProduct" className="product">
                 <a className="product-item-photo">
-                    <Thumbor className="product-image-photo" src={product.small_image.url} alt={product.small_image.label} width={75} height={92} />
+                    <Thumbor
+                        className="product-image-photo"
+                        src={product.small_image.url}
+                        alt={product.small_image.label}
+                        width={75}
+                        height={92}
+                        storeConfig={storeConfig}
+                    />
                     {prices?.row_total_including_tax?.value === 0 ? <span>{t('common:title:free')}</span> : null}
                 </a>
                 <div className="product-item-details">
@@ -126,7 +133,7 @@ const Item = (props) => {
                 <div
                     className="delete"
                     onClick={() => {
-                        deleteCart(id);
+                        deleteCart(props);
                     }}
                 >
                     x

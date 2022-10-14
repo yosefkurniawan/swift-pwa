@@ -19,9 +19,9 @@ export const getCategory = (
           url_path
           image
           image_path
-          meta_title
           meta_description
           meta_keywords
+          meta_title
           breadcrumbs {
             category_id
             category_name
@@ -218,6 +218,9 @@ export const configpwa = gql`
           share_icon_twitter
           ves_menu_alias
           ves_menu_enable
+          thumbor_enable
+          thumbor_https_http
+          thumbor_url
         }
     }
   }

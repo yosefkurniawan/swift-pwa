@@ -38,12 +38,16 @@ const ContentDetail = ({
 
     React.useEffect(() => {
         let categoryProduct = '';
+        let categoryOne = '';
         // eslint-disable-next-line no-unused-expressions
-        item.categories.length > 0
-            && item.categories.map(({ name }, indx) => {
+        item.categories.length > 0 && (
+            categoryOne = item.categories[0].name,
+            item.categories.map(({ name }, indx) => {
                 if (indx > 0) categoryProduct += `/${name}`;
                 else categoryProduct += name;
-            });
+            })
+        );
+        // GTM UA dayaLayer
         const tagManagerArgs = {
             dataLayer: {
                 pageName: item.name,
@@ -71,7 +75,35 @@ const ContentDetail = ({
                 eventLabel: item.name,
             },
         };
+        // GA 4 dataLayer
+        const tagManagerArgsGA4 = {
+            dataLayer: {
+                pageName: item.name,
+                pageType: 'product',
+                ecommerce: {
+                    items: [
+                        {
+                            item_name: item.name,
+                            item_id: item.sku,
+                            price: item.price_range.minimum_price.regular_price.value || 0,
+                            item_category: categoryOne,
+                            currency: item.price_range.minimum_price.regular_price.currency || 'USD',
+                            item_stock_status: item.stock_status,
+                            item_reviews_score: reviewValue,
+                            item_reviews_count: item.review.reviews_count,
+                            item_sale_product: item.sale === 0 ? 'NO' : 'YES',
+                        },
+                    ],
+                },
+                event: 'view_item',
+            },
+        };
+        // Clear the previous ecommerce object.
+        TagManager.dataLayer({ dataLayer: { ecommerce: null } });
         TagManager.dataLayer(tagManagerArgs);
+        // Clear the previous ecommerce object.
+        TagManager.dataLayer({ dataLayer: { ecommerce: null } });
+        TagManager.dataLayer(tagManagerArgsGA4);
     }, []);
 
     const bannerData = [];
@@ -128,6 +160,7 @@ const ContentDetail = ({
     const [addWishlist] = mutationAddWishlist();
     const handleWishlist = () => {
         if (isLogin && isLogin === 1) {
+            // GTM UA dataLayer
             TagManager.dataLayer({
                 dataLayer: {
                     event: 'addToWishlist',
@@ -148,6 +181,26 @@ const ContentDetail = ({
                             ],
                         },
                     },
+                },
+            });
+            // GA 4 dataLayer
+            TagManager.dataLayer({
+                dataLayer: {
+                    ecommerce: {
+                        action: {
+                            items: [
+                                {
+                                    currency: item.price_range.minimum_price.regular_price.currency,
+                                    item_name: item.name,
+                                    item_id: item.sku,
+                                    price: item.price_range.minimum_price.regular_price.value || 0,
+                                    item_category: item.categories.length > 0 ? item.categories[0].name : '',
+                                    item_stock_status: item.stock_status,
+                                },
+                            ],
+                        },
+                    },
+                    event: 'add_to_wishlist',
                 },
             });
             addWishlist({
@@ -587,7 +640,7 @@ const PageDetail = (props) => {
     };
 
     return (
-        <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props} isPdp>
+        <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props} data={data} isPdp>
             <ContentDetail
                 keyProduct={productByUrl}
                 product={product}

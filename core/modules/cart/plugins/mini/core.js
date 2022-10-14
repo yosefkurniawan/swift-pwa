@@ -3,6 +3,7 @@ import { getCartId } from '@helper_cartid';
 import { useMutation } from '@apollo/client';
 import { getMiniCartData } from '@core_modules/cart/services/graphql';
 import * as Schema from '@core_modules/cart/services/graphql/schema';
+import TagManager from 'react-gtm-module';
 
 const MiniCart = (props) => {
     const {
@@ -129,11 +130,31 @@ const MiniCart = (props) => {
         });
     };
 
-    const deleteCart = (id) => {
+    const deleteCart = (itemProps) => {
+        // GA 4 dataLayer
+        const dataLayer = {
+            event: 'remove_from_cart',
+            ecommerce: {
+                action: {
+                    items: [
+                        {
+                            item_name: itemProps.product.name,
+                            item_id: itemProps.product.sku,
+                            price: itemProps.prices.price.value || 0,
+                            item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                            item_list_name: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                            quantity: itemProps.quantity,
+                            currency: itemProps.prices.price.currency || storeConfig.base_currency_code,
+                        },
+                    ],
+                },
+            },
+        };
+        TagManager.dataLayer({ dataLayer });
         actDeleteItem({
             variables: {
                 cartId,
-                cart_item_id: parseInt(id),
+                cart_item_id: parseInt(itemProps.id),
             },
             context: {
                 request: 'internal',

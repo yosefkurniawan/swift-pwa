@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import Layout from '@layout';
 import { StripHtmlTags } from '@helper_text';
 import { getCategory, getPwaConfig } from '@core_modules/catalog/services/graphql';
@@ -24,8 +25,9 @@ const Page = (props) => {
     let schemaOrg = null;
     let ogDesc;
     let ogKeyword;
+    let category = null;
     if (data && data.categoryList[0]) {
-        const category = data.categoryList[0];
+        category = data.categoryList[0];
         schemaOrg = generateSchemaOrg(category, storeConfig);
         if (data.categoryList[0].meta_description || data.categoryList[0].description) {
             ogDesc = StripHtmlTags(data.categoryList[0].meta_description || data.categoryList[0].description) || '';
@@ -59,7 +61,7 @@ const Page = (props) => {
         return <ErrorView statusCode={404} {...props} />;
     }
     return (
-        <Layout {...props} pageConfig={config}>
+        <Layout {...props} pageConfig={config} data={category} isPlp>
             <Content categoryId={categoryId} data={data} {...other} storeConfig={storeConfig} />
         </Layout>
     );

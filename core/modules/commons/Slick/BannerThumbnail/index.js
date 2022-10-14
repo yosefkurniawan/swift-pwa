@@ -96,6 +96,7 @@ const Banner = ({
                                 videoUrl={item.videoUrl}
                                 widthMobile={width || defaultWidthMobile}
                                 heightMobile={height || defaultHeightMobile}
+                                storeConfig={storeConfig}
                             />
                         </div>
                     ))}
@@ -116,6 +117,7 @@ const Banner = ({
                                             key={key}
                                             {...item}
                                             videoUrl={item.videoUrl}
+                                            storeConfig={storeConfig}
                                         />
                                     </Zoom>
                                 ) : (
@@ -127,6 +129,7 @@ const Banner = ({
                                         key={key}
                                         {...item}
                                         videoUrl={item.videoUrl}
+                                        storeConfig={storeConfig}
                                     />
                                 )
                             }
