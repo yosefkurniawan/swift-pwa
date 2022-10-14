@@ -137,19 +137,31 @@ const Layout = (props) => {
         : withLayoutHeader;
 
     const ogData = {
-        'og:title': pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa',
-        'og:image': storeConfig.header_logo_src
-            ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
-            : `${getHost()}/assets/img/swift-logo.png`,
         'og:image:type': 'image/png',
-        'og:url': `${getHost()}${router.asPath}`,
         'og:locale': i18n && i18n.language === 'id' ? 'id_ID' : 'en_US',
-        'og:type': 'website',
         ...ogContent,
     };
 
     if (!ogData['og:description']) {
         ogData['og:description'] = storeConfig.default_description || '';
+    }
+
+    if (!ogData['og:title']) {
+        ogData['og:title'] = pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa' || '';
+    }
+
+    if (!ogData['og:image']) {
+        ogData['og:image'] = storeConfig.header_logo_src
+        ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
+        : `${getHost()}/assets/img/swift-logo.png` || '';
+    }
+
+    if (!ogData['og:url']) {
+        ogData['og:url'] = `${getHost()}${router.asPath}` || '';
+    }
+
+    if (!ogData['og:type']) {
+        ogData['og:type'] = 'website';
     }
 
     if (storeConfig && storeConfig.pwa && storeConfig.pwa.facebook_meta_id_app_id) {

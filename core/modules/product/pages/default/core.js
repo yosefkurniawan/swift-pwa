@@ -581,6 +581,7 @@ const PageDetail = (props) => {
             'product:price:amount': product.items[productByUrl].price_range.minimum_price.final_price.value,
             'product:pretax_price:currency': product.items[productByUrl].price_range.minimum_price.final_price.currency,
             'product:pretax_price:amount': product.items[productByUrl].price_range.minimum_price.final_price.value,
+            'og:title': product.items[productByUrl].meta_title || product.items[productByUrl].name,
         },
         schemaOrg,
     };
