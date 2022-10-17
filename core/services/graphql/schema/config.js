@@ -267,7 +267,6 @@ export const storeConfig = `
       weight_unit
       oauth_access_token_lifetime_customer
       pwa_checkout_debug_enable
-      snap_client_key
       allow_guest_checkout
       snap_is_production
       aw_blog_general_enabled
@@ -343,6 +342,47 @@ export const frontendOptions = `
     }
 }
 `;
+
+export const getSensitiveConfig = `
+{
+  storeConfig {
+    snap_is_production
+    payment_travelokapay_user_id
+    payment_travelokapay_public_key
+    payment_travelokapay_bin_whitelist
+    snap_client_key
+    firebase_api_key {
+      api_key
+      app_id
+      auth_domain
+      database_url
+      measurement_id
+      messaging_sender_id
+      pair_key
+      project_id
+      push_notification_enable
+      storage_bucket
+    }
+    paypal_key {
+      cancel_url
+      client_id
+      client_secret
+      disable_funding
+      intent
+      key_data
+      key_token
+      path
+      return_url
+    }
+    swift_server {
+      algorithm
+      encryption_key
+      fcm_key_server
+      fcm_topic
+      session_secret
+    }
+  }
+}`;
 
 export const getCmsList = `
 {

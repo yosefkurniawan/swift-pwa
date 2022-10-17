@@ -277,7 +277,21 @@ const Layout = (props) => {
     }
 
     if (typeof window !== 'undefined' && storeConfig) {
-        setLocalStorage(storeConfigNameCookie, storeConfig);
+        const arrayStoreConfig = Object.entries(storeConfig);
+        const filteredStoreConfig = arrayStoreConfig.filter(([key, value]) => {
+            if (
+                key !== 'snap_is_production' &&
+                key !== 'snap_client_key' &&
+                key !== 'firebase_api_key' &&
+                key !== 'paypal_key' &&
+                key !== 'swift_server' &&
+                !key.includes('payment_travelokapay_')
+            ) {
+                return true;
+            }
+        });
+        const excludePrivateStoreConfig = Object.fromEntries(filteredStoreConfig);
+        setLocalStorage(storeConfigNameCookie, excludePrivateStoreConfig);
     }
 
     useEffect(() => {

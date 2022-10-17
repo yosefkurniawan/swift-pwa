@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
+import { modules } from '@config';
+import gqlService from '@core_modules/checkout/services/graphql';
 import React from 'react';
 import TagManager from 'react-gtm-module';
-import gqlService from '@core_modules/checkout/services/graphql';
-import { modules } from '@config';
 
 export default function CustomizedExpansionPanels({
     checkout,
@@ -36,9 +36,7 @@ export default function CustomizedExpansionPanels({
      * [METHOD] handle when get result from set payment method
      * @param {state, result, val, cart} params
      */
-    const onHandleResult = ({
-        state, result, val, cart, purchaseOrder = false,
-    }) => {
+    const onHandleResult = ({ state, result, val, cart, purchaseOrder = false }) => {
         state = {
             ...checkout,
             selected: {
@@ -212,59 +210,64 @@ export default function CustomizedExpansionPanels({
                         cartId: cart.id,
                         payment_method,
                     },
-                }).then((result) => {
-                    if (val === 'paypal_express') {
-                        state = {
-                            ...checkout,
-                            selected: {
-                                ...checkout.selected,
-                                payment: val,
-                                purchaseOrderNumber: null,
-                            },
-                            loading: {
-                                ...checkout.loading,
-                                all: false,
-                                order: false,
-                            },
-                        };
-                        setCheckout(state);
-                        if (storeConfig?.pwa?.paypal_enable
-                            && initialOptionPaypal['data-order-id'] === '' && checkout.selected.payment === 'paypal_express') {
-                            getPaypalToken({
-                                variables: {
-                                    cartId: cart.id,
-                                    code: 'paypal_express',
-                                    returnUrl: modules.paypal.returnUrl,
-                                    cancelUrl: modules.paypal.cancelUrl,
+                })
+                    .then((result) => {
+                        if (val === 'paypal_express') {
+                            state = {
+                                ...checkout,
+                                selected: {
+                                    ...checkout.selected,
+                                    payment: val,
+                                    purchaseOrderNumber: null,
                                 },
-                            }).then((res) => {
-                                if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
-                                    const { token } = res.data.createPaypalExpressToken;
-                                    setTokenData(res.data.createPaypalExpressToken);
-                                    setInitialOptionPaypal({
-                                        ...initialOptionPaypal,
-                                        'data-order-id': token,
-                                    });
-                                }
+                                loading: {
+                                    ...checkout.loading,
+                                    all: false,
+                                    order: false,
+                                },
+                            };
+                            setCheckout(state);
+                            if (
+                                storeConfig?.pwa?.paypal_enable &&
+                                initialOptionPaypal['data-order-id'] === '' &&
+                                checkout.selected.payment === 'paypal_express'
+                            ) {
+                                getPaypalToken({
+                                    variables: {
+                                        cartId: cart.id,
+                                        code: 'paypal_express',
+                                        returnUrl: storeConfig?.paypal_key.return_url,
+                                        cancelUrl: storeConfig?.paypal_key.cancel_url,
+                                    },
+                                }).then((res) => {
+                                    if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
+                                        const { token } = res.data.createPaypalExpressToken;
+                                        setTokenData(res.data.createPaypalExpressToken);
+                                        setInitialOptionPaypal({
+                                            ...initialOptionPaypal,
+                                            'data-order-id': token,
+                                        });
+                                    }
+                                });
+                            }
+                        } else {
+                            onHandleResult({
+                                state,
+                                result,
+                                val,
+                                cart,
                             });
                         }
-                    } else {
+                    })
+                    .catch((err) => {
+                        const result = err;
                         onHandleResult({
                             state,
                             result,
                             val,
                             cart,
                         });
-                    }
-                }).catch((err) => {
-                    const result = err;
-                    onHandleResult({
-                        state,
-                        result,
-                        val,
-                        cart,
                     });
-                });
             }
         }
     };
@@ -311,26 +314,28 @@ export default function CustomizedExpansionPanels({
                 cartId: cart.id,
                 payment_method,
             },
-        }).then((result) => {
-            onHandleResult({
-                state,
-                result,
-                val: selected_payment,
-                cart,
+        })
+            .then((result) => {
+                onHandleResult({
+                    state,
+                    result,
+                    val: selected_payment,
+                    cart,
+                });
+                handleOpenMessage({
+                    variant: 'success',
+                    text: t('checkout:message:purchaseOrderApplied'),
+                });
+            })
+            .catch((err) => {
+                const result = err;
+                onHandleResult({
+                    state,
+                    result,
+                    val: selected_payment,
+                    cart,
+                });
             });
-            handleOpenMessage({
-                variant: 'success',
-                text: t('checkout:message:purchaseOrderApplied'),
-            });
-        }).catch((err) => {
-            const result = err;
-            onHandleResult({
-                state,
-                result,
-                val: selected_payment,
-                cart,
-            });
-        });
     };
 
     /**

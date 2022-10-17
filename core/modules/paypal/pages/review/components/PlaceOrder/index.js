@@ -1,16 +1,14 @@
-import React from 'react';
-import View from '@core_modules/paypal/pages/review/components/PlaceOrder/view';
+import { useApolloClient } from '@apollo/client';
 import { modules } from '@config';
 import gqlService from '@core_modules/checkout/services/graphql';
-import { setCheckoutData } from '@helper_cookies';
-import { useApolloClient } from '@apollo/client';
+import View from '@core_modules/paypal/pages/review/components/PlaceOrder/view';
 import { removeCartId } from '@helper_cartid';
+import { setCheckoutData } from '@helper_cookies';
 import { localTotalCart } from '@services/graphql/schema/local';
+import React from 'react';
 
 const PlaceOrder = (props) => {
-    const {
-        checkout, setCheckout, t, config,
-    } = props;
+    const { checkout, setCheckout, t, config, storeConfig } = props;
     const client = useApolloClient();
 
     // origin name config
@@ -19,7 +17,7 @@ const PlaceOrder = (props) => {
     // eslint-disable-next-line no-unused-vars
     let paypalData = {};
     if (typeof window !== 'undefined') {
-        paypalData = JSON.parse(localStorage.getItem(modules.paypal.keyData));
+        paypalData = JSON.parse(localStorage.getItem(storeConfig?.paypal_key.key_data));
     }
 
     const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
@@ -61,8 +59,7 @@ const PlaceOrder = (props) => {
         }
         if (orderNumber && orderNumber !== '') {
             let { email } = cart;
-            if (checkout.isGuest && paypalData && paypalData.details && paypalData.details.payer
-                && paypalData.details.payer.email_address) {
+            if (checkout.isGuest && paypalData && paypalData.details && paypalData.details.payer && paypalData.details.payer.email_address) {
                 email = paypalData.details.payer.email_address;
             }
             setCheckoutData({
@@ -79,7 +76,7 @@ const PlaceOrder = (props) => {
                 variant: 'success',
                 text: t('checkout:message:placeOrder'),
             });
-            localStorage.removeItem(modules.paypal.keyData);
+            localStorage.removeItem(storeConfig?.paypal_key.key_data);
             window.location.replace(generatesuccessRedirect(orderNumber));
         } else {
             window.backdropLoader(false);
@@ -95,13 +92,7 @@ const PlaceOrder = (props) => {
         }
     };
     const disabled = checkout.selectedShippingMethod === null;
-    return (
-        <View
-            {...props}
-            handlePlaceOrder={handlePlaceOrder}
-            disabled={disabled}
-        />
-    );
+    return <View {...props} handlePlaceOrder={handlePlaceOrder} disabled={disabled} />;
 };
 
 export default PlaceOrder;
