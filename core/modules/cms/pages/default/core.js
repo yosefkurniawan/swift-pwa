@@ -15,7 +15,7 @@ const CmsSlug = (props) => {
     };
 
     return (
-        <Layout {...props} pageConfig={pageConfig || Config}>
+        <Layout {...props} pageConfig={pageConfig || Config} data={data} isCms>
             <Content data={data} t={t} loading={loading} error={error} {...other} />
         </Layout>
     );

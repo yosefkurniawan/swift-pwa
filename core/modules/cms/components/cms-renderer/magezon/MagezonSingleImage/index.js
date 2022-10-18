@@ -12,7 +12,7 @@ import PopupMapVideo from '@core_modules/cms/components/cms-renderer/magezon/Mag
 
 const ImageWithAction = ({
     withPopup, onClick, url, classContainer,
-    classImage, image_width, image_height, title, ...other
+    classImage, image_width, image_height, title, storeConfig, ...other
 }) => {
     const { openLightbox } = useLightbox();
     const handleClick = () => {
@@ -35,6 +35,7 @@ const ImageWithAction = ({
                 height={image_height ? image_height.replace('px', '') : ''}
                 alt={title}
                 classContainer={classContainer}
+                storeConfig={storeConfig}
                 {...other}
             />
         </Link>
@@ -51,7 +52,7 @@ const MagezonSingleImage = (props) => {
         content_align, content_fullwidth, content_hover_background, content_hover_color, content_padding,
         popup_image, hover_image, hover_overlay_color, content_background, content_color,
         title_font_weight, description_font_weight, description_font_size, video_map,
-        overlay_color,
+        overlay_color, storeConfig,
     } = props;
     let classes = 'magezon-image';
     let classImage = 'mgz-single-image';
@@ -186,6 +187,7 @@ const MagezonSingleImage = (props) => {
                             classContainer={classContainer}
                             onMouseOver={() => setIsHover(true)}
                             onMouseOut={() => setIsHover(false)}
+                            storeConfig={storeConfig}
                         />
                     </MagezonLink>
                 )
@@ -206,6 +208,7 @@ const MagezonSingleImage = (props) => {
                                         classContainer={classContainer}
                                         onMouseOver={() => setIsHover(true)}
                                         onMouseOut={() => setIsHover(false)}
+                                        storeConfig={storeConfig}
                                     />
                                 </SRLWrapper>
                             </div>
@@ -221,6 +224,7 @@ const MagezonSingleImage = (props) => {
                                     onClick={() => setOpenPopup(!openPopup)}
                                     onMouseOver={() => setIsHover(true)}
                                     onMouseOut={() => setIsHover(false)}
+                                    storeConfig={storeConfig}
                                 />
                             )}
                         </SimpleReactLightbox>
@@ -236,6 +240,7 @@ const MagezonSingleImage = (props) => {
                             onClick={handleClick}
                             onMouseOver={() => setIsHover(true)}
                             onMouseOut={() => setIsHover(false)}
+                            storeConfig={storeConfig}
                         />
                     )}
             <div

@@ -33,7 +33,7 @@ const MiniComponent = (props) => {
                     <span>{t('common:cart:myCart')}</span>
                     <span onClick={setOpen}>{t('common:button:close')}</span>
                 </div>
-                {loading || !data.items ? <Skeleton /> : <ItemCart data={data.items} t={t} deleteCart={deleteCart} updateCart={updateCart} />}
+                {loading || !data.items ? <Skeleton /> : <ItemCart data={data.items} t={t} deleteCart={deleteCart} updateCart={updateCart} storeConfig={storeConfig} />}
                 {data && data.total_quantity > 0 ? (
                     <div className={styles.mini_bottom}>
                         <div className="sub-total">

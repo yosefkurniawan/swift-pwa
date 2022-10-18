@@ -22,6 +22,7 @@ import { getAppEnv } from '@root/core/helpers/env';
 import CustomizableOption from '@plugin_customizableitem';
 import ModalQuickView from '@plugin_productitem/components/QuickView';
 import WeltpixelLabel from '@plugin_productitem/components/WeltpixelLabel';
+import TagManager from 'react-gtm-module';
 
 const ProductItem = (props) => {
     const {
@@ -132,8 +133,28 @@ const ProductItem = (props) => {
         }
     }, [isLogin, dataUid]);
 
-    const handleFeed = () => {
+    const handleFeed = (itemProps) => {
         if (isLogin && isLogin !== '') {
+            // GA 4 dataLayer
+            TagManager.dataLayer({
+                dataLayer: {
+                    ecommerce: {
+                        action: {
+                            items: [
+                                {
+                                    currency: itemProps.price_range.minimum_price.regular_price.currency,
+                                    item_name: itemProps.name,
+                                    item_id: itemProps.sku,
+                                    price: itemProps.price_range.minimum_price.regular_price.value || 0,
+                                    item_category: itemProps.categories.length > 0 ? itemProps.categories[0].name : '',
+                                    item_stock_status: itemProps.stock_status,
+                                },
+                            ],
+                        },
+                    },
+                    event: 'add_to_wishlist',
+                },
+            });
             postAddWishlist({
                 variables: {
                     productId: id,
@@ -219,7 +240,27 @@ const ProductItem = (props) => {
         }
     };
 
-    const handleClick = async () => {
+    const handleClick = async (itemProps) => {
+        // GA 4 dataLayer
+        TagManager.dataLayer({
+            dataLayer: {
+                event: 'select_item',
+                ecommerce: {
+                    action: {
+                        items: [
+                            {
+                                currency: itemProps.price_range.minimum_price.regular_price.currency,
+                                item_name: itemProps.name,
+                                item_id: itemProps.sku,
+                                price: itemProps.price_range.minimum_price.regular_price.value || 0,
+                                item_category: itemProps.categories.length > 0 ? itemProps.categories[0].name : '',
+                                item_stock_status: itemProps.stock_status,
+                            },
+                        ],
+                    },
+                },
+            },
+        });
         if (modules.checkout.checkoutOnly) {
             window.open(`${getStoreHost(getAppEnv()) + url_key}.html`);
         } else {
@@ -320,7 +361,7 @@ const ProductItem = (props) => {
                                 Quick View
                             </button>
                         )}
-                        <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
+                        <ImageProductView t={t} handleClick={() => handleClick(props)} spesificProduct={spesificProduct} {...other} />
                     </div>
                     <div className={styles.detailItem}>
                         <DetailProductView t={t} {...DetailProps} {...other} catalogList={catalogList} />

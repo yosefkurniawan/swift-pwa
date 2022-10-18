@@ -1,6 +1,5 @@
 /* eslint-disable operator-linebreak */
 import Typography from '@common_typography';
-import SingleProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/SingleProduct';
 import Skeleton from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/Skeleton';
 import ProductSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/Slider';
 import { generateQueries, getProductListConditions } from '@core_modules/cms/helpers/getProductListConditions';
@@ -8,7 +7,10 @@ import { getProductList } from '@core_modules/cms/services/graphql';
 import { useTranslation } from '@i18n';
 import Grid from '@material-ui/core/Grid';
 import ErrorMessage from '@plugin_productlist/components/ErrorMessage';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
+import dynamic from 'next/dynamic';
+
+const SingleProduct = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/SingleProduct'), { ssr: false });
 
 const MagezonProductList = (props) => {
     // prettier-ignore
@@ -45,25 +47,32 @@ const MagezonProductList = (props) => {
         item_xs,
         storeConfig,
     };
-    let content;
+    let content = '';
     const showLineClass = show_line ? 'mgz-product-heading-line' : '';
     const linePosClass = show_line && line_position === 'bottom' ? 'mgz-product-heading-line--bottom' : '';
     const dataCondition = useMemo(() => getProductListConditions(condition), [condition]);
     const dataFilter = generateQueries(type, type === 'single_product' ? { sku: { eq: product_sku } } : dataCondition, orer_by);
     const context = type !== 'single_product' && dataFilter.sort.random ? { request: 'internal' } : {};
-    const { data, error, loading } = getProductList({ ...dataFilter, pageSize: max_items }, context);
+    const [fetchProductList, { data, loading, error }] = getProductList();
+
+    React.useEffect(() => {
+        fetchProductList({
+            variables: { ...dataFilter, pageSize: max_items },
+            context,
+        });
+    }, []);
 
     if (loading) return <Skeleton />;
 
-    if (type === 'single_product') {
+    if (type === 'single_product' && data && data.products && data.products.items) {
         content = data?.products?.items[0] && <SingleProduct product={data.products.items[0]} {...productProps} />;
     }
 
-    if (type === 'product_list') {
+    if (type === 'product_list' && data && data.products && data.products.items) {
         content = data?.products?.items.map((product, index) => <SingleProduct key={index} product={product} {...productProps} />);
     }
 
-    if (type === 'product_grid') {
+    if (type === 'product_grid' && data && data.products && data.products.items) {
         content = (
             <Grid container>
                 {data?.products?.items.map((product, index) => (
@@ -73,7 +82,7 @@ const MagezonProductList = (props) => {
         );
     }
 
-    if (type === 'product_slider') {
+    if (type === 'product_slider' && data && data.products && data.products.items) {
         content = (
             <ProductSlider {...rest}>
                 {data?.products?.items.map((product, index) => (

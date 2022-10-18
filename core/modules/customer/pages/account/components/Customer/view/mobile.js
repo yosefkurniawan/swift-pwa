@@ -23,15 +23,16 @@ import Button from '@common_button';
 import Cookies from 'js-cookie';
 import { custDataNameCookie } from '@config';
 import useStyles from '@core_modules/customer/pages/account/components/Customer/style';
-import { getCmsBlocks, removeToken as deleteToken } from '@core_modules/customer/services/graphql';
+import { removeToken as deleteToken } from '@core_modules/customer/services/graphql';
 import ProductCompareLabel from '@core_modules/catalog/plugins/ProductCompare';
+import dynamic from 'next/dynamic';
 
+const Footer = dynamic(() => import('@common_footer'), { ssr: false });
 // eslint-disable-next-line consistent-return
 const ViewMobile = (props) => {
     const {
-        userData, t, menu, totalUnread, wishlist, modules,
+        userData, t, menu, totalUnread, wishlist, modules, storeConfig,
     } = props;
-    const { data, loading } = getCmsBlocks({ identifiers: ['pwa_footer'] });
     const router = useRouter();
     const linkAction = async (type, link) => {
         if (type === 'cms') {
@@ -69,6 +70,10 @@ const ViewMobile = (props) => {
             top: 4,
         },
     }))(Badge);
+    const footerMobile = {
+        marginBottom: storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? '55px' : 0,
+        display: storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? 'flex' : null,
+    };
     React.useEffect(() => {
         noReload({
             action: linkAction,
@@ -125,22 +130,16 @@ const ViewMobile = (props) => {
                         </div>
                         {modules.wishlist.enabled ? (
                             <div className={styles.account_clearfix}>
-                                <Carousel data={wishlist} className={[styles.wishlistBlock, styles.margin20].join(' ')} Item={ProductItem} />
+                                <Carousel data={wishlist} className={[styles.wishlistBlock, styles.margin20].join(' ')} Item={ProductItem} storeConfig={storeConfig} />
                             </div>
                         ) : null}
                     </div>
                 ) : (
                     <span className={styles.span} />
                 )}
-                {!loading && data && data.cmsBlocks && data.cmsBlocks.items[0].content && (
-                    <div className={styles.account_block}>
-                        <div className="hidden-desktop">
-                            <div className={styles.root}>
-                                <div dangerouslySetInnerHTML={{ __html: data.cmsBlocks.items[0].content }} />
-                            </div>
-                        </div>
-                    </div>
-                )}
+                <div className="hidden-desktop" style={{ ...footerMobile }}>
+                    <Footer storeConfig={storeConfig} t={t} />
+                </div>
                 <ul className={styles.account_navigation}>
                     {modules.productcompare.enabled ? (
                         <li className={styles.account_navigation_item}>

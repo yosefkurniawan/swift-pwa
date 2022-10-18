@@ -23,8 +23,10 @@ const Page = (props) => {
         ...pageConfig,
     };
     let schemaOrg = null;
+    let category = null;
     if (data && data.categoryList[0]) {
-        const category = data.categoryList[0];
+        // eslint-disable-next-line prefer-destructuring
+        category = data.categoryList[0];
         schemaOrg = generateSchemaOrg(category, storeConfig);
         if (data.categoryList[0].description) {
             ogContent.description = StripHtmlTags(data.categoryList[0].description);
@@ -52,7 +54,7 @@ const Page = (props) => {
         return <ErrorView statusCode={404} {...props} />;
     }
     return (
-        <Layout {...props} pageConfig={config}>
+        <Layout {...props} pageConfig={config} data={category} isPlp>
             <Content categoryId={categoryId} data={data} {...other} storeConfig={storeConfig} />
         </Layout>
     );

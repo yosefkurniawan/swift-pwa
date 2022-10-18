@@ -24,7 +24,7 @@ const CoreSimpleOptionItem = ({
     let cartId = '';
     let isLogin = '';
     const {
-        __typename, sku, name, categories, price_range, stock_status, url_key,
+        __typename, sku, name, categories, price_range, stock_status, url_key, sale, review,
     } = data;
 
     if (typeof window !== 'undefined') {
@@ -32,6 +32,7 @@ const CoreSimpleOptionItem = ({
         cartId = getCartId();
     }
 
+    const reviewValue = parseInt(review?.rating_summary, 0) / 20;
     const [addConfigurableProducts] = addConfigurableProductsToCart();
     const [getGuestCartId] = queryGetGuestCartId();
     const cartUser = getCustomerCartId();
@@ -141,7 +142,7 @@ const CoreSimpleOptionItem = ({
                         },
                     ],
                 };
-
+                // GTM UA dataLayer
                 TagManager.dataLayer({
                     dataLayer: {
                         event: 'addToCart',
@@ -164,7 +165,31 @@ const CoreSimpleOptionItem = ({
                         },
                     },
                 });
-
+                // GA 4 dataLayer
+                TagManager.dataLayer({
+                    dataLayer: {
+                        event: 'add_to_cart',
+                        ecommerce: {
+                            action: {
+                                items: [
+                                    {
+                                        item_name: name,
+                                        item_id: sku,
+                                        price: price_range.minimum_price.regular_price.value || 0,
+                                        item_category: categories.length > 0 ? categories[0].name : '',
+                                        item_list_name: categories.length > 0 ? categories[0].name : '',
+                                        quantity: qty,
+                                        currency: price_range.minimum_price.regular_price.currency || 'USD',
+                                        item_stock_status: stock_status,
+                                        item_reviews_score: reviewValue,
+                                        item_reviews_count: review.reviews_count,
+                                        item_sale_product: sale === 0 ? 'NO' : 'YES',
+                                    },
+                                ],
+                            },
+                        },
+                    },
+                });
                 addConfigurableProducts({
                     variables,
                 })
