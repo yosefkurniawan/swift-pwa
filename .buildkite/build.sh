@@ -10,6 +10,6 @@ githead=$(git rev-list -1 tags/$2)
 set -ex
 echo "Building Backend Docker image with tag " $$githead-$$ts
 echo $githead-$ts | buildkite-agent meta-data set "image-tag" 
-docker login -u _json_key -p "$(cat /etc/service_key/service-account-key.json | tr '\n' ' ')" https://asia.gcr.io.
+docker login -u _json_key -p "$(cat /etc/service_key/service-account-key.json | tr '\n' ' ')" https://asia.gcr.io
 docker build -t asia.gcr.io/sirclo-iii-nonprod/$1:$2-$ts -f Dockerfile.swift-pwa .
 docker push asia.gcr.io/sirclo-iii-nonprod/$1:$2-$ts
