@@ -1,16 +1,27 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Typography from '@common_typography';
+import useStyles from '@core_modules/checkout/components/radioitem/style';
+import { formatPrice } from '@helpers/currency';
 import Radio from '@material-ui/core/Radio';
 import classNames from 'classnames';
-import { formatPrice } from '@helpers/currency';
-import useStyles from '@core_modules/checkout/components/radioitem/style';
 
 const RadioDeliveryItem = (props) => {
     const styles = useStyles();
     const {
-        value, label, promoLabel, selected, onChange = () => { }, borderBottom = true, image = null, classContent = '',
-        amount, price_incl_tax, storeConfig, disabled = false, code,
+        value,
+        label,
+        promoLabel,
+        selected,
+        onChange = () => {},
+        borderBottom = true,
+        image = null,
+        classContent = '',
+        amount,
+        price_incl_tax,
+        storeConfig,
+        disabled = false,
+        code,
     } = props;
     const handleChange = () => {
         if (!disabled) {
@@ -50,6 +61,16 @@ const RadioDeliveryItem = (props) => {
                 </div>
             </div>
         );
+    } else if (price_incl_tax && price_incl_tax.value === 0 && amount && amount.value === 0) {
+        rightSide = (
+            <div className="row">
+                <div className="col-xs-12 col-sm-6">
+                    <Typography variant="p" type={labelType} className={styles.freeShipping} align="right">
+                        {price_incl_tax.value !== 0 ? formatPrice(price_incl_tax.value, amount.currency || base_currency_code) : 'FREE'}
+                    </Typography>
+                </div>
+            </div>
+        );
     }
 
     const shippingLabel = (
@@ -77,10 +98,7 @@ const RadioDeliveryItem = (props) => {
     if (disabled) return null;
 
     return (
-        <div
-            className={rootStyle}
-            id="checkoutRadioItem"
-        >
+        <div className={rootStyle} id="checkoutRadioItem">
             <Radio
                 color="default"
                 size="small"
@@ -97,9 +115,11 @@ const RadioDeliveryItem = (props) => {
             </div>
             <style jsx>
                 {`
-                    {/* #checkoutRadioItem:hover {
+                     {
+                        /* #checkoutRadioItem:hover {
                         cursor: pointer;
-                    } */}
+                    } */
+                    }
                     #checkoutRadioItem :global(.travelokapay-ic) {
                         background-image: url(/assets/img/traveloka_paylater_ic.jpg);
                         width: 60px;
