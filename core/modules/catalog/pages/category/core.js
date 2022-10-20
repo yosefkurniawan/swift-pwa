@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import Layout from '@layout';
 import { StripHtmlTags } from '@helper_text';
 import { getCategory, getPwaConfig } from '@core_modules/catalog/services/graphql';

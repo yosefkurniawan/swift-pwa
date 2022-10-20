@@ -342,7 +342,13 @@ const ProductItem = (props) => {
                                 Quick View
                             </button>
                         )}
-                        <ImageProductView t={t} handleClick={() => handleClick(props)} spesificProduct={spesificProduct} {...other} />
+                        <ImageProductView
+                            t={t}
+                            handleClick={() => handleClick(props)}
+                            spesificProduct={spesificProduct}
+                            urlKey={url_key}
+                            {...other}
+                        />
                     </div>
                     <div className={styles.detailItem}>
                         <DetailProductView t={t} {...DetailProps} {...other} catalogList={catalogList} />
@@ -428,7 +434,7 @@ const ProductItem = (props) => {
                                     Quick View
                                 </button>
                             )}
-                            <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
+                            <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} urlKey={url_key} {...other} />
                         </div>
                     </div>
                     <div className="col-xs-6 col-sm-6 col-md-8 col-lg-9">

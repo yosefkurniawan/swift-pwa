@@ -1,8 +1,9 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Button from '@material-ui/core/IconButton';
 import PriceFormat from '@common_priceformat';
 import RatingStar from '@common_ratingstar';
-import Typography from '@common_typography';
 import { modules } from '@config';
 import Link from '@material-ui/core/Link';
 import React from 'react';
@@ -32,6 +33,7 @@ const Detail = (props) => {
         enablePrice = true,
         enableProductCompare,
         storeConfig = {},
+        url_key,
     } = props;
     const styles = useStyles();
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
@@ -50,10 +52,10 @@ const Detail = (props) => {
                     <CompareArrowsIcon className={styles.iconCompare} />
                 </Button>
             )}
-            <Link onClick={() => handleClick(props)} className={styles.productLinkButton}>
-                <Typography variant="p" className={styles.productTitle} id="plugin-productTitle-typography" letter="capitalize">
+            <Link href="/[...slug]" as={`/${url_key}`} className={styles.productLinkButton}>
+                <a onClick={() => handleClick(props)} className={styles.productTitle} id="plugin-productTitle-typography">
                     {name}
-                </Typography>
+                </a>
             </Link>
             {showRating && <RatingStar value={ratingValue} />}
             {enablePrice && (

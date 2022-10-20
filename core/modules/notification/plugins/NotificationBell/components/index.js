@@ -2,21 +2,18 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Badge from '@material-ui/core/Badge';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import Router from 'next/router';
+import Link from 'next/link';
 
 const Content = ({ withLink, totalUnread }) => (
-    <div
-        style={{ margin: 20, cursor: 'pointer' }}
-        onClick={() => {
-            if (withLink) {
-                Router.push('/inboxnotification/notification');
-            }
-        }}
+    <Link
+        href={withLink && '/inboxnotification/notification'}
     >
-        <Badge color="secondary" badgeContent={totalUnread || 0}>
-            <NotificationsIcon color="secondary" />
-        </Badge>
-    </div>
+        <a style={{ margin: 20, cursor: 'pointer' }}>
+            <Badge color="secondary" badgeContent={totalUnread || 0}>
+                <NotificationsIcon color="secondary" />
+            </Badge>
+        </a>
+    </Link>
 );
 
 export default Content;
