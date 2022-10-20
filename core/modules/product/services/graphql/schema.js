@@ -291,6 +291,9 @@ const productDetailFragment = (config = {}) => gql`
         category_name
       }
     }
+    meta_title
+    meta_description
+    meta_keyword
     special_from_date
     special_to_date
     price_range @skip(if: $includePrice) {
