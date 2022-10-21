@@ -10,7 +10,6 @@ import dynamic from 'next/dynamic';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
 import SimpleReactLightbox, { SRLWrapper, useLightbox } from 'simple-react-lightbox';
-import Link from '@material-ui/core/Link';
 import PopupMapVideo from '@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/PopupMapVideo';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 
@@ -36,7 +35,7 @@ const ImageWithAction = ({
     const imageUrl = generateThumborUrl(src, 500, 500, enable, useHttpsOrHttp, url_thumbor);
     return (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
-        <Link onClick={handleClick}>
+        <a onClick={handleClick}>
             <source srcSet={imageUrl} type="image/webp" />
             <source srcSet={getImageFallbackUrl(imageUrl)} type="image/jpeg" />
             <img
@@ -48,7 +47,7 @@ const ImageWithAction = ({
                     e.target.src = '/assets/img/placeholder.png';
                 }}
             />
-        </Link>
+        </a>
     );
 };
 

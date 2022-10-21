@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -5,7 +7,6 @@ import React from 'react';
 import Thumbor from '@common_image';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
-import Link from '@material-ui/core/Link';
 import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
 import SimpleReactLightbox, { SRLWrapper, useLightbox } from 'simple-react-lightbox';
 import PopupMapVideo from '@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/PopupMapVideo';
@@ -24,7 +25,7 @@ const ImageWithAction = ({
         }
     };
     return (
-        <Link onClick={handleClick}>
+        <a onClick={handleClick}>
             <Thumbor
                 magezon
                 // eslint-disable-next-line no-nested-ternary
@@ -38,7 +39,7 @@ const ImageWithAction = ({
                 storeConfig={storeConfig}
                 {...other}
             />
-        </Link>
+        </a>
     );
 };
 
