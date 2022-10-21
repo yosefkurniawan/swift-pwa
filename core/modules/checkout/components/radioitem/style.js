@@ -1,9 +1,6 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { PRIMARY } from '@theme_color';
-import {
-    CreateBorder,
-    FlexRow,
-} from '@theme_mixins';
+import { CreateBorder, FlexRow } from '@theme_mixins';
 
 export default makeStyles(() => ({
     root: {
@@ -37,5 +34,9 @@ export default makeStyles(() => ({
     notPromo: {
         marginLeft: 'auto',
         fontWeight: 'normal',
+    },
+    freeShipping: {
+        marginLeft: 'auto',
+        fontWeight: 'bold',
     },
 }));

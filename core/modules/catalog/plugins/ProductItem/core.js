@@ -279,7 +279,7 @@ const ProductItem = (props) => {
 
     const handleQuickView = async () => {
         window.backdropLoader(true);
-        await getProduct({
+        getProduct({
             variables: {
                 url_key,
             },

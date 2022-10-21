@@ -17,6 +17,24 @@ const ImageDetail = (props) => {
 
     if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
     if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+    if (!storeConfig || !storeConfig.pwa) {
+        return (
+            <Link onClick={handleClick} style={{ width: '100%' }}>
+                <img
+                    data-pagespeed-no-defer
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        position: 'absolute',
+                        top: '0',
+                        left: '0',
+                    }}
+                    src="/assets/img/placeholder.png"
+                    alt="placeholkder"
+                />
+            </Link>
+        );
+    }
 
     return (
         <Link href="/[...slug]" as={`/${urlKey}`}>

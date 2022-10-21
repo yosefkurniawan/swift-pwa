@@ -27,7 +27,7 @@ const DefaultContent = (props) => {
             </div>
             <div className="col-xs-12 col-sm-10 row">
                 <div className="col-xs-12 col-md-12">
-                    <Body {...props} />
+                    <Body storeConfig={storeConfig} {...props} />
                 </div>
                 {
                     position !== 0
