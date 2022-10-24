@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -10,8 +9,8 @@ import Drawer from '@material-ui/core/Drawer';
 import Skeleton from '@plugin_minicart/components/skeleton';
 import ItemCart from '@plugin_minicart/components/product';
 import useStyles from '@plugin_minicart/components/style';
+
 import PaypalButtonView from '@plugin_paypalbutton';
-import Link from 'next/link';
 
 const MiniComponent = (props) => {
     const router = useRouter();
@@ -44,17 +43,16 @@ const MiniComponent = (props) => {
                             </span>
                             <span>{data.prices ? formatPrice(subtotal_including_tax, subtotal_including_tax_currency) : '-'}</span>
                         </div>
-                        <Link href="/checkout/cart">
-                            <a
-                                id="plugin-minicart-editCartBtn"
-                                className="edit-cart"
-                                onClick={() => {
-                                    setOpen();
-                                }}
-                            >
-                                {t('common:button:viewandedit')}
-                            </a>
-                        </Link>
+                        <div
+                            id="plugin-minicart-editCartBtn"
+                            className="edit-cart"
+                            onClick={() => {
+                                setOpen();
+                                router.push('/checkout/cart');
+                            }}
+                        >
+                            {t('common:button:viewandedit')}
+                        </div>
                         {!disabled && (
                             <div className="checkout">
                                 <div

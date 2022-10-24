@@ -22,12 +22,12 @@ const ItemFeatured = (props) => {
                             </a>
                         </Link>
                     ) : (
-                        <a
+                        <div
                             key={key}
                             className={styles.container}
                         >
                             <img className={styles.imgBrand} src={logo} alt={name} />
-                        </a>
+                        </div>
                     )}
                 </>
             ) : null}

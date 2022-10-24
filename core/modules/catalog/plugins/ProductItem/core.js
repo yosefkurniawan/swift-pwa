@@ -252,28 +252,12 @@ const ProductItem = (props) => {
         if (modules.checkout.checkoutOnly) {
             window.open(`${getStoreHost(getAppEnv()) + url_key}.html`);
         } else {
-            const { name, small_image } = props;
-            const sharedProp = {
-                name,
-                small_image,
-                price,
-            };
             const urlResolver = getResolver();
             urlResolver[`/${url_key}`] = {
                 type: 'PRODUCT',
             };
             await setResolver(urlResolver);
             setCookies('lastCategory', categorySelect);
-            route.push(
-                {
-                    pathname: '/[...slug]',
-                    query: {
-                        slug: url_key,
-                        productProps: JSON.stringify(sharedProp),
-                    },
-                },
-                `/${url_key}`,
-            );
         }
     };
 
@@ -440,7 +424,13 @@ const ProductItem = (props) => {
                                     Quick View
                                 </button>
                             )}
-                            <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} urlKey={url_key} {...other} />
+                            <ImageProductView
+                                t={t}
+                                handleClick={handleClick}
+                                spesificProduct={spesificProduct}
+                                urlKey={url_key}
+                                {...other}
+                            />
                         </div>
                     </div>
                     <div className="col-xs-6 col-sm-6 col-md-8 col-lg-9">

@@ -22,6 +22,24 @@ const useStyles = makeStyles({
     },
 });
 
+const ItemBreadcrub = ({
+    label, link, active, id, handleClick,
+}) => {
+    if (link) {
+        return (
+            <Link href={`${link}`} passHref>
+                <a onClick={() => handleClick(link, id)}>
+                    <Chip size="small" label={label} color={active ? 'secondary' : 'default'} />
+                </a>
+            </Link>
+        );
+    }
+
+    return (
+        <Chip size="small" label={label} color={active ? 'secondary' : 'default'} />
+    );
+};
+
 const CustomBreadcrumb = ({ data = [], variant = 'text' }) => {
     const handleClick = async (url, id) => {
         const urlResolver = getResolver();
@@ -43,25 +61,35 @@ const CustomBreadcrumb = ({ data = [], variant = 'text' }) => {
                 variant === 'chip' ? data.map(({
                     label, link, active, id,
                 }, index) => (
-                    <Link href={`${link}`} passHref key={index}>
-                        <a onClick={() => handleClick(link, id)}>
-                            <Chip size="small" label={label} color={active ? 'secondary' : 'default'} />
-                        </a>
-                    </Link>
+                    <ItemBreadcrub
+                        key={index}
+                        label={label}
+                        link={link}
+                        active={active}
+                        id={id}
+                        handleClick={handleClick}
+                    />
                 ))
                     : data.map(({
                         label, link, active, id,
-                    }, index) => (
-                        <Link
-                            href={link}
-                            onClick={index === data.length - 1 ? () => {} : () => handleClick(link, id)}
-                            key={index}
-                        >
-                            <a>
-                                <Typography variant="p" type={active ? 'bold' : 'regular'}>{label}</Typography>
-                            </a>
-                        </Link>
-                    ))
+                    }, index) => {
+                        if (link) {
+                            return (
+                                <Link
+                                    href={link}
+                                    onClick={index === data.length - 1 ? () => {} : () => handleClick(link, id)}
+                                    key={index}
+                                >
+                                    <a>
+                                        <Typography variant="p" type={active ? 'bold' : 'regular'}>{label}</Typography>
+                                    </a>
+                                </Link>
+                            );
+                        }
+                        return (
+                            <Typography variant="p" type={active ? 'bold' : 'regular'}>{label}</Typography>
+                        );
+                    })
             }
         </Breadcrumbs>
     );
