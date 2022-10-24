@@ -5,7 +5,7 @@ import Button from '@material-ui/core/IconButton';
 import PriceFormat from '@common_priceformat';
 import RatingStar from '@common_ratingstar';
 import { modules } from '@config';
-import Link from '@material-ui/core/Link';
+import Link from 'next/link';
 import React from 'react';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
@@ -33,7 +33,7 @@ const Detail = (props) => {
         enablePrice = true,
         enableProductCompare,
         storeConfig = {},
-        url_key,
+        urlKey,
     } = props;
     const styles = useStyles();
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
@@ -52,7 +52,7 @@ const Detail = (props) => {
                     <CompareArrowsIcon className={styles.iconCompare} />
                 </Button>
             )}
-            <Link href="/[...slug]" as={`/${url_key}`} className={styles.productLinkButton}>
+            <Link href="/[...slug]" as={`/${urlKey}`} className={styles.productLinkButton}>
                 <a onClick={() => handleClick(props)} className={styles.productTitle} id="plugin-productTitle-typography">
                     {name}
                 </a>
