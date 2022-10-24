@@ -9,9 +9,9 @@ const CustomImage = ({
     src, width = 500, height = 500, magezon,
     classContainer = '', className = '', alt = 'Image', quality = 100, style = {}, lazy = false, storeConfig = {}, ...other
 }) => {
-    const enable = storeConfig.pwa.thumbor_enable;
-    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
-    const url = storeConfig.pwa.thumbor_url;
+    const enable = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_https_http;
+    const url = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_url;
     const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, url);
     const [imgSource, setImgSource] = useState(imageUrl);
 

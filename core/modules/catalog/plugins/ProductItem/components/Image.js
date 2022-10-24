@@ -8,7 +8,7 @@ import useStyles from '@plugin_productitem/style';
 
 const ImageDetail = (props) => {
     const {
-        handleClick, small_image, spesificProduct, name, storeConfig = {}, urlKey,
+        handleClick, small_image, spesificProduct, urlKey, name, storeConfig = {},
     } = props;
     const styles = useStyles();
 
@@ -17,30 +17,18 @@ const ImageDetail = (props) => {
 
     if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
     if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
-    if (!storeConfig || !storeConfig.pwa) {
-        return (
-            <Link onClick={handleClick} style={{ width: '100%' }}>
-                <img
-                    data-pagespeed-no-defer
-                    style={{
-                        width: '100%',
-                        height: '100%',
-                        position: 'absolute',
-                        top: '0',
-                        left: '0',
-                    }}
-                    src="/assets/img/placeholder.png"
-                    alt="placeholkder"
-                />
-            </Link>
-        );
-    }
-
     return (
-        <Link href="/[...slug]" as={`/${urlKey}`}>
+        <Link
+            href={{
+                pathname: '/[...slug]',
+                query: {
+                    slug: urlKey,
+                },
+            }}
+        >
             <a onClick={handleClick} style={{ width: '100%' }}>
                 <Thumbor
-                    // eslint-disable-next-line no-nested-ternary
+                // eslint-disable-next-line no-nested-ternary
                     src={spesificProduct.id ? spesificProduct.image.url
                         : small_image && small_image.url
                             ? small_image.url
