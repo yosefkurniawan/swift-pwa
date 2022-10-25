@@ -60,11 +60,13 @@ const ViewThanksMultiSeller = (props) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {
-                            customerOrder && customerOrder.length > 0 && customerOrder.map((item, key) => (
+                        {customerOrder
+                            && customerOrder.length > 0
+                            && customerOrder.map((item, key) => (
                                 <TableRow key={key}>
                                     <StyledTableCell component="th" scope="row">
-                                        {item.seller_name}
+                                        {item.seller_name && `${item.seller_name}`}
+                                        {item.seller_city && ` - ${item.seller_city}`}
                                     </StyledTableCell>
                                     <StyledTableCell align="right">
                                         {isLogin && isLogin === 1 ? (
@@ -78,8 +80,7 @@ const ViewThanksMultiSeller = (props) => {
                                         )}
                                     </StyledTableCell>
                                 </TableRow>
-                            ))
-                        }
+                            ))}
                     </TableBody>
                 </Table>
             </TableContainer>

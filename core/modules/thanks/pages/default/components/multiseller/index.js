@@ -31,33 +31,35 @@ const CoreMultiseller = (props) => {
     const [customerOrder, setCustomerOrder] = React.useState([]);
     const [loader, setLoader] = React.useState(true);
 
-    const getCustomerOrder = (order_number) => new Promise((resolve, reject) => {
-        try {
-            apolloClient
-                .query({
-                    query: Schema.getCustomerOrder,
-                    variables: { order_number },
-                    context: {
-                        request: 'internal',
-                    },
-                    errorPolicy: 'all',
-                })
-                .then(({ data }) => {
-                    const orderDataInfo = {
-                        order_number,
-                        seller_id: data.customer.orders.items[0].detail[0].items[0].seller_id,
-                        seller_name: data.customer.orders.items[0].detail[0].items[0].seller_name,
-                        ...data,
-                    };
-                    resolve(orderDataInfo);
-                })
-                .catch((e) => {
-                    reject(e);
-                });
-        } catch (e) {
-            reject(e);
-        }
-    });
+    const getCustomerOrder = (order_number) =>
+        new Promise((resolve, reject) => {
+            try {
+                apolloClient
+                    .query({
+                        query: Schema.getOrderSchema,
+                        variables: { order_number },
+                        context: {
+                            request: 'internal',
+                        },
+                        errorPolicy: 'all',
+                    })
+                    .then(({ data }) => {
+                        const orderDataInfo = {
+                            order_number,
+                            seller_id: data.ordersFilter.data[0].seller_id,
+                            seller_name: data.ordersFilter.data[0].seller_name,
+                            seller_city: data.ordersFilter.data[0].seller_city,
+                            ...data,
+                        };
+                        resolve(orderDataInfo);
+                    })
+                    .catch((e) => {
+                        reject(e);
+                    });
+            } catch (e) {
+                reject(e);
+            }
+        });
 
     React.useEffect(() => {
         const parsedCheckoutData = checkoutData;
@@ -96,13 +98,14 @@ const CoreMultiseller = (props) => {
                             actionField: {
                                 id: orders.order_number,
                                 affiliation: storeConfig.store_name || 'Swift PWA',
-                                revenue: JSON.stringify(orders.customer.orders.items[0].detail[0].grand_total),
-                                coupon: orders.customer.orders.items[0].detail[0].coupon.is_use_coupon
-                                    ? orders.customer.orders.items[0].detail[0].coupon.code : '',
-                                tax: JSON.stringify(orders.customer.orders.items[0].detail[0].tax_amount),
-                                shipping: JSON.stringify(orders.customer.orders.items[0].detail[0].payment.shipping_amount),
+                                revenue: JSON.stringify(orders.ordersFilter.data[0].detail[0].grand_total),
+                                coupon: orders.ordersFilter.data[0].detail[0].coupon.is_use_coupon
+                                    ? orders.ordersFilter.data[0].detail[0].coupon.code
+                                    : '',
+                                tax: JSON.stringify(orders.ordersFilter.data[0].detail[0].tax_amount),
+                                shipping: JSON.stringify(orders.ordersFilter.data[0].detail[0].payment.shipping_amount),
                             },
-                            products: orders.customer.orders.items[0].detail[0].items.map((product) => ({
+                            products: orders.ordersFilter.data[0].detail[0].items.map((product) => ({
                                 name: product.name,
                                 id: product.sku,
                                 category: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
@@ -112,7 +115,7 @@ const CoreMultiseller = (props) => {
                                 dimension4: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
                                 dimension5: JSON.stringify(product.rating.total),
                                 dimension6: JSON.stringify(product.rating.value),
-                                dimension7: orders.customer.orders.items[0].detail[0].discount_amount !== 0 ? 'YES' : 'NO',
+                                dimension7: orders.ordersFilter.data[0].detail[0].discount_amount !== 0 ? 'YES' : 'NO',
                             })),
                         },
                         currencyCode: storeConfig.base_currency_code || 'IDR',
@@ -131,15 +134,16 @@ const CoreMultiseller = (props) => {
                             purchase: {
                                 transaction_id: orders.order_number,
                                 affiliation: storeConfig.store_name || 'Swift PWA',
-                                value: JSON.stringify(orders.customer.orders.items[0].detail[0].grand_total),
-                                coupon: orders.customer.orders.items[0].detail[0].coupon.is_use_coupon
-                                    ? orders.customer.orders.items[0].detail[0].coupon.code : '',
-                                tax: JSON.stringify(orders.customer.orders.items[0].detail[0].tax_amount),
-                                shipping: JSON.stringify(orders.customer.orders.items[0].detail[0].payment.shipping_amount),
+                                value: JSON.stringify(orders.ordersFilter.data[0].detail[0].grand_total),
+                                coupon: orders.ordersFilter.data[0].detail[0].coupon.is_use_coupon
+                                    ? orders.ordersFilter.data[0].detail[0].coupon.code
+                                    : '',
+                                tax: JSON.stringify(orders.ordersFilter.data[0].detail[0].tax_amount),
+                                shipping: JSON.stringify(orders.ordersFilter.data[0].detail[0].payment.shipping_amount),
                                 currency: storeConfig.base_currency_code || 'IDR',
-                                total_lifetime_value: JSON.stringify(orders.customer.orders.items[0].detail[0].grand_total),
+                                total_lifetime_value: JSON.stringify(orders.ordersFilter.data[0].detail[0].grand_total),
                                 seller: orders.seller_name,
-                                items: orders.customer.orders.items[0].detail[0].items.map((product) => ({
+                                items: orders.ordersFilter.data[0].detail[0].items.map((product) => ({
                                     currency: storeConfig.base_currency_code || 'IDR',
                                     item_name: product.name,
                                     item_id: product.sku,
