@@ -20,9 +20,9 @@ const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
 
 const {
-    expiredToken, nossrCache, features, assetsVersion,
+    expiredToken, nossrCache, features, assetsVersion, graphqlEndpoint,
 } = require('./swift.config');
-const { SESSION_SECRET } = require('./swift-server.config');
+const { getAppEnv } = require('./core/helpers/env');
 const generateXml = require('./core/api/rest/xml');
 const captchaValidation = require('./core/api/rest/captcha');
 const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
@@ -84,19 +84,13 @@ async function renderAndCache(req, res) {
 }
 
 (async () => {
-    const botList = fs.readFileSync('./botlist.txt')
-        .toString()
-        .split('\n')
-        .filter(Boolean);
+    const botList = fs.readFileSync('./botlist.txt').toString().split('\n').filter(Boolean);
 
     await app.prepare();
     const server = express();
 
     // block bot
-    server.use(blocker(
-        botList,
-        { text: 'Unauthorized request' },
-    ));
+    server.use(blocker(botList, { text: 'Unauthorized request' }));
 
     server.use(cookieParser());
     // disable x-powered-by
@@ -136,6 +130,27 @@ async function renderAndCache(req, res) {
 
     await nextI18next.initPromise;
     // server.use(nextI18NextMiddleware(nextI18next));
+
+    const query = `{
+        storeConfig {
+            swift_server {
+                session_secret
+            }
+        }
+    }`;
+
+    const SESSION_SECRET = fetch(`${graphqlEndpoint[getAppEnv()]}?query=${encodeURI(query)}`, {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer z42nzj61mfsbe5ys0qo2h5vha1icxe5a',
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => response.json())
+        .then((responseJson) => responseJson.data.storeConfig.swift_server.session_secret)
+        .catch((err) => {
+            console.log(err);
+        });
     server.use(
         cookieSession({
             name: 'qwt-swift',

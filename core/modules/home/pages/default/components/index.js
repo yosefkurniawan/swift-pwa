@@ -1,10 +1,10 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable max-len */
-import * as React from 'react';
-import dynamic from 'next/dynamic';
-import useStyles from '@core_modules/home/pages/default/components/style';
 import CmsPage from '@core_modules/cms/pages/default';
+import useStyles from '@core_modules/home/pages/default/components/style';
 import classNames from 'classnames';
+import dynamic from 'next/dynamic';
+import * as React from 'react';
 
 const BannerSlider = dynamic(() => import('@core_modules/home/pages/default/components/Banner'));
 const FeaturedProducts = dynamic(() => import('@core_modules/home/pages/default/components/FeaturedProducts'));
@@ -14,9 +14,7 @@ const Content = (props) => {
     const styles = useStyles();
     let useCmsPage = {};
 
-    const {
-        homePageConfig, storeConfig: config, ...other
-    } = props;
+    const { homePageConfig, storeConfig: config, ...other } = props;
 
     let storeConfig = config;
 

@@ -9,7 +9,7 @@
  */
 const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
 const { getAppEnv } = require('../../../helpers/env');
-const { modules, graphqlEndpoint } = require('../../../../swift.config');
+const { graphqlEndpoint } = require('../../../../swift.config');
 
 /**
  *
@@ -17,44 +17,41 @@ const { modules, graphqlEndpoint } = require('../../../../swift.config');
  * This sample uses SandboxEnvironment. In production, use LiveEnvironment.
  *
  */
-const query = `{
-    storeConfig {
-        paypal_key {
-            cancel_url
-            client_id
-            client_secret
-            disable_funding
-            intent
-            key_data
-            key_token
-            path
-            redirect_url
-        }
-    }
-}`;
-
 function environment() {
-                           // fetch(`${graphqlEndpoint[getAppEnv()]}?${encodeURI(query)}`, {
-                           //     method: 'GET',
-                           //     headers: {
-                           //         Authorization: 'Bearer z42nzj61mfsbe5ys0qo2h5vha1icxe5a',
-                           //     },
-                           // })
-                           //     .then((res) => {
-                           //         console.log(res.json());
-                           //         const appEnv = getAppEnv();
-                           //         const clientId = modules.paypal.clientId[appEnv];
-                           //         const clientSecret = modules.paypal.clientSecret[appEnv];
+    const query = `{
+        storeConfig {
+            paypal_key {
+                cancel_url
+                client_id
+                client_secret
+                disable_funding
+                intent
+                key_data
+                key_token
+                path
+                return_url
+            }
+        }
+    }`;
 
-                           //         return new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret);
-                           //     })
-                           //     .catch(() => {});
-                           const appEnv = getAppEnv();
-                           const clientId = modules.paypal.clientId[appEnv];
-                           const clientSecret = modules.paypal.clientSecret[appEnv];
+    fetch(`${graphqlEndpoint[getAppEnv()]}?query=${encodeURI(query)}`, {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer z42nzj61mfsbe5ys0qo2h5vha1icxe5a',
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            const clientId = responseJson.data.storeConfig.paypal_key.client_id;
+            const clientSecret = responseJson.data.storeConfig.paypal_key.client_secret;
 
-                           return new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret);
-                       }
+            return new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
 
 /**
  *

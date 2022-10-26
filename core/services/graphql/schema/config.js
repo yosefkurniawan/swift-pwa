@@ -301,9 +301,6 @@ export const storeConfig = `
       aw_blog_related_products_display_add_to_cart
       weltpixel_RecentlyViewedBar_general_enable
       weltpixel_thankyoupage_create_account_enable
-      payment_travelokapay_public_key
-      payment_travelokapay_user_id
-      payment_travelokapay_bin_whitelist
       pin_location_latitude
       pin_location_longitude
       minimum_order_amount
