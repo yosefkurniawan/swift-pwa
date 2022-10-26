@@ -1,9 +1,9 @@
 /* eslint-disable no-plusplus */
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import Router from 'next/router';
-import { getProduct, getCategoryByName, getSeller } from '@core_modules/theme/services/graphql';
+import { getCategoryByName, getProduct, getSellerByName } from '@core_modules/theme/services/graphql';
 import { useTranslation } from '@i18n';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Router from 'next/router';
 
 let globalTimeout = null;
 
@@ -75,12 +75,12 @@ export default function ComboBox(props) {
 
     const [actGetCategory, { data: dCategory }] = getCategoryByName(search);
 
-    const [actGetSeller, { data: dSeller }] = getSeller();
+    const [actGetSeller, { data: dSeller }] = getSellerByName(search);
 
     let itemData = [];
-    if ((enableMultiseller === '1') && data && dCategory && dSeller && !open && !loading) {
+    if (enableMultiseller === '1' && data && dCategory && dSeller && !open && !loading) {
         itemData = generateItemData(data.products, dCategory.categoryList, dSeller.getSeller, enableMultiseller);
-    } else if ((enableMultiseller === '0') && data && dCategory && !open && !loading) {
+    } else if (enableMultiseller === '0' && data && dCategory && !open && !loading) {
         itemData = generateItemData(data.products, dCategory.categoryList, enableMultiseller);
     }
 
@@ -107,17 +107,9 @@ export default function ComboBox(props) {
             if (!called) {
                 actGetProduct();
                 actGetCategory();
-                if (enableMultiseller === '1') {
-                    actGetSeller({
-                        variables: {
-                            input: {
-                                keyword: search,
-                            },
-                        },
-                    });
-                }
+                actGetSeller();
             }
-        }, 300);
+        }, 150);
     };
 
     const handleKeyPress = (e) => {
@@ -162,19 +154,25 @@ export default function ComboBox(props) {
                     setClose(true);
 
                     if (value.type === 'seller') {
-                        Router.push({
-                            pathname: '/[...slug]',
-                            query: {
-                                productProps: JSON.stringify(sharedProp),
+                        Router.push(
+                            {
+                                pathname: '/[...slug]',
+                                query: {
+                                    productProps: JSON.stringify(sharedProp),
+                                },
                             },
-                        }, `/seller/${value.id}`);
+                            `/seller/${value.id}`,
+                        );
                     } else {
-                        Router.push({
-                            pathname: '/[...slug]',
-                            query: {
-                                productProps: JSON.stringify(sharedProp),
+                        Router.push(
+                            {
+                                pathname: '/[...slug]',
+                                query: {
+                                    productProps: JSON.stringify(sharedProp),
+                                },
                             },
-                        }, `/${value.url_key}`);
+                            `/${value.url_key}`,
+                        );
                     }
                 }
             }}
