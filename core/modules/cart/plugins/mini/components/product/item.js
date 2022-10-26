@@ -19,7 +19,7 @@ const Item = (props) => {
     return (
         <li>
             <div id="plugin-minicart-itemsProduct" className="product">
-                <Link href="/[...slug]" as={`/${product.url_key}`}>
+                <Link href="/[...slug]" as={`/${product.url_key}`} passHref>
                     <a className="product-item-photo">
                         <Thumbor
                             className="product-image-photo"

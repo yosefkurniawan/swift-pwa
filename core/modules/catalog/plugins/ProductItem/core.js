@@ -252,28 +252,12 @@ const ProductItem = (props) => {
         if (modules.checkout.checkoutOnly) {
             window.open(`${getStoreHost(getAppEnv()) + url_key}.html`);
         } else {
-            const { name, small_image } = props;
-            const sharedProp = {
-                name,
-                small_image,
-                price,
-            };
             const urlResolver = getResolver();
             urlResolver[`/${url_key}`] = {
                 type: 'PRODUCT',
             };
             await setResolver(urlResolver);
             setCookies('lastCategory', categorySelect);
-            route.push(
-                {
-                    pathname: '/[...slug]',
-                    query: {
-                        slug: url_key,
-                        productProps: JSON.stringify(sharedProp),
-                    },
-                },
-                `/${url_key}`,
-            );
         }
     };
 
@@ -351,7 +335,13 @@ const ProductItem = (props) => {
                         />
                     </div>
                     <div className={styles.detailItem}>
-                        <DetailProductView t={t} {...DetailProps} {...other} catalogList={catalogList} />
+                        <DetailProductView
+                            t={t}
+                            urlKey={url_key}
+                            catalogList={catalogList}
+                            {...DetailProps}
+                            {...other}
+                        />
                         {modules.product.customizableOptions.enabled && (
                             <CustomizableOption
                                 price={price}
@@ -434,13 +424,19 @@ const ProductItem = (props) => {
                                     Quick View
                                 </button>
                             )}
-                            <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} urlKey={url_key} {...other} />
+                            <ImageProductView
+                                t={t}
+                                handleClick={handleClick}
+                                spesificProduct={spesificProduct}
+                                urlKey={url_key}
+                                {...other}
+                            />
                         </div>
                     </div>
                     <div className="col-xs-6 col-sm-6 col-md-8 col-lg-9">
                         <div className="row start-xs">
                             <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <DetailProductView t={t} {...DetailProps} {...other} enableWishlist={false} />
+                                <DetailProductView t={t} {...DetailProps} {...other} enableWishlist={false} urlKey={url_key} />
                             </div>
                             <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 {showOption ? (
