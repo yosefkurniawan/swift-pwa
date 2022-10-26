@@ -69,6 +69,7 @@ const SwitcherLanguage = (props) => {
                 getLangFromStorage();
             }
         }
+        return () => (mount.current = false);
     }, [remoteLang]);
 
     /**
