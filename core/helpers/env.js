@@ -6,15 +6,15 @@ const getAppEnv = () => {
     return process.env.APP_ENV;
 };
 
-const getHeaderEnv = () => {
+const getAccessEnv = () => {
     if (typeof window !== 'undefined') {
-        return window.HEADER_ENV;
+        return window.ACCESS_KEY;
     }
 
-    return process.env.HEADER_ENV;
+    return process.env.ACCESS_KEY;
 };
 
 module.exports = {
     getAppEnv,
-    getHeaderEnv,
+    getAccessEnv,
 };

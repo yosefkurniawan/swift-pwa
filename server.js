@@ -22,7 +22,7 @@ const handle = app.getRequestHandler();
 const {
     expiredToken, nossrCache, features, assetsVersion, graphqlEndpoint,
 } = require('./swift.config');
-const { getAppEnv, getHeaderEnv } = require('./core/helpers/env');
+const { getAppEnv, getAccessEnv } = require('./core/helpers/env');
 const generateXml = require('./core/api/rest/xml');
 const captchaValidation = require('./core/api/rest/captcha');
 const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
@@ -142,7 +142,7 @@ async function renderAndCache(req, res) {
     const SESSION_SECRET = fetch(`${graphqlEndpoint[getAppEnv()]}?query=${encodeURI(query)}`, {
         method: 'GET',
         headers: {
-            Authorization: `Bearer ${getHeaderEnv()}`,
+            Authorization: `Bearer ${getAccessEnv()}`,
             'Content-Type': 'application/json',
         },
     })

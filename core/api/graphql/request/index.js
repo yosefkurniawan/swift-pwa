@@ -4,17 +4,17 @@ const { GraphQLClient } = require('graphql-request');
 const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
 
 const { decrypt } = require('../../../helpers/encryption');
-const { getAppEnv, getHeaderEnv } = require('../../../helpers/env');
+const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
 
 function requestGraph(query, variables = {}, context = {}, config = {}) {
     let token = '';
     if (config.token) {
         if (query.includes('snap_client_key')) {
-            token = `Bearer ${getHeaderEnv()}`;
+            token = `Bearer ${getAccessEnv()}`;
         } else token = `Bearer ${config.token}`;
     } else if (context.session || context.headers) {
         if (query.includes('snap_client_key')) {
-            token = `Bearer ${getHeaderEnv()}`;
+            token = `Bearer ${getAccessEnv()}`;
         } else {
             token = context.session.token
                 ? `Bearer ${decrypt(context.session.token)}`
@@ -28,7 +28,7 @@ function requestGraph(query, variables = {}, context = {}, config = {}) {
         if (token && token !== '') {
             additionalHeader.Authorization = token;
         } else if (query.includes('snap_client_key')) {
-            token = `Bearer ${getHeaderEnv()}`;
+            token = `Bearer ${getAccessEnv()}`;
             additionalHeader.Authorization = token;
         }
         const headers = {

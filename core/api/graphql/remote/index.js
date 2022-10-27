@@ -4,7 +4,7 @@ const { print } = require('graphql');
 const { wrapSchema, introspectSchema } = require('@graphql-tools/wrap');
 const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
 const { decrypt } = require('../../../helpers/encryption');
-const { getAppEnv, getHeaderEnv } = require('../../../helpers/env');
+const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
 
 const executor = async ({ document, variables, context }) => {
     try {
@@ -28,7 +28,7 @@ const executor = async ({ document, variables, context }) => {
         if (token && token !== '') {
             additionalHeader.Authorization = `Bearer ${decrypt(token)}`;
         } else {
-            token = `Bearer ${getHeaderEnv()}`;
+            token = `Bearer ${getAccessEnv()}`;
             additionalHeader.Authorization = `Bearer ${token}`;
         }
         if (checkoutToken && checkoutToken !== '') {

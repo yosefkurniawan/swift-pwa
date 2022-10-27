@@ -8,7 +8,7 @@
  * PayPal Node JS SDK dependency
  */
 const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
-const { getAppEnv, getHeaderEnv } = require('../../../helpers/env');
+const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
 const { graphqlEndpoint } = require('../../../../swift.config');
 
 /**
@@ -37,7 +37,7 @@ function environment() {
     fetch(`${graphqlEndpoint[getAppEnv()]}?query=${encodeURI(query)}`, {
         method: 'GET',
         headers: {
-            Authorization: `Bearer ${getHeaderEnv()}`,
+            Authorization: `Bearer ${getAccessEnv()}`,
             'Content-Type': 'application/json',
         },
     })

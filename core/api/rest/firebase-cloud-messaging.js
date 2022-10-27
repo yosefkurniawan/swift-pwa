@@ -1,4 +1,4 @@
-const { getAppEnv, getHeaderEnv } = require('../../helpers/env');
+const { getAppEnv, getAccessEnv } = require('../../helpers/env');
 const { graphqlEndpoint } = require('../../../swift.config');
 
 /* eslint-disable no-unused-vars */
@@ -18,7 +18,7 @@ module.exports = (req, res) => {
         fetch(`${graphqlEndpoint[getAppEnv()]}?query=${encodeURI(query)}`, {
             method: 'GET',
             headers: {
-                Authorization: `Bearer ${getHeaderEnv()}`,
+                Authorization: `Bearer ${getAccessEnv()}`,
                 'Content-Type': 'application/json',
             },
         })
