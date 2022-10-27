@@ -1,5 +1,5 @@
 import { graphqlEndpoint } from '@config';
-import { getAppEnv } from '@helpers/env';
+import { getAppEnv, getHeaderEnv } from '@helpers/env';
 import firebase from 'firebase/app';
 
 require('firebase/auth');
@@ -23,7 +23,7 @@ const query = `{
 const firebaseConfig = fetch(`${graphqlEndpoint[getAppEnv()]}?query=${encodeURI(query)}`, {
     method: 'GET',
     headers: {
-        Authorization: 'Bearer z42nzj61mfsbe5ys0qo2h5vha1icxe5a',
+        Authorization: `Bearer ${getHeaderEnv()}`,
         'Content-Type': 'application/json',
     },
 })
