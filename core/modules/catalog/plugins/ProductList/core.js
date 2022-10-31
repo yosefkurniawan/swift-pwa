@@ -262,9 +262,11 @@ const Product = (props) => {
             const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
             const restoreCatalogPosition = getSessionStorage('restoreCatalogPosition');
             if (prevUrl === lastProductsVisited[0] && restoreCatalogPosition && lastCatalogsOffset[0] !== 0) {
-                window.scrollTo({
-                    top: lastCatalogsOffset[0],
-                });
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: lastCatalogsOffset[0],
+                    });
+                }, 800);
                 sessionStorageItems.forEach((item) => {
                     const itemData = getSessionStorage(item);
                     setSessionStorage(item, itemData.slice(1, itemData.length));
@@ -272,7 +274,7 @@ const Product = (props) => {
                 sessionStorage.removeItem('restoreCatalogPosition');
             }
         }
-    }, [storeConfig]);
+    }, [data, !loading]);
 
     const contentProps = {
         loadmore,
