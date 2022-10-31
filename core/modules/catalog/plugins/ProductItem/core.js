@@ -298,7 +298,7 @@ const ProductItem = (props) => {
 
     const handleQuickView = async () => {
         window.backdropLoader(true);
-        await getProduct({
+        getProduct({
             variables: {
                 url_key,
             },
@@ -361,10 +361,22 @@ const ProductItem = (props) => {
                                 Quick View
                             </button>
                         )}
-                        <ImageProductView t={t} handleClick={() => handleClick(props)} spesificProduct={spesificProduct} {...other} />
+                        <ImageProductView
+                            t={t}
+                            handleClick={() => handleClick(props)}
+                            spesificProduct={spesificProduct}
+                            urlKey={url_key}
+                            {...other}
+                        />
                     </div>
                     <div className={styles.detailItem}>
-                        <DetailProductView t={t} {...DetailProps} {...other} catalogList={catalogList} />
+                        <DetailProductView
+                            t={t}
+                            urlKey={url_key}
+                            catalogList={catalogList}
+                            {...DetailProps}
+                            {...other}
+                        />
                         {modules.product.customizableOptions.enabled && (
                             <CustomizableOption
                                 price={price}
@@ -447,13 +459,19 @@ const ProductItem = (props) => {
                                     Quick View
                                 </button>
                             )}
-                            <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
+                            <ImageProductView
+                                t={t}
+                                handleClick={handleClick}
+                                spesificProduct={spesificProduct}
+                                urlKey={url_key}
+                                {...other}
+                            />
                         </div>
                     </div>
                     <div className="col-xs-6 col-sm-6 col-md-8 col-lg-9">
                         <div className="row start-xs">
                             <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <DetailProductView t={t} {...DetailProps} {...other} enableWishlist={false} />
+                                <DetailProductView t={t} {...DetailProps} {...other} enableWishlist={false} urlKey={url_key} />
                             </div>
                             <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 {showOption ? (

@@ -17,7 +17,7 @@ const CustomerAccount = (props) => {
         bottomNav: 'account',
     };
     const [actionReorder] = mutationReorder();
-    const { data } = getCmsBlocks({ identifiers: [storeConfig.pwa.footer_mobile] });
+    const { data } = getCmsBlocks({ identifiers: [storeConfig.pwa.footer_version] });
 
     const reOrder = (order_id) => {
         if (order_id && order_id !== '') {

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import Layout from '@layout';
 import { StripHtmlTags } from '@helper_text';
 import { getCategory, getPwaConfig } from '@core_modules/catalog/services/graphql';
@@ -18,26 +19,33 @@ const Page = (props) => {
     });
     const { data: dataConfig } = getPwaConfig();
     const storeConfig = dataConfig?.storeConfig || {};
-    const ogContent = {};
     let config = {
         ...pageConfig,
     };
     let schemaOrg = null;
+    let ogDesc;
+    let ogKeyword;
     let category = null;
     if (data && data.categoryList[0]) {
         // eslint-disable-next-line prefer-destructuring
         category = data.categoryList[0];
         schemaOrg = generateSchemaOrg(category, storeConfig);
-        if (data.categoryList[0].description) {
-            ogContent.description = StripHtmlTags(data.categoryList[0].description);
+        if (data.categoryList[0].meta_description || data.categoryList[0].description) {
+            ogDesc = StripHtmlTags(data.categoryList[0].meta_description || data.categoryList[0].description) || '';
+        }
+        if (data.categoryList[0].meta_keywords) {
+            ogKeyword = StripHtmlTags(data.categoryList[0].meta_keywords) || '';
         }
         config = {
-            title: data.categoryList[0]?.name || '',
+            title: data.categoryList[0]?.meta_title || data.categoryList[0]?.name || '',
             headerTitle: data && !data.categoryList[0].image_path ? data.categoryList[0].name : '',
             header: data && data.categoryList[0].image_path ? 'absolute' : 'relative', // available values: "absolute", "relative", false (default)
             bottomNav: 'browse',
             pageType: 'category',
-            ogContent,
+            ogContent: {
+                keywords: ogKeyword,
+                'og:description': ogDesc,
+            },
             schemaOrg,
         };
     }
