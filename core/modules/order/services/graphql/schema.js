@@ -20,6 +20,9 @@ const orderOutput = `
         status
         status_label
         order_number
+        seller_id
+        seller_name
+        seller_city
         created_at
         detail {
             customer_email
@@ -35,14 +38,18 @@ const orderOutput = `
             total_item_count
             total_paid
             total_qty_ordered
-            ${modules.checkout.pickupStore.enabled ? `pickup_store {
+            ${
+    modules.checkout.pickupStore.enabled
+        ? `pickup_store {
                 is_using_pickup_store
                 pickup_person  {
                     email
                     handphone
                     name
                 }
-            }` : ''}
+            }`
+        : ''
+}
             payment {
                 additional_information
                 payment_additional_info {
@@ -79,15 +86,21 @@ const orderOutput = `
             shipping_methods {
                 shipping_description
             }
-            ${modules.promo.enabled ? `coupon {
+            ${
+    modules.promo.enabled
+        ? `coupon {
                 code
                 rule_name
                 is_use_coupon
-            }` : ''}
+            }`
+        : ''
+}
             items {
                 item_id
                 parent_item_id
                 sku
+                seller_id
+                seller_name
                 name
                 qty_ordered
                 price
@@ -109,28 +122,44 @@ const orderOutput = `
                 row_total_incl_tax
             }          
 
-            ${modules.rma.enabled ? `aw_rma {
+            ${
+    modules.rma.enabled
+        ? `aw_rma {
                 status
-            } ` : ''}           
-            ${modules.giftcard.enabled ? `aw_giftcard {
+            } `
+        : ''
+}           
+            ${
+    modules.giftcard.enabled
+        ? `aw_giftcard {
                 giftcard_amount
                 giftcard_detail {
                     giftcard_code
                     giftcard_amount_used
                 }
-            }` : ''}
-            ${modules.storecredit.enabled ? `aw_store_credit {
+            }`
+        : ''
+}
+            ${
+    modules.storecredit.enabled
+        ? `aw_store_credit {
                 is_use_store_credit
                 store_credit_amount
                 store_credit_reimbursed
-            }` : ''}
+            }`
+        : ''
+}
             
-            ${modules.checkout.extraFee.enabled ? `applied_extra_fee {
+            ${
+    modules.checkout.extraFee.enabled
+        ? `applied_extra_fee {
                 extrafee_value {
                   value
                 }
                 title
-              }` : ''}
+              }`
+        : ''
+}
             
         }
     }
