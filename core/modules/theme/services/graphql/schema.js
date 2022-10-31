@@ -249,66 +249,86 @@ export const getSeller = gql`
     }
 `;
 
-export const getRecentlyProduct = () => {
+export const getSellerByName = (name) => {
     const query = gql`
-    query getRecentlyProduct($filter: ProductAttributeFilterInput) {
-      products(filter: $filter) {
-        items {
+        {
+            getSeller(input: { keyword: "${name}" }) {
             id
             name
-            url_key
-            small_image {
-                url
-                label
+            logo
+            status
+            address
+            description
+            city
+            latitude
+            longitude
+            additional_info
             }
-            price_range{
-                maximum_price{
-                  discount{
-                    amount_off
-                    percent_off
-                  }
-                  final_price{
-                    currency
-                    value
-                  }
-                  fixed_product_taxes{
-                    amount{
-                      currency
-                      value
-                    }
-                    label
-                  }
-                  regular_price{
-                    currency
-                    value
-                  }
-                }
-                minimum_price{
-                            discount{
-                    amount_off
-                    percent_off
-                  }
-                  final_price{
-                    currency
-                    value
-                  }
-                  fixed_product_taxes{
-                    amount{
-                      currency
-                      value
-                    }
-                    label
-                  }
-                  regular_price{
-                    currency
-                    value
-                  }
-                }
-              }
         }
-      }
-    }
-  `;
+    `;
+    return query;
+};
+
+export const getRecentlyProduct = () => {
+    const query = gql`
+        query getRecentlyProduct($filter: ProductAttributeFilterInput) {
+            products(filter: $filter) {
+                items {
+                    id
+                    name
+                    url_key
+                    small_image {
+                        url
+                        label
+                    }
+                    price_range {
+                        maximum_price {
+                            discount {
+                                amount_off
+                                percent_off
+                            }
+                            final_price {
+                                currency
+                                value
+                            }
+                            fixed_product_taxes {
+                                amount {
+                                    currency
+                                    value
+                                }
+                                label
+                            }
+                            regular_price {
+                                currency
+                                value
+                            }
+                        }
+                        minimum_price {
+                            discount {
+                                amount_off
+                                percent_off
+                            }
+                            final_price {
+                                currency
+                                value
+                            }
+                            fixed_product_taxes {
+                                amount {
+                                    currency
+                                    value
+                                }
+                                label
+                            }
+                            regular_price {
+                                currency
+                                value
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    `;
     return query;
 };
 /**
@@ -376,6 +396,7 @@ export default {
     getProduct,
     getSeller,
     getCategoryByName,
+    getSellerByName,
     getRecentlyProduct,
     getCountCart,
 };

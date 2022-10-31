@@ -1,10 +1,10 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/alt-text */
-import classNames from 'classnames';
+import useStyles from '@core_modules/theme/components/header/desktop/components/autocomplete/style';
 import { formatPrice } from '@helper_currency';
 import StorefrontIcon from '@material-ui/icons/Storefront';
-import useStyles from '@core_modules/theme/components/header/desktop/components/autocomplete/style';
+import classNames from 'classnames';
 
 const OptionsItem = (props) => {
     const styles = useStyles();
@@ -23,29 +23,16 @@ const OptionsItem = (props) => {
         <>
             {type === 'product' ? (
                 <div className={position === 0 ? classNames(styles.listContainer, styles.firstListContainer) : styles.listContainer}>
-                    {position === 0
-                        ? (
-                            <div className={styles.topTitle}>
-                                Product
-                            </div>
-                        )
-                        : null}
+                    {position === 0 ? <div className={styles.topTitle}>Product</div> : null}
 
                     <div className={styles.imageContainer}>
-                        <img
-                            className={styles.img}
-                            src={small_image.url}
-                        />
+                        <img className={styles.img} src={small_image.url} />
                     </div>
-                    <div className={styles.title}>
-                        {name}
-                    </div>
+                    <div className={styles.title}>{name}</div>
                     {seller_name && (
                         <div className={styles.infoSeller}>
                             <StorefrontIcon className={styles.iconSeller} />
-                            <div className={styles.titleSeller}>
-                                {seller_name}
-                            </div>
+                            <div className={styles.titleSeller}>{seller_name}</div>
                         </div>
                     )}
                     <div className={styles.price}>
@@ -55,44 +42,21 @@ const OptionsItem = (props) => {
             ) : null}
             {type === 'category' ? (
                 <div className={styles.listContainerCategory}>
-                    {position === 0
-                        ? (
-                            <div className={classNames(styles.topTitle, styles.topTitleCategory)}>
-                                Categories
-                            </div>
-                        )
-                        : null}
+                    {position === 0 ? <div className={classNames(styles.topTitle, styles.topTitleCategory)}>Categories</div> : null}
 
-                    <div className={styles.breadcrumbs}>
-                        {breadcrumbsText}
-                    </div>
-                    <div className={styles.titleCategory}>
-                        {name}
-                    </div>
+                    <div className={styles.breadcrumbs}>{breadcrumbsText}</div>
+                    <div className={styles.titleCategory}>{name}</div>
                 </div>
             ) : null}
             {type === 'seller' ? (
                 <div className={position === 0 ? classNames(styles.listContainer, styles.firstListContainer) : styles.listContainer}>
-                    {position === 0
-                        ? (
-                            <div className={styles.topTitle}>
-                                Seller
-                            </div>
-                        )
-                        : null}
+                    {position === 0 ? <div className={styles.topTitle}>Seller</div> : null}
 
                     <div className={styles.imageContainer}>
-                        <img
-                            className={styles.img}
-                            src={logo}
-                        />
+                        <img className={styles.img} src={logo} />
                     </div>
-                    <div className={styles.title}>
-                        {name}
-                    </div>
-                    <div className={styles.address}>
-                        {citySplit[0]}
-                    </div>
+                    <div className={styles.title}>{name}</div>
+                    <div className={styles.address}>{citySplit[0]}</div>
                 </div>
             ) : null}
         </>
