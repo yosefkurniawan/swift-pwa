@@ -144,6 +144,7 @@
     "setting": {
         "title": "Pengaturan",
         "language": "Bahasa",
+        "store": "Toko",
         "currency": "Mata Uang",
         "changeto": "Ganti ke"
     },
