@@ -1,12 +1,13 @@
 /* eslint-disable no-empty */
 /* eslint-disable array-callback-return */
-/* eslint-disable guard-for-in */
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helper_generatequery';
 import TagManager from 'react-gtm-module';
 import { getProduct, getProductAgragations } from '@core_modules/catalog/services/graphql';
+import { getSessionStorage, setSessionStorage } from '@helpers/sessionstorage';
 import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
 import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
 import generateConfig from '@core_modules/catalog/helpers/generateConfig';
@@ -31,8 +32,11 @@ const Product = (props) => {
         ...other
     } = props;
     const router = useRouter();
+    const [products, setProducts] = React.useState({
+        total_count: 0,
+        items: [],
+    });
 
-    const [page, setPage] = React.useState(1);
     const [loadmore, setLoadmore] = React.useState(false);
     const [filterSaved, setFilterSaved] = React.useState(false);
     const elastic = catalog_search_engine === 'elasticsuite';
@@ -98,13 +102,6 @@ const Product = (props) => {
         },
         router,
     );
-    let products = {};
-    products = data && data.products
-        ? data.products
-        : {
-            total_count: 0,
-            items: [],
-        };
     // generate filter if donthave custom filter
     const aggregations = [];
     if (!customFilter && !loading && products.aggregations) {
@@ -128,19 +125,17 @@ const Product = (props) => {
     };
 
     const handleLoadMore = async () => {
-        const pageSize = storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 0) : 10;
         setFilterSaved(false);
+        const pageSize = storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 0) : 10;
+        const pageTemp = (data.products.items.length / (parseInt(storeConfig?.pwa?.page_size, 0) || 10) + 1);
         try {
-            const totalProduct = products && products.total_count ? products.total_count : 0;
-            const totalPage = Math.ceil(totalProduct / pageSize);
-            if (fetchMore && typeof fetchMore !== 'undefined' && page < totalPage) {
+            if (fetchMore && typeof fetchMore !== 'undefined') {
                 setLoadmore(true);
-                setPage(page + 1);
                 fetchMore({
-                    query: Schema.getProduct({ ...config, currentPage: page + 1 }, router),
+                    query: Schema.getProduct({ ...config, currentPage: pageTemp }, router),
                     variables: {
                         pageSize,
-                        currentPage: page + 1,
+                        currentPage: pageTemp,
                     },
                     context,
                     updateQuery: (previousResult, { fetchMoreResult }) => {
@@ -161,6 +156,7 @@ const Product = (props) => {
 
     React.useEffect(() => {
         if (data && data.products) {
+            setProducts(data.products);
             // GTM UA dataLayer
             const tagManagerArgs = {
                 dataLayer: {
@@ -228,6 +224,57 @@ const Product = (props) => {
             TagManager.dataLayer(tagManagerArgsGA4);
         }
     }, [data]);
+
+    React.useEffect(() => {
+        const handleRouteChange = () => {
+            if (router.pathname === '/catalogsearch/result') {
+                window.history.scrollRestoration = 'manual';
+                const sessionStorageItems = ['lastCatalogsOffset', 'lastCatalogsVisited', 'lastProductsVisited'];
+                const lastCatalogsOffset = getSessionStorage('lastCatalogsOffset') || [];
+                const prevUrl = sessionStorage.getItem('prevUrl');
+                const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
+                const restoreCatalogPosition = getSessionStorage('restoreCatalogPosition');
+
+                if (prevUrl === lastProductsVisited[0] && restoreCatalogPosition && lastCatalogsOffset[0] !== 0) {
+                    window.scrollTo({
+                        top: lastCatalogsOffset[0],
+                    });
+                    sessionStorageItems.forEach((item) => {
+                        const itemData = getSessionStorage(item);
+                        setSessionStorage(item, itemData.slice(1, itemData.length));
+                    });
+                    sessionStorage.removeItem('restoreCatalogPosition');
+                }
+            }
+        };
+        router.events.on('routeChangeComplete', handleRouteChange);
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange);
+        };
+    }, [router.events]);
+
+    React.useEffect(() => {
+        if (router.pathname !== '/catalogsearch/result') {
+            const sessionStorageItems = ['lastCatalogsOffset', 'lastCatalogsVisited', 'lastProductsVisited'];
+            window.history.scrollRestoration = 'manual';
+            const prevUrl = sessionStorage.getItem('prevUrl');
+            const lastCatalogsOffset = getSessionStorage('lastCatalogsOffset') || [];
+            const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
+            const restoreCatalogPosition = getSessionStorage('restoreCatalogPosition');
+            if (prevUrl === lastProductsVisited[0] && restoreCatalogPosition && lastCatalogsOffset[0] !== 0) {
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: lastCatalogsOffset[0],
+                    });
+                }, 800);
+                sessionStorageItems.forEach((item) => {
+                    const itemData = getSessionStorage(item);
+                    setSessionStorage(item, itemData.slice(1, itemData.length));
+                });
+                sessionStorage.removeItem('restoreCatalogPosition');
+            }
+        }
+    }, [data, !loading]);
 
     const contentProps = {
         loadmore,

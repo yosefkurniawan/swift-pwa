@@ -27,6 +27,7 @@ const Page = (props) => {
     let ogKeyword;
     let category = null;
     if (data && data.categoryList[0]) {
+        // eslint-disable-next-line prefer-destructuring
         category = data.categoryList[0];
         schemaOrg = generateSchemaOrg(category, storeConfig);
         if (data.categoryList[0].meta_description || data.categoryList[0].description) {

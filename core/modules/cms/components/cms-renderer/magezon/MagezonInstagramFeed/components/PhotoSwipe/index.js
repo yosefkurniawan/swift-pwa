@@ -82,6 +82,7 @@ const PhotoSwipe = (props) => {
     }, []);
 
     const handleFullscreenError = React.useCallback((e) => {
+        // eslint-disable-next-line no-console
         console.log('Fullscreen Error', e);
     }, []);
 

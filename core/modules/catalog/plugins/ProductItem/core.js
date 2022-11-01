@@ -2,10 +2,11 @@ import { debuging, modules } from '@config';
 import { getLoginInfo } from '@helper_auth';
 import { setCookies, getCookies } from '@helper_cookies';
 import { useTranslation } from '@i18n';
-import route from 'next/router';
+import route, { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import React from 'react';
 import { setResolver, getResolver } from '@helper_localstorage';
+import { getSessionStorage, setSessionStorage } from '@helpers/sessionstorage';
 import classNames from 'classnames';
 import ConfigurableOpt from '@plugin_optionitem';
 import Favorite from '@material-ui/icons/Favorite';
@@ -43,6 +44,7 @@ const ProductItem = (props) => {
     } = props;
     const { storeConfig = {} } = props;
     const styles = useStyles();
+    const router = useRouter();
     const { t } = useTranslation(['catalog', 'common']);
     const [feed, setFeed] = React.useState(false);
     const [spesificProduct, setSpesificProduct] = React.useState({});
@@ -52,6 +54,16 @@ const ProductItem = (props) => {
     const [customizableOptions, setCustomizableOptions] = React.useState([]);
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
     const [additionalPrice, setAdditionalPrice] = React.useState(0);
+
+    React.useEffect(() => {
+        router.beforePopState(({ as }) => {
+            const lastCatalogsVisited = getSessionStorage('lastCatalogsVisited');
+            if (lastCatalogsVisited && as === lastCatalogsVisited[0]) {
+                setSessionStorage('restoreCatalogPosition', true);
+            }
+            return true;
+        });
+    }, []);
 
     React.useEffect(() => {
         if (errorCustomizableOptions && errorCustomizableOptions.length > 0) {
@@ -252,12 +264,35 @@ const ProductItem = (props) => {
         if (modules.checkout.checkoutOnly) {
             window.open(`${getStoreHost(getAppEnv()) + url_key}.html`);
         } else {
+            const { name, small_image } = props;
+            const currentPageOffset = window.scrollY;
+            const sharedProp = {
+                name,
+                small_image,
+                price,
+            };
             const urlResolver = getResolver();
             urlResolver[`/${url_key}`] = {
                 type: 'PRODUCT',
             };
             await setResolver(urlResolver);
             setCookies('lastCategory', categorySelect);
+            const lastCatalogsOffset = getSessionStorage('lastCatalogsOffset') || [];
+            const lastCatalogsVisited = getSessionStorage('lastCatalogsVisited') || [];
+            const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
+            setSessionStorage('lastCatalogsOffset', [currentPageOffset, ...lastCatalogsOffset]);
+            setSessionStorage('lastCatalogsVisited', [sessionStorage.getItem('currentUrl'), ...lastCatalogsVisited]);
+            setSessionStorage('lastProductsVisited', [`/${url_key}`, ...lastProductsVisited]);
+            route.push(
+                {
+                    pathname: '/[...slug]',
+                    query: {
+                        slug: url_key,
+                        productProps: JSON.stringify(sharedProp),
+                    },
+                },
+                `/${url_key}`,
+            );
         }
     };
 
