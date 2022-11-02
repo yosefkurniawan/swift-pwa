@@ -94,7 +94,8 @@
         "sale": "Diskon",
         "new": "Baru",
         "free": "Free",
-        "none": "Tidak ada"
+        "none": "Tidak ada",
+        "note": "Catatan"
     },
     "error": {
         "notFound": "Data tidak di temukan",

@@ -95,7 +95,8 @@
         "sale": "Sale",
         "new": "New",
         "free": "Free",
-        "none": "None"
+        "none": "None",
+        "note": "Note"
     },
     "error": {
         "notFound": "Data not found",
