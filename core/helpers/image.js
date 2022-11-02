@@ -23,7 +23,7 @@ export const generateThumborUrl = (src = '', width = 400, height = 400) => {
                     let versionSavari = userAgent.split('Version/');
                     if (versionSavari && versionSavari.length > 0) {
                         versionSavari = versionSavari[1].split(' ');
-                        if (versionSavari && versionSavari.length > 0 && versionSavari[0] < 14) {
+                        if (versionSavari && versionSavari.length > 0 && parseFloat(versionSavari[0]) < 14) {
                             return src;
                         }
                     }
