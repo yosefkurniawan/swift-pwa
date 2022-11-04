@@ -27,6 +27,7 @@ const generateXml = require('./core/api/rest/xml');
 const captchaValidation = require('./core/api/rest/captcha');
 const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
 const geocodingServices = require('./core/api/rest/geocoding');
+const firebaseInit = require('./core/api/rest/firebaseInit');
 
 // paypal
 const getPaypalDetail = require('./core/api/rest/paypal/getDetailTransaction');
@@ -139,7 +140,7 @@ async function renderAndCache(req, res) {
         }
     }`;
 
-    const SESSION_SECRET = fetch(`${graphqlEndpoint[getAppEnv()]}?query=${encodeURI(query)}`, {
+    fetch(`${graphqlEndpoint[getAppEnv()]}?query=${encodeURI(query)}`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${getAccessEnv()}`,
@@ -147,22 +148,23 @@ async function renderAndCache(req, res) {
         },
     })
         .then((response) => response.json())
-        .then((responseJson) => responseJson.data.storeConfig.swift_server.session_secret)
+        .then((responseJson) => {
+            server.use(
+                cookieSession({
+                    name: 'qwt-swift',
+                    keys: [responseJson.data.storeConfig.swift_server.session_secret],
+                    maxAge: expiredToken,
+                    // add security options
+                    cookies: {
+                        secure: true,
+                        httpOnly: true,
+                    },
+                }),
+            );
+        })
         .catch((err) => {
             console.log(err);
         });
-    server.use(
-        cookieSession({
-            name: 'qwt-swift',
-            keys: [SESSION_SECRET],
-            maxAge: expiredToken,
-            // add security options
-            cookies: {
-                secure: true,
-                httpOnly: true,
-            },
-        }),
-    );
 
     server.use(json({ limit: '2mb' }));
 
@@ -205,6 +207,9 @@ async function renderAndCache(req, res) {
 
     // geocoding services
     server.post('/geocoding-services', geocodingServices);
+
+    // firebase init
+    server.post('/firebase-init', firebaseInit);
 
     /**
      * configuration firebase messaging

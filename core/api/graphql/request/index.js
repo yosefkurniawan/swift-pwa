@@ -8,10 +8,13 @@ const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
 
 function requestGraph(query, variables = {}, context = {}, config = {}) {
     let token = '';
+    console.log(query.includes('snap_client_key'));
     if (config.token) {
         if (query.includes('snap_client_key')) {
             token = `Bearer ${getAccessEnv()}`;
-        } else token = `Bearer ${config.token}`;
+        } else {
+            token = `Bearer ${config.token}`;
+        }
     } else if (context.session || context.headers) {
         if (query.includes('snap_client_key')) {
             token = `Bearer ${getAccessEnv()}`;
@@ -22,13 +25,13 @@ function requestGraph(query, variables = {}, context = {}, config = {}) {
                     ? context.headers.authorization
                     : '';
         }
+    } else if (query.includes('snap_client_key')) {
+        token = `Bearer ${getAccessEnv()}`;
     }
+
     return new Promise((resolve) => {
         const additionalHeader = storeCode ? { store: storeCode } : {};
         if (token && token !== '') {
-            additionalHeader.Authorization = token;
-        } else if (query.includes('snap_client_key')) {
-            token = `Bearer ${getAccessEnv()}`;
             additionalHeader.Authorization = token;
         }
         const headers = {

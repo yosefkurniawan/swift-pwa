@@ -1,7 +1,9 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable func-names */
 /* eslint-disable radix */
+/* eslint-disable max-len */
 import { custDataNameCookie, features, GTM, modules, sentry } from '@config';
 import { getLastPathWithoutLogin, getLoginInfo } from '@helper_auth';
 import { getLocalStorage, setLocalStorage, setResolver, testLocalStorage } from '@helper_localstorage';
@@ -94,10 +96,9 @@ class MyApp extends App {
         } else {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
-            lastPathNoAuth =
-                req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
-                    ? req.session.lastPathNoAuth
-                    : '/customer/account';
+            lastPathNoAuth = req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
+                ? req.session.lastPathNoAuth
+                : '/customer/account';
         }
         isLogin = parseInt(isLogin);
 
@@ -146,6 +147,7 @@ class MyApp extends App {
                 })
                 .then(({ data }) => data)
                 .catch((e) => console.log(e));
+            console.log('frontendtop', frontendOptions);
 
             if (ctx && frontendOptions.response && frontendOptions.response.status && frontendOptions.response.status > 500) {
                 ctx.res.redirect('/maintenance');
@@ -170,7 +172,10 @@ class MyApp extends App {
                     ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias })
                     : await graphRequest(getCategories);
             }
+            console.log('frontendtop1', frontendOptions);
+            console.log('privateConfig1', privateConfig);
             frontendOptions = frontendOptions.storeConfig;
+            console.log('frontendtop2', frontendOptions);
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null ? storeConfig?.pwa?.remove_decimal_price_enable : false;
         } else if (typeof window !== 'undefined' && !storeConfig) {
             storeConfig = getLocalStorage('pwa_config');
@@ -196,20 +201,20 @@ class MyApp extends App {
                 if (!dataVesMenu) {
                     dataVesMenu = storeConfig.pwa.ves_menu_enable
                         ? await pageProps.apolloClient
-                              .query({
-                                  query: gql`
+                            .query({
+                                query: gql`
                                       ${getVesMenu}
                                   `,
-                                  variables: { alias: storeConfig.pwa.ves_menu_alias },
-                              })
-                              .then(({ data }) => data)
+                                variables: { alias: storeConfig.pwa.ves_menu_alias },
+                            })
+                            .then(({ data }) => data)
                         : await pageProps.apolloClient
-                              .query({
-                                  query: gql`
+                            .query({
+                                query: gql`
                                       ${getCategories}
                                   `,
-                              })
-                              .then(({ data }) => data);
+                            })
+                            .then(({ data }) => data);
                 }
             }
             frontendOptions = await pageProps.apolloClient
@@ -291,30 +296,31 @@ class MyApp extends App {
             Notification.init();
             // handle if have message on focus
             try {
-                const messaging = firebase.messaging();
                 // Handle incoming messages. Called when:
                 // - a message is received while the app has focus
                 // - the user clicks on an app notification created by a service worker
                 //   `messaging.setBackgroundMessageHandler` handler.
-                messaging.onMessage((payload) => {
-                    navigator.serviceWorker.ready.then((registration) => {
-                        // This prevents to show one notification for each tab
-                        setTimeout(() => {
-                            console.log('[firebase-messaging-sw.js] Received foreground message ', payload);
-                            const lastNotification = localStorage.getItem('lastNotification');
-                            const isDifferentContent = payload.data.updated_date !== lastNotification;
-                            if (isDifferentContent) {
-                                localStorage.setItem('lastNotification', payload.data.updated_date + payload.data.title);
-                                registration.showNotification(payload.data.title, {
-                                    body: payload.data.body,
-                                    vibrate: [200, 100, 200, 100, 200, 100, 200],
-                                    icon: payload.data.icons || '',
-                                    image: payload.data.image || '',
-                                    requireInteraction: true,
-                                    data: payload.data,
-                                });
-                            }
-                        }, Math.random() * 1000);
+                firebase().then((firebaseApp) => {
+                    firebaseApp.messaging().onMessage((payload) => {
+                        navigator.serviceWorker.ready.then((registration) => {
+                            // This prevents to show one notification for each tab
+                            setTimeout(() => {
+                                console.log('[firebase-messaging-sw.js] Received foreground message ', payload);
+                                const lastNotification = localStorage.getItem('lastNotification');
+                                const isDifferentContent = payload.data.updated_date !== lastNotification;
+                                if (isDifferentContent) {
+                                    localStorage.setItem('lastNotification', payload.data.updated_date + payload.data.title);
+                                    registration.showNotification(payload.data.title, {
+                                        body: payload.data.body,
+                                        vibrate: [200, 100, 200, 100, 200, 100, 200],
+                                        icon: payload.data.icons || '',
+                                        image: payload.data.image || '',
+                                        requireInteraction: true,
+                                        data: payload.data,
+                                    });
+                                }
+                            }, Math.random() * 1000);
+                        });
                     });
                 });
             } catch (err) {
@@ -373,7 +379,7 @@ class MyApp extends App {
             },
             (err) => {
                 console.log('Service Worker registration failed: ', err);
-            }
+            },
         );
     }
 
