@@ -102,6 +102,7 @@ const orderOutput = `
                 seller_id
                 seller_name
                 name
+                note
                 qty_ordered
                 price
                 price_incl_tax
