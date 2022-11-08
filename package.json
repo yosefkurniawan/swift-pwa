@@ -17,7 +17,7 @@
     "generate-certs": "mkdir certs && openssl req -x509 -days 365 -newkey rsa:2048 -nodes -sha256 -keyout certs/privateKey.key -out certs/certificate.crt",
     "build": "concurrently \"yarn assets:build\" \"next build\"",
     "export": "next export",
-    "clean": "cross-env rimraf ./.next ./out",
+    "clean": "cross-env rimraf ./.next ./out ./node_modules",
     "release": "cross-env NODE_ENV=production npm run clean && npm run build && npm run export",
     "test": "jest --watch",
     "test:ci": "jest --ci"
