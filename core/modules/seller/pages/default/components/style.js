@@ -6,6 +6,12 @@ import { FONT_10 } from '@theme_typography';
 export default makeStyles((theme) => ({
     sellerPaper: {
         [theme.breakpoints.up('xs')]: {
+            ...CreateMargin(24, 24, 24, 24),
+        },
+        [theme.breakpoints.up('xm')]: {
+            ...CreateMargin(36, 36, 36, 36),
+        },
+        [theme.breakpoints.up('sm')]: {
             ...CreateMargin(36, 36, 36, 36),
         },
         [theme.breakpoints.up('md')]: {
@@ -15,7 +21,19 @@ export default makeStyles((theme) => ({
     sellerPanel: {
         [theme.breakpoints.up('xs')]: {
             ...CreatePadding(24, 24, 24, 24),
+            height: '164px',
+        },
+        [theme.breakpoints.up('xm')]: {
+            ...CreatePadding(24, 24, 24, 24),
+            height: '164px',
+        },
+        [theme.breakpoints.up('sm')]: {
+            ...CreatePadding(24, 24, 24, 24),
             height: '148px',
+        },
+        [theme.breakpoints.up('md')]: {
+            ...CreatePadding(24, 24, 24, 24),
+            height: '172px',
         },
         [theme.breakpoints.up('lg')]: {
             ...CreatePadding(36, 24, 36, 24),
@@ -33,11 +51,40 @@ export default makeStyles((theme) => ({
         justifyContent: 'center',
     },
     sellerLogo: {
-        width: '100px !important',
-        height: '100px !important',
+        [theme.breakpoints.up('xs')]: {
+            width: '64px !important',
+            height: '64px !important',
+        },
+        [theme.breakpoints.up('xm')]: {
+            width: '84px !important',
+            height: '84px !important',
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: '84px !important',
+            height: '84px !important',
+        },
+        [theme.breakpoints.up('md')]: {
+            width: '96px !important',
+            height: '96px !important',
+        },
+        [theme.breakpoints.up('md')]: {
+            width: '100px !important',
+            height: '100px !important',
+        },
     },
     sellerName: {
         paddingTop: '1rem',
+    },
+    sellerActionIcon: {
+        [theme.breakpoints.up('xs')]: {
+            fontSize: '1.25rem !important',
+        },
+        [theme.breakpoints.up('xm')]: {
+            fontSize: '1.45rem !important',
+        },
+        [theme.breakpoints.up('md')]: {
+            fontSize: '1.85rem !important',
+        },
     },
     closePanelIcon: {
         position: 'absolute !important',

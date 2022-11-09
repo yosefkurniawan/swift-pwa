@@ -66,10 +66,10 @@ const Content = (props) => {
                     <Paper elevation={3} className={styles.sellerPaper}>
                         <Box className={styles.sellerPanel}>
                             <Grid container spacing={2}>
-                                <Grid item xs={3} lg={2} className={styles.sellerLogoWrapper}>
+                                <Grid item xs={3} xm={3} sm={3} md={3} lg={2} className={styles.sellerLogoWrapper}>
                                     <Avatar alt="Remy Sharp" src={data.getSeller[0].logo} className={styles.sellerLogo} />
                                 </Grid>
-                                <Grid item xs={6} lg={8}>
+                                <Grid item xs={9} xm={6} sm={6} md={6} lg={8}>
                                     <div className={styles.sellerName}>
                                         <Typography type="bold" variant="h2" letter="capitalize">
                                             {data.getSeller[0].name}
@@ -79,15 +79,15 @@ const Content = (props) => {
                                         </Typography>
                                     </div>
                                 </Grid>
-                                <Grid item xs={3} lg={2}>
+                                <Grid item xs={12} xm={3} sm={3} md={3} lg={2}>
                                     <IconButton onClick={handleOpenInfoPanel}>
-                                        <InfoIcon />
+                                        <InfoIcon className={styles.sellerActionIcon} />
                                     </IconButton>
-                                    <IconButton>
-                                        <ChatIcon />
+                                    <IconButton className={styles.sellerActionIcon}>
+                                        <ChatIcon className={styles.sellerActionIcon} />
                                     </IconButton>
                                     <IconButton onClick={handleOpenSharePanel}>
-                                        <ShareIcon />
+                                        <ShareIcon className={styles.sellerActionIcon} />
                                     </IconButton>
                                 </Grid>
                             </Grid>
