@@ -6,20 +6,25 @@ import { FONT_10 } from '@theme_typography';
 export default makeStyles((theme) => ({
     sellerPaper: {
         [theme.breakpoints.up('xs')]: {
-            ...CreateMargin(36, 0, 36, 0),
+            ...CreateMargin(36, 36, 36, 36),
         },
         [theme.breakpoints.up('md')]: {
-            ...CreateMargin(0, 0, 48, 0),
+            ...CreateMargin(0, 48, 48, 48),
         },
     },
     sellerPanel: {
         [theme.breakpoints.up('xs')]: {
             ...CreatePadding(24, 24, 24, 24),
-            height: '200px',
+            height: '148px',
         },
         [theme.breakpoints.up('lg')]: {
             ...CreatePadding(36, 24, 36, 24),
             height: '172px',
+        },
+    },
+    sellerProduct: {
+        [theme.breakpoints.up('md')]: {
+            ...CreateMargin(0, 48, 48, 48),
         },
     },
     sellerLogoWrapper: {
