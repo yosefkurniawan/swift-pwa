@@ -66,10 +66,10 @@ const Content = (props) => {
                     <Paper elevation={3} className={styles.sellerPaper}>
                         <Box className={styles.sellerPanel}>
                             <Grid container spacing={2}>
-                                <Grid item xs={4} lg={2} className={styles.sellerLogoWrapper}>
+                                <Grid item xs={3} lg={2} className={styles.sellerLogoWrapper}>
                                     <Avatar alt="Remy Sharp" src={data.getSeller[0].logo} className={styles.sellerLogo} />
                                 </Grid>
-                                <Grid item xs={8} lg={8}>
+                                <Grid item xs={6} lg={8}>
                                     <div className={styles.sellerName}>
                                         <Typography type="bold" variant="h2" letter="capitalize">
                                             {data.getSeller[0].name}
@@ -79,7 +79,7 @@ const Content = (props) => {
                                         </Typography>
                                     </div>
                                 </Grid>
-                                <Grid item xs={8} lg={2}>
+                                <Grid item xs={3} lg={2}>
                                     <IconButton onClick={handleOpenInfoPanel}>
                                         <InfoIcon />
                                     </IconButton>
@@ -153,48 +153,23 @@ const Content = (props) => {
                             </DialogContentText>
                         </DialogContent>
                     </Dialog>
-                    <Typography type="bold" variant="h2" letter="capitalize" style={{ paddingBottom: '1rem', paddingLeft: '1rem' }}>
-                        {t('seller:popularProducts')}
-                    </Typography>
-                    <CoreBase
-                        t={t}
-                        ErrorMessage={ErrorMessage}
-                        ProductListSkeleton={ProductListSkeleton}
-                        ImageProductView={ImageProductView}
-                        DetailProductView={DetailProductView}
-                        TabView={TabView}
-                        FilterView={FilterView}
-                        FilterModalView={FilterModalView}
-                        defaultSort={{ key: 'position', value: 'ASC' }}
-                        {...props}
-                    />
-                    {/* <div className="row">
-                        <div className="col-sm-12 col-xs-12 col-lg-12">
-                            <div className={styles.productContainer}>
-                                {loadingProduct && <ProductListSkeleton />}
-                                {!loadingProduct && (
-                                    <GridList
-                                        data={products.items}
-                                        ItemComponent={ProductItem}
-                                        className="grid"
-                                        itemProps={{
-                                            categorySelect: 'seller',
-                                            LabelView,
-                                            isGrid: true,
-                                            catalogList: true,
-                                            className: 'grid-item',
-                                            ...other,
-                                        }}
-                                        gridItemProps={{
-                                            xs: 6,
-                                            sm: 4,
-                                            md: 2,
-                                        }}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div> */}
+                    <div className={styles.sellerProduct}>
+                        <Typography type="bold" variant="h2" letter="capitalize" style={{ paddingBottom: '1rem', paddingLeft: '1rem' }}>
+                            {t('seller:popularProducts')}
+                        </Typography>
+                        <CoreBase
+                            t={t}
+                            ErrorMessage={ErrorMessage}
+                            ProductListSkeleton={ProductListSkeleton}
+                            ImageProductView={ImageProductView}
+                            DetailProductView={DetailProductView}
+                            TabView={TabView}
+                            FilterView={FilterView}
+                            FilterModalView={FilterModalView}
+                            defaultSort={{ key: 'position', value: 'ASC' }}
+                            {...props}
+                        />
+                    </div>
                 </>
             )}
         </>
