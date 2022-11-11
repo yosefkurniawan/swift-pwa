@@ -20,14 +20,12 @@ const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
 
 const {
-    expiredToken, nossrCache, features, assetsVersion, graphqlEndpoint,
+    expiredToken, nossrCache, features, assetsVersion,
 } = require('./swift.config');
-const { getAppEnv, getAccessEnv } = require('./core/helpers/env');
 const generateXml = require('./core/api/rest/xml');
 const captchaValidation = require('./core/api/rest/captcha');
 const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
 const geocodingServices = require('./core/api/rest/geocoding');
-const firebaseInit = require('./core/api/rest/firebaseInit');
 
 // paypal
 const getPaypalDetail = require('./core/api/rest/paypal/getDetailTransaction');
@@ -65,7 +63,6 @@ async function renderAndCache(req, res) {
     }
 
     try {
-        // console.log(`key ${key} not found, rendering`);
         // If not let's render the page into HTML
         const html = await app.renderToHTML(req, res, req.path, req.query);
 
@@ -132,39 +129,18 @@ async function renderAndCache(req, res) {
     await nextI18next.initPromise;
     // server.use(nextI18NextMiddleware(nextI18next));
 
-    const query = `{
-        storeConfig {
-            swift_server {
-                session_secret
-            }
-        }
-    }`;
-
-    fetch(`${graphqlEndpoint[getAppEnv()]}?query=${encodeURI(query)}`, {
-        method: 'GET',
-        headers: {
-            Authorization: `Bearer ${getAccessEnv()}`,
-            'Content-Type': 'application/json',
-        },
-    })
-        .then((response) => response.json())
-        .then((responseJson) => {
-            server.use(
-                cookieSession({
-                    name: 'qwt-swift',
-                    keys: [responseJson.data.storeConfig.swift_server.session_secret],
-                    maxAge: expiredToken,
-                    // add security options
-                    cookies: {
-                        secure: true,
-                        httpOnly: true,
-                    },
-                }),
-            );
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+    server.use(
+        cookieSession({
+            name: 'qwt-swift',
+            keys: [process.env.SESSION_SECRET],
+            maxAge: expiredToken,
+            // add security options
+            cookies: {
+                secure: true,
+                httpOnly: true,
+            },
+        }),
+    );
 
     server.use(json({ limit: '2mb' }));
 
@@ -207,9 +183,6 @@ async function renderAndCache(req, res) {
 
     // geocoding services
     server.post('/geocoding-services', geocodingServices);
-
-    // firebase init
-    server.post('/firebase-init', firebaseInit);
 
     /**
      * configuration firebase messaging

@@ -1,19 +1,19 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
 import {
-    ApolloClient, HttpLink, InMemoryCache, ApolloLink, from,
+    ApolloClient, ApolloLink, from, HttpLink, InMemoryCache,
 } from '@apollo/client';
-import { RetryLink } from 'apollo-link-retry';
-import fetch from 'isomorphic-unfetch';
+import { getAppEnv } from '@helpers/env';
+import { removeIsLoginFlagging } from '@helper_auth';
+import { removeCartId } from '@helper_cartid';
+import { removeCookies } from '@root/core/helpers/cookies';
 import { graphqlEndpoint, HOST, storeCode } from '@root/swift.config.js';
 import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
-import { removeCartId } from '@helper_cartid';
-import { removeIsLoginFlagging } from '@helper_auth';
-import { getAppEnv } from '@helpers/env';
+import { RetryLink } from 'apollo-link-retry';
 import firebase from 'firebase/app';
+import fetch from 'isomorphic-unfetch';
 import cookies from 'js-cookie';
-import { removeCookies } from '@root/core/helpers/cookies';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData: {
@@ -42,13 +42,8 @@ const logoutLink = onError((err) => {
         firebase
             .auth()
             .signOut()
-            .then(() => {
-                // Sign-out successful.
-            })
-            .catch((error) => {
-                // An error happened.
-                // console.log(error);
-            });
+            .then(() => { })
+            .catch(() => { });
         // reference https://stackoverflow.com/questions/10339567/javascript-clear-cache-on-redirect
         window.location.href = `/customer/account/login?n=${new Date().getTime()}`;
     }

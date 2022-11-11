@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
@@ -18,7 +19,7 @@ import {
     getCategories,
     getSensitiveConfig as PrivateConfigSchema,
     getVesMenu,
-    storeConfig as ConfigSchema,
+    storeConfig as ConfigSchema
 } from '@services/graphql/schema/config';
 import theme from '@theme_theme';
 import Cookie from 'js-cookie';
@@ -139,19 +140,9 @@ class MyApp extends App {
                     `,
                 })
                 .then(({ data }) => data);
-            privateConfig = await pageProps.apolloClient
-                .query({
-                    query: gql`
-                        ${FrontendSchema}
-                    `,
-                })
-                .then(({ data }) => data)
-                .catch((e) => console.log(e));
-            console.log('frontendtop', frontendOptions);
-
-            if (ctx && frontendOptions.response && frontendOptions.response.status && frontendOptions.response.status > 500) {
+            if (ctx && frontendOptions && frontendOptions.response && frontendOptions.response.status && frontendOptions.response.status > 500) {
                 ctx.res.redirect('/maintenance');
-            } else if (ctx && privateConfig.response && privateConfig.response.status && privateConfig.response.status > 500) {
+            } else if (ctx && privateConfig && privateConfig.response && privateConfig.response.status && privateConfig.response.status > 500) {
                 ctx.res.redirect('/maintenance');
             }
         }
@@ -172,10 +163,7 @@ class MyApp extends App {
                     ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias })
                     : await graphRequest(getCategories);
             }
-            console.log('frontendtop1', frontendOptions);
-            console.log('privateConfig1', privateConfig);
             frontendOptions = frontendOptions.storeConfig;
-            console.log('frontendtop2', frontendOptions);
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null ? storeConfig?.pwa?.remove_decimal_price_enable : false;
         } else if (typeof window !== 'undefined' && !storeConfig) {
             storeConfig = getLocalStorage('pwa_config');
@@ -224,16 +212,16 @@ class MyApp extends App {
                     `,
                 })
                 .then(({ data }) => data);
-            privateConfig = await pageProps.apolloClient
-                .query({
-                    query: gql`
-                        ${PrivateConfigSchema}
-                    `,
-                })
-                .then(({ data }) => data)
-                .catch((e) => console.log(e));
+            // privateConfig = await pageProps.apolloClient
+            //     .query({
+            //         query: gql`
+            //             ${PrivateConfigSchema}
+            //         `,
+            //     })
+            //     .then(({ data }) => data)
+            //     .catch((e) => console.log(e));
             frontendOptions = frontendOptions.storeConfig;
-            privateConfig = privateConfig.storeConfig;
+            // privateConfig = privateConfig.storeConfig;
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null ? storeConfig?.pwa?.remove_decimal_price_enable : false;
         }
 
@@ -296,31 +284,30 @@ class MyApp extends App {
             Notification.init();
             // handle if have message on focus
             try {
+                const messaging = firebase.messaging();
                 // Handle incoming messages. Called when:
                 // - a message is received while the app has focus
                 // - the user clicks on an app notification created by a service worker
                 //   `messaging.setBackgroundMessageHandler` handler.
-                firebase().then((firebaseApp) => {
-                    firebaseApp.messaging().onMessage((payload) => {
-                        navigator.serviceWorker.ready.then((registration) => {
-                            // This prevents to show one notification for each tab
-                            setTimeout(() => {
-                                console.log('[firebase-messaging-sw.js] Received foreground message ', payload);
-                                const lastNotification = localStorage.getItem('lastNotification');
-                                const isDifferentContent = payload.data.updated_date !== lastNotification;
-                                if (isDifferentContent) {
-                                    localStorage.setItem('lastNotification', payload.data.updated_date + payload.data.title);
-                                    registration.showNotification(payload.data.title, {
-                                        body: payload.data.body,
-                                        vibrate: [200, 100, 200, 100, 200, 100, 200],
-                                        icon: payload.data.icons || '',
-                                        image: payload.data.image || '',
-                                        requireInteraction: true,
-                                        data: payload.data,
-                                    });
-                                }
-                            }, Math.random() * 1000);
-                        });
+                messaging.onMessage((payload) => {
+                    navigator.serviceWorker.ready.then((registration) => {
+                        // This prevents to show one notification for each tab
+                        setTimeout(() => {
+                            console.log('[firebase-messaging-sw.js] Received foreground message ', payload);
+                            const lastNotification = localStorage.getItem('lastNotification');
+                            const isDifferentContent = payload.data.updated_date !== lastNotification;
+                            if (isDifferentContent) {
+                                localStorage.setItem('lastNotification', payload.data.updated_date + payload.data.title);
+                                registration.showNotification(payload.data.title, {
+                                    body: payload.data.body,
+                                    vibrate: [200, 100, 200, 100, 200, 100, 200],
+                                    icon: payload.data.icons || '',
+                                    image: payload.data.image || '',
+                                    requireInteraction: true,
+                                    data: payload.data,
+                                });
+                            }
+                        }, Math.random() * 1000);
                     });
                 });
             } catch (err) {

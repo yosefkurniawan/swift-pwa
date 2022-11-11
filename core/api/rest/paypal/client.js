@@ -1,8 +1,9 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-prototype-builtins */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable radix */
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
+
 /**
  *
  * PayPal Node JS SDK dependency
@@ -18,39 +19,40 @@ const { graphqlEndpoint } = require('../../../../swift.config');
  *
  */
 function environment() {
-    const query = `{
-        storeConfig {
-            paypal_key {
-                cancel_url
-                client_id
-                client_secret
-                disable_funding
-                intent
-                key_data
-                key_token
-                path
-                return_url
+    return new Promise((resolve) => {
+        const query = `{
+            storeConfig {
+                paypal_key {
+                    cancel_url
+                    client_id
+                    client_secret
+                    disable_funding
+                    intent
+                    key_data
+                    key_token
+                    path
+                    return_url
+                }
             }
-        }
-    }`;
-
-    fetch(`${graphqlEndpoint[getAppEnv()]}?query=${encodeURI(query)}`, {
-        method: 'GET',
-        headers: {
-            Authorization: `Bearer ${getAccessEnv()}`,
-            'Content-Type': 'application/json',
-        },
-    })
-        .then((response) => response.json())
-        .then((responseJson) => {
-            const clientId = responseJson.data.storeConfig.paypal_key.client_id;
-            const clientSecret = responseJson.data.storeConfig.paypal_key.client_secret;
-
-            return new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret);
+        }`;
+        fetch(`${graphqlEndpoint[getAppEnv()]}?query=${encodeURI(query)}`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${getAccessEnv()}`,
+                'Content-Type': 'application/json',
+            },
         })
-        .catch((err) => {
-            console.log(err);
-        });
+            .then((response) => response.json())
+            .then((responseJson) => {
+                const clientId = responseJson.data.storeConfig.paypal_key.client_id;
+                const clientSecret = responseJson.data.storeConfig.paypal_key.client_secret;
+
+                resolve(new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    });
 }
 
 /**

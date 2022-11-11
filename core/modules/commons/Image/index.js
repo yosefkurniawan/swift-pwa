@@ -1,18 +1,19 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
+import { getLocalStorage } from '@helpers/localstorage';
+import React, { useEffect, useState } from 'react';
 import LazyImage from './LazyImage';
 
 const CustomImage = ({
     src, width = 500, height = 500, magezon,
     classContainer = '', className = '', alt = 'Image', quality = 100, style = {}, lazy = false, ...other
 }) => {
-    const storeConfig = JSON.parse(localStorage.getItem('storeConfig'));
-    const enable = storeConfig.pwa.thumbor_enable;
-    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
-    const url = storeConfig.pwa.thumbor_url;
+    const storeConfig = getLocalStorage('storeConfig') && getLocalStorage('storeConfig');
+    const enable = storeConfig && storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig && storeConfig.pwa.thumbor_https_http;
+    const url = storeConfig && storeConfig.pwa.thumbor_url;
     const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, url);
     const [imgSource, setImgSource] = useState(imageUrl);
 

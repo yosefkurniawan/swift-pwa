@@ -1,7 +1,8 @@
-import classNames from 'classnames';
-import { BREAKPOINTS } from '@theme_vars';
-import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import useStyles from '@common_slick/Banner/style';
+import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
+import { getLocalStorage } from '@helpers/localstorage';
+import { BREAKPOINTS } from '@theme_vars';
+import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 
 const BannerThumbnail = (props) => {
@@ -19,10 +20,10 @@ const BannerThumbnail = (props) => {
     if (typeof heightMobile === 'string') heightMobile = parseInt(heightMobile, 0);
 
     const styles = useStyles();
-    const storeConfig = JSON.parse(localStorage.getItem('storeConfig'));
-    const enable = storeConfig.pwa.thumbor_enable;
-    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
-    const url = storeConfig.pwa.thumbor_url;
+    const storeConfig = getLocalStorage('storeConfig') ? getLocalStorage('storeConfig') : null;
+    const enable = storeConfig && storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig && storeConfig.pwa.thumbor_https_http;
+    const url = storeConfig && storeConfig.pwa.thumbor_url;
     const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, url);
     const mobileImageUrl = srcMobile ? generateThumborUrl(srcMobile, widthMobile, heightMobile, enable, useHttpsOrHttp, url) : null;
     const placeholderImage = '/assets/img/placeholder.png';

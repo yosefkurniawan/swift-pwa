@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Router from 'next/router';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Router from 'next/router';
+import React, { useEffect, useState } from 'react';
 
 const useStyles = makeStyles(() => ({
     linearProgressWrapper: {
@@ -71,7 +71,6 @@ const PageProgressLoader = () => {
         Router.events.on('routeChangeStart', handleRouteChangeStart);
         Router.events.on('routeChangeComplete', handleRouteChangeComplete);
         Router.events.on('RouteChangeError', handleRouteChangeError);
-        // console.log(progress);
 
         return () => {
             clearInterval(timer);

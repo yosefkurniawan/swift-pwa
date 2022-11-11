@@ -348,18 +348,6 @@ export const getSensitiveConfig = `
     payment_travelokapay_public_key
     payment_travelokapay_bin_whitelist
     snap_client_key
-    firebase_api_key {
-      api_key
-      app_id
-      auth_domain
-      database_url
-      measurement_id
-      messaging_sender_id
-      pair_key
-      project_id
-      push_notification_enable
-      storage_bucket
-    }
     paypal_key {
       cancel_url
       client_id
@@ -370,13 +358,6 @@ export const getSensitiveConfig = `
       key_token
       path
       return_url
-    }
-    swift_server {
-      algorithm
-      encryption_key
-      fcm_key_server
-      fcm_topic
-      session_secret
     }
   }
 }`;

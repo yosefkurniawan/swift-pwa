@@ -24,6 +24,7 @@ const ViewTopNavigation = (props) => {
             return <NavbarV4 {...props} />;
         }
     }
+    return null;
 };
 
 export default ViewTopNavigation;

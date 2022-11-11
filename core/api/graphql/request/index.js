@@ -8,7 +8,6 @@ const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
 
 function requestGraph(query, variables = {}, context = {}, config = {}) {
     let token = '';
-    console.log(query.includes('snap_client_key'));
     if (config.token) {
         if (query.includes('snap_client_key')) {
             token = `Bearer ${getAccessEnv()}`;
