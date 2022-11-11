@@ -8,7 +8,7 @@ import LazyImage from './LazyImage';
 
 const CustomImage = ({
     src, width = 500, height = 500, magezon,
-    classContainer = '', className = '', alt = 'Image', quality = 100, style = {}, lazy = false, ...other
+    classContainer = '', className = '', alt = 'Image', quality = 100, style = {}, lazy = false, storeConfig = {}, ...other
 }) => {
     const storeConfig = getLocalStorage('storeConfig') && getLocalStorage('storeConfig');
     const enable = storeConfig && storeConfig.pwa.thumbor_enable;

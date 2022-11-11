@@ -108,7 +108,7 @@ const ModalResult = (props) => {
                 <div className="row">
                     <div className="col-xs-12">
                         {
-                            modalData.length > 0
+                            modalData || modalData.length > 0
                                 ? (
                                     <List>
                                         {trackOrder}

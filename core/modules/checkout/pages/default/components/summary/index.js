@@ -595,6 +595,7 @@ const Summary = ({
                         updateCart={updateCart}
                         deleteCart={deleteCart}
                         withAction
+                        storeConfig={storeConfig}
                     />
                 </div>
                 <SummaryPlugin
@@ -611,6 +612,7 @@ const Summary = ({
                     updateCart={updateCart}
                     deleteCart={deleteCart}
                     withAction
+                    storeConfig={storeConfig}
                 />
             </>
         );

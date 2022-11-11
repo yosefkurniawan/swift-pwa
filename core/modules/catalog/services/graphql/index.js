@@ -28,6 +28,8 @@ export const addWishlist = () => useMutation(productSchema.addWishlist, {
 });
 
 export const getDetailProduct = (config = {}) => useLazyQuery(productSchema.getDetailProduct(config), {
+    fetchPolicy: 'no-cache',
+    extFetchPolicy: 'no-cache',
 });
 
 export const getPwaConfig = () => useQuery(schemaCategory.configpwa);

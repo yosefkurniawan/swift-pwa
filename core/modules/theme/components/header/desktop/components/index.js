@@ -9,22 +9,28 @@ import NavbarV4 from '@core_modules/theme/components/header/desktop/components/v
 
 const ViewTopNavigation = (props) => {
     const { storeConfig } = props;
+    let content = <></>;
 
     if (storeConfig && storeConfig.pwa) {
         if (storeConfig.pwa.header_version === 'v1') {
-            return <NavbarV1 {...props} />;
+            content = <NavbarV1 {...props} />;
         }
         if (storeConfig.pwa.header_version === 'v2') {
-            return <NavbarV2 {...props} />;
+            content = <NavbarV2 {...props} />;
         }
         if (storeConfig.pwa.header_version === 'v3') {
-            return <NavbarV3 {...props} />;
+            content = <NavbarV3 {...props} />;
         }
         if (storeConfig.pwa.header_version === 'v4') {
-            return <NavbarV4 {...props} />;
+            content = <NavbarV4 {...props} />;
         }
     }
-    return null;
+
+    return (
+        <div id="header">
+            {content}
+        </div>
+    );
 };
 
 export default ViewTopNavigation;

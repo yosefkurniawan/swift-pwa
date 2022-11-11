@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -81,6 +82,7 @@ const PhotoSwipe = (props) => {
     }, []);
 
     const handleFullscreenError = React.useCallback((e) => {
+        // eslint-disable-next-line no-console
         console.log('Fullscreen Error', e);
     }, []);
 

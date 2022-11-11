@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@common_typography';
-import Link from '@material-ui/core/Link';
+import Link from 'next/link';
 
 const MagezonInstagram = (props) => {
     const {

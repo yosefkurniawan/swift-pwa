@@ -25,6 +25,7 @@ const ShipperView = (props) => {
             receiver_name: '',
             driver_name: '',
             driver_phone: '',
+            driver_license_number: '',
             shipper_name: '',
             description: '',
             update_date: '',
@@ -42,6 +43,7 @@ const ShipperView = (props) => {
             receiver_name: receiver_fullname || 'unknown',
             driver_name: data.data.shipmentTracking.trackingData[0]?.driverInfo.name || 'unknown',
             driver_phone: data.data.shipmentTracking.trackingData[0]?.driverInfo.phoneNumber || 'unknown',
+            driver_license_number: data.data.shipmentTracking.trackingData[0]?.driverInfo.licenseNumber || 'unknown',
             description: histories[histories.length - 1]?.note || '',
             update_date: formatDate(histories[histories.length - 1].timestamp, 'DD-MM-YYYY HH:mm'),
             last_status: histories[histories.length - 1]?.status || '',
@@ -125,6 +127,12 @@ const ShipperView = (props) => {
                         <div className="list-item">
                             <Typography className="list-item__title">{t('trackingorder:driverPhone')}</Typography>
                             <Typography className="list-item__desc">{shipperData.detail.driver_phone}</Typography>
+                        </div>
+                    )}
+                    {shipperData.detail.driver_license_number !== '' && (
+                        <div className="list-item">
+                            <Typography className="list-item__title">{t('trackingorder:driverLicenseNumber')}</Typography>
+                            <Typography className="list-item__desc">{shipperData.detail.driver_license_number}</Typography>
                         </div>
                     )}
                     {shipperData.detail.shipper_name !== '' && (

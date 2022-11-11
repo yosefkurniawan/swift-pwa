@@ -22,6 +22,7 @@ const Content = (props) => {
     const { storeConfig } = props;
     const styles = useStyles();
     const [isGrid, setGridState] = useState(true);
+    const [isExceedingOffset, setIsExceedingOffset] = useState(false);
     const handleScroll = () => {
         // To get page offset of last user
         // const lastUserLoaded = document.querySelector(`.grid-item:last-child`);
@@ -29,11 +30,20 @@ const Content = (props) => {
         if (lastUserLoaded) {
             const lastUserLoadedOffset = lastUserLoaded.offsetTop + lastUserLoaded.clientHeight;
             const pageOffset = window.pageYOffset + window.innerHeight;
-            if (pageOffset > lastUserLoadedOffset && !loadmore && products.items.length < products.total_count) {
-                handleLoadMore();
+
+            if (pageOffset > lastUserLoadedOffset) {
+                setIsExceedingOffset(true);
+            } else {
+                setIsExceedingOffset(false);
             }
         }
     };
+
+    React.useEffect(() => {
+        if (isExceedingOffset && !loadmore && products.items.length < products.total_count) {
+            handleLoadMore();
+        }
+    }, [isExceedingOffset]);
 
     const setGrid = async (state) => {
         setLocalStorage('isGrid', state);

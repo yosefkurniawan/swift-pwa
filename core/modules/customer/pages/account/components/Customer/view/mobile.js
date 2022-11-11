@@ -71,7 +71,6 @@ const ViewMobile = (props) => {
         },
     }))(Badge);
     const footerMobile = {
-        marginBottom: storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? '55px' : 0,
         display: storeConfig.pwa && storeConfig.pwa.mobile_navigation === 'bottom_navigation' ? 'flex' : null,
     };
     React.useEffect(() => {
@@ -130,16 +129,13 @@ const ViewMobile = (props) => {
                         </div>
                         {modules.wishlist.enabled ? (
                             <div className={styles.account_clearfix}>
-                                <Carousel data={wishlist} className={[styles.wishlistBlock, styles.margin20].join(' ')} Item={ProductItem} />
+                                <Carousel data={wishlist} className={[styles.wishlistBlock, styles.margin20].join(' ')} Item={ProductItem} storeConfig={storeConfig} />
                             </div>
                         ) : null}
                     </div>
                 ) : (
                     <span className={styles.span} />
                 )}
-                <div className="hidden-desktop" style={{ ...footerMobile }}>
-                    <Footer storeConfig={storeConfig} t={t} />
-                </div>
                 <ul className={styles.account_navigation}>
                     {modules.productcompare.enabled ? (
                         <li className={styles.account_navigation_item}>
@@ -167,6 +163,11 @@ const ViewMobile = (props) => {
                         </Button>
                     </li>
                 </ul>
+                {storeConfig?.pwa?.enabler_footer_mobile === false ? (
+                    <div className="hidden-desktop" style={{ ...footerMobile }}>
+                        <Footer storeConfig={storeConfig} t={t} />
+                    </div>
+                ) : null}
             </div>
         </div>
     );

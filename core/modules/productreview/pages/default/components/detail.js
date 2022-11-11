@@ -22,8 +22,9 @@ const Transition = React.forwardRef((props, ref) => (
 const ProductReview = (props) => {
     const styles = useStyles();
     const {
-        open, setOpen, reviewItem, t,
+        open, setOpen, reviewItem, t, storeConfig,
     } = props;
+    console.log('prodrev', storeConfig);
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('md'));
     if (reviewItem) {
         return (
@@ -57,6 +58,7 @@ const ProductReview = (props) => {
                                         lazy
                                         height={300}
                                         width={300}
+                                        storeConfig={storeConfig}
                                     />
                                 </div>
                                 <div className="col-md-5 col">

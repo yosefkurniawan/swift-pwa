@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const FormCom = (props) => {
     const {
@@ -16,10 +18,35 @@ const FormCom = (props) => {
         email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
         order_id: Yup.string().required(`${t('trackingorder:orderId')} ${t('validate:required')}`),
     });
+
+    const handleHashed = () => {
+        const router = useRouter();
+        if (router.query.hash) {
+            const decodedStr = Buffer.from(router.query.hash, 'base64').toString();
+            const params = decodedStr.split('&');
+            const dataParam = {};
+            params.forEach((param) => {
+                const val = param.split('=');
+                Object.assign(dataParam, { [val[0]]: val[1] });
+            });
+            if (Object.keys(dataParam).length !== 0 && dataParam.email && dataParam.order_id) {
+                React.useEffect(() => {
+                    setOrderField(dataParam);
+                    getTrackOrder();
+                    setOpenResult(true);
+                }, []);
+                return [dataParam.email, dataParam.order_id];
+            }
+        }
+        return '';
+    };
+
+    const hashedVal = handleHashed();
+
     const formik = useFormik({
         initialValues: {
-            email: email || '',
-            order_id: '',
+            email: email || '' || hashedVal[0],
+            order_id: '' || hashedVal[1],
         },
         validationSchema: TrackingSchema,
         onSubmit: async (values, { resetForm, setValues }) => {

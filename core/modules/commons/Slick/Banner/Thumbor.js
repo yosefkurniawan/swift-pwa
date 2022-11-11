@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 const BannerThumbnail = (props) => {
     const {
-        className = '', alt = 'Image', lazy = false, src, srcMobile,
+        className = '', alt = 'Image', lazy = false, src, srcMobile, storeConfig = {},
     } = props;
 
     let {

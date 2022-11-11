@@ -61,6 +61,7 @@ const WishlistComp = ({
                         width={defaultWidth}
                         height={defaultHeight}
                         quality={80}
+                        storeConfig={storeConfig}
                     />
                 </div>
                 <div className={styles.content}>

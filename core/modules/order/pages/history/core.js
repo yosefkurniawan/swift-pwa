@@ -1,15 +1,15 @@
-import Layout from '@layout';
 import { debuging } from '@config';
+import { getOrder, reOrder as mutationReorder } from '@core_modules/order/services/graphql';
+import { getHost } from '@helpers/config';
 import { setCartId } from '@helper_cartid';
-import PropTypes from 'prop-types';
+import Layout from '@layout';
 import CustomerLayout from '@layout_customer';
 import { useRouter } from 'next/router';
-import { getHost } from '@helpers/config';
-import { getOrder, reOrder as mutationReorder } from '@core_modules/order/services/graphql';
+import PropTypes from 'prop-types';
 
 const HistoryOrder = (props) => {
     const {
-        t, Content, Skeleton, ErrorView, size,
+        t, Content, Skeleton, ErrorView, size, storeConfig,
     } = props;
     const router = useRouter();
     const pageConfig = {
@@ -37,9 +37,7 @@ const HistoryOrder = (props) => {
         setPage(0);
     };
 
-    const {
-        loading, data, error,
-    } = getOrder({
+    const { loading, data, error } = getOrder({
         pageSize,
         currentPage: page + 1,
     });
@@ -63,10 +61,7 @@ const HistoryOrder = (props) => {
     if (error) {
         return (
             <Layout pageConfig={pageConfig} {...props}>
-                <ErrorView
-                    type="error"
-                    message={debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
-                />
+                <ErrorView type="error" message={debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')} />
             </Layout>
         );
     }
@@ -78,22 +73,52 @@ const HistoryOrder = (props) => {
                 variables: {
                     order_id,
                 },
-            }).then(async (res) => {
-                if (res.data && res.data.reorder && res.data.reorder.cart_id) {
-                    await setCartId(res.data.reorder.cart_id);
-                    setTimeout(() => {
-                        router.push('/checkout/cart');
-                    }, 1000);
-                }
-                window.backdropLoader(false);
-            }).catch(() => {
-                window.backdropLoader(false);
-            });
+            })
+                .then(async (res) => {
+                    if (res.data && res.data.reorder && res.data.reorder.cart_id) {
+                        await setCartId(res.data.reorder.cart_id);
+                        setTimeout(() => {
+                            router.push('/checkout/cart');
+                        }, 1000);
+                    }
+                    window.backdropLoader(false);
+                })
+                .catch(() => {
+                    window.backdropLoader(false);
+                });
         }
     };
 
+    let detail = [];
+    let customerEmail;
+    if (!loading && data && data.customer.orders) {
+        // eslint-disable-next-line prefer-destructuring
+        detail = data.customer.orders.items;
+    }
+
+    if (detail.length > 0) {
+        // eslint-disable-next-line array-callback-return
+        detail.map((item) => {
+            if (item.detail.length > 0) {
+                customerEmail = item.detail[0].customer_email;
+            }
+        });
+    }
+
     const returnUrl = (order_number) => {
-        window.location.replace(`${getHost()}/rma/customer/new/order_id/${order_number}`);
+        if (storeConfig && storeConfig.OmsRma.enable_oms_rma) {
+            const omsRmaLink = storeConfig.OmsRma.oms_rma_link;
+            const omsChannelCode = storeConfig.oms_channel_code;
+            const backUrl = window.location.href;
+            // eslint-disable-next-line max-len
+            const encodedQuerystring = `email=${encodeURIComponent(customerEmail)}&order_number=${encodeURIComponent(
+                order_number,
+            )}&channel_code=${encodeURIComponent(omsChannelCode)}&from=${encodeURIComponent(backUrl)}`;
+            const omsUrl = `${omsRmaLink}?${encodedQuerystring}`;
+            window.location.replace(omsUrl);
+        } else {
+            window.location.replace(`${getHost()}/rma/customer/new/order_id/${order_number}`);
+        }
     };
 
     return (
