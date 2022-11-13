@@ -121,7 +121,17 @@ const orderOutput = `
                     qty
                 }
                 row_total_incl_tax
-            }          
+            }
+
+            ${
+    modules.rewardpoint.enabled
+        ? `aw_reward_points {
+                is_use_reward_points
+                reward_points
+                reward_points_amount
+            }`
+        : ''
+}
 
             ${
     modules.rma.enabled
