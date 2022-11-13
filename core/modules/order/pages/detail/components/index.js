@@ -75,6 +75,7 @@ const DetailOrder = (props) => {
             }
         });
     }
+    console.log('dt', detail);
     if (detail.length > 0) {
         const handleOpenXendit = () => {
             setCheckoutData({
@@ -452,13 +453,30 @@ const DetailOrder = (props) => {
                                         </Typography>
                                     </div>
                                 ) : null}
+                                {detail[0].detail[0].aw_reward_points.is_use_reward_points ? (
+                                    <div className={styles.listSummary}>
+                                        <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
+                                            {t('order:rewardPoints')}
+                                        </Typography>
+                                        <Typography variant="span" letter="capitalize">
+                                            {formatPrice(detail[0].detail[0].aw_reward_points.reward_points_amount, currency)}
+                                        </Typography>
+                                    </div>
+                                ) : null}
                                 {modules.giftcard.enabled && detail[0].detail[0] && detail[0].detail[0].aw_giftcard.giftcard_amount !== null ? (
                                     <div className={styles.listSummary}>
                                         <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
                                             {t('order:giftcard')}
                                             {' '}
                                             (
-                                            {detail[0].detail[0].aw_giftcard.giftcard_detail[0].giftcard_code}
+                                            {detail[0].detail[0].aw_giftcard.giftcard_detail.length > 1
+                                                ? detail[0].detail[0].aw_giftcard.giftcard_detail.map((code, index) => {
+                                                    if (index === detail[0].detail[0].aw_giftcard.giftcard_detail.length - 1) {
+                                                        return code.giftcard_code;
+                                                    }
+                                                    return `${code.giftcard_code}, `;
+                                                })
+                                                : detail[0].detail[0].aw_giftcard.giftcard_detail[0].giftcard_code}
                                             )
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">

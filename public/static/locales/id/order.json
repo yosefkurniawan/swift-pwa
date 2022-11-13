@@ -16,6 +16,7 @@
     "paymentDate": "Tanggal pembayaran",
     "virtualAccount": "",
     "credit": "Kredit toko",
+    "rewardPoints": "Poin hadiah",
     "tax": "Pajak",
     "giftcard": "Gift card",
     "reorder": "Order lagi",
