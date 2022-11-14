@@ -1,6 +1,5 @@
 import useStyles from '@common_slick/Banner/style';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
-import { getLocalStorage } from '@helpers/localstorage';
 import { BREAKPOINTS } from '@theme_vars';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
@@ -20,7 +19,6 @@ const BannerThumbnail = (props) => {
     if (typeof heightMobile === 'string') heightMobile = parseInt(heightMobile, 0);
 
     const styles = useStyles();
-    const storeConfig = getLocalStorage('storeConfig') ? getLocalStorage('storeConfig') : null;
     const enable = storeConfig && storeConfig.pwa.thumbor_enable;
     const useHttpsOrHttp = storeConfig && storeConfig.pwa.thumbor_https_http;
     const url = storeConfig && storeConfig.pwa.thumbor_url;
@@ -45,9 +43,7 @@ const BannerThumbnail = (props) => {
     }, [imageUrl, mobileImageUrl]);
 
     return (
-        <div
-            className={styles.thumborContainer}
-        >
+        <div className={styles.thumborContainer}>
             {!lazy ? (
                 <>
                     <picture>
@@ -69,7 +65,6 @@ const BannerThumbnail = (props) => {
                             }}
                             alt={alt}
                         />
-
                     </picture>
                 </>
             ) : null}
