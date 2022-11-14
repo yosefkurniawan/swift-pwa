@@ -212,16 +212,7 @@ class MyApp extends App {
                     `,
                 })
                 .then(({ data }) => data);
-            // privateConfig = await pageProps.apolloClient
-            //     .query({
-            //         query: gql`
-            //             ${PrivateConfigSchema}
-            //         `,
-            //     })
-            //     .then(({ data }) => data)
-            //     .catch((e) => console.log(e));
             frontendOptions = frontendOptions.storeConfig;
-            // privateConfig = privateConfig.storeConfig;
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null ? storeConfig?.pwa?.remove_decimal_price_enable : false;
         }
 
@@ -237,7 +228,7 @@ class MyApp extends App {
             pageProps: {
                 ...pageProps,
                 app_cookies,
-                storeConfig,
+                storeConfig: { ...storeConfig, ...privateConfig },
                 isLogin,
                 lastPathNoAuth,
                 customerData,
