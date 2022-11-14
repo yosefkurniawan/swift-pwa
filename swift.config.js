@@ -276,13 +276,13 @@ const modules = {
             local: '', // sample AaOafUT6j2w7kZNb97_cAlI0MjGexmWOaWo650ANV5xgrT3Ff1xtdwJxVByCHUJZ0Ga9HKvbRw5NIjNV
             dev: '',
             prod: '',
-            stage: '',
+            stage: 'AZ-Jtz00C4S1mfLEsDvCqc-kO4e3JPR4QklRcVmt6rvBFrzae1E7g-tCb-zzLOLpP2kAA_ai76qRpQCU',
         },
         clientSecret: {
             local: '', // sample EM2Uqt5eiPEgcCMi6NAF94DNsOoP3YBgGRkBGyFQdEXahjzuPfi17sjfhW4N9CfmE_RLjDGuZ19Gf1WP
             dev: '',
             prod: '',
-            stage: '',
+            stage: 'EG4Dpk2XELnq8VxwAVKfc1BIayJEt1936We1fpLU7vd8cvb0qY2MnAVo1tqOzNoRRp3UWdsh2KIp0s3g',
         },
         intent: 'authorize',
         returnUrl: 'paypal/express/review',

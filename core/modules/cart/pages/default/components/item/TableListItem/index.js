@@ -226,6 +226,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                                         width={defaultWidth}
                                                                         height={defaultHeight}
                                                                         quality={80}
+                                                                        storeConfig={storeConfig}
                                                                     />
                                                                 </a>
                                                             </Link>

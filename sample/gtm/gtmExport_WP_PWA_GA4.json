@@ -10,7 +10,7 @@
             "path": "accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>",
             "accountId": "<<@ACCOUNT_ID>>",
             "containerId": "<<@CONTAINER_ID>>",
-            "name": "SwiftPWA_GA4",
+            "name": "swiftpwa.testingnow.me/GA4",
             "publicId": "<<@GTM_ID>>",
             "usageContext": [
                 "WEB"

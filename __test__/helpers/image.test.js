@@ -1,11 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import { generateThumborUrl, getImageFallbackUrl, generateImageDimensions } from '@helpers/image';
 
+const storeConfig = JSON.parse(localStorage.getItem('storeConfig'));
+const enable = storeConfig.pwa.thumbor_enable;
+const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
+const url = storeConfig.pwa.thumbor_url;
 describe('Image Helpers', () => {
     it('Should return thumbor url from Sirclo\'s CDN', () => {
         render(
             <>
-                <div>{generateThumborUrl('https://www.google.com/image.jpg', 400, 600)}</div>
+                <div>{generateThumborUrl('https://www.google.com/image.jpg', 400, 600, enable, useHttpsOrHttp, url)}</div>
             </>,
         );
 

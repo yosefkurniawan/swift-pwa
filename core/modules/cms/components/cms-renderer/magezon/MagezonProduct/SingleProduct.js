@@ -3,8 +3,6 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-
-import PriceFormat from '@common_priceformat';
 import RatingStar from '@common_ratingstar';
 import { modules } from '@config';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
@@ -19,6 +17,9 @@ import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import Link from 'next/link';
 import Image from '@common_image';
+import dynamic from 'next/dynamic';
+
+const PriceFormat = dynamic(() => import('@common_priceformat'), { ssr: false });
 
 const SingleProduct = (props) => {
     // prettier-ignore
@@ -99,13 +100,17 @@ const SingleProduct = (props) => {
                         justify="center"
                         alignItems={isProductGrid ? 'center' : 'stretch'}
                     >
-                        <div onClick={handleClick} style={{ width: defaultWidth }}>
-                            <Image
-                                src={small_image.url}
-                                width={defaultWidth}
-                                height={defaultHeight}
-                            />
-                        </div>
+                        <Link href={handleClick}>
+                            <a style={{ width: defaultWidth }}>
+                                <Image
+                                    src={small_image.url}
+                                    width={defaultWidth}
+                                    height={defaultHeight}
+                                    alt={name}
+                                    storeConfig={storeConfig}
+                                />
+                            </a>
+                        </Link>
                     </Grid>
                 )}
                 <Grid item xs container direction="column" alignItems={isGrid || isProductGrid || isSlider ? 'center' : 'stretch'}>
@@ -134,7 +139,9 @@ const SingleProduct = (props) => {
                         <Grid item>
                             {product_price && (
                                 <div className="mgz-single-product-price">
-                                    <PriceFormat {...price} />
+                                    {
+                                        price && <PriceFormat {...price} />
+                                    }
                                 </div>
                             )}
                             {product_shortdescription && (

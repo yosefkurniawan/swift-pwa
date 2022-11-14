@@ -51,6 +51,7 @@ const PaypalReviewCore = (props) => {
         selectedShippingMethod: null,
         isGuest: false,
         isCouponAppliedToCart: false,
+        shippingAddress: null,
         loading: {
             all: false,
             order: false,
@@ -87,6 +88,10 @@ const PaypalReviewCore = (props) => {
 
         // init shipping address
         const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
+
+        if (shipping) {
+            state.shippingAddress = shipping;
+        }
 
         // init shipping method
         if (shipping && shipping.available_shipping_methods) {

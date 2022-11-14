@@ -29,6 +29,7 @@ const ProductReviewPage = (props) => {
         page,
         handleChangePage,
         handleChangeRowsPerPage,
+        storeConfig,
     } = props;
 
     const [isOpenDetail, setOpenDetail] = React.useState(false);
@@ -52,6 +53,7 @@ const ProductReviewPage = (props) => {
                     open={isOpenDetail}
                     setOpen={() => openDetail(false)}
                     reviewItem={reviewItem}
+                    storeConfig={storeConfig}
                     {...props}
                 />
                 <div className={styles.tableOuterContainer}>

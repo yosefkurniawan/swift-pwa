@@ -97,8 +97,9 @@ const CoreDetail = (props) => {
             && relatedProduct.awBlogPostWithRelatedPosts.related_product) {
             relatedProductArr = relatedProduct.awBlogPostWithRelatedPosts.related_product;
         }
+        const dataDetail = data?.getBlogByFilter?.items[0];
         return (
-            <DefaultLayout {...props} pageConfig={config}>
+            <DefaultLayout {...props} pageConfig={config} data={dataDetail} isBdp>
                 <Content
                     short={false}
                     t={t}

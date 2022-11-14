@@ -34,7 +34,7 @@ const ViewSwitcherCurrency = (props) => {
     /**
      * loading state
      */
-    if (loading || isEmptyCookiesCurrency || currencyState === null) {
+    if (loading && isEmptyCookiesCurrency) {
         return (
             <div>
                 {title && <Skeleton style={{ padding: 0 }} variant="rect" width={100} height={10} />}
@@ -68,32 +68,34 @@ const ViewSwitcherCurrency = (props) => {
      */
     return (
         <div>
-            {/* [CURRENCY] TITLE */}
-            {title && (
+            {!isEmptyCookiesCurrency && (
                 <div>
-                    <strong style={styleTitle}>{title}</strong>
-                </div>
-            )}
+                    {/* [CURRENCY] TITLE */}
+                    {title && (
+                        <div>
+                            <strong style={styleTitle}>{title}</strong>
+                        </div>
+                    )}
 
-            {/* [CURRENCY] BUTTON */}
-            <Button ref={buttonRef} onClick={handleClick} style={styleButton}>
-                {t('common:setting:currency')}
-                :&nbsp;
-                <strong>{finalDefaultCurrency}</strong>
-            </Button>
+                    {/* [CURRENCY] BUTTON */}
+                    <Button ref={buttonRef} onClick={handleClick} style={styleButton}>
+                        {t('common:setting:currency')}
+                        :&nbsp;
+                        <strong>{finalDefaultCurrency}</strong>
+                    </Button>
 
-            {/* [CURRENCY] LIST */}
-            <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={anchorOrigin}
-                transformOrigin={transforOrigin}
-                container={buttonRef.current}
-            >
-                <List component="nav">
-                    {currencyState !== null
+                    {/* [CURRENCY] LIST */}
+                    <Popover
+                        id={id}
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        anchorOrigin={anchorOrigin}
+                        transformOrigin={transforOrigin}
+                        container={buttonRef.current}
+                    >
+                        <List component="nav">
+                            {currencyState !== null
                         && currencyState.exchange_rates.map((item, index) => {
                             const { currency_to } = item;
                             const currency_default = currencyState === null ? '' : currencyState.default_display_currency_code;
@@ -113,8 +115,10 @@ const ViewSwitcherCurrency = (props) => {
                                 </ListItem>
                             );
                         })}
-                </List>
-            </Popover>
+                        </List>
+                    </Popover>
+                </div>
+            )}
         </div>
     );
 };

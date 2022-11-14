@@ -16,7 +16,9 @@ import classNames from 'classnames';
 
 const Content = (props) => {
     const styles = useStyles();
-    const { t, handleRemoveProduct, compareList } = props;
+    const {
+        t, handleRemoveProduct, compareList, storeConfig,
+    } = props;
     const [columnWidth, setColumnWidth] = React.useState(null);
     const [confirmDel, setConfirmDel] = React.useState(false);
     const [selectDelete, setSelectDelet] = React.useState(null);
@@ -45,7 +47,6 @@ const Content = (props) => {
     };
 
     if (compareList.compareList.items.length === 0) {
-        console.log('hereee 222', compareList);
         return <Empty t={t} />;
     }
 
@@ -72,7 +73,7 @@ const Content = (props) => {
                                             style={{ width: columnWidth }}
                                         >
                                             <div className={styles.productImage}>
-                                                <ProductItem {...product} enableProductCompare={false} />
+                                                <ProductItem {...product} enableProductCompare={false} storeConfig={storeConfig} />
                                                 <ClearIcon className="clearIcon" onClick={() => confirmDelete(productCompare)} />
                                             </div>
                                         </TableCell>

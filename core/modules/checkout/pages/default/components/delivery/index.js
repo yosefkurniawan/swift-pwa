@@ -84,6 +84,9 @@ const DeliveryComp = (props) => {
                             option: selectedShipping.length > 0 ? selectedShipping[0].label : 'Pickup at Store Pickup at Store',
                             action: 'checkout_option',
                         },
+                        fbpixels: {
+                            total_price: checkout.data.cart.prices.grand_total.value,
+                        },
                     },
                 },
             };

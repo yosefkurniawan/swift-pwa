@@ -6,7 +6,7 @@ const useStyles = makeStyles(() => ({
         left: 0,
         bottom: 0,
         width: '100%',
-        zIndex: 99,
+        zIndex: 999,
         boxShadow: '0px 0 3px #0000001A',
     },
     navAction: {

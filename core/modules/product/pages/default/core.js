@@ -620,16 +620,24 @@ const PageDetail = (props) => {
         }
     }
     const schemaOrg = generateSchemaOrg(product.items[productByUrl]);
+    let keywords = {};
+    if (product.items[productByUrl]?.meta_keywords) {
+        keywords = {
+            type: 'meta',
+            value: product.items[productByUrl]?.meta_keywords,
+        };
+    }
     const config = {
-        title: product.items.length > 0 ? product.items[productByUrl].name : '',
+        title: product.items[productByUrl].meta_title || product.items[productByUrl].name || '',
         bottomNav: false,
         header: 'absolute', // available values: "absolute", "relative", false (default)
         pageType: 'product',
         ogContent: {
             description: {
                 type: 'meta',
-                value: StripHtmlTags(product.items[productByUrl].description.html),
+                value: StripHtmlTags(product.items[productByUrl].meta_description || product.items[productByUrl].description.html),
             },
+            keywords,
             'og:image': product.items[productByUrl].small_image.url,
             'og:image:type': 'image/jpeg',
             'og:description': StripHtmlTags(product.items[productByUrl].description.html),
@@ -647,12 +655,13 @@ const PageDetail = (props) => {
             'product:price:amount': product.items[productByUrl].price_range.minimum_price.final_price.value,
             'product:pretax_price:currency': product.items[productByUrl].price_range.minimum_price.final_price.currency,
             'product:pretax_price:amount': product.items[productByUrl].price_range.minimum_price.final_price.value,
+            'og:title': product.items[productByUrl].meta_title || product.items[productByUrl].name,
         },
         schemaOrg,
     };
 
     return (
-        <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props} isPdp>
+        <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props} data={data} isPdp>
             <ContentDetail
                 keyProduct={productByUrl}
                 product={product}
