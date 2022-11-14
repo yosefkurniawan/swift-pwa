@@ -57,7 +57,7 @@ const BurgerV2 = ({
                     <img src={logoUrl} alt="logo" className={styles.imgLogoHamburger} onClick={() => router.push('/')} />
                 </div>
                 <div className={styles.navRightMenu}>
-                    <BrowseModal open={openModal} setOpenModal={handleOpenModal} />
+                    <BrowseModal open={openModal} setOpenModal={handleOpenModal} storeConfig={storeConfig} />
                     <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => handleOpenModal(true)}>
                         <SearchIcon />
                     </IconButton>

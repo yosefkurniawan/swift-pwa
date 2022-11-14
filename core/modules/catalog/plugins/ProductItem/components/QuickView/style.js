@@ -187,6 +187,20 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 20,
         fontSize: 12,
     },
+    sellerContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 10,
+    },
+    imageContainer: {
+        float: 'left',
+        marginRight: 20,
+    },
+    img: {
+        width: '60px',
+        height: 'auto',
+        borderRadius: '50%',
+    },
 }));
 
 export default useStyles;

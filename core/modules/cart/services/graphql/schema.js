@@ -155,6 +155,7 @@ customizable_options {
 const items = `
 items {
   id
+  note
   quantity
   ... on SimpleCartItem {
     SimpleMiniCustomizable: ${customizable_options}
@@ -227,6 +228,10 @@ items {
     url_key
     sku
     stock_status
+    seller {
+      seller_id
+      seller_name
+    }
     categories {
       name
     }
@@ -416,6 +421,7 @@ export const getMiniCart = gql`
             items {
               id
               quantity
+              note
               ... on SimpleCartItem {
                 SimpleMiniCustomizable: ${customizable_options}
               }
@@ -481,6 +487,10 @@ export const getMiniCart = gql`
                 url
                 label
               }
+              seller {
+                seller_id
+                seller_name
+              }
               url_key
               sku
               stock_status
@@ -544,6 +554,23 @@ export const updateCartitem = gql`
           ${cartRequiredSelection}
           ${items}
           ${cartAvailableFreeItems}
+        }
+      }
+    }
+`;
+
+export const updateCartItemNote = gql`
+    mutation updateCartItems($cartId: String!, $cart_item_id: Int!, $note: String!, $quantity: Float!) {
+      updateCartItems(
+        input: { 
+          cart_id: $cartId,
+          cart_items: {cart_item_id: $cart_item_id, quantity: $quantity },
+          note: $note
+        }
+      ) {
+        cart {
+          id
+          ${items}
         }
       }
     }

@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import * as schemaCategory from '@core_modules/catalog/services/graphql/categorySchema';
 import * as productSchema from '@core_modules/catalog/services/graphql/productSchema';
 

@@ -1,16 +1,18 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable operator-linebreak */
 /* eslint-disable no-empty */
 /* eslint-disable array-callback-return */
 /* eslint-disable guard-for-in */
-import React from 'react';
-import PropTypes from 'prop-types';
-import Router, { useRouter } from 'next/router';
-import getQueryFromPath from '@helper_generatequery';
-import TagManager from 'react-gtm-module';
+import generateConfig from '@core_modules/catalog/helpers/generateConfig';
+import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
 import { getProduct, getProductAgragations } from '@core_modules/catalog/services/graphql';
 import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
-import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
-import generateConfig from '@core_modules/catalog/helpers/generateConfig';
+import getQueryFromPath from '@helper_generatequery';
 import Content from '@plugin_productlist/components';
+import Router, { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
+import React from 'react';
+import TagManager from 'react-gtm-module';
 
 const Product = (props) => {
     const {
@@ -28,6 +30,7 @@ const Product = (props) => {
         availableFilter,
         token,
         isLogin,
+        sellerId = null,
         ...other
     } = props;
     const router = useRouter();
@@ -59,7 +62,9 @@ const Product = (props) => {
                 // eslint-disable-next-line no-restricted-syntax
                 for (const idx in v.selectedFilter) {
                     if (v.selectedFilter[idx] !== '' && !v[idx]) {
-                        queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                        if (v.selectedFilter[idx] !== undefined && !idx.includes('seller/')) {
+                            queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                        }
                     }
                 }
             } else if (v[key] !== 0 && v[key] !== '') {
@@ -75,7 +80,24 @@ const Product = (props) => {
         });
     }
 
-    config = generateConfig(query, config, elastic, availableFilter);
+    if (sellerId === null) {
+        config = generateConfig(query, config, elastic, availableFilter);
+    } else {
+        config = {
+            customFilter: false,
+            search: '',
+            pageSize: 8,
+            currentPage: 1,
+            filter: [
+                {
+                    type: 'seller_id',
+                    value: sellerId,
+                },
+            ],
+            ...storeConfig.pwa,
+        };
+        config = generateConfig(query, config, elastic, availableFilter);
+    }
     let context = (isLogin && isLogin === 1) || (config.sort && config.sort.key === 'random') ? { request: 'internal' } : {};
     if (token && token !== '') {
         context = {
@@ -96,15 +118,10 @@ const Product = (props) => {
             context,
             fetchPolicy: config.sort && config.sort.key === 'random' && filterSaved ? 'cache-and-network' : 'cache-first',
         },
-        router,
+        router
     );
     let products = {};
-    products = data && data.products
-        ? data.products
-        : {
-            total_count: 0,
-            items: [],
-        };
+    products = data && data.products ? data.products : { total_count: 0, items: [] };
     // generate filter if donthave custom filter
     const aggregations = [];
     if (!customFilter && !loading && products.aggregations) {
@@ -161,6 +178,7 @@ const Product = (props) => {
 
     React.useEffect(() => {
         if (data && data.products) {
+            // GTM UA dataLayer
             const tagManagerArgs = {
                 dataLayer: {
                     event: 'impression',
@@ -172,8 +190,8 @@ const Product = (props) => {
                         impressions: data.products.items.map((product, index) => {
                             let categoryProduct = '';
                             // eslint-disable-next-line no-unused-expressions
-                            product.categories.length > 0
-                                && product.categories.map(({ name }, indx) => {
+                            product.categories.length > 0 &&
+                                product.categories.map(({ name }, indx) => {
                                     if (indx > 0) categoryProduct += `/${name}`;
                                     else categoryProduct += name;
                                 });
@@ -189,7 +207,42 @@ const Product = (props) => {
                     },
                 },
             };
+            // GA 4 dataLayer
+            const tagManagerArgsGA4 = {
+                dataLayer: {
+                    event: 'view_item_list',
+                    pageName: categoryPath,
+                    pageType: 'category',
+                    ecommerce: {
+                        items: data.products.items.map((product, index) => {
+                            let categoryProduct = '';
+                            let categoryOne = '';
+                            let categoryTwo = '';
+                            // eslint-disable-next-line no-unused-expressions
+                            product.categories.length > 0 && (
+                                categoryOne = product.categories[0].name,
+                                categoryTwo = product.categories[1]?.name,
+                                product.categories.map(({ name }, indx) => {
+                                    if (indx > 0) categoryProduct += `/${name}`;
+                                    else categoryProduct += name;
+                                })
+                            );
+                            return {
+                                item_name: product.name,
+                                item_id: product.sku,
+                                price: product.price_range.minimum_price.regular_price.value,
+                                item_category: categoryOne,
+                                item_category_2: categoryTwo,
+                                item_list_name: categoryProduct,
+                                index,
+                                currency: product.price_range.minimum_price.regular_price.currency,
+                            };
+                        }),
+                    },
+                },
+            };
             TagManager.dataLayer(tagManagerArgs);
+            TagManager.dataLayer(tagManagerArgsGA4);
         }
     }, [data]);
 

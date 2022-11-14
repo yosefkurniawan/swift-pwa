@@ -6,7 +6,8 @@ import Header from '@core_modules/product/pages/default/components/header';
 import Loading from '@core_modules/product/pages/default/components/Loader';
 import {
     addProductsToCompareList, addWishlist as mutationAddWishlist, getProduct,
-    getProductLabel, smartProductTabs
+    // eslint-disable-next-line comma-dangle
+    getProductLabel, getSeller, smartProductTabs
 } from '@core_modules/product/services/graphql';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { getCookies } from '@helper_cookies';
@@ -29,6 +30,24 @@ const ContentDetail = ({
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
     const [addProductCompare] = addProductsToCompareList();
     const { data: dataCompare, client } = useQuery(localCompare);
+    const { data: dSeller, loading: loadSeller } = getSeller({
+        fetchPolicy: 'no-cache',
+        variables: {
+            input: {
+                seller_id: [parseFloat(item.seller_id)],
+            },
+        },
+    });
+
+    let enableMultiSeller = false;
+    if (storeConfig) {
+        enableMultiSeller = storeConfig.enable_oms_multiseller === '1';
+    }
+
+    let itemData;
+    if (!loadSeller && dSeller && enableMultiSeller) {
+        itemData = dSeller.getSeller;
+    }
 
     React.useEffect(() => {
         if (isLogin && !dataUid && modules.productcompare.enabled) {
@@ -38,12 +57,16 @@ const ContentDetail = ({
 
     React.useEffect(() => {
         let categoryProduct = '';
+        let categoryOne = '';
         // eslint-disable-next-line no-unused-expressions
-        item.categories.length > 0
-            && item.categories.map(({ name }, indx) => {
+        item.categories.length > 0 && (
+            categoryOne = item.categories[0].name,
+            item.categories.map(({ name }, indx) => {
                 if (indx > 0) categoryProduct += `/${name}`;
                 else categoryProduct += name;
-            });
+            })
+        );
+        // GTM UA dayaLayer
         const tagManagerArgs = {
             dataLayer: {
                 pageName: item.name,
@@ -71,7 +94,35 @@ const ContentDetail = ({
                 eventLabel: item.name,
             },
         };
+        // GA 4 dataLayer
+        const tagManagerArgsGA4 = {
+            dataLayer: {
+                pageName: item.name,
+                pageType: 'product',
+                ecommerce: {
+                    items: [
+                        {
+                            item_name: item.name,
+                            item_id: item.sku,
+                            price: item.price_range.minimum_price.regular_price.value || 0,
+                            item_category: categoryOne,
+                            currency: item.price_range.minimum_price.regular_price.currency || 'USD',
+                            item_stock_status: item.stock_status,
+                            item_reviews_score: reviewValue,
+                            item_reviews_count: item.review.reviews_count,
+                            item_sale_product: item.sale === 0 ? 'NO' : 'YES',
+                        },
+                    ],
+                },
+                event: 'view_item',
+            },
+        };
+        // Clear the previous ecommerce object.
+        TagManager.dataLayer({ dataLayer: { ecommerce: null } });
         TagManager.dataLayer(tagManagerArgs);
+        // Clear the previous ecommerce object.
+        TagManager.dataLayer({ dataLayer: { ecommerce: null } });
+        TagManager.dataLayer(tagManagerArgsGA4);
     }, []);
 
     const bannerData = [];
@@ -128,6 +179,7 @@ const ContentDetail = ({
     const [addWishlist] = mutationAddWishlist();
     const handleWishlist = () => {
         if (isLogin && isLogin === 1) {
+            // GTM UA dataLayer
             TagManager.dataLayer({
                 dataLayer: {
                     event: 'addToWishlist',
@@ -148,6 +200,26 @@ const ContentDetail = ({
                             ],
                         },
                     },
+                },
+            });
+            // GA 4 dataLayer
+            TagManager.dataLayer({
+                dataLayer: {
+                    ecommerce: {
+                        action: {
+                            items: [
+                                {
+                                    currency: item.price_range.minimum_price.regular_price.currency,
+                                    item_name: item.name,
+                                    item_id: item.sku,
+                                    price: item.price_range.minimum_price.regular_price.value || 0,
+                                    item_category: item.categories.length > 0 ? item.categories[0].name : '',
+                                    item_stock_status: item.stock_status,
+                                },
+                            ],
+                        },
+                    },
+                    event: 'add_to_wishlist',
                 },
             });
             addWishlist({
@@ -351,6 +423,7 @@ const ContentDetail = ({
 
     return (
         <Content
+            dataSeller={itemData}
             data={{
                 ...product.items[keyProduct],
                 weltpixel_labels,
@@ -389,6 +462,7 @@ const ContentDetail = ({
             isLogin={isLogin}
             handleSetCompareList={handleSetCompareList}
             enablePopupImage={enablePopupImage}
+            enableMultiSeller={enableMultiSeller}
             storeConfig={storeConfig}
         />
     );

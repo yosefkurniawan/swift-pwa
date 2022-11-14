@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import TagManager from 'react-gtm-module';
-import gqlService from '@core_modules/checkout/services/graphql';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
+import gqlService from '@core_modules/checkout/services/graphql';
+import TagManager from 'react-gtm-module';
 
 const DeliveryComp = (props) => {
     const {
@@ -87,11 +87,37 @@ const DeliveryComp = (props) => {
                     },
                 },
             };
+            // GA 4 dataLayer
+            const dataLayerOpt = {
+                event: 'add_shipping_info',
+                ecommerce: {
+                    shipping_tier: selectedShipping.length > 0 ? selectedShipping[0].label : 'Pickup at Store Pickup at Store',
+                    items: [
+                        checkout.data.cart.items.map(({ quantity, product, prices }) => ({
+                            currency: storeConfig.base_currency_code || 'IDR',
+                            item_name: product.name,
+                            item_id: product.sku,
+                            price: JSON.stringify(prices.price.value),
+                            item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                            item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                            quantity: JSON.stringify(quantity),
+                            item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                            item_sale_product: '',
+                            item_reviews_count: '',
+                            item_reviews_score: '',
+                        })),
+
+                    ],
+                },
+            };
             TagManager.dataLayer({
                 dataLayer,
             });
             TagManager.dataLayer({
                 dataLayer: dataLayerOption,
+            });
+            TagManager.dataLayer({
+                dataLayer: dataLayerOpt,
             });
             window.backdropLoader(false);
             await setCheckout({
@@ -170,6 +196,7 @@ const DeliveryComp = (props) => {
         }
     };
     if (checkout.loading.all) return <Skeleton styles={styles} />;
+    if (storeConfig.enable_oms_multiseller === '1') return null;
     if (isOnlyVirtualProductOnCart) return null;
     return <DeliveryView {...props} handleSelect={handleSelect} />;
 };

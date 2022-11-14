@@ -38,4 +38,8 @@ export default makeStyles(() => ({
         marginLeft: 'auto',
         fontWeight: 'normal',
     },
+    freeShipping: {
+        marginLeft: 'auto',
+        fontWeight: 'bold',
+    },
 }));

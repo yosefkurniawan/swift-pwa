@@ -1,43 +1,35 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable func-names */
 /* eslint-disable radix */
-import React from 'react';
-import App from 'next/app';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import theme from '@theme_theme';
-import Cookie from 'js-cookie';
-import { getAppEnv } from '@root/core/helpers/env';
-import { ThemeProvider } from '@material-ui/core/styles';
+import { custDataNameCookie, features, GTM, modules, sentry } from '@config';
+import { getLastPathWithoutLogin, getLoginInfo } from '@helper_auth';
+import { getLocalStorage, setLocalStorage, setResolver, testLocalStorage } from '@helper_localstorage';
 import { appWithTranslation } from '@i18n';
-import {
-    storeConfig as ConfigSchema,
-    getVesMenu,
-    getCategories,
-    frontendOptions as FrontendSchema,
-} from '@services/graphql/schema/config';
-import {
-    GTM, custDataNameCookie, features, sentry, modules,
-} from '@config';
-import { getLoginInfo, getLastPathWithoutLogin } from '@helper_auth';
-import {
-    setResolver, testLocalStorage, setLocalStorage, getLocalStorage,
-} from '@helper_localstorage';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { getAppEnv } from '@root/core/helpers/env';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
+import { frontendOptions as FrontendSchema, getCategories, getVesMenu, storeConfig as ConfigSchema } from '@services/graphql/schema/config';
+import theme from '@theme_theme';
+import Cookie from 'js-cookie';
 import { unregister } from 'next-offline/runtime';
+import App from 'next/app';
+import React from 'react';
 
-import TagManager from 'react-gtm-module';
-import PageProgressLoader from '@common_loaders/PageProgress';
-import getConfig from 'next/config';
-import routeMiddleware from '@middleware_route';
-import graphRequest from '@graphql_request';
-import Notification from '@lib_firebase/notification';
-import firebase from '@lib_firebase/index';
 import { gql } from '@apollo/client';
+import PageProgressLoader from '@common_loaders/PageProgress';
+import graphRequest from '@graphql_request';
+import firebase from '@lib_firebase/index';
+import Notification from '@lib_firebase/notification';
+import routeMiddleware from '@middleware_route';
+import getConfig from 'next/config';
+import TagManager from 'react-gtm-module';
 
-import * as Sentry from '@sentry/node';
 import ModalCookies from '@core_modules/theme/components/modalCookies';
+import * as Sentry from '@sentry/node';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -257,6 +249,7 @@ class MyApp extends App {
                     navigator.serviceWorker.ready.then((registration) => {
                         // This prevents to show one notification for each tab
                         setTimeout(() => {
+                            // eslint-disable-next-line no-console
                             console.log('[firebase-messaging-sw.js] Received foreground message ', payload);
                             const lastNotification = localStorage.getItem('lastNotification');
                             const isDifferentContent = payload.data.updated_date !== lastNotification;
@@ -275,6 +268,7 @@ class MyApp extends App {
                     });
                 });
             } catch (err) {
+                // eslint-disable-next-line no-console
                 console.log(err);
             }
         }
@@ -326,9 +320,11 @@ class MyApp extends App {
     registerServiceWorker() {
         navigator.serviceWorker.register('/service-worker.js').then(
             (registration) => {
+                // eslint-disable-next-line no-console
                 console.log('Service Worker registration successful with scope: ', registration.scope);
             },
             (err) => {
+                // eslint-disable-next-line no-console
                 console.log('Service Worker registration failed: ', err);
             },
         );

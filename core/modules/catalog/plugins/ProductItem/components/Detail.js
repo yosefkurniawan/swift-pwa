@@ -9,6 +9,7 @@ import React from 'react';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
+import StorefrontIcon from '@material-ui/icons/Storefront';
 import classNames from 'classnames';
 import useStyles from '@plugin_productitem/style';
 
@@ -32,16 +33,18 @@ const Detail = (props) => {
         enablePrice = true,
         enableProductCompare,
         storeConfig = {},
+        seller,
     } = props;
     const styles = useStyles();
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
     const FeedIcon = feed ? <Favorite className={classFeedActive} /> : <FavoriteBorderOutlined className={styles.iconFeed} />;
     const showWishlist = typeof enableWishlist !== 'undefined' ? enableWishlist : modules.wishlist.enabled;
     const showRating = typeof enableRating !== 'undefined' ? enableRating : storeConfig?.pwa?.rating_enable;
+    const enableMultiSeller = storeConfig.enable_oms_multiseller === '1';
     return (
         <div className={styles.descItem}>
             {showWishlist && (
-                <Button className={styles.btnFeed} onClick={handleFeed}>
+                <Button className={styles.btnFeed} onClick={() => handleFeed(props)}>
                     {FeedIcon}
                 </Button>
             )}
@@ -50,11 +53,19 @@ const Detail = (props) => {
                     <CompareArrowsIcon className={styles.iconCompare} />
                 </Button>
             )}
-            <Link onClick={handleClick} className={styles.productLinkButton}>
+            <Link onClick={() => handleClick(props)} className={styles.productLinkButton}>
                 <Typography variant="p" className={styles.productTitle} id="plugin-productTitle-typography" letter="capitalize">
                     {name}
                 </Typography>
             </Link>
+            {enableMultiSeller && seller.seller_name && (
+                <div className={styles.infoSeller}>
+                    <StorefrontIcon className={styles.iconSeller} />
+                    <Typography variant="p" className={styles.productTitle} letter="capitalize">
+                        {seller.seller_name}
+                    </Typography>
+                </div>
+            )}
             {showRating && <RatingStar value={ratingValue} />}
             {enablePrice && (
                 <PriceFormat

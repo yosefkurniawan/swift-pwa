@@ -195,6 +195,7 @@ const PaypalButton = (props) => {
         }).then(async (result) => {
             if (result && result.data && result.data.setPaymentMethodOnCart && result.data.setPaymentMethodOnCart.cart) {
                 const selectedPayment = result.data.setPaymentMethodOnCart.cart.selected_payment_method;
+                // GTM UA dataLayer
                 const dataLayer = {
                     event: 'checkout',
                     ecommerce: {
@@ -225,8 +226,32 @@ const PaypalButton = (props) => {
                         },
                     },
                 };
+                // GA 4 dataLayer
+                const dataLayerOpt = {
+                    event: 'add_payment_info',
+                    ecommerce: {
+                        payment_type: selectedPayment[0].title,
+                        items: [
+                            cart && cart.items && cart.items.map(({ quantity, product, prices }) => ({
+                                currency: storeConfig.base_currency_code || 'IDR',
+                                item_name: product.name,
+                                item_id: product.sku,
+                                price: JSON.stringify(prices.price.value),
+                                item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                                item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                                quantity: JSON.stringify(quantity),
+                                item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                item_sale_product: '',
+                                item_reviews_count: '',
+                                item_reviews_score: '',
+                            })),
+
+                        ],
+                    },
+                };
                 TagManager.dataLayer({ dataLayer });
                 TagManager.dataLayer({ dataLayer: dataLayerOption });
+                TagManager.dataLayer({ dataLayer: dataLayerOpt });
             } else {
                 onErrorPaypal('error');
             }

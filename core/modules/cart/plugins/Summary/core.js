@@ -1,10 +1,11 @@
-import { formatPrice } from '@helper_currency';
+/* eslint-disable no-lonely-if */
 import config from '@config';
+import { formatPrice } from '@helper_currency';
 import propTypes from 'prop-types';
 
 const CoreSummary = (props) => {
     const {
-        DesktopView, MobileView, isDesktop, dataCart, globalCurrency = 'IDR',
+        DesktopView, MobileView, isDesktop, dataCart, globalCurrency = 'IDR', storeConfig,
         ...other
     } = props;
     const { t } = other;
@@ -31,14 +32,20 @@ const CoreSummary = (props) => {
     if (dataCart && items) {
         let subtotal;
         if (prices && prices.applied_taxes && prices.applied_taxes.length) {
-            subtotal = formatPrice(prices.subtotal_excluding_tax.value, prices.subtotal_excluding_tax.currency || globalCurrency);
+            subtotal = formatPrice(
+                prices.subtotal_excluding_tax.value,
+                prices.subtotal_excluding_tax.currency || globalCurrency,
+            );
         } else {
-            subtotal = formatPrice(prices.subtotal_including_tax.value, prices.subtotal_including_tax.currency || globalCurrency);
+            subtotal = formatPrice(
+                prices.subtotal_including_tax.value,
+                prices.subtotal_including_tax.currency || globalCurrency,
+            );
         }
         total = prices.grand_total;
         const [shipping] = shipping_addresses;
 
-        dataSummary.push({ item: 'Sub Total', value: subtotal });
+        dataSummary.push({ item: 'Total', value: subtotal });
 
         if (prices && prices.applied_taxes && prices.applied_taxes.length) {
             const taxes = prices.applied_taxes.reduce(
@@ -46,7 +53,8 @@ const CoreSummary = (props) => {
                     value: prev.value + curr.amount.value,
                     currency: curr.amount.currency,
                 }),
-                { value: 0 },
+                // eslint-disable-next-line comma-dangle
+                { value: 0 }
             );
             const price = formatPrice(taxes.value, taxes.currency);
             dataSummary.push({ item: t('common:summary:tax'), value: price });
@@ -55,14 +63,30 @@ const CoreSummary = (props) => {
         if (modules.checkout.extraFee.enabled && applied_extra_fee && applied_extra_fee.extrafee_value) {
             dataSummary.push({
                 item: applied_extra_fee.title || '',
-                value: formatPrice(applied_extra_fee.extrafee_value.value || 0, globalCurrency),
+                value: formatPrice(
+                    applied_extra_fee.extrafee_value.value ? applied_extra_fee.extrafee_value.value : 0,
+                    globalCurrency,
+                ),
             });
         }
 
-        if (shipping && shipping.selected_shipping_method) {
-            const shippingMethod = shipping.selected_shipping_method;
-            const price = formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency);
+        if (storeConfig.enable_oms_multiseller === '1') {
+            const multiShipping = shipping_addresses;
+            let totalShipping = 0;
+            // eslint-disable-next-line array-callback-return
+            multiShipping.map((ship) => {
+                if (ship.selected_shipping_method) {
+                    totalShipping += ship.selected_shipping_method.amount.value;
+                }
+            });
+            const price = formatPrice(totalShipping, storeConfig.base_currency_code);
             dataSummary.push({ item: 'shipping', value: price });
+        } else {
+            if (shipping && shipping.selected_shipping_method) {
+                const shippingMethod = shipping.selected_shipping_method;
+                const price = formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency);
+                dataSummary.push({ item: 'shipping', value: price });
+            }
         }
         if (prices && prices.discounts && prices.discounts.length) {
             const discounts = prices.discounts.map((disc) => {
@@ -74,12 +98,16 @@ const CoreSummary = (props) => {
 
         if (modules.storecredit.enabled) {
             let price = '';
-            if (modules.storecredit.useCommerceModule && applied_store_credit.applied_balance && applied_store_credit.applied_balance.value > 0) {
+            if (
+                modules.storecredit.useCommerceModule
+                                       && applied_store_credit.applied_balance
+                                       && applied_store_credit.applied_balance.value > 0
+            ) {
                 price = formatPrice(Math.abs(applied_store_credit.applied_balance.value), globalCurrency);
             } else if (applied_store_credit.is_use_store_credit) {
                 price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
             }
-            if (price !== '') dataSummary.push({ item: ' ', value: `-${price}` });
+            if (price !== '') dataSummary.push({ item: `${t('common:summary:storeCredit')} `, value: `-${price}` });
         }
 
         if (modules.rewardpoint.enabled && applied_reward_points.is_use_reward_points) {
@@ -104,13 +132,6 @@ const CoreSummary = (props) => {
             }
             dataSummary = dataSummary.concat(giftCards);
         }
-
-        // if (modules.promo.enabled && applied_coupons && applied_coupons.length > 0) {
-        //     dataSummary.push({
-        //         item: `Promo (${applied_coupons[0].code})`,
-        //         value: '',
-        //     });
-        // }
     }
 
     if (isDesktop) {

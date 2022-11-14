@@ -19,7 +19,7 @@ const OptionsItemConfig = (props) => {
         setPrice,
         t,
         data: {
-            __typename, sku, media_gallery, image, price_range, price_tiers, name, categories,
+            __typename, sku, media_gallery, image, price_range, price_tiers, name, categories, review, sale,
         },
         setOpen,
         loading,
@@ -31,6 +31,7 @@ const OptionsItemConfig = (props) => {
         storeConfig,
     } = props;
 
+    const reviewValue = parseInt(review.rating_summary, 0) / 20;
     const client = useApolloClient();
     const [selectConfigurable, setSelectConfigurable] = React.useState({});
     const [selectedProduct, setSelectedProduct] = React.useState({});
@@ -166,6 +167,7 @@ const OptionsItemConfig = (props) => {
                     qty: parseFloat(qty),
                     parentSku: sku,
                 };
+                // GTM UA dataLayer
                 TagManager.dataLayer({
                     dataLayer: {
                         event: 'addToCart',
@@ -182,6 +184,31 @@ const OptionsItemConfig = (props) => {
                                         list: categories.length > 0 ? categories[0].name : '',
                                         quantity: qty,
                                         dimensions4: stockStatus,
+                                    },
+                                ],
+                            },
+                        },
+                    },
+                });
+                // GA 4 dataLayer
+                TagManager.dataLayer({
+                    dataLayer: {
+                        event: 'add_to_cart',
+                        ecommerce: {
+                            action: {
+                                items: [
+                                    {
+                                        item_name: name,
+                                        item_id: sku,
+                                        price: price_range.minimum_price.regular_price.value || 0,
+                                        item_category: categories.length > 0 ? categories[0].name : '',
+                                        item_list_name: categories.length > 0 ? categories[0].name : '',
+                                        quantity: qty,
+                                        currency: price_range.minimum_price.regular_price.currency || 'USD',
+                                        item_stock_status: stockStatus,
+                                        item_reviews_score: reviewValue,
+                                        item_reviews_count: review.reviews_count,
+                                        item_sale_product: sale === 0 ? 'NO' : 'YES',
                                     },
                                 ],
                             },
