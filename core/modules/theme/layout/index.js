@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable indent */
@@ -42,6 +43,12 @@ const Footer = dynamic(() => import('@common_footer'), { ssr: false });
 const RestrictionPopup = dynamic(() => import('@common_restrictionPopup'), { ssr: false });
 const NewsletterPopup = dynamic(() => import('@core_modules/theme/components/newsletterPopup'), { ssr: false });
 const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/recentlyViewed'), { ssr: false });
+
+const fromEntriesPolyfills = (iterable) => [...iterable].reduce((obj, [key, val]) => {
+        // eslint-disable-next-line no-param-reassign
+        obj[key] = val;
+        return obj;
+    }, {});
 
 const Layout = (props) => {
     const bodyStyles = useStyles();
@@ -290,6 +297,7 @@ const Layout = (props) => {
 
     if (typeof window !== 'undefined' && storeConfig) {
         const arrayStoreConfig = Object.entries(storeConfig);
+        // eslint-disable-next-line no-unused-vars, consistent-return, array-callback-return
         const filteredStoreConfig = arrayStoreConfig.filter(([key, value]) => {
             if (
                 key !== 'snap_is_production' &&
@@ -302,7 +310,7 @@ const Layout = (props) => {
                 return true;
             }
         });
-        const excludePrivateStoreConfig = Object.fromEntries(filteredStoreConfig);
+        const excludePrivateStoreConfig = fromEntriesPolyfills(filteredStoreConfig);
         setLocalStorage(storeConfigNameCookie, excludePrivateStoreConfig);
     }
 
