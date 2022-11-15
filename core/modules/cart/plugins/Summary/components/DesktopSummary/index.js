@@ -220,6 +220,7 @@ const Summary = (props) => {
                                             alt={item.product.name}
                                             width={61}
                                             height={75}
+                                            storeConfig={storeConfig}
                                         />
                                     </div>
                                     <div className={classNames('col-xs-8', styles.bodyProductItem)}>

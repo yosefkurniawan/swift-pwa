@@ -7,10 +7,14 @@ import LazyImage from './LazyImage';
 
 const CustomImage = ({
     src, width = 500, height = 500, magezon,
-    classContainer = '', className = '', alt = 'Image', quality = 100, style = {}, lazy = false, ...other
+    classContainer = '', className = '', alt = 'Image', quality = 100, style = {}, lazy = false, storeConfig = {}, ...other
 }) => {
-    const imageUrl = generateThumborUrl(src, width, height);
+    const enable = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_https_http;
+    const url = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_url;
+    const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, url);
     const [imgSource, setImgSource] = useState(imageUrl);
+
     const styleImage = magezon ? {
         maxWidth: '100%',
         maxHeight: '100%',

@@ -10,6 +10,7 @@ import { setCartId, removeCartId } from '@helpers/cartId';
 import { updatePwaCheckoutLog } from '@services/graphql/repository/log';
 import { generateSession, deleteSession } from '@core_modules/authentication/services/graphql';
 import Error from '@core_modules/authentication/components/Error';
+import gqlService from '@core_modules/checkout/services/graphql';
 
 // const counter = 3; // seconds
 
@@ -22,9 +23,7 @@ import Error from '@core_modules/authentication/components/Error';
 const Authentication = (props) => {
     const router = useRouter();
     const { state } = router.query;
-    const {
-        Content, storeConfig, t,
-    } = props;
+    const { Content, storeConfig, t } = props;
     const [authFailed, setAuthFailed] = React.useState(false);
     const [load, setLoad] = React.useState(true);
 
@@ -40,7 +39,10 @@ const Authentication = (props) => {
         cartId: '',
         isLogin: false,
         redirect_path: '',
+        storeCode: '',
     };
+
+    const [setCheckoutSession] = gqlService.setCheckoutSession();
 
     React.useEffect(() => {
         if (state) {
@@ -52,44 +54,77 @@ const Authentication = (props) => {
             removeCartId();
             removeIsLoginFlagging();
 
-            deleteSessionGql().then(() => {
-                generateSessionGql({ variables }).then(({ data }) => {
-                    const {
-                        result, cartId, isLogin,
-                    } = data.internalGenerateSession;
-                    if (result) {
-                        if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
-                            Cookies.set(nameCheckoutState, state, { expires: expiredDefault });
-                        }
+            deleteSessionGql()
+                .then(() => {
+                    generateSessionGql({ variables })
+                        .then(async ({ data }) => {
+                            const { result, cartId, isLogin } = data.internalGenerateSession;
+                            if (cartId) {
+                                if (cartId) {
+                                    await setCheckoutSession({
+                                        variables: {
+                                            cartId,
+                                        },
+                                    })
+                                        .then(async () => {})
+                                        .catch(() => {
+                                            setAuthFailed(true);
+                                            setLoad(false);
+                                        });
+                                }
+                            }
+                            if (result) {
+                                if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
+                                    Cookies.set(nameCheckoutState, state, { expires: expiredDefault });
+                                }
 
-                        objectProps = data.internalGenerateSession;
-                        if (isLogin) {
-                            // console.log('chekcout as logged-in customer');
-                            setLogin(1, expired);
-                        }
-                        setCartId(cartId, expired);
-                        setLoad(false);
-                        if (objectProps && objectProps.redirect_path && objectProps.redirect_path !== '') {
-                            router.replace(objectProps.redirect_path);
-                        } else {
-                            router.replace('/');
-                        }
-                    } else {
-                        setAuthFailed(true);
-                        setLoad(false);
+                                objectProps = data.internalGenerateSession;
+                                if (isLogin) {
+                                    // console.log('chekcout as logged-in customer');
+                                    setLogin(1, expired);
+                                }
+                                setCartId(cartId, expired);
+                                setLoad(false);
+                                if (objectProps && objectProps.redirect_path && objectProps.redirect_path !== '') {
+                                    router.replace(objectProps.redirect_path);
+                                } else {
+                                    router.replace('/');
+                                }
+                                if (objectProps && objectProps.storeCode && objectProps.storeCode !== '') {
+                                    Cookies.set('store_code_storage', objectProps.storeCode, { expires: expiredDefault });
+                                }
+                            } else {
+                                setAuthFailed(true);
+                                setLoad(false);
 
-                        if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
-                            actUpdatePwaCheckoutLog({
-                                variables: {
-                                    cart_id: cartId,
-                                    state: encodeURIComponent(state),
-                                    status: 0,
-                                },
-                            });
-                        }
-                        // backToStore(redirect_path || '/');
-                    }
-                }).catch(() => {
+                                if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
+                                    actUpdatePwaCheckoutLog({
+                                        variables: {
+                                            cart_id: cartId,
+                                            state: encodeURIComponent(state),
+                                            status: 0,
+                                        },
+                                    });
+                                }
+                                // backToStore(redirect_path || '/');
+                            }
+                        })
+                        .catch(() => {
+                            setAuthFailed(true);
+                            setLoad(false);
+                            if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
+                                actUpdatePwaCheckoutLog({
+                                    variables: {
+                                        cart_id: '',
+                                        state: encodeURIComponent(state),
+                                        status: 0,
+                                    },
+                                });
+                            }
+                            // backToStore();
+                        });
+                })
+                .catch(() => {
                     setAuthFailed(true);
                     setLoad(false);
                     if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
@@ -103,20 +138,6 @@ const Authentication = (props) => {
                     }
                     // backToStore();
                 });
-            }).catch(() => {
-                setAuthFailed(true);
-                setLoad(false);
-                if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
-                    actUpdatePwaCheckoutLog({
-                        variables: {
-                            cart_id: '',
-                            state: encodeURIComponent(state),
-                            status: 0,
-                        },
-                    });
-                }
-                // backToStore();
-            });
         }
     }, [state]);
 

@@ -7,6 +7,7 @@ export const getCmsPage = gql`
             content
             meta_description
             meta_keywords
+            meta_title
             title
             url_key
         }

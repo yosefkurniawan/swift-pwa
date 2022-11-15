@@ -222,7 +222,10 @@ const View = (props) => {
                     <Typography variant="p" color="black" align="center">
                         {t('thanks:emailInfo')}
                         {' '}
-                        {checkoutData.email}
+                        {
+                            ordersFilter.data[0].detail[0].payment.method === 'paypal_express'
+                                ? ordersFilter.data[0].detail[0].customer_email : checkoutData.email
+                        }
                     </Typography>
                     <Button className={styles.generalButton} fullWidth={false} onClick={() => goToRegisterPage()} align="center">
                         <Typography variant="span" type="bold" letter="uppercase">

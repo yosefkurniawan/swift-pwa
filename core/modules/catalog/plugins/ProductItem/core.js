@@ -2,10 +2,11 @@ import { debuging, modules } from '@config';
 import { getLoginInfo } from '@helper_auth';
 import { setCookies, getCookies } from '@helper_cookies';
 import { useTranslation } from '@i18n';
-import route from 'next/router';
+import route, { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import React from 'react';
 import { setResolver, getResolver } from '@helper_localstorage';
+import { getSessionStorage, setSessionStorage } from '@helpers/sessionstorage';
 import classNames from 'classnames';
 import ConfigurableOpt from '@plugin_optionitem';
 import Favorite from '@material-ui/icons/Favorite';
@@ -43,6 +44,7 @@ const ProductItem = (props) => {
     } = props;
     const { storeConfig = {} } = props;
     const styles = useStyles();
+    const router = useRouter();
     const { t } = useTranslation(['catalog', 'common']);
     const [feed, setFeed] = React.useState(false);
     const [spesificProduct, setSpesificProduct] = React.useState({});
@@ -52,6 +54,16 @@ const ProductItem = (props) => {
     const [customizableOptions, setCustomizableOptions] = React.useState([]);
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
     const [additionalPrice, setAdditionalPrice] = React.useState(0);
+
+    React.useEffect(() => {
+        router.beforePopState(({ as }) => {
+            const lastCatalogsVisited = getSessionStorage('lastCatalogsVisited');
+            if (lastCatalogsVisited && as === lastCatalogsVisited[0]) {
+                setSessionStorage('restoreCatalogPosition', true);
+            }
+            return true;
+        });
+    }, []);
 
     React.useEffect(() => {
         if (errorCustomizableOptions && errorCustomizableOptions.length > 0) {
@@ -253,6 +265,7 @@ const ProductItem = (props) => {
             window.open(`${getStoreHost(getAppEnv()) + url_key}.html`);
         } else {
             const { name, small_image } = props;
+            const currentPageOffset = window.scrollY;
             const sharedProp = {
                 name,
                 small_image,
@@ -264,6 +277,12 @@ const ProductItem = (props) => {
             };
             await setResolver(urlResolver);
             setCookies('lastCategory', categorySelect);
+            const lastCatalogsOffset = getSessionStorage('lastCatalogsOffset') || [];
+            const lastCatalogsVisited = getSessionStorage('lastCatalogsVisited') || [];
+            const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
+            setSessionStorage('lastCatalogsOffset', [currentPageOffset, ...lastCatalogsOffset]);
+            setSessionStorage('lastCatalogsVisited', [sessionStorage.getItem('currentUrl'), ...lastCatalogsVisited]);
+            setSessionStorage('lastProductsVisited', [`/${url_key}`, ...lastProductsVisited]);
             route.push(
                 {
                     pathname: '/[...slug]',
@@ -279,7 +298,7 @@ const ProductItem = (props) => {
 
     const handleQuickView = async () => {
         window.backdropLoader(true);
-        await getProduct({
+        getProduct({
             variables: {
                 url_key,
             },
@@ -342,10 +361,22 @@ const ProductItem = (props) => {
                                 Quick View
                             </button>
                         )}
-                        <ImageProductView t={t} handleClick={() => handleClick(props)} spesificProduct={spesificProduct} {...other} />
+                        <ImageProductView
+                            t={t}
+                            handleClick={() => handleClick(props)}
+                            spesificProduct={spesificProduct}
+                            urlKey={url_key}
+                            {...other}
+                        />
                     </div>
                     <div className={styles.detailItem}>
-                        <DetailProductView t={t} {...DetailProps} {...other} catalogList={catalogList} />
+                        <DetailProductView
+                            t={t}
+                            urlKey={url_key}
+                            catalogList={catalogList}
+                            {...DetailProps}
+                            {...other}
+                        />
                         {modules.product.customizableOptions.enabled && (
                             <CustomizableOption
                                 price={price}
@@ -428,13 +459,19 @@ const ProductItem = (props) => {
                                     Quick View
                                 </button>
                             )}
-                            <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
+                            <ImageProductView
+                                t={t}
+                                handleClick={handleClick}
+                                spesificProduct={spesificProduct}
+                                urlKey={url_key}
+                                {...other}
+                            />
                         </div>
                     </div>
                     <div className="col-xs-6 col-sm-6 col-md-8 col-lg-9">
                         <div className="row start-xs">
                             <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <DetailProductView t={t} {...DetailProps} {...other} enableWishlist={false} />
+                                <DetailProductView t={t} {...DetailProps} {...other} enableWishlist={false} urlKey={url_key} />
                             </div>
                             <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 {showOption ? (

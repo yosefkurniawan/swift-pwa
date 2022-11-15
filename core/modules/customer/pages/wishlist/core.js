@@ -223,6 +223,7 @@ const Wishlist = (props) => {
                 loading={loading}
                 shareLoading={shareLoading}
                 handleShareWishlist={handleShareWishlist}
+                storeConfig={storeConfig}
             />
         </Layout>
     );

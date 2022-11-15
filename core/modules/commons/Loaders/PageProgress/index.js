@@ -48,11 +48,11 @@ const PageProgressLoader = () => {
             ? sessionCurrentUrl
             : '/';
         sessionStorage.setItem('prevUrl', prevUrl);
-        sessionStorage.setItem('currentUrl', Router.asPath);
         clearInterval(timer);
         setProgress(100);
         setTimeout(() => {
             setShow(false);
+            sessionStorage.setItem('currentUrl', Router.asPath);
         }, 2000);
     };
 

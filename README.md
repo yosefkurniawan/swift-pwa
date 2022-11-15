@@ -126,3 +126,20 @@ To do so please follow this step:
 2. Update the Swift PWA swift.config.js
     - home ▸ useCmsPage ▸ enable = true
     - home ▸ useCmsPage ▸ identifier = "pwa-homepage" or any CMS identifier you created for PWA Homepage.
+
+
+
+# Patches
+### How to apply patch file for swift pwa project
+
+1. copy file .patch to folder `./patches`
+2. edit file `patch.sh`
+3. add list file patch beetweek delimiter text `"Start of line patch"` and `"END of line patch"`
+4. example code patch.sh after edit like here
+```
+...
+######################### START of line patch ############################
+patch -p1 --forward < patches/fix_loadmore_plp.patch || true
+######################### END of line patch ##############################
+
+```

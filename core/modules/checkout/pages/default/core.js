@@ -100,10 +100,12 @@ const Checkout = (props) => {
                 variables: {
                     cartId: cartId || propsCardId,
                 },
-            }).then(async (result) => { }).catch((e) => {
-                // eslint-disable-next-line no-console
-                console.log(e);
-            });
+            })
+                .then(async (result) => {})
+                .catch((e) => {
+                    // eslint-disable-next-line no-console
+                    console.log(e);
+                });
         }
     }, [cartId, propsCardId, setCheckoutSession]);
 
@@ -721,11 +723,7 @@ const Checkout = (props) => {
 
         if (cart.selected_payment_method) {
             state.selected.payment = cart.selected_payment_method.code;
-            if (
-                storeConfig?.pwa?.paypal_enable &&
-                cart.selected_payment_method.code === 'paypal_express' &&
-                initialOptionPaypal['data-order-id'] === ''
-            ) {
+            if (storeConfig?.pwa?.paypal_enable && cart.selected_payment_method.code === 'paypal_express') {
                 getPaypalToken({
                     variables: {
                         cartId: cart.id,
@@ -1046,18 +1044,31 @@ const Checkout = (props) => {
                     cart_total: cart.prices.grand_total.value,
                     currency: cart.prices.grand_total.currency || storeConfig.base_currency_code,
                     ecommerce: {
-                        items: [
-                            cart.items.map((item) => ({
+                        items: cart.items.map((item) => ({
+                            currency: item.prices.price.currency || storeConfig.base_currency_code,
+                            item_name: item.product.name,
+                            item_id: item.product.sku,
+                            price: item.prices.price.value || 0,
+                            item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                            item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                            quantity: item.quantity,
+                            item_stock_status: item.product.stock_status,
+                        })),
+                        fbpixels: {
+                            content_ids: cart.items.map(({ product }) => product.sku),
+                            quantity: cart.items.length,
+                            value: cart.prices.grand_total.value,
+                            contents: cart.items.map((item) => ({
                                 currency: item.prices.price.currency || storeConfig.base_currency_code,
-                                item_name: item.product.name,
-                                item_id: item.product.sku,
+                                name: item.product.name,
+                                id: item.product.sku,
                                 price: item.prices.price.value || 0,
-                                item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
-                                item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                                category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                                list: item.product.categories.length > 0 ? item.product.categories[0].name : '',
                                 quantity: item.quantity,
-                                item_stock_status: item.product.stock_status,
+                                stock_status: item.product.stock_status,
                             })),
-                        ],
+                        },
                     },
                 },
             });
@@ -1085,7 +1096,7 @@ const Checkout = (props) => {
     };
 
     const onCancelPaypal = () => {
-        Router.push('/checkout/cart');
+        Router.push(!modules.checkout.checkoutOnly ? `/${modules.paypal.cancelUrl}` : `${getStoreHost(getAppEnv())}${modules.paypal.cancelUrl}`);
     };
 
     const onErrorPaypal = (err) => {
@@ -1164,6 +1175,9 @@ const Checkout = (props) => {
                         checkout_option: {
                             actionField: { step: 3, option: selectedPayment[0].title, action: 'checkout_option' },
                         },
+                        fbpixels: {
+                            total_price: cart.prices.grand_total.value,
+                        },
                     },
                 };
                 // GA 4 dataLayer
@@ -1171,6 +1185,7 @@ const Checkout = (props) => {
                     event: 'add_payment_info',
                     ecommerce: {
                         payment_type: selectedPayment[0].title,
+                        currency: storeConfig.base_currency_code || 'IDR',
                         items: [
                             cart.items.map(({ quantity, product, prices }) => ({
                                 currency: storeConfig.base_currency_code || 'IDR',
@@ -1185,8 +1200,29 @@ const Checkout = (props) => {
                                 item_reviews_count: '',
                                 item_reviews_score: '',
                             })),
-
                         ],
+                        fbpixels: {
+                            total_price: cart.prices.grand_total.value,
+                            content_ids: [
+                                {
+                                    payment_type: selectedPayment[0].title,
+                                    items: cart.items.map(({ quantity, product, prices }) => ({
+                                        currency: storeConfig.base_currency_code || 'IDR',
+                                        item_name: product.name,
+                                        item_id: product.sku,
+                                        price: JSON.stringify(prices.price.value),
+                                        item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                                        item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                                        quantity: JSON.stringify(quantity),
+                                        item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                        item_sale_product: '',
+                                        item_reviews_count: '',
+                                        item_reviews_score: '',
+                                    })),
+                                },
+                            ],
+                            catalog_id: cart.items.map(({ product }) => (product.categories.length > 0 ? product.categories[0].name : '')),
+                        },
                     },
                 };
                 TagManager.dataLayer({ dataLayer });
@@ -1224,7 +1260,9 @@ const Checkout = (props) => {
                 window.backdropLoader(false);
                 state.loading.order = false;
                 setCheckout(state);
-                Router.push(`/${modules.paypal.returnUrl}`);
+
+                const redirectMagentoUrl = `${getStoreHost(getAppEnv())}${modules.paypal.returnUrl}`;
+                Router.push(!modules.checkout.checkoutOnly ? `/${modules.paypal.returnUrl}` : redirectMagentoUrl);
             })
             .catch((e) => {
                 onErrorPaypal(e);

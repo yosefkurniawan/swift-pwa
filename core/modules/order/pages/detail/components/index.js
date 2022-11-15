@@ -6,7 +6,6 @@ import Button from '@common_button';
 import Typography from '@common_typography';
 import { modules } from '@config';
 import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit';
-import Footer from '@core_modules/order/pages/detail/components/footer';
 import OrderStatusIcon from '@core_modules/order/pages/detail/components/OrderStatusIcon';
 import ItemProduct from '@core_modules/order/pages/detail/components/product';
 import Table from '@core_modules/order/pages/detail/components/TableListItem';
@@ -75,7 +74,6 @@ const DetailOrder = (props) => {
             }
         });
     }
-    console.log('dt', detail);
     if (detail.length > 0) {
         const handleOpenXendit = () => {
             setCheckoutData({
@@ -530,9 +528,9 @@ const DetailOrder = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className={styles.block}>
+                    {/* <div className={styles.block}>
                         <Footer {...props} />
-                    </div>
+                    </div> */}
                 </div>
             </Layout>
         );

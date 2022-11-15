@@ -18,6 +18,7 @@
     "shipperName": "Shipper Name",
     "driverName": "Driver Name",
     "driverPhone": "Driver Phone",
+    "driverLicenseNumber": "Driver License Number",
     "lastStatus": "Last Status",
     "history": "History",
     "liveTracking": "Live Tracking",

@@ -1,14 +1,15 @@
 import { gql } from '@apollo/client';
 
 export const getOrder = () => gql`
-    query getOrder($email: String, $order_number: String) {
-        ordersFilter(filters: { email: $email, ids: { eq: $order_number } }) {
+    query getOrder($order_number: String) {
+        ordersFilter(filters: { ids: { eq: $order_number } }) {
             data {
                 order_number
                 id
                 created_at
                 status
                 detail {
+                    customer_email
                     tax_amount
                     payment {
                         shipping_amount

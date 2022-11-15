@@ -70,7 +70,7 @@ const Customer = (props) => {
             title: t('notification:notification'),
         }),
         { href: '/customer/newsletter', title: t('customer:setting:newsletter') },
-        ...pushIf(modules.rma.enabled, {
+        ...pushIf(storeConfig && !storeConfig.OmsRma.enable_oms_pwa_request_return, {
             href: '/rma/customer',
             title: t('customer:menu:return'),
         }),

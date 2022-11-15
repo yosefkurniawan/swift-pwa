@@ -364,7 +364,7 @@ const ProductPage = (props) => {
                                 <ItemShare link={getHost() + route.asPath} />
                                 {modules.productcompare.enabled && (
                                     <Button className={styles.btnCompare} color="primary" onClick={() => handleSetCompareList(data.id)}>
-                                        <CompareArrowsIcon color="primary" style={{ fontSize: '18px' }} />
+                                        <CompareArrowsIcon color="inherit" style={{ fontSize: '18px' }} />
                                         <Typography variant="p" align="center" letter="uppercase">
                                             Compare
                                         </Typography>
