@@ -14,13 +14,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { getAppEnv } from '@root/core/helpers/env';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
-import {
-    frontendOptions as FrontendSchema,
-    getCategories,
-    getSensitiveConfig as PrivateConfigSchema,
-    getVesMenu,
-    storeConfig as ConfigSchema
-} from '@services/graphql/schema/config';
+import { frontendOptions as FrontendSchema, getCategories, getVesMenu, storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import theme from '@theme_theme';
 import Cookie from 'js-cookie';
 import { unregister } from 'next-offline/runtime';
@@ -129,7 +123,6 @@ class MyApp extends App {
          */
         let dataVesMenu;
         let frontendOptions;
-        let privateConfig;
         let { storeConfig } = pageProps;
 
         if (typeof window !== 'undefined') {
@@ -142,14 +135,11 @@ class MyApp extends App {
                 .then(({ data }) => data);
             if (ctx && frontendOptions && frontendOptions.response && frontendOptions.response.status && frontendOptions.response.status > 500) {
                 ctx.res.redirect('/maintenance');
-            } else if (ctx && privateConfig && privateConfig.response && privateConfig.response.status && privateConfig.response.status > 500) {
-                ctx.res.redirect('/maintenance');
             }
         }
         if (typeof window === 'undefined' && (!storeConfig || typeof storeConfig.secure_base_media_url === 'undefined')) {
             storeConfig = await graphRequest(ConfigSchema);
             frontendOptions = await graphRequest(FrontendSchema);
-            privateConfig = await graphRequest(PrivateConfigSchema);
 
             // Handle redirecting to tomaintenance page automatically when GQL is in maintenance mode.
             // We do this here since query storeConfig is the first query and be done in server side
@@ -157,7 +147,6 @@ class MyApp extends App {
                 ctx.res.redirect('/maintenance');
             }
             storeConfig = storeConfig.storeConfig;
-            privateConfig = privateConfig.storeConfig;
             if (!modules.checkout.checkoutOnly) {
                 dataVesMenu = storeConfig.pwa.ves_menu_enable
                     ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias })
@@ -228,7 +217,7 @@ class MyApp extends App {
             pageProps: {
                 ...pageProps,
                 app_cookies,
-                storeConfig: { ...storeConfig, ...privateConfig },
+                storeConfig,
                 isLogin,
                 lastPathNoAuth,
                 customerData,
@@ -236,7 +225,6 @@ class MyApp extends App {
                 removeDecimalConfig,
                 dataVesMenu,
                 frontendOptions,
-                privateConfig,
             },
         };
     }
@@ -387,7 +375,6 @@ class MyApp extends App {
                 remove_decimal_config: pageProps.removeDecimalConfig,
             });
             setLocalStorage('frontend_options', pageProps.frontendOptions);
-            pageProps.storeConfig = { ...pageProps.storeConfig, ...pageProps.privateConfig };
         }
 
         return (
