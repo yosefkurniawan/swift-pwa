@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
+import { modules } from '@config';
+import gqlService from '@core_modules/checkout/services/graphql';
 import React from 'react';
 import TagManager from 'react-gtm-module';
-import gqlService from '@core_modules/checkout/services/graphql';
-import { modules } from '@config';
 
 export default function CustomizedExpansionPanels({
     checkout,
@@ -11,6 +11,7 @@ export default function CustomizedExpansionPanels({
     updateFormik,
     handleOpenMessage,
     t,
+    config,
     storeConfig,
     PaymentView,
     paypalHandlingProps,
@@ -22,15 +23,28 @@ export default function CustomizedExpansionPanels({
     setDisplayHowToPay,
     checkoutTokenState,
     setCheckoutTokenState,
+    refSummary,
+    handleClickPlaceOrder,
 }) {
-    /**
-     * [HOOKS]
-     * [VARIABLES]
-     */
     const { loading, data, selected } = checkout;
     const [setPaymentMethod] = gqlService.setPaymentMethod();
+    //    const [getStripeCustomer, stripeCustomer] = gqlService.getStripeCustomer();
+    const [getStripePaymentIntent] = gqlService.getStripePaymentIntent();
     const { data: paymentMethodList } = gqlService.getCheckoutConfigurations();
     const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
+
+    // React.useEffect(() => {
+    //     if (stripePaymentIntent && stripePaymentIntent.data && stripePaymentIntent.data.setPaymentIntent) {
+    //         const state = { ...checkout };
+    //         state.data.stripe = {
+    //             ...checkout.data.stripe,
+    //             clientSecret: stripePaymentIntent.data.setPaymentIntent.clientSecret,
+    //             customerStripeId: stripePaymentIntent.data.setPaymentIntent.customerStripeId,
+    //             paymentIntentId: stripePaymentIntent.data.setPaymentIntent.paymentIntentId,
+    //         };
+    //         setCheckout(state);
+    //     }
+    // }, [stripePaymentIntent]);
 
     /**
      * [METHOD] handle when get result from set payment method
@@ -207,64 +221,88 @@ export default function CustomizedExpansionPanels({
                 setCheckout(state);
             } else {
                 const payment_method = { code: val };
-                await setPaymentMethod({
-                    variables: {
-                        cartId: cart.id,
-                        payment_method,
-                    },
-                }).then((result) => {
-                    if (val === 'paypal_express') {
-                        state = {
-                            ...checkout,
-                            selected: {
-                                ...checkout.selected,
-                                payment: val,
-                                purchaseOrderNumber: null,
-                            },
-                            loading: {
-                                ...checkout.loading,
-                                all: false,
-                                order: false,
-                            },
+                if (payment_method.code === 'stripe_payments') {
+                    // getStripeCustomer();
+                    await getStripePaymentIntent({
+                        variables: {
+                            cartId: cart.id,
+                        },
+                    }).then((resJson) => {
+                        console.log(resJson);
+                        const stateStripe = { ...checkout };
+                        stateStripe.data.stripe = {
+                            ...checkout.data.stripe,
+                            clientSecret: resJson.data.setPaymentIntent.clientSecret,
+                            customerStripeId: resJson.data.setPaymentIntent.customerStripeId,
+                            paymentIntentId: resJson.data.setPaymentIntent.paymentIntentId,
                         };
                         setCheckout(state);
-                        if (storeConfig?.pwa?.paypal_enable
-                            && initialOptionPaypal['data-order-id'] === '' && checkout.selected.payment === 'paypal_express') {
-                            getPaypalToken({
-                                variables: {
-                                    cartId: cart.id,
-                                    code: 'paypal_express',
-                                    returnUrl: modules.paypal.returnUrl,
-                                    cancelUrl: modules.paypal.cancelUrl,
-                                },
-                            }).then((res) => {
-                                if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
-                                    const { token } = res.data.createPaypalExpressToken;
-                                    setTokenData(res.data.createPaypalExpressToken);
-                                    setInitialOptionPaypal({
-                                        ...initialOptionPaypal,
-                                        'data-order-id': token,
+                    });
+                } else {
+                    await setPaymentMethod({
+                        variables: {
+                            cartId: cart.id,
+                            payment_method,
+                        },
+                    })
+                        .then((result) => {
+                            if (val === 'paypal_express') {
+                                state = {
+                                    ...checkout,
+                                    selected: {
+                                        ...checkout.selected,
+                                        payment: val,
+                                        purchaseOrderNumber: null,
+                                    },
+                                    loading: {
+                                        ...checkout.loading,
+                                        all: false,
+                                        order: false,
+                                    },
+                                };
+                                setCheckout(state);
+                                if (
+                                    storeConfig?.pwa?.paypal_enable
+                                    && initialOptionPaypal['data-order-id'] === ''
+                                    && checkout.selected.payment === 'paypal_express'
+                                ) {
+                                    getPaypalToken({
+                                        variables: {
+                                            cartId: cart.id,
+                                            code: 'paypal_express',
+                                            returnUrl: modules.paypal.returnUrl,
+                                            cancelUrl: modules.paypal.cancelUrl,
+                                        },
+                                    }).then((res) => {
+                                        if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
+                                            const { token } = res.data.createPaypalExpressToken;
+                                            setTokenData(res.data.createPaypalExpressToken);
+                                            setInitialOptionPaypal({
+                                                ...initialOptionPaypal,
+                                                'data-order-id': token,
+                                            });
+                                        }
                                     });
                                 }
+                            } else {
+                                onHandleResult({
+                                    state,
+                                    result,
+                                    val,
+                                    cart,
+                                });
+                            }
+                        })
+                        .catch((err) => {
+                            const result = err;
+                            onHandleResult({
+                                state,
+                                result,
+                                val,
+                                cart,
                             });
-                        }
-                    } else {
-                        onHandleResult({
-                            state,
-                            result,
-                            val,
-                            cart,
                         });
-                    }
-                }).catch((err) => {
-                    const result = err;
-                    onHandleResult({
-                        state,
-                        result,
-                        val,
-                        cart,
-                    });
-                });
+                }
             }
         }
     };
@@ -311,26 +349,28 @@ export default function CustomizedExpansionPanels({
                 cartId: cart.id,
                 payment_method,
             },
-        }).then((result) => {
-            onHandleResult({
-                state,
-                result,
-                val: selected_payment,
-                cart,
+        })
+            .then((result) => {
+                onHandleResult({
+                    state,
+                    result,
+                    val: selected_payment,
+                    cart,
+                });
+                handleOpenMessage({
+                    variant: 'success',
+                    text: t('checkout:message:purchaseOrderApplied'),
+                });
+            })
+            .catch((err) => {
+                const result = err;
+                onHandleResult({
+                    state,
+                    result,
+                    val: selected_payment,
+                    cart,
+                });
             });
-            handleOpenMessage({
-                variant: 'success',
-                text: t('checkout:message:purchaseOrderApplied'),
-            });
-        }).catch((err) => {
-            const result = err;
-            onHandleResult({
-                state,
-                result,
-                val: selected_payment,
-                cart,
-            });
-        });
     };
 
     /**
@@ -343,6 +383,7 @@ export default function CustomizedExpansionPanels({
             loading={loading}
             selected={selected}
             checkout={checkout}
+            setCheckout={setCheckout}
             storeConfig={storeConfig}
             paymentMethodList={paymentMethodList}
             handlePayment={handlePayment}
@@ -354,6 +395,10 @@ export default function CustomizedExpansionPanels({
             travelokaPayRef={travelokaPayRef}
             displayHowToPay={displayHowToPay}
             setDisplayHowToPay={setDisplayHowToPay}
+            refSummary={refSummary}
+            config={config}
+            handleClickPlaceOrder={handleClickPlaceOrder}
+            onHandleResult={onHandleResult}
         />
     );
 }

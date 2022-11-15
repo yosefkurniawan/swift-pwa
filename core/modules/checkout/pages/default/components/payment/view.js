@@ -1,23 +1,28 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-shadow */
-import { withStyles } from '@material-ui/core/styles';
 import MuiExpansionPanel from '@material-ui/core/Accordion';
-import MuiExpansionPanelSummary from '@material-ui/core/AccordionSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/AccordionDetails';
+import MuiExpansionPanelSummary from '@material-ui/core/AccordionSummary';
 import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
 
-import Typography from '@common_typography';
 import Button from '@common_button';
-import Arrow from '@material-ui/icons/ArrowDropDown';
 import Radio from '@common_forms/Radio';
-import Skeleton from '@material-ui/lab/Skeleton';
+import Typography from '@common_typography';
 import commonConfig from '@config';
 import FieldPoint from '@core_modules/checkout/components/fieldcode';
 import RadioItem from '@core_modules/checkout/components/radioitem';
 import ModalHowtoPay from '@core_modules/checkout/pages/default/components/ModalHowtoPay';
-import useStyles from '@core_modules/checkout/pages/default/components/style';
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import StripeCheckoutForm from '@core_modules/checkout/pages/default/components/payment/components/StripeCheckoutForm';
 import TravelokaPayForm from '@core_modules/checkout/pages/default/components/payment/components/TravelokaPayForm';
+import useStyles from '@core_modules/checkout/pages/default/components/style';
+import Arrow from '@material-ui/icons/ArrowDropDown';
+import Skeleton from '@material-ui/lab/Skeleton';
+import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
+
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import React from 'react';
 import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
 
 const ExpansionPanel = withStyles(ExpanPanelStyle)(MuiExpansionPanel);
@@ -26,6 +31,7 @@ const ExpansionPanelDetails = withStyles(ExpanDetailStyle)(MuiExpansionPanelDeta
 const PO = 'purchaseorder';
 const PaypalCode = 'paypal_express';
 const travelokapay = 'travelokapay';
+const stripePayments = 'stripe_payments';
 
 /**
  * Loader
@@ -83,6 +89,7 @@ const PaymentView = (props) => {
         loading,
         data,
         checkout,
+        setCheckout,
         t,
         paymentMethodList,
         handlePayment,
@@ -97,11 +104,31 @@ const PaymentView = (props) => {
         displayHowToPay,
         setDisplayHowToPay,
     } = props;
-    const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
+    // const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
+    const payment_travelokapay_public_key = '';
+    const payment_travelokapay_user_id = '621610c74c98b14ae3006a78';
+    const payment_travelokapay_bin_whitelist = null;
     const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
     const [expandedActive, setExpandedActive] = React.useState(true);
     const [openModal, setModal] = React.useState(false);
+    const [stripePromise, setStripePromise] = React.useState(null);
+    // const [clientSecret, setClientSecret] = React.useState(null);
+
+    React.useEffect(() => {
+        setStripePromise(loadStripe('pk_test_51LpYVJEwLgqwlOKVWQsk8p3o2AnEiQAHCZLJZTbJ9oTZXMgdni4SRFO30WesimzSUJLRXTRl762oGW99spR88v6w00JKRjAR77'));
+    }, []);
+
+    // React.useEffect(() => {
+    //     fetch('/stripe/payment-intent', {
+    //         method: 'POST',
+    //         body: {},
+    //     }).then(async (response) => {
+    //         const { clientSecret } = await response.json();
+    //         setClientSecret(clientSecret);
+    //         console.log(clientSecret);
+    //     });
+    // }, []);
 
     let content;
 
@@ -224,8 +251,9 @@ const PaymentView = (props) => {
                                                                 // prettier-ignore
                                                                 const isPurchaseOrder = item.code === PO && selected.payment === PO;
                                                                 const isPaypal = item.code === PaypalCode && selected.payment === PaypalCode;
-                                                                const isTravelokaPay = item.code === travelokapay
-                                                                    && selected.payment === travelokapay;
+                                                                const isStripe = item.code === stripePayments && selected.payment === stripePayments;
+                                                                // eslint-disable-next-line max-len
+                                                                const isTravelokaPay = item.code === travelokapay && selected.payment === travelokapay;
 
                                                                 if (isPurchaseOrder) {
                                                                     return (
@@ -271,6 +299,23 @@ const PaymentView = (props) => {
                                                                             payment_travelokapay_user_id={payment_travelokapay_user_id}
                                                                             travelokaPayRef={travelokaPayRef}
                                                                         />
+                                                                    );
+                                                                }
+                                                                if (isStripe) {
+                                                                    return (
+                                                                        <>
+                                                                            {console.log(checkout.data.stripe)}
+                                                                            {stripePromise && checkout.data.stripe.clientSecret && (
+                                                                                <>
+                                                                                    <Elements
+                                                                                        stripe={stripePromise}
+                                                                                        options={{ clientSecret: checkout.data.stripe.clientSecret }}
+                                                                                    >
+                                                                                        <StripeCheckoutForm {...props} setCheckout={setCheckout} />
+                                                                                    </Elements>
+                                                                                </>
+                                                                            )}
+                                                                        </>
                                                                     );
                                                                 }
 

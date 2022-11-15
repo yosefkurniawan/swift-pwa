@@ -1,26 +1,26 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
-import * as Yup from 'yup';
-import React, { useEffect, useState } from 'react';
-import { useFormik } from 'formik';
-import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
-import { setLocalStorage } from '@helper_localstorage';
-import { getCartId } from '@helpers/cartId';
-import Router from 'next/router';
-import Layout from '@layout';
-import Head from 'next/head';
-import { modules, nameCheckoutState } from '@config';
-import { updatePwaCheckoutLog } from '@services/graphql/repository/log';
-import { getStoreHost } from '@helpers/config';
-import Cookies from 'js-cookie';
-import { getAppEnv } from '@root/core/helpers/env';
 import Toast from '@common_toast';
-import gqlService from '@core_modules/checkout/services/graphql';
-import TagManager from 'react-gtm-module';
+import { modules, nameCheckoutState } from '@config';
 import {
     getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
 } from '@core_modules/checkout/helpers/config';
+import gqlService from '@core_modules/checkout/services/graphql';
+import { getCartId } from '@helpers/cartId';
+import { getStoreHost } from '@helpers/config';
+import { getCheckoutData, removeCheckoutData } from '@helpers/cookies';
 import { formatPrice } from '@helper_currency';
+import { setLocalStorage } from '@helper_localstorage';
+import Layout from '@layout';
+import { getAppEnv } from '@root/core/helpers/env';
+import { updatePwaCheckoutLog } from '@services/graphql/repository/log';
+import { useFormik } from 'formik';
+import Cookies from 'js-cookie';
+import Head from 'next/head';
+import Router from 'next/router';
+import React, { useEffect, useState } from 'react';
+import TagManager from 'react-gtm-module';
+import * as Yup from 'yup';
 
 function equalTo(ref, msg) {
     return this.test({
@@ -90,14 +90,17 @@ const Checkout = (props) => {
                 variables: {
                     cartId: cartId || propsCardId,
                 },
-            }).then(async (result) => { }).catch((e) => {
-                // eslint-disable-next-line no-console
-                console.log(e);
-            });
+            })
+                .then(async (result) => {})
+                .catch((e) => {
+                    // eslint-disable-next-line no-console
+                    console.log(e);
+                });
         }
     }, [cartId]);
 
-    const { snap_is_production, snap_client_key, allow_guest_checkout } = storeConfig;
+    // const { snap_is_production, snap_client_key, allow_guest_checkout } = storeConfig;
+    const { snap_is_production, allow_guest_checkout } = storeConfig;
     if (storeConfig && !allow_guest_checkout && !isLogin) {
         urlRedirect = getLoginCallbackUrl({ errorGuest: true });
         if (typeof window !== 'undefined') {
@@ -137,6 +140,11 @@ const Checkout = (props) => {
                 prices: null,
                 items: null,
                 shipping_addresses: null,
+            },
+            stripe: {
+                clientSecret: null,
+                customerStripeId: null,
+                paymentIntentId: null,
             },
         },
         selected: {
@@ -243,7 +251,7 @@ const Checkout = (props) => {
         email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
         payment: Yup.string().nullable().required(t('validate:required')),
         oldEmail: checkout.data.isGuest ? Yup.string().equalTo(Yup.ref('email')) : null,
-        address: (isOnlyVirtualProductOnCart || checkout.selectStore.id !== null) ? null : Yup.object().nullable().required(t('validate:required')),
+        address: isOnlyVirtualProductOnCart || checkout.selectStore.id !== null ? null : Yup.object().nullable().required(t('validate:required')),
         billing: checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
         shipping: isOnlyVirtualProductOnCart
             ? null
@@ -264,7 +272,7 @@ const Checkout = (props) => {
             confirmation: false,
         },
         validationSchema: CheckoutSchema,
-        onSubmit: () => { },
+        onSubmit: () => {},
     });
 
     const updateFormik = (cart) => {
@@ -617,15 +625,9 @@ const Checkout = (props) => {
                 }));
             }
 
-            if (
-                shipping
-                && shipping.available_shipping_methods
-                && shipping.available_shipping_methods.length > 0
-            ) {
+            if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
                 const shippingMethod = shipping.selected_shipping_method;
-                state.selected.shipping = shippingMethod
-                    ? `${shippingMethod.carrier_code}_${shippingMethod.method_code}`
-                    : shippingMethod;
+                state.selected.shipping = shippingMethod ? `${shippingMethod.carrier_code}_${shippingMethod.method_code}` : shippingMethod;
             }
 
             setCheckout(state);
@@ -911,7 +913,7 @@ const Checkout = (props) => {
     return (
         <Layout pageConfig={configPage || pageConfig} {...props} showRecentlyBar={false} isCheckout>
             <Head>
-                <script type="text/javascript" src={url} data-client-key={snap_client_key} />
+                <script type="text/javascript" src={url} data-client-key="SB-Mid-client-1F64CqNZz3Nzvai2" />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <script src="https://js.braintreegateway.com/web/3.78.2/js/client.min.js" />
                 <script src="https://js.braintreegateway.com/web/3.78.2/js/paypal-checkout.min.js" />

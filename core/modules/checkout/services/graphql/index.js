@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
-import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import * as PaypalSchema from '@core_modules/checkout/services/graphql/paypalSchema';
+import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import * as TravelokaSchema from '@core_modules/checkout/services/graphql/travelokaSchema';
 import { getLoginInfo } from '@helper_auth';
 
@@ -39,6 +39,17 @@ export const getCustomer = (options = {}) => useLazyQuery(Schema.getCustomer, {
     ...config(USING_INTERNAL),
     fetchPolicy: 'no-cache',
     errorPolicy: 'all',
+});
+
+// stripe
+export const getStripeCustomer = (options = {}) => useLazyQuery(Schema.getStripeCustomer, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const getStripePaymentIntent = (options = {}) => useMutation(Schema.getStripePaymentIntent, {
+    ...options,
+    ...config(USING_INTERNAL),
 });
 
 export const getAddressCustomer = (options = {}) => useLazyQuery(Schema.getAddressCustomer, {
@@ -281,6 +292,8 @@ export default {
     getAddressCustomer,
     getCart,
     getItemCart,
+    getStripeCustomer,
+    getStripePaymentIntent,
     getCheckoutConfigurations,
     getRewardPoint,
     setShippingAddress,
