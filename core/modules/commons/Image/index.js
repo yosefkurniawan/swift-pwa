@@ -19,9 +19,14 @@ const CustomImage = ({
     storeConfig = {},
     ...other
 }) => {
-    const enable = storeConfig && storeConfig.pwa.thumbor_enable;
-    const useHttpsOrHttp = storeConfig && storeConfig.pwa.thumbor_https_http;
-    const url = storeConfig && storeConfig.pwa.thumbor_url;
+    if (storeConfig) {
+        if (storeConfig.pwa === undefined) {
+            console.log(storeConfig);
+        }
+    }
+    const enable = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_https_http;
+    const url = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_url;
     const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, url);
     const [imgSource, setImgSource] = useState(imageUrl);
 
