@@ -381,9 +381,11 @@ const Checkout = (props) => {
                 cartItemBySeller = groupData;
             }
 
-            if (cartItemBySeller.length === shipping.length) setLoadingSellerInfo(false);
+            if (cartItemBySeller.length === shipping.length) {
+                setLoadingSellerInfo(false);
+            }
         }
-    }, [currentIndexSeller, amountSeller, sellerInfoState]);
+    }, [currentIndexSeller, amountSeller, sellerInfoState, loadingSellerInfo]);
 
     const initData = () => {
         let { cart } = dataCart;
