@@ -1,7 +1,7 @@
-import classNames from 'classnames';
-import { BREAKPOINTS } from '@theme_vars';
-import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import useStyles from '@common_slick/Banner/style';
+import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
+import { BREAKPOINTS } from '@theme_vars';
+import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 
 const BannerThumbnail = (props) => {
@@ -19,9 +19,9 @@ const BannerThumbnail = (props) => {
     if (typeof heightMobile === 'string') heightMobile = parseInt(heightMobile, 0);
 
     const styles = useStyles();
-    const enable = storeConfig.pwa.thumbor_enable;
-    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
-    const url = storeConfig.pwa.thumbor_url;
+    const enable = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_https_http;
+    const url = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_url;
     const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, url);
     const mobileImageUrl = srcMobile ? generateThumborUrl(srcMobile, widthMobile, heightMobile, enable, useHttpsOrHttp, url) : null;
     const placeholderImage = '/assets/img/placeholder.png';
@@ -43,9 +43,7 @@ const BannerThumbnail = (props) => {
     }, [imageUrl, mobileImageUrl]);
 
     return (
-        <div
-            className={styles.thumborContainer}
-        >
+        <div className={styles.thumborContainer}>
             {!lazy ? (
                 <>
                     <picture>
@@ -67,7 +65,6 @@ const BannerThumbnail = (props) => {
                             }}
                             alt={alt}
                         />
-
                     </picture>
                 </>
             ) : null}

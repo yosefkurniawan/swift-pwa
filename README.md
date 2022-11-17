@@ -143,3 +143,40 @@ patch -p1 --forward < patches/fix_loadmore_plp.patch || true
 ######################### END of line patch ##############################
 
 ```
+
+# Authorization Key
+Authorization key is a key that retrieved from Backoffice to get sensitive PWA configurations such as traveloka API key, xendit key, paypal key, etc.
+### How to get authorization key for Swift PWA project
+
+1. Open backoffice
+2. Click on systems menu
+3. Click on integrations menu
+4. Click on add new integration
+5. Fill in the name and current user identity verification (this is backoffice account/admin password)
+6. On the API section, select resource access to "All"
+7. Click save
+8. And then on the Integrations list, click "Activate" on the key you just created
+9. Click Allow
+10. Copy the "Access Token" part
+11. Create `.env` file in root PWA project
+11. Open `.env` file and add the key on with definer `ACCESS_KEY` example like below
+```
+ACCESS_KEY="z42nzj61mfsbe5ys0qo2h5vha1icxe5a"
+ENCRYPTION_KEY=TXAjwm8k53PJG9NacLbyZavvQB2qBh43
+ALGORITHM=aes-256-cbc
+FCM_KEY_SERVER=
+FCM_TOPIC=notificationspwa
+SESSION_SECRET=asdasdd1212ads12!!!@**DADxx1
+NEXT_PUBLIC_ENCRYPTION_KEY=TXAjwm8k53PJG9NacLbyZavvQB2qBh43
+NEXT_PUBLIC_ALGORITHM=aes-256-cbc
+```
+
+Explanation :
+ACCESS_KEY = Authorization key to fetch storeConfig (required)
+ENCRYPTION_KEY = Encryption key to encrypt sensitive data (required)
+ALGORITHM = Encryption algorithm (required)
+FCM_KEY_SERVER = Firebase server key (optional)
+FCM_TOPIC = Firebase topic (optional)
+SESSION_SECRET = Session secret (required)
+NEXT_PUBLIC_ENCRYPTION_KEY = Encryption key to encrypt sensitive data (required) -> This is for client side usage, consider make this different from the server side one (`ENCRYPTION_KEY`)
+NEXT_PUBLIC_ALGORITHM = Encryption algorithm (required) -> This is for client side usage, consider make this different from the server side one (`ALGORITHM`)
