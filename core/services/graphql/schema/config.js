@@ -311,6 +311,22 @@ export const storeConfig = `
         oms_rma_link
       }
       oms_channel_code
+      snap_is_production
+      payment_travelokapay_user_id
+      payment_travelokapay_public_key
+      payment_travelokapay_bin_whitelist
+      snap_client_key
+      paypal_key {
+        cancel_url
+        client_id
+        client_secret
+        disable_funding
+        intent
+        key_data
+        key_token
+        path
+        return_url
+      }
     }
   }  
 `;

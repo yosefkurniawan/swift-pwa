@@ -143,3 +143,41 @@ patch -p1 --forward < patches/fix_loadmore_plp.patch || true
 ######################### END of line patch ##############################
 
 ```
+
+# Authorization Key
+Authorization key is a key that retrieved from Backoffice to get sensitive PWA configurations such as traveloka API key, xendit key, paypal key, etc.
+### How to get authorization key for Swift PWA project
+
+1. Open backoffice
+2. Click on systems menu
+3. Click on integrations menu
+4. Click on add new integration
+5. Fill in the name and current user identity verification (this is backoffice account/admin password)
+6. On the API section, select resource access to "All"
+7. Click save
+8. And then on the Integrations list, click "Activate" on the key you just created
+9. Click Allow
+10. Copy the "Access Token" part
+11. Open `package.json` file and add the key on each start command on the scripts section like this `ACCESS_KEY=[your access token]` or you can look at the example directly from `package.json` file
+```
+"scripts": {
+    "assets:build": "webpack",
+    "local": "cross-env APP_ENV=local NODE_ENV=development ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node server.js",
+    "local:start": "cross-env APP_ENV=local NODE_ENV=production ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node server.js",
+    "dev": "cross-env APP_ENV=dev NODE_ENV=development node --max-http-header-size=16384 server.js",
+    "dev:start": "cross-env APP_ENV=dev NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node --max-http-header-size=16384 server.js",
+    "stage": "cross-env APP_ENV=stage NODE_ENV=development ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node --max-http-header-size=16384 server.js",
+    "stage:start": "cross-env APP_ENV=stage NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node --max-http-header-size=16384 server.js",
+    "prod": "cross-env APP_ENV=prod NODE_ENV=development ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node --max-http-header-size=16384 server.js",
+    "prod:start": "cross-env APP_ENV=prod NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node --max-http-header-size=16384 server.js",
+    "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix",
+    "start": "cross-env node --max-http-header-size=16384 server.js",
+    "generate-certs": "mkdir certs && openssl req -x509 -days 365 -newkey rsa:2048 -nodes -sha256 -keyout certs/privateKey.key -out certs/certificate.crt",
+    "build": "concurrently \"yarn assets:build\" \"next build\"",
+    "export": "next export",
+    "clean": "cross-env rimraf ./.next ./out",
+    "release": "cross-env NODE_ENV=production npm run clean && npm run build && npm run export",
+    "test": "jest --watch",
+    "test:ci": "jest --ci"
+  },
+```

@@ -202,7 +202,6 @@ const PaymentView = (props) => {
                 }
             }
         }
-        // console.log('storeConfig', payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id);
         content = (
             <div>
                 <Typography variant="p">{t('checkout:paymentSubtitle')}</Typography>
@@ -232,7 +231,7 @@ const PaymentView = (props) => {
                                                 <PaymentGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
                                                 <Typography letter="uppercase" variant="span" type="bold">
                                                     {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
-                                                    === `paymentGrouping.${item.group.replace('pg-', '')}`
+                                                        === `paymentGrouping.${item.group.replace('pg-', '')}`
                                                         ? item.group.replace('pg-', '')
                                                         : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
                                                 </Typography>

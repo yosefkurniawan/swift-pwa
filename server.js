@@ -22,7 +22,6 @@ const handle = app.getRequestHandler();
 const {
     expiredToken, nossrCache, features, assetsVersion,
 } = require('./swift.config');
-const { SESSION_SECRET } = require('./swift-server.config');
 const generateXml = require('./core/api/rest/xml');
 const captchaValidation = require('./core/api/rest/captcha');
 const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
@@ -65,7 +64,6 @@ async function renderAndCache(req, res) {
     }
 
     try {
-        // console.log(`key ${key} not found, rendering`);
         // If not let's render the page into HTML
         const html = await app.renderToHTML(req, res, req.path, req.query);
 
@@ -85,19 +83,13 @@ async function renderAndCache(req, res) {
 }
 
 (async () => {
-    const botList = fs.readFileSync('./botlist.txt')
-        .toString()
-        .split('\n')
-        .filter(Boolean);
+    const botList = fs.readFileSync('./botlist.txt').toString().split('\n').filter(Boolean);
 
     await app.prepare();
     const server = express();
 
     // block bot
-    server.use(blocker(
-        botList,
-        { text: 'Unauthorized request' },
-    ));
+    server.use(blocker(botList, { text: 'Unauthorized request' }));
 
     server.use(cookieParser());
     // disable x-powered-by
@@ -137,10 +129,11 @@ async function renderAndCache(req, res) {
 
     await nextI18next.initPromise;
     // server.use(nextI18NextMiddleware(nextI18next));
+
     server.use(
         cookieSession({
             name: 'qwt-swift',
-            keys: [SESSION_SECRET],
+            keys: [process.env.SESSION_SECRET],
             maxAge: expiredToken,
             // add security options
             cookies: {

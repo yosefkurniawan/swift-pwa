@@ -4,16 +4,30 @@ const { GraphQLClient } = require('graphql-request');
 const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
 
 const { decrypt } = require('../../../helpers/encryption');
-const { getAppEnv } = require('../../../helpers/env');
+const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
 
 function requestGraph(query, variables = {}, context = {}, config = {}) {
     let token = '';
     if (config.token) {
-        token = `Bearer ${config.token}`;
+        if (query.includes('snap_client_key')) {
+            token = `Bearer ${getAccessEnv()}`;
+        } else {
+            token = `Bearer ${config.token}`;
+        }
     } else if (context.session || context.headers) {
-        token = context.session.token ? `Bearer ${decrypt(context.session.token)}`
-            : context.headers.authorization ? context.headers.authorization : '';
+        if (query.includes('snap_client_key')) {
+            token = `Bearer ${getAccessEnv()}`;
+        } else {
+            token = context.session.token
+                ? `Bearer ${decrypt(context.session.token)}`
+                : context.headers.authorization
+                    ? context.headers.authorization
+                    : '';
+        }
+    } else if (query.includes('snap_client_key')) {
+        token = `Bearer ${getAccessEnv()}`;
     }
+
     return new Promise((resolve) => {
         const additionalHeader = storeCode ? { store: storeCode } : {};
         if (token && token !== '') {
@@ -26,7 +40,10 @@ function requestGraph(query, variables = {}, context = {}, config = {}) {
         const client = new GraphQLClient(`${graphqlEndpoint[appEnv] || graphqlEndpoint.prod}`, {
             headers,
         });
-        client.request(query, variables).then((data) => resolve(data)).catch((err) => resolve(err));
+        client
+            .request(query, variables)
+            .then((data) => resolve(data))
+            .catch((err) => resolve(err));
     });
 }
 
