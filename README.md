@@ -145,7 +145,7 @@ patch -p1 --forward < patches/fix_loadmore_plp.patch || true
 ```
 
 # Authorization Key
-Authorization key is a key that retrieved from Backoffice to get sensitive PWA configurations such as traveloka API key, xendit key, paypal key, etc.
+Authorization key is a key that retrieved from Backoffice to get sensitive store configurations such as traveloka API key, xendit key, paypal key, etc for PWA
 ### How to get authorization key for Swift PWA project
 
 1. Open backoffice
@@ -161,7 +161,7 @@ Authorization key is a key that retrieved from Backoffice to get sensitive PWA c
 11. Create `.env` file in root PWA project
 11. Open `.env` file and add the key on with definer `ACCESS_KEY` example like below
 ```
-ACCESS_KEY="z42nzj61mfsbe5ys0qo2h5vha1icxe5a"
+ACCESS_KEY="YOUR_ACCESS_KEY"
 ENCRYPTION_KEY=TXAjwm8k53PJG9NacLbyZavvQB2qBh43
 ALGORITHM=aes-256-cbc
 FCM_KEY_SERVER=
@@ -172,11 +172,11 @@ NEXT_PUBLIC_ALGORITHM=aes-256-cbc
 ```
 
 Explanation :
-ACCESS_KEY = Authorization key to fetch storeConfig (required)
-ENCRYPTION_KEY = Encryption key to encrypt sensitive data (required)
-ALGORITHM = Encryption algorithm (required)
-FCM_KEY_SERVER = Firebase server key (optional)
-FCM_TOPIC = Firebase topic (optional)
-SESSION_SECRET = Session secret (required)
-NEXT_PUBLIC_ENCRYPTION_KEY = Encryption key to encrypt sensitive data (required) -> This is for client side usage, consider make this different from the server side one (`ENCRYPTION_KEY`)
-NEXT_PUBLIC_ALGORITHM = Encryption algorithm (required) -> This is for client side usage, consider make this different from the server side one (`ALGORITHM`)
+1. ACCESS_KEY = Authorization key to fetch storeConfig (required)
+2. ENCRYPTION_KEY = Encryption key to encrypt sensitive data (required)
+3. ALGORITHM = Encryption algorithm (required)
+4. FCM_KEY_SERVER = Firebase server key (optional)
+5. FCM_TOPIC = Firebase topic (optional)
+6. SESSION_SECRET = Session secret (required)
+7. NEXT_PUBLIC_ENCRYPTION_KEY = Encryption key to encrypt sensitive data (required) -> This is for client side usage, consider make this different from the server side one (`ENCRYPTION_KEY`)
+8. NEXT_PUBLIC_ALGORITHM = Encryption algorithm (required) -> This is for client side usage, consider make this different from the server side one (`ALGORITHM`)
