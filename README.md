@@ -158,26 +158,25 @@ Authorization key is a key that retrieved from Backoffice to get sensitive PWA c
 8. And then on the Integrations list, click "Activate" on the key you just created
 9. Click Allow
 10. Copy the "Access Token" part
-11. Open `package.json` file and add the key on each start command on the scripts section like this `ACCESS_KEY=[your access token]` or you can look at the example directly from `package.json` file
+11. Create `.env` file in root PWA project
+11. Open `.env` file and add the key on with definer `ACCESS_KEY` example like below
 ```
-"scripts": {
-    "assets:build": "webpack",
-    "local": "cross-env APP_ENV=local NODE_ENV=development ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node server.js",
-    "local:start": "cross-env APP_ENV=local NODE_ENV=production ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node server.js",
-    "dev": "cross-env APP_ENV=dev NODE_ENV=development node --max-http-header-size=16384 server.js",
-    "dev:start": "cross-env APP_ENV=dev NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node --max-http-header-size=16384 server.js",
-    "stage": "cross-env APP_ENV=stage NODE_ENV=development ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node --max-http-header-size=16384 server.js",
-    "stage:start": "cross-env APP_ENV=stage NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node --max-http-header-size=16384 server.js",
-    "prod": "cross-env APP_ENV=prod NODE_ENV=development ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node --max-http-header-size=16384 server.js",
-    "prod:start": "cross-env APP_ENV=prod NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 ACCESS_KEY=z42nzj61mfsbe5ys0qo2h5vha1icxe5a node --max-http-header-size=16384 server.js",
-    "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix",
-    "start": "cross-env node --max-http-header-size=16384 server.js",
-    "generate-certs": "mkdir certs && openssl req -x509 -days 365 -newkey rsa:2048 -nodes -sha256 -keyout certs/privateKey.key -out certs/certificate.crt",
-    "build": "concurrently \"yarn assets:build\" \"next build\"",
-    "export": "next export",
-    "clean": "cross-env rimraf ./.next ./out",
-    "release": "cross-env NODE_ENV=production npm run clean && npm run build && npm run export",
-    "test": "jest --watch",
-    "test:ci": "jest --ci"
-  },
+ACCESS_KEY="z42nzj61mfsbe5ys0qo2h5vha1icxe5a"
+ENCRYPTION_KEY=TXAjwm8k53PJG9NacLbyZavvQB2qBh43
+ALGORITHM=aes-256-cbc
+FCM_KEY_SERVER=
+FCM_TOPIC=notificationspwa
+SESSION_SECRET=asdasdd1212ads12!!!@**DADxx1
+NEXT_PUBLIC_ENCRYPTION_KEY=TXAjwm8k53PJG9NacLbyZavvQB2qBh43
+NEXT_PUBLIC_ALGORITHM=aes-256-cbc
 ```
+
+Explanation :
+ACCESS_KEY = Authorization key to fetch storeConfig (required)
+ENCRYPTION_KEY = Encryption key to encrypt sensitive data (required)
+ALGORITHM = Encryption algorithm (required)
+FCM_KEY_SERVER = Firebase server key (optional)
+FCM_TOPIC = Firebase topic (optional)
+SESSION_SECRET = Session secret (required)
+NEXT_PUBLIC_ENCRYPTION_KEY = Encryption key to encrypt sensitive data (required) -> This is for client side usage, consider make this different from the server side one (`ENCRYPTION_KEY`)
+NEXT_PUBLIC_ALGORITHM = Encryption algorithm (required) -> This is for client side usage, consider make this different from the server side one (`ALGORITHM`)
