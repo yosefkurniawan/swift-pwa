@@ -67,7 +67,7 @@ const Content = (props) => {
                         <Box className={styles.sellerPanel}>
                             <Grid container spacing={2}>
                                 <Grid item xs={3} xm={3} sm={3} md={3} lg={2} className={styles.sellerLogoWrapper}>
-                                    <Avatar alt="Remy Sharp" src={data.getSeller[0].logo} className={styles.sellerLogo} />
+                                    <Avatar alt="Remy Sharp" src={data.getSeller[0].logo} className={styles.sellerLogo} variant="rounded" />
                                 </Grid>
                                 <Grid item xs={9} xm={6} sm={6} md={6} lg={8}>
                                     <div className={styles.sellerName}>
