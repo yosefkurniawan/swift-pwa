@@ -1,13 +1,13 @@
-import React from 'react';
-import { useTranslation } from '@i18n';
 import Typography from '@common_typography';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import { getLocalStorage } from '@helper_localstorage';
-import ProductView from '@core_modules/theme/components/recentlyViewed/productView';
-import { breakPointsUp } from '@helper_theme';
-import { getRecentlyProduct } from '@core_modules/theme/services/graphql';
-import useStyles from '@core_modules/theme/components/recentlyViewed/style';
 import ButtonCompare from '@core_modules/theme/components/recentlyViewed/buttonCompare';
+import ProductView from '@core_modules/theme/components/recentlyViewed/productView';
+import useStyles from '@core_modules/theme/components/recentlyViewed/style';
+import { getRecentlyProduct } from '@core_modules/theme/services/graphql';
+import { getLocalStorage } from '@helper_localstorage';
+import { breakPointsUp } from '@helper_theme';
+import { useTranslation } from '@i18n';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import React from 'react';
 
 const RecentlyViewed = (props) => {
     const styles = useStyles();
@@ -20,7 +20,6 @@ const RecentlyViewed = (props) => {
     if (typeof window !== 'undefined') {
         viewedProduct = getLocalStorage('recently_viewed_product_pwa');
     }
-    // console.log(viewedProduct);
     const toggleDrawer = (open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;

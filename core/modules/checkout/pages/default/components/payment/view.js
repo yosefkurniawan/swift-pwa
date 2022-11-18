@@ -1,23 +1,23 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-shadow */
-import { withStyles } from '@material-ui/core/styles';
 import MuiExpansionPanel from '@material-ui/core/Accordion';
-import MuiExpansionPanelSummary from '@material-ui/core/AccordionSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/AccordionDetails';
+import MuiExpansionPanelSummary from '@material-ui/core/AccordionSummary';
 import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
 
-import Typography from '@common_typography';
 import Button from '@common_button';
-import Arrow from '@material-ui/icons/ArrowDropDown';
 import Radio from '@common_forms/Radio';
-import Skeleton from '@material-ui/lab/Skeleton';
+import Typography from '@common_typography';
 import commonConfig from '@config';
 import FieldPoint from '@core_modules/checkout/components/fieldcode';
 import RadioItem from '@core_modules/checkout/components/radioitem';
 import ModalHowtoPay from '@core_modules/checkout/pages/default/components/ModalHowtoPay';
-import useStyles from '@core_modules/checkout/pages/default/components/style';
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import TravelokaPayForm from '@core_modules/checkout/pages/default/components/payment/components/TravelokaPayForm';
+import useStyles from '@core_modules/checkout/pages/default/components/style';
+import Arrow from '@material-ui/icons/ArrowDropDown';
+import Skeleton from '@material-ui/lab/Skeleton';
+import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
 
 const ExpansionPanel = withStyles(ExpanPanelStyle)(MuiExpansionPanel);
@@ -175,7 +175,6 @@ const PaymentView = (props) => {
                 }
             }
         }
-        // console.log('storeConfig', payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id);
         content = (
             <div>
                 <Typography variant="p">{t('checkout:paymentSubtitle')}</Typography>

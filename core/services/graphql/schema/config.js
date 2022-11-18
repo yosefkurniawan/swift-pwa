@@ -267,7 +267,6 @@ export const storeConfig = `
       weight_unit
       oauth_access_token_lifetime_customer
       pwa_checkout_debug_enable
-      snap_client_key
       allow_guest_checkout
       snap_is_production
       aw_blog_general_enabled
@@ -302,9 +301,6 @@ export const storeConfig = `
       aw_blog_related_products_display_add_to_cart
       weltpixel_RecentlyViewedBar_general_enable
       weltpixel_thankyoupage_create_account_enable
-      payment_travelokapay_public_key
-      payment_travelokapay_user_id
-      payment_travelokapay_bin_whitelist
       pin_location_latitude
       pin_location_longitude
       minimum_order_amount
@@ -315,6 +311,22 @@ export const storeConfig = `
         oms_rma_link
       }
       oms_channel_code
+      snap_is_production
+      payment_travelokapay_user_id
+      payment_travelokapay_public_key
+      payment_travelokapay_bin_whitelist
+      snap_client_key
+      paypal_key {
+        cancel_url
+        client_id
+        client_secret
+        disable_funding
+        intent
+        key_data
+        key_token
+        path
+        return_url
+      }
     }
   }  
 `;

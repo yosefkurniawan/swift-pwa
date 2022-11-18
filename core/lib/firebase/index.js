@@ -1,5 +1,5 @@
-import firebase from 'firebase/app';
 import { features } from '@config';
+import firebase from 'firebase/app';
 
 require('firebase/auth');
 require('firebase/messaging');

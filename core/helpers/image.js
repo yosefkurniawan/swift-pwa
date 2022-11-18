@@ -4,13 +4,24 @@ export const generateThumborUrl = (src = '', width = 400, height = 400, enable, 
     if (enable) {
         if (typeof window !== 'undefined' && navigator && navigator?.appVersion) {
             const userAgent = navigator.appVersion;
-            const regex = (/iPhone|iPad|iPod/i);
+            const regex = (/iPhone|iPad|iPod|Mac/i);
             const isIOS = regex.test(userAgent);
+            const newRegex = (/Version/i);
+            const isSafari = newRegex.test(userAgent);
             if (isIOS) {
                 const version = userAgent.match(/\b[0-9]+_[0-9]+(?:_[0-9]+)?\b/)[0];
                 const majorVersion = version.split('_')[0];
                 // webp is not supported on IOS version 14 and below
-                if (majorVersion < 14) {
+
+                if (isSafari) {
+                    let versionSavari = userAgent.split('Version/');
+                    if (versionSavari && versionSavari.length > 0) {
+                        versionSavari = versionSavari[1].split(' ');
+                        if (versionSavari && versionSavari.length > 0 && parseFloat(versionSavari[0]) < 14) {
+                            return src;
+                        }
+                    }
+                } else if (majorVersion < 14) {
                     return src;
                 }
             }

@@ -1,15 +1,16 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-prototype-builtins */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable radix */
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
+
 /**
  *
  * PayPal Node JS SDK dependency
  */
 const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
-const { getAppEnv } = require('../../../helpers/env');
-const { modules } = require('../../../../swift.config');
+const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
+const { graphqlEndpoint } = require('../../../../swift.config');
 
 /**
  *
@@ -18,13 +19,41 @@ const { modules } = require('../../../../swift.config');
  *
  */
 function environment() {
-    const appEnv = getAppEnv();
-    const clientId = modules.paypal.clientId[appEnv];
-    const clientSecret = modules.paypal.clientSecret[appEnv];
+    return new Promise((resolve) => {
+        const query = `{
+            storeConfig {
+                paypal_key {
+                    cancel_url
+                    client_id
+                    client_secret
+                    disable_funding
+                    intent
+                    key_data
+                    key_token
+                    path
+                    return_url
+                }
+            }
+        }`;
+        fetch(`${graphqlEndpoint[getAppEnv()]}?query=${encodeURI(query)}`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${getAccessEnv()}`,
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                const clientId = responseJson.data.storeConfig.paypal_key.client_id;
+                const clientSecret = responseJson.data.storeConfig.paypal_key.client_secret;
 
-    return new checkoutNodeJssdk.core.SandboxEnvironment(
-        clientId, clientSecret,
-    );
+                resolve(new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret));
+            })
+            .catch((err) => {
+                // eslint-disable-next-line no-console
+                console.log(err);
+            });
+    });
 }
 
 /**

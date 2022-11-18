@@ -1,7 +1,5 @@
 /* eslint-disable prefer-destructuring */
-import React from 'react';
 import { modules } from '@config';
-import { getAppEnv } from '@helpers/env';
 import {
     setPaypalPaymentMethod, createPaypalExpressToken,
     // setShippingAddressByInput, setBillingAddressByInput, setGuestEmailAddressOnCart,
@@ -17,7 +15,6 @@ import { getCookies } from '@helper_cookies';
 
 const PaypalButton = (props) => {
     const { t, cart, storeConfig } = props;
-    const appEnv = getAppEnv();
     let cartId = cart ? cart.id : null;
     let isLogin = 0;
     const isCustomerAddress = getCookies('is_cust_address') ?? null;
@@ -31,12 +28,12 @@ const PaypalButton = (props) => {
 
     // config paypal
     const [initialOptionPaypal, setInitialOptionPaypal] = React.useState({
-        'client-id': modules.paypal.clientId[appEnv],
+        'client-id': storeConfig?.paypal_key.client_id,
         currency: storeConfig?.base_currency_code || 'USD',
-        intent: modules.paypal.intent,
+        intent: storeConfig?.paypal_key.intent,
         'data-order-id': '',
         // debug: modules.paypal.debug,
-        'disable-funding': modules.paypal.disableFunding,
+        'disable-funding': storeConfig?.paypal_key.disable_funding,
         'merchant-id': storeConfig?.pwa?.paypal_merchant_id,
     });
 
@@ -67,8 +64,8 @@ const PaypalButton = (props) => {
                     variables: {
                         cartId: cart.id,
                         code: 'paypal_express',
-                        returnUrl: modules.paypal.returnUrl,
-                        cancelUrl: modules.paypal.cancelUrl,
+                        returnUrl: storeConfig?.paypal_key.return_url,
+                        cancelUrl: storeConfig?.paypal_key.cancel_url,
                     },
                 }).then((res) => {
                     if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
@@ -195,67 +192,54 @@ const PaypalButton = (props) => {
                 payerId: data.payerID,
                 token: initialOptionPaypal['data-order-id'],
             },
-        }).then(async (result) => {
-            if (result && result.data && result.data.setPaymentMethodOnCart && result.data.setPaymentMethodOnCart.cart) {
-                const selectedPayment = result.data.setPaymentMethodOnCart.cart.selected_payment_method;
-                // GTM UA dataLayer
-                const dataLayer = {
-                    event: 'checkout',
-                    ecommerce: {
-                        checkout: {
-                            actionField: { step: 3, option: selectedPayment.title, action: 'checkout' },
-                            products: cart && cart.items && cart.items.map(({ quantity, product, prices }) => ({
-                                name: product.name,
-                                id: product.sku,
-                                price: JSON.stringify(prices.price.value),
-                                category: product.categories.length > 0 ? product.categories[0].name : '',
-                                list: product.categories.length > 0 ? product.categories[0].name : '',
-                                quantity: JSON.stringify(quantity),
-                                dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
-                                dimension5: '',
-                                dimension6: '',
-                                dimension7: prices.discount ? 'YES' : 'NO',
-                            })),
+        })
+            .then(async (result) => {
+                if (result && result.data && result.data.setPaymentMethodOnCart && result.data.setPaymentMethodOnCart.cart) {
+                    const selectedPayment = result.data.setPaymentMethodOnCart.cart.selected_payment_method;
+                    // GTM UA dataLayer
+                    const dataLayer = {
+                        event: 'checkout',
+                        ecommerce: {
+                            checkout: {
+                                actionField: { step: 3, option: selectedPayment.title, action: 'checkout' },
+                                products:
+                                    cart
+                                    && cart.items
+                                    && cart.items.map(({ quantity, product, prices }) => ({
+                                        name: product.name,
+                                        id: product.sku,
+                                        price: JSON.stringify(prices.price.value),
+                                        category: product.categories.length > 0 ? product.categories[0].name : '',
+                                        list: product.categories.length > 0 ? product.categories[0].name : '',
+                                        quantity: JSON.stringify(quantity),
+                                        dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                        dimension5: '',
+                                        dimension6: '',
+                                        dimension7: prices.discount ? 'YES' : 'NO',
+                                    })),
+                            },
+                            currencyCode: storeConfig.base_currency_code || 'IDR',
                         },
-                        currencyCode: storeConfig.base_currency_code || 'IDR',
-                    },
-                };
-                const dataLayerOption = {
-                    event: 'checkoutOption',
-                    ecommerce: {
-                        currencyCode: storeConfig.base_currency_code || 'IDR',
-                        checkout_option: {
-                            actionField: { step: 3, option: selectedPayment.title, action: 'checkout_option' },
+                    };
+                    const dataLayerOption = {
+                        event: 'checkoutOption',
+                        ecommerce: {
+                            currencyCode: storeConfig.base_currency_code || 'IDR',
+                            checkout_option: {
+                                actionField: { step: 3, option: selectedPayment.title, action: 'checkout_option' },
+                            },
                         },
-                    },
-                };
-                // GA 4 dataLayer
-                const dataLayerOpt = {
-                    event: 'add_payment_info',
-                    ecommerce: {
-                        payment_type: selectedPayment[0].title,
-                        currency: storeConfig.base_currency_code || 'IDR',
-                        items: [
-                            cart && cart.items && cart.items.map(({ quantity, product, prices }) => ({
-                                currency: storeConfig.base_currency_code || 'IDR',
-                                item_name: product.name,
-                                item_id: product.sku,
-                                price: JSON.stringify(prices.price.value),
-                                item_category: product.categories.length > 0 ? product.categories[0].name : '',
-                                item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
-                                quantity: JSON.stringify(quantity),
-                                item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
-                                item_sale_product: '',
-                                item_reviews_count: '',
-                                item_reviews_score: '',
-                            })),
-                        ],
-                        fbpixels: {
-                            total_price: cart.prices.grand_total.value,
-                            content_ids: [
-                                {
-                                    payment_type: selectedPayment[0].title,
-                                    items: cart && cart.items.map(({ quantity, product, prices }) => ({
+                    };
+                    // GA 4 dataLayer
+                    const dataLayerOpt = {
+                        event: 'add_payment_info',
+                        ecommerce: {
+                            payment_type: selectedPayment[0].title,
+                            currency: storeConfig.base_currency_code || 'IDR',
+                            items: [
+                                cart
+                                    && cart.items
+                                    && cart.items.map(({ quantity, product, prices }) => ({
                                         currency: storeConfig.base_currency_code || 'IDR',
                                         item_name: product.name,
                                         item_id: product.sku,
@@ -268,42 +252,63 @@ const PaypalButton = (props) => {
                                         item_reviews_count: '',
                                         item_reviews_score: '',
                                     })),
-                                },
                             ],
-                            catalog_id: cart.items.map(({ product }) => (product.categories.length > 0 ? product.categories[0].name : '')),
+                            fbpixels: {
+                                total_price: cart.prices.grand_total.value,
+                                content_ids: [
+                                    {
+                                        payment_type: selectedPayment[0].title,
+                                        items:
+                                            cart
+                                            && cart.items.map(({ quantity, product, prices }) => ({
+                                                currency: storeConfig.base_currency_code || 'IDR',
+                                                item_name: product.name,
+                                                item_id: product.sku,
+                                                price: JSON.stringify(prices.price.value),
+                                                item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                                                item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                                                quantity: JSON.stringify(quantity),
+                                                item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                                item_sale_product: '',
+                                                item_reviews_count: '',
+                                                item_reviews_score: '',
+                                            })),
+                                    },
+                                ],
+                                catalog_id: cart.items.map(({ product }) => (product.categories.length > 0 ? product.categories[0].name : '')),
+                            },
                         },
-                    },
-                };
-                TagManager.dataLayer({ dataLayer });
-                TagManager.dataLayer({ dataLayer: dataLayerOption });
-                TagManager.dataLayer({ dataLayer: dataLayerOpt });
-            } else {
-                onErrorPaypal('error');
-            }
+                    };
+                    TagManager.dataLayer({ dataLayer });
+                    TagManager.dataLayer({ dataLayer: dataLayerOption });
+                    TagManager.dataLayer({ dataLayer: dataLayerOpt });
+                } else {
+                    onErrorPaypal('error');
+                }
 
-            // set local data
+                // set local data
 
-            // const paypalData = {
-            //     data: {
-            //         ...data,
-            //         ...initialOptionPaypal,
-            //         ...tokenData,
-            //     },
-            //     details: {},
-            // };
-            // if (details && details.data && details.data.result) {
-            //     paypalData.details = details.data.result;
-            // }
-            // setLocalStorage(modules.paypal.keyData, paypalData);
-            window.backdropLoader(false);
-            Router.push(`/${modules.paypal.returnUrl}`);
-        }).catch((
+                // const paypalData = {
+                //     data: {
+                //         ...data,
+                //         ...initialOptionPaypal,
+                //         ...tokenData,
+                //     },
+                //     details: {},
+                // };
+                // if (details && details.data && details.data.result) {
+                //     paypalData.details = details.data.result;
+                // }
+                // setLocalStorage(modules.paypal.keyData, paypalData);
+                window.backdropLoader(false);
+                Router.push(`/${modules.paypal.returnUrl}`);
+            }).catch((
             // e
-        ) => {
+            ) => {
             // console.log(e);
             // onErrorPaypal(e);
-            Router.push(`/${modules.paypal.returnUrl}`);
-        });
+                Router.push(`/${modules.paypal.returnUrl}`);
+            });
     };
 
     const onShippingChangePaypal = () => {

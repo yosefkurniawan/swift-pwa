@@ -1,11 +1,11 @@
-import React from 'react';
-import View from '@core_modules/paypal/pages/review/components/PlaceOrder/view';
+import { useApolloClient } from '@apollo/client';
 import { modules } from '@config';
 import gqlService from '@core_modules/checkout/services/graphql';
-import { setCheckoutData } from '@helper_cookies';
-import { useApolloClient } from '@apollo/client';
+import View from '@core_modules/paypal/pages/review/components/PlaceOrder/view';
 import { removeCartId } from '@helper_cartid';
+import { setCheckoutData } from '@helper_cookies';
 import { localTotalCart } from '@services/graphql/schema/local';
+import React from 'react';
 
 const PlaceOrder = (props) => {
     const {
@@ -95,13 +95,7 @@ const PlaceOrder = (props) => {
         }
     };
     const disabled = checkout.selectedShippingMethod === null;
-    return (
-        <View
-            {...props}
-            handlePlaceOrder={handlePlaceOrder}
-            disabled={disabled}
-        />
-    );
+    return <View {...props} handlePlaceOrder={handlePlaceOrder} disabled={disabled} />;
 };
 
 export default PlaceOrder;

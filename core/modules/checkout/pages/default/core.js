@@ -1,26 +1,26 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
-import * as Yup from 'yup';
-import React, { useEffect, useState } from 'react';
-import { useFormik } from 'formik';
-import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
-import { setLocalStorage } from '@helper_localstorage';
-import { getCartId } from '@helpers/cartId';
-import Router from 'next/router';
-import Layout from '@layout';
-import Head from 'next/head';
-import { modules, nameCheckoutState } from '@config';
-import { updatePwaCheckoutLog } from '@services/graphql/repository/log';
-import { getStoreHost } from '@helpers/config';
-import Cookies from 'js-cookie';
-import { getAppEnv } from '@root/core/helpers/env';
 import Toast from '@common_toast';
-import gqlService from '@core_modules/checkout/services/graphql';
-import TagManager from 'react-gtm-module';
+import { modules, nameCheckoutState } from '@config';
 import {
     getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
 } from '@core_modules/checkout/helpers/config';
+import gqlService from '@core_modules/checkout/services/graphql';
+import { getCartId } from '@helpers/cartId';
+import { getStoreHost } from '@helpers/config';
+import { getCheckoutData, removeCheckoutData } from '@helpers/cookies';
 import { formatPrice } from '@helper_currency';
+import { setLocalStorage } from '@helper_localstorage';
+import Layout from '@layout';
+import { getAppEnv } from '@root/core/helpers/env';
+import { updatePwaCheckoutLog } from '@services/graphql/repository/log';
+import { useFormik } from 'formik';
+import Cookies from 'js-cookie';
+import Head from 'next/head';
+import Router from 'next/router';
+import React, { useEffect, useState } from 'react';
+import TagManager from 'react-gtm-module';
+import * as Yup from 'yup';
 
 function equalTo(ref, msg) {
     return this.test({
@@ -90,10 +90,12 @@ const Checkout = (props) => {
                 variables: {
                     cartId: cartId || propsCardId,
                 },
-            }).then(async (result) => { }).catch((e) => {
-                // eslint-disable-next-line no-console
-                console.log(e);
-            });
+            })
+                .then(async (result) => {})
+                .catch((e) => {
+                    // eslint-disable-next-line no-console
+                    console.log(e);
+                });
         }
     }, [cartId]);
 
@@ -191,12 +193,12 @@ const Checkout = (props) => {
 
     // config paypal
     const [initialOptionPaypal, setInitialOptionPaypal] = useState({
-        'client-id': modules.paypal.clientId[appEnv],
+        'client-id': storeConfig?.paypal_key.client_id,
         currency: storeConfig?.base_currency_code,
-        intent: modules.paypal.intent,
+        intent: storeConfig?.paypal_key.intent,
         'data-order-id': '',
         // debug: modules.paypal.debug,
-        'disable-funding': modules.paypal.disableFunding,
+        'disable-funding': storeConfig?.paypal_key.disable_funding,
         'merchant-id': storeConfig?.pwa?.paypal_merchant_id,
     });
 
@@ -243,7 +245,7 @@ const Checkout = (props) => {
         email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
         payment: Yup.string().nullable().required(t('validate:required')),
         oldEmail: checkout.data.isGuest ? Yup.string().equalTo(Yup.ref('email')) : null,
-        address: (isOnlyVirtualProductOnCart || checkout.selectStore.id !== null) ? null : Yup.object().nullable().required(t('validate:required')),
+        address: isOnlyVirtualProductOnCart || checkout.selectStore.id !== null ? null : Yup.object().nullable().required(t('validate:required')),
         billing: checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
         shipping: isOnlyVirtualProductOnCart
             ? null
@@ -264,7 +266,7 @@ const Checkout = (props) => {
             confirmation: false,
         },
         validationSchema: CheckoutSchema,
-        onSubmit: () => { },
+        onSubmit: () => {},
     });
 
     const updateFormik = (cart) => {
@@ -468,8 +470,8 @@ const Checkout = (props) => {
                     variables: {
                         cartId: cart.id,
                         code: 'paypal_express',
-                        returnUrl: modules.paypal.returnUrl,
-                        cancelUrl: modules.paypal.cancelUrl,
+                        returnUrl: storeConfig?.paypal_key.return_url,
+                        cancelUrl: storeConfig?.paypal_key.cancel_url,
                     },
                 }).then((res) => {
                     if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
@@ -617,15 +619,9 @@ const Checkout = (props) => {
                 }));
             }
 
-            if (
-                shipping
-                && shipping.available_shipping_methods
-                && shipping.available_shipping_methods.length > 0
-            ) {
+            if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
                 const shippingMethod = shipping.selected_shipping_method;
-                state.selected.shipping = shippingMethod
-                    ? `${shippingMethod.carrier_code}_${shippingMethod.method_code}`
-                    : shippingMethod;
+                state.selected.shipping = shippingMethod ? `${shippingMethod.carrier_code}_${shippingMethod.method_code}` : shippingMethod;
             }
 
             setCheckout(state);
@@ -697,7 +693,11 @@ const Checkout = (props) => {
     };
 
     const onCancelPaypal = () => {
-        Router.push(!modules.checkout.checkoutOnly ? `/${modules.paypal.cancelUrl}` : `${getStoreHost(getAppEnv())}${modules.paypal.cancelUrl}`);
+        Router.push(
+            !modules.checkout.checkoutOnly
+                ? `/${storeConfig?.paypal_key.cancel_url}`
+                : `${getStoreHost(getAppEnv())}${storeConfig?.paypal_key.cancel_url}`,
+        );
     };
 
     const onErrorPaypal = (err) => {
@@ -856,14 +856,14 @@ const Checkout = (props) => {
                         paypalData.details = details.data.result;
                     }
                 }
-                setLocalStorage(modules.paypal.keyData, paypalData);
+                setLocalStorage(storeConfig?.paypal_key.key_data, paypalData);
                 state = { ...checkout };
                 window.backdropLoader(false);
                 state.loading.order = false;
                 setCheckout(state);
 
-                const redirectMagentoUrl = `${getStoreHost(getAppEnv())}${modules.paypal.returnUrl}`;
-                Router.push(!modules.checkout.checkoutOnly ? `/${modules.paypal.returnUrl}` : redirectMagentoUrl);
+                const redirectMagentoUrl = `${getStoreHost(getAppEnv())}${storeConfig?.paypal_key.return_url}`;
+                Router.push(!modules.checkout.checkoutOnly ? `/${storeConfig?.paypal_key.return_url}` : redirectMagentoUrl);
             })
             .catch((e) => {
                 onErrorPaypal(e);

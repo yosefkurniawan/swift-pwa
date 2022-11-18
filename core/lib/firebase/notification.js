@@ -23,7 +23,6 @@ const notification = {
             .then((currentToken) => {
                 if (currentToken) {
                     notification.sendTokenToServer(currentToken);
-                    // updateUIForPushEnabled(currentToken)
                 } else {
                 }
             })
@@ -39,6 +38,7 @@ const notification = {
                     notification.sendTokenToServer(refreshedToken);
                 })
                 .catch((err) => {
+                    // eslint-disable-next-line no-console
                     console.log('Unable to retrieve refreshed token ', err);
                 });
         });
@@ -46,9 +46,6 @@ const notification = {
     init() {
         try {
             const messaging = firebase.messaging();
-            // messaging.usePublicVapidKey(
-            //   "BNLpFKMYBkoD5UoMz4YqVWVQkcSWJ3kxJQkhlAPclwZiZ0gLKYSsjolscS_7r6SX_qoNviXmEGTLweNuEzGNSng"
-            // )
             messaging.usePublicVapidKey(features.firebase.pushNotification.config.pairKey);
 
             // request notification
