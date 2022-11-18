@@ -147,7 +147,7 @@ const Header = ({ LeftComponent, CenterComponent, RightComponent, className, pag
                 ) : (
                     <>
                         {pageConfig.headerTitle ? (
-                            <Typography variant="h1" type="bold" letter="uppercase" align="center" className={styles.title}>
+                            <Typography variant="h2" type="bold" letter="uppercase" align="center" className={styles.title}>
                                 {pageConfig.headerTitle}
                             </Typography>
                         ) : null}

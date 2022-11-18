@@ -59,7 +59,7 @@ const Summary = (props) => {
     return (
         <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
             {withLabel && (
-                <Typography variant="h1" type="regular" letter="capitalize">
+                <Typography variant="span" type="regular" letter="capitalize" style={{ fontSize: '24px' }}>
                     {t('common:summary:title')}
                 </Typography>
             )}
@@ -168,13 +168,13 @@ const Summary = (props) => {
                     <ListItemText
                         className={styles.labelItem}
                         primary={(
-                            <Typography variant="title" type="bold" align={labelItemAlign}>
+                            <Typography variant="span" type="bold" align={labelItemAlign} size="16">
                                 Total
                             </Typography>
                         )}
                     />
                     <ListItemSecondaryAction>
-                        <Typography variant="title" type="bold">
+                        <Typography variant="span" type="bold" size="16">
                             {summary.total.currency ? formatPrice(summary.total.value, summary.total.currency) : null}
                         </Typography>
                     </ListItemSecondaryAction>

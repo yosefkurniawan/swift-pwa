@@ -18,7 +18,7 @@ const RewardPointView = (props) => {
                         ${checkout.data.cart.applied_reward_points.is_use_reward_points} 
                         ${t('checkout:myPoint:rewardPoints')}` : t('checkout:myPoint:title') }
                 </Typography>
-                <Typography variant="title" type="bold" className={styles.pointText}>
+                <Typography variant="span" type="bold" className={styles.pointText}>
                     {checkout.data.cart.applied_reward_points.is_use_reward_points
                         ? formatPrice(checkout.data.cart.applied_reward_points.reward_points_amount, checkout.data.cart.prices.grand_total.currency)
                         : `${checkout.data.rewardPoints.balance

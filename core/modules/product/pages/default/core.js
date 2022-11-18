@@ -114,6 +114,7 @@ const ContentDetail = ({
                 link: '#',
                 imageUrl: media.url,
                 videoUrl: media && media.video_content,
+                imageAlt: media.label,
             });
         });
     } else {
@@ -121,6 +122,7 @@ const ContentDetail = ({
             link: '#',
             imageUrl: item.image.url,
             videoUrl: '#',
+            imageAlt: item.image.label,
         });
     }
 

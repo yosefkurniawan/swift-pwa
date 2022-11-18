@@ -15,7 +15,7 @@ const StoreCreditView = (props) => {
                 <Typography variant="span" letter="capitalize">
                     {store_credit.is_use_store_credit ? t('checkout:myCredit:used') : t('checkout:myCredit:title')}
                 </Typography>
-                <Typography variant="title" type="bold" className={styles.pointText}>
+                <Typography variant="span" type="bold" className={styles.pointText}>
                     {formatPrice(
                         `${credit}`.toLocaleString(undefined, { minimumFractionDigits: 0 }),
                         storeConfig.default_display_currency_code,

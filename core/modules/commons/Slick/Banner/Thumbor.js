@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 const BannerThumbnail = (props) => {
     const {
-        className = '', alt = 'Image', lazy = false, src, srcMobile, storeConfig = {},
+        className = '', alt, lazy = false, src, srcMobile, storeConfig = {},
     } = props;
 
     let {
@@ -43,7 +43,7 @@ const BannerThumbnail = (props) => {
     }, [imageUrl, mobileImageUrl]);
 
     return (
-        <div
+        <span
             className={styles.thumborContainer}
         >
             {!lazy ? (
@@ -71,7 +71,7 @@ const BannerThumbnail = (props) => {
                     </picture>
                 </>
             ) : null}
-        </div>
+        </span>
     );
 };
 

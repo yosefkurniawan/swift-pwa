@@ -34,17 +34,19 @@ const CustomImage = ({
     }, [imageUrl]);
 
     return (
-        <div
+        <span
             className={classContainer}
             style={magezon ? {
                 width: 'fit-content',
                 overflow: 'hidden',
+                display: 'block',
             } : {
                 backgroundColor: '#eee',
                 width: '100%',
                 position: 'relative',
                 paddingTop: `${(height / width) * 100}%`,
                 overflow: 'hidden',
+                display: 'block',
             }}
         >
             <picture>
@@ -67,7 +69,7 @@ const CustomImage = ({
                     />
                 )}
             </picture>
-        </div>
+        </span>
     );
 };
 

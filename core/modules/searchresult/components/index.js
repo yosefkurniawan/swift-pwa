@@ -10,7 +10,7 @@ const SearchResult = (props) => {
         <div className={styles.container}>
             {/* add url path if no redirect to slug */}
             <div className="hidden-mobile">
-                <Typography variant="h5" letter="uppercase" className={styles.title}>
+                <Typography variant="h1" letter="uppercase" className={styles.title}>
                     {t('catalog:title:searchResult')}
                     {': '}
                     {q}

@@ -422,6 +422,9 @@ const Layout = (props) => {
         metaTitleValue = data && dataBlp.meta_title ? dataBlp.meta_title : ogData['og:title'];
         metaKeywordValue = data && dataBlp.meta_keywords ? dataBlp.meta_keywords : '';
     }
+
+    const canonicalUrl = `${getHost()}${router.asPath}`;
+    const defaultLang = i18n && i18n.language === 'id' ? 'id_ID' : 'en_US';
     return (
         <>
             <Head>
@@ -461,6 +464,15 @@ const Layout = (props) => {
                           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
                       ))
                     : null}
+                <link
+                    rel="canonical"
+                    href={canonicalUrl.substring(0, canonicalUrl.indexOf('?') !== -1 ? canonicalUrl.indexOf('?') : canonicalUrl.length)}
+                />
+                <link
+                    rel="alternate"
+                    hrefLang={defaultLang}
+                    href={canonicalUrl.substring(0, canonicalUrl.indexOf('?') !== -1 ? canonicalUrl.indexOf('?') : canonicalUrl.length)}
+                />
                 {showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />}
             </Head>
             {showPopup && storeConfig && storeConfig.pwa && storeConfig.pwa.header_version !== 'v2' ? (

@@ -71,7 +71,6 @@ const productDetail = (config = {}) => `
     }
     special_from_date
     special_to_date
-
     `;
 const priceRange = `
     price_range {
@@ -365,6 +364,18 @@ export const getProduct = (config = {}) => {
                       video_description
                       video_metadata
                   }
+              }
+            }
+            image {
+              url
+              label
+            }
+            reviews(pageSize: 20, currentPage:1){
+              items{
+                nickname
+                average_rating
+                summary
+                text
               }
             }
           }
