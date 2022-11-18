@@ -256,6 +256,11 @@ export const storeConfig = `
         link_hover_color
         link_font_decoration
         link_font_hover_decoration
+        gtm_enable
+        gtm_id_local
+        gtm_id_dev
+        gtm_id_stage
+        gtm_id_prod
       }
       store_name
       welcome

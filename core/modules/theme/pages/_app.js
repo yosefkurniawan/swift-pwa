@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable comma-dangle */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-underscore-dangle */
@@ -5,7 +6,7 @@
 /* eslint-disable func-names */
 /* eslint-disable radix */
 /* eslint-disable max-len */
-import { custDataNameCookie, features, GTM, modules, sentry } from '@config';
+import { custDataNameCookie, features, modules, sentry } from '@config';
 import { getLastPathWithoutLogin, getLoginInfo } from '@helper_auth';
 import { getLocalStorage, setLocalStorage, setResolver, testLocalStorage } from '@helper_localstorage';
 import { appWithTranslation } from '@i18n';
@@ -314,6 +315,31 @@ class MyApp extends App {
          * ---------------------------------------------
          * GTM INITIALIZATION
          */
+
+        /* Google Tag Manager
+        * this gtm configuration is enabled via backoffice.
+        * before enable this configuration, firstly you need to import the gtm tags json.
+        * gtm tags json need to be exported from Magento admin in Welpixel GTM configuration.
+        * adjust the tag name if you want before import into GTM dashboard setting.
+        * as reference you can find sample gtm tags in folder "sample/gtm" folder
+        * NOTE: this GTM functionality includes connecting to GA via GTM tag.
+        */
+
+        const storeConfig = getLocalStorage('pwa_config');
+        let GTM = {};
+
+        if (storeConfig && storeConfig.pwa) {
+            GTM = {
+                enable: storeConfig && storeConfig.pwa.gtm_enable,
+                gtmId: {
+                    local: storeConfig && storeConfig.pwa.gtm_id_local ? storeConfig.pwa.gtm_id_local : '',
+                    dev: storeConfig && storeConfig.pwa.gtm_id_dev ? storeConfig.pwa.gtm_id_dev : '',
+                    stage: storeConfig && storeConfig.pwa.gtm_id_stage ? storeConfig.pwa.gtm_id_stage : '',
+                    prod: storeConfig && storeConfig.pwa.gtm_id_prod ? storeConfig.pwa.gtm_id_prod : '',
+                },
+            };
+        }
+
         const tagManagerArgs = {
             gtmId:
                 typeof publicRuntimeConfig !== 'undefined' && GTM.gtmId[publicRuntimeConfig.appEnv]
