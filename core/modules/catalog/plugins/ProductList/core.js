@@ -47,6 +47,9 @@ const Product = (props) => {
         filter: [],
         ...storeConfig.pwa,
     };
+    const queryKeys = Object.keys(query);
+
+    console.log(query);
 
     // set default sort when there is no sort in query
     if (defaultSort && !query.sort) {
@@ -70,6 +73,7 @@ const Product = (props) => {
             } else if (v[key] !== 0 && v[key] !== '') {
                 queryParams += `${queryParams !== '' ? '&' : ''}${key}=${v[key]}`;
             }
+            console.log(v);
         });
         Router.push(`/${url_path || '[...slug]'}`, encodeURI(`${path}${queryParams ? `?${queryParams}` : ''}`));
     };
@@ -81,8 +85,21 @@ const Product = (props) => {
     }
 
     if (sellerId === null) {
+        if (queryKeys[0] === 'catalogsearch/result?q') {
+            config.search = query['catalogsearch/result?q'];
+        } else if (queryKeys[0] === 'catalogsearch/') {
+            config.search = query.q;
+        }
         config = generateConfig(query, config, elastic, availableFilter);
+        console.log(queryKeys);
     } else {
+        const setSortOnSellerPage = queryKeys.filter((key) => key.match(/seller\/\d\d\?sort/));
+        console.log(queryKeys);
+
+        // set default sort when there is no sort in query
+        if (setSortOnSellerPage.length > 0) {
+            query.sort = query[setSortOnSellerPage[0]];
+        }
         config = {
             customFilter: false,
             search: '',

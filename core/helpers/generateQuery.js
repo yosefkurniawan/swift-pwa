@@ -28,12 +28,21 @@ const getQueryFromPath = (router) => {
             query[tempQuery[0]] = tempQuery[1];
         }
     }
+    console.log(path);
+    console.log(query);
+    console.log(oldAsPath.split('?'));
     if (oldAsPath.split('?')[0].includes('/seller/')) {
         return {
             path: oldAsPath.split('?')[0],
             query,
         };
     }
+    // if (oldAsPath.split('?')[0].includes('/catalogsearch/')) {
+    //     return {
+    //         path: oldAsPath.split('?')[0],
+    //         query,
+    //     };
+    // }
     return {
         path,
         query,
