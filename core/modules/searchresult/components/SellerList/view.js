@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-plusplus */
 import Typography from '@common_typography';
+import Skeleton from '@core_modules/searchresult/components/SellerList/skeleton';
+import useStyles from '@core_modules/searchresult/components/style';
+import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
-import useStyles from '@core_modules/searchresult/components/style';
-import Skeleton from '@core_modules/searchresult/components/SellerList/skeleton';
 
 const SellerItem = (props) => {
     const styles = useStyles();
@@ -18,10 +19,7 @@ const SellerItem = (props) => {
             <Link href={`/seller/${id}`}>
                 <div className={styles.sellerContainer}>
                     <div className={styles.imageContainer}>
-                        <img
-                            className={styles.img}
-                            src={logo}
-                        />
+                        <Avatar alt="name" src={logo} className={styles.sellerLogo} variant="rounded" />
                     </div>
                     <div>
                         <Typography variant="p" type="bold" letter="capitalize" size="14">

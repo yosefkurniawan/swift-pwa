@@ -79,13 +79,6 @@ export default makeStyles((theme) => ({
                 height: '75% !important',
             },
         },
-        [theme.breakpoints.up('md')]: {
-            width: '100px !important',
-            height: '100px !important',
-            '& img': {
-                height: '75% !important',
-            },
-        },
     },
     sellerName: {
         paddingTop: '1rem',
