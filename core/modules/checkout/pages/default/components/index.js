@@ -77,7 +77,6 @@ const Content = (props) => {
     const isPurchaseOrderApply = isSelectedPurchaseOrder && checkout.status.purchaseOrderApply;
     const travelokaPayRef = React.useRef();
     const stripeRef = React.useRef();
-    const [stripeState, setStripeState] = useState(false);
     const [clientSecret, setClientSecret] = useState(null);
 
     const [displayHowToPay, setDisplayHowToPay] = useState(false);
@@ -86,7 +85,9 @@ const Content = (props) => {
      * [METHOD] handle click for place order
      */
     const handleClick = () => {
-        if (SummaryRef.current) {
+        if (stripeRef && stripeRef.current && clientSecret) {
+            stripeRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        } else if (SummaryRef.current) {
             SummaryRef.current.handlePlaceOrder();
         }
     };
@@ -297,8 +298,6 @@ const Content = (props) => {
                         setTokenData={setTokenData}
                         travelokaPayRef={travelokaPayRef}
                         stripeRef={stripeRef}
-                        stripeState={stripeState}
-                        setStripeState={setStripeState}
                         clientSecret={clientSecret}
                         setClientSecret={setClientSecret}
                         displayHowToPay={displayHowToPay}
@@ -307,7 +306,6 @@ const Content = (props) => {
                         refSummary={SummaryRef}
                         setCheckoutTokenState={setCheckoutTokenState}
                         config={config}
-                        handleClickPlaceOrder={handleClick}
                     />
 
                     <Confirmation
@@ -355,11 +353,6 @@ const Content = (props) => {
                     refSummary={SummaryRef}
                     isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                     travelokaPayRef={travelokaPayRef}
-                    stripeRef={stripeRef}
-                    stripeState={stripeState}
-                    setStripeState={setStripeState}
-                    clientSecret={clientSecret}
-                    setClientSecret={setClientSecret}
                     checkoutTokenState={checkoutTokenState}
                     setCheckoutTokenState={setCheckoutTokenState}
                 />

@@ -142,9 +142,6 @@ const Checkout = (props) => {
                 items: null,
                 shipping_addresses: null,
             },
-            stripe: {
-                clientSecret: null,
-            },
         },
         selected: {
             address: null,

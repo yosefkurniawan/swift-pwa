@@ -26,7 +26,6 @@ const generateXml = require('./core/api/rest/xml');
 const captchaValidation = require('./core/api/rest/captcha');
 const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
 const geocodingServices = require('./core/api/rest/geocoding');
-const stripePaymentIntent = require('./core/api/rest/stripe/createPaymentIntent');
 
 // paypal
 const getPaypalDetail = require('./core/api/rest/paypal/getDetailTransaction');
@@ -184,9 +183,6 @@ async function renderAndCache(req, res) {
 
     // geocoding services
     server.post('/geocoding-services', geocodingServices);
-
-    // stripe payment intent
-    server.post('/stripe/payment-intent', stripePaymentIntent);
 
     /**
      * configuration firebase messaging

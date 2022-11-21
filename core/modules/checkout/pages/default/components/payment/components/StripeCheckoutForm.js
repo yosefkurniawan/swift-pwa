@@ -1,21 +1,22 @@
-// import Button from '@common_button';
+import Button from '@common_button';
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { useEffect } from 'react';
+import { useState } from 'react';
 
 import gqlService from '@core_modules/checkout/services/graphql';
 
 const CheckoutForm = (props) => {
     const {
-        checkout, onHandleResult, setCheckout, stripeRef, handleOpenMessage, setStripeState, updateFormik,
+        checkout, refSummary, onHandleResult, setCheckout, stripeRef, handleOpenMessage,
     } = props;
     const [setPaymentMethod] = gqlService.setPaymentMethod();
+    const [isProcessing, setIsProcessing] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
 
     const { cart } = checkout.data;
 
-    const handleSubmit = async () => {
-        // e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
         if (!stripe || !elements) {
             // Stripe.js has not yet loaded.
@@ -23,33 +24,34 @@ const CheckoutForm = (props) => {
             return;
         }
 
+        setIsProcessing(true);
+        const state = {
+            ...checkout,
+            loading: {
+                ...checkout.loading,
+                all: false,
+                shipping: false,
+                payment: false,
+                extraFee: true,
+                order: true,
+            },
+        };
+        state.selected.payment = 'stripe_payments';
+        state.status.purchaseOrderApply = false;
+        setCheckout(state);
+
         const confirmStripePayments = await stripe.confirmPayment({
             elements,
             redirect: 'if_required',
         });
+        setIsProcessing(false);
 
-        if (confirmStripePayments.error) {
-            console.log(confirmStripePayments.error);
+        if (confirmStripePayments && confirmStripePayments.error) {
             handleOpenMessage({
                 variant: 'error',
                 text: confirmStripePayments.error.message,
             });
         } else {
-            console.log(confirmStripePayments);
-            const state = {
-                ...checkout,
-                loading: {
-                    ...checkout.loading,
-                    all: false,
-                    shipping: false,
-                    payment: false,
-                    extraFee: true,
-                    order: true,
-                },
-            };
-            state.selected.payment = 'stripe_payments';
-            state.status.purchaseOrderApply = false;
-            setCheckout(state);
             const payment_method = {
                 code: 'stripe_payments',
                 stripe_payments: {
@@ -62,22 +64,13 @@ const CheckoutForm = (props) => {
                     payment_method,
                 },
             }).then((result) => {
-                state.data.cart = {
-                    ...state.data.cart,
-                    ...result.data.setPaymentMethodOnCart.cart,
-                };
-                setCheckout(state);
-                updateFormik({
-                    ...state.data.cart,
-                    ...result.data.setPaymentMethodOnCart.cart,
+                onHandleResult({
+                    state,
+                    result,
+                    val: 'stripe_payments',
+                    cart,
                 });
-                // onHandleResult({
-                //     state,
-                //     result,
-                //     val: 'stripe_payments',
-                //     cart,
-                // });
-                setStripeState(true);
+                refSummary.current.handlePlaceOrder();
             }).catch((err) => {
                 const result = err;
                 onHandleResult({
@@ -90,28 +83,20 @@ const CheckoutForm = (props) => {
         }
     };
 
-    useEffect(() => {
-        if (typeof stripeRef !== 'undefined') {
-            stripeRef.current = {
-                handleSubmit,
-            };
-        }
-    }, [stripeRef]);
-
     return (
-        <form id="payment-form" onSubmit={handleSubmit}>
+        <form id="payment-form" onSubmit={handleSubmit} ref={stripeRef}>
             <PaymentElement id="payment-element" />
             {/* Use these button below if you want to manually trigger confirm payment intent */}
-            {/* <Button
+            <Button
                 fullWidth
                 type="submit"
                 onClick={handleSubmit}
                 disabled={isProcessing || !stripe || !elements}
                 id="submit"
-                style={{ marginTop: '1rem' }}
+                style={{ marginTop: '1rem', display: 'none', height: '0px' }}
             >
                 {isProcessing ? 'Processing ... ' : 'Pay now'}
-            </Button> */}
+            </Button>
         </form>
     );
 };

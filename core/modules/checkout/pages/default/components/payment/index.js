@@ -21,8 +21,6 @@ export default function CustomizedExpansionPanels({
     setTokenData,
     travelokaPayRef,
     stripeRef,
-    stripeState,
-    setStripeState,
     clientSecret,
     setClientSecret,
     displayHowToPay,
@@ -30,7 +28,6 @@ export default function CustomizedExpansionPanels({
     checkoutTokenState,
     setCheckoutTokenState,
     refSummary,
-    handleClickPlaceOrder,
 }) {
     const { loading, data, selected } = checkout;
     const [setPaymentMethod] = gqlService.setPaymentMethod();
@@ -394,14 +391,11 @@ export default function CustomizedExpansionPanels({
             initialOptionPaypal={initialOptionPaypal}
             travelokaPayRef={travelokaPayRef}
             stripeRef={stripeRef}
-            stripeState={stripeState}
-            setStripeState={setStripeState}
             handleOpenMessage={handleOpenMessage}
             displayHowToPay={displayHowToPay}
             setDisplayHowToPay={setDisplayHowToPay}
             refSummary={refSummary}
             config={config}
-            handleClickPlaceOrder={handleClickPlaceOrder}
             onHandleResult={onHandleResult}
         />
     );
