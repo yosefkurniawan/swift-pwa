@@ -1,4 +1,4 @@
-const { decrypt } = require('../../helpers/encryption');
+const { decrypt } = require('../../helpers/clientEncryption');
 
 module.exports = (req, res) => {
     const { query, gmapApiKey } = req.body;

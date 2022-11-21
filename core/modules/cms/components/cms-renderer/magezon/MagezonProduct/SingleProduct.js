@@ -34,6 +34,9 @@ const SingleProduct = (props) => {
     const isGrid = product_display && product_display === 'grid';
     const isProductGrid = type === 'product_grid';
     const isSlider = type === 'product_slider';
+    const userAgent = navigator && navigator.appVersion;
+    const regex = (/iPhone|iPad|iPod/i);
+    const isIOS = regex.test(userAgent);
     const { t } = useTranslation();
     // prettier-ignore
     const {
@@ -95,7 +98,7 @@ const SingleProduct = (props) => {
                 {product_image && (
                     <Grid
                         item
-                        xs={isGrid ? 6 : isProductGrid || isSlider ? true : 3}
+                        xs={isGrid ? 6 : isProductGrid || isSlider ? false : 3}
                         container
                         justify="center"
                         alignItems={isProductGrid ? 'center' : 'stretch'}
@@ -113,7 +116,14 @@ const SingleProduct = (props) => {
                         </Link>
                     </Grid>
                 )}
-                <Grid item xs container direction="column" alignItems={isGrid || isProductGrid || isSlider ? 'center' : 'stretch'}>
+                <Grid
+                    item
+                    xs={!isSlider}
+                    container={!isIOS}
+                    direction="column"
+                    justify="center"
+                    alignItems={isGrid || isProductGrid || isSlider ? 'center' : 'stretch'}
+                >
                     {product_name && (
                         <Grid item>
                             <Typography variant="h4">{name}</Typography>

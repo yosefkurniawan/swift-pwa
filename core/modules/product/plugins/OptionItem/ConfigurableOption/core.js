@@ -1,18 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-nested-ternary */
-import React from 'react';
-import ProductByVariant, { generateValue, generateAvailableCombination, handleSelected } from '@helper_productbyvariant';
+import { modules } from '@config';
+import {
+    addConfigurableProductsToCart, getConfigurableProduct, getCustomerCartId, getGuestCartId as queryGetGuestCartId,
+} from '@core_modules/product/services/graphql';
 import { getLoginInfo } from '@helper_auth';
 import { getCartId, setCartId } from '@helper_cartid';
-import TagManager from 'react-gtm-module';
-import { modules } from '@config';
+import ProductByVariant, { generateAvailableCombination, generateValue, handleSelected } from '@helper_productbyvariant';
 import Router from 'next/router';
-import {
-    getConfigurableProduct,
-    getGuestCartId as queryGetGuestCartId,
-    getCustomerCartId,
-    addConfigurableProductsToCart,
-} from '@core_modules/product/services/graphql';
+import React from 'react';
+import TagManager from 'react-gtm-module';
 
 const OptionsItemConfig = (props) => {
     const {
@@ -68,9 +65,7 @@ const OptionsItemConfig = (props) => {
         setSelectConfigurable({
             ...selectedOption,
         });
-        // console.log(configProduct.data.products.items[0].variants);
         const product = await ProductByVariant(selectedOption, configProduct.data.products.items[0].variants);
-        // console.log('product', product);
         if (product && JSON.stringify(product) !== '{}') {
             setSelectedProduct({ ...product });
             handleSelecteProduct({ ...product });
@@ -388,10 +383,6 @@ const OptionsItemConfig = (props) => {
             setOptions(op);
         }
     }, [selectConfigurable]);
-
-    // console.log('options', options);
-    // console.log('combination', combination);
-    // console.log('selectConfigurable', selectConfigurable);
 
     return (
         <View

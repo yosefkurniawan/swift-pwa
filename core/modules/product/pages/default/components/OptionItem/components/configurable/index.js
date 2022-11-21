@@ -1,16 +1,14 @@
 /* eslint-disable no-nested-ternary */
-import React from 'react';
 import { useApolloClient } from '@apollo/client';
-import ProductByVariant, { generateValue, generateAvailableCombination, handleSelected } from '@helper_productbyvariant';
 import { getLoginInfo } from '@helper_auth';
 import { getCartId, setCartId } from '@helper_cartid';
-import TagManager from 'react-gtm-module';
+import ProductByVariant, { generateAvailableCombination, generateValue, handleSelected } from '@helper_productbyvariant';
 import { localTotalCart } from '@services/graphql/schema/local';
+import React from 'react';
+import TagManager from 'react-gtm-module';
 import {
     addConfigProductsToCart,
-    getConfigurableProduct,
-    getGuestCartId as queryGetGuestCartId,
-    getCustomerCartId,
+    getConfigurableProduct, getCustomerCartId, getGuestCartId as queryGetGuestCartId,
 } from '../../../../../../services/graphql';
 
 const OptionsItemConfig = (props) => {
@@ -50,7 +48,6 @@ const OptionsItemConfig = (props) => {
         setSelectConfigurable({
             ...selectedOption,
         });
-        // console.log(configProduct.data.products.items[0].variants);
         const product = await ProductByVariant(selectedOption, configProduct.data.products.items[0].variants);
         if (product && JSON.stringify(product) !== '{}') {
             setSelectedProduct({ ...product });

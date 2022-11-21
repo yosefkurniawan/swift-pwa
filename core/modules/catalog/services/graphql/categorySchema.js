@@ -222,6 +222,7 @@ export const configpwa = gql`
           thumbor_enable
           thumbor_https_http
           thumbor_url
+          product_listing_navigation
         }
     }
   }

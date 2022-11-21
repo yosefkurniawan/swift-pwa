@@ -95,13 +95,7 @@ const PlaceOrder = (props) => {
         }
     };
     const disabled = checkout.selectedShippingMethod === null;
-    return (
-        <View
-            {...props}
-            handlePlaceOrder={handlePlaceOrder}
-            disabled={disabled}
-        />
-    );
+    return <View {...props} handlePlaceOrder={handlePlaceOrder} disabled={disabled} />;
 };
 
 export default PlaceOrder;
