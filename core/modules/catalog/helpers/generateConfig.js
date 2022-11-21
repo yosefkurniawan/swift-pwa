@@ -14,7 +14,9 @@ const generateConfig = (query, config, elastic, availableFilter = []) => {
     const resolveConfig = config;
     // eslint-disable-next-line no-restricted-syntax
     for (const q in query) {
-        if (q === 'seller_id') {
+        if ((q === 'sort' || q.includes('sort')) && query[q] !== '') {
+            resolveConfig.sort = JSON.parse(decodeURIComponent(query[q]));
+        } else if (q === 'seller_id') {
             resolveConfig.filter.push({
                 type: q,
                 value: query[q],
@@ -24,12 +26,10 @@ const generateConfig = (query, config, elastic, availableFilter = []) => {
                 type: q,
                 value: query[q],
             });
-        } else if (q === 'q') {
+        } else if (q === 'q' && q.includes('q')) {
             let search = query[q];
             search = search.replace(/[^a-zA-Z0-9 ]/g, '');
             resolveConfig.search = search;
-        } else if (q === 'sort' && query[q] !== '') {
-            resolveConfig.sort = JSON.parse(decodeURIComponent(query[q]));
         } else if (q === 'priceRange') {
             const price = query[q].split(',');
             // eslint-disable-next-line radix

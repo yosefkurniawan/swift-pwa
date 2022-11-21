@@ -1,9 +1,9 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { GRAY_PRIMARY, GRAY_SECONDARY } from '@theme_color';
-import { FlexColumn, FlexRow, CreatePadding } from '@theme_mixins';
+import { CreatePadding, FlexColumn, FlexRow } from '@theme_mixins';
 import { FONT_10 } from '@theme_typography';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     container: {
         width: '100%',
         height: '100%',
@@ -116,6 +116,15 @@ const useStyles = makeStyles(() => ({
     },
     wrapperSkeleton: {
         padding: 15,
+    },
+    sellerLogo: {
+        [theme.breakpoints.up('xs')]: {
+            width: '60px !important',
+            height: '60px !important',
+            '& img': {
+                height: '75% !important',
+            },
+        },
     },
 }));
 

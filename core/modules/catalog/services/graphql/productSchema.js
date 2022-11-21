@@ -480,3 +480,20 @@ query getDetailproduct($url_key: String!){
       total_count
     }
 }`;
+
+export const getSeller = gql`
+query getSeller($seller_id: [Int!]){
+  getSeller(input: {
+    seller_id: $seller_id
+  }) {
+    id
+    name
+    address
+    city
+    description
+    latitude
+    longitude
+    logo
+    status
+  }
+}`;
