@@ -54,22 +54,30 @@ export default makeStyles((theme) => ({
         [theme.breakpoints.up('xs')]: {
             width: '64px !important',
             height: '64px !important',
+            '& img': {
+                height: '75% !important',
+            },
         },
         [theme.breakpoints.up('xm')]: {
             width: '84px !important',
             height: '84px !important',
+            '& img': {
+                height: '75% !important',
+            },
         },
         [theme.breakpoints.up('sm')]: {
             width: '84px !important',
             height: '84px !important',
+            '& img': {
+                height: '75% !important',
+            },
         },
         [theme.breakpoints.up('md')]: {
             width: '96px !important',
             height: '96px !important',
-        },
-        [theme.breakpoints.up('md')]: {
-            width: '100px !important',
-            height: '100px !important',
+            '& img': {
+                height: '75% !important',
+            },
         },
     },
     sellerName: {

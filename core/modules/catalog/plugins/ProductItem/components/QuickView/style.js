@@ -1,9 +1,9 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
-    GRAY_PRIMARY, PRIMARY, WHITE, GRAY_SECONDARY,
+    GRAY_PRIMARY, GRAY_SECONDARY, PRIMARY, WHITE,
 } from '@theme_color';
 import {
-    CenterAbsolute, CreateBorder, CreateMargin, CreatePadding, FlexColumn, FlexRow, Centering,
+    CenterAbsolute, Centering, CreateBorder, CreateMargin, CreatePadding, FlexColumn, FlexRow,
 } from '@theme_mixins';
 
 const useStyles = makeStyles((theme) => ({
@@ -187,14 +187,12 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 20,
         fontSize: 12,
     },
-    sellerContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        marginTop: 10,
-    },
     imageContainer: {
-        float: 'left',
-        marginRight: 20,
+        width: theme.spacing(7),
+        height: theme.spacing(7),
+        '& img': {
+            height: '75% !important',
+        },
     },
     img: {
         width: '60px',

@@ -80,6 +80,7 @@ const ShippingView = (props) => {
         data,
         t,
         shippingMethodList,
+        setLoadingSellerInfo,
         loadingSellerInfo,
     } = props;
     let content;
@@ -132,6 +133,12 @@ const ShippingView = (props) => {
         const price = formatPrice(0, storeConfig.base_currency_code || 'IDR');
         content = <DeliveryItem value={{ price }} label={t('checkout:instorePickup')} selected borderBottom={false} />;
     } else if (loading.shipping || loading.addresses || loading.all || loadingSellerInfo) {
+        if (data.shippingMethods.length > 0
+            && storeConfig.enable_oms_multiseller === '1'
+            && data.shippingMethods[0].seller_id
+        ) {
+            setLoadingSellerInfo(false);
+        }
         content = <Loader />;
     } else if (
         data.shippingMethods.length !== 0 &&

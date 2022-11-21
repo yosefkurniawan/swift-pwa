@@ -2,27 +2,28 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/no-danger */
 /* eslint-disable array-callback-return */
+import Breadcrumb from '@common_breadcrumb';
 import Typography from '@common_typography';
+import { modules } from '@config';
+import ListReviews from '@core_modules/product/pages/default/components/ListReviews';
+import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
+import OptionItem from '@core_modules/product/pages/default/components/OptionItem';
+import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
+import useStyles from '@core_modules/product/pages/default/components/style';
+import { getProductBannerLite } from '@core_modules/product/services/graphql';
+import { getHost } from '@helper_config';
+import { formatPrice } from '@helper_currency';
+import { breakPointsUp } from '@helper_theme';
+import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
+import Link from '@material-ui/core/Link';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import ShareOutlined from '@material-ui/icons/ShareOutlined';
-import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import classNames from 'classnames';
-import React from 'react';
-import { getHost } from '@helper_config';
-import Breadcrumb from '@common_breadcrumb';
-import { breakPointsUp } from '@helper_theme';
 import dynamic from 'next/dynamic';
-import useStyles from '@core_modules/product/pages/default/components/style';
-import ListReviews from '@core_modules/product/pages/default/components/ListReviews';
-import OptionItem from '@core_modules/product/pages/default/components/OptionItem';
-import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
-import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
-import { modules } from '@config';
-import { getProductBannerLite } from '@core_modules/product/services/graphql';
-import { formatPrice } from '@helper_currency';
-import Link from '@material-ui/core/Link';
+import React from 'react';
 
 const Button = dynamic(() => import('@common_button'), { ssr: true });
 const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: true });
@@ -258,10 +259,7 @@ const ProductPage = (props) => {
                             <div className={styles.sellerContainer}>
                                 <Link href={`/seller/${dataSeller[0].id}`}>
                                     <div className={styles.imageContainer}>
-                                        <img
-                                            className={styles.img}
-                                            src={dataSeller[0].logo}
-                                        />
+                                        <Avatar alt={dataSeller[0].name} src={dataSeller[0].logo} className={styles.sellerLogo} variant="rounded" />
                                     </div>
                                 </Link>
                                 <Link href={`/seller/${dataSeller[0].id}`}>

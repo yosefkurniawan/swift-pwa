@@ -202,6 +202,7 @@ const Content = (props) => {
                         isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                         checkoutTokenState={checkoutTokenState}
                         setCheckoutTokenState={setCheckoutTokenState}
+                        setLoadingSellerInfo={setLoadingSellerInfo}
                         loadingSellerInfo={loadingSellerInfo}
                     />
 
