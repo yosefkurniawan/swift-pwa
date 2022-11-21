@@ -24,6 +24,7 @@ const {
 } = require('./swift.config');
 const { SESSION_SECRET } = require('./swift-server.config');
 const generateXml = require('./core/api/rest/xml');
+const getConfig = require('./core/api/rest/config');
 const captchaValidation = require('./core/api/rest/captcha');
 const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
 const geocodingServices = require('./core/api/rest/geocoding');
@@ -190,6 +191,8 @@ async function renderAndCache(req, res) {
 
     // geocoding services
     server.post('/geocoding-services', geocodingServices);
+
+    server.get('/getConfig', getConfig);
 
     /**
      * configuration firebase messaging

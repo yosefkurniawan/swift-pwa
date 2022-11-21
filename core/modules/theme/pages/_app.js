@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable func-names */
@@ -32,6 +34,7 @@ import PageProgressLoader from '@common_loaders/PageProgress';
 import getConfig from 'next/config';
 import routeMiddleware from '@middleware_route';
 import graphRequest from '@graphql_request';
+import requestInternal from '@rest_request';
 import Notification from '@lib_firebase/notification';
 import firebase from '@lib_firebase/index';
 import { gql } from '@apollo/client';
@@ -143,9 +146,8 @@ class MyApp extends App {
         }
         if (typeof window === 'undefined' && (!storeConfig || typeof storeConfig.secure_base_media_url === 'undefined')) {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
-            storeConfig = await graphRequest(ConfigSchema);
-            frontendOptions = await graphRequest(FrontendSchema);
-
+            storeConfig = await requestInternal();
+            frontendOptions = storeConfig;
             // Handle redirecting to tomaintenance page automatically when GQL is in maintenance mode.
             // We do this here since query storeConfig is the first query and be done in server side
             if (ctx && storeConfig.response && storeConfig.response.status && storeConfig.response.status > 500) {
@@ -154,7 +156,7 @@ class MyApp extends App {
             storeConfig = storeConfig.storeConfig;
             if (!modules.checkout.checkoutOnly) {
                 dataVesMenu = storeConfig.pwa.ves_menu_enable
-                    ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }) : await graphRequest(getCategories);
+                    ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }, {}, { method: 'GET' }) : await graphRequest(getCategories, {}, {}, { method: 'GET' });
             }
             frontendOptions = frontendOptions.storeConfig;
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null
@@ -173,6 +175,7 @@ class MyApp extends App {
 
                 storeConfig = storeConfig.storeConfig;
             }
+            console.log(storeConfig);
             if (!modules.checkout.checkoutOnly) {
                 dataVesMenu = getLocalStorage('pwa_vesmenu');
                 if (!dataVesMenu) {

@@ -17,7 +17,6 @@ const Content = (props) => {
     const {
         homePageConfig, storeConfig: config, ...other
     } = props;
-
     let storeConfig = config;
 
     if (homePageConfig && homePageConfig.storeConfig && homePageConfig.storeConfig.pwa) {
