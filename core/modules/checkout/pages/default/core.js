@@ -3,7 +3,8 @@
 import Toast from '@common_toast';
 import { modules, nameCheckoutState } from '@config';
 import {
-    getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
+    // eslint-disable-next-line comma-dangle
+    getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl
 } from '@core_modules/checkout/helpers/config';
 import gqlService from '@core_modules/checkout/services/graphql';
 import { getCartId } from '@helpers/cartId';
@@ -143,8 +144,6 @@ const Checkout = (props) => {
             },
             stripe: {
                 clientSecret: null,
-                customerStripeId: null,
-                paymentIntentId: null,
             },
         },
         selected: {

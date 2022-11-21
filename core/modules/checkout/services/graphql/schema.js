@@ -517,21 +517,10 @@ export const getCustomer = gql`
     }
 `;
 
-export const getStripeCustomer = gql`
-    query {
-        getStripeCustomer {
-            id
-            email
-        }
-    }
-`;
-
 export const getStripePaymentIntent = gql`
     mutation setPaymentIntent($cartId: String!) {
         setPaymentIntent(cart_id: $cartId) {
             clientSecret
-            customerStripeId
-            paymentIntentId
         }
     }
 `;

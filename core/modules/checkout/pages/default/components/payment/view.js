@@ -88,6 +88,7 @@ const PaymentView = (props) => {
     const {
         loading,
         data,
+        clientSecret,
         checkout,
         setCheckout,
         t,
@@ -104,31 +105,20 @@ const PaymentView = (props) => {
         displayHowToPay,
         setDisplayHowToPay,
     } = props;
-    // const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
-    const payment_travelokapay_public_key = '';
-    const payment_travelokapay_user_id = '621610c74c98b14ae3006a78';
-    const payment_travelokapay_bin_whitelist = null;
+    const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
     const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
     const [expandedActive, setExpandedActive] = React.useState(true);
     const [openModal, setModal] = React.useState(false);
     const [stripePromise, setStripePromise] = React.useState(null);
-    // const [clientSecret, setClientSecret] = React.useState(null);
 
     React.useEffect(() => {
-        setStripePromise(loadStripe('pk_test_51LpYVJEwLgqwlOKVWQsk8p3o2AnEiQAHCZLJZTbJ9oTZXMgdni4SRFO30WesimzSUJLRXTRl762oGW99spR88v6w00JKRjAR77'));
+        const key = storeConfig
+            && storeConfig.stripe_config
+            && storeConfig.stripe_config.stripe_mode === 'test'
+            ? storeConfig.stripe_config.test_pk : storeConfig.stripe_config.live_pk;
+        setStripePromise(loadStripe(key));
     }, []);
-
-    // React.useEffect(() => {
-    //     fetch('/stripe/payment-intent', {
-    //         method: 'POST',
-    //         body: {},
-    //     }).then(async (response) => {
-    //         const { clientSecret } = await response.json();
-    //         setClientSecret(clientSecret);
-    //         console.log(clientSecret);
-    //     });
-    // }, []);
 
     let content;
 
@@ -303,16 +293,13 @@ const PaymentView = (props) => {
                                                                 if (isStripe) {
                                                                     return (
                                                                         <>
-                                                                            {console.log(checkout.data.stripe)}
-                                                                            {stripePromise && checkout.data.stripe.clientSecret && (
-                                                                                <>
-                                                                                    <Elements
-                                                                                        stripe={stripePromise}
-                                                                                        options={{ clientSecret: checkout.data.stripe.clientSecret }}
-                                                                                    >
-                                                                                        <StripeCheckoutForm {...props} setCheckout={setCheckout} />
-                                                                                    </Elements>
-                                                                                </>
+                                                                            {stripePromise && clientSecret && (
+                                                                                <Elements
+                                                                                    stripe={stripePromise}
+                                                                                    options={{ clientSecret }}
+                                                                                >
+                                                                                    <StripeCheckoutForm {...props} setCheckout={setCheckout} />
+                                                                                </Elements>
                                                                             )}
                                                                         </>
                                                                     );

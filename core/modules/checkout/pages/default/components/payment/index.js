@@ -9,6 +9,7 @@ export default function CustomizedExpansionPanels({
     checkout,
     setCheckout,
     updateFormik,
+    formik,
     handleOpenMessage,
     t,
     config,
@@ -19,6 +20,11 @@ export default function CustomizedExpansionPanels({
     initialOptionPaypal,
     setTokenData,
     travelokaPayRef,
+    stripeRef,
+    stripeState,
+    setStripeState,
+    clientSecret,
+    setClientSecret,
     displayHowToPay,
     setDisplayHowToPay,
     checkoutTokenState,
@@ -28,23 +34,9 @@ export default function CustomizedExpansionPanels({
 }) {
     const { loading, data, selected } = checkout;
     const [setPaymentMethod] = gqlService.setPaymentMethod();
-    //    const [getStripeCustomer, stripeCustomer] = gqlService.getStripeCustomer();
     const [getStripePaymentIntent] = gqlService.getStripePaymentIntent();
     const { data: paymentMethodList } = gqlService.getCheckoutConfigurations();
     const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
-
-    // React.useEffect(() => {
-    //     if (stripePaymentIntent && stripePaymentIntent.data && stripePaymentIntent.data.setPaymentIntent) {
-    //         const state = { ...checkout };
-    //         state.data.stripe = {
-    //             ...checkout.data.stripe,
-    //             clientSecret: stripePaymentIntent.data.setPaymentIntent.clientSecret,
-    //             customerStripeId: stripePaymentIntent.data.setPaymentIntent.customerStripeId,
-    //             paymentIntentId: stripePaymentIntent.data.setPaymentIntent.paymentIntentId,
-    //         };
-    //         setCheckout(state);
-    //     }
-    // }, [stripePaymentIntent]);
 
     /**
      * [METHOD] handle when get result from set payment method
@@ -222,19 +214,22 @@ export default function CustomizedExpansionPanels({
             } else {
                 const payment_method = { code: val };
                 if (payment_method.code === 'stripe_payments') {
-                    // getStripeCustomer();
                     await getStripePaymentIntent({
                         variables: {
                             cartId: cart.id,
                         },
                     }).then((resJson) => {
-                        console.log(resJson);
-                        const stateStripe = { ...checkout };
-                        stateStripe.data.stripe = {
-                            ...checkout.data.stripe,
-                            clientSecret: resJson.data.setPaymentIntent.clientSecret,
-                            customerStripeId: resJson.data.setPaymentIntent.customerStripeId,
-                            paymentIntentId: resJson.data.setPaymentIntent.paymentIntentId,
+                        setClientSecret(resJson.data.setPaymentIntent.clientSecret);
+                        state = {
+                            ...checkout,
+                            loading: {
+                                ...checkout.loading,
+                                all: false,
+                                shipping: false,
+                                payment: false,
+                                extraFee: false,
+                                order: false,
+                            },
                         };
                         setCheckout(state);
                     });
@@ -383,6 +378,11 @@ export default function CustomizedExpansionPanels({
             loading={loading}
             selected={selected}
             checkout={checkout}
+            checkoutTokenState={checkoutTokenState}
+            setCheckoutTokenState={setCheckoutTokenState}
+            formik={formik}
+            updateFormik={updateFormik}
+            clientSecret={clientSecret}
             setCheckout={setCheckout}
             storeConfig={storeConfig}
             paymentMethodList={paymentMethodList}
@@ -393,6 +393,10 @@ export default function CustomizedExpansionPanels({
             paypalHandlingProps={paypalHandlingProps}
             initialOptionPaypal={initialOptionPaypal}
             travelokaPayRef={travelokaPayRef}
+            stripeRef={stripeRef}
+            stripeState={stripeState}
+            setStripeState={setStripeState}
+            handleOpenMessage={handleOpenMessage}
             displayHowToPay={displayHowToPay}
             setDisplayHowToPay={setDisplayHowToPay}
             refSummary={refSummary}

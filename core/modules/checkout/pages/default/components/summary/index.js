@@ -28,6 +28,9 @@ const Summary = ({
     refSummary,
     storeConfig,
     travelokaPayRef,
+    stripeRef,
+    stripeState,
+    clientSecret,
     checkoutTokenState,
     setCheckoutTokenState,
 }) => {
@@ -57,10 +60,7 @@ const Summary = ({
     const [getXenditUrl] = gqlService.xenditCreateInvoice();
 
     // travelokapay
-    // const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
-    const payment_travelokapay_public_key = '';
-    const payment_travelokapay_user_id = '621610c74c98b14ae3006a78';
-    const payment_travelokapay_bin_whitelist = null;
+    const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
     const {
         open: openTraveloka, setOpen: setOpenTraveloka, handleClose, handleTravelokaPay,
     } = useTravelokaPay({
@@ -197,6 +197,12 @@ const Summary = ({
         state.loading.order = true;
         setCheckout(state);
 
+        if (clientSecret) {
+            if (stripeRef.current) {
+                await stripeRef.current.handleSubmit();
+            }
+        }
+
         if (cart.prices.grand_total.value === 0 && cart.selected_payment_method && cart.selected_payment_method.code !== 'free') {
             state = { ...checkout };
             await setPaymentMethod({
@@ -301,94 +307,189 @@ const Summary = ({
                     text: msg,
                 });
             } else {
-                if (formik.values.orderComment !== '') {
-                    result = await placeOrderWithOrderComment({
-                        variables: {
-                            cartId: cart.id,
-                            origin: originName,
-                            orderComment: formik.values.orderComment,
-                        },
-                    });
-                } else {
-                    await placeOrder({
-                        variables: {
-                            cartId: cart.id,
-                            origin: originName,
-                        },
-                    })
-                        .then((res) => {
-                            result = res;
-                        })
-                        .catch((err) => {
-                            result = err;
-                        });
-                }
+                if (clientSecret) {
+                    if (stripeState) {
+                        if (formik.values.orderComment !== '') {
+                            result = await placeOrderWithOrderComment({
+                                variables: {
+                                    cartId: cart.id,
+                                    origin: originName,
+                                    orderComment: formik.values.orderComment,
+                                },
+                            });
+                        } else {
+                            await placeOrder({
+                                variables: {
+                                    cartId: cart.id,
+                                    origin: originName,
+                                },
+                            })
+                                .then((res) => {
+                                    result = res;
+                                })
+                                .catch((err) => {
+                                    result = err;
+                                });
+                        }
 
-                state = { ...checkout };
-                state.loading.order = false;
-                setCheckout(state);
+                        state = { ...checkout };
+                        state.loading.order = false;
+                        setCheckout(state);
 
-                if (!validateResponse(result, state)) return;
+                        if (!validateResponse(result, state)) return;
 
-                let orderNumber = '';
-                if (result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
-                    orderNumber = result.data.placeOrder.order.order_number;
-                }
-                if (orderNumber && orderNumber !== '') {
-                    setCheckoutData({
-                        email: isGuest ? formik.values.email : cart.email,
-                        order_number: orderNumber,
-                        order_id: result.data.placeOrder.order.order_id,
-                    });
-                    if (client && client.query && typeof client.query === 'function') {
-                        await client.query({ query: localTotalCart, data: { totalCart: 0 } });
+                        let orderNumber = '';
+                        if (result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
+                            orderNumber = result.data.placeOrder.order.order_number;
+                        }
+                        if (orderNumber && orderNumber !== '') {
+                            setCheckoutData({
+                                email: isGuest ? formik.values.email : cart.email,
+                                order_number: orderNumber,
+                                order_id: result.data.placeOrder.order.order_id,
+                            });
+                            if (client && client.query && typeof client.query === 'function') {
+                                await client.query({ query: localTotalCart, data: { totalCart: 0 } });
+                            }
+
+                            if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
+                                setOrderId(orderNumber);
+                                await getSnapToken({ variables: { orderId: orderNumber } });
+                            } else if (
+                                checkout.data.cart.selected_payment_method.code.match(/ovo.*/)
+                                || checkout.data.cart.selected_payment_method.code.match(/ipay88*/)
+                            ) {
+                                window.location.href = getIpayUrl(orderNumber);
+                            } else if (checkout.data.cart.selected_payment_method.code.match(/indodana/)) {
+                                await getIndodanaRedirect({ variables: { order_number: orderNumber } });
+                            } else if (
+                                modules.checkout.xendit.paymentPrefixCode.includes(checkout.data.cart.selected_payment_method.code)
+                                || modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)
+                            ) {
+                                handleXendit(orderNumber);
+                            } else if (checkout.data.cart.selected_payment_method.code.match(/travelokapay/)) {
+                                handleTravelokaPay(orderNumber);
+                            } else {
+                                handleOpenMessage({
+                                    variant: 'success',
+                                    text: t('checkout:message:placeOrder'),
+                                });
+                                window.location.replace(generatesuccessRedirect(orderNumber));
+                            }
+
+                            setTimeout(() => {
+                                removeCartId();
+                            }, 1000);
+                        } else {
+                            state.loading.order = false;
+                            setCheckout(state);
+
+                            const msg = t('checkout:message:serverError');
+
+                            handleOpenMessage({
+                                variant: 'error',
+                                text: msg,
+                            });
+                        }
                     }
-
-                    if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
-                        setOrderId(orderNumber);
-                        await getSnapToken({ variables: { orderId: orderNumber } });
-                    } else if (
-                        checkout.data.cart.selected_payment_method.code.match(/ovo.*/)
-                        || checkout.data.cart.selected_payment_method.code.match(/ipay88*/)
-                    ) {
-                        window.location.href = getIpayUrl(orderNumber);
-                    } else if (checkout.data.cart.selected_payment_method.code.match(/indodana/)) {
-                        await getIndodanaRedirect({ variables: { order_number: orderNumber } });
-                    } else if (
-                        modules.checkout.xendit.paymentPrefixCode.includes(checkout.data.cart.selected_payment_method.code)
-                        || modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)
-                    ) {
-                        handleXendit(orderNumber);
-                    } else if (checkout.data.cart.selected_payment_method.code.match(/travelokapay/)) {
-                        handleTravelokaPay(orderNumber);
+                } else {
+                    if (formik.values.orderComment !== '') {
+                        result = await placeOrderWithOrderComment({
+                            variables: {
+                                cartId: cart.id,
+                                origin: originName,
+                                orderComment: formik.values.orderComment,
+                            },
+                        });
                     } else {
-                        handleOpenMessage({
-                            variant: 'success',
-                            text: t('checkout:message:placeOrder'),
-                        });
-                        window.location.replace(generatesuccessRedirect(orderNumber));
+                        await placeOrder({
+                            variables: {
+                                cartId: cart.id,
+                                origin: originName,
+                            },
+                        })
+                            .then((res) => {
+                                result = res;
+                            })
+                            .catch((err) => {
+                                result = err;
+                            });
                     }
 
-                    setTimeout(() => {
-                        removeCartId();
-                    }, 1000);
-                } else {
+                    state = { ...checkout };
                     state.loading.order = false;
                     setCheckout(state);
 
-                    const msg = t('checkout:message:serverError');
+                    if (!validateResponse(result, state)) return;
 
-                    handleOpenMessage({
-                        variant: 'error',
-                        text: msg,
-                    });
+                    let orderNumber = '';
+                    if (result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
+                        orderNumber = result.data.placeOrder.order.order_number;
+                    }
+                    if (orderNumber && orderNumber !== '') {
+                        setCheckoutData({
+                            email: isGuest ? formik.values.email : cart.email,
+                            order_number: orderNumber,
+                            order_id: result.data.placeOrder.order.order_id,
+                        });
+                        if (client && client.query && typeof client.query === 'function') {
+                            await client.query({ query: localTotalCart, data: { totalCart: 0 } });
+                        }
+
+                        if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
+                            setOrderId(orderNumber);
+                            await getSnapToken({ variables: { orderId: orderNumber } });
+                        } else if (
+                            checkout.data.cart.selected_payment_method.code.match(/ovo.*/)
+                            || checkout.data.cart.selected_payment_method.code.match(/ipay88*/)
+                        ) {
+                            window.location.href = getIpayUrl(orderNumber);
+                        } else if (checkout.data.cart.selected_payment_method.code.match(/indodana/)) {
+                            await getIndodanaRedirect({ variables: { order_number: orderNumber } });
+                        } else if (
+                            modules.checkout.xendit.paymentPrefixCode.includes(checkout.data.cart.selected_payment_method.code)
+                            || modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)
+                        ) {
+                            handleXendit(orderNumber);
+                        } else if (checkout.data.cart.selected_payment_method.code.match(/travelokapay/)) {
+                            handleTravelokaPay(orderNumber);
+                        } else {
+                            handleOpenMessage({
+                                variant: 'success',
+                                text: t('checkout:message:placeOrder'),
+                            });
+                            window.location.replace(generatesuccessRedirect(orderNumber));
+                        }
+
+                        setTimeout(() => {
+                            removeCartId();
+                        }, 1000);
+                    } else {
+                        state.loading.order = false;
+                        setCheckout(state);
+
+                        const msg = t('checkout:message:serverError');
+
+                        handleOpenMessage({
+                            variant: 'error',
+                            text: msg,
+                        });
+                    }
                 }
             }
         } else {
             state.loading.order = false;
             setCheckout(state);
 
-            const msg = checkout.data.isGuest ? t('checkout:message:guestFormValidation') : t('checkout:message:customerFormValidation');
+            let msg = '';
+
+            if (!stripeState && clientSecret) {
+                console.log(stripeState);
+                console.log(clientSecret);
+                msg = t('checkout:message:stripeValidation');
+            } else {
+                msg = checkout.data.isGuest ? t('checkout:message:guestFormValidation') : t('checkout:message:customerFormValidation');
+            }
 
             handleOpenMessage({
                 variant: 'error',

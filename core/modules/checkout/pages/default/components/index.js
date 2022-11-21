@@ -77,6 +77,8 @@ const Content = (props) => {
     const isPurchaseOrderApply = isSelectedPurchaseOrder && checkout.status.purchaseOrderApply;
     const travelokaPayRef = React.useRef();
     const stripeRef = React.useRef();
+    const [stripeState, setStripeState] = useState(false);
+    const [clientSecret, setClientSecret] = useState(null);
 
     const [displayHowToPay, setDisplayHowToPay] = useState(false);
 
@@ -281,6 +283,7 @@ const Content = (props) => {
                     <PaymentList
                         checkout={checkout}
                         setCheckout={setCheckout}
+                        formik={formik}
                         updateFormik={updateFormik}
                         handleOpenMessage={handleOpenMessage}
                         t={t}
@@ -294,6 +297,10 @@ const Content = (props) => {
                         setTokenData={setTokenData}
                         travelokaPayRef={travelokaPayRef}
                         stripeRef={stripeRef}
+                        stripeState={stripeState}
+                        setStripeState={setStripeState}
+                        clientSecret={clientSecret}
+                        setClientSecret={setClientSecret}
                         displayHowToPay={displayHowToPay}
                         setDisplayHowToPay={setDisplayHowToPay}
                         checkoutTokenState={checkoutTokenState}
@@ -345,11 +352,14 @@ const Content = (props) => {
                     formik={formik}
                     storeConfig={storeConfig}
                     SummaryView={SummaryView}
-                    // eslint-disable-next-line no-return-assign
                     refSummary={SummaryRef}
                     isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                     travelokaPayRef={travelokaPayRef}
                     stripeRef={stripeRef}
+                    stripeState={stripeState}
+                    setStripeState={setStripeState}
+                    clientSecret={clientSecret}
+                    setClientSecret={setClientSecret}
                     checkoutTokenState={checkoutTokenState}
                     setCheckoutTokenState={setCheckoutTokenState}
                 />
