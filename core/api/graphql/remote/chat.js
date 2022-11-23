@@ -7,7 +7,6 @@ const { wrapSchema, introspectSchema } = require('@graphql-tools/wrap');
 const { features } = require('../../../../swift.config');
 const { encrypt } = require('../../../helpers/encryption');
 const { getAppEnv, getChatConfigUsername, getChatConfigPassword } = require('../../../helpers/env');
-const { chatConfig } = require('../../../../swift-server.config');
 
 const executor = async ({ document, variables, context }) => {
     try {
