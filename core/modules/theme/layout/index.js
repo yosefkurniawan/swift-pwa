@@ -46,7 +46,7 @@ const NewsletterPopup = dynamic(() => import('@core_modules/theme/components/new
 const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/recentlyViewed'), { ssr: false });
 
 // CHAT FEATURES IMPORT
-const ChatContent = dynamic(() => import('@core_modules/customer/plugins/chatPlugin'), { ssr: false });
+const ChatContent = dynamic(() => import('@core_modules/customer/plugins/ChatPlugin'), { ssr: false });
 // END CHAT FEATURES IMPORT
 
 const fromEntriesPolyfills = (iterable) => [...iterable].reduce((obj, [key, val]) => {
