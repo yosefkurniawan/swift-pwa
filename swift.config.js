@@ -140,6 +140,15 @@ const features = {
         DownloadableProduct: false,
         AwGiftCardProduct: true,
     },
+    chatSystem: {
+        enable: true,
+        graphqlEndpoint: {
+            local: 'https://chat-upgrade244.testingnow.me/graphql',
+            dev: 'https://chat-upgrade244.testingnow.me/graphql',
+            stage: 'https://chat-upgrade244.testingnow.me/graphql',
+            prod: 'https://chat-upgrade244.testingnow.me/graphql',
+        },
+    },
     firebase: {
         config: {
             apiKey: 'AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw', // sample: AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw

@@ -8,7 +8,13 @@ const getAppEnv = () => {
 
 const getAccessEnv = () => process.env.ACCESS_KEY;
 
+const getChatConfigUsername = () => process.env.CHAT_CONFIG_USERNAME;
+
+const getChatConfigPassword = () => process.env.CHAT_CONFIG_PASSWORD;
+
 module.exports = {
     getAppEnv,
     getAccessEnv,
+    getChatConfigUsername,
+    getChatConfigPassword,
 };

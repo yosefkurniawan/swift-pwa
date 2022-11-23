@@ -1,8 +1,6 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {
-    CreatePadding,
-} from '@theme_mixins';
 import { GRAY_PRIMARY } from '@theme_color';
+import { CreatePadding } from '@theme_mixins';
 
 const useStyles = makeStyles((theme) => ({
     footerContainer: {
@@ -109,6 +107,27 @@ const useStyles = makeStyles((theme) => ({
         width: '180px',
         [theme.breakpoints.down('sm')]: {
             width: '200px',
+        },
+    },
+    chatPlugin: {
+        position: 'fixed',
+        right: '32px',
+        bottom: '94px',
+        zIndex: '999',
+    },
+    buttonChat: {
+        textAlign: 'center',
+        backgroundColor: 'black !important',
+        color: 'white !important',
+        minWidth: '100px',
+        '&.MuiButtonBase-root.MuiButton-root.MuiButton-text': {
+            color: 'white !important',
+        },
+        '&.MuiButtonBase-root.MuiButton-root.MuiButton-text:hover': {
+            color: 'black !important',
+        },
+        '&.MuiButton-root .MuiButton-label > span': {
+            color: 'white !important',
         },
     },
 }));

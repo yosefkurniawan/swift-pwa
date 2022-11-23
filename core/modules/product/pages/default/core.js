@@ -5,8 +5,11 @@ import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
 import Header from '@core_modules/product/pages/default/components/header';
 import Loading from '@core_modules/product/pages/default/components/Loader';
 import {
-    addProductsToCompareList, addWishlist as mutationAddWishlist, getProduct,
-    getProductLabel, smartProductTabs,
+    addProductsToCompareList,
+    addWishlist as mutationAddWishlist,
+    getProduct,
+    getProductLabel,
+    smartProductTabs,
 } from '@core_modules/product/services/graphql';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { getCookies } from '@helper_cookies';
@@ -36,17 +39,29 @@ const ContentDetail = ({
         }
     }, [isLogin, dataUid]);
 
+    const [showChat, setShowChat] = React.useState(false);
+    const handleChat = () => {
+        if (isLogin && isLogin === 1) {
+            setShowChat(!showChat);
+        } else {
+            window.toastMessage({
+                open: true,
+                variant: 'warning',
+                text: 'to continue chat, please log in first',
+            });
+        }
+    };
+
     React.useEffect(() => {
         let categoryProduct = '';
         let categoryOne = '';
         // eslint-disable-next-line no-unused-expressions
-        item.categories.length > 0 && (
-            categoryOne = item.categories[0].name,
+        item.categories.length > 0
+            && ((categoryOne = item.categories[0].name),
             item.categories.map(({ name }, indx) => {
                 if (indx > 0) categoryProduct += `/${name}`;
                 else categoryProduct += name;
-            })
-        );
+            }));
         // GTM UA dayaLayer
         const tagManagerArgs = {
             dataLayer: {
@@ -443,6 +458,8 @@ const ContentDetail = ({
             handleSetCompareList={handleSetCompareList}
             enablePopupImage={enablePopupImage}
             storeConfig={storeConfig}
+            handleChat={handleChat}
+            showChat={showChat}
         />
     );
 };
@@ -640,7 +657,14 @@ const PageDetail = (props) => {
     };
 
     return (
-        <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props} data={data} isPdp>
+        <Layout
+            isShowChat={false}
+            pageConfig={pageConfig || config}
+            CustomHeader={CustomHeader ? <CustomHeader /> : <Header />}
+            {...props}
+            data={data}
+            isPdp
+        >
             <ContentDetail
                 keyProduct={productByUrl}
                 product={product}
