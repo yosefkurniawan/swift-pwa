@@ -167,6 +167,7 @@ const Content = (props) => {
                             FilterView={FilterView}
                             FilterModalView={FilterModalView}
                             defaultSort={{ key: 'position', value: 'ASC' }}
+                            sellerId={sellerId}
                             {...props}
                         />
                     </div>
