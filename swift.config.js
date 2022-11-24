@@ -116,8 +116,9 @@ const features = {
     ssrCache: false,
     magezon: {
         instagramFeed: {
-            // eslint-disable-next-line max-len
-            urlGraph: 'https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=',
+            urlGraph:
+                // eslint-disable-next-line max-len
+                'https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=',
         },
         keyStorage: 'mgz_ig_token',
     },
@@ -151,14 +152,14 @@ const features = {
     },
     firebase: {
         config: {
-            apiKey: 'AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw', // sample: AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw
-            authDomain: 'swift-pwa-dev.firebaseapp.com', // sample: swift-pwa-dev.firebaseapp.com
+            apiKey: 'AIzaSyCD0ZuTMcNi3PSsJH9LD21v7_XA1sVLjdI', // sample: AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw
+            authDomain: 'swiftpwa-firebase.firebaseapp.com', // sample: swift-pwa-dev.firebaseapp.com
             databaseURL: 'https://swiftpwa-firebase.firebaseio.com', // sample: https://swiftpwa-firebase.firebaseio.com
-            projectId: 'swift-pwa-dev', // sample: swift-pwa-dev
-            storageBucket: 'swift-pwa-dev.appspot.com', // sample: swift-pwa-dev.appspot.com
-            messagingSenderId: '1083571104838', // sample: 1083571104838
-            appId: '1:1083571104838:web:4f06ca5a60b1c1a9efee47', // sample: 1:1083571104838:web:4f06ca5a60b1c1a9efee47
-            measurementId: 'G-HBHPY22H0H', // sample: G-HBHPY22H0H
+            projectId: 'swiftpwa-firebase', // sample: swift-pwa-dev
+            storageBucket: 'swiftpwa-firebase.appspot.com', // sample: swift-pwa-dev.appspot.com
+            messagingSenderId: '731430387766', // sample: 1083571104838
+            appId: '1:731430387766:web:af85ac9f9559c873309897', // sample: 1:1083571104838:web:4f06ca5a60b1c1a9efee47
+            measurementId: 'G-DP22E2CL8G', // sample: G-HBHPY22H0H
         },
         pushNotification: {
             enabled: true,
