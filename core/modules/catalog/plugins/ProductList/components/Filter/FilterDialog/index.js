@@ -46,6 +46,7 @@ const FilterDialog = (props) => {
     const [sellerId, setSellerId] = React.useState([]);
 
     React.useEffect(() => {
+        // console.log('data', data);
         data.forEach((itemFilter) => {
             if (itemFilter.field === 'seller_id') {
                 actGetSeller({
@@ -55,7 +56,7 @@ const FilterDialog = (props) => {
                 });
             }
         });
-    }, []);
+    }, [data]);
 
     React.useEffect(() => {
         if (dataSeller && dataSeller.data) {
@@ -126,7 +127,7 @@ const FilterDialog = (props) => {
                     }
 
                     if (itemFilter.field !== 'attribute_set_id' && itemFilter.field !== 'indexed_attributes' && itemFilter.field !== 'seller_name') {
-                        if (itemFilter.field === 'seller_id' && sellerId && sellerId.field) {
+                        if (itemFilter.field === 'seller_id' && sellerId && sellerId.field && sellerId.label) {
                             return (
                                 <div className={`${styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']}`} key={idx}>
                                     <RadioGroup
