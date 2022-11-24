@@ -9,8 +9,19 @@ import classNames from 'classnames';
 const RadioDeliveryItem = (props) => {
     const styles = useStyles();
     const {
-        value, label, promoLabel, selected, onChange = () => { }, borderBottom = true, image = null, classContent = '',
-        amount, price_incl_tax, storeConfig, disabled = false, code,
+        value,
+        label,
+        promoLabel,
+        selected,
+        onChange = () => {},
+        borderBottom = true,
+        image = null,
+        classContent = '',
+        amount,
+        price_incl_tax,
+        storeConfig,
+        disabled = false,
+        code,
     } = props;
     const handleChange = () => {
         if (!disabled) {
@@ -87,10 +98,7 @@ const RadioDeliveryItem = (props) => {
     if (disabled) return null;
 
     return (
-        <div
-            className={rootStyle}
-            id="checkoutRadioItem"
-        >
+        <div className={rootStyle} id="checkoutRadioItem">
             <Radio
                 color="default"
                 size="small"
@@ -107,9 +115,11 @@ const RadioDeliveryItem = (props) => {
             </div>
             <style jsx>
                 {`
-                    {/* #checkoutRadioItem:hover {
+                     {
+                        /* #checkoutRadioItem:hover {
                         cursor: pointer;
-                    } */}
+                    } */
+                    }
                     #checkoutRadioItem :global(.travelokapay-ic) {
                         background-image: url(/assets/img/traveloka_paylater_ic.jpg);
                         width: 60px;

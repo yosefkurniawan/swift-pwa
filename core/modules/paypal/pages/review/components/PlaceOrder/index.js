@@ -17,10 +17,10 @@ const PlaceOrder = (props) => {
     const originName = modules.checkout.checkoutOnly ? 'pwa-checkout' : 'pwa';
 
     // eslint-disable-next-line no-unused-vars
-    let paypalData = {};
-    if (typeof window !== 'undefined') {
-        paypalData = JSON.parse(localStorage.getItem(modules.paypal.keyData));
-    }
+    // let paypalData = {};
+    // if (typeof window !== 'undefined') {
+    //     paypalData = JSON.parse(localStorage.getItem(modules.paypal.keyData));
+    // }
 
     const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
 
@@ -60,11 +60,11 @@ const PlaceOrder = (props) => {
             orderNumber = result.data.placeOrder[0].order.order_number;
         }
         if (orderNumber && orderNumber !== '') {
-            let { email } = cart;
-            if (checkout.isGuest && paypalData && paypalData.details && paypalData.details.payer
-                && paypalData.details.payer.email_address) {
-                email = paypalData.details.payer.email_address;
-            }
+            const { email } = cart;
+            // if (checkout.isGuest && paypalData && paypalData.details && paypalData.details.payer
+            //     && paypalData.details.payer.email_address) {
+            //     email = paypalData.details.payer.email_address;
+            // }
             setCheckoutData({
                 email,
                 order_number: orderNumber,
@@ -79,7 +79,7 @@ const PlaceOrder = (props) => {
                 variant: 'success',
                 text: t('checkout:message:placeOrder'),
             });
-            localStorage.removeItem(modules.paypal.keyData);
+            // localStorage.removeItem(modules.paypal.keyData);
             window.location.replace(generatesuccessRedirect(orderNumber));
         } else {
             window.backdropLoader(false);
@@ -95,13 +95,7 @@ const PlaceOrder = (props) => {
         }
     };
     const disabled = checkout.selectedShippingMethod === null;
-    return (
-        <View
-            {...props}
-            handlePlaceOrder={handlePlaceOrder}
-            disabled={disabled}
-        />
-    );
+    return <View {...props} handlePlaceOrder={handlePlaceOrder} disabled={disabled} />;
 };
 
 export default PlaceOrder;

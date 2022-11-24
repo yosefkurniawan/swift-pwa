@@ -143,6 +143,7 @@ const MagezonRecentReviews = (props) => {
                                                 src={reviewData.small_image.url}
                                                 width={defaultWidth}
                                                 height={defaultHeight}
+                                                storeConfig={storeConfig}
                                             />
                                         </div>
                                     )}

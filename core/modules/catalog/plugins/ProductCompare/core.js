@@ -3,7 +3,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable-next-line jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import Router from 'next/router';
 import propTypes from 'prop-types';
 import { setCookies, getCookies } from '@helper_cookies';
 import { getCompareList, getCustomerUid } from '@core_modules/productcompare/service/graphql';
@@ -81,10 +80,6 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
         }
     }, [compareList, dataUid]);
 
-    const handleLink = () => {
-        Router.push('/catalog/product_compare');
-    };
-
     if (withLink) {
         let tempCompare = null;
         if (dataCompare && dataCompare.item_count) {
@@ -98,7 +93,7 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
         if (tempCompare || compareList) {
             return (
                 <>
-                    <WihtLinkView compareList={tempCompare || compareList} handleLink={handleLink} />
+                    <WihtLinkView compareList={tempCompare || compareList} handleLink="/catalog/product_compare" />
                 </>
             );
         }

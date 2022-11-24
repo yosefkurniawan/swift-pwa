@@ -1,22 +1,24 @@
 /* eslint-disable max-len */
-import React from 'react';
+import Typography from '@common_typography';
+import ConfirmationDelete from '@core_modules/cart/pages/default/components/confirmDelete';
+import Empty from '@core_modules/productcompare/pages/default/components/empty';
 import useStyles from '@core_modules/productcompare/pages/default/components/style';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TableContainer from '@material-ui/core/TableContainer';
-import ProductItem from '@plugin_productitem';
-import ConfirmationDelete from '@core_modules/cart/pages/default/components/confirmDelete';
-import Typography from '@common_typography';
 import ClearIcon from '@material-ui/icons/Clear';
-import Empty from '@core_modules/productcompare/pages/default/components/empty';
+import ProductItem from '@plugin_productitem';
 import classNames from 'classnames';
+import React from 'react';
 
 const Content = (props) => {
     const styles = useStyles();
-    const { t, handleRemoveProduct, compareList } = props;
+    const {
+        t, handleRemoveProduct, compareList, storeConfig,
+    } = props;
     const [columnWidth, setColumnWidth] = React.useState(null);
     const [confirmDel, setConfirmDel] = React.useState(false);
     const [selectDelete, setSelectDelet] = React.useState(null);
@@ -45,7 +47,6 @@ const Content = (props) => {
     };
 
     if (compareList.compareList.items.length === 0) {
-        console.log('hereee 222', compareList);
         return <Empty t={t} />;
     }
 
@@ -72,7 +73,7 @@ const Content = (props) => {
                                             style={{ width: columnWidth }}
                                         >
                                             <div className={styles.productImage}>
-                                                <ProductItem {...product} enableProductCompare={false} />
+                                                <ProductItem {...product} enableProductCompare={false} storeConfig={storeConfig} />
                                                 <ClearIcon className="clearIcon" onClick={() => confirmDelete(productCompare)} />
                                             </div>
                                         </TableCell>

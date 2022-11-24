@@ -7,7 +7,7 @@ import Category from '@core_modules/blog/components/Category';
 
 const Content = ({
     t, data, loadMore, loading, handleLoadMore, page, loadCategory,
-    ContentCategory, ContentItem, ...other
+    storeConfig, ContentCategory, ContentItem, ...other
 }) => (
     <div className="row">
         <div className="col-xs-12 col-sm-2">
@@ -16,7 +16,7 @@ const Content = ({
         <div className="col-xs-12 col-sm-10">
             {data
                     && data.getBlogByFilter.items.length > 0
-                    && data.getBlogByFilter.items.map((blog, index) => <ContentItem key={index} short {...blog} t={t} />)}
+                    && data.getBlogByFilter.items.map((blog, index) => <ContentItem storeConfig={storeConfig} key={index} short {...blog} t={t} />)}
             {data && data.getBlogByFilter.total_count > data.getBlogByFilter.items.length && data.getBlogByFilter.total_pages > page && (
                 <Button variant="text" onClick={handleLoadMore} disabled={loading || loadMore} fullWidth>
                     <Typography variant="span" type="bold" letter="uppercase" color="gray">

@@ -148,6 +148,7 @@
     "setting": {
         "title": "Setting",
         "language": "Language",
+        "store": "Store",
         "currency": "Currency",
         "changeto": "Change to"
     },

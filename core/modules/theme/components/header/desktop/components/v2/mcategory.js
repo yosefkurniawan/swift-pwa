@@ -132,10 +132,9 @@ const Menu = (props) => {
                                             <>
                                                 {val.before_html && <div dangerouslySetInnerHTML={{ __html: val.before_html }} />}
                                                 <a
+                                                    href={val.link_type === 'category_link' && getPath(val.link)}
                                                     onClick={() => {
-                                                        if (val.linktype === 'category_link') {
-                                                            handleClick(val);
-                                                        } else if (val.linktype === 'custom_link') {
+                                                        if (val.link_type === 'custom_link') {
                                                             router.push(val.link);
                                                         }
                                                     }}

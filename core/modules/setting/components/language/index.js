@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-return-assign */
 import React, { useState, useEffect, useRef } from 'react';
 import { withTranslation } from '@i18n';
@@ -12,7 +13,7 @@ const COOKIES_STORE_CODE = 'store_code_storage';
 const SwitcherLanguage = (props) => {
     const { i18n, onCallbackLanguage } = props;
     const [anchorEl, setAnchorEl] = useState(null);
-    const { data: remoteLang } = getStoreName();
+    const { data: remoteLang, loading: loadDataLang } = getStoreName();
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
     const mount = useRef();
@@ -24,35 +25,52 @@ const SwitcherLanguage = (props) => {
      */
     useEffect(() => {
         mount.current = true;
-        if (mount.current) {
-            const getLangFromStorage = () => {
-                // prettier-ignore
-                let defaultLangFromDatabase = translation.defaultLanguage;
-                let defaultLabel = translation.languagesLabel[translation.defaultLanguage];
-                if (remoteLang) {
-                    remoteLang.availableStores.map((item) => {
-                        if (item.is_default_store) {
-                            defaultLangFromDatabase = item.locale.slice(0, 2);
-                            defaultLabel = item.store_name;
+        if (mount.current && remoteLang !== undefined) {
+            if (remoteLang && remoteLang.availableStores) {
+                const getLangFromStorage = () => {
+                    // prettier-ignore
+                    const defaultLangFromDatabase = translation.defaultLanguage;
+                    const defaultLabel = translation.languagesLabel[translation.defaultLanguage];
+                    let defaultDataLang = {};
+                    remoteLang.availableStores.forEach(({
+                        is_default_store, locale, store_code, store_name,
+                    }) => {
+                        if (is_default_store) {
+                            defaultDataLang = {
+                                label: store_name,
+                                value: locale.slice(0, 2),
+                                storeCode: store_code,
+                            };
                         }
                         return null;
                     });
-                }
-                const getDataCookies = cookies.get(COOKIES_APP_LANG) !== undefined
-                    ? JSON.parse(cookies.get(COOKIES_APP_LANG))
-                    : {
-                        label: defaultLabel,
-                        value: defaultLangFromDatabase,
-                    };
-
-                i18n.changeLanguage(getDataCookies.value);
-                cookies.set(COOKIES_APP_LANG, getDataCookies);
-                setLang(getDataCookies);
-            };
-            getLangFromStorage();
+                    if ((defaultDataLang && defaultDataLang.value === 'en') || (defaultDataLang && defaultDataLang.value === 'id')) {
+                        const getDataCookies = cookies.get(COOKIES_APP_LANG) !== undefined
+                            ? JSON.parse(cookies.get(COOKIES_APP_LANG))
+                            : {
+                                label: defaultDataLang && defaultDataLang.label,
+                                value: defaultDataLang && defaultDataLang.value,
+                            };
+                        i18n.changeLanguage(getDataCookies.value);
+                        cookies.set(COOKIES_APP_LANG, getDataCookies);
+                        setLang(getDataCookies);
+                    } else {
+                        const getDataCookies = cookies.get(COOKIES_APP_LANG) !== undefined && defaultDataLang !== undefined
+                            ? JSON.parse(cookies.get(COOKIES_APP_LANG))
+                            : {
+                                label: defaultLabel,
+                                value: defaultLangFromDatabase,
+                            };
+                        i18n.changeLanguage(getDataCookies.value);
+                        cookies.set(COOKIES_APP_LANG, getDataCookies);
+                        setLang(getDataCookies);
+                    }
+                };
+                getLangFromStorage();
+            }
         }
         return () => (mount.current = false);
-    }, []);
+    }, [remoteLang]);
 
     /**
      * [METHOD] handle click popover
@@ -71,10 +89,19 @@ const SwitcherLanguage = (props) => {
      * [METHOD] on click language
      */
     const onClickLanguage = ({ item }) => {
-        i18n.changeLanguage(item.value);
-        cookies.set(COOKIES_STORE_CODE, item.storeCode);
-        cookies.set(COOKIES_APP_LANG, item);
-        setLang(item);
+        const getDataSelect = item.value !== 'en' && item.value !== 'id' ? {
+            label: item.label,
+            value: translation.defaultLanguage,
+            storeCode: item.storeCode,
+        } : {
+            label: item.label,
+            value: item.value,
+            storeCode: item.storeCode,
+        };
+        i18n.changeLanguage(getDataSelect.value);
+        cookies.set(COOKIES_STORE_CODE, getDataSelect.storeCode);
+        cookies.set(COOKIES_APP_LANG, getDataSelect);
+        setLang(getDataSelect);
         handleClose();
         setTimeout(() => {
             window.location.reload();
@@ -95,6 +122,7 @@ const SwitcherLanguage = (props) => {
             open,
             anchorEl,
             dataLang,
+            loadDataLang,
             lang,
             onCallbackLanguage,
             handleClick,

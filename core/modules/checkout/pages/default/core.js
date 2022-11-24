@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable arrow-body-style */
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable object-curly-newline */
@@ -10,7 +11,7 @@
 import { useApolloClient } from '@apollo/client';
 import Toast from '@common_toast';
 import { modules, nameCheckoutState } from '@config';
-import { getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '@core_modules/checkout/helpers/config';
+import { getCartCallbackUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '@core_modules/checkout/helpers/config';
 import gqlService from '@core_modules/checkout/services/graphql';
 import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import { getCartId } from '@helpers/cartId';
@@ -100,10 +101,12 @@ const Checkout = (props) => {
                 variables: {
                     cartId: cartId || propsCardId,
                 },
-            }).then(async (result) => { }).catch((e) => {
-                // eslint-disable-next-line no-console
-                console.log(e);
-            });
+            })
+                .then(async (result) => { })
+                .catch((e) => {
+                    // eslint-disable-next-line no-console
+                    console.log(e);
+                });
         }
     }, [cartId, propsCardId, setCheckoutSession]);
 
@@ -202,12 +205,12 @@ const Checkout = (props) => {
 
     // config paypal
     const [initialOptionPaypal, setInitialOptionPaypal] = useState({
-        'client-id': modules.paypal.clientId[appEnv],
+        'client-id': storeConfig?.paypal_key.client_id,
         currency: storeConfig?.base_currency_code,
-        intent: modules.paypal.intent,
+        intent: storeConfig?.paypal_key.intent,
         'data-order-id': '',
         // debug: modules.paypal.debug,
-        'disable-funding': modules.paypal.disableFunding,
+        'disable-funding': storeConfig?.paypal_key.disable_funding,
         'merchant-id': storeConfig?.pwa?.paypal_merchant_id,
     });
 
@@ -221,7 +224,7 @@ const Checkout = (props) => {
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
     const [setShippingAddressByInput] = gqlService.initiateShippingAddressMultiseller();
     const [setBillingAddressByInput] = gqlService.initiateBillingAddressMultiseller();
-    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
+    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => { } });
     const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
     // end init graphql
 
@@ -277,7 +280,7 @@ const Checkout = (props) => {
             confirmation: false,
         },
         validationSchema: CheckoutSchema,
-        onSubmit: () => {},
+        onSubmit: () => { },
     });
 
     const updateFormik = (cart) => {
@@ -580,9 +583,8 @@ const Checkout = (props) => {
                                     seller_city: data.getSeller.length > 0 ? data.getSeller[0].city : 'Default Seller City',
                                     available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
                                         ...shippingItemMultiseller,
-                                        label: `${
-                                            shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `
-                                        } ${shippingItemMultiseller.carrier_title} `,
+                                        label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `
+                                            } ${shippingItemMultiseller.carrier_title} `,
                                         promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
                                         value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
                                     })),
@@ -599,9 +601,8 @@ const Checkout = (props) => {
                             seller_city: 'Default Seller City',
                             available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
                                 ...shippingItemMultiseller,
-                                label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${
-                                    shippingItemMultiseller.carrier_title
-                                } `,
+                                label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title
+                                    } `,
                                 promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
                                 value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
                             })),
@@ -613,9 +614,8 @@ const Checkout = (props) => {
                     seller_id: seller_id || 0,
                     available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
                         ...shippingItemMultiseller,
-                        label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${
-                            shippingItemMultiseller.carrier_title
-                        } `,
+                        label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title
+                            } `,
                         promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
                         value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
                     })),
@@ -723,17 +723,13 @@ const Checkout = (props) => {
 
         if (cart.selected_payment_method) {
             state.selected.payment = cart.selected_payment_method.code;
-            if (
-                storeConfig?.pwa?.paypal_enable &&
-                cart.selected_payment_method.code === 'paypal_express' &&
-                initialOptionPaypal['data-order-id'] === ''
-            ) {
+            if (storeConfig?.pwa?.paypal_enable && cart.selected_payment_method.code === 'paypal_express') {
                 getPaypalToken({
                     variables: {
                         cartId: cart.id,
                         code: 'paypal_express',
-                        returnUrl: modules.paypal.returnUrl,
-                        cancelUrl: modules.paypal.cancelUrl,
+                        returnUrl: storeConfig?.paypal_key.return_url,
+                        cancelUrl: storeConfig?.paypal_key.cancel_url,
                     },
                 }).then((res) => {
                     if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
@@ -982,9 +978,8 @@ const Checkout = (props) => {
                         seller_id,
                         available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
                             ...shippingItemMultiseller,
-                            label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${
-                                shippingItemMultiseller.carrier_title
-                            } `,
+                            label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title
+                                } `,
                             promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
                             value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
                         })),
@@ -1048,18 +1043,31 @@ const Checkout = (props) => {
                     cart_total: cart.prices.grand_total.value,
                     currency: cart.prices.grand_total.currency || storeConfig.base_currency_code,
                     ecommerce: {
-                        items: [
-                            cart.items.map((item) => ({
+                        items: cart.items.map((item) => ({
+                            currency: item.prices.price.currency || storeConfig.base_currency_code,
+                            item_name: item.product.name,
+                            item_id: item.product.sku,
+                            price: item.prices.price.value || 0,
+                            item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                            item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                            quantity: item.quantity,
+                            item_stock_status: item.product.stock_status,
+                        })),
+                        fbpixels: {
+                            content_ids: cart.items.map(({ product }) => product.sku),
+                            quantity: cart.items.length,
+                            value: cart.prices.grand_total.value,
+                            contents: cart.items.map((item) => ({
                                 currency: item.prices.price.currency || storeConfig.base_currency_code,
-                                item_name: item.product.name,
-                                item_id: item.product.sku,
+                                name: item.product.name,
+                                id: item.product.sku,
                                 price: item.prices.price.value || 0,
-                                item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
-                                item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                                category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                                list: item.product.categories.length > 0 ? item.product.categories[0].name : '',
                                 quantity: item.quantity,
-                                item_stock_status: item.product.stock_status,
+                                stock_status: item.product.stock_status,
                             })),
-                        ],
+                        },
                     },
                 },
             });
@@ -1087,7 +1095,11 @@ const Checkout = (props) => {
     };
 
     const onCancelPaypal = () => {
-        Router.push('/checkout/cart');
+        Router.push(
+            !modules.checkout.checkoutOnly
+                ? `/${storeConfig?.paypal_key.cancel_url}`
+                : `${getStoreHost(getAppEnv())}${storeConfig?.paypal_key.cancel_url}`
+        );
     };
 
     const onErrorPaypal = (err) => {
@@ -1166,6 +1178,9 @@ const Checkout = (props) => {
                         checkout_option: {
                             actionField: { step: 3, option: selectedPayment[0].title, action: 'checkout_option' },
                         },
+                        fbpixels: {
+                            total_price: cart.prices.grand_total.value,
+                        },
                     },
                 };
                 // GA 4 dataLayer
@@ -1173,6 +1188,7 @@ const Checkout = (props) => {
                     event: 'add_payment_info',
                     ecommerce: {
                         payment_type: selectedPayment[0].title,
+                        currency: storeConfig.base_currency_code || 'IDR',
                         items: [
                             cart.items.map(({ quantity, product, prices }) => ({
                                 currency: storeConfig.base_currency_code || 'IDR',
@@ -1187,8 +1203,29 @@ const Checkout = (props) => {
                                 item_reviews_count: '',
                                 item_reviews_score: '',
                             })),
-
                         ],
+                        fbpixels: {
+                            total_price: cart.prices.grand_total.value,
+                            content_ids: [
+                                {
+                                    payment_type: selectedPayment[0].title,
+                                    items: cart.items.map(({ quantity, product, prices }) => ({
+                                        currency: storeConfig.base_currency_code || 'IDR',
+                                        item_name: product.name,
+                                        item_id: product.sku,
+                                        price: JSON.stringify(prices.price.value),
+                                        item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                                        item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                                        quantity: JSON.stringify(quantity),
+                                        item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                        item_sale_product: '',
+                                        item_reviews_count: '',
+                                        item_reviews_score: '',
+                                    })),
+                                },
+                            ],
+                            catalog_id: cart.items.map(({ product }) => (product.categories.length > 0 ? product.categories[0].name : '')),
+                        },
                     },
                 };
                 TagManager.dataLayer({ dataLayer });
@@ -1221,12 +1258,14 @@ const Checkout = (props) => {
                         paypalData.details = details.data.result;
                     }
                 }
-                setLocalStorage(modules.paypal.keyData, paypalData);
+                setLocalStorage(storeConfig?.paypal_key.key_data, paypalData);
                 state = { ...checkout };
                 window.backdropLoader(false);
                 state.loading.order = false;
                 setCheckout(state);
-                Router.push(`/${modules.paypal.returnUrl}`);
+
+                const redirectMagentoUrl = `${getStoreHost(getAppEnv())}${storeConfig?.paypal_key.return_url}`;
+                Router.push(!modules.checkout.checkoutOnly ? `/${storeConfig?.paypal_key.return_url}` : redirectMagentoUrl);
             })
             .catch((e) => {
                 onErrorPaypal(e);

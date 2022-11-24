@@ -134,6 +134,7 @@ const ItemView = (props) => {
                     width={defaultWidth}
                     height={defaultHeight}
                     quality={80}
+                    storeConfig={storeConfig}
                 />
                 {prices.price.value === 0 ? <span>{t('common:title:free')}</span> : null}
             </div>

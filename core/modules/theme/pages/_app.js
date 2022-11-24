@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
@@ -70,9 +71,7 @@ class MyApp extends App {
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }
-        const {
-            res, pathname, query, req,
-        } = ctx;
+        const { res, pathname, query, req } = ctx;
 
         /*
          * ---------------------------------------------
@@ -91,8 +90,7 @@ class MyApp extends App {
         } else {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
-            lastPathNoAuth = req.session && typeof req.session !== 'undefined'
-                && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
+            lastPathNoAuth = req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
                 ? req.session.lastPathNoAuth
                 : '/customer/account';
         }
@@ -127,14 +125,18 @@ class MyApp extends App {
         let { storeConfig } = pageProps;
 
         if (typeof window !== 'undefined') {
-            frontendOptions = await pageProps.apolloClient.query({ query: gql`${FrontendSchema}` }).then(({ data }) => data);
-
-            if (ctx && frontendOptions.response && frontendOptions.response.status && frontendOptions.response.status > 500) {
+            frontendOptions = await pageProps.apolloClient
+                .query({
+                    query: gql`
+                        ${FrontendSchema}
+                    `,
+                })
+                .then(({ data }) => data);
+            if (ctx && frontendOptions && frontendOptions.response && frontendOptions.response.status && frontendOptions.response.status > 500) {
                 ctx.res.redirect('/maintenance');
             }
         }
         if (typeof window === 'undefined' && (!storeConfig || typeof storeConfig.secure_base_media_url === 'undefined')) {
-            // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
             storeConfig = await graphRequest(ConfigSchema);
             frontendOptions = await graphRequest(FrontendSchema);
 
@@ -146,16 +148,21 @@ class MyApp extends App {
             storeConfig = storeConfig.storeConfig;
             if (!modules.checkout.checkoutOnly) {
                 dataVesMenu = storeConfig.pwa.ves_menu_enable
-                    ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }) : await graphRequest(getCategories);
+                    ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias })
+                    : await graphRequest(getCategories);
             }
             frontendOptions = frontendOptions.storeConfig;
-            removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null
-                ? storeConfig?.pwa?.remove_decimal_price_enable
-                : false;
+            removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null ? storeConfig?.pwa?.remove_decimal_price_enable : false;
         } else if (typeof window !== 'undefined' && !storeConfig) {
             storeConfig = getLocalStorage('pwa_config');
             if (!storeConfig || storeConfig === '' || storeConfig === {}) {
-                storeConfig = await pageProps.apolloClient.query({ query: gql`${ConfigSchema}` }).then(({ data }) => data);
+                storeConfig = await pageProps.apolloClient
+                    .query({
+                        query: gql`
+                            ${ConfigSchema}
+                        `,
+                    })
+                    .then(({ data }) => data);
 
                 // Handle redirecting to tomaintenance page automatically when GQL is in maintenance mode.
                 // We do this here since query storeConfig is the first query and be done in server side
@@ -169,17 +176,32 @@ class MyApp extends App {
                 dataVesMenu = getLocalStorage('pwa_vesmenu');
                 if (!dataVesMenu) {
                     dataVesMenu = storeConfig.pwa.ves_menu_enable
-                        ? await pageProps.apolloClient.query(
-                            { query: gql`${getVesMenu}`, variables: { alias: storeConfig.pwa.ves_menu_alias } },
-                        ).then(({ data }) => data)
-                        : await pageProps.apolloClient.query({ query: gql`${getCategories}` }).then(({ data }) => data);
+                        ? await pageProps.apolloClient
+                            .query({
+                                query: gql`
+                                      ${getVesMenu}
+                                  `,
+                                variables: { alias: storeConfig.pwa.ves_menu_alias },
+                            })
+                            .then(({ data }) => data)
+                        : await pageProps.apolloClient
+                            .query({
+                                query: gql`
+                                      ${getCategories}
+                                  `,
+                            })
+                            .then(({ data }) => data);
                 }
             }
-            frontendOptions = await pageProps.apolloClient.query({ query: gql`${FrontendSchema}` }).then(({ data }) => data);
+            frontendOptions = await pageProps.apolloClient
+                .query({
+                    query: gql`
+                        ${FrontendSchema}
+                    `,
+                })
+                .then(({ data }) => data);
             frontendOptions = frontendOptions.storeConfig;
-            removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null
-                ? storeConfig?.pwa?.remove_decimal_price_enable
-                : false;
+            removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null ? storeConfig?.pwa?.remove_decimal_price_enable : false;
         }
 
         /*
@@ -228,7 +250,7 @@ class MyApp extends App {
          */
         if (getAppEnv() === 'prod') {
             // eslint-disable-next-line no-console
-            console.log = () => {};
+            console.log = () => { };
         }
 
         /*

@@ -18,6 +18,7 @@
     "shipperName": "Nama Pengirim",
     "driverName": "Nama Kurir",
     "driverPhone": "Nomor Telepon Kurir",
+    "driverLicenseNumber": "Nomor Lisensi Kurir",
     "lastStatus": "Status Terakhir",
     "history": "Riwayat",
     "liveTracking": "Lacak Pengiriman",

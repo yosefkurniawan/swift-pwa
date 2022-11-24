@@ -1,24 +1,23 @@
 /* eslint-disable prefer-destructuring */
-import React from 'react';
 import { modules } from '@config';
-import { getAppEnv } from '@helpers/env';
 import {
-    setPaypalPaymentMethod, createPaypalExpressToken, setShippingAddressByInput, setBillingAddressByInput,
-    setGuestEmailAddressOnCart,
+    setPaypalPaymentMethod, createPaypalExpressToken,
+    // setShippingAddressByInput, setBillingAddressByInput, setGuestEmailAddressOnCart,
 } from '@core_modules/paypal/services/graphql';
 import PaypalButtonView from '@plugin_paypalbutton/view';
 import TagManager from 'react-gtm-module';
 import { getCartId } from '@helper_cartid';
-import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
+// import { setLocalStorage } from '@helper_localstorage';
 import { getLoginInfo } from '@helper_auth';
 import Router from 'next/router';
+import gqlService from '@core_modules/checkout/services/graphql';
+import { getCookies } from '@helper_cookies';
 
 const PaypalButton = (props) => {
     const { t, cart, storeConfig } = props;
-    const appEnv = getAppEnv();
     let cartId = cart ? cart.id : null;
     let isLogin = 0;
-
+    const isCustomerAddress = getCookies('is_cust_address') ?? null;
     if (typeof window !== 'undefined' && !cartId) {
         cartId = getCartId();
     }
@@ -29,26 +28,26 @@ const PaypalButton = (props) => {
 
     // config paypal
     const [initialOptionPaypal, setInitialOptionPaypal] = React.useState({
-        'client-id': modules.paypal.clientId[appEnv],
+        'client-id': storeConfig?.paypal_key.client_id,
         currency: storeConfig?.base_currency_code || 'USD',
-        intent: modules.paypal.intent,
+        intent: storeConfig?.paypal_key.intent,
         'data-order-id': '',
         // debug: modules.paypal.debug,
-        'disable-funding': modules.paypal.disableFunding,
+        'disable-funding': storeConfig?.paypal_key.disable_funding,
         'merchant-id': storeConfig?.pwa?.paypal_merchant_id,
     });
 
-    const [tokenData, setTokenData] = React.useState({});
-
+    // const [tokenData, setTokenData] = React.useState({});
+    const [setCheckoutSession] = gqlService.setCheckoutSession();
     const [setPaymentMethod] = setPaypalPaymentMethod({ onError: () => {} });
     const [getPaypalToken, paypalToken] = createPaypalExpressToken();
 
     // set address
 
-    const [setShippingAddress] = setShippingAddressByInput();
-    const [setBillingAddress] = setBillingAddressByInput();
+    // const [setShippingAddress] = setShippingAddressByInput();
+    // const [setBillingAddress] = setBillingAddressByInput();
 
-    const [setGuestEmail] = setGuestEmailAddressOnCart();
+    // const [setGuestEmail] = setGuestEmailAddressOnCart();
 
     const handleOpenMessage = async ({ variant, text }) => {
         window.toastMessage({
@@ -60,38 +59,39 @@ const PaypalButton = (props) => {
 
     React.useEffect(() => {
         if (typeof window !== 'undefined' && storeConfig?.pwa?.paypal_enable) {
-            const initialTokenData = getLocalStorage(modules.paypal.keyToken);
-            if (!initialTokenData && cartId) {
+            if (cartId) {
                 getPaypalToken({
                     variables: {
                         cartId: cart.id,
                         code: 'paypal_express',
-                        returnUrl: modules.paypal.returnUrl,
-                        cancelUrl: modules.paypal.cancelUrl,
+                        returnUrl: storeConfig?.paypal_key.return_url,
+                        cancelUrl: storeConfig?.paypal_key.cancel_url,
                     },
                 }).then((res) => {
                     if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
                         const { token } = res.data.createPaypalExpressToken;
-                        setLocalStorage(modules.paypal.keyToken, res.data.createPaypalExpressToken);
-                        setTokenData(res.data.createPaypalExpressToken);
+                        // setTokenData(res.data.createPaypalExpressToken);
                         setInitialOptionPaypal({
                             ...initialOptionPaypal,
                             'data-order-id': token,
                         });
                     }
                 });
-            } else {
-                setTokenData(initialTokenData);
-                setInitialOptionPaypal({
-                    ...initialOptionPaypal,
-                    'data-order-id': initialTokenData.token,
-                });
             }
         }
     }, []);
 
     const onClickPaypal = () => {
-
+        if (cartId) {
+            setCheckoutSession({
+                variables: {
+                    cartId,
+                },
+            });
+            // .then(async (result) => { }).catch((e) => {
+            //     console.log(e);
+            // });
+        }
     };
 
     const onCancelPaypal = () => {
@@ -109,82 +109,82 @@ const PaypalButton = (props) => {
 
     const onApprovePaypall = async (data) => {
         window.backdropLoader(true);
-        let details = await fetch('/paypal/detail-transaction', {
-            method: 'post',
-            headers: {
-                'content-type': 'application/json',
-            },
-            body: JSON.stringify({
-                orderID: data.orderID,
-            }),
-        });
-        if (details) {
-            details = await details.json();
-        }
+        // let details = await fetch('/paypal/detail-transaction', {
+        //     method: 'post',
+        //     headers: {
+        //         'content-type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         orderID: data.orderID,
+        //     }),
+        // });
+        // if (details) {
+        //     details = await details.json();
+        // }
 
-        let address = null;
-        let email;
-        if (details && details.data && details.data.result && details.data.result.purchase_units
-            && details.data.result.purchase_units.length > 0 && details.data.result.purchase_units[0].shipping
-            && details.data.result.purchase_units[0].shipping.address) {
-            let firstname = '';
-            let lastname = '';
-            if (details.data.result.purchase_units[0].shipping.name && details.data.result.purchase_units[0].shipping.name.full_name) {
-                firstname = details.data.result.purchase_units[0].shipping.name.full_name.split(/ (.+)/)[0];
-                lastname = details.data.result.purchase_units[0].shipping.name.full_name.split(/ (.+)/)[1];
-            }
-            address = {
-                ...details.data.result.purchase_units[0].shipping.address,
-                firstname,
-                lastname,
-            };
-        }
+        // let address = null;
+        // let email;
+        // if (details && details.data && details.data.result && details.data.result.purchase_units
+        //     && details.data.result.purchase_units.length > 0 && details.data.result.purchase_units[0].shipping
+        //     && details.data.result.purchase_units[0].shipping.address) {
+        //     let firstname = '';
+        //     let lastname = '';
+        //     if (details.data.result.purchase_units[0].shipping.name && details.data.result.purchase_units[0].shipping.name.full_name) {
+        //         firstname = details.data.result.purchase_units[0].shipping.name.full_name.split(/ (.+)/)[0];
+        //         lastname = details.data.result.purchase_units[0].shipping.name.full_name.split(/ (.+)/)[1];
+        //     }
+        //     address = {
+        //         ...details.data.result.purchase_units[0].shipping.address,
+        //         firstname,
+        //         lastname,
+        //     };
+        // }
 
-        if (details && details.data && details.data.result && details && details.data && details.data.result.payer
-            && details && details.data && details.data.result.payer.email_address) {
-            email = details.data.result.payer.email_address;
-        }
+        // if (details && details.data && details.data.result && details && details.data && details.data.result.payer
+        //     && details && details.data && details.data.result.payer.email_address) {
+        //     email = details.data.result.payer.email_address;
+        // }
 
-        if (!isLogin && email) {
-            await setGuestEmail({
-                variables: {
-                    cartId: cart.id,
-                    email,
-                },
-            })
-                .catch((e) => {
-                    onErrorPaypal(e);
-                });
-        }
+        // if (!isLogin && email) {
+        //     await setGuestEmail({
+        //         variables: {
+        //             cartId: cart.id,
+        //             email,
+        //         },
+        //     })
+        //         .catch((e) => {
+        //             onErrorPaypal(e);
+        //         });
+        // }
 
-        if (address) {
-            const variableAddress = {
-                cartId: cart.id,
-                city: address.admin_area_2,
-                countryCode: address.country_code,
-                firstname: address.firstname,
-                lastname: address.lastname,
-                telephone: '12345678',
-                postcode: address.postal_code,
-                street: address.address_line_1,
-                region: address.admin_area_1,
-            };
+        // if (address) {
+        //     const variableAddress = {
+        //         cartId: cart.id,
+        //         city: address.admin_area_2,
+        //         countryCode: address.country_code,
+        //         firstname: address.firstname,
+        //         lastname: address.lastname,
+        //         telephone: '12345678',
+        //         postcode: address.postal_code,
+        //         street: address.address_line_1,
+        //         region: address.admin_area_1,
+        //     };
 
-            await setShippingAddress({
-                variables: variableAddress,
-            })
-                .then(async () => {
-                    setBillingAddress({
-                        variables: variableAddress,
-                    })
-                        .catch((e) => {
-                            onErrorPaypal(e);
-                        });
-                })
-                .catch((e) => {
-                    onErrorPaypal(e);
-                });
-        }
+        //     await setShippingAddress({
+        //         variables: variableAddress,
+        //     })
+        //         .then(async () => {
+        //             setBillingAddress({
+        //                 variables: variableAddress,
+        //             })
+        //                 .catch((e) => {
+        //                     onErrorPaypal(e);
+        //                 });
+        //         })
+        //         .catch((e) => {
+        //             onErrorPaypal(e);
+        //         });
+        // }
 
         setPaymentMethod({
             variables: {
@@ -192,90 +192,123 @@ const PaypalButton = (props) => {
                 payerId: data.payerID,
                 token: initialOptionPaypal['data-order-id'],
             },
-        }).then(async (result) => {
-            if (result && result.data && result.data.setPaymentMethodOnCart && result.data.setPaymentMethodOnCart.cart) {
-                const selectedPayment = result.data.setPaymentMethodOnCart.cart.selected_payment_method;
-                // GTM UA dataLayer
-                const dataLayer = {
-                    event: 'checkout',
-                    ecommerce: {
-                        checkout: {
-                            actionField: { step: 3, option: selectedPayment.title, action: 'checkout' },
-                            products: cart && cart.items && cart.items.map(({ quantity, product, prices }) => ({
-                                name: product.name,
-                                id: product.sku,
-                                price: JSON.stringify(prices.price.value),
-                                category: product.categories.length > 0 ? product.categories[0].name : '',
-                                list: product.categories.length > 0 ? product.categories[0].name : '',
-                                quantity: JSON.stringify(quantity),
-                                dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
-                                dimension5: '',
-                                dimension6: '',
-                                dimension7: prices.discount ? 'YES' : 'NO',
-                            })),
+        })
+            .then(async (result) => {
+                if (result && result.data && result.data.setPaymentMethodOnCart && result.data.setPaymentMethodOnCart.cart) {
+                    const selectedPayment = result.data.setPaymentMethodOnCart.cart.selected_payment_method;
+                    // GTM UA dataLayer
+                    const dataLayer = {
+                        event: 'checkout',
+                        ecommerce: {
+                            checkout: {
+                                actionField: { step: 3, option: selectedPayment.title, action: 'checkout' },
+                                products:
+                                    cart
+                                    && cart.items
+                                    && cart.items.map(({ quantity, product, prices }) => ({
+                                        name: product.name,
+                                        id: product.sku,
+                                        price: JSON.stringify(prices.price.value),
+                                        category: product.categories.length > 0 ? product.categories[0].name : '',
+                                        list: product.categories.length > 0 ? product.categories[0].name : '',
+                                        quantity: JSON.stringify(quantity),
+                                        dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                        dimension5: '',
+                                        dimension6: '',
+                                        dimension7: prices.discount ? 'YES' : 'NO',
+                                    })),
+                            },
+                            currencyCode: storeConfig.base_currency_code || 'IDR',
                         },
-                        currencyCode: storeConfig.base_currency_code || 'IDR',
-                    },
-                };
-                const dataLayerOption = {
-                    event: 'checkoutOption',
-                    ecommerce: {
-                        currencyCode: storeConfig.base_currency_code || 'IDR',
-                        checkout_option: {
-                            actionField: { step: 3, option: selectedPayment.title, action: 'checkout_option' },
+                    };
+                    const dataLayerOption = {
+                        event: 'checkoutOption',
+                        ecommerce: {
+                            currencyCode: storeConfig.base_currency_code || 'IDR',
+                            checkout_option: {
+                                actionField: { step: 3, option: selectedPayment.title, action: 'checkout_option' },
+                            },
                         },
-                    },
-                };
-                // GA 4 dataLayer
-                const dataLayerOpt = {
-                    event: 'add_payment_info',
-                    ecommerce: {
-                        payment_type: selectedPayment[0].title,
-                        items: [
-                            cart && cart.items && cart.items.map(({ quantity, product, prices }) => ({
-                                currency: storeConfig.base_currency_code || 'IDR',
-                                item_name: product.name,
-                                item_id: product.sku,
-                                price: JSON.stringify(prices.price.value),
-                                item_category: product.categories.length > 0 ? product.categories[0].name : '',
-                                item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
-                                quantity: JSON.stringify(quantity),
-                                item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
-                                item_sale_product: '',
-                                item_reviews_count: '',
-                                item_reviews_score: '',
-                            })),
+                    };
+                    // GA 4 dataLayer
+                    const dataLayerOpt = {
+                        event: 'add_payment_info',
+                        ecommerce: {
+                            payment_type: selectedPayment[0].title,
+                            currency: storeConfig.base_currency_code || 'IDR',
+                            items: [
+                                cart
+                                    && cart.items
+                                    && cart.items.map(({ quantity, product, prices }) => ({
+                                        currency: storeConfig.base_currency_code || 'IDR',
+                                        item_name: product.name,
+                                        item_id: product.sku,
+                                        price: JSON.stringify(prices.price.value),
+                                        item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                                        item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                                        quantity: JSON.stringify(quantity),
+                                        item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                        item_sale_product: '',
+                                        item_reviews_count: '',
+                                        item_reviews_score: '',
+                                    })),
+                            ],
+                            fbpixels: {
+                                total_price: cart.prices.grand_total.value,
+                                content_ids: [
+                                    {
+                                        payment_type: selectedPayment[0].title,
+                                        items:
+                                            cart
+                                            && cart.items.map(({ quantity, product, prices }) => ({
+                                                currency: storeConfig.base_currency_code || 'IDR',
+                                                item_name: product.name,
+                                                item_id: product.sku,
+                                                price: JSON.stringify(prices.price.value),
+                                                item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                                                item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                                                quantity: JSON.stringify(quantity),
+                                                item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                                item_sale_product: '',
+                                                item_reviews_count: '',
+                                                item_reviews_score: '',
+                                            })),
+                                    },
+                                ],
+                                catalog_id: cart.items.map(({ product }) => (product.categories.length > 0 ? product.categories[0].name : '')),
+                            },
+                        },
+                    };
+                    TagManager.dataLayer({ dataLayer });
+                    TagManager.dataLayer({ dataLayer: dataLayerOption });
+                    TagManager.dataLayer({ dataLayer: dataLayerOpt });
+                } else {
+                    onErrorPaypal('error');
+                }
 
-                        ],
-                    },
-                };
-                TagManager.dataLayer({ dataLayer });
-                TagManager.dataLayer({ dataLayer: dataLayerOption });
-                TagManager.dataLayer({ dataLayer: dataLayerOpt });
-            } else {
-                onErrorPaypal('error');
-            }
+                // set local data
 
-            // set local data
-
-            const paypalData = {
-                data: {
-                    ...data,
-                    ...initialOptionPaypal,
-                    ...tokenData,
-                },
-                details: {},
-            };
-            if (details && details.data && details.data.result) {
-                paypalData.details = details.data.result;
-            }
-            setLocalStorage(modules.paypal.keyData, paypalData);
-            window.backdropLoader(false);
-            Router.push(`/${modules.paypal.returnUrl}`);
-        }).catch((e) => {
+                // const paypalData = {
+                //     data: {
+                //         ...data,
+                //         ...initialOptionPaypal,
+                //         ...tokenData,
+                //     },
+                //     details: {},
+                // };
+                // if (details && details.data && details.data.result) {
+                //     paypalData.details = details.data.result;
+                // }
+                // setLocalStorage(modules.paypal.keyData, paypalData);
+                window.backdropLoader(false);
+                Router.push(`/${modules.paypal.returnUrl}`);
+            }).catch((
+            // e
+            ) => {
             // console.log(e);
-            onErrorPaypal(e);
-        });
+            // onErrorPaypal(e);
+                Router.push(`/${modules.paypal.returnUrl}`);
+            });
     };
 
     const onShippingChangePaypal = () => {
@@ -295,7 +328,7 @@ const PaypalButton = (props) => {
         onShippingChange: onShippingChangePaypal,
         createOrder: createOrderPaypal,
     };
-    if (storeConfig?.pwa?.paypal_enable) {
+    if (storeConfig?.pwa?.paypal_enable && isLogin && isCustomerAddress) {
         return (
             <PaypalButtonView
                 {...props}

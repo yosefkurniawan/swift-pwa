@@ -309,6 +309,11 @@ const Address = (props) => {
                             dimension7: prices.discount ? 'YES' : 'NO',
                         })),
                     },
+                    fbpixels: {
+                        content_ids: checkout.data.cart.items.map(({ product }) => product.sku),
+                        quantity: checkout.data.cart.items.length,
+                        value: checkout.data.cart.prices.grand_total.value,
+                    },
                     currencyCode: storeConfig.base_currency_code || 'IDR',
                 },
             };

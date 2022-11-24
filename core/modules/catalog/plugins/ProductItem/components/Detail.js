@@ -1,17 +1,19 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import Button from '@material-ui/core/IconButton';
 import PriceFormat from '@common_priceformat';
 import RatingStar from '@common_ratingstar';
 import Typography from '@common_typography';
 import { modules } from '@config';
-import Link from '@material-ui/core/Link';
-import React from 'react';
+import Button from '@material-ui/core/IconButton';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
-import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import StorefrontIcon from '@material-ui/icons/Storefront';
-import classNames from 'classnames';
 import useStyles from '@plugin_productitem/style';
+import classNames from 'classnames';
+import Link from 'next/link';
+import React from 'react';
 
 const Detail = (props) => {
     const {
@@ -34,6 +36,7 @@ const Detail = (props) => {
         enableProductCompare,
         storeConfig = {},
         seller,
+        urlKey,
     } = props;
     const styles = useStyles();
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
@@ -53,10 +56,10 @@ const Detail = (props) => {
                     <CompareArrowsIcon className={styles.iconCompare} />
                 </Button>
             )}
-            <Link onClick={() => handleClick(props)} className={styles.productLinkButton}>
-                <Typography variant="p" className={styles.productTitle} id="plugin-productTitle-typography" letter="capitalize">
+            <Link href="/[...slug]" as={`/${urlKey}`} className={styles.productLinkButton}>
+                <a onClick={() => handleClick(props)} className={styles.productTitle} id="plugin-productTitle-typography">
                     {name}
-                </Typography>
+                </a>
             </Link>
             {enableMultiSeller && seller.seller_name && (
                 <div className={styles.infoSeller}>

@@ -111,6 +111,17 @@ const PageStoreCredit = (props) => {
                                 item_reviews_count: review.reviews_count ? review.reviews_count : '',
                             })),
                         },
+                        fbpixels: {
+                            transaction_id: checkoutData.order_number,
+                            value: JSON.stringify(data.ordersFilter.data[0].detail[0].grand_total),
+                            currency: storeConfig.base_currency_code || 'IDR',
+                            contents: itemsProduct.map((product) => ({
+                                id: product.sku,
+                                quantity: JSON.stringify(product.qty_ordered),
+                            })),
+                            content_ids: itemsProduct.map((product) => product.sku),
+                            content_type: 'product',
+                        },
                     },
                 },
             });

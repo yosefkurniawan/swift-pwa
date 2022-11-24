@@ -2,14 +2,14 @@
 import React from 'react';
 import Button from '@common_button';
 import Typography from '@common_typography';
-import { modules } from '@config';
-import Footer from '@core_modules/customer/pages/account/components/Footer';
-import FooterView from '@core_modules/customer/pages/account/components/Footer/view';
 import useStyles from '@core_modules/customer/pages/account/components/Guest/style';
+import dynamic from 'next/dynamic';
+
+const Footer = dynamic(() => import('@common_footer'), { ssr: false });
 
 const WihtOut = (props) => {
     const styles = useStyles();
-    const { t, data } = props;
+    const { t, storeConfig } = props;
 
     return (
         <div className={styles.root}>
@@ -27,8 +27,11 @@ const WihtOut = (props) => {
                     </Typography>
                 </Button>
             </div>
-            <span className={styles.span} />
-            <Footer {...props} data={data} FooterView={FooterView} modules={modules} />
+            {storeConfig?.pwa?.enabler_footer_mobile === false && (
+                <div className="hidden-desktop">
+                    <Footer storeConfig={storeConfig} t={t} />
+                </div>
+            )}
         </div>
     );
 };

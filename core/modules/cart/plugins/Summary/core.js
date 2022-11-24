@@ -142,6 +142,7 @@ const CoreSummary = (props) => {
                 isDesktop={isDesktop}
                 {...other}
                 dataCart={dataCart}
+                storeConfig={storeConfig}
             />
         );
     }
@@ -153,6 +154,7 @@ const CoreSummary = (props) => {
             {...other}
             t={t}
             dataCart={dataCart}
+            storeConfig={storeConfig}
         />
     );
 };

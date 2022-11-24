@@ -1,8 +1,11 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
+/* eslint-disable max-len */
+
 import { useApolloClient } from '@apollo/client';
 import classNames from 'classnames';
 import Cookies from 'js-cookie';
@@ -18,16 +21,16 @@ import useStyles from '@core_modules/theme/layout/style';
 import { getAppEnv } from '@helpers/env';
 import { getHost } from '@helper_config';
 import { getCookies, setCookies } from '@helper_cookies';
+import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import { breakPointsDown, breakPointsUp } from '@helper_theme';
 import crypto from 'crypto';
-import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
 import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
 import { getCountCart } from '@core_modules/theme/services/graphql';
+import { frontendConfig } from '@helpers/frontendOptions';
 import { getCartId } from '@helper_cartid';
 import { localTotalCart } from '@services/graphql/schema/local';
-import { frontendConfig } from '@helpers/frontendOptions';
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
@@ -41,6 +44,12 @@ const RestrictionPopup = dynamic(() => import('@common_restrictionPopup'), { ssr
 const NewsletterPopup = dynamic(() => import('@core_modules/theme/components/newsletterPopup'), { ssr: false });
 const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/recentlyViewed'), { ssr: false });
 
+const fromEntriesPolyfills = (iterable) => [...iterable].reduce((obj, [key, val]) => {
+        // eslint-disable-next-line no-param-reassign
+        obj[key] = val;
+        return obj;
+    }, {});
+
 const Layout = (props) => {
     const bodyStyles = useStyles();
     const {
@@ -53,6 +62,7 @@ const Layout = (props) => {
         storeConfig = {},
         isLogin,
         headerProps = {},
+        data = {},
         t,
         onlyCms,
         withLayoutHeader = true,
@@ -60,6 +70,10 @@ const Layout = (props) => {
         showRecentlyBar = false,
         isHomepage = false,
         isPdp = false,
+        isCms = false,
+        isPlp = false,
+        isBdp = false,
+        isBlp = false,
         isCheckout = false,
         isLoginPage = false,
     } = props;
@@ -132,24 +146,34 @@ const Layout = (props) => {
         setShowGlobalPromo(false);
     };
 
-    const allowHeaderCheckout = modules.checkout.checkoutOnly
-        ? !modules.checkout.checkoutOnly
-        : withLayoutHeader;
+    const allowHeaderCheckout = modules.checkout.checkoutOnly ? !modules.checkout.checkoutOnly : withLayoutHeader;
 
     const ogData = {
-        'og:title': pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa',
-        'og:image': storeConfig.header_logo_src
-            ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
-            : `${getHost()}/assets/img/swift-logo.png`,
         'og:image:type': 'image/png',
-        'og:url': `${getHost()}${router.asPath}`,
         'og:locale': i18n && i18n.language === 'id' ? 'id_ID' : 'en_US',
-        'og:type': 'website',
         ...ogContent,
     };
 
     if (!ogData['og:description']) {
         ogData['og:description'] = storeConfig.default_description || '';
+    }
+
+    if (!ogData['og:title']) {
+        ogData['og:title'] = pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa' || '';
+    }
+
+    if (!ogData['og:image']) {
+        ogData['og:image'] = storeConfig.header_logo_src
+        ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
+        : `${getHost()}/assets/img/swift-logo.png` || '';
+    }
+
+    if (!ogData['og:url']) {
+        ogData['og:url'] = `${getHost()}${router.asPath}` || '';
+    }
+
+    if (!ogData['og:type']) {
+        ogData['og:type'] = 'website';
     }
 
     if (storeConfig && storeConfig.pwa && storeConfig.pwa.facebook_meta_id_app_id) {
@@ -272,7 +296,22 @@ const Layout = (props) => {
     }
 
     if (typeof window !== 'undefined' && storeConfig) {
-        setLocalStorage(storeConfigNameCookie, storeConfig);
+        const arrayStoreConfig = Object.entries(storeConfig);
+        // eslint-disable-next-line no-unused-vars, consistent-return, array-callback-return
+        const filteredStoreConfig = arrayStoreConfig.filter(([key, value]) => {
+            if (
+                key !== 'snap_is_production' &&
+                key !== 'snap_client_key' &&
+                key !== 'firebase_api_key' &&
+                key !== 'paypal_key' &&
+                key !== 'swift_server' &&
+                !key.includes('payment_travelokapay_')
+            ) {
+                return true;
+            }
+        });
+        const excludePrivateStoreConfig = fromEntriesPolyfills(filteredStoreConfig);
+        setLocalStorage(storeConfigNameCookie, excludePrivateStoreConfig);
     }
 
     useEffect(() => {
@@ -285,11 +324,11 @@ const Layout = (props) => {
 
             if (pwaConfig) {
                 // eslint-disable-next-line max-len
-                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.default_font.replace(' ', '-')}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.default_font ? pwaConfig.default_font.replace(' ', '-') : 'Montserrat'}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
                 fontStylesheet.id = 'font-stylesheet-id';
                 fontStylesheet.rel = 'stylesheet';
                 // eslint-disable-next-line max-len
-                fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.heading_font.replace(' ', '-')}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.heading_font ? pwaConfig.heading_font.replace(' ', '-') : 'Montserrat'}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
                 fontStylesheetHeading.id = 'font-stylesheet-heading-id';
                 fontStylesheetHeading.rel = 'stylesheet';
                 stylesheet.innerHTML = frontendConfig(pwaConfig);
@@ -375,23 +414,68 @@ const Layout = (props) => {
         }
     }
 
+    let metaDescValue = ogData['og:description'];
+    let metaTitleValue = ogData['og:title'];
+    let metaKeywordValue = pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa';
+
+    if (isPlp) {
+        metaDescValue = data && data?.meta_description ? data?.meta_description : ogData['og:description'];
+        metaTitleValue = data && data?.meta_title ? data?.meta_title : ogData['og:title'];
+        metaKeywordValue = data && data?.meta_keywords ? data?.meta_keywords : '';
+    }
+    if (isPdp) {
+        metaDescValue = data && data.products?.items[0].meta_description ? data.products?.items[0].meta_description : ogData['og:description'];
+        metaTitleValue = data && data.products?.items[0].meta_title ? data.products?.items[0].meta_title : ogData['og:title'];
+        metaKeywordValue = data && data.products?.items[0].meta_keyword ? data.products?.items[0].meta_keyword : '';
+    }
+    if (isCms) {
+        metaDescValue = data && data.cmsPage?.meta_description ? data.cmsPage?.meta_description : ogData['og:description'];
+        metaTitleValue = data && data.cmsPage?.meta_title ? data.cmsPage?.meta_title : ogData['og:title'];
+        metaKeywordValue = data && data.cmsPage?.meta_keywords ? data.cmsPage?.meta_keywords : '';
+    }
+    if (isBdp) {
+        metaDescValue = data && data?.meta_description ? data?.meta_description : ogData['og:description'];
+        metaTitleValue = data && data?.meta_title ? data?.meta_title : ogData['og:title'];
+        metaKeywordValue = data && data?.meta_keywords ? data?.meta_keywords : '';
+    }
+    if (isBlp) {
+        const dataBlp = data?.getBlogCategory?.data[0];
+        metaDescValue = data && dataBlp.meta_description ? dataBlp.meta_description : ogData['og:description'];
+        metaTitleValue = data && dataBlp.meta_title ? dataBlp.meta_title : ogData['og:title'];
+        metaKeywordValue = data && dataBlp.meta_keywords ? dataBlp.meta_keywords : '';
+    }
     return (
         <>
             <Head>
                 <meta
                     name="keywords"
-                    content={pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}
+                    content={metaKeywordValue}
                 />
                 <meta name="robots" content={appEnv === 'prod' && storeConfig.pwa ? storeConfig.pwa.default_robot : 'NOINDEX,NOFOLLOW'} />
                 <link rel="apple-touch-icon" href={iconAppleTouch} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="format-detection" content="telephone=no" />
-                <meta name="description" content={ogData['og:description']} />
+                <meta name="title" content={metaTitleValue} />
+                <meta name="description" content={metaDescValue} />
                 {Object.keys(ogData).map((key, idx) => {
-                    if (typeof ogData[key] === 'object' && ogData[key].type && ogData[key].type === 'meta') {
-                        return <meta name={`${key}`} content={ogData[key].value} key={idx} />;
+                    let valueWithMeta = ogData[key];
+                    if (key === 'og:description') {
+                           valueWithMeta = metaDescValue;
                     }
-                    return <meta property={`${key}`} content={ogData[key]} key={idx} />;
+                    if (key === 'og:title') {
+                           valueWithMeta = metaTitleValue;
+                    }
+                    if (typeof ogData[key] === 'object' && ogData[key].type && ogData[key].type === 'meta') {
+                        valueWithMeta = ogData[key].value;
+                        if (key === 'description') {
+                            valueWithMeta = metaDescValue;
+                        }
+                        if (key === 'title') {
+                            valueWithMeta = metaTitleValue;
+                        }
+                        return <meta name={`${key}`} content={valueWithMeta} key={idx} />;
+                    }
+                    return <meta property={`${key}`} content={valueWithMeta} key={idx} />;
                 })}
                 <title>{pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}</title>
                 {schemaOrg

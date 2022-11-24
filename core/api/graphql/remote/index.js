@@ -6,9 +6,7 @@ const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
 const { decrypt } = require('../../../helpers/encryption');
 const { getAppEnv } = require('../../../helpers/env');
 
-const executor = async ({
-    document, variables, context,
-}) => {
+const executor = async ({ document, variables, context }) => {
     try {
         let token = '';
         let checkoutToken = '';
