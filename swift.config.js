@@ -273,6 +273,7 @@ const modules = {
                 'mandiriva',
                 'permatava',
                 'indomaret',
+                'qris',
             ],
             paymentPrefixCode: [
                 'cc',
