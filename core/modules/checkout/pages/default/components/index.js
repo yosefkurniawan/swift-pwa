@@ -80,6 +80,7 @@ const Content = (props) => {
     const travelokaPayRef = React.useRef();
 
     const [displayHowToPay, setDisplayHowToPay] = useState(false);
+    const enableMultiSeller = storeConfig.enable_oms_multiseller === '1';
 
     /**
      * [METHOD] handle click for place order
@@ -299,20 +300,22 @@ const Content = (props) => {
                     />
 
                     <Confirmation t={t} checkout={checkout} setCheckout={setCheckout} storeConfig={storeConfig} ConfirmationView={ConfirmationView} />
-
-                    <div className={classNames(styles.block)}>
-                        <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
-                            <OrderComment
-                                t={t}
-                                checkout={checkout}
-                                setCheckout={setCheckout}
-                                handleOpenMessage={handleOpenMessage}
-                                formik={formik}
-                                storeConfig={storeConfig}
-                                OrderCommentView={OrderCommentView}
-                            />
+                    
+                    {!enableMultiSeller ? (
+                        <div className={classNames(styles.block)}>
+                            <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
+                                <OrderComment
+                                    t={t}
+                                    checkout={checkout}
+                                    setCheckout={setCheckout}
+                                    handleOpenMessage={handleOpenMessage}
+                                    formik={formik}
+                                    storeConfig={storeConfig}
+                                    OrderCommentView={OrderCommentView}
+                                />
+                            </div>
                         </div>
-                    </div>
+                    ) : null}
                 </>
             </div>
             <div className="col-xs-12 col-sm-4 col-md-4 col-lg-3">
