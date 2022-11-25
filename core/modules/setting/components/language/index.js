@@ -31,12 +31,21 @@ const SwitcherLanguage = (props) => {
                     // prettier-ignore
                     const defaultLangFromDatabase = translation.defaultLanguage;
                     const defaultLabel = translation.languagesLabel[translation.defaultLanguage];
+                    const storeCode = cookies.get(COOKIES_STORE_CODE);
                     let defaultDataLang = {};
+                    let fromMicrosite = {};
                     remoteLang.availableStores.forEach(({
                         is_default_store, locale, store_code, store_name,
                     }) => {
                         if (is_default_store) {
                             defaultDataLang = {
+                                label: store_name,
+                                value: locale.slice(0, 2),
+                                storeCode: store_code,
+                            };
+                        }
+                        if (storeCode !== undefined && storeCode === store_code) {
+                            fromMicrosite = {
                                 label: store_name,
                                 value: locale.slice(0, 2),
                                 storeCode: store_code,
@@ -61,6 +70,19 @@ const SwitcherLanguage = (props) => {
                                 label: defaultLabel,
                                 value: defaultLangFromDatabase,
                             };
+                        i18n.changeLanguage(getDataCookies.value);
+                        cookies.set(COOKIES_APP_LANG, getDataCookies);
+                        setLang(getDataCookies);
+                    }
+                    if (storeCode !== undefined && fromMicrosite) {
+                        const tempLang = (
+                            fromMicrosite.value === 'en' || fromMicrosite.value === 'id'
+                        ) ? fromMicrosite.value : defaultLangFromDatabase;
+                        const getDataCookies = {
+                            label: fromMicrosite.label,
+                            value: tempLang,
+                            storeCode: fromMicrosite.storeCode,
+                        };
                         i18n.changeLanguage(getDataCookies.value);
                         cookies.set(COOKIES_APP_LANG, getDataCookies);
                         setLang(getDataCookies);
