@@ -1,16 +1,13 @@
 /* eslint-disable max-len */
 /* eslint-disable react/destructuring-assignment */
-import React, { useState, useEffect } from 'react';
-import {
-    GoogleMap,
-    Autocomplete,
-    Marker,
-    useJsApiLoader,
-} from '@react-google-maps/api';
-import { useTranslation } from '@i18n';
 import CustomTextField from '@common_textfield';
+import { useTranslation } from '@i18n';
+import {
+    Autocomplete, GoogleMap, Marker, useJsApiLoader,
+} from '@react-google-maps/api';
+import { encrypt } from '@root/core/helpers/clientEncryption';
 import { capitalizeEachWord } from '@root/core/helpers/text';
-import { encrypt } from '@root/core/helpers/encryption';
+import React, { useEffect, useState } from 'react';
 
 // Set map container size
 const containerStyle = {

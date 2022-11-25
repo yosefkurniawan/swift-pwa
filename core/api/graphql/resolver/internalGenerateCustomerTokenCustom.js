@@ -7,8 +7,11 @@ const query = `
         $username: String!,
         $password: String!,
     ) {
-        generateCustomerTokenCustom(username: $username, password: $password){
-        token
+        generateCustomerTokenCustom(
+            username: $username,
+            password: $password
+        ) {
+            token
         }
     }
 `;
