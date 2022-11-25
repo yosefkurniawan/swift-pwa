@@ -33,7 +33,7 @@ const SwitcherLanguage = (props) => {
                     const defaultLabel = translation.languagesLabel[translation.defaultLanguage];
                     const storeCode = cookies.get(COOKIES_STORE_CODE);
                     let defaultDataLang = {};
-                    let fromMicrosite = {};
+                    let loginAsCustomer = {};
                     remoteLang.availableStores.forEach(({
                         is_default_store, locale, store_code, store_name,
                     }) => {
@@ -45,7 +45,7 @@ const SwitcherLanguage = (props) => {
                             };
                         }
                         if (storeCode !== undefined && storeCode === store_code) {
-                            fromMicrosite = {
+                            loginAsCustomer = {
                                 label: store_name,
                                 value: locale.slice(0, 2),
                                 storeCode: store_code,
@@ -74,14 +74,14 @@ const SwitcherLanguage = (props) => {
                         cookies.set(COOKIES_APP_LANG, getDataCookies);
                         setLang(getDataCookies);
                     }
-                    if (storeCode !== undefined && fromMicrosite) {
+                    if (storeCode !== undefined && loginAsCustomer) {
                         const tempLang = (
-                            fromMicrosite.value === 'en' || fromMicrosite.value === 'id'
-                        ) ? fromMicrosite.value : defaultLangFromDatabase;
+                            loginAsCustomer.value === 'en' || loginAsCustomer.value === 'id'
+                        ) ? loginAsCustomer.value : defaultLangFromDatabase;
                         const getDataCookies = {
-                            label: fromMicrosite.label,
+                            label: loginAsCustomer.label,
                             value: tempLang,
-                            storeCode: fromMicrosite.storeCode,
+                            storeCode: loginAsCustomer.storeCode,
                         };
                         i18n.changeLanguage(getDataCookies.value);
                         cookies.set(COOKIES_APP_LANG, getDataCookies);
