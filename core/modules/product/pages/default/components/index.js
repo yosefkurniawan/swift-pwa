@@ -36,7 +36,7 @@ const PromoBannersLite = dynamic(() => import('@core_modules/product/pages/defau
 
 // CHAT FEATURES IMPORT
 
-const ChatContent = dynamic(() => import('@core_modules/customer/plugins/chatPlugin'), { ssr: false });
+const ChatContent = dynamic(() => import('@core_modules/customer/plugins/ChatPlugin'), { ssr: false });
 
 // END CHAT FEATURES IMPORT
 
