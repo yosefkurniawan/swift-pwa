@@ -111,24 +111,12 @@ const useStyles = makeStyles((theme) => ({
     },
     chatPlugin: {
         position: 'fixed',
-        right: '32px',
-        bottom: '94px',
-        zIndex: '999',
+        right: theme.spacing(2),
+        bottom: theme.spacing(10),
+        zIndex: theme.zIndex.drawer + 3,
     },
-    buttonChat: {
-        textAlign: 'center',
-        backgroundColor: 'black !important',
-        color: 'white !important',
-        minWidth: '100px',
-        '&.MuiButtonBase-root.MuiButton-root.MuiButton-text': {
-            color: 'white !important',
-        },
-        '&.MuiButtonBase-root.MuiButton-root.MuiButton-text:hover': {
-            color: 'black !important',
-        },
-        '&.MuiButton-root .MuiButton-label > span': {
-            color: 'white !important',
-        },
+    chatIcon: {
+        fontSize: '20px',
     },
 }));
 

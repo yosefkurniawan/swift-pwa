@@ -23,8 +23,9 @@ import { getHost } from '@helper_config';
 import { getCookies, setCookies } from '@helper_cookies';
 import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import { breakPointsDown, breakPointsUp } from '@helper_theme';
-import Button from '@material-ui/core/Button';
 import crypto from 'crypto';
+import Fab from '@material-ui/core/Fab';
+import ChatIcon from '@material-ui/icons/Chat';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
 import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
@@ -553,9 +554,9 @@ const Layout = (props) => {
                     {isLogin ? (
                         <ChatContent />
                     ) : (
-                        <Button fullWidth onClick={() => router.push('customer/account/login')} className={bodyStyles.buttonChat}>
-                            Chat
-                        </Button>
+                        <Fab color="primary" size="medium" onClick={() => router.push(`${getHost()}/customer/account/login`)} className={bodyStyles.buttonChat}>
+                            <ChatIcon className={bodyStyles.chatIcon} />
+                        </Fab>
                     )}
                 </div>
             )}

@@ -14,14 +14,6 @@ export default makeStyles((theme) => ({
         borderRadius: '12px',
         boxShadow: '0 2px 30px 0 #B5BBC5',
     },
-    buttonChat: {
-        textAlign: 'center',
-        backgroundColor: PRIMARY_SOFT,
-        minWidth: '100px',
-        '&.MuiButton-root .MuiButton-label > span': {
-            color: 'white !important',
-        },
-    },
 
     container: {
         height: '450px',
@@ -231,11 +223,14 @@ export default makeStyles((theme) => ({
             marginRight: '1px',
         },
     },
-    indexBadge: {
-        marginLeft: '16px',
-        '&.MuiBadge-root': {
-            marginRight: '1px',
-        },
+    chatPlugin: {
+        position: 'fixed',
+        right: theme.spacing(2),
+        bottom: theme.spacing(10),
+        zIndex: theme.zIndex.drawer + 3,
+    },
+    chatIcon: {
+        fontSize: '20px',
     },
     messageContainer: {
         // marginLeft: '24px',
