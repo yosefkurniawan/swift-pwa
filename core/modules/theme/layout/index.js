@@ -24,6 +24,8 @@ import { getCookies, setCookies } from '@helper_cookies';
 import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import { breakPointsDown, breakPointsUp } from '@helper_theme';
 import crypto from 'crypto';
+import Fab from '@material-ui/core/Fab';
+import ChatIcon from '@material-ui/icons/Chat';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
 import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
@@ -43,6 +45,10 @@ const Footer = dynamic(() => import('@common_footer'), { ssr: false });
 const RestrictionPopup = dynamic(() => import('@common_restrictionPopup'), { ssr: false });
 const NewsletterPopup = dynamic(() => import('@core_modules/theme/components/newsletterPopup'), { ssr: false });
 const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/recentlyViewed'), { ssr: false });
+
+// CHAT FEATURES IMPORT
+const ChatContent = dynamic(() => import('@core_modules/customer/plugins/ChatPlugin'), { ssr: false });
+// END CHAT FEATURES IMPORT
 
 const fromEntriesPolyfills = (iterable) => [...iterable].reduce((obj, [key, val]) => {
         // eslint-disable-next-line no-param-reassign
@@ -76,6 +82,7 @@ const Layout = (props) => {
         isBlp = false,
         isCheckout = false,
         isLoginPage = false,
+        isShowChat = true,
     } = props;
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
@@ -164,8 +171,8 @@ const Layout = (props) => {
 
     if (!ogData['og:image']) {
         ogData['og:image'] = storeConfig.header_logo_src
-        ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
-        : `${getHost()}/assets/img/swift-logo.png` || '';
+            ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
+            : `${getHost()}/assets/img/swift-logo.png` || '';
     }
 
     if (!ogData['og:url']) {
@@ -324,11 +331,15 @@ const Layout = (props) => {
 
             if (pwaConfig) {
                 // eslint-disable-next-line max-len
-                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.default_font ? pwaConfig.default_font.replace(' ', '-') : 'Montserrat'}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${
+                    pwaConfig.default_font ? pwaConfig.default_font.replace(' ', '-') : 'Montserrat'
+                }:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
                 fontStylesheet.id = 'font-stylesheet-id';
                 fontStylesheet.rel = 'stylesheet';
                 // eslint-disable-next-line max-len
-                fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.heading_font ? pwaConfig.heading_font.replace(' ', '-') : 'Montserrat'}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${
+                    pwaConfig.heading_font ? pwaConfig.heading_font.replace(' ', '-') : 'Montserrat'
+                }:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
                 fontStylesheetHeading.id = 'font-stylesheet-heading-id';
                 fontStylesheetHeading.rel = 'stylesheet';
                 stylesheet.innerHTML = frontendConfig(pwaConfig);
@@ -447,10 +458,7 @@ const Layout = (props) => {
     return (
         <>
             <Head>
-                <meta
-                    name="keywords"
-                    content={metaKeywordValue}
-                />
+                <meta name="keywords" content={metaKeywordValue} />
                 <meta name="robots" content={appEnv === 'prod' && storeConfig.pwa ? storeConfig.pwa.default_robot : 'NOINDEX,NOFOLLOW'} />
                 <link rel="apple-touch-icon" href={iconAppleTouch} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -460,10 +468,10 @@ const Layout = (props) => {
                 {Object.keys(ogData).map((key, idx) => {
                     let valueWithMeta = ogData[key];
                     if (key === 'og:description') {
-                           valueWithMeta = metaDescValue;
+                        valueWithMeta = metaDescValue;
                     }
                     if (key === 'og:title') {
-                           valueWithMeta = metaTitleValue;
+                        valueWithMeta = metaTitleValue;
                     }
                     if (typeof ogData[key] === 'object' && ogData[key].type && ogData[key].type === 'meta') {
                         valueWithMeta = ogData[key].value;
@@ -539,6 +547,21 @@ const Layout = (props) => {
                 {children}
                 {desktop ? <ScrollToTop {...props} /> : null}
             </main>
+
+            {/* CHAT FEATURES */}
+            {features.chatSystem.enable && isShowChat && (
+                <div className={bodyStyles.chatPlugin}>
+                    {isLogin ? (
+                        <ChatContent />
+                    ) : (
+                        <Fab color="primary" size="medium" onClick={() => router.push(`${getHost()}/customer/account/login`)} className={bodyStyles.buttonChat}>
+                            <ChatIcon className={bodyStyles.chatIcon} />
+                        </Fab>
+                    )}
+                </div>
+            )}
+            {/* END CHAT FEATURES */}
+
             {withLayoutFooter && (
                 <footer className={bodyStyles.footerContainer} ref={refFooter}>
                     <div className="hidden-mobile">

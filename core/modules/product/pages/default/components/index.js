@@ -4,7 +4,7 @@
 /* eslint-disable array-callback-return */
 import Breadcrumb from '@common_breadcrumb';
 import Typography from '@common_typography';
-import { modules } from '@config';
+import { features, modules } from '@config';
 import ListReviews from '@core_modules/product/pages/default/components/ListReviews';
 import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
 import OptionItem from '@core_modules/product/pages/default/components/OptionItem';
@@ -37,6 +37,12 @@ const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/Welt
 const UpsellDrawer = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer'), { ssr: false });
 const RelatedProductCaraousel = dynamic(() => import('@core_modules/product/pages/default/components/RelatedProductCaraousel'), { ssr: false });
 const PromoBannersLite = dynamic(() => import('@core_modules/product/pages/default/components/PromoBannersLite'), { ssr: false });
+
+// CHAT FEATURES IMPORT
+
+const ChatContent = dynamic(() => import('@core_modules/customer/plugins/ChatPlugin'), { ssr: false });
+
+// END CHAT FEATURES IMPORT
 
 const ProductPage = (props) => {
     const styles = useStyles();
@@ -71,10 +77,12 @@ const ProductPage = (props) => {
         enableMultiSeller,
         storeConfig,
         dataSeller,
+        handleChat,
+        showChat,
     } = props;
     const desktop = breakPointsUp('sm');
 
-    const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
+    const context = isLogin && isLogin === 1 ? { request: 'internal' } : {};
     const [getBannerLite, bannerLiteResult] = getProductBannerLite(route.asPath.slice(1), { context });
 
     let citySplit;
@@ -87,8 +95,13 @@ const ProductPage = (props) => {
     }, [bannerLiteResult.called]);
 
     let bannerLiteData = [];
-    if (bannerLiteResult && bannerLiteResult.data && bannerLiteResult.data.products.items
-        && bannerLiteResult.data.products.items.length > 0 && bannerLiteResult.data.products.items[0].banners_data) {
+    if (
+        bannerLiteResult
+        && bannerLiteResult.data
+        && bannerLiteResult.data.products.items
+        && bannerLiteResult.data.products.items.length > 0
+        && bannerLiteResult.data.products.items[0].banners_data
+    ) {
         bannerLiteData = bannerLiteResult.data.products.items[0].banners_data;
     }
     const bannerLiteObj = {
@@ -109,11 +122,9 @@ const ProductPage = (props) => {
                     isLogin={isLogin}
                     storeConfig={storeConfig}
                 />
-                {
-                    enablePopupImage && (
-                        <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} storeConfig={storeConfig} />
-                    )
-                }
+                {enablePopupImage && (
+                    <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} storeConfig={storeConfig} />
+                )}
             </div>
             <OptionItem {...props} open={openOption} setOpen={() => setOpenOption(!openOption)} setBanner={setBanner} setPrice={setPrice} />
             <SharePopup open={openShare} setOpen={() => setOpenShare(!openShare)} link={getHost() + route.asPath} {...props} />
@@ -122,8 +133,9 @@ const ProductPage = (props) => {
                     <Breadcrumb data={breadcrumbsData} variant="text" />
                 </div>
 
-                {(bannerLiteObj.top && bannerLiteObj.top.length > 0) && (
-                    bannerLiteObj.top.map((topBanner) => (
+                {bannerLiteObj.top
+                    && bannerLiteObj.top.length > 0
+                    && bannerLiteObj.top.map((topBanner) => (
                         <PromoBannersLite
                             type="top"
                             key={topBanner.entity_id}
@@ -133,12 +145,12 @@ const ProductPage = (props) => {
                             alt={topBanner.banner_alt}
                             storeConfig={storeConfig}
                         />
-                    ))
-                )}
+                    ))}
 
                 <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
-                    {(bannerLiteObj.top && bannerLiteObj.top.length > 0) && (
-                        bannerLiteObj.top.map((topBanner) => (
+                    {bannerLiteObj.top
+                        && bannerLiteObj.top.length > 0
+                        && bannerLiteObj.top.map((topBanner) => (
                             <PromoBannersLite
                                 type="top"
                                 key={topBanner.entity_id}
@@ -148,11 +160,11 @@ const ProductPage = (props) => {
                                 alt={topBanner.banner_alt}
                                 storeConfig={storeConfig}
                             />
-                        ))
-                    )}
+                        ))}
                     <div className="row">
-                        {(bannerLiteObj.label && bannerLiteObj.label.length > 0) && (
-                            bannerLiteObj.label.map((labelBanner) => (
+                        {bannerLiteObj.label
+                            && bannerLiteObj.label.length > 0
+                            && bannerLiteObj.label.map((labelBanner) => (
                                 <PromoBannersLite
                                     type="label"
                                     key={labelBanner.entity_id}
@@ -161,8 +173,7 @@ const ProductPage = (props) => {
                                     alt={labelBanner.banner_alt}
                                     storeConfig={storeConfig}
                                 />
-                            ))
-                        )}
+                            ))}
                     </div>
                     <Banner
                         data={banner}
@@ -173,30 +184,16 @@ const ProductPage = (props) => {
                         autoPlay={false}
                         width={960}
                         height={1120}
-                        actionImage={(desktop && enablePopupImage) ? handleOpenImageDetail : () => { }}
+                        actionImage={desktop && enablePopupImage ? handleOpenImageDetail : () => {}}
                         customProduct={styles.bannerProduct}
                         storeConfig={storeConfig}
                     >
-                        {
-                            storeConfig?.pwa?.label_enable
-                            && storeConfig?.pwa?.label_weltpixel_enable && (
-                                <WeltpixelLabel
-                                    t={t}
-                                    weltpixel_labels={data.weltpixel_labels || []}
-                                    categoryLabel={false}
-                                    withThumbnailProduct
-                                />
-                            )
-                        }
+                        {storeConfig?.pwa?.label_enable && storeConfig?.pwa?.label_weltpixel_enable && (
+                            <WeltpixelLabel t={t} weltpixel_labels={data.weltpixel_labels || []} categoryLabel={false} withThumbnailProduct />
+                        )}
                     </Banner>
                     <div className="hidden-desktop">
-                        <UpsellDrawer
-                            open={openDrawer}
-                            setOpen={() => setOpenDrawer(!openDrawer)}
-                            t={t}
-                            dataProduct={data}
-                            isLogin={isLogin}
-                        />
+                        <UpsellDrawer open={openDrawer} setOpen={() => setOpenDrawer(!openDrawer)} t={t} dataProduct={data} isLogin={isLogin} />
                     </div>
                 </div>
                 <div className={classNames(styles.body, 'col-xs-12 col-lg-6')}>
@@ -278,8 +275,8 @@ const ProductPage = (props) => {
 
                     <div className={styles.titleContainer}>
                         <div className={styles.priceTiersContainer}>
-                            {
-                                price.priceTiers.length > 0 && price.priceTiers.map((tiers, index) => {
+                            {price.priceTiers.length > 0
+                                && price.priceTiers.map((tiers, index) => {
                                     const priceTiers = {
                                         quantity: tiers.quantity,
                                         currency: tiers.final_price.currency,
@@ -291,26 +288,44 @@ const ProductPage = (props) => {
                                             {t('product:priceTiers', { priceTiers })}
                                         </Typography>
                                     );
-                                })
-                            }
+                                })}
                         </div>
                     </div>
 
                     <div className="row">
-                        {
-                            storeConfig?.pwa?.label_enable
-                            && storeConfig?.pwa?.label_weltpixel_enable && (
-                                <WeltpixelLabel
-                                    t={t}
-                                    weltpixel_labels={data.weltpixel_labels || []}
-                                    categoryLabel={false}
-                                    onDetailProduct
-                                />
-                            )
-                        }
+                        {storeConfig?.pwa?.label_enable && storeConfig?.pwa?.label_weltpixel_enable && (
+                            <WeltpixelLabel t={t} weltpixel_labels={data.weltpixel_labels || []} categoryLabel={false} onDetailProduct />
+                        )}
                     </div>
 
                     <div className="hidden-desktop">
+                        {/* CHAT FEATURES ON MOBILE */}
+                        {features.chatSystem.enable && !desktop && (
+                            <div style={{ marginTop: '16px' }}>
+                                {isLogin === 1 ? (
+                                    <>
+                                        {showChat ? (
+                                            <ChatContent
+                                                isPdp
+                                                handleChatPdp={handleChat}
+                                                agentPdpCode="admin"
+                                                agentPdpName="Admin"
+                                                pdpMessage={`${getHost() + route.asPath} - ${data.name}`}
+                                            />
+                                        ) : (
+                                            <Button className={styles.btnAddToCard} color="primary" align="center" onClick={handleChat}>
+                                                Chat With Us
+                                            </Button>
+                                        )}
+                                    </>
+                                ) : (
+                                    <Button className={styles.btnAddToCard} color="primary" align="center" onClick={handleChat}>
+                                        Chat With Us
+                                    </Button>
+                                )}
+                            </div>
+                        )}
+                        {/* END CHAT FEATURES ON MOBILE */}
                         <div className={styles.desc}>
                             <Typography variant="span" type="regular" size="10">
                                 {data.short_description.html ? <span dangerouslySetInnerHTML={{ __html: data.short_description.html }} /> : null}
@@ -320,8 +335,9 @@ const ProductPage = (props) => {
                             <ExpandDetail data={expandData} smartProductTabs={smartProductTabs} />
                         </div>
                         <div className="row">
-                            {(bannerLiteObj.after && bannerLiteObj.after.length > 0) && (
-                                bannerLiteObj.after.map((afterBanner) => (
+                            {bannerLiteObj.after
+                                && bannerLiteObj.after.length > 0
+                                && bannerLiteObj.after.map((afterBanner) => (
                                     <PromoBannersLite
                                         type="after"
                                         key={afterBanner.entity_id}
@@ -331,16 +347,44 @@ const ProductPage = (props) => {
                                         alt={afterBanner.banner_alt}
                                         storeConfig={storeConfig}
                                     />
-                                ))
-                            )}
+                                ))}
                         </div>
                     </div>
                     <div className="hidden-mobile">
                         <DesktopOptions {...props} setOpen={setOpenOption} setBanner={setBanner} setPrice={setPrice} />
 
+                        {/* CHAT FEATURES ON DESKTOP */}
+                        {features.chatSystem.enable && desktop && (
+                            <div style={{ marginTop: '16px' }}>
+                                {isLogin === 1 ? (
+                                    <>
+                                        {showChat ? (
+                                            <ChatContent
+                                                isPdp
+                                                handleChatPdp={handleChat}
+                                                agentPdpCode="admin"
+                                                agentPdpName="Admin"
+                                                pdpMessage={`${getHost() + route.asPath} - ${data.name}`}
+                                            />
+                                        ) : (
+                                            <Button className={styles.btnAddToCard} color="primary" align="left" onClick={handleChat}>
+                                                Chat With Us
+                                            </Button>
+                                        )}
+                                    </>
+                                ) : (
+                                    <Button className={styles.btnAddToCard} color="primary" align="left" onClick={handleChat}>
+                                        Chat With Us
+                                    </Button>
+                                )}
+                            </div>
+                        )}
+                        {/* END CHAT FEATURES ON DESKTOP */}
+
                         <div className="row">
-                            {(bannerLiteObj.after && bannerLiteObj.after.length > 0) && (
-                                bannerLiteObj.after.map((afterBanner) => (
+                            {bannerLiteObj.after
+                                && bannerLiteObj.after.length > 0
+                                && bannerLiteObj.after.map((afterBanner) => (
                                     <PromoBannersLite
                                         type="after"
                                         key={afterBanner.entity_id}
@@ -350,8 +394,7 @@ const ProductPage = (props) => {
                                         alt={afterBanner.banner_alt}
                                         storeConfig={storeConfig}
                                     />
-                                ))
-                            )}
+                                ))}
                         </div>
 
                         <div className={styles.desktopShareIcon}>
@@ -384,12 +427,14 @@ const ProductPage = (props) => {
                     <TabsView
                         {...props}
                         dataInfo={expandData}
-                        smartProductTabs={smartProductTabs || {
-                            tab_2: {
-                                label: null,
-                                content: null,
-                            },
-                        }}
+                        smartProductTabs={
+                            smartProductTabs || {
+                                tab_2: {
+                                    label: null,
+                                    content: null,
+                                },
+                            }
+                        }
                     />
                 </div>
                 <RelatedProductCaraousel t={t} dataProduct={data} isLogin={isLogin} storeConfig={storeConfig} />
