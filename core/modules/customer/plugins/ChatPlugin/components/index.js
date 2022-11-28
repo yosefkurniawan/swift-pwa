@@ -2,8 +2,9 @@
 import ChatWrapper from '@core_modules/customer/plugins/ChatPlugin/components/ChatWrapper';
 import useStyles from '@core_modules/customer/plugins/ChatPlugin/components/style';
 import Badge from '@material-ui/core/Badge';
-import Button from '@material-ui/core/Button';
 import React, { useEffect, useState } from 'react';
+import Fab from '@material-ui/core/Fab';
+import ChatIcon from '@material-ui/icons/Chat';
 
 const Content = (props) => {
     const {
@@ -130,10 +131,17 @@ const Content = (props) => {
                             />
                         </>
                     ) : (
-                        <Button fullWidth onClick={toggleChat} className={styles.buttonChat}>
-                            <span>Chat</span>
-                            {msgs && msgs.length > 0 && <Badge badgeContent={msgs.length} color="error" className={styles.indexBadge} />}
-                        </Button>
+                        <div className={styles.chatPlugin}>
+                            <Fab color="primary" size="medium" onClick={toggleChat} className={styles.buttonChat}>
+                                { msgs && msgs.length > 0 ? (
+                                    <Badge badgeContent={msgs.length} color="error" className={styles.indexBadge} max={99}>
+                                        <ChatIcon className={styles.chatIcon} />
+                                    </Badge>
+                                ) : (
+                                    <ChatIcon className={styles.chatIcon} />
+                                )}
+                            </Fab>
+                        </div>
                     )}
                 </>
             )}
