@@ -370,6 +370,10 @@ export const getProduct = (config = {}) => {
               url
               label
             }
+            review {
+              rating_summary
+              reviews_count
+            }
             reviews(pageSize: 20, currentPage:1){
               items{
                 nickname

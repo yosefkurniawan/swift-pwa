@@ -527,7 +527,7 @@ const Cart = (props) => {
     };
     return (
         <Layout pageConfig={config || pageConfig} {...props} showRecentlyBar={false}>
-            <h1 style={{ display: 'none' }}>{config.title}</h1>
+            <h1 style={{ display: 'none' }}>Shopping Cart</h1>
             <Content {...other} {...contentProps} />
         </Layout>
     );
