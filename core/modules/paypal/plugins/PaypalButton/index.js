@@ -1,17 +1,14 @@
 /* eslint-disable prefer-destructuring */
 import { modules } from '@config';
-import {
-    setPaypalPaymentMethod, createPaypalExpressToken,
-    // setShippingAddressByInput, setBillingAddressByInput, setGuestEmailAddressOnCart,
-} from '@core_modules/paypal/services/graphql';
+import { createPaypalExpressToken, setPaypalPaymentMethod } from '@core_modules/paypal/services/graphql';
+import { getCartId } from '@helper_cartid';
 import PaypalButtonView from '@plugin_paypalbutton/view';
 import TagManager from 'react-gtm-module';
-import { getCartId } from '@helper_cartid';
 // import { setLocalStorage } from '@helper_localstorage';
-import { getLoginInfo } from '@helper_auth';
-import Router from 'next/router';
 import gqlService from '@core_modules/checkout/services/graphql';
+import { getLoginInfo } from '@helper_auth';
 import { getCookies } from '@helper_cookies';
+import Router from 'next/router';
 
 const PaypalButton = (props) => {
     const { t, cart, storeConfig } = props;
@@ -301,13 +298,13 @@ const PaypalButton = (props) => {
                 // }
                 // setLocalStorage(modules.paypal.keyData, paypalData);
                 window.backdropLoader(false);
-                Router.push(`/${modules.paypal.returnUrl}`);
+                Router.push(`/${storeConfig.paypal_key.return_url}`);
             }).catch((
             // e
             ) => {
             // console.log(e);
             // onErrorPaypal(e);
-                Router.push(`/${modules.paypal.returnUrl}`);
+                Router.push(`/${storeConfig.paypal_key.return_url}`);
             });
     };
 

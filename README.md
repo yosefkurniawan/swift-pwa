@@ -40,6 +40,17 @@ const graphqlEndpoint = {
     prod: '[gql endpoint for prod]',
 };
 ```
+4. Setup `.env`. See [Setup Environment](#authorization-key) section for more details.
+```
+ACCESS_KEY="YOUR_ACCESS_KEY"
+ENCRYPTION_KEY=TXAjwm8k53PJG9NacLbyZavvQB2qBh43
+ALGORITHM=aes-256-cbc
+FCM_KEY_SERVER=
+FCM_TOPIC=notificationspwa
+SESSION_SECRET=asdasdd1212ads12!!!@**DADxx1
+NEXT_PUBLIC_ENCRYPTION_KEY=TXAjwm8k53PJG9NacLbyZavvQB2qBh43
+NEXT_PUBLIC_ALGORITHM=aes-256-cbc
+```
 
 ## Installation
 You can run SwiftPWA with or without docker.
