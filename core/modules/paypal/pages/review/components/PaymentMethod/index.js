@@ -1,12 +1,11 @@
 import Typography from '@common_typography';
-import { modules } from '@config';
 import useStyles from '@core_modules/paypal/pages/review/components/PaymentMethod/style';
 import classNames from 'classnames';
 import React from 'react';
 // import Link from 'next/link';
 
 const PaymentMethod = (props) => {
-    const { t, checkout } = props;
+    const { t, checkout, storeConfig } = props;
     let paypalData = {};
     if (typeof window !== 'undefined') {
         paypalData = JSON.parse(localStorage.getItem(storeConfig?.paypal_key.key_data));
