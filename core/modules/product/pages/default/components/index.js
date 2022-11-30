@@ -308,9 +308,9 @@ const ProductPage = (props) => {
                                             <ChatContent
                                                 isPdp
                                                 handleChatPdp={handleChat}
-                                                agentPdpCode="admin"
-                                                agentPdpName="Admin"
-                                                pdpMessage={`${getHost() + route.asPath} - ${data.name}`}
+                                                agentSellerCode={dataSeller[0].id}
+                                                agentSellerName={dataSeller[0].name}
+                                                sellerMessage={`${getHost() + route.asPath} - ${data.name}`}
                                             />
                                         ) : (
                                             <Button className={styles.btnAddToCard} color="primary" align="center" onClick={handleChat}>
@@ -362,9 +362,9 @@ const ProductPage = (props) => {
                                             <ChatContent
                                                 isPdp
                                                 handleChatPdp={handleChat}
-                                                agentPdpCode="admin"
-                                                agentPdpName="Admin"
-                                                pdpMessage={`${getHost() + route.asPath} - ${data.name}`}
+                                                agentSellerCode={dataSeller[0].id}
+                                                agentSellerName={dataSeller[0].name}
+                                                sellerMessage={`${getHost() + route.asPath} - ${data.name}`}
                                             />
                                         ) : (
                                             <Button className={styles.btnAddToCard} color="primary" align="left" onClick={handleChat}>

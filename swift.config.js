@@ -144,10 +144,10 @@ const features = {
     chatSystem: {
         enable: true,
         graphqlEndpoint: {
-            local: 'https://chat-upgrade244.testingnow.me/graphql',
-            dev: 'https://chat-upgrade244.testingnow.me/graphql',
-            stage: 'https://chat-upgrade244.testingnow.me/graphql',
-            prod: 'https://chat-upgrade244.testingnow.me/graphql',
+            local: ' https://chat-swift.testingnow.me/graphql',
+            dev: 'https://chat-swift.testingnow.me/graphql',
+            stage: 'https://chat-swift.testingnow.me/graphql',
+            prod: 'https://chat-swift.testingnow.me/graphql',
         },
     },
     firebase: {
