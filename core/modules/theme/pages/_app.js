@@ -1,11 +1,9 @@
-/* eslint-disable no-console */
-/* eslint-disable comma-dangle */
+/* eslint-disable max-len */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable func-names */
 /* eslint-disable radix */
-/* eslint-disable max-len */
 import { custDataNameCookie, features, GTM, modules, sentry } from '@config';
 import { getLastPathWithoutLogin, getLoginInfo } from '@helper_auth';
 import { getLocalStorage, setLocalStorage, setResolver, testLocalStorage } from '@helper_localstorage';
@@ -252,7 +250,7 @@ class MyApp extends App {
          */
         if (getAppEnv() === 'prod') {
             // eslint-disable-next-line no-console
-            console.log = () => {};
+            console.log = () => { };
         }
 
         /*
@@ -273,6 +271,7 @@ class MyApp extends App {
                     navigator.serviceWorker.ready.then((registration) => {
                         // This prevents to show one notification for each tab
                         setTimeout(() => {
+                            // eslint-disable-next-line no-console
                             console.log('[firebase-messaging-sw.js] Received foreground message ', payload);
                             const lastNotification = localStorage.getItem('lastNotification');
                             const isDifferentContent = payload.data.updated_date !== lastNotification;
@@ -291,6 +290,7 @@ class MyApp extends App {
                     });
                 });
             } catch (err) {
+                // eslint-disable-next-line no-console
                 console.log(err);
             }
         }
@@ -342,9 +342,11 @@ class MyApp extends App {
     registerServiceWorker() {
         navigator.serviceWorker.register('/service-worker.js').then(
             (registration) => {
+                // eslint-disable-next-line no-console
                 console.log('Service Worker registration successful with scope: ', registration.scope);
             },
             (err) => {
+                // eslint-disable-next-line no-console
                 console.log('Service Worker registration failed: ', err);
             },
         );

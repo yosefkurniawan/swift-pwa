@@ -3,9 +3,7 @@ import {
     GRAY_LIGHT, GRAY_PRIMARY, GREEN, WHITE,
 } from '@theme_color';
 import {
-    FlexColumn,
-    CreateBorder,
-    Centering,
+    Centering, CreateBorder, FlexColumn,
 } from '@theme_mixins';
 
 const useStyles = makeStyles(() => ({
@@ -19,7 +17,22 @@ const useStyles = makeStyles(() => ({
         top: 100,
     },
     list: {
-        ...CreateBorder('1px', 0, 0, 0, GRAY_PRIMARY),
+        ...CreateBorder('0', 0, 0, 0, GRAY_PRIMARY),
+    },
+    listSummary: {
+        paddingTop: '0px',
+        paddingBottom: '0px',
+    },
+    listItemGrandtotal: {
+        ...CreateBorder('1px', 0, '0', 0, GRAY_PRIMARY),
+        paddingTop: '10px',
+        paddingBottom: '10px',
+    },
+    listSubtotal: {
+        ...CreateBorder('1px', 0, '1px', 0, GRAY_PRIMARY),
+    },
+    removeBottomPadding: {
+        paddingBottom: '0px',
     },
     footer: {
         width: '100%',
@@ -112,6 +125,11 @@ const useStyles = makeStyles(() => ({
                 },
             },
         },
+    },
+    sellerLabel: {
+        backgroundColor: 'lightgray',
+        paddingTop: '1rem',
+        paddingBottom: '1rem',
     },
 }));
 

@@ -1,8 +1,8 @@
 import Button from '@common_button';
 import Typography from '@common_typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { formatPrice } from '@helper_currency';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
+import { formatPrice } from '@helper_currency';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const StoreCreditView = (props) => {
     const styles = useStyles();
@@ -17,7 +17,9 @@ const StoreCreditView = (props) => {
                 </Typography>
                 <Typography variant="span" type="bold" className={styles.pointText}>
                     {formatPrice(
-                        `${credit}`.toLocaleString(undefined, { minimumFractionDigits: 0 }),
+                        `${credit}`.toLocaleString(undefined, {
+                            minimumFractionDigits: 0,
+                        }),
                         storeConfig.default_display_currency_code,
                     )}
                 </Typography>
@@ -26,7 +28,7 @@ const StoreCreditView = (props) => {
                 <Button
                     variant="outlined"
                     className={styles.btnPoint}
-                    disabled={!!(checkout.loading.storeCredit || (!!(total === 0 && !store_credit.is_use_store_credit)))}
+                    disabled={!!(checkout.loading.storeCredit || !!(total === 0 && !store_credit.is_use_store_credit))}
                     onClick={handleUseCredit}
                 >
                     <Typography
@@ -42,7 +44,6 @@ const StoreCreditView = (props) => {
                 </Button>
             </div>
         </div>
-
     );
 };
 

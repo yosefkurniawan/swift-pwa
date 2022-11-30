@@ -88,6 +88,7 @@ const SearchPage = (props) => {
                                 width="100%"
                                 maxHeight="100vh"
                                 OptionsItem={OptionsItem}
+                                storeConfig={storeConfig}
                             />
                             <IconButton
                                 disabled={value === ''}

@@ -40,6 +40,18 @@ const graphqlEndpoint = {
     prod: '[gql endpoint for prod]',
 };
 ```
+4. Setup `.env`. See [Setup Environment](#authorization-key) section for more details.
+```
+ACCESS_KEY="YOUR_ACCESS_KEY"
+ENCRYPTION_KEY=TXAjwm8k53PJG9NacLbyZavvQB2qBh43
+ALGORITHM=aes-256-cbc
+FCM_KEY_SERVER=
+FCM_TOPIC=notificationspwa
+SESSION_SECRET=asdasdd1212ads12!!!@**DADxx1
+NEXT_PUBLIC_ENCRYPTION_KEY=TXAjwm8k53PJG9NacLbyZavvQB2qBh43
+NEXT_PUBLIC_ALGORITHM=aes-256-cbc
+```
+5. **IMPORTANT** : Please make sure to run `pm2 restart {PROCESS_ID} --update-env` after updating .env file! Otherwise, new configurations will not work!
 
 ## Installation
 You can run SwiftPWA with or without docker.
@@ -180,3 +192,6 @@ Explanation :
 6. SESSION_SECRET = Session secret (required)
 7. NEXT_PUBLIC_ENCRYPTION_KEY = Encryption key to encrypt sensitive data (required) -> This is for client side usage, consider make this different from the server side one (`ENCRYPTION_KEY`)
 8. NEXT_PUBLIC_ALGORITHM = Encryption algorithm (required) -> This is for client side usage, consider make this different from the server side one (`ALGORITHM`)
+
+### IMPORTANT NOTICE
+Please make sure to run `pm2 restart {PROCESS_ID} --update-env` after updating .env file! Otherwise, new configurations will not work!

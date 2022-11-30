@@ -14,6 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
+import StorefrontIcon from '@material-ui/icons/Storefront';
 import Link from 'next/link';
 import Image from '@common_image';
 import dynamic from 'next/dynamic';
@@ -40,10 +41,11 @@ const SingleProduct = (props) => {
     // prettier-ignore
     const {
         name, url_key, id, review_count,
-        short_description, small_image,
+        short_description, small_image, seller,
     } = product;
     // prettier-ignore
 
+    const enableMultiSeller = storeConfig.enable_oms_multiseller === '1';
     const {
         styles, wishlist,
         price,
@@ -126,6 +128,14 @@ const SingleProduct = (props) => {
                         <Grid item>
                             <Typography variant="h4">{name}</Typography>
                         </Grid>
+                    )}
+                    {enableMultiSeller && seller.seller_name && (
+                        <div className={styles.infoSeller}>
+                            <StorefrontIcon className={styles.iconSeller} />
+                            <Typography variant="h4">
+                                {seller.seller_name}
+                            </Typography>
+                        </div>
                     )}
                     {product_review && (
                         <Grid item container justify={isGrid || isProductGrid || isSlider ? 'center' : 'flex-start'}>

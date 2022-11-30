@@ -99,6 +99,9 @@ export const getProductList = gql`
     query getProductList($search: String, $pageSize: Int, $filter: ProductAttributeFilterInput, $sort: ProductAttributeSortInput) {
         products(search: $search, pageSize: $pageSize, filter: $filter, sort: $sort) {
             items {
+                seller {
+                    seller_name
+                }
                 id
                 name
                 sku

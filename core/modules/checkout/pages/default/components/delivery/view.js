@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Typography from '@common_typography';
-import classNames from 'classnames';
+import { modules } from '@config';
 import useStyles from '@core_modules/checkout/pages/default/components/delivery/style';
 import useStylesRoot from '@core_modules/checkout/pages/default/components/style';
-import { modules } from '@config';
+import classNames from 'classnames';
 
 const ShippingView = (props) => {
     const {
