@@ -14,8 +14,8 @@ const HOST = {
 
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
-    local: 'https://upgrade244.testingnow.me/graphql',
-    dev: 'https://upgrade244.testingnow.me/graphql',
+    local: 'https://swift.testingnow.me/graphql',
+    dev: 'https://swift.testingnow.me/graphql',
     stage: 'https://b2cdemonew.gcp-staging.testingnow.me/graphql',
     prod: 'https://b2cdemo.getswift.asia/graphql',
 };
@@ -265,25 +265,8 @@ const modules = {
             enabled: true,
         },
         xendit: {
-            paymentPrefixCodeOnSuccess: [
-                'alfamart',
-                'bcava',
-                'briva',
-                'bniva',
-                'mandiriva',
-                'permatava',
-                'indomaret',
-            ],
-            paymentPrefixCode: [
-                'cc',
-                'cc_subscription',
-                'dana',
-                'ovo',
-                'linkaja',
-                'qr_codes',
-                'dd_bri',
-                'kredivo',
-            ],
+            paymentPrefixCodeOnSuccess: ['alfamart', 'bcava', 'briva', 'bniva', 'mandiriva', 'permatava', 'indomaret'],
+            paymentPrefixCode: ['cc', 'cc_subscription', 'dana', 'ovo', 'linkaja', 'qr_codes', 'dd_bri', 'kredivo'],
         },
     },
     cart: {

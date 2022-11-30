@@ -1,22 +1,28 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/no-danger */
-import React from 'react';
-import PropTypes from 'prop-types';
-import Dialog from '@material-ui/core/Dialog';
-import { useRouter } from 'next/router';
-import { useTranslation } from '@i18n';
-import PriceFormat from '@common_priceformat';
-import Banner from '@common_slick/BannerThumbnail';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@common_typography';
-import classNames from 'classnames';
 import Button from '@common_button';
+import PriceFormat from '@common_priceformat';
 import RatingStar from '@common_ratingstar';
-import { getHost } from '@helper_config';
-import useStyles from '@plugin_productitem/components/QuickView/style';
+import Banner from '@common_slick/BannerThumbnail';
+import Typography from '@common_typography';
 import DesktopOptions from '@core_modules/product/pages/default/components/OptionItem/DesktopOptions';
 import ItemShare from '@core_modules/product/pages/default/components/SharePopup/item';
+import { getSeller } from '@core_modules/theme/services/graphql';
+import { getHost } from '@helper_config';
+import { useTranslation } from '@i18n';
+import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
+import Dialog from '@material-ui/core/Dialog';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import Link from '@material-ui/core/Link';
+import CloseIcon from '@material-ui/icons/Close';
+import useStyles from '@plugin_productitem/components/QuickView/style';
 import WeltpixelLabel from '@plugin_productitem/components/WeltpixelLabel';
+import classNames from 'classnames';
+import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const QuickView = (props) => {
     const styles = useStyles();
@@ -35,6 +41,35 @@ const QuickView = (props) => {
     const product = data?.items[productKey];
 
     const reviewValue = parseInt(product?.review?.rating_summary, 0) / 20;
+
+    let enableMultiSeller = false;
+    if (storeConfig) {
+        enableMultiSeller = storeConfig.enable_oms_multiseller === '1';
+    }
+
+    // getSeller gql
+    const [actGetSeller, { data: dSeller }] = getSeller();
+
+    React.useEffect(() => {
+        if (product) {
+            actGetSeller({
+                variables: {
+                    input: {
+                        seller_id: [parseFloat(product.seller_id)],
+                    },
+                },
+            });
+        }
+    }, [product]);
+
+    let dataSeller;
+    let citySplit;
+    if (enableMultiSeller && dSeller && dSeller.getSeller) {
+        dataSeller = dSeller && dSeller.getSeller;
+    }
+    if (enableMultiSeller && dataSeller && dataSeller.length > 0) {
+        citySplit = dataSeller[0].city?.split(',');
+    }
 
     // generate banner image
     const bannerData = [];
@@ -176,6 +211,29 @@ const QuickView = (props) => {
                                 </Typography>
                             </div>
                         </div>
+                        {enableMultiSeller && dataSeller && dataSeller.length > 0 ? (
+                            <div className={styles.titleContainer}>
+                                <Grid container>
+                                    <Grid item xs={2}>
+                                        <Link href={`/seller/${dataSeller[0].id}`}>
+                                            <Avatar alt="Remy Sharp" src={dataSeller[0].logo} className={styles.imageContainer} variant="rounded" />
+                                        </Link>
+                                    </Grid>
+                                    <Grid item xs={10}>
+                                        <Link href={`/seller/${dataSeller[0].id}`}>
+                                            <Box>
+                                                <Typography variant="p" type="bold" letter="capitalize" size="14">
+                                                    {dataSeller[0].name}
+                                                </Typography>
+                                                <Typography variant="p" type="regular" letter="capitalize" size="14">
+                                                    {citySplit[0]}
+                                                </Typography>
+                                            </Box>
+                                        </Link>
+                                    </Grid>
+                                </Grid>
+                            </div>
+                        ) : null}
                         <div className="row">
                             {storeConfig?.pwa?.label_enable && storeConfig?.pwa?.label_weltpixel_enable && (
                                 <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels || []} categoryLabel={false} onDetailProduct />
