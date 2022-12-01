@@ -52,6 +52,7 @@ const ViewMobile = (props) => {
         deleteTokenGql()
             .then(() => {
                 Cookies.remove(custDataNameCookie);
+                Cookies.remove('admin_id');
                 removeIsLoginFlagging();
                 removeCartId();
                 removeCookies('uid_product_compare');

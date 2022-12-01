@@ -16,19 +16,21 @@ const decryptState = (state) => {
     const cartId = res[1];
     const storeCode = res[2] ? res[2] : '';
     const redirect_path = res[3] ? res[3] : '/';
+    const adminId = res[4] ? res[4] : 0;
 
     const result = {
         token,
         cartId,
         redirect_path,
         storeCode,
+        adminId,
     };
     return result;
 };
 
 const internalGenerateSession = async (parent, { state }, context) => {
     const {
-        token, cartId, redirect_path, storeCode,
+        token, cartId, redirect_path, storeCode, adminId,
     } = decryptState(state);
     if (token && token !== '') {
         const res = await requestGraph(query, { }, context, { token });
@@ -39,6 +41,7 @@ const internalGenerateSession = async (parent, { state }, context) => {
                 isLogin: false,
                 redirect_path,
                 storeCode,
+                adminId,
             };
         }
         context.session.token = encrypt(token);
@@ -48,6 +51,7 @@ const internalGenerateSession = async (parent, { state }, context) => {
             isLogin: !!token,
             redirect_path,
             storeCode,
+            adminId,
         };
     }
     if (typeof state !== 'undefined' && state) {
@@ -60,6 +64,7 @@ const internalGenerateSession = async (parent, { state }, context) => {
             isLogin: !!token,
             redirect_path,
             storeCode,
+            adminId,
         };
     }
     return {
@@ -68,6 +73,7 @@ const internalGenerateSession = async (parent, { state }, context) => {
         isLogin: null,
         redirect_path: '/',
         storeCode,
+        adminId,
     };
 };
 

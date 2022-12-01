@@ -11,14 +11,17 @@ const executor = async ({ document, variables, context }) => {
         let token = '';
         let checkoutToken = '';
         let store_code_storage = '';
+        let adminId = 0;
         if (context) {
             token = context.headers.authorization || context.session.token;
             store_code_storage = context.cookies.store_code_storage;
+            adminId = context.cookies.admin_id;
             checkoutToken = context.headers.token || context.session.checkoutToken;
         }
         const query = print(document);
         const appEnv = getAppEnv();
         const additionalHeader = {};
+        adminId = parseInt(adminId, 10);
         if (storeCode !== '') {
             additionalHeader.store = storeCode;
         } else if (store_code_storage && store_code_storage !== '' && storeCode === '') {
@@ -30,6 +33,9 @@ const executor = async ({ document, variables, context }) => {
         }
         if (checkoutToken && checkoutToken !== '') {
             additionalHeader['Checkout-Token'] = `${decrypt(checkoutToken)}`;
+        }
+        if (adminId !== undefined && adminId >= 1) {
+            additionalHeader['Admin-Id'] = adminId;
         }
         const fetchResult = await fetch(url, {
             method: 'POST',
