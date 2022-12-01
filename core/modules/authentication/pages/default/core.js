@@ -40,7 +40,7 @@ const Authentication = (props) => {
         isLogin: false,
         redirect_path: '',
         storeCode: '',
-        adminId: 0,
+        adminId: '',
     };
 
     const [setCheckoutSession] = gqlService.setCheckoutSession();
@@ -94,8 +94,9 @@ const Authentication = (props) => {
                                 if (objectProps && objectProps.storeCode && objectProps.storeCode !== '') {
                                     Cookies.set('store_code_storage', objectProps.storeCode, { expires: expiredDefault });
                                 }
-                                if (objectProps && objectProps.adminId && objectProps.adminId !== 0) {
-                                    Cookies.set('admin_id', objectProps.adminId, { expires: expired || expiredToken });
+                                if (objectProps && objectProps.adminId && objectProps.adminId !== '') {
+                                    const admin = objectProps.adminId.split('?', 2);
+                                    Cookies.set('admin_id', JSON.stringify(admin), { expires: expired || expiredToken });
                                 }
                             } else {
                                 setAuthFailed(true);

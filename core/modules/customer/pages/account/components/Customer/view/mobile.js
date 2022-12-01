@@ -48,6 +48,7 @@ const ViewMobile = (props) => {
     };
     const client = useApolloClient();
     const [deleteTokenGql] = deleteToken();
+    const adminId = Cookies.get('admin_id');
     const handleLogout = () => {
         deleteTokenGql()
             .then(() => {
@@ -88,6 +89,9 @@ const ViewMobile = (props) => {
                         {userData && userData.customer && `${userData.customer.firstname} ${userData.customer.lastname}`}
                     </h3>
                     <p className={styles.account_email}>{userData && userData.customer && userData.customer.email}</p>
+                    {userData && userData.customer && adminId !== undefined && adminId !== ''
+                        ? <p className={styles.account_email}>{`(Login By ${JSON.parse(adminId)[1]})`}</p>
+                        : null}
                 </div>
                 <div className={[styles.account_block, styles.padding_vertical_40].join(' ')}>
                     {modules.rewardpoint.enabled ? <PointCard {...props} /> : null}

@@ -16,7 +16,7 @@ const decryptState = (state) => {
     const cartId = res[1];
     const storeCode = res[2] ? res[2] : '';
     const redirect_path = res[3] ? res[3] : '/';
-    const adminId = res[4] ? res[4] : 0;
+    const adminId = res[4] ? res[4] : '';
 
     const result = {
         token,
