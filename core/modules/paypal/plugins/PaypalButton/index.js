@@ -1,5 +1,4 @@
 /* eslint-disable prefer-destructuring */
-import { modules } from '@config';
 import { createPaypalExpressToken, setPaypalPaymentMethod } from '@core_modules/paypal/services/graphql';
 import { getCartId } from '@helper_cartid';
 import PaypalButtonView from '@plugin_paypalbutton/view';
@@ -299,11 +298,8 @@ const PaypalButton = (props) => {
                 // setLocalStorage(modules.paypal.keyData, paypalData);
                 window.backdropLoader(false);
                 Router.push(`/${storeConfig.paypal_key.return_url}`);
-            }).catch((
-            // e
-            ) => {
-            // console.log(e);
-            // onErrorPaypal(e);
+            })
+            .catch(() => {
                 Router.push(`/${storeConfig.paypal_key.return_url}`);
             });
     };

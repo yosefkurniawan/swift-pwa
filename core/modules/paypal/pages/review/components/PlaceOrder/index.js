@@ -8,7 +8,9 @@ import { localTotalCart } from '@services/graphql/schema/local';
 import React from 'react';
 
 const PlaceOrder = (props) => {
-    const { checkout, setCheckout, t, config, storeConfig } = props;
+    const {
+        checkout, setCheckout, t, config,
+    } = props;
     const client = useApolloClient();
 
     // origin name config
