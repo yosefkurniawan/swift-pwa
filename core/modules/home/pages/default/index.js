@@ -1,3 +1,5 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable no-unused-vars */
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
 import dynamic from 'next/dynamic';
@@ -11,22 +13,10 @@ const Page = dynamic(() => ((!modules.checkout.checkoutOnly)
     : import('@module_checkout/pages/default')));
 
 Page.getInitialProps = async (ctx) => {
-    let homePageConfig;
-
-    if (!modules.checkout.checkoutOnly && ctx && ctx.req) {
-        homePageConfig = await graphRequest(getHomePageConfig);
-    } else if (!modules.checkout.checkoutOnly && typeof window !== 'undefined') {
-        homePageConfig = getLocalStorage(keyLocalStorage.home);
-        if (!homePageConfig) {
-            homePageConfig = await graphRequest(getHomePageConfig);
-        }
-    }
-
     return {
         namespacesRequired: modules.checkout.checkoutOnly
             ? ['common', 'checkout', 'customer', 'validate']
             : ['common', 'home'],
-        homePageConfig,
     };
 };
 

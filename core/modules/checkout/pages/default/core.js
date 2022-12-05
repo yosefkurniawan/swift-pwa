@@ -11,7 +11,9 @@
 import { useApolloClient } from '@apollo/client';
 import Toast from '@common_toast';
 import { modules, nameCheckoutState } from '@config';
-import { getCartCallbackUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '@core_modules/checkout/helpers/config';
+import {
+    getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
+} from '@core_modules/checkout/helpers/config';
 import gqlService from '@core_modules/checkout/services/graphql';
 import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import { getCartId } from '@helpers/cartId';
@@ -45,7 +47,9 @@ function equalTo(ref, msg) {
 }
 
 const Checkout = (props) => {
-    const { t, storeConfig, pageConfig, Content, cartId: propsCardId } = props;
+    const {
+        t, storeConfig, pageConfig, Content, cartId: propsCardId,
+    } = props;
     const config = {
         successRedirect: {
             link: getSuccessCallbackUrl(),
@@ -808,11 +812,11 @@ const Checkout = (props) => {
         }
 
         if (
-            dataCart &&
-            dataCart.cart &&
-            dataCart.cart.shipping_addresses &&
-            dataCart.cart.shipping_addresses.length === 0 &&
-            !checkout.data.isGuest
+            dataCart
+            && dataCart.cart
+            && dataCart.cart.shipping_addresses
+            && dataCart.cart.shipping_addresses.length === 0
+            && !checkout.data.isGuest
         ) {
             setCheckout({
                 ...checkout,
@@ -947,11 +951,11 @@ const Checkout = (props) => {
         let customer;
         let address;
         if (
-            !state.data.isGuest &&
-            addressCustomer &&
-            addressCustomer.data &&
-            addressCustomer.data.customer &&
-            addressCustomer.data.customer.addresses
+            !state.data.isGuest
+            && addressCustomer
+            && addressCustomer.data
+            && addressCustomer.data.customer
+            && addressCustomer.data.customer.addresses
         ) {
             customer = addressCustomer.data.customer;
             [address] = customer ? customer.addresses.filter((item) => item.default_shipping) : [null];
@@ -1098,7 +1102,7 @@ const Checkout = (props) => {
         Router.push(
             !modules.checkout.checkoutOnly
                 ? `/${storeConfig?.paypal_key.cancel_url}`
-                : `${getStoreHost(getAppEnv())}${storeConfig?.paypal_key.cancel_url}`
+                : `${getStoreHost(getAppEnv())}${storeConfig?.paypal_key.cancel_url}`,
         );
     };
 
@@ -1276,10 +1280,9 @@ const Checkout = (props) => {
         // const { shipping_addresses } = params;
     };
 
-    const createOrderPaypal = (data, actions) =>
-        new Promise((resolve, reject) => {
-            resolve(initialOptionPaypal['data-order-id']);
-        });
+    const createOrderPaypal = (data, actions) => new Promise((resolve, reject) => {
+        resolve(initialOptionPaypal['data-order-id']);
+    });
 
     const paypalHandlingProps = {
         onClick: onClickPaypal,
