@@ -257,7 +257,7 @@ const reqBody = gql`{
 const generateConfig = (req, res) => {
     graphQLClient.request(reqBody, {}).then((data) => {
         console.log('generate config success');
-        fs.writeFile(`${baseDir}config2.json`, JSON.stringify(data), (err) => {
+        fs.writeFile(`${baseDir}config.json`, JSON.stringify(data), (err) => {
             if (err) throw err;
         });
         res.send(data);
