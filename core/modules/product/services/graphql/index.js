@@ -7,6 +7,12 @@ const defaultConfig = {
 
 };
 
+const useInternal = {
+    context: {
+        request: 'internal',
+    },
+};
+
 export const getProduct = (config = {}, options = {}) => useQuery(Schema.getProduct(config), {
     ...defaultConfig,
     ...options,
@@ -82,6 +88,8 @@ export const getGroupedProduct = (config = {}, params = {}) => useQuery(Schema.g
     ...defaultConfig,
     ...params,
 });
+
+export const getSeller = (options = {}) => useQuery(Schema.getSeller, { ...options, ...useInternal });
 
 // actions add to cart
 

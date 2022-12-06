@@ -1,5 +1,5 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { FlexRow, CreatePadding, CenterAbsolute } from '@theme_mixins';
+import { CenterAbsolute, CreatePadding, FlexRow } from '@theme_mixins';
 
 export default makeStyles((theme) => ({
     container: {
@@ -29,5 +29,8 @@ export default makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             width: 320,
         },
+    },
+    shareIcon: {
+        paddingRight: '.5rem !important',
     },
 }));

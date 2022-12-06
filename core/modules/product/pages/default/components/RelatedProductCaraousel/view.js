@@ -8,7 +8,7 @@ import Typography from '@common_typography';
 const Caraousel = dynamic(() => import('@common_slick/Caraousel'), { ssr: false });
 const ProductItem = dynamic(() => import('@plugin_productitem'), { ssr: false });
 
-const RelatedProductCaraouselView = ({ data, t }) => {
+const RelatedProductCaraouselView = ({ data, t, storeConfig }) => {
     const styles = useStyles();
     return (
         <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
@@ -19,6 +19,7 @@ const RelatedProductCaraouselView = ({ data, t }) => {
                 enableQuickView={false}
                 data={data}
                 Item={ProductItem}
+                storeConfig={storeConfig}
             />
         </div>
     );

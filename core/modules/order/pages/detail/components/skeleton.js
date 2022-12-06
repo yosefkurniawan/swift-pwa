@@ -1,12 +1,12 @@
+import useStyles from '@core_modules/order/pages/detail/style';
 import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
-import useStyles from '@core_modules/order/pages/detail/style';
 
 const SkeletonLoader = () => {
     const styles = useStyles();
     return (
         <>
-            <Skeleton animation="wave" variant="rect" width="100%" height={40} style={{ marginBottom: 25 }} />
+            <Skeleton animation="wave" variant="rect" width="100%" height={40} style={{ marginBottom: 15 }} />
             <div className={classNames(styles.block, styles.detail)} style={{ height: '50%' }}>
                 <Skeleton animation="wave" variant="text" width="60%" height={25} />
                 <Skeleton animation="wave" variant="text" width="75%" height={25} />

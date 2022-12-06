@@ -2,31 +2,29 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
-import React from 'react';
-import Typography from '@common_typography';
-import classNames from 'classnames';
-import formatDate from '@helper_date';
-import { formatPrice } from '@helper_currency';
-import Alert from '@material-ui/lab/Alert';
-import Layout from '@layout_customer';
-import { modules } from '@config';
-import useStyles from '@core_modules/order/pages/detail/style';
-import ItemProduct from '@core_modules/order/pages/detail/components/product';
-// import Footer from '@core_modules/order/pages/detail/components/footer';
-import Table from '@core_modules/order/pages/detail/components/TableListItem';
-import OrderStatusIcon from '@core_modules/order/pages/detail/components/OrderStatusIcon';
-import dayjs from 'dayjs';
 import Button from '@common_button';
+import Typography from '@common_typography';
+import { modules } from '@config';
 import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit';
+import OrderStatusIcon from '@core_modules/order/pages/detail/components/OrderStatusIcon';
+import ItemProduct from '@core_modules/order/pages/detail/components/product';
+import Table from '@core_modules/order/pages/detail/components/TableListItem';
+import useStyles from '@core_modules/order/pages/detail/style';
+import { checkJson } from '@core_modules/trackingorder/pages/default/helpers/checkJson';
 import ModalTrackOrder from '@core_modules/trackingorder/plugins/ModalTrackOrder';
 import { setCheckoutData } from '@helper_cookies';
-import { checkJson } from '@core_modules/trackingorder/pages/default/helpers/checkJson';
+import { formatPrice } from '@helper_currency';
+import formatDate from '@helper_date';
+import Layout from '@layout_customer';
 import PrintIcon from '@material-ui/icons/Print';
+import Alert from '@material-ui/lab/Alert';
+import classNames from 'classnames';
+import dayjs from 'dayjs';
+import React from 'react';
 
 const DetailOrder = (props) => {
     const {
-        t, detail, currency, storeConfig, reOrder, returnUrl,
-        paymentInfo, dataTrackingOrder, printOrder,
+        t, detail, currency, storeConfig, reOrder, returnUrl, paymentInfo, dataTrackingOrder, printOrder,
     } = props;
     const {
         checkout: {
@@ -238,26 +236,22 @@ const DetailOrder = (props) => {
                                     <Typography variant="span" className="clear-margin-padding">
                                         {detail[0].detail[0].shipping_methods.shipping_description || ''}
                                     </Typography>
-                                    {
-                                        shippingMethods.length > 0
-                                        && shipping.track_number
-                                        && shipping.trackorder_type && (
-                                            <Button
-                                                variant="text"
-                                                onClick={() => handleOpenModal(shipping.trackorder_type, dt)}
-                                                align="left"
-                                                className={styles.btnTrackOrder}
-                                            >
-                                                <Typography type="bold" decoration="underline" align="left">
-                                                    {t('order:trackingOrder')}
-                                                    {': '}
-                                                    {shipping.track_number}
-                                                    {' '}
-                                                    {`(${shipping.trackorder_type})`}
-                                                </Typography>
-                                            </Button>
-                                        )
-                                    }
+                                    {shippingMethods.length > 0 && shipping.track_number && shipping.trackorder_type && (
+                                        <Button
+                                            variant="text"
+                                            onClick={() => handleOpenModal(shipping.trackorder_type, dt)}
+                                            align="left"
+                                            className={styles.btnTrackOrder}
+                                        >
+                                            <Typography type="bold" decoration="underline" align="left">
+                                                {t('order:trackingOrder')}
+                                                {': '}
+                                                {shipping.track_number}
+                                                {' '}
+                                                {`(${shipping.trackorder_type})`}
+                                            </Typography>
+                                        </Button>
+                                    )}
                                 </div>
                             )}
                             <ModalTrackOrder
@@ -336,29 +330,43 @@ const DetailOrder = (props) => {
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                     {t('order:orderComment:commentHistory')}
                                 </Typography>
-                                {detail[0].comments.map((item) => (
-                                    <div className="row" style={{ margin: '1rem 0rem 1rem' }}>
-                                        <div className="col-xs-12 col-sm-4 col-md-3 col-lg-2 clear-margin-padding">
-                                            <Typography variant="span" className="clear-margin-padding" style={{ fontWeight: 'bold' }}>
-                                                {formatDate(item.timestamp)}
-                                            </Typography>
+                                {detail[0].comments.length > 0
+                                    ? detail[0].comments.map((item) => (
+                                        <div className="row" style={{ margin: '1rem 0rem 1rem' }}>
+                                            <div className="col-xs-12 col-sm-4 col-md-3 col-lg-2 clear-margin-padding">
+                                                <Typography variant="span" className="clear-margin-padding" style={{ fontWeight: 'bold' }}>
+                                                    {formatDate(item.timestamp)}
+                                                </Typography>
+                                            </div>
+                                            <div className="col-xs-12 col-sm-8 col-md-9 col-lg-10 clear-margin-padding">
+                                                <Typography variant="span" className="clear-margin-padding">
+                                                    {item.message}
+                                                </Typography>
+                                            </div>
                                         </div>
-                                        <div className="col-xs-12 col-sm-8 col-md-9 col-lg-10 clear-margin-padding">
-                                            <Typography variant="span" className="clear-margin-padding">
-                                                {item.message}
-                                            </Typography>
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))
+                                    : '-'}
                             </div>
                             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                     {t('order:orderComment:subTitle')}
                                 </Typography>
                                 <Typography variant="span" className="clear-margin-padding">
-                                    {detail[0].order_comment || ''}
+                                    {detail[0].order_comment || '-'}
                                 </Typography>
                             </div>
+                            {storeConfig.enable_oms_multiseller === '1' && detail[0].seller_id ? (
+                                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
+                                        {t('order:seller')}
+                                    </Typography>
+                                    <Typography variant="span" className="clear-margin-padding">
+                                        {`${detail[0].seller_name} - ${detail[0].seller_city}` || '-'}
+                                    </Typography>
+                                </div>
+                            ) : (
+                                '-'
+                            )}
                         </div>
                     </div>
                     <div className={styles.block}>
@@ -390,10 +398,10 @@ const DetailOrder = (props) => {
                         <div className="row end-md">
                             <div className="col-xs-12 col-sm-6 col-md-8 hidden-mobile" />
                             <div className="col-xs-12 col-sm-6 col-md-4">
-                                {(detail[0].detail[0].subtotal || detail[0].detail[0].subtotal_incl_tax) && (
+                                {(detail[0].detail[0].subtotalt !== null || detail[0].detail[0].subtotal_incl_taxt !== null) && (
                                     <div className={styles.listSummary}>
                                         <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
-                                            Sub total
+                                            Sub Total
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">
                                             {formatPrice(
@@ -403,17 +411,17 @@ const DetailOrder = (props) => {
                                         </Typography>
                                     </div>
                                 )}
-                                {detail[0].detail[0].tax_amount && (
+                                {detail[0].detail[0].tax_amount !== null && (
                                     <div className={styles.listSummary}>
                                         <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
-                                            {t('common:tax')}
+                                            {t('order:tax')}
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">
                                             {formatPrice(detail[0].detail[0].tax_amount, currency)}
                                         </Typography>
                                     </div>
                                 )}
-                                {detail[0].detail[0].payment && (
+                                {detail[0].detail[0].payment !== null && (
                                     <div className={styles.listSummary}>
                                         <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
                                             {t('order:shipping')}
@@ -423,7 +431,7 @@ const DetailOrder = (props) => {
                                         </Typography>
                                     </div>
                                 )}
-                                {detail[0].detail[0].discount_amount ? (
+                                {detail[0].detail[0].discount_amount !== null ? (
                                     <div className={styles.listSummary}>
                                         <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
                                             {t('order:discount')}
@@ -443,13 +451,30 @@ const DetailOrder = (props) => {
                                         </Typography>
                                     </div>
                                 ) : null}
-                                {modules.giftcard.enabled && detail[0].detail[0] && detail[0].detail[0].aw_giftcard.giftcard_amount ? (
+                                {detail[0].detail[0].aw_reward_points.is_use_reward_points ? (
+                                    <div className={styles.listSummary}>
+                                        <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
+                                            {t('order:rewardPoints')}
+                                        </Typography>
+                                        <Typography variant="span" letter="capitalize">
+                                            {formatPrice(detail[0].detail[0].aw_reward_points.reward_points_amount, currency)}
+                                        </Typography>
+                                    </div>
+                                ) : null}
+                                {modules.giftcard.enabled && detail[0].detail[0] && detail[0].detail[0].aw_giftcard.giftcard_amount !== null ? (
                                     <div className={styles.listSummary}>
                                         <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
                                             {t('order:giftcard')}
                                             {' '}
                                             (
-                                            {detail[0].detail[0].aw_giftcard.giftcard_detail[0].giftcard_code}
+                                            {detail[0].detail[0].aw_giftcard.giftcard_detail.length > 1
+                                                ? detail[0].detail[0].aw_giftcard.giftcard_detail.map((code, index) => {
+                                                    if (index === detail[0].detail[0].aw_giftcard.giftcard_detail.length - 1) {
+                                                        return code.giftcard_code;
+                                                    }
+                                                    return `${code.giftcard_code}, `;
+                                                })
+                                                : detail[0].detail[0].aw_giftcard.giftcard_detail[0].giftcard_code}
                                             )
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">

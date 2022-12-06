@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-expressions */
-import React from 'react';
+import useStyles from '@common_forms/Radio/style';
+import Typography from '@common_typography';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Typography from '@common_typography';
 import classNames from 'classnames';
-import useStyles from '@common_forms/Radio/style';
+import React from 'react';
 
 const RadioItem = (props) => {
     const styles = useStyles();

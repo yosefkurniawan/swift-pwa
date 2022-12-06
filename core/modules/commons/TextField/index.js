@@ -1,13 +1,13 @@
+import useStyles from '@common_textfield/style';
+import Typography from '@common_typography';
+import { getLocalStorage } from '@helper_localstorage';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
-import React from 'react';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import classNames from 'classnames';
-import Typography from '@common_typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import useStyles from '@common_textfield/style';
+import React from 'react';
 import PhoneInput from 'react-phone-number-input';
-import { getLocalStorage } from '@helper_localstorage';
 
 const CustomTextField = ({
     type = null,
@@ -65,7 +65,13 @@ const CustomTextField = ({
                     {label}
                 </InputLabel>
 
-                <PhoneInput international countryCallingCodeEditable={false} defaultCountry={pwaConfig && pwaConfig.general_country_default} value={inputValue} onChange={onChange} />
+                <PhoneInput
+                    international
+                    countryCallingCodeEditable={false}
+                    defaultCountry={pwaConfig && pwaConfig.general_country_default}
+                    value={inputValue}
+                    onChange={onChange}
+                />
 
                 {React.isValidElement(footer) ? (
                     footer

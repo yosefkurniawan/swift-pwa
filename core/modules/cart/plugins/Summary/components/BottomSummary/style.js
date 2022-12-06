@@ -1,9 +1,8 @@
+/* eslint-disable comma-dangle */
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { WHITE } from '@theme_color';
-import {
-    CreatePadding, CreateMargin,
-    Centering, FlexColumn,
-} from '@theme_mixins';
+// eslint-disable-next-line object-curly-newline
+import { Centering, CreateMargin, CreatePadding, FlexColumn } from '@theme_mixins';
 
 const useStyles = makeStyles((theme) => ({
     checkoutBox: {
@@ -114,6 +113,19 @@ const useStyles = makeStyles((theme) => ({
     },
     list: {
         padding: 0,
+    },
+    sellerLabel: {
+        backgroundColor: 'lightgray',
+        paddingTop: '1rem',
+        paddingBottom: '1rem',
+    },
+    removeBottomPadding: {
+        paddingBottom: '0px',
+        borderTop: '1px solid lightgray',
+    },
+    bottomListMultiseller: {
+        marginLeft: '0px !important',
+        marginRight: '0px !important',
     },
 }));
 
