@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import * as schemaCategory from '@core_modules/catalog/services/graphql/categorySchema';
 import * as productSchema from '@core_modules/catalog/services/graphql/productSchema';
 
@@ -32,6 +32,10 @@ export const getDetailProduct = (config = {}) => useLazyQuery(productSchema.getD
     extFetchPolicy: 'no-cache',
 });
 
+export const getSeller = (options = {}) => useLazyQuery(productSchema.getSeller, {
+    ...options,
+});
+
 export const getPwaConfig = () => useQuery(schemaCategory.configpwa);
 
-export default { getCategory, getCategoryProducts };
+export default { getCategory, getCategoryProducts, getSeller };

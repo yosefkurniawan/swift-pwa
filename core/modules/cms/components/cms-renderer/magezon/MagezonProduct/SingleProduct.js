@@ -14,6 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
+import StorefrontIcon from '@material-ui/icons/Storefront';
 import Link from 'next/link';
 import Image from '@common_image';
 import dynamic from 'next/dynamic';
@@ -33,14 +34,18 @@ const SingleProduct = (props) => {
     const isGrid = product_display && product_display === 'grid';
     const isProductGrid = type === 'product_grid';
     const isSlider = type === 'product_slider';
+    const userAgent = navigator && navigator.appVersion;
+    const regex = (/iPhone|iPad|iPod/i);
+    const isIOS = regex.test(userAgent);
     const { t } = useTranslation();
     // prettier-ignore
     const {
         name, url_key, id, review_count,
-        short_description, small_image,
+        short_description, small_image, seller,
     } = product;
     // prettier-ignore
 
+    const enableMultiSeller = storeConfig.enable_oms_multiseller === '1';
     const {
         styles, wishlist,
         price,
@@ -93,7 +98,7 @@ const SingleProduct = (props) => {
                 {product_image && (
                     <Grid
                         item
-                        xs={isGrid ? 6 : isProductGrid || isSlider ? true : 3}
+                        xs={isGrid ? 6 : isProductGrid || isSlider ? false : 3}
                         container
                         justify="center"
                         alignItems={isProductGrid ? 'center' : 'stretch'}
@@ -111,11 +116,26 @@ const SingleProduct = (props) => {
                         </Link>
                     </Grid>
                 )}
-                <Grid item xs container direction="column" alignItems={isGrid || isProductGrid || isSlider ? 'center' : 'stretch'}>
+                <Grid
+                    item
+                    xs={!isSlider}
+                    container={!isIOS}
+                    direction="column"
+                    justify="center"
+                    alignItems={isGrid || isProductGrid || isSlider ? 'center' : 'stretch'}
+                >
                     {product_name && (
                         <Grid item>
                             <Typography variant="h4">{name}</Typography>
                         </Grid>
+                    )}
+                    {enableMultiSeller && seller.seller_name && (
+                        <div className={styles.infoSeller}>
+                            <StorefrontIcon className={styles.iconSeller} />
+                            <Typography variant="h4">
+                                {seller.seller_name}
+                            </Typography>
+                        </div>
                     )}
                     {product_review && (
                         <Grid item container justify={isGrid || isProductGrid || isSlider ? 'center' : 'flex-start'}>

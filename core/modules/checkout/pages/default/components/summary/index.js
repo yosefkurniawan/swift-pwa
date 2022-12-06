@@ -5,6 +5,7 @@ import { modules } from '@config';
 import { removeCartId, setCartId } from '@helper_cartid';
 import { getHost, getStoreHost } from '@helper_config';
 import { setCheckoutData } from '@helper_cookies';
+import { getLocalStorage } from '@helper_localstorage';
 import { localTotalCart } from '@services/graphql/schema/local';
 import React, { useEffect, useState } from 'react';
 
@@ -43,7 +44,9 @@ const Summary = ({
     const isPurchaseOrderApply = isSelectedPurchaseOrder && checkout.status.purchaseOrderApply;
 
     const client = useApolloClient();
+    const tempMidtransOrderId = [];
     const [orderId, setOrderId] = useState(null);
+    const [snapOrderId, setSnapOrderId] = useState([]);
     const [snapOpened, setSnapOpened] = useState(false);
     const [snapClosed, setSnapClosed] = useState(false);
     const [getSnapToken, manageSnapToken] = gqlService.getSnapToken({ onError: () => {} });
@@ -52,6 +55,7 @@ const Summary = ({
     const [placeOrderWithOrderComment] = gqlService.placeOrderWithOrderComment({ onError: () => {} });
     const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
+    const storeConfigLocalStorage = getLocalStorage('storeConfig');
     // indodana
     const [getIndodanaRedirect, urlIndodana] = gqlService.getIndodanaUrl();
     // xendit
@@ -329,22 +333,46 @@ const Summary = ({
                 if (!validateResponse(result, state)) return;
 
                 let orderNumber = '';
-                if (result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
-                    orderNumber = result.data.placeOrder.order.order_number;
+                if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
+                    if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
+                        // eslint-disable-next-line array-callback-return
+                        result.data.placeOrder.map((order, index) => {
+                            if (index !== result.data.placeOrder.length - 1) {
+                                orderNumber = `${orderNumber}${order.order.order_number}|`;
+                            } else {
+                                orderNumber = `${orderNumber}${order.order.order_number}`;
+                            }
+                            tempMidtransOrderId.push(order.order.order_number);
+                        });
+                    }
+                } else {
+                    if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
+                        orderNumber = result.data.placeOrder[0].order.order_number;
+                        tempMidtransOrderId.push(orderNumber);
+                    }
                 }
                 if (orderNumber && orderNumber !== '') {
-                    setCheckoutData({
-                        email: isGuest ? formik.values.email : cart.email,
-                        order_number: orderNumber,
-                        order_id: result.data.placeOrder.order.order_id,
-                    });
+                    if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
+                        setCheckoutData({
+                            email: isGuest ? formik.values.email : cart.email,
+                            order_number: orderNumber,
+                            order_id: orderNumber,
+                        });
+                    } else {
+                        setCheckoutData({
+                            email: isGuest ? formik.values.email : cart.email,
+                            order_number: orderNumber,
+                            order_id: result.data.placeOrder[0].order.order_id,
+                        });
+                    }
                     if (client && client.query && typeof client.query === 'function') {
                         await client.query({ query: localTotalCart, data: { totalCart: 0 } });
                     }
 
                     if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
                         setOrderId(orderNumber);
-                        await getSnapToken({ variables: { orderId: orderNumber } });
+                        setSnapOrderId(tempMidtransOrderId);
+                        await getSnapToken({ variables: { orderId: tempMidtransOrderId } });
                     } else if (
                         checkout.data.cart.selected_payment_method.code.match(/ovo.*/)
                         || checkout.data.cart.selected_payment_method.code.match(/ipay88*/)
@@ -415,6 +443,7 @@ const Summary = ({
     if (
         manageSnapToken.data
         && orderId
+        && snapOrderId
         && !snapOpened
         && manageSnapToken.data.getSnapTokenByOrderId
         && manageSnapToken.data.getSnapTokenByOrderId.snap_token
@@ -432,7 +461,7 @@ const Summary = ({
                     window.backdropLoader(true);
                     getSnapOrderStatusByOrderId({
                         variables: {
-                            orderId,
+                            orderId: snapOrderId,
                         },
                     });
 
@@ -446,7 +475,7 @@ const Summary = ({
                     window.backdropLoader(true);
                     getSnapOrderStatusByOrderId({
                         variables: {
-                            orderId,
+                            orderId: snapOrderId,
                         },
                     });
 
@@ -474,10 +503,12 @@ const Summary = ({
             const { id: customerCartId } = manageCustCartId.data.customerCart;
             setCartId(customerCartId);
             setOrderId(null);
+            setSnapOrderId([]);
             window.location.replace(generateCartRedirect(order_id));
         } else {
             setCartId(cart_id);
             setOrderId(null);
+            setSnapOrderId([]);
             window.location.replace(generateCartRedirect(order_id));
         }
     }

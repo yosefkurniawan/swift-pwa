@@ -1,5 +1,14 @@
+/* eslint-disable indent */
+/* eslint-disable arrow-body-style */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable object-curly-newline */
+/* eslint-disable prefer-const */
+/* eslint-disable comma-dangle */
+/* eslint-disable operator-linebreak */
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
+import { useApolloClient } from '@apollo/client';
 import Toast from '@common_toast';
 import { modules, nameCheckoutState } from '@config';
 import {
@@ -7,6 +16,7 @@ import {
     getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl
 } from '@core_modules/checkout/helpers/config';
 import gqlService from '@core_modules/checkout/services/graphql';
+import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import { getCartId } from '@helpers/cartId';
 import { getStoreHost } from '@helpers/config';
 import { getCheckoutData, removeCheckoutData } from '@helpers/cookies';
@@ -54,6 +64,7 @@ const Checkout = (props) => {
         },
     };
     const [actUpdatePwaCheckoutLog] = updatePwaCheckoutLog();
+    const apolloClient = useApolloClient();
 
     let { isLogin } = props;
     let pwaCheckoutState = null;
@@ -66,6 +77,10 @@ const Checkout = (props) => {
 
     const [setCheckoutSession] = gqlService.setCheckoutSession();
     const [checkoutTokenState, setCheckoutTokenState] = useState();
+    const [loadingSellerInfo, setLoadingSellerInfo] = useState(storeConfig.enable_oms_multiseller === '1');
+    const [amountSeller, setAmountSeller] = useState(0);
+    const [currentIndexSeller, setCurrentIndexSeller] = useState(0);
+    const [sellerInfoState, setSellerInfoState] = useState([]);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -98,7 +113,7 @@ const Checkout = (props) => {
                     console.log(e);
                 });
         }
-    }, [cartId]);
+    }, [cartId, propsCardId, setCheckoutSession]);
 
     // const { snap_is_production, snap_client_key, allow_guest_checkout } = storeConfig;
     const { snap_is_production, allow_guest_checkout } = storeConfig;
@@ -142,6 +157,7 @@ const Checkout = (props) => {
                 items: null,
                 shipping_addresses: null,
             },
+            seller: [],
         },
         selected: {
             address: null,
@@ -212,6 +228,8 @@ const Checkout = (props) => {
     const [getItemCart, { data: itemCart, error: errorItem, refetch: refetchItemCart }] = gqlService.getItemCart();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
+    const [setShippingAddressByInput] = gqlService.initiateShippingAddressMultiseller();
+    const [setBillingAddressByInput] = gqlService.initiateBillingAddressMultiseller();
     const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => { } });
     const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
     // end init graphql
@@ -293,6 +311,89 @@ const Checkout = (props) => {
         formik.setFieldValue('billing', billing);
     };
 
+    const updateAddressState = (result) => {
+        const state = { ...checkout };
+        const updatedCart = result.data.setBillingAddressOnCart.cart;
+        if (isOnlyVirtualProductOnCart) {
+            state.selected.billing = updatedCart?.billing_address;
+            state.selected.address = updatedCart?.billing_address;
+        } else {
+            const [shippingAddress] = updatedCart.shipping_addresses;
+            if (shippingAddress && state.data.isGuest) {
+                state.selected.address = shippingAddress;
+            }
+
+            if (checkout.selected.delivery === 'home' && typeof shippingAddress.is_valid_city !== 'undefined') {
+                state.error.shippingAddress = !shippingAddress.is_valid_city;
+            }
+        }
+        state.loading.addresses = false;
+        const mergeCart = {
+            ...state.data.cart,
+            ...updatedCart,
+        };
+        state.data.cart = mergeCart;
+
+        if (refetchDataCart && typeof refetchDataCart() === 'function') {
+            refetchDataCart();
+        }
+        if (refetchItemCart && typeof refetchItemCart() === 'function') {
+            refetchItemCart();
+        }
+        setCheckout(state);
+
+        updateFormik(mergeCart);
+    };
+
+    React.useEffect(() => {
+        if (currentIndexSeller === amountSeller - 1 && sellerInfoState.length > 0) {
+            const { cart } = dataCart;
+            const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
+
+            let cartItemBySeller = {};
+
+            if (itemCart.cart.items.length > 0) {
+                const unGroupedData = itemCart.cart.items;
+
+                // eslint-disable-next-line no-shadow
+                const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, ...other }) => {
+                    let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+                    if (!item) {
+                        item = {
+                            seller_id: product.seller.seller_id ? product.seller.seller_id : null,
+                            seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
+                            productList: [],
+                            subtotal: {
+                                currency: '',
+                                value: 0,
+                            },
+                        };
+                        groupData.push(item);
+                    }
+                    let child = item.productList.find((ch) => ch.name === product.name);
+                    if (!child) {
+                        child = {
+                            id,
+                            prices,
+                            product,
+                            quantity,
+                            ...other,
+                        };
+                        item.productList.push(child);
+                        item.subtotal.currency = prices.row_total_including_tax.currency;
+                        item.subtotal.value += prices.row_total_including_tax.value;
+                    }
+                    return groupData;
+                }, []);
+                cartItemBySeller = groupData;
+            }
+
+            if (cartItemBySeller.length === shipping.length) {
+                setLoadingSellerInfo(false);
+            }
+        }
+    }, [currentIndexSeller, amountSeller, sellerInfoState, loadingSellerInfo]);
+
     const initData = () => {
         let { cart } = dataCart;
         const { items } = itemCart.cart;
@@ -364,26 +465,47 @@ const Checkout = (props) => {
         state.data.isCouponAppliedToCart = cart && cart.applied_coupons ? cart.applied_coupons : false;
 
         // init shipping address
-        const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
+        let shipping;
+        shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
 
         if (shipping) {
-            state.selected.address = {
-                firstname: shipping.firstname,
-                lastname: shipping.lastname,
-                city: shipping.city,
-                region: shipping.region,
-                country: shipping.country,
-                postcode: shipping.postcode,
-                telephone: shipping.telephone,
-                street: shipping.street,
-                pickup_location_code: shipping.pickup_location_code,
-            };
+            if (storeConfig.enable_oms_multiseller === '1') {
+                state.selected.address = {
+                    firstname: shipping[0].firstname,
+                    lastname: shipping[0].lastname,
+                    city: shipping[0].city,
+                    region: shipping[0].region,
+                    country: shipping[0].country,
+                    postcode: shipping[0].postcode,
+                    telephone: shipping[0].telephone,
+                    street: shipping[0].street,
+                    pickup_location_code: shipping[0].pickup_location_code,
+                };
 
-            if (typeof shipping.is_valid_city !== 'undefined') {
-                state.error.shippingAddress = !shipping.is_valid_city;
+                if (typeof shipping[0].is_valid_city !== 'undefined') {
+                    state.error.shippingAddress = !shipping[0].is_valid_city;
+                }
+
+                state.pickup_location_code = shipping[0].pickup_location_code;
+            } else {
+                state.selected.address = {
+                    firstname: shipping[0].firstname,
+                    lastname: shipping[0].lastname,
+                    city: shipping[0].city,
+                    region: shipping[0].region,
+                    country: shipping[0].country,
+                    postcode: shipping[0].postcode,
+                    telephone: shipping[0].telephone,
+                    street: shipping[0].street,
+                    pickup_location_code: shipping[0].pickup_location_code ? shipping[0].pickup_location_code : null,
+                };
+
+                if (typeof shipping.is_valid_city !== 'undefined') {
+                    state.error.shippingAddress = !shipping.is_valid_city;
+                }
+
+                state.pickup_location_code = shipping.pickup_location_code;
             }
-
-            state.pickup_location_code = shipping.pickup_location_code;
         } else if (!state.data.isGuest && address) {
             state.selected.address = {
                 firstname: address.firstname,
@@ -397,55 +519,195 @@ const Checkout = (props) => {
                 telephone: address.telephone,
                 street: address.street,
                 country: address.country,
-                pickup_location_code: shipping.pickup_location_code,
+                pickup_location_code: storeConfig.enable_oms_multiseller === '1' ? shipping[0].pickup_location_code : shipping.pickup_location_code,
             };
         }
 
-        // init shipping method
-        if (shipping && shipping.available_shipping_methods) {
-            const availableShipping = shipping.available_shipping_methods.filter((x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore');
+        let cartItemBySeller = {};
 
-            state.data.shippingMethods = availableShipping.map((item) => ({
-                ...item,
-                label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
-                promoLabel: `${item.shipping_promo_name}`,
-                value: `${item.carrier_code}_${item.method_code}`,
-            }));
+        if (itemCart.cart.items.length > 0) {
+            const unGroupedData = itemCart.cart.items;
+
+            // eslint-disable-next-line no-shadow
+            const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, ...other }) => {
+                let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+                if (!item) {
+                    item = {
+                        seller_id: product.seller.seller_id ? product.seller.seller_id : null,
+                        seller_name: product.seller.seller_name ? product.seller.seller_name : null,
+                        productList: [],
+                        subtotal: {
+                            currency: '',
+                            value: 0,
+                        },
+                    };
+                    groupData.push(item);
+                }
+                let child = item.productList.find((ch) => ch.name === product.name);
+                if (!child) {
+                    child = {
+                        id,
+                        prices,
+                        product,
+                        quantity,
+                        ...other,
+                    };
+                    item.productList.push(child);
+                    item.subtotal.currency = prices.row_total_including_tax.currency;
+                    item.subtotal.value += prices.row_total_including_tax.value;
+                }
+                return groupData;
+            }, []);
+            cartItemBySeller = groupData;
         }
 
-        if (shipping && shipping.selected_shipping_method) {
-            const shippingMethod = shipping.selected_shipping_method;
-            state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
+        if (shipping && shipping[0].available_shipping_methods.length === 0) setLoadingSellerInfo(false);
 
-            if (modules.checkout.pickupStore.enabled) {
-                if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
-                    const custAddress = cart.shipping_addresses[0];
-                    state.selected.delivery = 'pickup';
-                    state.error.shippingAddress = false;
-                    state.selectStore = {
-                        city: custAddress.city,
-                        country_code: custAddress.country.code,
-                        name: custAddress.firstname,
-                        postcode: custAddress.postcode,
-                        region: custAddress.region.label,
-                        street: custAddress.street,
-                        telephone: custAddress.telephone,
-                        code: cart.items[0].pickup_item_store_info.loc_code,
-                    };
-                    if (cart.pickup_store_person) {
-                        state.pickupInformation = {
-                            pickup_person_email: cart.pickup_store_person.email,
-                            pickup_person_name: cart.pickup_store_person.name,
-                            pickup_person_phone: cart.pickup_store_person.handphone,
+        // init shipping method
+        // if multiseller active
+        if (storeConfig.enable_oms_multiseller === '1') {
+            if (shipping && shipping[0].available_shipping_methods) {
+                const availableMultiShipping = shipping.map((shippingPerSeller) => ({
+                    seller_id: shippingPerSeller.seller_id ? shippingPerSeller.seller_id : 0,
+                    available_shipping_methods: shippingPerSeller.available_shipping_methods.filter(
+                        (item) => item.carrier_code !== 'pickup' && item.carrier_code !== 'instore'
+                    ),
+                }));
+
+                setAmountSeller(availableMultiShipping.length);
+
+                // eslint-disable-next-line consistent-return
+                availableMultiShipping.map(async ({ seller_id, available_shipping_methods }, index) => {
+                    let sellerInfo;
+                    if (seller_id !== 0 || seller_id !== null) {
+                        sellerInfo = await apolloClient
+                            .query({ query: Schema.getSeller, variables: { sellerId: parseInt(seller_id, 10) } })
+                            .then(({ data }) => {
+                                return {
+                                    seller_id,
+                                    seller_name: data.getSeller.length > 0 ? data.getSeller[0].name : 'Default Seller',
+                                    seller_city: data.getSeller.length > 0 ? data.getSeller[0].city : 'Default Seller City',
+                                    available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
+                                        ...shippingItemMultiseller,
+                                        label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `
+                                            } ${shippingItemMultiseller.carrier_title} `,
+                                        promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
+                                        value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
+                                    })),
+                                };
+                            });
+                        state.data.seller.push(sellerInfo);
+                        setSellerInfoState((prevState) => [...prevState, sellerInfo]);
+                        setCurrentIndexSeller(index);
+                    } else {
+                        setCurrentIndexSeller(index);
+                        return {
+                            seller_id: 0,
+                            seller_name: 'Default Seller',
+                            seller_city: 'Default Seller City',
+                            available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
+                                ...shippingItemMultiseller,
+                                label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title
+                                    } `,
+                                promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
+                                value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
+                            })),
                         };
                     }
-                }
+                });
+
+                state.data.shippingMethods = availableMultiShipping.map(({ seller_id, available_shipping_methods }) => ({
+                    seller_id: seller_id || 0,
+                    available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
+                        ...shippingItemMultiseller,
+                        label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title
+                            } `,
+                        promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
+                        value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
+                    })),
+                }));
             }
 
-            if (shipping.pickup_location_code) {
-                state.selected.delivery = 'instore';
-                state.error.shippingAddress = false;
+            if (shipping) {
+                const tempSelectedShipping = [];
+                shipping.map((ship) => {
+                    if (ship.selected_shipping_method) {
+                        tempSelectedShipping.push({
+                            seller_id: ship.seller_id,
+                            selected_shipping_method: `${ship.selected_shipping_method.carrier_code}_${ship.selected_shipping_method.method_code}`,
+                        });
+                    }
+                    return null;
+                });
+                state.selected.shipping = shipping.map((ship) => {
+                    if (ship.selected_shipping_method) {
+                        return {
+                            seller_id: ship.seller_id,
+                            name: {
+                                carrier_code: ship.selected_shipping_method.carrier_code,
+                                method_code: ship.selected_shipping_method.method_code,
+                            },
+                            price: ship.selected_shipping_method.amount.value,
+                            original_price: ship.selected_shipping_method.amount.value,
+                        };
+                    }
+                    return {
+                        seller_id: ship.seller_id,
+                        name: { carrier_code: null, method_code: null },
+                        price: null,
+                        original_price: null,
+                    };
+                });
             }
+        } else {
+            if (shipping && shipping[0].available_shipping_methods) {
+                const availableShipping = shipping[0].available_shipping_methods.filter(
+                    (x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore'
+                );
+
+                state.data.shippingMethods = availableShipping.map((item) => ({
+                    ...item,
+                    label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
+                    promoLabel: `${item.shipping_promo_name}`,
+                    value: `${item.carrier_code}_${item.method_code}`,
+                }));
+            }
+
+            if (shipping && shipping[0].selected_shipping_method) {
+                const shippingMethod = shipping[0].selected_shipping_method;
+                state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
+
+                if (modules.checkout.pickupStore.enabled) {
+                    if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
+                        const custAddress = cart.shipping_addresses[0];
+                        state.selected.delivery = 'pickup';
+                        state.error.shippingAddress = false;
+                        state.selectStore = {
+                            city: custAddress.city,
+                            country_code: custAddress.country.code,
+                            name: custAddress.firstname,
+                            postcode: custAddress.postcode,
+                            region: custAddress.region.label,
+                            street: custAddress.street,
+                            telephone: custAddress.telephone,
+                            code: cart.items[0].pickup_item_store_info.loc_code,
+                        };
+                        if (cart.pickup_store_person) {
+                            state.pickupInformation = {
+                                pickup_person_email: cart.pickup_store_person.email,
+                                pickup_person_name: cart.pickup_store_person.name,
+                                pickup_person_phone: cart.pickup_store_person.handphone,
+                            };
+                        }
+                    }
+                }
+
+                if (shipping.pickup_location_code) {
+                    state.selected.delivery = 'instore';
+                    state.error.shippingAddress = false;
+                }
+            }
+            setLoadingSellerInfo(false);
         }
 
         // init payment method
@@ -569,6 +831,107 @@ const Checkout = (props) => {
         }
 
         if (dataCart && dataCart.cart && itemCart && itemCart.cart && cartId) {
+            const { cart } = dataCart;
+            const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
+
+            let cartItemBySeller = {};
+
+            if (itemCart.cart.items.length > 0) {
+                const unGroupedData = itemCart.cart.items;
+
+                // eslint-disable-next-line no-shadow
+                const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, ...other }) => {
+                    let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+                    if (!item) {
+                        item = {
+                            seller_id: product.seller.seller_id ? product.seller.seller_id : 0,
+                            seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
+                            productList: [],
+                            subtotal: {
+                                currency: '',
+                                value: 0,
+                            },
+                        };
+                        groupData.push(item);
+                    }
+                    let child = item.productList.find((ch) => ch.name === product.name);
+                    if (!child) {
+                        child = {
+                            id,
+                            prices,
+                            product,
+                            quantity,
+                            ...other,
+                        };
+                        item.productList.push(child);
+                        item.subtotal.currency = prices.row_total_including_tax.currency;
+                        item.subtotal.value += prices.row_total_including_tax.value;
+                    }
+                    return groupData;
+                }, []);
+                cartItemBySeller = groupData;
+            }
+
+            if (shipping && storeConfig.enable_oms_multiseller === '1') {
+                if (
+                    // Multi product not yet initialized (mix/all have seller_id)
+                    (shipping.length > 0 &&
+                        cartItemBySeller.length !== shipping.length &&
+                        shipping[0].seller_id === null &&
+                        cartItemBySeller[0].seller_id !== 0) ||
+                    // Single product not yet initialized (have seller_id)
+                    (shipping.length === 1 &&
+                        cartItemBySeller.length === shipping.length &&
+                        shipping[0].seller_id === null &&
+                        cartItemBySeller[0].seller_id !== 0) ||
+                    // Added new product with seller_id (more/less seller on shipping_address)
+                    (shipping && cartItemBySeller.length !== shipping.length && !cartItemBySeller.find((x) => x.seller_id === null))
+                ) {
+                    setShippingAddressByInput({
+                        variables: {
+                            cartId: cart.id,
+                            city: shipping[0].city,
+                            countryCode: shipping[0].country.code,
+                            firstname: shipping[0].firstname,
+                            lastname: shipping[0].lastname,
+                            telephone: shipping[0].telephone,
+                            postcode: shipping[0].postcode,
+                            street: shipping[0].street[0],
+                            region: shipping[0].region.code,
+                            regionId: shipping[0].region.region_id,
+                        },
+                    })
+                        .then(async () => {
+                            setBillingAddressByInput({
+                                variables: {
+                                    cartId: cart.id,
+                                    city: shipping[0].city,
+                                    countryCode: shipping[0].country.code,
+                                    firstname: shipping[0].firstname,
+                                    lastname: shipping[0].lastname,
+                                    telephone: shipping[0].telephone,
+                                    postcode: shipping[0].postcode,
+                                    street: shipping[0].street[0],
+                                    region: shipping[0].region.code,
+                                    regionId: shipping[0].region.region_id,
+                                },
+                            })
+                                .then(async (resBilling) => {
+                                    updateAddressState(resBilling);
+                                })
+                                .catch((e) => {
+                                    if (e.message.includes('Token is wrong.')) {
+                                        setCheckoutTokenState(!checkoutTokenState);
+                                    }
+                                });
+                        })
+                        .catch((e) => {
+                            if (e.message.includes('Token is wrong.')) {
+                                setCheckoutTokenState(!checkoutTokenState);
+                            }
+                        });
+                }
+            }
             initData();
         }
     }, [manageCustomer.data, dataCart, itemCart, cartId, errorCart, errorItem]);
@@ -609,21 +972,64 @@ const Checkout = (props) => {
             const { cart } = checkout.data;
             const state = { ...checkout };
             // init shipping address
-            const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
-            if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
-                const availableShipping = shipping.available_shipping_methods.filter((x) => x.carrier_code !== 'pickup');
+            if (storeConfig.enable_oms_multiseller === '1') {
+                const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
+                if (shipping && shipping[0].available_shipping_methods && shipping[0].available_shipping_methods.length > 0) {
+                    const availableMultiShipping = shipping.map((shippingPerSeller) => ({
+                        seller_id: shippingPerSeller.seller_id,
+                        available_shipping_methods: shippingPerSeller.available_shipping_methods.filter((item) => item.carrier_code !== 'pickup'),
+                    }));
 
-                state.data.shippingMethods = availableShipping.map((item) => ({
-                    ...item,
-                    label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
-                    promoLabel: `${item.shipping_promo_name}`,
-                    value: `${item.carrier_code}_${item.method_code}`,
-                }));
-            }
+                    state.data.shippingMethods = availableMultiShipping.map(({ seller_id, available_shipping_methods }) => ({
+                        seller_id,
+                        available_shipping_methods: available_shipping_methods.map((shippingItemMultiseller) => ({
+                            ...shippingItemMultiseller,
+                            label: `${shippingItemMultiseller.method_title === null ? '' : `${shippingItemMultiseller.method_title} - `} ${shippingItemMultiseller.carrier_title
+                                } `,
+                            promoLabel: `${shippingItemMultiseller.shipping_promo_name}`,
+                            value: `${shippingItemMultiseller.carrier_code}_${shippingItemMultiseller.method_code}`,
+                        })),
+                    }));
+                }
 
-            if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
-                const shippingMethod = shipping.selected_shipping_method;
-                state.selected.shipping = shippingMethod ? `${shippingMethod.carrier_code}_${shippingMethod.method_code}` : shippingMethod;
+                if (shipping) {
+                    state.selected.shipping = shipping.map((ship) => {
+                        if (ship.selected_shipping_method) {
+                            return {
+                                seller_id: ship.seller_id,
+                                name: {
+                                    carrier_code: ship.selected_shipping_method.carrier_code,
+                                    method_code: ship.selected_shipping_method.method_code,
+                                },
+                                price: ship.selected_shipping_method.amount.value,
+                                original_price: ship.selected_shipping_method.amount.value,
+                            };
+                        }
+                        return {
+                            seller_id: ship.seller_id,
+                            name: { carrier_code: null, method_code: null },
+                            price: null,
+                            original_price: null,
+                        };
+                    });
+                }
+            } else {
+                const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses : null;
+                if (shipping && shipping[0].available_shipping_methods && shipping[0].available_shipping_methods.length > 0) {
+                    const availableShipping = shipping[0].available_shipping_methods.filter((x) => x.carrier_code !== 'pickup');
+
+                    state.data.shippingMethods = availableShipping.map((item) => ({
+                        ...item,
+                        label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
+                        promoLabel: `${item.shipping_promo_name}`,
+                        value: `${item.carrier_code}_${item.method_code}`,
+                    }));
+                }
+
+                if (shipping && shipping[0].available_shipping_methods && shipping[0].available_shipping_methods.length > 0) {
+                    const shippingMethod = shipping[0].selected_shipping_method;
+                    state.selected.shipping = shippingMethod ? `${shippingMethod.carrier_code}_${shippingMethod.method_code}` : shippingMethod;
+                }
             }
 
             setCheckout(state);
@@ -908,6 +1314,8 @@ const Checkout = (props) => {
         setTokenData,
         checkoutTokenState,
         setCheckoutTokenState,
+        setLoadingSellerInfo,
+        loadingSellerInfo,
     };
 
     return (

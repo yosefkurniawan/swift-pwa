@@ -76,6 +76,24 @@ const useStyles = makeStyles(() => ({
         padding: 20,
         visibility: 'hidden',
     },
+    loadmorePagination: {
+        // width: '100%',
+        // display: 'flex',
+        // justifyContent: 'center',
+        marginTop: 20,
+        marginBottom: 20,
+        '& .MuiPagination-root': {
+            '& .MuiPagination-ul': {
+                margin: 0,
+                display: 'flex',
+                padding: 0,
+                flexWrap: 'wrap',
+                listStyle: 'none',
+                alignItems: 'center',
+                justifyContent: 'center',
+            },
+        },
+    },
 }));
 
 export default useStyles;

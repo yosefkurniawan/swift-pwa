@@ -182,6 +182,9 @@ export const getProduct = (key) => {
             pageSize: 5
           ) {
             items {
+                seller{
+                    seller_name
+                }
                 id
                 name
                 url_key
@@ -229,66 +232,103 @@ export const getProduct = (key) => {
     return query;
 };
 
-export const getRecentlyProduct = () => {
-    const query = gql`
-    query getRecentlyProduct($filter: ProductAttributeFilterInput) {
-      products(filter: $filter) {
-        items {
+export const getSeller = gql`
+    query getSeller($input: SellerInput) {
+        getSeller(input: $input ) {
             id
             name
-            url_key
-            small_image {
-                url
-                label
-            }
-            price_range{
-                maximum_price{
-                  discount{
-                    amount_off
-                    percent_off
-                  }
-                  final_price{
-                    currency
-                    value
-                  }
-                  fixed_product_taxes{
-                    amount{
-                      currency
-                      value
-                    }
-                    label
-                  }
-                  regular_price{
-                    currency
-                    value
-                  }
-                }
-                minimum_price{
-                            discount{
-                    amount_off
-                    percent_off
-                  }
-                  final_price{
-                    currency
-                    value
-                  }
-                  fixed_product_taxes{
-                    amount{
-                      currency
-                      value
-                    }
-                    label
-                  }
-                  regular_price{
-                    currency
-                    value
-                  }
-                }
-              }
+            logo
+            status
+            address
+            description
+            city
+            latitude
+            longitude
+            additional_info
         }
-      }
     }
-  `;
+`;
+
+export const getSellerByName = (name) => {
+    const query = gql`
+        {
+            getSeller(input: { keyword: "${name}" }) {
+            id
+            name
+            logo
+            status
+            address
+            description
+            city
+            latitude
+            longitude
+            additional_info
+            }
+        }
+    `;
+    return query;
+};
+
+export const getRecentlyProduct = () => {
+    const query = gql`
+        query getRecentlyProduct($filter: ProductAttributeFilterInput) {
+            products(filter: $filter) {
+                items {
+                    id
+                    name
+                    url_key
+                    small_image {
+                        url
+                        label
+                    }
+                    price_range {
+                        maximum_price {
+                            discount {
+                                amount_off
+                                percent_off
+                            }
+                            final_price {
+                                currency
+                                value
+                            }
+                            fixed_product_taxes {
+                                amount {
+                                    currency
+                                    value
+                                }
+                                label
+                            }
+                            regular_price {
+                                currency
+                                value
+                            }
+                        }
+                        minimum_price {
+                            discount {
+                                amount_off
+                                percent_off
+                            }
+                            final_price {
+                                currency
+                                value
+                            }
+                            fixed_product_taxes {
+                                amount {
+                                    currency
+                                    value
+                                }
+                                label
+                            }
+                            regular_price {
+                                currency
+                                value
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    `;
     return query;
 };
 /**
@@ -354,7 +394,9 @@ export default {
     vesMenu,
     getCurrencySchema,
     getProduct,
+    getSeller,
     getCategoryByName,
+    getSellerByName,
     getRecentlyProduct,
     getCountCart,
 };

@@ -206,6 +206,10 @@ items {
         name
         }
         url_key
+        seller {
+            seller_id
+            seller_name
+        }
         sku
         stock_status
         small_image {
@@ -336,6 +340,7 @@ const shortAddressData = `
         region {
             code
             label
+            region_id
         }
         company
         country {
@@ -347,6 +352,7 @@ const shortAddressData = `
 const cartShippingAddress = `
     shipping_addresses {
         is_valid_city
+        seller_id
         ${modules.checkout.inStorePickup.enabled ? 'pickup_location_code' : ''}
         ${shortAddressData}
         ${selected_shipping_method}
@@ -555,6 +561,16 @@ export const getCheckoutConfigurations = gql`
     }
 `;
 
+export const getSeller = gql`
+    query getSeller($sellerId: [Int!]) {
+        getSeller(input: { seller_id: $sellerId }) {
+            id
+            name
+            city
+        }
+    }
+`;
+
 export const setShippingAddressById = gql`
     mutation setShippingAddressById(
         $addressId: Int!,
@@ -576,7 +592,7 @@ export const setShippingAddressById = gql`
             input: { 
                 cart_id: $cartId,
                 billing_address: { 
-                    same_as_shipping: true, 
+                    same_as_shipping: false, 
                     customer_address_id: $addressId
                 }
             }
@@ -586,6 +602,7 @@ export const setShippingAddressById = gql`
                 ${cartBillingAddress}
                 shipping_addresses {
                     is_valid_city
+                    seller_id
                     ${available_shipping_methods}
                     ${selected_shipping_method}
                 }
@@ -624,7 +641,7 @@ export const setShippingAddressByInput = gql`
                         postcode: $postcode
                         latitude: $latitude
                         longitude: $longitude
-                        save_in_address_book: true
+                        save_in_address_book: false
                     }
                 }
             }
@@ -633,8 +650,103 @@ export const setShippingAddressByInput = gql`
                 id
                 shipping_addresses {
                     is_valid_city
+                    seller_id
                     ${shortAddressData}
                 }
+            }
+        }
+    }
+`;
+
+export const initiateShippingAddressMultiseller = gql`
+    mutation setShippingAddressByInput(
+        $cartId: String!
+        $city: String!
+        $countryCode: String!
+        $firstname: String!
+        $lastname: String!
+        $telephone: String!
+        $postcode: String!
+        $street: String!
+        $region: String!
+        $regionId: Int!
+        $latitude: String
+        $longitude: String
+    ) {
+        setShippingAddressesOnCart(
+            input: {
+                cart_id: $cartId
+                shipping_addresses: {
+                    address: {
+                        city: $city
+                        country_code: $countryCode
+                        firstname: $firstname
+                        lastname: $lastname
+                        telephone: $telephone
+                        region: $region
+                        region_id: $regionId
+                        street: [$street]
+                        postcode: $postcode
+                        latitude: $latitude
+                        longitude: $longitude
+                        save_in_address_book: false
+                    }
+                }
+            }
+        ) {
+            cart {
+                id
+                shipping_addresses {
+                    is_valid_city
+                    seller_id
+                    ${shortAddressData}
+                }
+            }
+        }
+    }
+`;
+
+export const initiateBillingAddressMultiseller = gql`
+    mutation setBillingAddressByInput(
+        $cartId: String!
+        $city: String!
+        $countryCode: String!
+        $firstname: String!
+        $lastname: String!
+        $telephone: String!
+        $postcode: String!
+        $street: String!
+        $region: String!
+        $regionId: Int!
+        $latitude: String
+        $longitude: String
+    ) {
+        setBillingAddressOnCart(
+            input: {
+                cart_id: $cartId
+                billing_address: {
+                    same_as_shipping: true
+                    address: {
+                        city: $city
+                        country_code: $countryCode
+                        firstname: $firstname
+                        lastname: $lastname
+                        telephone: $telephone
+                        region: $region
+                        region_id: $regionId
+                        street: [$street]
+                        postcode: $postcode
+                        latitude: $latitude
+                        longitude: $longitude
+                        save_in_address_book: true
+                    }
+                }
+            }
+        ) {
+            cart {
+                ${dest_location}
+                ${cartBillingAddress}
+                ${cartShippingAddress}
             }
         }
     }
@@ -780,6 +892,32 @@ export const setShippingMethod = gql`
     }
 `;
 
+export const setShippingMethodMultiseller = gql`
+    mutation setShippingMethod(
+        $cartId: String!,
+        $shippingMethodInput: [ShippingMethodInput]!
+    ) {
+        setShippingMethodsOnCart(
+            input: {
+                cart_id: $cartId,
+                shipping_methods: $shippingMethodInput
+        }) {
+            cart {
+                id
+                ${promoBanner}
+                ${cartShippingAddress}
+                ${modules.checkout.cashback.enabled ? applied_cashback : ''}
+                ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
+                ${prices}
+                ${modules.promo.enabled ? applied_coupons : ''}
+                ${modules.rewardpoint.enabled ? applied_reward_points : ''}
+                ${modules.giftcard.enabled ? applied_giftcard : ''}
+                ${modules.storecredit.enabled ? applied_store_credit : ''}
+            }
+        }
+    }
+`;
+
 export const setPaymentMethod = gql`
     mutation setPaymentMethod(
         $cartId: String!,
@@ -898,7 +1036,7 @@ export const removeRewardPointsFromCart = gql`
 `;
 
 export const getSnapToken = gql`
-    query($orderId: String!) {
+    query($orderId: [String!]!) {
         getSnapTokenByOrderId(order_id: $orderId) {
             snap_token
         }
@@ -906,7 +1044,7 @@ export const getSnapToken = gql`
 `;
 
 export const getSnapOrderStatusByOrderId = gql`
-    query($orderId: String!) {
+    query($orderId: [String!]!) {
         getSnapOrderStatusByOrderId(order_id: $orderId) {
             order_id
             status_message
@@ -1019,14 +1157,8 @@ export const mergeCart = gql`
 `;
 
 export const setCheckoutSession = gql`
-    mutation setCheckoutSession(
-        $cartId: String!
-    ) {
-        internalGenerateCartTokenSession(
-            input: {
-                cart_id: $cartId
-            }
-        ) {
+    mutation setCheckoutSession($cartId: String!) {
+        internalGenerateCartTokenSession(input: { cart_id: $cartId }) {
             message
         }
     }
@@ -1227,11 +1359,11 @@ export const getCmsPage = gql`
 `;
 
 export const getIndodanaUrl = gql`
-query IndodanaUrl($order_number: String!) {
-    indodanaRedirectUrl(order_number: $order_number) {
-      redirect_url
+    query IndodanaUrl($order_number: String!) {
+        indodanaRedirectUrl(order_number: $order_number) {
+            redirect_url
+        }
     }
-  }
 `;
 
 export const pickupLocations = gql`
@@ -1252,7 +1384,7 @@ export const pickupLocations = gql`
                 street
                 postcode
                 phone
-            },
+            }
             total_count
             page_info {
                 page_size
@@ -1302,6 +1434,7 @@ export const setInstoreShippingAddress = gql`
             cart {
                 shipping_addresses {
                     is_valid_city
+                    seller_id
                     ${shortAddressData}
                     pickup_location_code
                 }
@@ -1330,6 +1463,7 @@ export const setInstoreShippingAddress = gql`
                 ${cartBillingAddress}
                 shipping_addresses {
                     is_valid_city
+                    seller_id
                     ${available_shipping_methods}
                     ${selected_shipping_method}
                 }

@@ -3,12 +3,7 @@ import { modules } from '@config';
 import gqlService from '@core_modules/checkout/services/graphql';
 
 const RewardPoint = ({
-    t,
-    checkout,
-    setCheckout,
-    handleOpenMessage,
-    formik,
-    RewardPointView,
+    t, checkout, setCheckout, handleOpenMessage, formik, RewardPointView, storeConfig,
 }) => {
     const [loading, setLoading] = React.useState(false);
     const [removeRewardPointsFromCart, applRewardPoint] = gqlService.removeRewardPointsFromCart({
@@ -44,10 +39,10 @@ const RewardPoint = ({
         setLoading(true);
         if (reward_point.is_use_reward_points) {
             const result = await removeRewardPointsFromCart({ variables: { cartId: checkout.data.cart.id, coupon: formik.values.coupon } });
-            cart = result && ({
+            cart = result && {
                 ...state.data.cart,
                 ...result.data.removeRewardPointsFromCart.cart,
-            });
+            };
             if (result) {
                 handleOpenMessage({
                     variant: 'success',
@@ -56,10 +51,10 @@ const RewardPoint = ({
             }
         } else {
             const result = await applyRewardPointsToCart({ variables: { cartId: id } });
-            cart = result && ({
+            cart = result && {
                 ...state.data.cart,
                 ...result.data.applyRewardPointsToCart.cart,
-            });
+            };
             if (result) {
                 handleOpenMessage({
                     variant: 'success',
@@ -82,6 +77,7 @@ const RewardPoint = ({
                 loading={loading}
                 reward_point={reward_point}
                 total={total}
+                storeConfig={storeConfig}
             />
         );
     }
