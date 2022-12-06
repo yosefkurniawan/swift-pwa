@@ -147,7 +147,16 @@ const Header = ({ LeftComponent, CenterComponent, RightComponent, className, pag
                 ) : (
                     <>
                         {pageConfig.headerTitle ? (
-                            <Typography variant="h1" type="bold" letter="uppercase" align="center" className={styles.title}>
+                            <Typography
+                                variant={router.pathname === '/blog'
+                                || router.pathname === '/blog/[id]'
+                                || router.pathname === '/checkout/cart'
+                                || router.pathname === '/checkout' ? 'span' : 'h2'}
+                                type="bold"
+                                letter="uppercase"
+                                align="center"
+                                className={styles.title}
+                            >
                                 {pageConfig.headerTitle}
                             </Typography>
                         ) : null}

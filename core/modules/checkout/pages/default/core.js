@@ -12,7 +12,8 @@ import { useApolloClient } from '@apollo/client';
 import Toast from '@common_toast';
 import { modules, nameCheckoutState } from '@config';
 import {
-    getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
+    // eslint-disable-next-line comma-dangle
+    getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl
 } from '@core_modules/checkout/helpers/config';
 import gqlService from '@core_modules/checkout/services/graphql';
 import * as Schema from '@core_modules/checkout/services/graphql/schema';
@@ -114,7 +115,8 @@ const Checkout = (props) => {
         }
     }, [cartId, propsCardId, setCheckoutSession]);
 
-    const { snap_is_production, snap_client_key, allow_guest_checkout } = storeConfig;
+    // const { snap_is_production, snap_client_key, allow_guest_checkout } = storeConfig;
+    const { snap_is_production, allow_guest_checkout } = storeConfig;
     if (storeConfig && !allow_guest_checkout && !isLogin) {
         urlRedirect = getLoginCallbackUrl({ errorGuest: true });
         if (typeof window !== 'undefined') {
@@ -1319,7 +1321,7 @@ const Checkout = (props) => {
     return (
         <Layout pageConfig={configPage || pageConfig} {...props} showRecentlyBar={false} isCheckout>
             <Head>
-                <script type="text/javascript" src={url} data-client-key={snap_client_key} />
+                <script type="text/javascript" src={url} data-client-key="SB-Mid-client-1F64CqNZz3Nzvai2" />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <script src="https://js.braintreegateway.com/web/3.78.2/js/client.min.js" />
                 <script src="https://js.braintreegateway.com/web/3.78.2/js/paypal-checkout.min.js" />

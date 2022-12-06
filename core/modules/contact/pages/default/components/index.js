@@ -22,11 +22,6 @@ const ContactForm = (props) => {
                 setOpen={() => setMessage({ ...message, open: false })}
                 message={message.text}
             />
-            <span style={{ margin: '0 0 10px -5px', textTransform: 'uppercase' }}>
-                <Typography variant="h6" type="bold" align="left">
-                    {t('contact:contactUs')}
-                </Typography>
-            </span>
             <TextField
                 label={t('contact:fullName')}
                 className={styles.fullName}
@@ -110,7 +105,7 @@ const ContactPage = (props) => {
     return (
         <>
             {/* eslint-disable-next-line react/no-danger */}
-            <Typography variant="h5" type="bold" align="left" className={styles.pageTitles}>
+            <Typography variant="h1" type="bold" align="left" className={styles.pageTitles}>
                 {t('contact:contactUs')}
             </Typography>
             <div className="row">

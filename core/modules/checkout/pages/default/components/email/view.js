@@ -32,7 +32,7 @@ const EmailView = (props) => {
 
     return (
         <div className={styles.block} id="checkoutEmailSetup">
-            <Typography variant="title" type="bold" letter="uppercase">
+            <Typography variant="h2" type="bold" letter="uppercase">
                 {t('checkout:emailAddress')}
             </Typography>
             <div className={styles.emailContainer}>

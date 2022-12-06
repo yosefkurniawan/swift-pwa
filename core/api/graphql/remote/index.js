@@ -11,9 +11,11 @@ const executor = async ({ document, variables, context }) => {
         let token = '';
         let checkoutToken = '';
         let store_code_storage = '';
+        let adminId = '';
         if (context) {
             token = context.headers.authorization || context.session.token;
             store_code_storage = context.cookies.store_code_storage;
+            adminId = context.cookies.admin_id;
             checkoutToken = context.headers.token || context.session.checkoutToken;
         }
         const query = print(document);
@@ -30,6 +32,10 @@ const executor = async ({ document, variables, context }) => {
         }
         if (checkoutToken && checkoutToken !== '') {
             additionalHeader['Checkout-Token'] = `${decrypt(checkoutToken)}`;
+        }
+        if (adminId !== undefined && adminId !== '') {
+            const admin = parseInt(JSON.parse(adminId)[0], 10);
+            additionalHeader['Admin-Id'] = admin;
         }
         const fetchResult = await fetch(url, {
             method: 'POST',

@@ -88,7 +88,7 @@ const Banner = ({
                         >
                             <Thumbor
                                 src={item.imageUrl}
-                                alt="thumbnail"
+                                alt={item.imageAlt}
                                 width={100}
                                 height={100}
                                 quality={100}
@@ -130,6 +130,7 @@ const Banner = ({
                                         {...item}
                                         videoUrl={item.videoUrl}
                                         storeConfig={storeConfig}
+                                        alt={item.imageAlt}
                                     />
                                 )
                             }

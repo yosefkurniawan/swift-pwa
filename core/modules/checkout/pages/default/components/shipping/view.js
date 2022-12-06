@@ -518,7 +518,7 @@ const ShippingView = (props) => {
 
     return isOnlyVirtualProductOnCart ? null : (
         <div className={styles.block} id="checkoutShipping">
-            <Typography variant="title" type="bold" letter="uppercase">
+            <Typography variant="h2" type="bold" letter="uppercase">
                 {t('checkout:shippingMethod')}
             </Typography>
             {!loadingSellerInfo ? content : <Loader />}
