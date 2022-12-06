@@ -140,7 +140,7 @@ class MyApp extends App {
         }
         if (typeof window === 'undefined' && (!storeConfig || typeof storeConfig.secure_base_media_url === 'undefined')) {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
-            storeConfig = await requestInternal();
+            storeConfig = await requestInternal('getConfig');
             frontendOptions = storeConfig;
             // Handle redirecting to tomaintenance page automatically when GQL is in maintenance mode.
             // We do this here since query storeConfig is the first query and be done in server side
