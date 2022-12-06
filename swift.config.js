@@ -42,23 +42,6 @@ const translation = {
     },
 };
 
-/* Google Tag Manager
- * before enable this configuration, firstly you need to import the gtm tags json.
- * gtm tags json need to be exported from Magento admin in Welpixel GTM configuration.
- * adjust the tag name if you want before import into GTM dashboard setting.
- * as reference you can find sample gtm tags in folder "sample/gtm" folder
- * NOTE: this GTM functionality includes connecting to GA via GTM tag.
- */
-const GTM = {
-    enable: false,
-    gtmId: {
-        local: '', // sample: GTM-N76V8KQ
-        dev: '', // sample: GTM-N76V8KQ
-        stage: '', // sample: GTM-N76V8KQ
-        prod: '', // sample: GTM-N76V8KQ
-    },
-};
-
 // error management monitoring
 const sentry = {
     enabled: false,
@@ -428,7 +411,6 @@ module.exports = {
     sentry,
     storeCode,
     debuging,
-    GTM,
     HOST,
     graphqlEndpoint,
     passwordStrength,

@@ -276,6 +276,11 @@ export const storeConfig = `
           ves_menu_enable
           ves_menu_enable
           warning_msg_color
+          gtm_enable
+          gtm_id_local
+          gtm_id_dev
+          gtm_id_stage
+          gtm_id_prod
       }
       pwa_checkout_debug_enable
       secure_base_media_url
