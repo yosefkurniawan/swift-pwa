@@ -298,11 +298,8 @@ const PaypalButton = (props) => {
                 // setLocalStorage(modules.paypal.keyData, paypalData);
                 window.backdropLoader(false);
                 Router.push(`/${storeConfig.paypal_key.return_url}`);
-            }).catch((
-            // e
-            ) => {
-            // console.log(e);
-            // onErrorPaypal(e);
+            })
+            .catch(() => {
                 Router.push(`/${storeConfig.paypal_key.return_url}`);
             });
     };
