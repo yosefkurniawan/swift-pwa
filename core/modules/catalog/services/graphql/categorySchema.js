@@ -156,6 +156,7 @@ export const getCategoryProducts = (variables) => gql`{
 export const configpwa = gql`
 {
     storeConfig {
+      enable_oms_multiseller
       pwa {
           add_to_cart_enable
           app_name

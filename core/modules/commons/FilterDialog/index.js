@@ -1,36 +1,39 @@
+/* eslint-disable radix */
+import Button from '@common_button';
+import CheckBox from '@common_checkbox';
+import useStyles from '@common_filterdialog/style';
+import CheckBoxColor from '@common_forms/CheckBoxColor';
+import CheckBoxSize from '@common_forms/CheckBoxSize';
+import Loading from '@common_loaders';
+import RadioGroup from '@common_radio';
+import RangeSlider from '@common_rangeslider';
+import Typography from '@common_typography';
+import { getSeller } from '@core_modules/catalog/services/graphql';
+import { useTranslation } from '@i18n';
 import AppBar from '@material-ui/core/AppBar';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
 import Slide from '@material-ui/core/Slide';
 import CloseIcon from '@material-ui/icons/Close';
 import React from 'react';
-import RadioGroup from '@common_radio';
-import Typography from '@common_typography';
-import RangeSlider from '@common_rangeslider';
-import CheckBox from '@common_checkbox';
-import CheckBoxSize from '@common_forms/CheckBoxSize';
-import CheckBoxColor from '@common_forms/CheckBoxColor';
-import Button from '@common_button';
-import Loading from '@common_loaders';
-import { useTranslation } from '@i18n';
-import useStyles from '@common_filterdialog/style';
 
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />
 ));
 
-const FilterDialog = ({
-    open,
-    setOpen,
-    itemProps = {},
-    data = {},
-    elastic = false,
-    loading = false,
-    sortByData = [],
-    getValue = () => {},
-    filterValue = {},
-    defaultSort,
-}) => {
+const FilterDialog = (props) => {
+    const {
+        open,
+        setOpen,
+        itemProps = {},
+        data = {},
+        elastic = false,
+        loading = false,
+        sortByData = [],
+        getValue = () => { },
+        filterValue = {},
+        defaultSort,
+    } = props;
     const { t } = useTranslation(['common']);
     const styles = useStyles();
     const [selectedFilter, setFilter] = React.useState(filterValue);
@@ -97,6 +100,49 @@ const FilterDialog = ({
         setFilter({ ...selectedFilter });
     };
 
+    const [actGetSeller, dataSeller] = getSeller();
+    const [sellerId, setSellerId] = React.useState([]);
+
+    React.useEffect(() => {
+        data.forEach((itemFilter) => {
+            if (itemFilter.field === 'seller_id') {
+                actGetSeller({
+                    variables: {
+                        seller_id: itemFilter.value.map((item) => parseInt(item.value)),
+                    },
+                });
+            }
+        });
+    }, []);
+
+    React.useEffect(() => {
+        if (dataSeller && dataSeller.data) {
+            // eslint-disable-next-line prefer-const
+            let childValue = [];
+            data.forEach((itemFilter) => {
+                if (itemFilter.field === 'seller_id') {
+                    itemFilter.value.forEach((item) => {
+                        const findSeller = dataSeller.data.getSeller.filter((itemSeller) => itemSeller.id === parseInt(item.value));
+                        if (parseInt(item.value) === findSeller[0].id) {
+                            childValue.push({
+                                count: item.count,
+                                label: findSeller[0].name,
+                                value: item.value,
+                            });
+                        }
+                    });
+                    if (sellerId.length === 0) {
+                        setSellerId(() => ({
+                            field: 'seller_id',
+                            label: 'Seller Name',
+                            value: childValue,
+                        }));
+                    }
+                }
+            });
+        }
+    }, [dataSeller, sellerId]);
+
     return (
         <Dialog
             fullScreen
@@ -144,7 +190,20 @@ const FilterDialog = ({
                             value: itemFilter.value[index].label,
                         });
                     }
-                    if (itemFilter.field !== 'attribute_set_id') {
+                    if (itemFilter.field !== 'attribute_set_id' && itemFilter.field !== 'seller_name') {
+                        if (itemFilter.field === 'seller_id' && sellerId && sellerId.field) {
+                            return (
+                                <div className={`${styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']}`} key={idx}>
+                                    <RadioGroup
+                                        name={sellerId.field}
+                                        label={sellerId.label}
+                                        valueData={sellerId.value || []}
+                                        value={selectedFilter[sellerId.field]}
+                                        onChange={(value) => setSelectedFilter(sellerId.field, value)}
+                                    />
+                                </div>
+                            );
+                        }
                         if (itemFilter.field === 'price') {
                             return (
                                 <div className={styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} key={idx}>
