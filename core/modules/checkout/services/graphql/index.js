@@ -41,6 +41,12 @@ export const getCustomer = (options = {}) => useLazyQuery(Schema.getCustomer, {
     errorPolicy: 'all',
 });
 
+// stripes
+export const getStripePaymentIntent = (options = {}) => useMutation(Schema.getStripePaymentIntent, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export const getAddressCustomer = (options = {}) => useLazyQuery(Schema.getAddressCustomer, {
     ...options,
     ...config(USING_INTERNAL),
@@ -301,6 +307,7 @@ export default {
     getAddressCustomer,
     getCart,
     getItemCart,
+    getStripePaymentIntent,
     getCheckoutConfigurations,
     getSeller,
     getRewardPoint,

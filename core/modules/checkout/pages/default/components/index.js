@@ -78,6 +78,8 @@ const Content = (props) => {
     // prettier-ignore
     const isPurchaseOrderApply = isSelectedPurchaseOrder && checkout.status.purchaseOrderApply;
     const travelokaPayRef = React.useRef();
+    const stripeRef = React.useRef();
+    const [clientSecret, setClientSecret] = useState(null);
 
     const [displayHowToPay, setDisplayHowToPay] = useState(false);
     const enableMultiSeller = storeConfig.enable_oms_multiseller === '1';
@@ -86,7 +88,9 @@ const Content = (props) => {
      * [METHOD] handle click for place order
      */
     const handleClick = () => {
-        if (SummaryRef.current) {
+        if (stripeRef && stripeRef.current && clientSecret) {
+            stripeRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        } else if (SummaryRef.current) {
             SummaryRef.current.handlePlaceOrder();
         }
     };
@@ -284,6 +288,7 @@ const Content = (props) => {
                     <PaymentList
                         checkout={checkout}
                         setCheckout={setCheckout}
+                        formik={formik}
                         updateFormik={updateFormik}
                         handleOpenMessage={handleOpenMessage}
                         t={t}
@@ -296,10 +301,15 @@ const Content = (props) => {
                         initialOptionPaypal={initialOptionPaypal}
                         setTokenData={setTokenData}
                         travelokaPayRef={travelokaPayRef}
+                        stripeRef={stripeRef}
+                        clientSecret={clientSecret}
+                        setClientSecret={setClientSecret}
                         displayHowToPay={displayHowToPay}
                         setDisplayHowToPay={setDisplayHowToPay}
                         checkoutTokenState={checkoutTokenState}
+                        refSummary={SummaryRef}
                         setCheckoutTokenState={setCheckoutTokenState}
+                        config={config}
                     />
 
                     <Confirmation t={t} checkout={checkout} setCheckout={setCheckout} storeConfig={storeConfig} ConfirmationView={ConfirmationView} />
@@ -340,7 +350,6 @@ const Content = (props) => {
                     formik={formik}
                     storeConfig={storeConfig}
                     SummaryView={SummaryView}
-                    // eslint-disable-next-line no-return-assign
                     refSummary={SummaryRef}
                     isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                     travelokaPayRef={travelokaPayRef}
