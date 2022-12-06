@@ -16,6 +16,7 @@ import { formatPrice } from '@helper_currency';
 import { breakPointsUp } from '@helper_theme';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
+import ChatIcon from '@material-ui/icons/Chat';
 import Link from '@material-ui/core/Link';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import Favorite from '@material-ui/icons/Favorite';
@@ -219,6 +220,33 @@ const ProductPage = (props) => {
                             <IconButton className={styles.btnShare} onClick={handleWishlist}>
                                 {favoritIcon}
                             </IconButton>
+                            {/* CHAT FEATURES ON MOBILE */}
+                            {features.chatSystem.enable && (
+                                <div className="hidden-desktop">
+                                    {isLogin === 1 ? (
+                                        <>
+                                            {showChat ? (
+                                                <ChatContent
+                                                    isPdp
+                                                    handleChatPdp={handleChat}
+                                                    agentSellerCode={dataSeller[0].id}
+                                                    agentSellerName={dataSeller[0].name}
+                                                    sellerMessage={`${getHost() + route.asPath} - ${data.name}`}
+                                                />
+                                            ) : (
+                                                <IconButton className={classNames(styles.btnShare, 'hidden-desktop')} onClick={handleChat}>
+                                                    <ChatIcon className={styles.iconShare} />
+                                                </IconButton>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <IconButton className={classNames(styles.btnShare, 'hidden-desktop')} onClick={handleChat}>
+                                            <ChatIcon className={styles.iconShare} />
+                                        </IconButton>
+                                    )}
+                                </div>
+                            )}
+                            {/* END CHAT FEATURES ON MOBILE */}
                             <div className="hidden-desktop">
                                 <IconButton className={classNames(styles.btnShare, 'hidden-desktop')} onClick={() => setOpenShare(true)}>
                                     <ShareOutlined className={styles.iconShare} />
@@ -299,33 +327,6 @@ const ProductPage = (props) => {
                     </div>
 
                     <div className="hidden-desktop">
-                        {/* CHAT FEATURES ON MOBILE */}
-                        {features.chatSystem.enable && !desktop && (
-                            <div style={{ marginTop: '16px' }}>
-                                {isLogin === 1 ? (
-                                    <>
-                                        {showChat ? (
-                                            <ChatContent
-                                                isPdp
-                                                handleChatPdp={handleChat}
-                                                agentSellerCode={dataSeller[0].id}
-                                                agentSellerName={dataSeller[0].name}
-                                                sellerMessage={`${getHost() + route.asPath} - ${data.name}`}
-                                            />
-                                        ) : (
-                                            <Button className={styles.btnAddToCard} color="primary" align="center" onClick={handleChat}>
-                                                Chat With Us
-                                            </Button>
-                                        )}
-                                    </>
-                                ) : (
-                                    <Button className={styles.btnAddToCard} color="primary" align="center" onClick={handleChat}>
-                                        Chat With Us
-                                    </Button>
-                                )}
-                            </div>
-                        )}
-                        {/* END CHAT FEATURES ON MOBILE */}
                         <div className={styles.desc}>
                             <Typography variant="span" type="regular" size="10">
                                 {data.short_description.html ? <span dangerouslySetInnerHTML={{ __html: data.short_description.html }} /> : null}
@@ -353,34 +354,6 @@ const ProductPage = (props) => {
                     <div className="hidden-mobile">
                         <DesktopOptions {...props} setOpen={setOpenOption} setBanner={setBanner} setPrice={setPrice} />
 
-                        {/* CHAT FEATURES ON DESKTOP */}
-                        {features.chatSystem.enable && desktop && (
-                            <div style={{ marginTop: '16px' }}>
-                                {isLogin === 1 ? (
-                                    <>
-                                        {showChat ? (
-                                            <ChatContent
-                                                isPdp
-                                                handleChatPdp={handleChat}
-                                                agentSellerCode={dataSeller[0].id}
-                                                agentSellerName={dataSeller[0].name}
-                                                sellerMessage={`${getHost() + route.asPath} - ${data.name}`}
-                                            />
-                                        ) : (
-                                            <Button className={styles.btnAddToCard} color="primary" align="left" onClick={handleChat}>
-                                                Chat With Us
-                                            </Button>
-                                        )}
-                                    </>
-                                ) : (
-                                    <Button className={styles.btnAddToCard} color="primary" align="left" onClick={handleChat}>
-                                        Chat With Us
-                                    </Button>
-                                )}
-                            </div>
-                        )}
-                        {/* END CHAT FEATURES ON DESKTOP */}
-
                         <div className="row">
                             {bannerLiteObj.after
                                 && bannerLiteObj.after.length > 0
@@ -402,15 +375,43 @@ const ProductPage = (props) => {
                                 {t('product:shareTitle')}
                             </Typography>
                             <div className={modules.productcompare.enabled && styles.rowItem}>
-                                <ItemShare link={getHost() + route.asPath} />
-                                {modules.productcompare.enabled && (
-                                    <Button className={styles.btnCompare} color="primary" onClick={() => handleSetCompareList(data.id)}>
-                                        <CompareArrowsIcon color="inherit" style={{ fontSize: '18px' }} />
-                                        <Typography variant="p" align="center" letter="uppercase">
-                                            Compare
-                                        </Typography>
-                                    </Button>
-                                )}
+                                <div className={styles.itemShare}>
+                                    <ItemShare link={getHost() + route.asPath} />
+                                </div>
+                                <div className={styles.compareChat}>
+                                    {modules.productcompare.enabled && (
+                                        <Button className={styles.btnCompare} color="primary" onClick={() => handleSetCompareList(data.id)}>
+                                            <CompareArrowsIcon color="inherit" style={{ fontSize: '18px' }} />
+                                        </Button>
+                                    )}
+                                    {/* CHAT FEATURES ON DESKTOP */}
+                                    {features.chatSystem.enable && (
+                                        <>
+                                            {isLogin === 1 ? (
+                                                <>
+                                                    {showChat ? (
+                                                        <ChatContent
+                                                            isPdp
+                                                            handleChatPdp={handleChat}
+                                                            agentSellerCode={dataSeller[0].id}
+                                                            agentSellerName={dataSeller[0].name}
+                                                            sellerMessage={`${getHost() + route.asPath} - ${data.name}`}
+                                                        />
+                                                    ) : (
+                                                        <Button className={styles.btnChat} color="primary" onClick={handleChat}>
+                                                            <ChatIcon color="inherit" style={{ fontSize: '18px' }} />
+                                                        </Button>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <Button className={styles.btnChat} color="primary" onClick={handleChat}>
+                                                    <ChatIcon className={styles.btnChat} color="inherit" style={{ fontSize: '18px' }} />
+                                                </Button>
+                                            )}
+                                        </>
+                                    )}
+                                    {/* END CHAT FEATURES ON DESKTOP */}
+                                </div>
                             </div>
                         </div>
                         <div className={styles.desc}>
