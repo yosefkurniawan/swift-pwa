@@ -1,9 +1,9 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { GRAY_PRIMARY, GRAY_SECONDARY } from '@theme_color';
-import { FlexColumn, FlexRow, CreatePadding } from '@theme_mixins';
+import { CreatePadding, FlexColumn, FlexRow } from '@theme_mixins';
 import { FONT_10 } from '@theme_typography';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     container: {
         width: '100%',
         height: '100%',
@@ -51,6 +51,80 @@ const useStyles = makeStyles(() => ({
     productContainer: {
         overflow: 'hidden',
         ...CreatePadding(0, 0, 50, 0),
+    },
+    titleContainer: {
+        ...FlexRow,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingLeft: 15,
+        paddingRight: 15,
+    },
+    sellerContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 10,
+    },
+    imageContainer: {
+        float: 'left',
+        marginRight: 20,
+    },
+    img: {
+        width: '60px',
+        height: 'auto',
+        borderRadius: '50%',
+    },
+    listContainerCategoryMobile: {
+        width: '100%',
+        padding: 10,
+        borderTop: '1px solid rgba(224, 224, 224, 1)',
+    },
+    breadcrumbsMobile: {
+        paddingBottom: 5,
+        textTransform: 'uppercase',
+        color: '#929292',
+        fontSize: 10,
+        fontStyle: 'italic',
+    },
+    listContainerCategory: {
+        width: '100%',
+        display: 'flex',
+        padding: 5,
+        paddingLeft: 10,
+    },
+    breadcrumbs: {
+        textTransform: 'uppercase',
+        color: '#929292',
+        fontSize: 10,
+        fontStyle: 'italic',
+        paddingRight: 10,
+    },
+    titleCategory: {
+        textTransform: 'uppercase',
+        fontSize: 10,
+    },
+    topTitle: {
+        display: 'block',
+        width: '100%',
+        height: '20px',
+        paddingLeft: '10px',
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        marginBottom: '8px',
+    },
+    wrapper: {
+        paddingTop: 15,
+    },
+    wrapperSkeleton: {
+        padding: 15,
+    },
+    sellerLogo: {
+        [theme.breakpoints.up('xs')]: {
+            width: '60px !important',
+            height: '60px !important',
+            '& img': {
+                height: '75% !important',
+            },
+        },
     },
 }));
 

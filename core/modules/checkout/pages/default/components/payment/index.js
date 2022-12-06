@@ -36,7 +36,9 @@ export default function CustomizedExpansionPanels({
      * [METHOD] handle when get result from set payment method
      * @param {state, result, val, cart} params
      */
-    const onHandleResult = ({ state, result, val, cart, purchaseOrder = false }) => {
+    const onHandleResult = ({
+        state, result, val, cart, purchaseOrder = false,
+    }) => {
         state = {
             ...checkout,
             selected: {
@@ -228,9 +230,9 @@ export default function CustomizedExpansionPanels({
                             };
                             setCheckout(state);
                             if (
-                                storeConfig?.pwa?.paypal_enable &&
-                                initialOptionPaypal['data-order-id'] === '' &&
-                                checkout.selected.payment === 'paypal_express'
+                                storeConfig?.pwa?.paypal_enable
+                                && initialOptionPaypal['data-order-id'] === ''
+                                && checkout.selected.payment === 'paypal_express'
                             ) {
                                 getPaypalToken({
                                     variables: {

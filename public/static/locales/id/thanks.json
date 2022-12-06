@@ -20,5 +20,7 @@
     "instructions": "Instruksi",
     "paynow": "Bayar Sekarang",    
     "duedate": "Batas Waktu",    
-    "onboarding": "Silahkan melakukan pembayaran untuk menyelesaikan transaksi"
+    "onboarding": "Silahkan melakukan pembayaran untuk menyelesaikan transaksi",
+    "seller": "Penjual",
+    "orderInfo": "Check informasi pesanan anda"
 }

@@ -5,6 +5,7 @@
  */
 const getQueryFromPath = (router) => {
     let { asPath } = router;
+    const oldAsPath = asPath;
     let path = '';
     if (router.query && router.query.slug) {
         // eslint-disable-next-line no-plusplus
@@ -26,6 +27,12 @@ const getQueryFromPath = (router) => {
             // eslint-disable-next-line prefer-destructuring
             query[tempQuery[0]] = tempQuery[1];
         }
+    }
+    if (oldAsPath.split('?')[0].includes('/seller/')) {
+        return {
+            path: oldAsPath.split('?')[0],
+            query,
+        };
     }
     return {
         path,

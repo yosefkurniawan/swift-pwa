@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import * as Schema from '@core_modules/cart/services/graphql/schema';
 
 export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, {
@@ -95,6 +95,12 @@ export const deleteCartItem = () => useMutation(Schema.deleteCartItemOnPage, {
 });
 
 export const updateCartitem = () => useMutation(Schema.updateCartitem, {
+    context: {
+        request: 'internal',
+    },
+});
+
+export const updateCartItemNote = () => useMutation(Schema.updateCartItemNote, {
     context: {
         request: 'internal',
     },
