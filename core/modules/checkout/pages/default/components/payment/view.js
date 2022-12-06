@@ -307,7 +307,7 @@ const PaymentView = (props) => {
                 setDisplayHowToPay={setDisplayHowToPay}
             />
             <div className={styles.paymentHeader}>
-                <Typography variant="title" type="bold" letter="uppercase">
+                <Typography variant="h2" type="bold" letter="uppercase">
                     {t('checkout:payment')}
                 </Typography>
                 {(modules.checkout.howtoPay.enabled && displayHowToPay) ? (

@@ -1,5 +1,4 @@
 /* eslint-disable prefer-destructuring */
-import { modules } from '@config';
 import { createPaypalExpressToken, setPaypalPaymentMethod } from '@core_modules/paypal/services/graphql';
 import { getCartId } from '@helper_cartid';
 import PaypalButtonView from '@plugin_paypalbutton/view';

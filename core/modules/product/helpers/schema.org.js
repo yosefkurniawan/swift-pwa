@@ -37,10 +37,25 @@ const generate = (product) => {
     if (product.review.rating_summary) {
         schema.aggregateRating = { // sementara di comment soalnya datanya belum
             '@type': 'AggregateRating',
-            bestRating: product.review.rating_summary ? product.review.rating_summary : 1,
+            bestRating: product.review.rating_summary ? parseInt(product.review.rating_summary, 0) / 20 : 1,
             ratingCount: product.review.reviews_count ? product.review.reviews_count : 1,
-            ratingValue: product.review.rating_summary ? product.review.rating_summary : 1,
+            ratingValue: product.review.rating_summary ? parseInt(product.review.rating_summary, 0) / 20 : 1,
         };
+    }
+
+    if (product.reviews && product.reviews.items && product.reviews.items.length > 0) {
+        schema.review = product.reviews.items.map((review) => ({
+            '@type': 'Review',
+            reviewBody: review.text,
+            author: {
+                '@type': 'Person',
+                name: review.nickname,
+            },
+            reviewRating: {
+                '@type': 'Rating',
+                name: parseInt(review.average_rating / 20, 10),
+            },
+        }));
     }
     return [
         schema,

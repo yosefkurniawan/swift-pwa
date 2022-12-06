@@ -165,7 +165,8 @@ const FooterView = (props) => {
 
                     .footer-v1-content .mini-logo {
                         padding-top: 50px;
-                        margin-top: 0px
+                        margin-top: 0px;
+                        margin-bottom: 18px;
                     }
 
                     .footer-v1-content .footer-title {
@@ -419,7 +420,7 @@ const FooterView = (props) => {
                         color: #fff;
                     }
 
-                    .footer-v3 h4 {
+                    .footer-v3 .mini-logo {
                         margin: 20px 0;
                     }
 

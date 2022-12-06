@@ -99,6 +99,9 @@ const Content = (props) => {
             <div className="col-xs-12 center hidden-mobile">
                 <HeaderView storeConfig={storeConfig} />
             </div>
+            <Typography variant="h1" style={{ display: 'none' }}>
+                Checkout
+            </Typography>
             <Modal
                 open={checkoutTokenState}
                 handleYes={() => {
@@ -208,7 +211,7 @@ const Content = (props) => {
                     />
 
                     <div className={classNames(styles.block)}>
-                        <Typography variant="title" type="bold" letter="uppercase">
+                        <Typography variant="h2" type="bold" letter="uppercase">
                             {t('checkout:feePromoLabel')}
                         </Typography>
                         <div className="row">

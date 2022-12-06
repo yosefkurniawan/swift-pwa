@@ -285,14 +285,14 @@ const CheckoutDrawer = ({
                                 ))}
                                 <ListItem className={styles.list}>
                                     <ListItemText
-                                        primary={
-                                            <Typography variant="title" type="bold">
-                                                Grand Total
+                                        primary={(
+                                            <Typography variant="span" type="bold" size="16">
+                                                Total
                                             </Typography>
-                                        }
+                                        )}
                                     />
                                     <ListItemSecondaryAction>
-                                        <Typography variant="title" type="bold">
+                                        <Typography variant="span" type="bold" size="16">
                                             {total.currency ? formatPrice(total.value, total.currency) : null}
                                         </Typography>
                                     </ListItemSecondaryAction>

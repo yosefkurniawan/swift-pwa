@@ -55,7 +55,7 @@ const AddressView = (props) => {
             />
             <div className={styles.addressContainer}>
                 <div className={styles.addressText}>
-                    <Typography variant="title" type="bold" letter="uppercase">
+                    <Typography variant="h2" type="bold" letter="uppercase">
                         {isOnlyVirtualProductOnCart ? t('checkout:billingAddress') : t('checkout:shippingAddress')}
                     </Typography>
                     <Typography variant="p">{content}</Typography>
