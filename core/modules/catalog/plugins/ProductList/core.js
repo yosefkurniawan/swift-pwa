@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helper_generatequery';
 import TagManager from 'react-gtm-module';
-import { getProduct, getProductAgragations } from '@core_modules/catalog/services/graphql';
+import { getProduct, getProductAgragations, getProductPrice } from '@core_modules/catalog/services/graphql';
 import { getSessionStorage, setSessionStorage } from '@helpers/sessionstorage';
 import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
@@ -163,6 +163,21 @@ const ProductPagination = (props) => {
         },
         router,
     );
+
+    // const [getProdPrice, { data: dataPrice, loading: loadPrice }] = getProductPrice();
+
+    // React.useEffect(() => {
+    //     if (typeof window !== 'undefined') {
+    //         getProdPrice(config, {
+    //             context,
+    //             variables: {
+    //                 pageSize,
+    //                 currentPage: page,
+    //             },
+    //         });
+    //     }
+    // }, []);
+    // console.log('dataPrice', dataPrice);
 
     React.useEffect(() => {
         const totalProduct = products && products.total_count ? products.total_count : 0;

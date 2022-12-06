@@ -65,6 +65,7 @@ const ProductPage = (props) => {
         handleSetCompareList,
         enablePopupImage,
         storeConfig,
+        loadPrice,
     } = props;
     const desktop = breakPointsUp('sm');
 
@@ -198,7 +199,14 @@ const ProductPage = (props) => {
                             <Typography variant="title" type="bold" letter="capitalize" className={classNames(styles.title, 'clear-margin-padding')}>
                                 {data.name}
                             </Typography>
-                            <PriceFormat {...price} additionalPrice={additionalPrice} />
+                            {/* <div>
+                                {loadPrice && !price.priceRange && (
+                                    <span>loading</span>
+                                )}
+                            </div> */}
+                            {/* {!loadPrice && price && price.priceRange && (
+                                <PriceFormat {...price} additionalPrice={additionalPrice} />
+                            )} */}
                         </div>
                         <div className={styles.shareContainer}>
                             {modules.productcompare.enabled && (
@@ -245,7 +253,7 @@ const ProductPage = (props) => {
                     </div>
 
                     <div className={styles.titleContainer}>
-                        <div className={styles.priceTiersContainer}>
+                        {/* <div className={styles.priceTiersContainer}>
                             {
                                 price.priceTiers.length > 0 && price.priceTiers.map((tiers, index) => {
                                     const priceTiers = {
@@ -261,7 +269,7 @@ const ProductPage = (props) => {
                                     );
                                 })
                             }
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className="row">

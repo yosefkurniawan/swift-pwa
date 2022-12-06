@@ -6,7 +6,7 @@ import Header from '@core_modules/product/pages/default/components/header';
 import Loading from '@core_modules/product/pages/default/components/Loader';
 import {
     addProductsToCompareList, addWishlist as mutationAddWishlist, getProduct,
-    getProductLabel, smartProductTabs,
+    getProductLabel, smartProductTabs, getProductPrice,
 } from '@core_modules/product/services/graphql';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { getCookies } from '@helper_cookies';
@@ -20,9 +20,10 @@ import React from 'react';
 import TagManager from 'react-gtm-module';
 
 const ContentDetail = ({
-    t, product, keyProduct, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig,
+    t, product, keyProduct, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig, dataPrice, loadPrice,
 }) => {
     const item = product.items[keyProduct];
+    const updatePrice = dataPrice && dataPrice.products && dataPrice.products.items[0];
     const route = useRouter();
 
     const reviewValue = parseInt(item.review.rating_summary, 0) / 20;
@@ -145,17 +146,33 @@ const ContentDetail = ({
     const [customizableOptions, setCustomizableOptions] = React.useState([]);
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
 
-    React.useEffect(() => {
-        setPrice({
-            priceRange: item.price_range,
-            priceTiers: item.price_tiers,
-            // eslint-disable-next-line no-underscore-dangle
-            productType: item.__typename,
-            specialFromDate: item.special_from_date,
-            specialToDate: item.special_to_date,
-        });
-        setBanner(bannerData);
-    }, [item]);
+    // React.useEffect(() => {
+    //     setPrice({
+    //         priceRange: item.price_range,
+    //         priceTiers: item.price_tiers,
+    //         // eslint-disable-next-line no-underscore-dangle
+    //         productType: item.__typename,
+    //         specialFromDate: item.special_from_date,
+    //         specialToDate: item.special_to_date,
+    //     });
+    //     setBanner(bannerData);
+    // }, [item]);
+
+    // React.useEffect(() => {
+    //     // console.log('update price', updatePrice);
+    //     // console.log('item', item);
+    //     if (updatePrice) {
+    //         setPrice({
+    //             priceRange: updatePrice.price_range,
+    //             priceTiers: updatePrice.price_tiers,
+    //             // eslint-disable-next-line no-underscore-dangle
+    //             productType: item.__typename,
+    //             specialFromDate: item.special_from_date,
+    //             specialToDate: item.special_to_date,
+    //         });
+    //     }
+    //     setBanner(bannerData);
+    // }, [item, updatePrice]);
 
     const [addWishlist] = mutationAddWishlist();
     const handleWishlist = () => {
@@ -422,6 +439,7 @@ const ContentDetail = ({
             setOpenDrawer={setOpenDrawer}
             breadcrumbsData={breadcrumbsData}
             price={price}
+            loadPrice={loadPrice}
             handleWishlist={handleWishlist}
             reviewValue={reviewValue}
             wishlist={wishlist}
@@ -485,7 +503,8 @@ const PageDetail = (props) => {
         };
 
     const labels = getProductLabel(storeConfig, { context, variables: { url: slug[0] } });
-    const { loading, data, error } = getProduct(storeConfig, { context, ...productVariables });
+    const { loading, data, error } = getProduct(storeConfig, { ...productVariables });
+    const [getProdPrice, { data: dataPrice, loading: loadPrice }] = getProductPrice();
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
     let productByUrl;
     React.useEffect(() => {
@@ -501,6 +520,44 @@ const PageDetail = (props) => {
             });
         }
     }, [slug[0]]);
+
+    let temporaryPrice = {};
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            if (getLocalStorage('update_price')) {
+                const pageInfo = getLocalStorage('update_price').url;
+                console.log('pageinfo', pageInfo);
+                if (pageInfo !== slug[0]) {
+                    getProdPrice({
+                        context,
+                        variables: {
+                            url: slug[0],
+                        },
+                    });
+                }
+            } else {
+                getProdPrice({
+                    context,
+                    variables: {
+                        url: slug[0],
+                    },
+                });
+            }
+        }
+    }, []);
+    console.log('data', dataPrice);
+
+    if (getLocalStorage('update_price') && getLocalStorage('update_price').url === slug[0]) {
+        temporaryPrice = getLocalStorage('update_price');
+        console.log('get from local', temporaryPrice);
+    } else if (dataPrice && dataPrice.products && dataPrice.products.items[0]) {
+        temporaryPrice = {
+            url: slug[0],
+            ...dataPrice.products.items[0],
+        };
+        console.log('update temp', temporaryPrice);
+        setLocalStorage('update_price', temporaryPrice);
+    }
 
     if (error || loading || !data) {
         return (
@@ -644,6 +701,8 @@ const PageDetail = (props) => {
             <ContentDetail
                 keyProduct={productByUrl}
                 product={product}
+                dataPrice={dataPrice}
+                loadPrice={loadPrice}
                 t={t}
                 Content={Content}
                 isLogin={isLogin}
