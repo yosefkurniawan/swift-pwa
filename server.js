@@ -23,7 +23,7 @@ const {
     expiredToken, nossrCache, features, assetsVersion,
 } = require('./swift.config');
 const generateXml = require('./core/api/rest/xml');
-const generateConfig = require('./core/api/rest/config');
+const generateConfig = require('./core/api/rest/config/generateconfig');
 const getConfig = require('./core/api/rest/config');
 const captchaValidation = require('./core/api/rest/captcha');
 const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');

@@ -1,11 +1,14 @@
 #! /usr/bin/env node
+/* eslint-disable eqeqeq */
+/* eslint-disable no-restricted-syntax */
 const fs = require('fs');
 const path = require('path');
 const { GraphQLClient, gql } = require('graphql-request');
-const { graphqlEndpoint } = require('../../../swift.config');
-const { getAppEnv, getAccessEnv } = require('../../helpers/env');
+const { graphqlEndpoint } = require('../../../../swift.config');
+const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
+const { getStoreHost } = require('../../../helpers/config');
 
-const baseDir = path.join(__dirname, '../rest/config/');
+const baseDir = path.join(__dirname, '../config/');
 
 const appEnv = getAppEnv();
 
@@ -255,16 +258,22 @@ const reqBody = gql`{
   }  `;
 
 const generateConfig = (req, res) => {
-    graphQLClient.request(reqBody, {}).then((data) => {
-        console.log('generate config success');
-        fs.writeFile(`${baseDir}config.json`, JSON.stringify(data), (err) => {
-            if (err) throw err;
+    if (getAccessEnv() == req.headers.authorization) {
+        graphQLClient.request(reqBody, {}).then((data) => {
+            fs.writeFile(`${baseDir}config.json`, JSON.stringify(data), (err) => {
+                if (err) throw err;
+            });
+            res.send(data);
+        }).catch((err) => {
+            res.status(500).json(err);
+            // eslint-disable-next-line no-console
+            console.log('generate config failed', err);
         });
-        res.send(data);
-    }).catch((err) => {
-        res.status(500).json(err);
-        console.log('generate config failed', err);
-    });
+    } else {
+        window.location.replace(
+            getStoreHost(appEnv || 'prod'),
+        );
+    }
 };
 
 module.exports = generateConfig;
