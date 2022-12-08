@@ -44,6 +44,13 @@ export const getMessageList = (options = {}) => useLazyQuery(Schema.getMessageLi
     fetchPolicy: 'network-only',
 });
 
+export const getBlacklist = (options = {}) => useQuery(Schema.getBlacklistSchema, {
+    ...options,
+    context: {
+        request: 'internal',
+    },
+});
+
 // END CHAT RELATED SCHEMA
 
 export const getRegions = () => useLazyQuery(Schema.getRegion);
