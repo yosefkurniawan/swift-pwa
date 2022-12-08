@@ -4,7 +4,7 @@ import {
     combinedMessagesData, filteredUser, generateCombinedUser, generateGroupedMessages,
 } from '@core_modules/customer/helpers/chatHelper';
 import {
-    addMessage, createFirebaseDoc, getCustomerSettings, getMessageList, getSessionMessageList,
+    addMessage, createFirebaseDoc, getCustomerSettings, getMessageList, getSessionMessageList, getBlacklist
 } from '@core_modules/customer/services/graphql';
 import firebaseApp from '@lib_firebase/index';
 import 'firebase/firestore';
@@ -34,6 +34,12 @@ const ChatPluginCore = (props) => {
     const customerEmail = customerData && customerData.customer && customerData.customer.email;
     const customerName = customerData && customerData.customer && `${customerData.customer.firstname} ${customerData.customer.lastname}`;
     const customerWhatsappNumber = customerData && customerData.customer && customerData.customer.whatsapp_number;
+    const { data : blacklistStatus, loading: blacklistLoading } = getBlacklist({
+        variables: {
+            email: customerEmail,
+        },
+        skip: !customerEmail,
+    }); 
     const { data, loading, refetch } = getSessionMessageList({
         variables: {
             customer_email: customerEmail,
@@ -351,15 +357,16 @@ const ChatPluginCore = (props) => {
         }
     }, [pdpMessage, firstLoad, customerEmail, agentPdpCode, filteredUserResult, isPdp]);
 
-    if (loading || customerLoading) {
+    if (loading || blacklistLoading || customerLoading) {
         return null;
     }
 
     return (
         <Content
-            loading={loading || customerLoading}
+            loading={loading || blacklistLoading || customerLoading}
             loadingMessages={loadingMessages}
             chat={chat}
+            isBlacklisted={blacklistStatus.getBlacklist.status}
             selectUserToChat={selectUserToChat}
             clearChat={clearChat}
             listUsers={filteredUserResult}

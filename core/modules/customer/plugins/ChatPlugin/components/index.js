@@ -9,6 +9,7 @@ import ChatIcon from '@material-ui/icons/Chat';
 const Content = (props) => {
     const {
         chat,
+        isBlacklisted,
         loading,
         loadingMessages,
         selectUserToChat,
@@ -89,6 +90,7 @@ const Content = (props) => {
                     loading={loading}
                     loadingMessages={loadingMessages}
                     chat={chat}
+                    isBlacklisted={isBlacklisted}
                     selectUserToChat={selectUserToChat}
                     clearChat={clearChat}
                     listUsers={listUsers}
@@ -113,6 +115,7 @@ const Content = (props) => {
                                 loading={loading}
                                 loadingMessages={loadingMessages}
                                 chat={chat}
+                                isBlacklisted={isBlacklisted}
                                 selectUserToChat={selectUserToChat}
                                 clearChat={clearChat}
                                 listUsers={listUsers}

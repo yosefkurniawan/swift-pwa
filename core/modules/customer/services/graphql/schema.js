@@ -746,4 +746,14 @@ export const createFirebaseDocSchema = gql`
   }
 `;
 
+export const getBlacklistSchema = gql`
+  query getBlacklist(
+    $email: String!
+  ){
+    getBlacklist(email: $email) {
+      status
+    }
+  }
+`;
+
 // END CHAT RELATED SCHEMA
