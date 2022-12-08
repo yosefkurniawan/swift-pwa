@@ -17,7 +17,7 @@ const Page = (props) => (
 Page.getInitialProps = async ({ query, req }) => {
     let cmsList = {};
     if (typeof window === 'undefined' && !req.cookies[storeConfigNameCookie]) {
-        cmsList = await requestInternal('getConfig');
+        cmsList = await requestInternal('getConfig?field=cms_page');
     }
     const allcookie = req ? req.cookies : {};
     const obj = {

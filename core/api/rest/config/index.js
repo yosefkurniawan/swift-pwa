@@ -12,7 +12,18 @@ module.exports = (req, res) => {
                 res.status(500).json(err);
                 return;
             }
-            res.status(200).json(JSON.parse(jsonString));
+            let response = JSON.parse(jsonString);
+            if (req.query.field) {
+                const field = req.query.field.split(',');
+                const tempResponse = {};
+                field.forEach((element) => {
+                    if (response.storeConfig && response.storeConfig[element]) {
+                        tempResponse[element] = response.storeConfig[element];
+                    }
+                });
+                response = tempResponse;
+            }
+            res.status(200).json(response);
         });
     } else {
         res.status(403).json({ message: 'Token Invalid' });
