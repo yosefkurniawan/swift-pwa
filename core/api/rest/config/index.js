@@ -1,12 +1,10 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable no-restricted-syntax */
 const fs = require('fs');
-const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
-const { getStoreHost } = require('../../../helpers/config');
+const { getAccessEnv } = require('../../../helpers/env');
 
 module.exports = (req, res) => {
-    const appEnv = getAppEnv();
-    if (getAccessEnv() == req.headers.authorization) {
+    if (`Bearer ${getAccessEnv()}` == req.headers.authorization) {
         fs.readFile('./core/api/rest/config/config.json', 'utf8', (err, jsonString) => {
             if (err) {
             // eslint-disable-next-line no-console
@@ -17,8 +15,6 @@ module.exports = (req, res) => {
             res.status(200).json(JSON.parse(jsonString));
         });
     } else {
-        window.location.replace(
-            getStoreHost(appEnv || 'prod'),
-        );
+        res.status(403).json({ message: 'Token Invalid' });
     }
 };

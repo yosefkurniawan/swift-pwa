@@ -7,7 +7,7 @@ function requestInternal(request) {
     return new Promise((resolve) => {
         fetch(`${url}/${request}`, {
             headers: {
-                Authorization: `${getAccessEnv()}`,
+                Authorization: `Bearer ${getAccessEnv()}`,
                 'Content-Type': 'application/json',
             },
         })

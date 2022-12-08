@@ -6,7 +6,6 @@ const path = require('path');
 const { GraphQLClient, gql } = require('graphql-request');
 const { graphqlEndpoint } = require('../../../../swift.config');
 const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
-const { getStoreHost } = require('../../../helpers/config');
 
 const baseDir = path.join(__dirname, '../config/');
 
@@ -26,37 +25,8 @@ const graphQLClient = new GraphQLClient(`${graphqlEndpoint[appEnv] || graphqlEnd
 
 const reqBody = gql`{
     storeConfig {
-      secure_base_media_url
-      secure_base_static_url
-      customer_password_minimum_password_length
-      customer_password_required_character_classes_number
-      base_media_url
-      base_static_url
-      base_url
-      base_currency_code
-      code
-      catalog_search_engine
-      copyright
-      catalog_default_sort_by
-      category_url_suffix
-      default_title
-      default_keywords
-      default_description
-      default_display_currency_code
-      date_of_birth
-      gender
-      general_country_default
-      header_logo_src
-      head_shortcut_icon
-      icube_pinlocation_gmap_key
-      icube_pinlocation_geocoding_key
-      locale
-      logo_alt
-      logo_width
-      logo_height
-      shipments_configuration
-      payments_configuration
-      pwa {
+    cms_page
+    pwa {
         use_cms_page_enable
         use_cms_page_identifier
         banner_slider_enable
@@ -81,28 +51,6 @@ const reqBody = gql`{
         category_list_image_size_mobile_width
         features_product_enable
         features_product_url_key
-        primary_color
-        secondary_color
-        background_color
-        error_color
-        warning_msg_color
-        success_msg_color
-        font_color
-        default_font
-        heading_font
-        button_background_color
-        button_background_hover_color
-        button_disabled_text_color
-        button_disabled_background_color
-        button_text_color
-        button_text_hover_color
-        button_disabled_text_color
-        button_border_color
-        button_border_hover_color
-        link_color
-        link_hover_color
-        link_font_decoration
-        link_font_hover_decoration
         add_to_cart_enable
         app_name
         cms_contact_identifiers
@@ -184,7 +132,6 @@ const reqBody = gql`{
         heading_font
         button_background_color
         button_background_hover_color
-        button_disabled_text_color
         button_disabled_background_color
         button_text_color
         button_text_hover_color
@@ -195,70 +142,117 @@ const reqBody = gql`{
         link_hover_color
         link_font_decoration
         link_font_hover_decoration
-      }
-      store_name
-      welcome
-      timezone
-      title_prefix
-      title_suffix
-      title_separator
-      website_id
-      weight_unit
-      oauth_access_token_lifetime_customer
-      pwa_checkout_debug_enable
-      snap_client_key
-      allow_guest_checkout
-      snap_is_production
-      aw_blog_general_enabled
-      pickup_store
-      cookie_restriction
-      login_phone_password
-      forgot_password_phone
-      global_promo {
+    }
+    secure_base_media_url
+    secure_base_static_url
+    customer_password_minimum_password_length
+    customer_password_required_character_classes_number
+    base_media_url
+    base_static_url
+    base_url
+    base_currency_code
+    code
+    catalog_search_engine
+    copyright
+    catalog_default_sort_by
+    category_url_suffix
+    default_title
+    enable_oms_multiseller
+    default_keywords
+    default_description
+    default_display_currency_code
+    date_of_birth
+    gender
+    general_country_default
+    header_logo_src
+    head_shortcut_icon
+    icube_pinlocation_gmap_key
+    icube_pinlocation_geocoding_key
+    locale
+    logo_alt
+    logo_width
+    logo_height
+    shipments_configuration
+    payments_configuration
+    store_name
+    welcome
+    timezone
+    title_prefix
+    title_suffix
+    title_separator
+    website_id
+    weight_unit
+    oauth_access_token_lifetime_customer
+    pwa_checkout_debug_enable
+    snap_client_key
+    stripe_config {
+        stripe_mode
+        test_pk
+        live_pk
+    }
+    paypal_key {
+        cancel_url
+        client_id
+        client_secret
+        disable_funding
+        intent
+        key_data
+        key_token
+        path
+        return_url
+    }
+    allow_guest_checkout
+    snap_is_production
+    aw_blog_general_enabled
+    pickup_store
+    cookie_restriction
+    login_phone_password
+    forgot_password_phone
+    global_promo {
         enable
         text_color
         background_color
-      }
-      weltpixel_newsletter_general_enable
-      weltpixel_newsletter_general_version
-      weltpixel_newsletter_general_overlay_color
-      weltpixel_newsletter_general_overlay_opacity
-      weltpixel_newsletter_general_display_mode
-      weltpixel_newsletter_general_display_mobile
-      weltpixel_newsletter_general_mobile_version
-      weltpixel_newsletter_general_popup_cookie_lifetime
-      weltpixel_newsletter_general_terms_conditions_consent
-      weltpixel_newsletter_general_terms_conditions_text
-      weltpixel_newsletter_general_enable_trigger_button
-      weltpixel_newsletter_general_trigger_button_title
-      weltpixel_newsletter_general_trigger_button_color
-      weltpixel_newsletter_general_trigger_button_backgroundcolor
-      aw_blog_general_comments_enabled
-      aw_blog_general_disqus_forum_code
-      aw_blog_related_products_block_layout
-      aw_blog_related_products_block_position
-      aw_blog_related_products_products_limit
-      aw_blog_related_products_display_add_to_cart
-      weltpixel_RecentlyViewedBar_general_enable
-      weltpixel_thankyoupage_create_account_enable
-      payment_travelokapay_public_key
-      payment_travelokapay_user_id
-      payment_travelokapay_bin_whitelist
-      pin_location_latitude
-      pin_location_longitude
-      minimum_order_amount
-      minimum_order_enable
-      OmsRma{
+    }
+    weltpixel_newsletter_general_enable
+    weltpixel_newsletter_general_version
+    weltpixel_newsletter_general_overlay_color
+    weltpixel_newsletter_general_overlay_opacity
+    weltpixel_newsletter_general_display_mode
+    weltpixel_newsletter_general_display_mobile
+    weltpixel_newsletter_general_mobile_version
+    weltpixel_newsletter_general_popup_cookie_lifetime
+    weltpixel_newsletter_general_terms_conditions_consent
+    weltpixel_newsletter_general_terms_conditions_text
+    weltpixel_newsletter_general_enable_trigger_button
+    weltpixel_newsletter_general_trigger_button_title
+    weltpixel_newsletter_general_trigger_button_color
+    weltpixel_newsletter_general_trigger_button_backgroundcolor
+    aw_blog_general_comments_enabled
+    aw_blog_general_disqus_forum_code
+    aw_blog_related_products_block_layout
+    aw_blog_related_products_block_position
+    aw_blog_related_products_products_limit
+    aw_blog_related_products_display_add_to_cart
+    weltpixel_RecentlyViewedBar_general_enable
+    weltpixel_thankyoupage_create_account_enable
+    payment_travelokapay_public_key
+    payment_travelokapay_user_id
+    payment_travelokapay_bin_whitelist
+    pin_location_latitude
+    pin_location_longitude
+    minimum_order_amount
+    minimum_order_enable
+    OmsRma {
         enable_oms_rma
         enable_oms_pwa_request_return
         oms_rma_link
-      }
-      oms_channel_code
     }
-  }  `;
+    oms_channel_code
+    }
+}`;
 
 const generateConfig = (req, res) => {
-    if (getAccessEnv() == req.headers.authorization) {
+    if (`Bearer ${getAccessEnv()}` == req.headers.authorization) {
         graphQLClient.request(reqBody, {}).then((data) => {
             fs.writeFile(`${baseDir}config.json`, JSON.stringify(data), (err) => {
                 if (err) throw err;
@@ -270,9 +264,7 @@ const generateConfig = (req, res) => {
             console.log('generate config failed', err);
         });
     } else {
-        window.location.replace(
-            getStoreHost(appEnv || 'prod'),
-        );
+        res.status(403).json({ message: 'Token Invalid' });
     }
 };
 
