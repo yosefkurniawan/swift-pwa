@@ -159,7 +159,6 @@ const Register = (props) => {
     const RegisterSchema = Yup.object().shape(configValidation);
 
     const handleSendRegister = (values, resetForm) => {
-        console.log(values);
         sendRegister({
             variables: values,
         })
@@ -180,7 +179,6 @@ const Register = (props) => {
                 } else {
                     await setIsLogin(1);
                     if (Object.keys(cachePrice).length > 0) {
-                        console.log('remove var');
                         priceVar({});
                     }
                     getCart();
