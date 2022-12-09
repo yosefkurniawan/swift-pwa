@@ -306,6 +306,8 @@ const ContentLoadMore = (props) => {
                                     isGrid,
                                     catalogList: true,
                                     className: 'grid-item',
+                                    price,
+                                    loadPrice,
                                     ...other,
                                 }}
                                 gridItemProps={

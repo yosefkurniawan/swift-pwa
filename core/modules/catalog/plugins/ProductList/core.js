@@ -400,6 +400,8 @@ const ProductLoadMore = (props) => {
         ...other
     } = props;
     const router = useRouter();
+    // cache price
+    const cachePrice = useReactiveVar(priceVar);
     const [products, setProducts] = React.useState({
         total_count: 0,
         items: [],
@@ -469,6 +471,50 @@ const ProductLoadMore = (props) => {
         },
         router,
     );
+    /* ====Start get price Product==== */
+    const page = data && data.products && data.products.page_info && data.products.page_info.current_page;
+    const [getProdPrice, { data: dataPrice, loading: loadPrice, error: errorPrice }] = getProductPrice(config, {
+        variables: {
+            pageSize: storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 0) : 10,
+            currentPage: page,
+        },
+        context,
+    },
+    router);
+
+    const generateIdentifier = () => `page_${page}_${router.asPath}`;
+
+    React.useEffect(() => {
+        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier()]) {
+            getProdPrice();
+        }
+    }, [data]);
+
+    React.useEffect(() => {
+        if (dataPrice) {
+            const identifier = generateIdentifier();
+            const dataTemp = cachePrice;
+            dataTemp[identifier] = dataPrice;
+            priceVar({
+                ...cachePrice,
+            });
+        }
+    }, [dataPrice]);
+
+    const getPrice = () => {
+        let productPrice = [];
+
+        if (cachePrice[generateIdentifier()] && cachePrice[generateIdentifier()].products && cachePrice[generateIdentifier()].products.items) {
+            productPrice = cachePrice[generateIdentifier()].products.items;
+        } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
+            productPrice = dataPrice.products.items;
+        }
+
+        return productPrice;
+    };
+
+    /* ====End get price Product==== */
+
     // generate filter if donthave custom filter
     const aggregations = [];
     if (!customFilter && !loading && products.aggregations) {
@@ -662,7 +708,7 @@ const ProductLoadMore = (props) => {
         storeConfig,
     };
 
-    return <Content {...contentProps} {...other} />;
+    return <Content {...contentProps} {...other} price={getPrice()} loadPrice={loadPrice} errorPrice={errorPrice} />;
 };
 
 ProductPagination.propTypes = {
