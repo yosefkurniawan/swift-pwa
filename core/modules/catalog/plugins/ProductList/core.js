@@ -14,6 +14,8 @@ import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
 import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
 import generateConfig from '@core_modules/catalog/helpers/generateConfig';
 import Content from '@plugin_productlist/components';
+import { priceVar } from '@root/core/services/graphql/cache';
+import { useReactiveVar } from '@apollo/client';
 
 const ProductPagination = (props) => {
     const {
@@ -34,7 +36,8 @@ const ProductPagination = (props) => {
         ...other
     } = props;
     const router = useRouter();
-
+    // cache price
+    const cachePrice = useReactiveVar(priceVar);
     /**
      * start handle previous
      * backPage = (from category)
@@ -152,36 +155,58 @@ const ProductPagination = (props) => {
     }
 
     const { loading, data, fetchMore } = getProduct(
-        config = generateConfig(query, config, elastic, availableFilter),
+        config,
         {
             variables: {
                 pageSize,
                 currentPage: page,
             },
-            context,
             fetchPolicy: config.sort && config.sort.key === 'random' && filterSaved ? 'cache-and-network' : 'cache-first',
         },
         router,
     );
+    /* ====Start get price Product==== */
+    const [getProdPrice, { data: dataPrice, loading: loadPrice, error: errorPrice }] = getProductPrice(config, {
+        variables: {
+            pageSize,
+            currentPage: page,
+        },
+        context,
+    },
+    router);
 
-    const [getProdPrice, { data: dataPrice, loading: loadPrice }] = getProductPrice();
+    const generateIdentifier = () => `page_${page}_${router.asPath}`;
 
     React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            getProdPrice(
-                config,
-                {
-                    variables: {
-                        pageSize,
-                        currentPage: page,
-                    },
-                    context,
-                },
-                router,
-            );
+        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier()]) {
+            getProdPrice();
         }
     }, []);
-    console.log('dataPrice', dataPrice);
+
+    React.useEffect(() => {
+        if (dataPrice) {
+            const identifier = generateIdentifier();
+            const dataTemp = cachePrice;
+            dataTemp[identifier] = dataPrice;
+            priceVar({
+                ...cachePrice,
+            });
+        }
+    }, [dataPrice]);
+
+    const getPrice = () => {
+        let productPrice = [];
+
+        if (cachePrice[generateIdentifier()] && cachePrice[generateIdentifier()].products && cachePrice[generateIdentifier()].products.items) {
+            productPrice = cachePrice[generateIdentifier()].products.items;
+        } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
+            productPrice = dataPrice.products.items;
+        }
+
+        return productPrice;
+    };
+
+    /* ====End get price Product==== */
 
     React.useEffect(() => {
         const totalProduct = products && products.total_count ? products.total_count : 0;
@@ -189,7 +214,6 @@ const ProductPagination = (props) => {
         setTotalCount(totalProduct);
         setTotalPage(totalPageProduct);
     }, [products]);
-
     /**
      * useEffect for pagination to change loadmore to false
      * after getting response from GQL API
@@ -354,8 +378,7 @@ const ProductPagination = (props) => {
         totalCount,
         handleChangePage,
     };
-
-    return <Content {...contentProps} {...other} />;
+    return <Content {...contentProps} {...other} price={getPrice()} loadPrice={loadPrice} errorPrice={errorPrice} />;
 };
 
 const ProductLoadMore = (props) => {
@@ -434,7 +457,6 @@ const ProductLoadMore = (props) => {
             },
         };
     }
-
     const { loading, data, fetchMore } = getProduct(
         config,
         {
@@ -668,7 +690,6 @@ const ProductWrapper = (props) => {
      */
     const isPagination = storeConfig && storeConfig.pwa && storeConfig.pwa.product_listing_navigation !== 'infinite_scroll';
     const Product = isPagination ? ProductPagination : ProductLoadMore;
-
     let availableFilter = [];
     let loadingAgg;
     if (Object.keys(query).length > 0) {

@@ -23,6 +23,8 @@ const SearchResult = (props) => {
                 catalog_search_engine={storeConfig.catalog_search_engine}
                 t={t}
                 storeConfig={storeConfig}
+                // eslint-disable-next-line react/destructuring-assignment
+                isLogin={props.isLogin}
             />
         </div>
     );

@@ -12,6 +12,8 @@ import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import classNames from 'classnames';
 import useStyles from '@plugin_productitem/style';
+import { getPriceFromList } from '@core_modules/product/helpers/getPrice';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const Detail = (props) => {
     const {
@@ -34,12 +36,62 @@ const Detail = (props) => {
         enableProductCompare,
         storeConfig = {},
         urlKey,
+        price: dataPrice,
+        loadPrice,
+        errorPrice,
     } = props;
     const styles = useStyles();
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
     const FeedIcon = feed ? <Favorite className={classFeedActive} /> : <FavoriteBorderOutlined className={styles.iconFeed} />;
     const showWishlist = typeof enableWishlist !== 'undefined' ? enableWishlist : modules.wishlist.enabled;
     const showRating = typeof enableRating !== 'undefined' ? enableRating : storeConfig?.pwa?.rating_enable;
+    const priceData = getPriceFromList(dataPrice, id);
+
+    const generatePrice = (priceDataItem = []) => {
+        // handle if loading price
+
+        if (loadPrice) {
+            return (
+                <div className="mgz-single-product-price">
+                    <Skeleton variant="text" width={100} />
+                    {' '}
+                </div>
+            );
+        }
+
+        let priceProduct = {
+            priceRange: spesificProduct.price_range ? spesificProduct.price_range : price_range,
+            // eslint-disable-next-line camelcase
+            priceTiers: spesificProduct.price_tiers ? spesificProduct.price_tiers : price_tiers,
+            productType: __typename,
+            specialFromDate: special_from_date,
+            specialToDate: special_to_date,
+        };
+        if (priceDataItem && priceDataItem.length > 0 && !loadPrice && !errorPrice) {
+            priceProduct = {
+                priceRange: priceDataItem[0].price_range,
+                priceTiers: priceDataItem[0].price_tiers,
+                // eslint-disable-next-line no-underscore-dangle
+                productType: priceDataItem[0].__typename,
+                specialFromDate: priceDataItem[0].special_from_date,
+                specialToDate: priceDataItem[0].special_to_date,
+            };
+        }
+
+        return (
+            <div className="mgz-single-product-price">
+                {
+                    priceProduct && (
+                        <PriceFormat
+                            {...priceProduct}
+                            specialFromDate={special_from_date}
+                            specialToDate={special_to_date}
+                        />
+                    )
+                }
+            </div>
+        );
+    };
     return (
         <div className={styles.descItem}>
             {showWishlist && (
@@ -59,15 +111,7 @@ const Detail = (props) => {
             </Link>
             {showRating && <RatingStar value={ratingValue} />}
             {enablePrice && (
-                <PriceFormat
-                    // eslint-disable-next-line camelcase
-                    priceRange={spesificProduct.price_range ? spesificProduct.price_range : price_range}
-                    // eslint-disable-next-line camelcase
-                    priceTiers={spesificProduct.price_tiers ? spesificProduct.price_tiers : price_tiers}
-                    productType={__typename}
-                    specialFromDate={special_from_date}
-                    specialToDate={special_to_date}
-                />
+                generatePrice(priceData)
             )}
         </div>
     );

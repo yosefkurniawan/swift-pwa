@@ -84,8 +84,6 @@ const SingleProduct = (props) => {
     if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
 
     const generatePrice = (priceDataItem, priceItem) => {
-        console.log('price item', priceItem);
-        console.log('pricedata item', priceDataItem);
         // handle if loading price
         if (loadingPrice) {
             return (<div className="mgz-single-product-price"><Skeleton variant="text" width={100} /> </div>);

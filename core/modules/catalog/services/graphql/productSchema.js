@@ -10,9 +10,7 @@ import { modules } from '@config';
  * @returns string query to generate on grapql tag
  */
 
-const filterProduct = (filter, router) => {
-    console.log('router filter', router);
-    console.log('filter', filter);
+export const filterProduct = (filter, router) => {
     let queryFilter = '{ ';
     if (router && router.asPath && router.asPath.includes('color')) {
         const routerPaths = router.asPath.split('?');
@@ -334,24 +332,12 @@ export const getProductPrice = (config = {}, router) => gql`
        total_pages
      }
       total_count
-      ${
-    !config.customFilter
-        ? `aggregations {
-        attribute_code
-        label
-        options {
-          count
-          label
-          value
-        }
-      }`
-        : ''
-}
       __typename
+        
       items {
         id
-        name
         sku
+        name
         url_key
         price_range {
             maximum_price {
