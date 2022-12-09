@@ -1,10 +1,10 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable no-restricted-syntax */
 const fs = require('fs');
-const { getAccessEnv } = require('../../../helpers/env');
+const { getEncryptEnv } = require('../../../helpers/env');
 
 module.exports = (req, res) => {
-    if (`Bearer ${getAccessEnv()}` == req.headers.authorization) {
+    if (`Bearer ${getEncryptEnv()}` == req.headers.authorization) {
         fs.readFile('./core/api/rest/config/config.json', 'utf8', (err, jsonString) => {
             if (err) {
             // eslint-disable-next-line no-console
