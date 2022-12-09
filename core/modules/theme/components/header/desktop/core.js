@@ -59,6 +59,7 @@ const CoreTopNavigation = (props) => {
         await deleteTokenGql()
             .then(() => {
                 Cookies.remove(custDataNameCookie);
+                Cookies.remove('admin_id');
                 removeIsLoginFlagging();
                 priceVar({});
                 removeCartId();

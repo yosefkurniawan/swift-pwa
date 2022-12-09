@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
 import Button from '@common_button';
+import Modal from '@common_confirmdialog';
 import Typography from '@common_typography';
-import classNames from 'classnames';
+import Address from '@core_modules/checkout/pages/default/components/address';
+import Confirmation from '@core_modules/checkout/pages/default/components/Confirmation';
+import Credit from '@core_modules/checkout/pages/default/components/credit';
 import Delivery from '@core_modules/checkout/pages/default/components/delivery';
 import Email from '@core_modules/checkout/pages/default/components/email';
-import Summary from '@core_modules/checkout/pages/default/components/summary';
-import Address from '@core_modules/checkout/pages/default/components/address';
-import Shipping from '@core_modules/checkout/pages/default/components/shipping';
-import PaymentList from '@core_modules/checkout/pages/default/components/payment';
-import Promo from '@core_modules/checkout/pages/default/components/promo';
-import GiftCard from '@core_modules/checkout/pages/default/components/giftcard';
-import OrderComment from '@core_modules/checkout/pages/default/components/OrderComment';
-import RewardPoint from '@core_modules/checkout/pages/default/components/rewardpoint';
-import Credit from '@core_modules/checkout/pages/default/components/credit';
-import PickupInfo from '@core_modules/checkout/pages/default/components/PickupInformation';
 import ExtraFee from '@core_modules/checkout/pages/default/components/ExtraFee';
-import PromoModalItem from '@core_modules/checkout/pages/default/components/PromoModalItem';
-import useStyles from '@core_modules/checkout/pages/default/components/style';
+import GiftCard from '@core_modules/checkout/pages/default/components/giftcard';
 import InStorePickup from '@core_modules/checkout/pages/default/components/instorepickup';
-import Confirmation from '@core_modules/checkout/pages/default/components/Confirmation';
+import OrderComment from '@core_modules/checkout/pages/default/components/OrderComment';
+import PaymentList from '@core_modules/checkout/pages/default/components/payment';
+import PickupInfo from '@core_modules/checkout/pages/default/components/PickupInformation';
+import Promo from '@core_modules/checkout/pages/default/components/promo';
+import PromoModalItem from '@core_modules/checkout/pages/default/components/PromoModalItem';
+import RewardPoint from '@core_modules/checkout/pages/default/components/rewardpoint';
+import Shipping from '@core_modules/checkout/pages/default/components/shipping';
+import useStyles from '@core_modules/checkout/pages/default/components/style';
+import Summary from '@core_modules/checkout/pages/default/components/summary';
+import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import Router from 'next/router';
-import Modal from '@common_confirmdialog';
+import React, { useState } from 'react';
 
 const GimmickBanner = dynamic(() => import('@plugin_gimmickbanner'), { ssr: false });
 
@@ -67,6 +67,8 @@ const Content = (props) => {
         ConfirmationView,
         checkoutTokenState,
         setCheckoutTokenState,
+        setLoadingSellerInfo,
+        loadingSellerInfo,
     } = props;
 
     const styles = useStyles();
@@ -76,14 +78,19 @@ const Content = (props) => {
     // prettier-ignore
     const isPurchaseOrderApply = isSelectedPurchaseOrder && checkout.status.purchaseOrderApply;
     const travelokaPayRef = React.useRef();
+    const stripeRef = React.useRef();
+    const [clientSecret, setClientSecret] = useState(null);
 
     const [displayHowToPay, setDisplayHowToPay] = useState(false);
+    const enableMultiSeller = storeConfig.enable_oms_multiseller === '1';
 
     /**
      * [METHOD] handle click for place order
      */
     const handleClick = () => {
-        if (SummaryRef.current) {
+        if (stripeRef && stripeRef.current && clientSecret) {
+            stripeRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        } else if (SummaryRef.current) {
             SummaryRef.current.handlePlaceOrder();
         }
     };
@@ -96,6 +103,9 @@ const Content = (props) => {
             <div className="col-xs-12 center hidden-mobile">
                 <HeaderView storeConfig={storeConfig} />
             </div>
+            <Typography variant="h1" style={{ display: 'none' }}>
+                Checkout
+            </Typography>
             <Modal
                 open={checkoutTokenState}
                 handleYes={() => {
@@ -111,14 +121,9 @@ const Content = (props) => {
                 confirmationMessage={`${t('checkout:invalidTokenConfirmation')}`}
             />
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
-                {
-                    checkout
-                    && checkout.data
-                    && checkout.data.cart
-                    && checkout.data.cart.promoBanner.length > 0 && (
-                        <GimmickBanner data={checkout.data.cart.promoBanner || []} />
-                    )
-                }
+                {checkout && checkout.data && checkout.data.cart && checkout.data.cart.promoBanner.length > 0 && (
+                    <GimmickBanner data={checkout.data.cart.promoBanner || []} />
+                )}
             </div>
             <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>
                 {modules.checkout.cashback.enabled && checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
@@ -186,6 +191,7 @@ const Content = (props) => {
                             refetchItemCart={refetchItemCart}
                             checkoutTokenState={checkoutTokenState}
                             setCheckoutTokenState={setCheckoutTokenState}
+                            setLoadingSellerInfo={setLoadingSellerInfo}
                         />
                     ) : checkout.selected.delivery === 'pickup' ? (
                         <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
@@ -204,10 +210,12 @@ const Content = (props) => {
                         isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                         checkoutTokenState={checkoutTokenState}
                         setCheckoutTokenState={setCheckoutTokenState}
+                        setLoadingSellerInfo={setLoadingSellerInfo}
+                        loadingSellerInfo={loadingSellerInfo}
                     />
 
                     <div className={classNames(styles.block)}>
-                        <Typography variant="title" type="bold" letter="uppercase">
+                        <Typography variant="h2" type="bold" letter="uppercase">
                             {t('checkout:feePromoLabel')}
                         </Typography>
                         <div className="row">
@@ -280,6 +288,7 @@ const Content = (props) => {
                     <PaymentList
                         checkout={checkout}
                         setCheckout={setCheckout}
+                        formik={formik}
                         updateFormik={updateFormik}
                         handleOpenMessage={handleOpenMessage}
                         t={t}
@@ -292,33 +301,34 @@ const Content = (props) => {
                         initialOptionPaypal={initialOptionPaypal}
                         setTokenData={setTokenData}
                         travelokaPayRef={travelokaPayRef}
+                        stripeRef={stripeRef}
+                        clientSecret={clientSecret}
+                        setClientSecret={setClientSecret}
                         displayHowToPay={displayHowToPay}
                         setDisplayHowToPay={setDisplayHowToPay}
                         checkoutTokenState={checkoutTokenState}
+                        refSummary={SummaryRef}
                         setCheckoutTokenState={setCheckoutTokenState}
+                        config={config}
                     />
 
-                    <Confirmation
-                        t={t}
-                        checkout={checkout}
-                        setCheckout={setCheckout}
-                        storeConfig={storeConfig}
-                        ConfirmationView={ConfirmationView}
-                    />
-
-                    <div className={classNames(styles.block)}>
-                        <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
-                            <OrderComment
-                                t={t}
-                                checkout={checkout}
-                                setCheckout={setCheckout}
-                                handleOpenMessage={handleOpenMessage}
-                                formik={formik}
-                                storeConfig={storeConfig}
-                                OrderCommentView={OrderCommentView}
-                            />
+                    <Confirmation t={t} checkout={checkout} setCheckout={setCheckout} storeConfig={storeConfig} ConfirmationView={ConfirmationView} />
+                    
+                    {!enableMultiSeller ? (
+                        <div className={classNames(styles.block)}>
+                            <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
+                                <OrderComment
+                                    t={t}
+                                    checkout={checkout}
+                                    setCheckout={setCheckout}
+                                    handleOpenMessage={handleOpenMessage}
+                                    formik={formik}
+                                    storeConfig={storeConfig}
+                                    OrderCommentView={OrderCommentView}
+                                />
+                            </div>
                         </div>
-                    </div>
+                    ) : null}
                 </>
             </div>
             <div className="col-xs-12 col-sm-4 col-md-4 col-lg-3">
@@ -340,7 +350,6 @@ const Content = (props) => {
                     formik={formik}
                     storeConfig={storeConfig}
                     SummaryView={SummaryView}
-                    // eslint-disable-next-line no-return-assign
                     refSummary={SummaryRef}
                     isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                     travelokaPayRef={travelokaPayRef}

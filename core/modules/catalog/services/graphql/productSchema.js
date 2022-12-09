@@ -40,6 +40,14 @@ export const filterProduct = (filter, router) => {
             queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type} : {
                 in: [${inFilter}]
               }`;
+        } else if (detailFilter.type === 'seller_id') {
+            queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type}: {
+            match: "${detailFilter.value}"
+          }`;
+        } else if (detailFilter.type === 'seller_name') {
+            queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type}: {
+            match: "${detailFilter.value}"
+          }`;
         } else {
             queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type} : {
                   eq: "${detailFilter.value}"
@@ -99,6 +107,9 @@ export const getProduct = (config = {}, router) => gql`
 }
       __typename
       items {
+        seller {
+          seller_name
+        }
         id
         sku
         name
@@ -529,7 +540,25 @@ query getDetailproduct($url_key: String!){
           label,
           url
         }
+        seller_id
       }
       total_count
     }
+}`;
+
+export const getSeller = gql`
+query getSeller($seller_id: [Int!]){
+  getSeller(input: {
+    seller_id: $seller_id
+  }) {
+    id
+    name
+    address
+    city
+    description
+    latitude
+    longitude
+    logo
+    status
+  }
 }`;

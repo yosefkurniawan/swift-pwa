@@ -1,27 +1,31 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable no-undef */
 /* eslint-disable react/no-danger */
 /* eslint-disable array-callback-return */
+import Breadcrumb from '@common_breadcrumb';
 import Typography from '@common_typography';
+import { modules } from '@config';
+import ListReviews from '@core_modules/product/pages/default/components/ListReviews';
+import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
+import OptionItem from '@core_modules/product/pages/default/components/OptionItem';
+import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
+import useStyles from '@core_modules/product/pages/default/components/style';
+import { getProductBannerLite } from '@core_modules/product/services/graphql';
+import { getHost } from '@helper_config';
+import { formatPrice } from '@helper_currency';
+import { breakPointsUp } from '@helper_theme';
+import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
+import Link from '@material-ui/core/Link';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import ShareOutlined from '@material-ui/icons/ShareOutlined';
-import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import classNames from 'classnames';
-import React from 'react';
-import { getHost } from '@helper_config';
-import Breadcrumb from '@common_breadcrumb';
-import { breakPointsUp } from '@helper_theme';
 import dynamic from 'next/dynamic';
-import useStyles from '@core_modules/product/pages/default/components/style';
-import ListReviews from '@core_modules/product/pages/default/components/ListReviews';
-import OptionItem from '@core_modules/product/pages/default/components/OptionItem';
-import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
-import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
-import { modules } from '@config';
-import { getProductBannerLite } from '@core_modules/product/services/graphql';
-import { formatPrice } from '@helper_currency';
 import { getPriceFromList } from '@core_modules/product/helpers/getPrice';
 import Skeleton from '@material-ui/lab/Skeleton';
+import React from 'react';
 
 const Button = dynamic(() => import('@common_button'), { ssr: true });
 const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: true });
@@ -66,15 +70,22 @@ const ProductPage = (props) => {
         isLogin,
         handleSetCompareList,
         enablePopupImage,
+        enableMultiSeller,
         storeConfig,
         loadPrice,
         dataPrice = [],
         errorPrice,
+        dataSeller,
     } = props;
     const desktop = breakPointsUp('sm');
 
     const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
     const [getBannerLite, bannerLiteResult] = getProductBannerLite(route.asPath.slice(1), { context });
+
+    let citySplit;
+    if (enableMultiSeller && dataSeller && dataSeller.length > 0) {
+        citySplit = dataSeller[0].city?.split(',');
+    }
 
     React.useEffect(() => {
         getBannerLite();
@@ -333,6 +344,27 @@ const ProductPage = (props) => {
                             </Typography>
                         </div>
                     </div>
+                    {enableMultiSeller && dataSeller && dataSeller.length > 0 ? (
+                        <div className={styles.titleContainer}>
+                            <div className={styles.sellerContainer}>
+                                <Link href={`/seller/${dataSeller[0].id}`}>
+                                    <div className={styles.imageContainer}>
+                                        <Avatar alt={dataSeller[0].name} src={dataSeller[0].logo} className={styles.sellerLogo} variant="rounded" />
+                                    </div>
+                                </Link>
+                                <Link href={`/seller/${dataSeller[0].id}`}>
+                                    <div>
+                                        <Typography variant="p" type="bold" letter="capitalize" size="14">
+                                            {dataSeller[0].name}
+                                        </Typography>
+                                        <Typography variant="p" type="regular" letter="capitalize" size="14">
+                                            {citySplit[0]}
+                                        </Typography>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                    ) : null}
 
                     <div className={styles.titleContainer}>
                         {/* <div className={styles.priceTiersContainer}>
@@ -414,7 +446,7 @@ const ProductPage = (props) => {
                         </div>
 
                         <div className={styles.desktopShareIcon}>
-                            <Typography className={styles.shareTitle} variant="title">
+                            <Typography className={styles.shareTitle} variant="p">
                                 {t('product:shareTitle')}
                             </Typography>
                             <div className={modules.productcompare.enabled && styles.rowItem}>

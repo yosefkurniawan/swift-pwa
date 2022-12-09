@@ -1,9 +1,9 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
-    GRAY_PRIMARY, PRIMARY, WHITE, GRAY_SECONDARY,
+    GRAY_PRIMARY, GRAY_SECONDARY, PRIMARY, WHITE,
 } from '@theme_color';
 import {
-    CenterAbsolute, CreateBorder, CreateMargin, CreatePadding, FlexColumn, FlexRow, Centering,
+    CenterAbsolute, Centering, CreateBorder, CreateMargin, CreatePadding, FlexColumn, FlexRow,
 } from '@theme_mixins';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         },
         position: 'relative',
         '& .customizable-container': {
-            marginTop: 20,
+            marginTop: 15,
         },
         '& .product-video': {
             overflow: 'hidden',
@@ -161,6 +161,9 @@ const useStyles = makeStyles((theme) => ({
     carouselTitle: {
         marginBottom: '20px',
     },
+    desktopShareIcon: {
+        marginTop: 20,
+    },
     desc: {
         ...CreateMargin(12, 0, 12, 0),
         textAlign: 'center',
@@ -245,6 +248,29 @@ const useStyles = makeStyles((theme) => ({
         width: '120px',
         alignItems: 'center',
         justifyContent: 'space-between',
+    },
+    sellerContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 10,
+    },
+    imageContainer: {
+        float: 'left',
+        marginRight: 20,
+    },
+    img: {
+        width: '60px',
+        height: 'auto',
+        borderRadius: '50%',
+    },
+    sellerLogo: {
+        [theme.breakpoints.up('xs')]: {
+            width: '64px !important',
+            height: '64px !important',
+            '& img': {
+                height: '75% !important',
+            },
+        },
     },
 }));
 

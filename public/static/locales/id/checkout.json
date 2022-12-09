@@ -65,6 +65,7 @@
         "serverError": "Terjadi gangguan pada server atau koneksi Anda, silahkan coba kembali",
         "guestFormValidation": "Dimohon untuk menyertakan email, alamat pengiriman, memilih metode pengiriman, metode pembayaran dan menyetujui term and condition sebelum melakukan pesanan.",
         "customerFormValidation": "Dimohon untuk memilih alamat pengiriman, metode pengiriman, metode pembayaran dan menyetujui term and condition sebelum melakukan pesanan.",
+        "stripeValidation": "Silahkan lengkapi informasi kartu kredit Anda untuk metode pembayaran stripe.",
         "address": {
             "add": "Silahkan menambahkan alamat pengiriman",
             "default": "Tidak ada alamat pengiriman yang dipilih"

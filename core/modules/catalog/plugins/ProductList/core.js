@@ -1,3 +1,9 @@
+/* eslint-disable indent */
+/* eslint-disable comma-dangle */
+/* eslint-disable operator-linebreak */
+/* eslint-disable no-empty */
+/* eslint-disable array-callback-return */
+/* eslint-disable guard-for-in */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-empty */
 /* eslint-disable array-callback-return */
@@ -11,8 +17,8 @@ import { getProduct, getProductAgragations, getProductPrice } from '@core_module
 import { getSessionStorage, setSessionStorage } from '@helpers/sessionstorage';
 import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
-import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
 import generateConfig from '@core_modules/catalog/helpers/generateConfig';
+import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
 import Content from '@plugin_productlist/components';
 import { priceVar } from '@root/core/services/graphql/cache';
 import { useReactiveVar } from '@apollo/client';
@@ -33,6 +39,7 @@ const ProductPagination = (props) => {
         availableFilter,
         token,
         isLogin,
+        sellerId = null,
         ...other
     } = props;
     const router = useRouter();
@@ -52,8 +59,8 @@ const ProductPagination = (props) => {
     if (pageInfo?.path === router.asPath) {
         backPage = pageInfo.page;
     } else if (
-        !router.asPath.includes('catalogsearch/result')
-        && (pageInfo?.path?.includes(router.asPath) || router.asPath.includes(pageInfo?.path))
+        !router.asPath.includes('catalogsearch/result') &&
+        (pageInfo?.path?.includes(router.asPath) || router.asPath.includes(pageInfo?.path))
     ) {
         isQueryChanged = true;
     }
@@ -92,6 +99,7 @@ const ProductPagination = (props) => {
         filter: [],
         ...storeConfig.pwa,
     };
+    const queryKeys = Object.keys(query);
 
     /**
      * use effect set page size
@@ -126,7 +134,9 @@ const ProductPagination = (props) => {
                 // eslint-disable-next-line no-restricted-syntax
                 for (const idx in v.selectedFilter) {
                     if (v.selectedFilter[idx] !== '' && !v[idx]) {
-                        queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                        if (v.selectedFilter[idx] !== undefined && !idx.includes('seller/')) {
+                            queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                        }
                     }
                 }
             } else if (v[key] !== 0 && v[key] !== '') {
@@ -143,7 +153,35 @@ const ProductPagination = (props) => {
         });
     }
 
-    config = generateConfig(query, config, elastic, availableFilter);
+    if (!sellerId) {
+        if (queryKeys[0] === 'catalogsearch/result?q') {
+            config.search = query['catalogsearch/result?q'];
+        } else if (queryKeys[0] === 'catalogsearch/') {
+            config.search = query.q;
+        }
+        config = generateConfig(query, config, elastic, availableFilter);
+    } else {
+        const setSortOnSellerPage = queryKeys.filter((key) => key.match(/seller\/\d\d\?sort/));
+
+        // set default sort when there is no sort in query
+        if (setSortOnSellerPage.length > 0) {
+            query.sort = query[setSortOnSellerPage[0]];
+        }
+        config = {
+            customFilter: false,
+            search: '',
+            pageSize: 8,
+            currentPage: 1,
+            filter: [
+                {
+                    type: 'seller_id',
+                    value: sellerId,
+                },
+            ],
+            ...storeConfig.pwa,
+        };
+        config = generateConfig(query, config, elastic, availableFilter);
+    }
     let context = (isLogin && isLogin === 1) || (config.sort && config.sort.key === 'random') ? { request: 'internal' } : {};
     if (token && token !== '') {
         context = {
@@ -163,7 +201,7 @@ const ProductPagination = (props) => {
             },
             fetchPolicy: config.sort && config.sort.key === 'random' && filterSaved ? 'cache-and-network' : 'cache-first',
         },
-        router,
+        router
     );
     /* ====Start get price Product==== */
     const [getProdPrice, { data: dataPrice, loading: loadPrice, error: errorPrice }] = getProductPrice(config, {
@@ -301,8 +339,8 @@ const ProductPagination = (props) => {
                         impressions: data.products.items.map((product, index) => {
                             let categoryProduct = '';
                             // eslint-disable-next-line no-unused-expressions
-                            product.categories.length > 0
-                                && product.categories.map(({ name }, indx) => {
+                            product.categories.length > 0 &&
+                                product.categories.map(({ name }, indx) => {
                                     if (indx > 0) categoryProduct += `/${name}`;
                                     else categoryProduct += name;
                                 });
@@ -330,14 +368,13 @@ const ProductPagination = (props) => {
                             let categoryOne = '';
                             let categoryTwo = '';
                             // eslint-disable-next-line no-unused-expressions
-                            product.categories.length > 0 && (
-                                categoryOne = product.categories[0].name,
-                                categoryTwo = product.categories[1]?.name,
+                            product.categories.length > 0 &&
+                                ((categoryOne = product.categories[0].name),
+                                (categoryTwo = product.categories[1]?.name),
                                 product.categories.map(({ name }, indx) => {
                                     if (indx > 0) categoryProduct += `/${name}`;
                                     else categoryProduct += name;
-                                })
-                            );
+                                }));
                             return {
                                 item_name: product.name,
                                 item_id: product.sku,
@@ -397,6 +434,7 @@ const ProductLoadMore = (props) => {
         availableFilter,
         token,
         isLogin,
+        sellerId = null,
         ...other
     } = props;
     const router = useRouter();
@@ -418,6 +456,7 @@ const ProductLoadMore = (props) => {
         filter: [],
         ...storeConfig.pwa,
     };
+    const queryKeys = Object.keys(query);
 
     // set default sort when there is no sort in query
     if (defaultSort && !query.sort) {
@@ -433,7 +472,9 @@ const ProductLoadMore = (props) => {
                 // eslint-disable-next-line no-restricted-syntax
                 for (const idx in v.selectedFilter) {
                     if (v.selectedFilter[idx] !== '' && !v[idx]) {
-                        queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                        if (v.selectedFilter[idx] !== undefined && !idx.includes('seller/')) {
+                            queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                        }
                     }
                 }
             } else if (v[key] !== 0 && v[key] !== '') {
@@ -449,7 +490,35 @@ const ProductLoadMore = (props) => {
         });
     }
 
-    config = generateConfig(query, config, elastic, availableFilter);
+    if (!sellerId) {
+        if (queryKeys[0] === 'catalogsearch/result?q') {
+            config.search = query['catalogsearch/result?q'];
+        } else if (queryKeys[0] === 'catalogsearch/') {
+            config.search = query.q;
+        }
+        config = generateConfig(query, config, elastic, availableFilter);
+    } else {
+        const setSortOnSellerPage = queryKeys.filter((key) => key.match(/seller\/\d\d\?sort/));
+
+        // set default sort when there is no sort in query
+        if (setSortOnSellerPage.length > 0) {
+            query.sort = query[setSortOnSellerPage[0]];
+        }
+        config = {
+            customFilter: false,
+            search: '',
+            pageSize: 8,
+            currentPage: 1,
+            filter: [
+                {
+                    type: 'seller_id',
+                    value: sellerId,
+                },
+            ],
+            ...storeConfig.pwa,
+        };
+        config = generateConfig(query, config, elastic, availableFilter);
+    }
     let context = (isLogin && isLogin === 1) || (config.sort && config.sort.key === 'random') ? { request: 'internal' } : {};
     if (token && token !== '') {
         context = {
@@ -469,7 +538,7 @@ const ProductLoadMore = (props) => {
             context,
             fetchPolicy: config.sort && config.sort.key === 'random' && filterSaved ? 'cache-and-network' : 'cache-first',
         },
-        router,
+        router
     );
     /* ====Start get price Product==== */
     const page = data && data.products && data.products.page_info && data.products.page_info.current_page;
@@ -540,7 +609,7 @@ const ProductLoadMore = (props) => {
     const handleLoadMore = async () => {
         setFilterSaved(false);
         const pageSize = storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 0) : 10;
-        const pageTemp = (data.products.items.length / (parseInt(storeConfig?.pwa?.page_size, 0) || 10) + 1);
+        const pageTemp = data.products.items.length / (parseInt(storeConfig?.pwa?.page_size, 0) || 10) + 1;
         try {
             if (fetchMore && typeof fetchMore !== 'undefined') {
                 setLoadmore(true);
@@ -582,8 +651,8 @@ const ProductLoadMore = (props) => {
                         impressions: data.products.items.map((product, index) => {
                             let categoryProduct = '';
                             // eslint-disable-next-line no-unused-expressions
-                            product.categories.length > 0
-                                && product.categories.map(({ name }, indx) => {
+                            product.categories.length > 0 &&
+                                product.categories.map(({ name }, indx) => {
                                     if (indx > 0) categoryProduct += `/${name}`;
                                     else categoryProduct += name;
                                 });
@@ -611,14 +680,13 @@ const ProductLoadMore = (props) => {
                             let categoryOne = '';
                             let categoryTwo = '';
                             // eslint-disable-next-line no-unused-expressions
-                            product.categories.length > 0 && (
-                                categoryOne = product.categories[0].name,
-                                categoryTwo = product.categories[1]?.name,
+                            product.categories.length > 0 &&
+                                ((categoryOne = product.categories[0].name),
+                                (categoryTwo = product.categories[1]?.name),
                                 product.categories.map(({ name }, indx) => {
                                     if (indx > 0) categoryProduct += `/${name}`;
                                     else categoryProduct += name;
-                                })
-                            );
+                                }));
                             return {
                                 item_name: product.name,
                                 item_id: product.sku,

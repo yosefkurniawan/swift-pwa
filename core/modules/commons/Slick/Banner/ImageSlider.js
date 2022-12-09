@@ -24,6 +24,7 @@ const ImageSlide = ({
     video,
     videoUrl,
     storeConfig,
+    alt = '',
 }) => {
     const styles = useStyles();
     const href = (link && link.includes('http://')) || link.includes('https://') ? link : link[0] === '/' ? link : `/${link}`;
@@ -51,7 +52,7 @@ const ImageSlide = ({
                     height={height || storeConfig?.pwa?.home_slider_desktop_height}
                     widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
                     heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
-                    alt={href}
+                    alt={alt}
                     quality={100}
                     className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
                     contentWidth={contentWidth}

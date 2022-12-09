@@ -1,19 +1,21 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import Button from '@material-ui/core/IconButton';
 import PriceFormat from '@common_priceformat';
 import RatingStar from '@common_ratingstar';
+import Typography from '@common_typography';
 import { modules } from '@config';
-import Link from 'next/link';
-import React from 'react';
+import Button from '@material-ui/core/IconButton';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
-import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
-import classNames from 'classnames';
+import StorefrontIcon from '@material-ui/icons/Storefront';
 import useStyles from '@plugin_productitem/style';
 import { getPriceFromList } from '@core_modules/product/helpers/getPrice';
 import Skeleton from '@material-ui/lab/Skeleton';
+import classNames from 'classnames';
+import Link from 'next/link';
+import React from 'react';
 
 const Detail = (props) => {
     const {
@@ -35,6 +37,7 @@ const Detail = (props) => {
         enablePrice = true,
         enableProductCompare,
         storeConfig = {},
+        seller,
         urlKey,
         price: dataPrice,
         loadPrice,
@@ -46,6 +49,7 @@ const Detail = (props) => {
     const showWishlist = typeof enableWishlist !== 'undefined' ? enableWishlist : modules.wishlist.enabled;
     const showRating = typeof enableRating !== 'undefined' ? enableRating : storeConfig?.pwa?.rating_enable;
     const priceData = getPriceFromList(dataPrice, id);
+    const enableMultiSeller = storeConfig.enable_oms_multiseller === '1';
 
     const generatePrice = (priceDataItem = []) => {
         // handle if loading price
@@ -109,6 +113,14 @@ const Detail = (props) => {
                     {name}
                 </a>
             </Link>
+            {enableMultiSeller && seller.seller_name && (
+                <div className={styles.infoSeller}>
+                    <StorefrontIcon className={styles.iconSeller} />
+                    <Typography variant="p" className={styles.productTitle} letter="capitalize">
+                        {seller.seller_name}
+                    </Typography>
+                </div>
+            )}
             {showRating && <RatingStar value={ratingValue} />}
             {enablePrice && (
                 generatePrice(priceData)

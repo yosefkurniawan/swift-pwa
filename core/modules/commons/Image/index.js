@@ -52,22 +52,20 @@ const CustomImage = ({
     }, [imageUrl]);
 
     return (
-        <div
+        <span
             className={classContainer}
-            style={
-                magezon
-                    ? {
-                        width: 'fit-content',
-                        overflow: 'hidden',
-                    }
-                    : {
-                        backgroundColor: '#eee',
-                        width: '100%',
-                        position: 'relative',
-                        paddingTop: `${(height / width) * 100}%`,
-                        overflow: 'hidden',
-                    }
-            }
+            style={magezon ? {
+                width: 'fit-content',
+                overflow: 'hidden',
+                display: 'block',
+            } : {
+                backgroundColor: '#eee',
+                width: '100%',
+                position: 'relative',
+                paddingTop: `${(height / width) * 100}%`,
+                overflow: 'hidden',
+                display: 'block',
+            }}
         >
             <picture>
                 <source srcSet={imgSource} type="image/webp" />
@@ -78,7 +76,7 @@ const CustomImage = ({
                     <LazyImage style={styleImage} src={imgSource} alt={alt} />
                 )}
             </picture>
-        </div>
+        </span>
     );
 };
 

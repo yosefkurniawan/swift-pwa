@@ -61,6 +61,7 @@ const RelatedProductCaraousel = ({
         return (
             <View
                 {...other}
+                storeConfig={storeConfig}
                 data={data.products.items[0].related_products}
             />
         );

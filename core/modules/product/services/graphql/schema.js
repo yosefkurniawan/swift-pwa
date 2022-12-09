@@ -34,6 +34,10 @@ weltpixel_labels {
 `;
 
 const productDetail = (config = {}) => `
+    seller_id
+    seller {
+      seller_name
+    }
     id
     name
     sku
@@ -71,7 +75,6 @@ const productDetail = (config = {}) => `
     }
     special_from_date
     special_to_date
-
     `;
 const priceRange = `
     price_range {
@@ -367,6 +370,23 @@ export const getProduct = (config = {}) => {
                   }
               }
             }
+            image {
+              url
+              label
+            }
+            review {
+              rating_summary
+              reviews_count
+            }
+            reviews(pageSize: 20, currentPage:1){
+              items{
+                nickname
+                average_rating
+                summary
+                text
+              }
+            }
+            seller_id
           }
           total_count
         }
@@ -685,6 +705,7 @@ query Products($url: String){
     }
   ) {
     items {
+      seller_id
       id
       __typename
       ${config?.pwa?.label_weltpixel_enable ? weltpixel_labels : ''}
@@ -771,6 +792,23 @@ export const addProductsToCompareList = gql`
               }
             }
           }
+        }
+    }
+`;
+
+export const getSeller = gql`
+    query getSeller($input: SellerInput) {
+        getSeller(input: $input ) {
+            id
+            name
+            logo
+            status
+            address
+            description
+            city
+            latitude
+            longitude
+            additional_info
         }
     }
 `;

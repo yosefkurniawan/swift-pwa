@@ -6,6 +6,7 @@ const DiscountSection = (props) => {
     const {
         t, checkout, setCheckout, handleOpenMessage, storeConfig, StoreCreditView,
     } = props;
+
     const [applyStoreCreditToCart] = gqlService.applyStoreCreditToCart({
         onError: (e) => {
             const message = e.message.split(':');
@@ -41,7 +42,8 @@ const DiscountSection = (props) => {
 
         credit = store_credit.current_balance.value || 0;
         credit = store_credit.is_use_store_credit
-            ? `${modules.storecredit.useCommerceModule ? store_credit.applied_balance.value : store_credit.store_credit_amount}` : credit;
+            ? `${modules.storecredit.useCommerceModule ? store_credit.applied_balance.value : store_credit.store_credit_amount}`
+            : credit;
         total = checkout.data.cart.prices.grand_total.value;
     }
 

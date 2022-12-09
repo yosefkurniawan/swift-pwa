@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
-import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import * as PaypalSchema from '@core_modules/checkout/services/graphql/paypalSchema';
+import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import * as TravelokaSchema from '@core_modules/checkout/services/graphql/travelokaSchema';
 import { getLoginInfo } from '@helper_auth';
 
@@ -41,6 +41,12 @@ export const getCustomer = (options = {}) => useLazyQuery(Schema.getCustomer, {
     errorPolicy: 'all',
 });
 
+// stripes
+export const getStripePaymentIntent = (options = {}) => useMutation(Schema.getStripePaymentIntent, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export const getAddressCustomer = (options = {}) => useLazyQuery(Schema.getAddressCustomer, {
     ...options,
     ...config(USING_INTERNAL),
@@ -64,6 +70,11 @@ export const getItemCart = (options = {}) => useLazyQuery(Schema.getItemCart, {
 
 export const getCheckoutConfigurations = () => useQuery(Schema.getCheckoutConfigurations);
 
+export const getSeller = (options = {}) => useLazyQuery(Schema.getSeller, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export const getRewardPoint = () => useLazyQuery(Schema.getRewardPoint, { ...config(USING_INTERNAL) });
 
 export const setShippingAddress = (options = {}) => useMutation(Schema.setShippingAddressById, {
@@ -72,6 +83,11 @@ export const setShippingAddress = (options = {}) => useMutation(Schema.setShippi
 });
 
 export const setShippingAddressByInput = (options = {}) => useMutation(Schema.setShippingAddressByInput, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const initiateShippingAddressMultiseller = (options = {}) => useMutation(Schema.initiateShippingAddressMultiseller, {
     ...options,
     ...config(USING_INTERNAL),
 });
@@ -91,7 +107,17 @@ export const setBillingAddressByInput = (options = {}) => useMutation(Schema.set
     ...config(USING_INTERNAL),
 });
 
+export const initiateBillingAddressMultiseller = (options = {}) => useMutation(Schema.initiateBillingAddressMultiseller, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export const setShippingMethod = (options = {}) => useMutation(Schema.setShippingMethod, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const setShippingMethodMultiseller = (options = {}) => useMutation(Schema.setShippingMethodMultiseller, {
     ...options,
     ...config(USING_INTERNAL),
 });
@@ -281,14 +307,19 @@ export default {
     getAddressCustomer,
     getCart,
     getItemCart,
+    getStripePaymentIntent,
     getCheckoutConfigurations,
+    getSeller,
     getRewardPoint,
     setShippingAddress,
     setShippingMethod,
+    setShippingMethodMultiseller,
     setBillingAddressById,
     setBillingAddressVirtualProduct,
     setBillingAddressByInput,
     setShippingAddressByInput,
+    initiateShippingAddressMultiseller,
+    initiateBillingAddressMultiseller,
     placeOrder,
     placeOrderWithOrderComment,
     setPaymentMethod,

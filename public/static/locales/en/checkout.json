@@ -65,6 +65,7 @@
         "serverError": "There is a problem on the server or your connection, try again later",
         "guestFormValidation": "Please provide email information, address, select shipping, payment and check the agreement before place order.",
         "customerFormValidation": "Please select addresss, shipping, payment and check the agreement before place order.",
+        "stripeValidation": "Please fill all required fields for stripe payment methods.",
         "address": {
             "add": "Please add shipping address",
             "default": "No Default Address"

@@ -6,7 +6,7 @@ import Header from '@core_modules/product/pages/default/components/header';
 import Loading from '@core_modules/product/pages/default/components/Loader';
 import {
     addProductsToCompareList, addWishlist as mutationAddWishlist, getProduct,
-    getProductLabel, smartProductTabs, getProductPrice,
+    getProductLabel, smartProductTabs, getProductPrice, getSeller,
 } from '@core_modules/product/services/graphql';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { getCookies } from '@helper_cookies';
@@ -31,6 +31,24 @@ const ContentDetail = ({
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
     const [addProductCompare] = addProductsToCompareList();
     const { data: dataCompare, client } = useQuery(localCompare);
+    const { data: dSeller, loading: loadSeller } = getSeller({
+        fetchPolicy: 'no-cache',
+        variables: {
+            input: {
+                seller_id: [parseFloat(item.seller_id)],
+            },
+        },
+    });
+
+    let enableMultiSeller = false;
+    if (storeConfig) {
+        enableMultiSeller = storeConfig.enable_oms_multiseller === '1';
+    }
+
+    let itemData;
+    if (!loadSeller && dSeller && enableMultiSeller) {
+        itemData = dSeller.getSeller;
+    }
 
     React.useEffect(() => {
         if (isLogin && !dataUid && modules.productcompare.enabled) {
@@ -116,6 +134,7 @@ const ContentDetail = ({
                 link: '#',
                 imageUrl: media.url,
                 videoUrl: media && media.video_content,
+                imageAlt: media.label,
             });
         });
     } else {
@@ -123,6 +142,7 @@ const ContentDetail = ({
             link: '#',
             imageUrl: item.image.url,
             videoUrl: '#',
+            imageAlt: item.image.label,
         });
     }
 
@@ -406,6 +426,7 @@ const ContentDetail = ({
 
     return (
         <Content
+            dataSeller={itemData}
             data={{
                 ...product.items[keyProduct],
                 weltpixel_labels,
@@ -447,6 +468,7 @@ const ContentDetail = ({
             isLogin={isLogin}
             handleSetCompareList={handleSetCompareList}
             enablePopupImage={enablePopupImage}
+            enableMultiSeller={enableMultiSeller}
             storeConfig={storeConfig}
         />
     );
@@ -550,7 +572,6 @@ const PageDetail = (props) => {
 
         return productPrice;
     };
-    console.log('cachePrice', cachePrice);
 
     if (error || loading || !data) {
         return (
