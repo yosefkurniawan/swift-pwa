@@ -387,6 +387,9 @@ query getProducts(
         }
     ) {
       items {
+        id
+        name
+        sku
         ${priceRange}
         ${priceTiers}
       }

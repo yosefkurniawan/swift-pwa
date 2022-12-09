@@ -6,7 +6,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-shadow */
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { custDataNameCookie, expiredToken } from '@config';
 import { getAppEnv } from '@helpers/env';
 import { getLastPathWithoutLogin, setLogin } from '@helper_auth';
@@ -37,6 +37,7 @@ import { getCustomer } from '@core_modules/login/services/graphql/schema';
 import { assignCompareListToCustomer } from '@core_modules/productcompare/service/graphql';
 import { loginConfig } from '@services/graphql/repository/pwa_config';
 import { localCompare } from '@services/graphql/schema/local';
+import { priceVar } from '@root/core/services/graphql/cache';
 
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const appEnv = getAppEnv();
@@ -56,6 +57,8 @@ const Login = (props) => {
     const [disabled, setDisabled] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
+    // cache price
+    const cachePrice = useReactiveVar(priceVar);
 
     // Listen to the Firebase Auth state and set the local state.
 
@@ -417,6 +420,9 @@ const Login = (props) => {
             }
             if (cartId === '' || !cartId) {
                 setCartId(custCartId, expired);
+                if (Object.keys(cachePrice).length > 0) {
+                    priceVar({});
+                }
                 setDisabled(false);
                 window.backdropLoader(false);
                 window.toastMessage({ open: true, variant: 'success', text: t('login:success') });

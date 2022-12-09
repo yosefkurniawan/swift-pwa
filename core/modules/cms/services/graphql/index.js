@@ -40,6 +40,16 @@ export const getProductReviews = (variables) => useQuery(Schema.getProductReview
 export const getProductList = () => (
     useLazyQuery(Schema.getProductList)
 );
+export const getProductPrice = (variables) => (
+    useLazyQuery(Schema.getProductPrice,
+        {
+            variables,
+            context: {
+                request: isLogin ? 'internal' : '',
+            },
+            fetchPolicy: 'no-cache',
+        })
+);
 export const getCategories = (variables) => useQuery(Schema.getCategories, { variables });
 
 export default { getCmsPage };

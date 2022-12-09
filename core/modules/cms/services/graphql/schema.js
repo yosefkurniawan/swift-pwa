@@ -95,6 +95,55 @@ export const getProductReviews = gql`
     }
 `;
 
+export const getProductPrice = gql`
+    query getProductPrice($search: String, $pageSize: Int, $filter: ProductAttributeFilterInput, $sort: ProductAttributeSortInput) {
+        products(search: $search, pageSize: $pageSize, filter: $filter, sort: $sort) {
+            items {
+                id
+                name
+                sku
+                url_key
+                price_range {
+                    maximum_price {
+                        regular_price {
+                            value
+                        }
+                        final_price {
+                            value
+                        }
+                        discount {
+                            amount_off
+                            percent_off
+                        }
+                    }
+                    minimum_price {
+                        regular_price {
+                            value
+                        }
+                        final_price {
+                            value
+                        }
+                        discount {
+                            amount_off
+                            percent_off
+                        }
+                    }
+                }
+                price_tiers {
+                    discount {
+                        amount_off
+                        percent_off
+                    }
+                    final_price {
+                        currency
+                        value
+                    }
+                    quantity
+                }
+            }
+        }
+    }`;
+
 export const getProductList = gql`
     query getProductList($search: String, $pageSize: Int, $filter: ProductAttributeFilterInput, $sort: ProductAttributeSortInput) {
         products(search: $search, pageSize: $pageSize, filter: $filter, sort: $sort) {

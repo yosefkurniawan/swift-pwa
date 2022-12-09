@@ -5,6 +5,7 @@ import { removeCartId } from '@helper_cartid';
 import Cookies from 'js-cookie';
 import { removeCookies } from '@helper_cookies';
 import { useApolloClient } from '@apollo/client';
+import { priceVar } from '@root/core/services/graphql/cache';
 import { localTotalCart, localCompare } from '@services/graphql/schema/local';
 import firebase from 'firebase/app';
 import {
@@ -59,6 +60,7 @@ const CoreTopNavigation = (props) => {
             .then(() => {
                 Cookies.remove(custDataNameCookie);
                 removeIsLoginFlagging();
+                priceVar({});
                 removeCartId();
                 removeCookies('uid_product_compare');
                 client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });

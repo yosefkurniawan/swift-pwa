@@ -152,7 +152,7 @@ const ProductPagination = (props) => {
     }
 
     const { loading, data, fetchMore } = getProduct(
-        config,
+        config = generateConfig(query, config, elastic, availableFilter),
         {
             variables: {
                 pageSize,
@@ -164,20 +164,24 @@ const ProductPagination = (props) => {
         router,
     );
 
-    // const [getProdPrice, { data: dataPrice, loading: loadPrice }] = getProductPrice();
+    const [getProdPrice, { data: dataPrice, loading: loadPrice }] = getProductPrice();
 
-    // React.useEffect(() => {
-    //     if (typeof window !== 'undefined') {
-    //         getProdPrice(config, {
-    //             context,
-    //             variables: {
-    //                 pageSize,
-    //                 currentPage: page,
-    //             },
-    //         });
-    //     }
-    // }, []);
-    // console.log('dataPrice', dataPrice);
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            getProdPrice(
+                config,
+                {
+                    variables: {
+                        pageSize,
+                        currentPage: page,
+                    },
+                    context,
+                },
+                router,
+            );
+        }
+    }, []);
+    console.log('dataPrice', dataPrice);
 
     React.useEffect(() => {
         const totalProduct = products && products.total_count ? products.total_count : 0;

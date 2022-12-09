@@ -12,10 +12,10 @@ import * as productSchema from '@core_modules/catalog/services/graphql/productSc
 export const getProduct = (config, otherConfig = {}, router) => useQuery(productSchema.getProduct(config, router), {
     ...otherConfig,
 });
-// export const getProductPrice = (config, otherConfig = {}, router) => useLazyQuery(productSchema.getProductPrice(config, router), {
-//     ...otherConfig,
-//     fetchPolicy: 'no-cache',
-// });
+export const getProductPrice = (config, otherConfig = {}, router) => useLazyQuery(productSchema.getProductPrice(config, router), {
+    ...otherConfig,
+    fetchPolicy: 'no-cache',
+});
 export const getProductAgragations = () => useQuery(productSchema.getProductAgragations(), {});
 export const getCategory = (variables) => useQuery(schemaCategory.getCategory(variables), {
 });

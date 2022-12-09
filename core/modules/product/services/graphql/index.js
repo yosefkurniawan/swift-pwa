@@ -17,7 +17,6 @@ export const getProductPrice = (config = {}, options = {}) => useLazyQuery(Schem
     ...options,
     fetchPolicy: 'no-cache',
 });
-
 export const getProductLabel = (config = {}, options = {}) => useQuery(Schema.getProductLabel(config), {
     ...defaultConfig,
     ...options,

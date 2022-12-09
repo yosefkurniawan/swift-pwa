@@ -11,8 +11,10 @@ import { modules } from '@config';
  */
 
 const filterProduct = (filter, router) => {
+    console.log('router filter', router);
+    console.log('filter', filter);
     let queryFilter = '{ ';
-    if (router.asPath.includes('color')) {
+    if (router && router.asPath && router.asPath.includes('color')) {
         const routerPaths = router.asPath.split('?');
         const routerPathsNext = routerPaths[1].split('&');
         const routerPathsColor = routerPathsNext[0].split('=');
@@ -22,7 +24,7 @@ const filterProduct = (filter, router) => {
       }`;
     }
     // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < filter.length; index++) {
+    for (let index = 0; index < filter?.length; index++) {
         const detailFilter = filter[index];
         if (detailFilter.type === 'price') {
             queryFilter += `
@@ -311,6 +313,83 @@ export const getProduct = (config = {}, router) => gql`
         `
         : ''
 }
+      }
+    }
+  }
+`;
+
+export const getProductPrice = (config = {}, router) => gql`
+  query getProducts(
+    $pageSize: Int,
+    $currentPage: Int,
+  ){
+  products( search: "${config.search}" ,filter: ${filterProduct(config.filter, router)},
+  pageSize: $pageSize,
+  currentPage: $currentPage
+  ${config.sort && config.sort.key && config.sort.key !== 'position' ? `, sort: {${config.sort.key} : ${config.sort.value}}` : ''}
+    ) {
+      page_info {
+        current_page
+       page_size
+       total_pages
+     }
+      total_count
+      ${
+    !config.customFilter
+        ? `aggregations {
+        attribute_code
+        label
+        options {
+          count
+          label
+          value
+        }
+      }`
+        : ''
+}
+      __typename
+      items {
+        id
+        name
+        sku
+        url_key
+        price_range {
+            maximum_price {
+                regular_price {
+                    value
+                }
+                final_price {
+                    value
+                }
+                discount {
+                    amount_off
+                    percent_off
+                }
+            }
+            minimum_price {
+                regular_price {
+                    value
+                }
+                final_price {
+                    value
+                }
+                discount {
+                    amount_off
+                    percent_off
+                }
+            }
+        }
+        price_tiers {
+            discount {
+                amount_off
+                percent_off
+            }
+            final_price {
+                currency
+                value
+            }
+            quantity
+        }
       }
     }
   }
