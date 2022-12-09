@@ -174,7 +174,7 @@ class MyApp extends App {
 
                 storeConfig = storeConfig.storeConfig;
             }
-            console.log(storeConfig);
+
             if (!modules.checkout.checkoutOnly) {
                 dataVesMenu = getLocalStorage('pwa_vesmenu');
                 if (!dataVesMenu) {
