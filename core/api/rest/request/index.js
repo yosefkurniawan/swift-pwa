@@ -1,4 +1,4 @@
-const { getAppEnv, getEncryptEnv } = require('../../../helpers/env');
+const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
 const { HOST } = require('../../../../swift.config');
 
 function requestInternal(request) {
@@ -7,7 +7,7 @@ function requestInternal(request) {
     return new Promise((resolve) => {
         fetch(`${url}/${request}`, {
             headers: {
-                Authorization: `Bearer ${getEncryptEnv()}`,
+                Authorization: `Bearer ${getAccessEnv()}`,
                 'Content-Type': 'application/json',
             },
         })

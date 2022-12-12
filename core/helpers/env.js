@@ -8,7 +8,7 @@ const getAppEnv = () => {
 
 const getAccessEnv = () => process.env.ACCESS_KEY;
 
-const getEncryptEnv = () => process.env.NEXT_PUBLIC_ENCRYPTION_KEY;
+const getEncryptEnv = () => process.env.ENCRYPTION_KEY;
 
 module.exports = {
     getAppEnv,
