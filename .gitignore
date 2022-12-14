@@ -35,3 +35,6 @@ package-lock.json
 
 #storeconfig
 /core/api/rest/config/config.json
+
+#setting
+/core/api/rest/setting/setting.json

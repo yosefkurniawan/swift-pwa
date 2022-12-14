@@ -44,12 +44,12 @@ const SwitcherCurrency = (props) => {
             const getCurrencyFromStorage = () => {
                 try {
                     /** [GET] Currency */
-                    if (data && data.currency) {
+                    if (data && data.internalGetCurrency) {
                         /** [SET] Currency if not store in local storage */
-                        const { currency } = data;
-                        const { base_currency_code } = currency;
-                        const { default_display_currency_code } = currency;
-                        const { exchange_rates } = currency;
+                        const { internalGetCurrency } = data;
+                        const { base_currency_code } = internalGetCurrency;
+                        const { default_display_currency_code } = internalGetCurrency;
+                        const { exchange_rates } = internalGetCurrency;
                         const exchange_rates_base = exchange_rates.filter((item) => item.currency_to === base_currency_code);
                         const exchange_rates_default = exchange_rates.filter((item) => item.currency_to === default_display_currency_code);
                         const base_currency_rate = exchange_rates_base[0].rate;
