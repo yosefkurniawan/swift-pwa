@@ -101,9 +101,12 @@ const getPrice = ({
 };
 
 export const getPriceFromList = (priceList = [], productId = 0) => {
-    // eslint-disable-next-line eqeqeq
-    const productPrice = priceList.filter((product) => product.id == productId);
-    return productPrice;
+    if (priceList.filter) {
+        // eslint-disable-next-line eqeqeq
+        const productPrice = priceList.filter((product) => product.id == productId);
+        return productPrice;
+    }
+    return '';
 };
 
 export default getPrice;
