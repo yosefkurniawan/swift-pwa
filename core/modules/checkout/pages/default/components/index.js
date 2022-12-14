@@ -69,6 +69,7 @@ const Content = (props) => {
         setCheckoutTokenState,
         setLoadingSellerInfo,
         loadingSellerInfo,
+        currencyCache,
     } = props;
 
     const styles = useStyles();
@@ -212,6 +213,7 @@ const Content = (props) => {
                         setCheckoutTokenState={setCheckoutTokenState}
                         setLoadingSellerInfo={setLoadingSellerInfo}
                         loadingSellerInfo={loadingSellerInfo}
+                        currencyCache={currencyCache}
                     />
 
                     <div className={classNames(styles.block)}>

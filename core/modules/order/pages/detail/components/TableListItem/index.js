@@ -10,7 +10,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Alert from '@material-ui/lab/Alert';
 
-const TableListProduct = ({ data, t, currency }) => {
+const TableListProduct = ({
+    data, t, currency, currencyCache,
+}) => {
     const styles = useStyles();
     return (
         <TableContainer component={Paper} className={styles.tableContainer}>
@@ -89,7 +91,7 @@ const TableListProduct = ({ data, t, currency }) => {
                                     </TableCell>
                                     <TableCell align="right">
                                         <Typography variant="span" align="right" letter="capitalize">
-                                            {formatPrice(val.price_incl_tax, currency)}
+                                            {formatPrice(val.price_incl_tax, currency, currencyCache)}
                                         </Typography>
                                     </TableCell>
                                     <TableCell align="right">
@@ -99,7 +101,7 @@ const TableListProduct = ({ data, t, currency }) => {
                                     </TableCell>
                                     <TableCell align="right">
                                         <Typography variant="span" align="right" letter="capitalize">
-                                            {formatPrice(val.row_total_incl_tax, currency)}
+                                            {formatPrice(val.row_total_incl_tax, currency, currencyCache)}
                                         </Typography>
                                     </TableCell>
                                 </TableRow>

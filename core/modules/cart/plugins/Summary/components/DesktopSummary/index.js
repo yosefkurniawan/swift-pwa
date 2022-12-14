@@ -24,7 +24,7 @@ const Summary = (props) => {
         t, summary, handleActionSummary = () => { }, loading, disabled,
         showItems = false, items = [], hideButton = false, isDesktop,
         isLoader, deleteCart, updateCart, withAction, withLabel = true,
-        labelItemAlign = 'left', dataCart, storeConfig,
+        labelItemAlign = 'left', dataCart, storeConfig, currencyCache,
     } = props;
     const styles = useStyles();
     const storeConfigLocalStorage = getLocalStorage('storeConfig');
@@ -168,7 +168,7 @@ const Summary = (props) => {
                                                     <Typography variant="span" size="14" letter="uppercase">
                                                         {item.prices.row_total.value === 0
                                                             ? t('common:title:free')
-                                                            : formatPrice(item.prices.row_total.value, item.prices.row_total.currency || 'IDR')}
+                                                            : formatPrice(item.prices.row_total.value, item.prices.row_total.currency || 'IDR', currencyCache)}
                                                     </Typography>
                                                 </div>
                                             </div>
@@ -185,7 +185,7 @@ const Summary = (props) => {
                                                 />
                                                 <ListItemSecondaryAction>
                                                     <Typography variant="span" type="regular">
-                                                        {`${formatPrice(seller.subtotal.value, seller.subtotal.currency)}`}
+                                                        {`${formatPrice(seller.subtotal.value, seller.subtotal.currency, currencyCache)}`}
                                                     </Typography>
                                                 </ListItemSecondaryAction>
                                             </ListItem>
@@ -261,7 +261,7 @@ const Summary = (props) => {
                                         <Typography variant="span" size="14" letter="uppercase">
                                             {item.prices.row_total.value === 0
                                                 ? t('common:title:free')
-                                                : formatPrice(item.prices.row_total.value, item.prices.row_total.currency || 'IDR')}
+                                                : formatPrice(item.prices.row_total.value, item.prices.row_total.currency || 'IDR', currencyCache)}
                                         </Typography>
                                     </div>
                                 </div>
@@ -284,6 +284,7 @@ const Summary = (props) => {
                         <ListItemSecondaryAction>
                             <Typography variant="span" type="regular">
                                 {dt.value}
+                                {/* {`${formatPrice(dt.value, currencyCache)}`} */}
                             </Typography>
                         </ListItemSecondaryAction>
                     </ListItem>
@@ -299,7 +300,7 @@ const Summary = (props) => {
                     />
                     <ListItemSecondaryAction>
                         <Typography variant="span" type="bold" size="16">
-                            {summary.total.currency ? formatPrice(summary.total.value, summary.total.currency) : null}
+                            {summary.total.currency ? formatPrice(summary.total.value, summary.total.currency, currencyCache) : null}
                         </Typography>
                     </ListItemSecondaryAction>
                 </ListItem>

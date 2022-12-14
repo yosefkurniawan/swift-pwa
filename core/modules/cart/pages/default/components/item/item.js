@@ -37,6 +37,7 @@ const ItemView = (props) => {
         cartItemId,
         customizable_options,
         storeConfig = {},
+        currencyCache,
     } = props;
     const styles = useStyles();
 
@@ -120,8 +121,6 @@ const ItemView = (props) => {
             </form>
         );
     };
-
-    // console.log(product && product);
 
     return (
         <div className={styles.item}>
@@ -209,7 +208,9 @@ const ItemView = (props) => {
                         {t('cart:oos')}
                     </Alert>
                 )}
-                <div className={styles.itemPrice}>{formatPrice(prices.price_including_tax.value, prices.price_including_tax.currency)}</div>
+                <div className={styles.itemPrice}>
+                    {formatPrice(prices.price_including_tax.value, prices.price_including_tax.currency, currencyCache)}
+                </div>
             </div>
 
             <div className={styles.itemActions}>

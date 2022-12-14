@@ -12,11 +12,17 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
+import { useReactiveVar } from '@apollo/client';
+import { currencyVar } from '@root/core/services/graphql/cache';
 
 const OrderView = (props) => {
     const {
         customerOrders, styles, t, reOrder,
     } = props;
+
+    // cache currency
+    const currencyCache = useReactiveVar(currencyVar);
+
     const customerData = JSON.parse(Cookies.get('cdt'));
     const currencyData = JSON.parse(Cookies.get('app_currency'));
     return (
@@ -68,6 +74,7 @@ const OrderView = (props) => {
                                                         val.detail[0].global_currency_code
                                                             ? val.detail[0].global_currency_code
                                                             : currencyData.default_display_currency_code,
+                                                        currencyCache,
                                                     )}
                                                 </TableCell>
                                                 <TableCell component="td" scope="row">

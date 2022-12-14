@@ -33,7 +33,7 @@ import { useFormik } from 'formik';
 import Link from 'next/link';
 import React from 'react';
 
-const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, storeConfig = {} }) => {
+const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, storeConfig = {}, currencyCache, }) => {
     const styles = useStyles();
     const [confirmDel, setConfirmDel] = React.useState(false);
     const [selectDelete, setSelectDelet] = React.useState(null);
@@ -321,7 +321,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                         <Typography variant="span" align="right" letter="capitalize">
                                                             {formatPrice(
                                                                 val.prices.row_total_including_tax.value,
-                                                                val.prices.row_total_including_tax.currency || 'IDR'
+                                                                val.prices.row_total_including_tax.currency || 'IDR',
+                                                                currencyCache
                                                             )}
                                                         </Typography>
                                                     </TableCell>
@@ -334,7 +335,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                         <Typography variant="span" align="right" letter="capitalize">
                                                             {formatPrice(
                                                                 val.prices.row_total_including_tax.value,
-                                                                val.prices.row_total_including_tax.currency
+                                                                val.prices.row_total_including_tax.currency,
+                                                                currencyCache
                                                             )}
                                                         </Typography>
                                                     </TableCell>
@@ -544,7 +546,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                                 <Typography variant="span" align="right" letter="capitalize">
                                                                     {formatPrice(
                                                                         val.prices.row_total_including_tax.value,
-                                                                        val.prices.row_total_including_tax.currency || 'IDR'
+                                                                        val.prices.row_total_including_tax.currency || 'IDR',
+                                                                        currencyCache
                                                                     )}
                                                                 </Typography>
                                                             </TableCell>
@@ -562,7 +565,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                                 <Typography variant="span" align="right" letter="capitalize">
                                                                     {formatPrice(
                                                                         val.prices.row_total_including_tax.value,
-                                                                        val.prices.row_total_including_tax.currency
+                                                                        val.prices.row_total_including_tax.currency,
+                                                                        currencyCache
                                                                     )}
                                                                 </Typography>
                                                             </TableCell>

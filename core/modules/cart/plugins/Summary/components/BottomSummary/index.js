@@ -43,6 +43,7 @@ const CheckoutDrawer = ({
     isCart = false,
     storeConfig,
     labelItemAlign = 'left',
+    currencyCache,
 }) => {
     const styles = useStyles();
     const [expanded, setExpanded] = useState(null);
@@ -138,7 +139,8 @@ const CheckoutDrawer = ({
                                                                     <Typography variant="p" align="right">
                                                                         {formatPrice(
                                                                             item.prices.row_total_including_tax.value,
-                                                                            item.prices.row_total_including_tax.currency || 'IDR'
+                                                                            item.prices.row_total_including_tax.currency || 'IDR',
+                                                                            currencyCache
                                                                         )}
                                                                     </Typography>
                                                                 </div>
@@ -175,7 +177,7 @@ const CheckoutDrawer = ({
                                                             />
                                                             <ListItemSecondaryAction>
                                                                 <Typography variant="span" type="regular">
-                                                                    {`${formatPrice(seller.subtotal.value, seller.subtotal.currency)}`}
+                                                                    {`${formatPrice(seller.subtotal.value, seller.subtotal.currency, currencyCache)}`}
                                                                 </Typography>
                                                             </ListItemSecondaryAction>
                                                         </ListItem>
@@ -199,7 +201,8 @@ const CheckoutDrawer = ({
                                                             <Typography variant="p" align="right">
                                                                 {formatPrice(
                                                                     item.prices.row_total_including_tax.value,
-                                                                    item.prices.row_total_including_tax.currency || 'IDR'
+                                                                    item.prices.row_total_including_tax.currency || 'IDR',
+                                                                    currencyCache
                                                                 )}
                                                             </Typography>
                                                         </div>
@@ -293,7 +296,7 @@ const CheckoutDrawer = ({
                                     />
                                     <ListItemSecondaryAction>
                                         <Typography variant="span" type="bold" size="16">
-                                            {total.currency ? formatPrice(total.value, total.currency) : null}
+                                            {total.currency ? formatPrice(total.value, total.currency, currencyCache) : null}
                                         </Typography>
                                     </ListItemSecondaryAction>
                                 </ListItem>
@@ -307,7 +310,7 @@ const CheckoutDrawer = ({
                             Grand Total&nbsp;
                         </Typography>
                         <Typography variant="span" type="bold" align="center" letter="capitalize" className={styles.subtotal}>
-                            {total.currency ? formatPrice(total.value, total.currency) : null}
+                            {total.currency ? formatPrice(total.value, total.currency, currencyCache) : null}
                         </Typography>
                     </div>
                 ) : null}
