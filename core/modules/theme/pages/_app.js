@@ -127,18 +127,6 @@ class MyApp extends App {
         let frontendOptions;
         let { storeConfig } = pageProps;
 
-        if (typeof window !== 'undefined') {
-            frontendOptions = await pageProps.apolloClient
-                .query({
-                    query: gql`
-                        ${FrontendSchema}
-                    `,
-                })
-                .then(({ data }) => data);
-            if (ctx && frontendOptions && frontendOptions.response && frontendOptions.response.status && frontendOptions.response.status > 500) {
-                ctx.res.redirect('/maintenance');
-            }
-        }
         if (typeof window === 'undefined' && (!storeConfig || typeof storeConfig.secure_base_media_url === 'undefined')) {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
             storeConfig = await requestInternal('getConfig');
