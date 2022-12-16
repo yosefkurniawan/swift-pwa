@@ -24,8 +24,6 @@ const ContentDetail = ({
     t, product, keyProduct, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig, dataPrice, loadPrice, errorPrice,
 }) => {
     const item = product.items[keyProduct];
-    // const updatePrice = dataPrice && dataPrice.products && dataPrice.products.items[0];
-    // const priceData = getPriceFromList(dataPrice, item.id);
     const route = useRouter();
     const reviewValue = parseInt(item.review.rating_summary, 0) / 20;
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();

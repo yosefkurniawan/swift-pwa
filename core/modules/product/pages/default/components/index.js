@@ -126,11 +126,11 @@ const ProductPage = (props) => {
             };
         }
         return (
-            <div className={styles.priceTiersContainer}>
+            <>
                 {
                     priceProduct && <PriceFormat {...priceProduct} additionalPrice={additionalPrice} />
                 }
-            </div>
+            </>
         );
     };
 
@@ -160,7 +160,7 @@ const ProductPage = (props) => {
             <div className={styles.titleContainer}>
                 <div className={styles.priceTiersContainer}>
                     {
-                        priceProduct.priceTiers.length > 0 && price.priceTiers.map((tiers, index) => {
+                        priceProduct.priceTiers.length > 0 && priceProduct.priceTiers.map((tiers, index) => {
                             const priceTiers = {
                                 quantity: tiers.quantity,
                                 currency: tiers.final_price.currency,
@@ -168,9 +168,13 @@ const ProductPage = (props) => {
                                 discount: tiers.discount.percent_off,
                             };
                             return (
-                                <Typography variant="p" type="regular" key={index}>
-                                    {t('product:priceTiers', { priceTiers })}
-                                </Typography>
+                                <>
+                                    {priceTiers.quantity > 1 && (
+                                        <Typography variant="p" type="regular" key={index}>
+                                            {t('product:priceTiers', { priceTiers })}
+                                        </Typography>
+                                    )}
+                                </>
                             );
                         })
                     }
@@ -291,14 +295,6 @@ const ProductPage = (props) => {
                             <Typography variant="title" type="bold" letter="capitalize" className={classNames(styles.title, 'clear-margin-padding')}>
                                 {data.name}
                             </Typography>
-                            {/* <div>
-                                {loadPrice && !price.priceRange && (
-                                    <span>loading</span>
-                                )}
-                            </div> */}
-                            {/* {!loadPrice && price && price.priceRange && (
-                                <PriceFormat {...price} additionalPrice={additionalPrice} />
-                            )} */}
                             {generatePrice(priceData, price)}
                         </div>
                         <div className={styles.shareContainer}>
@@ -367,23 +363,6 @@ const ProductPage = (props) => {
                     ) : null}
 
                     <div className={styles.titleContainer}>
-                        {/* <div className={styles.priceTiersContainer}>
-                            {
-                                price.priceTiers.length > 0 && price.priceTiers.map((tiers, index) => {
-                                    const priceTiers = {
-                                        quantity: tiers.quantity,
-                                        currency: tiers.final_price.currency,
-                                        price: formatPrice(tiers.final_price.value),
-                                        discount: tiers.discount.percent_off,
-                                    };
-                                    return (
-                                        <Typography variant="p" type="regular" key={index}>
-                                            {t('product:priceTiers', { priceTiers })}
-                                        </Typography>
-                                    );
-                                })
-                            }
-                        </div> */}
                         {generateTiersPrice(priceData, price)}
                     </div>
 
