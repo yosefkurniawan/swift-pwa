@@ -29,9 +29,10 @@ const executor = async ({ document, variables, context }) => {
         const url = graphqlEndpoint[appEnv] || graphqlEndpoint.prod;
         if (token && token !== '') {
             additionalHeader.Authorization = `Bearer ${decrypt(token)}`;
-        } else {
-            additionalHeader.Authorization = `Bearer ${getAccessEnv()}`;
         }
+        
+        additionalHeader.Authentication = `Bearer ${getAccessEnv()}`;
+        
         if (checkoutToken && checkoutToken !== '') {
             additionalHeader['Checkout-Token'] = `${decrypt(checkoutToken)}`;
         }
