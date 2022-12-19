@@ -37,4 +37,5 @@ package-lock.json
 /core/api/rest/config/config.json
 
 #setting
-/core/api/rest/setting/setting.json
+/core/api/rest/setting/currency.json
+/core/api/rest/setting/availableStores.json

@@ -255,12 +255,12 @@ const reqBody = gql`{
 
 const generateConfig = async (req, res) => {
     if (`Bearer ${getEncryptEnv()}` == req.headers.authorization) {
-        graphQLClient.request(reqBody, {}).then(async (data) => {
+        await generateSetting();
+        graphQLClient.request(reqBody, {}).then((data) => {
             fs.writeFile(`${baseDir}config.json`, JSON.stringify(data), (err) => {
                 if (err) throw err;
             });
             res.send(data);
-            await generateSetting();
         }).catch((err) => {
             res.status(500).json(err);
             // eslint-disable-next-line no-console

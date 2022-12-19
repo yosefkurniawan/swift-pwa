@@ -53,7 +53,7 @@ const getStoreSchema = gql`
 
 async function getCurrency() {
     graphQLClient.request(getCurrencySchema, {}).then((data) => {
-        fs.writeFile(`${baseDir}setting.json`, JSON.stringify(data), (err) => {
+        fs.writeFile(`${baseDir}currency.json`, JSON.stringify(data), (err) => {
             if (err) throw err;
         });
     }).catch((err) => {
@@ -64,18 +64,8 @@ async function getCurrency() {
 
 async function getStoreName() {
     graphQLClient.request(getStoreSchema, {}).then((data) => {
-        const response = data;
-        fs.readFile(`${baseDir}setting.json`, 'utf8', (err, dataRead) => {
-            if (err) {
-                console.log(err);
-            } else {
-                const objData = JSON.parse(dataRead);
-                objData.availableStores = response.availableStores;
-                const jsonData = JSON.stringify(objData);
-                fs.writeFile(`${baseDir}setting.json`, jsonData, 'utf8', (err) => {
-                    if (err) throw err;
-                });
-            }
+        fs.writeFile(`${baseDir}availableStores.json`, JSON.stringify(data), (err) => {
+            if (err) throw err;
         });
     }).catch((err) => {
         // eslint-disable-next-line no-console
@@ -84,12 +74,8 @@ async function getStoreName() {
 }
 
 const generateSetting = async () => {
-    getCurrency()
-        .then(async () => {
-            await getStoreName();
-        }).catch((err) => {
-            console.log('generate setting failed', err);
-        });
+    await getCurrency();
+    await getStoreName();
 };
 
 module.exports = {
