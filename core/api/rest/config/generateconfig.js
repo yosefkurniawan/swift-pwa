@@ -255,17 +255,17 @@ const reqBody = gql`{
 
 const generateConfig = async (req, res) => {
     if (`Bearer ${getEncryptEnv()}` == req.headers.authorization) {
-        graphQLClient.request(reqBody, {}).then((data) => {
+        graphQLClient.request(reqBody, {}).then(async (data) => {
             fs.writeFile(`${baseDir}config.json`, JSON.stringify(data), (err) => {
                 if (err) throw err;
             });
             res.send(data);
+            await generateSetting();
         }).catch((err) => {
             res.status(500).json(err);
             // eslint-disable-next-line no-console
             console.log('generate config failed', err);
         });
-        await generateSetting();
     } else {
         res.status(403).json({ message: 'Token Invalid' });
     }
