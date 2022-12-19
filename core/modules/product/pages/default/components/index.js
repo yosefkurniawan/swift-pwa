@@ -128,7 +128,7 @@ const ProductPage = (props) => {
         return (
             <>
                 {
-                    priceProduct && <PriceFormat {...priceProduct} additionalPrice={additionalPrice} />
+                    priceProduct && <PriceFormat isPdp {...priceProduct} additionalPrice={additionalPrice} />
                 }
             </>
         );

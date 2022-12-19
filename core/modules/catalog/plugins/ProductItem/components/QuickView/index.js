@@ -23,14 +23,18 @@ import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { getPriceFromList } from '@core_modules/product/helpers/getPrice';
+import { formatPrice } from '@helper_currency';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const QuickView = (props) => {
     const styles = useStyles();
     const route = useRouter();
     const { t } = useTranslation(['common', 'product', 'catalog']);
     const {
-        onClose, selectedValue, keyProduct, open, data, weltpixel_labels, storeConfig = {},
+        onClose, selectedValue, keyProduct, open, data, weltpixel_labels, storeConfig = {}, dataPrice = [], loadPrice, errorPrice,
     } = props;
+    // console.log('dataPrice', dataPrice);
     let productKey;
     for (let i = 0; i < data.items.length; i += 1) {
         if (keyProduct === data.items[i].url_key) {
@@ -38,7 +42,7 @@ const QuickView = (props) => {
         }
     }
 
-    const product = data?.items[productKey];
+    const product = data && data.items[productKey];
 
     const reviewValue = parseInt(product?.review?.rating_summary, 0) / 20;
 
@@ -148,6 +152,87 @@ const QuickView = (props) => {
         onClose(selectedValue);
     };
 
+    const priceData = getPriceFromList(dataPrice, product.id);
+    const generatePrice = (priceDataItem, priceItem) => {
+        // handle if loading price
+        if (loadPrice) {
+            return (
+                <div>
+                    <Skeleton variant="text" width={100} />
+                    {' '}
+                </div>
+            );
+        }
+
+        let priceProduct = priceItem;
+        if (priceDataItem.length > 0 && !loadPrice && !errorPrice) {
+            priceProduct = {
+                priceRange: priceDataItem[0].price_range,
+                priceTiers: priceDataItem[0].price_tiers,
+                // eslint-disable-next-line no-underscore-dangle
+                productType: priceDataItem[0].__typename,
+                specialFromDate: priceDataItem[0].special_from_date,
+                specialToDate: priceDataItem[0].special_to_date,
+            };
+        }
+        return (
+            <>
+                {
+                    priceProduct && <PriceFormat isQuickView {...priceProduct} additionalPrice={additionalPrice} />
+                }
+            </>
+        );
+    };
+
+    const generateTiersPrice = (priceDataItem, priceItem) => {
+        // handle if loading price
+        if (loadPrice) {
+            return (
+                <div>
+                    <Skeleton variant="text" width={100} />
+                    {' '}
+                </div>
+            );
+        }
+
+        let priceProduct = priceItem;
+        if (priceDataItem.length > 0 && !loadPrice && !errorPrice) {
+            priceProduct = {
+                priceRange: priceDataItem[0].price_range,
+                priceTiers: priceDataItem[0].price_tiers,
+                // eslint-disable-next-line no-underscore-dangle
+                productType: priceDataItem[0].__typename,
+                specialFromDate: priceDataItem[0].special_from_date,
+                specialToDate: priceDataItem[0].special_to_date,
+            };
+        }
+        return (
+            <div className={styles.titleContainer}>
+                <div className={styles.priceTiersContainer}>
+                    {
+                        priceProduct.priceTiers.length > 0 && priceProduct.priceTiers.map((tiers, index) => {
+                            const priceTiers = {
+                                quantity: tiers.quantity,
+                                currency: tiers.final_price.currency,
+                                price: formatPrice(tiers.final_price.value),
+                                discount: tiers.discount.percent_off,
+                            };
+                            return (
+                                <>
+                                    {priceTiers.quantity > 1 && (
+                                        <Typography variant="p" type="regular" key={index}>
+                                            {t('product:priceTiers', { priceTiers })}
+                                        </Typography>
+                                    )}
+                                </>
+                            );
+                        })
+                    }
+                </div>
+            </div>
+        );
+    };
+
     return (
         <Dialog scroll="body" onClose={handleClose} fullWidth maxWidth="md" open={open}>
             <div className={styles.modal}>
@@ -183,7 +268,7 @@ const QuickView = (props) => {
                                 >
                                     {product.name}
                                 </Typography>
-                                <PriceFormat {...price} additionalPrice={additionalPrice} />
+                                {generatePrice(priceData, price)}
                             </div>
                         </div>
                         <div className={styles.titleContainer}>
@@ -210,6 +295,10 @@ const QuickView = (props) => {
                                     {t('product:review')}
                                 </Typography>
                             </div>
+                        </div>
+
+                        <div className={styles.titleContainer}>
+                            {generateTiersPrice(priceData, price)}
                         </div>
                         {enableMultiSeller && dataSeller && dataSeller.length > 0 ? (
                             <div className={styles.titleContainer}>

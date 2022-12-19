@@ -546,6 +546,25 @@ query getDetailproduct($url_key: String!){
     }
 }`;
 
+export const getDetailProductPrice = () => gql`
+query getDetailproduct($url_key: String!){
+  products(
+      search: "" ,filter: {
+        url_key: {
+          eq: $url_key
+        }
+      }
+    ) {
+      items {
+        id
+        name
+        sku
+        ${priceRange}
+        ${priceTiers}
+      }
+    }
+}`;
+
 export const getSeller = gql`
 query getSeller($seller_id: [Int!]){
   getSeller(input: {

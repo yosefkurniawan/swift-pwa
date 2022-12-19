@@ -36,6 +36,11 @@ export const getDetailProduct = (config = {}) => useLazyQuery(productSchema.getD
     extFetchPolicy: 'no-cache',
 });
 
+export const getDetailProductPrice = (config = {}) => useLazyQuery(productSchema.getDetailProductPrice(config), {
+    fetchPolicy: 'no-cache',
+    extFetchPolicy: 'no-cache',
+});
+
 export const getSeller = (options = {}) => useLazyQuery(productSchema.getSeller, {
     ...options,
 });

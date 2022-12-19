@@ -3,7 +3,7 @@ import { getLoginInfo } from '@helper_auth';
 import { setCookies, getCookies } from '@helper_cookies';
 import { useTranslation } from '@i18n';
 import route, { useRouter } from 'next/router';
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import React from 'react';
 import { setResolver, getResolver } from '@helper_localstorage';
 import { getSessionStorage, setSessionStorage } from '@helpers/sessionstorage';
@@ -12,7 +12,7 @@ import ConfigurableOpt from '@plugin_optionitem';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import Button from '@material-ui/core/IconButton';
-import { addWishlist, getDetailProduct } from '@core_modules/catalog/services/graphql';
+import { addWishlist, getDetailProduct, getDetailProductPrice } from '@core_modules/catalog/services/graphql';
 import useStyles from '@plugin_productitem/style';
 import { addProductsToCompareList } from '@core_modules/product/services/graphql';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
@@ -23,6 +23,7 @@ import CustomizableOption from '@plugin_customizableitem';
 import ModalQuickView from '@plugin_productitem/components/QuickView';
 import WeltpixelLabel from '@plugin_productitem/components/WeltpixelLabel';
 import TagManager from 'react-gtm-module';
+import { priceVar } from '@root/core/services/graphql/cache';
 
 const ProductItem = (props) => {
     const {
@@ -118,9 +119,58 @@ const ProductItem = (props) => {
     let isLogin = '';
     if (typeof window !== 'undefined') isLogin = getLoginInfo();
 
+    const context = isLogin && isLogin === 1 ? { request: 'internal' } : {};
+
     const [getProduct, { data: dataDetailProduct, error: errorDetailProduct, loading: loadingDetailProduct }] = getDetailProduct(
         storeConfig.pwa || {},
     );
+
+    const [getProductPrice, { data: dataPrice, loading: loadPrice, error: errorPrice }] = getDetailProductPrice(
+        storeConfig.pwa || {},
+    );
+
+    // cache price
+    const cachePrice = useReactiveVar(priceVar);
+
+    const generateIdentifier = () => {
+        let identifier = url_key;
+        identifier = identifier.replace(/ /g, '-');
+        return identifier;
+    };
+
+    React.useEffect(() => {
+        if (!cachePrice[generateIdentifier()]) {
+            getProductPrice({
+                context,
+                variables: {
+                    url_key,
+                },
+            });
+        }
+    }, [dataDetailProduct]);
+
+    React.useEffect(() => {
+        if (dataPrice) {
+            const identifier = generateIdentifier();
+            const dataTemp = cachePrice;
+            dataTemp[identifier] = dataPrice;
+            priceVar({
+                ...cachePrice,
+            });
+        }
+    }, [dataPrice]);
+
+    const getPrice = () => {
+        let productPrice = [];
+
+        if (cachePrice[generateIdentifier()] && cachePrice[generateIdentifier()].products && cachePrice[generateIdentifier()].products.items) {
+            productPrice = cachePrice[generateIdentifier()].products.items;
+        } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
+            productPrice = dataPrice.products.items;
+        }
+
+        return productPrice;
+    };
 
     const [postAddWishlist] = addWishlist();
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
@@ -338,6 +388,9 @@ const ProductItem = (props) => {
                         open={openQuickView}
                         onClose={() => setOpenQuickView(false)}
                         data={dataDetailProduct?.products}
+                        dataPrice={getPrice()}
+                        loadPrice={loadPrice}
+                        errorPrice={errorPrice}
                         keyProduct={url_key}
                         t={t}
                         weltpixel_labels={weltpixel_labels}
@@ -432,6 +485,9 @@ const ProductItem = (props) => {
                     open={openQuickView}
                     onClose={() => setOpenQuickView(false)}
                     data={dataDetailProduct?.products}
+                    dataPrice={getPrice()}
+                    loadPrice={loadPrice}
+                    errorPrice={errorPrice}
                     t={t}
                     weltpixel_labels={weltpixel_labels}
                 />
