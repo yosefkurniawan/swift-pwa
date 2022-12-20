@@ -89,6 +89,7 @@ const MessageContainer = (props) => {
                     <div className={styles.userName}>{chat.agent_name}</div>
                     <div className={styles.userLastMessage}>
                         last online
+                        {' '}
                         {relativeTimeFrom(chat.lastMessage.time)}
                         {' '}
                         ago
