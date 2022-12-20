@@ -10,7 +10,9 @@ import { formatPrice } from '@helper_currency';
 import useStyles from '@plugin_optionitem/BundleOption/style';
 import React from 'react';
 
-const SelectItem = ({ data, options = [], selectOptions }) => {
+const SelectItem = ({
+    data, options = [], selectOptions, dynamicPrice,
+}) => {
     const styles = useStyles();
     let defaultValue = 0;
     for (let index = 0; index < options.length; index++) {
@@ -36,10 +38,10 @@ const SelectItem = ({ data, options = [], selectOptions }) => {
                             <label
                                 className="label-options"
                                 dangerouslySetInnerHTML={{
-                                    __html: `${val.label} + <b>${formatPrice(
-                                        val.product.price_range.minimum_price.final_price.value,
-                                        val.product.price_range.minimum_price.final_price.currency,
-                                    )}</b>`,
+                                    __html: `${val.label} + <b>${formatPrice(dynamicPrice === false
+                                        ? val.price
+                                        : val.product.price_range.minimum_price.final_price.value,
+                                    val.product.price_range.minimum_price.final_price.currency)}</b>`,
                                 }}
                             />
                         </MenuItem>

@@ -16,7 +16,7 @@ import {
     getCustomerCartId,
 } from '../../../../../../services/graphql';
 
-const generateBundlePrice = (items) => {
+const generateBundlePrice = (items, isDynamicPrice) => {
     let price = 0;
     let currency = 'USD';
     for (let index = 0; index < items.length; index++) {
@@ -24,9 +24,10 @@ const generateBundlePrice = (items) => {
         const qty = element.qty ? element.qty : 1;
         for (let idx = 0; idx < element.options.length; idx++) {
             const opt = element.options[idx];
+            const final_price = isDynamicPrice === false ? opt.price : opt.product.price_range.minimum_price.final_price.value;
             currency = opt.product.price_range.minimum_price.final_price.currency;
             if (opt.is_default) {
-                price += opt.quantity * opt.product.price_range.minimum_price.final_price.value * qty;
+                price += opt.quantity * final_price * qty;
             }
         }
     }

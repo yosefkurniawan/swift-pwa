@@ -508,6 +508,7 @@ export const getBundleProduct = (sku) => {
         id
         name
         url_key
+        dynamic_price
         items {
           position
           option_id
@@ -520,6 +521,7 @@ export const getBundleProduct = (sku) => {
             label
             quantity
             can_change_quantity
+            price
             product {
               id
               name

@@ -16,7 +16,9 @@ const Radio = dynamic(() => import('./customizeType/radio'), { ssr: false });
 const Checkbox = dynamic(() => import('./customizeType/checkbox'), { ssr: false });
 
 const GenerateOptionsSelect = (props) => {
-    const { data, options = [], selectOptions } = props;
+    const {
+        data, options = [], selectOptions, dynamicPrice,
+    } = props;
     if (data.type === 'select') {
         return <Select {...props} />;
     } if (data.type === 'multi') {
@@ -24,9 +26,11 @@ const GenerateOptionsSelect = (props) => {
     }
     return options.map((val, idx) => {
         if (data.type === 'radio') {
-            return val.product !== null ? <Radio val={val} key={idx} data={data} selectOptions={selectOptions} /> : null;
+            return val.product !== null
+                ? <Radio val={val} key={idx} data={data} selectOptions={selectOptions} dynamicPrice={dynamicPrice} /> : null;
         } if (data.type === 'checkbox') {
-            return val.product !== null ? <Checkbox val={val} key={idx} data={data} selectOptions={selectOptions} /> : null;
+            return val.product !== null
+                ? <Checkbox val={val} key={idx} data={data} selectOptions={selectOptions} dynamicPrice={dynamicPrice} /> : null;
         }
 
         return null;
@@ -40,6 +44,7 @@ const Customize = (props) => {
     const [qty, setQty] = React.useState(1);
     const styles = useStyles();
     const product = data && data.products ? data.products.items[0] : {};
+    const isDynamicPrice = product ? product.dynamic_price : true;
 
     return (
         <>
@@ -61,7 +66,12 @@ const Customize = (props) => {
                                                 *
                                             </span>
                                         </Typography>
-                                        <GenerateOptionsSelect data={val} options={val.options} selectOptions={selectOptions} />
+                                        <GenerateOptionsSelect
+                                            data={val}
+                                            options={val.options}
+                                            selectOptions={selectOptions}
+                                            dynamicPrice={isDynamicPrice}
+                                        />
                                         <Typography variant="label" type="bold">
                                             {t('product:quantity')}
                                         </Typography>
@@ -80,7 +90,7 @@ const Customize = (props) => {
                                 </Typography>
                                 <hr />
                                 <Typography variant="h3" type="bold">
-                                    {generateBundlePrice(items)}
+                                    {generateBundlePrice(items, isDynamicPrice)}
                                 </Typography>
                                 <ButtonQty
                                     value={1}

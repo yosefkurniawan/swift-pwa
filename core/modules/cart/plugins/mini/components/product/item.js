@@ -66,8 +66,8 @@ const Item = (props) => {
                                                 {item.label}
                                                 {' '}
                                                 <strong>
-                                                    + $
-                                                    {item.price}
+                                                    +
+                                                    {formatPrice(item.price, prices?.row_total_including_tax?.currency || 'IDR')}
                                                 </strong>
                                             </div>
                                         ))}
