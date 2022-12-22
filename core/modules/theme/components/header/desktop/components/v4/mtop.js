@@ -16,6 +16,7 @@ import SwitcherCurrency from '@common_currency';
 import { breakPointsUp } from '@helper_theme';
 import config from '@config';
 
+import Cookies from 'js-cookie';
 import SwitcherMenu from './SwitcherMenu';
 
 const ViewTop = (props) => {
@@ -41,6 +42,7 @@ const ViewTop = (props) => {
     const desktop = breakPointsUp('lg');
 
     const maxHeightToShow = 600;
+    const adminId = Cookies.get('admin_id');
 
     React.useEffect(() => {
         if (typeof window !== 'undefined' && storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header) {
@@ -78,7 +80,8 @@ const ViewTop = (props) => {
                             <Link href="/customer/account">
                                 <a>
                                     {data.customer
-                                        ? `${t('common:header:hi').replace('$', `${data.customer.firstname} ${data.customer.lastname}`)}`
+                                        ? `${t('common:header:hi').replace('$', `${data.customer.firstname} ${data.customer.lastname}`)} 
+                                    ${adminId !== undefined && adminId !== '' ? `(Login By ${JSON.parse(adminId)[1]})` : ''}`
                                         : null}
                                 </a>
                             </Link>

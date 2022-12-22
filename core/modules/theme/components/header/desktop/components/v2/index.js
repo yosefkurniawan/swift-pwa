@@ -18,6 +18,7 @@ import OptionAutocomplete from '@core_modules/theme/components/header/desktop/co
 
 import SwitcherLanguage from '@common_language';
 import SwitcherCurrency from '@common_currency';
+import Cookies from 'js-cookie';
 
 const ViewTopNavigation = (props) => {
     const {
@@ -42,6 +43,7 @@ const ViewTopNavigation = (props) => {
     const [triger, setTriger] = React.useState(false);
 
     const maxHeigtToShow = 600;
+    const adminId = Cookies.get('admin_id');
 
     React.useEffect(() => {
         if (typeof window !== 'undefined' && storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header) {
@@ -164,12 +166,9 @@ const ViewTopNavigation = (props) => {
                                                         <Link href="/customer/account">
                                                             <a>
                                                                 {data.customer
-                                                                    ? `${t('common:header:hi').replace(
-                                                                          '$',
-                                                                          // eslint-disable-next-line comma-dangle
-                                                                          `${data.customer.firstname} ${data.customer.lastname}`
-                                                                      )}`
-                                                                    : null}
+                                                                ? `${t('common:header:hi').replace('$', `${data.customer.firstname} ${data.customer.lastname}`)} 
+                                                                ${adminId !== undefined && adminId !== '' ? `(Login By ${JSON.parse(adminId)[1]})` : ''}`
+                                                                : null}
                                                             </a>
                                                         </Link>
                                                         <ul>

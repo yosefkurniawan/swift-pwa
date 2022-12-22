@@ -4,12 +4,14 @@ import Link from 'next/link';
 import SwitcherLanguage from '@common_language';
 import SwitcherCurrency from '@common_currency';
 import config from '@config';
+import Cookies from 'js-cookie';
 
 const ViewTop = (props) => {
     const {
         isLogin, t, data, handleLogout,
     } = props;
     const { modules } = config;
+    const adminId = Cookies.get('admin_id');
     return (
         <ul>
             <li>
@@ -20,7 +22,8 @@ const ViewTop = (props) => {
                         <Link href="/customer/account">
                             <a>
                                 {data.customer
-                                    ? `${t('common:header:hi').replace('$', `${data.customer.firstname} ${data.customer.lastname}`)}`
+                                    ? `${t('common:header:hi').replace('$', `${data.customer.firstname} ${data.customer.lastname}`)} 
+                                ${adminId !== undefined && adminId !== '' ? `(Login By ${JSON.parse(adminId)[1]})` : ''}`
                                     : null}
                             </a>
                         </Link>
