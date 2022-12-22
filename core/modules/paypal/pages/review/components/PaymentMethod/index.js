@@ -2,7 +2,6 @@ import Typography from '@common_typography';
 import useStyles from '@core_modules/paypal/pages/review/components/PaymentMethod/style';
 import classNames from 'classnames';
 import React from 'react';
-// import Link from 'next/link';
 
 const PaymentMethod = (props) => {
     const { t, checkout, storeConfig } = props;
@@ -46,15 +45,6 @@ const PaymentMethod = (props) => {
                 {paymentMethod && paymentMethod.email_address && <Typography variant="p">{paymentMethod.email_address}</Typography>}
                 <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/pp-acceptance-medium.png" alt="Buy now with paypal" />
             </div>
-            {/* <div className="col-xs-12">
-                <Link href={initialOptionPaypal.editUrl || ''}>
-                    <a>
-                        <Typography variant="span" letter="capitalize">
-                            {t('common:button:edit')}
-                        </Typography>
-                    </a>
-                </Link>
-            </div> */}
         </div>
     );
 };

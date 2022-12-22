@@ -14,6 +14,9 @@ const Content = ({
             <Category t={t} {...other} />
         </div>
         <div className="col-xs-12 col-sm-10">
+            <Typography variant="h1" style={{ display: 'none' }}>
+                Blog
+            </Typography>
             {data
                     && data.getBlogByFilter.items.length > 0
                     && data.getBlogByFilter.items.map((blog, index) => <ContentItem storeConfig={storeConfig} key={index} short {...blog} t={t} />)}

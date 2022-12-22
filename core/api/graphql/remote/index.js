@@ -4,16 +4,18 @@ const { print } = require('graphql');
 const { wrapSchema, introspectSchema } = require('@graphql-tools/wrap');
 const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
 const { decrypt } = require('../../../helpers/encryption');
-const { getAppEnv } = require('../../../helpers/env');
+const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
 
 const executor = async ({ document, variables, context }) => {
     try {
         let token = '';
         let checkoutToken = '';
         let store_code_storage = '';
+        let adminId = '';
         if (context) {
             token = context.headers.authorization || context.session.token;
             store_code_storage = context.cookies.store_code_storage;
+            adminId = context.cookies.admin_id;
             checkoutToken = context.headers.token || context.session.checkoutToken;
         }
         const query = print(document);
@@ -28,8 +30,15 @@ const executor = async ({ document, variables, context }) => {
         if (token && token !== '') {
             additionalHeader.Authorization = `Bearer ${decrypt(token)}`;
         }
+
+        additionalHeader.Authentication = `Bearer ${getAccessEnv()}`;
+
         if (checkoutToken && checkoutToken !== '') {
             additionalHeader['Checkout-Token'] = `${decrypt(checkoutToken)}`;
+        }
+        if (adminId !== undefined && adminId !== '') {
+            const admin = parseInt(JSON.parse(adminId)[0], 10);
+            additionalHeader['Admin-Id'] = admin;
         }
         const fetchResult = await fetch(url, {
             method: 'POST',

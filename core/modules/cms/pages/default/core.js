@@ -32,6 +32,7 @@ const CmsSlug = (props) => {
 
     return (
         <Layout {...props} pageConfig={pageConfig || Config} data={data} isCms>
+            {other.storeConfig.pwa.use_cms_page_enable ? <h1 style={{ display: 'none' }}>{Config.title}</h1> : null}
             <Content data={data} t={t} loading={loading} error={error} {...other} />
         </Layout>
     );

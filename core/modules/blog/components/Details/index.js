@@ -25,7 +25,7 @@ const Detail = (props) => {
 
     return (
         <div className={styles.containerItemBlog}>
-            <Typography variant="h1" className={styles.itemTitle} letter="capitalize">
+            <Typography variant={short ? 'h2' : 'h1'} className={styles.itemTitle} letter="capitalize">
                 {title}
             </Typography>
             <div className={styles.dateShare}>

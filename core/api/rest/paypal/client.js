@@ -50,6 +50,7 @@ function environment() {
                 resolve(new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret));
             })
             .catch((err) => {
+                // eslint-disable-next-line no-console
                 console.log(err);
             });
     });

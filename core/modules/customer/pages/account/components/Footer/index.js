@@ -18,6 +18,7 @@ const Footer = ({
     const handleLogout = () => {
         deleteTokenGql().then(() => {
             Cookies.remove(custDataNameCookie);
+            Cookies.remove('admin_id');
             removeIsLoginFlagging();
             removeCartId();
             client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });

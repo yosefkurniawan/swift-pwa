@@ -29,6 +29,7 @@
             "@next_headcustom": ["src/nextjs_custom/HeadCustom", "core/nextjs_custom/HeadCustom"],
             "@next_nextscriptcustom": ["src/nextjs_custom/NextScriptCustom", "core/nextjs_custom/NextScriptCustom"],
             "@graphql_request": ["src/api/graphql/request", "core/api/graphql/request"],
+            "@rest_request": ["src/api/rest/request", "core/api/rest/request"],
 
             "@lib/*": ["src/lib/*", "core/lib/*"],
             "@lib_apollo": ["src/lib/apollo", "core/lib/apollo"],

@@ -40,6 +40,7 @@ type internalGenerateSessionOutput {
     cartId: String
     redirect_path: String
     storeCode: String
+    adminId: String
 }
 
 type internalDeleteSessionOutput {
