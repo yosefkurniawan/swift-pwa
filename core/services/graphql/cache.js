@@ -8,6 +8,9 @@ export const currencyVar = makeVar({
     appCurrency: undefined,
 });
 
+export const storeConfigVar = makeVar({});
+
 export default {
     currencyVar,
+    storeConfigVar,
 };

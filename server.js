@@ -23,6 +23,9 @@ const {
     expiredToken, nossrCache, features, assetsVersion,
 } = require('./swift.config');
 const generateXml = require('./core/api/rest/xml');
+const generateConfig = require('./core/api/rest/config/generateconfig');
+const getSetting = require('./core/api/rest/setting');
+const getConfig = require('./core/api/rest/config');
 const captchaValidation = require('./core/api/rest/captcha');
 const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
 const geocodingServices = require('./core/api/rest/geocoding');
@@ -172,6 +175,9 @@ async function renderAndCache(req, res) {
         res.sendFile(path.join(__dirname, '/public/static/maintenance.html'));
     });
 
+    // generate config from magento
+    server.get('/generate-config', generateConfig);
+
     server.get('/sitemap.xml', generateXml);
     server.post('/captcha-validation', captchaValidation);
 
@@ -183,6 +189,9 @@ async function renderAndCache(req, res) {
 
     // geocoding services
     server.post('/geocoding-services', geocodingServices);
+
+    server.get('/getConfig', getConfig);
+    server.get('/getSetting', getSetting);
 
     /**
      * configuration firebase messaging

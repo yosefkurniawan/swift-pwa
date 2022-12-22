@@ -5,7 +5,8 @@
 import Button from '@common_button';
 import Typography from '@common_typography';
 import { formatPrice } from '@helper_currency';
-import { getLocalStorage } from '@helper_localstorage';
+import { useReactiveVar } from '@apollo/client';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 import ExpansionPanel from '@material-ui/core/Accordion';
 import ExpansionPanelDetails from '@material-ui/core/AccordionDetails';
 import ExpansionPanelSummary from '@material-ui/core/AccordionSummary';
@@ -57,7 +58,7 @@ const CheckoutDrawer = ({
             <Skeleton variant="text" width="60%" height={20} animation="wave" style={{ marginBottom: 10 }} />
         </>
     );
-    const storeConfigLocalStorage = getLocalStorage('storeConfig');
+    const storeConfigLocalStorage = useReactiveVar(storeConfigVar);
 
     let cartItemBySeller = {};
 
