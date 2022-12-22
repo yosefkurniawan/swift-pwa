@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useApolloClient } from '@apollo/client';
 import { modules } from '@config';
 import gqlService from '@core_modules/checkout/services/graphql';
@@ -9,7 +10,7 @@ import React from 'react';
 
 const PlaceOrder = (props) => {
     const {
-        checkout, setCheckout, t, config,
+        checkout, setCheckout, t, config, storeConfig,
     } = props;
     const client = useApolloClient();
 
