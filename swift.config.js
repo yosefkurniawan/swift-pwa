@@ -42,23 +42,6 @@ const translation = {
     },
 };
 
-/* Google Tag Manager
- * before enable this configuration, firstly you need to import the gtm tags json.
- * gtm tags json need to be exported from Magento admin in Welpixel GTM configuration.
- * adjust the tag name if you want before import into GTM dashboard setting.
- * as reference you can find sample gtm tags in folder "sample/gtm" folder
- * NOTE: this GTM functionality includes connecting to GA via GTM tag.
- */
-const GTM = {
-    enable: false,
-    gtmId: {
-        local: '', // sample: GTM-N76V8KQ
-        dev: '', // sample: GTM-N76V8KQ
-        stage: '', // sample: GTM-N76V8KQ
-        prod: '', // sample: GTM-N76V8KQ
-    },
-};
-
 // error management monitoring
 const sentry = {
     enabled: false,
@@ -142,30 +125,30 @@ const features = {
         AwGiftCardProduct: true,
     },
     chatSystem: {
-        enable: true,
+        enable: false,
         graphqlEndpoint: {
-            local: ' https://chat-swift.testingnow.me/graphql',
-            dev: 'https://chat-swift.testingnow.me/graphql',
-            stage: 'https://chat-swift.testingnow.me/graphql',
-            prod: 'https://chat-swift.testingnow.me/graphql',
+            local: '', // sample: 'https://chat-swift.testingnow.me/graphql',
+            dev: '', // sample: 'https://chat-swift.testingnow.me/graphql',
+            stage: '', // sample: 'https://chat-swift.testingnow.me/graphql',
+            prod: '', // sample: 'https://chat-swift.testingnow.me/graphql',
         },
     },
     firebase: {
         config: {
-            apiKey: 'AIzaSyCD0ZuTMcNi3PSsJH9LD21v7_XA1sVLjdI', // sample: AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw
-            authDomain: 'swiftpwa-firebase.firebaseapp.com', // sample: swift-pwa-dev.firebaseapp.com
-            databaseURL: 'https://swiftpwa-firebase.firebaseio.com', // sample: https://swiftpwa-firebase.firebaseio.com
-            projectId: 'swiftpwa-firebase', // sample: swift-pwa-dev
-            storageBucket: 'swiftpwa-firebase.appspot.com', // sample: swift-pwa-dev.appspot.com
-            messagingSenderId: '731430387766', // sample: 1083571104838
-            appId: '1:731430387766:web:af85ac9f9559c873309897', // sample: 1:1083571104838:web:4f06ca5a60b1c1a9efee47
-            measurementId: 'G-DP22E2CL8G', // sample: G-HBHPY22H0H
+            apiKey: '', // sample: AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw
+            authDomain: '', // sample: swift-pwa-dev.firebaseapp.com
+            databaseURL: '', // sample: https://swiftpwa-firebase.firebaseio.com
+            projectId: '', // sample: swift-pwa-dev
+            storageBucket: '', // sample: swift-pwa-dev.appspot.com
+            messagingSenderId: '', // sample: 1083571104838
+            appId: '', // sample: 1:1083571104838:web:4f06ca5a60b1c1a9efee47
+            measurementId: '', // sample: G-HBHPY22H0H
         },
         pushNotification: {
-            enabled: true,
+            enabled: false,
             config: {
                 // key from cloud messaging sertificat web push
-                pairKey: 'BJ2IqpfQQGrckDUAI7TaX8r0_v6aykBSIIEpZUqhlkzZI2e7WVZk9ZB4xOiWBqTbVo6wk44gnpRLAJDemB66zAU', // sample: BJ2IqpfQQGrckDUAI7TaX8r0_v6aykBSIIEpZUqhlkzZI2e7WVZk9ZB4xOiWBqTbVo6wk44gnpRLAJDemB66zAU
+                pairKey: '', // sample: BJ2IqpfQQGrckDUAI7TaX8r0_v6aykBSIIEpZUqhlkzZI2e7WVZk9ZB4xOiWBqTbVo6wk44gnpRLAJDemB66zAU
             },
         },
     },
@@ -278,28 +261,6 @@ const modules = {
             paymentPrefixCodeOnSuccess: ['alfamart', 'bcava', 'briva', 'bniva', 'mandiriva', 'permatava', 'indomaret'],
             paymentPrefixCode: ['cc', 'cc_subscription', 'dana', 'ovo', 'linkaja', 'qr_codes', 'dd_bri', 'kredivo'],
         },
-    },
-    paypal: {
-        enabled: true,
-        path: '/paypal',
-        clientId: {
-            local: '', // sample AaOafUT6j2w7kZNb97_cAlI0MjGexmWOaWo650ANV5xgrT3Ff1xtdwJxVByCHUJZ0Ga9HKvbRw5NIjNV
-            dev: '',
-            prod: '',
-            stage: 'AZ-Jtz00C4S1mfLEsDvCqc-kO4e3JPR4QklRcVmt6rvBFrzae1E7g-tCb-zzLOLpP2kAA_ai76qRpQCU',
-        },
-        clientSecret: {
-            local: '', // sample EM2Uqt5eiPEgcCMi6NAF94DNsOoP3YBgGRkBGyFQdEXahjzuPfi17sjfhW4N9CfmE_RLjDGuZ19Gf1WP
-            dev: '',
-            prod: '',
-            stage: 'EG4Dpk2XELnq8VxwAVKfc1BIayJEt1936We1fpLU7vd8cvb0qY2MnAVo1tqOzNoRRp3UWdsh2KIp0s3g',
-        },
-        intent: 'authorize',
-        returnUrl: 'paypal/express/review',
-        cancelUrl: 'checkout/cart',
-        keyData: 'paypal-data',
-        keyToken: 'paypal-token',
-        disableFunding: 'venmo%2Cbancontact%2Ceps%2Cgiropay%2Cideal%2Cmybank%2Cp24%2Csofort',
     },
     cart: {
         enabled: true,
@@ -460,7 +421,6 @@ module.exports = {
     sentry,
     storeCode,
     debuging,
-    GTM,
     HOST,
     graphqlEndpoint,
     passwordStrength,

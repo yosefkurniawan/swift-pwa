@@ -38,6 +38,7 @@ const notification = {
                     notification.sendTokenToServer(refreshedToken);
                 })
                 .catch((err) => {
+                    // eslint-disable-next-line no-console
                     console.log('Unable to retrieve refreshed token ', err);
                 });
         });

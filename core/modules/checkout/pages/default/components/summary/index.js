@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable no-lonely-if */
 import { useApolloClient } from '@apollo/client';
 import { modules } from '@config';
@@ -61,7 +62,7 @@ const Summary = ({
     const [getXenditUrl] = gqlService.xenditCreateInvoice();
 
     // travelokapay
-    const { payment_travelokapay_public_key, payment_travelokapay_user_id, payment_travelokapay_bin_whitelist } = storeConfig;
+    const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
     const {
         open: openTraveloka, setOpen: setOpenTraveloka, handleClose, handleTravelokaPay,
     } = useTravelokaPay({

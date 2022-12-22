@@ -9,8 +9,10 @@ export default function CustomizedExpansionPanels({
     checkout,
     setCheckout,
     updateFormik,
+    formik,
     handleOpenMessage,
     t,
+    config,
     storeConfig,
     PaymentView,
     paypalHandlingProps,
@@ -18,17 +20,18 @@ export default function CustomizedExpansionPanels({
     initialOptionPaypal,
     setTokenData,
     travelokaPayRef,
+    stripeRef,
+    clientSecret,
+    setClientSecret,
     displayHowToPay,
     setDisplayHowToPay,
     checkoutTokenState,
     setCheckoutTokenState,
+    refSummary,
 }) {
-    /**
-     * [HOOKS]
-     * [VARIABLES]
-     */
     const { loading, data, selected } = checkout;
     const [setPaymentMethod] = gqlService.setPaymentMethod();
+    const [getStripePaymentIntent] = gqlService.getStripePaymentIntent();
     const { data: paymentMethodList } = gqlService.getCheckoutConfigurations();
     const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
 
@@ -207,69 +210,91 @@ export default function CustomizedExpansionPanels({
                 setCheckout(state);
             } else {
                 const payment_method = { code: val };
-                await setPaymentMethod({
-                    variables: {
-                        cartId: cart.id,
-                        payment_method,
-                    },
-                })
-                    .then((result) => {
-                        if (val === 'paypal_express') {
-                            state = {
-                                ...checkout,
-                                selected: {
-                                    ...checkout.selected,
-                                    payment: val,
-                                    purchaseOrderNumber: null,
-                                },
-                                loading: {
-                                    ...checkout.loading,
-                                    all: false,
-                                    order: false,
-                                },
-                            };
-                            setCheckout(state);
-                            if (
-                                storeConfig?.pwa?.paypal_enable
-                                && initialOptionPaypal['data-order-id'] === ''
-                                && checkout.selected.payment === 'paypal_express'
-                            ) {
-                                getPaypalToken({
-                                    variables: {
-                                        cartId: cart.id,
-                                        code: 'paypal_express',
-                                        returnUrl: storeConfig?.paypal_key.return_url,
-                                        cancelUrl: storeConfig?.paypal_key.cancel_url,
+                if (payment_method.code === 'stripe_payments') {
+                    await getStripePaymentIntent({
+                        variables: {
+                            cartId: cart.id,
+                        },
+                    }).then((resJson) => {
+                        setClientSecret(resJson.data.setPaymentIntent.clientSecret);
+                        state = {
+                            ...checkout,
+                            loading: {
+                                ...checkout.loading,
+                                all: false,
+                                shipping: false,
+                                payment: false,
+                                extraFee: false,
+                                order: false,
+                            },
+                        };
+                        setCheckout(state);
+                    });
+                } else {
+                    await setPaymentMethod({
+                        variables: {
+                            cartId: cart.id,
+                            payment_method,
+                        },
+                    })
+                        .then((result) => {
+                            if (val === 'paypal_express') {
+                                state = {
+                                    ...checkout,
+                                    selected: {
+                                        ...checkout.selected,
+                                        payment: val,
+                                        purchaseOrderNumber: null,
                                     },
-                                }).then((res) => {
-                                    if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
-                                        const { token } = res.data.createPaypalExpressToken;
-                                        setTokenData(res.data.createPaypalExpressToken);
-                                        setInitialOptionPaypal({
-                                            ...initialOptionPaypal,
-                                            'data-order-id': token,
-                                        });
-                                    }
+                                    loading: {
+                                        ...checkout.loading,
+                                        all: false,
+                                        order: false,
+                                    },
+                                };
+                                setCheckout(state);
+                                if (
+                                    storeConfig?.pwa?.paypal_enable
+                                    && initialOptionPaypal['data-order-id'] === ''
+                                    && checkout.selected.payment === 'paypal_express'
+                                ) {
+                                    getPaypalToken({
+                                        variables: {
+                                            cartId: cart.id,
+                                            code: 'paypal_express',
+                                            returnUrl: modules.paypal.returnUrl,
+                                            cancelUrl: modules.paypal.cancelUrl,
+                                        },
+                                    }).then((res) => {
+                                        if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
+                                            const { token } = res.data.createPaypalExpressToken;
+                                            setTokenData(res.data.createPaypalExpressToken);
+                                            setInitialOptionPaypal({
+                                                ...initialOptionPaypal,
+                                                'data-order-id': token,
+                                            });
+                                        }
+                                    });
+                                }
+                            } else {
+                                onHandleResult({
+                                    state,
+                                    result,
+                                    val,
+                                    cart,
                                 });
                             }
-                        } else {
+                        })
+                        .catch((err) => {
+                            const result = err;
                             onHandleResult({
                                 state,
                                 result,
                                 val,
                                 cart,
                             });
-                        }
-                    })
-                    .catch((err) => {
-                        const result = err;
-                        onHandleResult({
-                            state,
-                            result,
-                            val,
-                            cart,
                         });
-                    });
+                }
             }
         }
     };
@@ -350,6 +375,12 @@ export default function CustomizedExpansionPanels({
             loading={loading}
             selected={selected}
             checkout={checkout}
+            checkoutTokenState={checkoutTokenState}
+            setCheckoutTokenState={setCheckoutTokenState}
+            formik={formik}
+            updateFormik={updateFormik}
+            clientSecret={clientSecret}
+            setCheckout={setCheckout}
             storeConfig={storeConfig}
             paymentMethodList={paymentMethodList}
             handlePayment={handlePayment}
@@ -359,8 +390,13 @@ export default function CustomizedExpansionPanels({
             paypalHandlingProps={paypalHandlingProps}
             initialOptionPaypal={initialOptionPaypal}
             travelokaPayRef={travelokaPayRef}
+            stripeRef={stripeRef}
+            handleOpenMessage={handleOpenMessage}
             displayHowToPay={displayHowToPay}
             setDisplayHowToPay={setDisplayHowToPay}
+            refSummary={refSummary}
+            config={config}
+            onHandleResult={onHandleResult}
         />
     );
 }

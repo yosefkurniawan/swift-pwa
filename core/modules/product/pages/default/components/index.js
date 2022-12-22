@@ -371,7 +371,7 @@ const ProductPage = (props) => {
                         </div>
 
                         <div className={styles.desktopShareIcon}>
-                            <Typography className={styles.shareTitle} variant="title">
+                            <Typography className={styles.shareTitle} variant="p">
                                 {t('product:shareTitle')}
                             </Typography>
                             <div className={modules.productcompare.enabled && styles.rowItem}>

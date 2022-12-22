@@ -161,6 +161,9 @@ const useStyles = makeStyles((theme) => ({
     carouselTitle: {
         marginBottom: '20px',
     },
+    desktopShareIcon: {
+        marginTop: 20,
+    },
     desc: {
         ...CreateMargin(12, 0, 12, 0),
         textAlign: 'center',

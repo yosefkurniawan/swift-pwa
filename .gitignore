@@ -32,3 +32,6 @@ package-lock.json
 /public/static/firebase-messaging-sw.js
 /public/static/install.js
 /public/static/firebase/*
+
+#storeconfig
+/core/api/rest/config/config.json

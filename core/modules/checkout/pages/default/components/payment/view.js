@@ -13,11 +13,16 @@ import commonConfig from '@config';
 import FieldPoint from '@core_modules/checkout/components/fieldcode';
 import RadioItem from '@core_modules/checkout/components/radioitem';
 import ModalHowtoPay from '@core_modules/checkout/pages/default/components/ModalHowtoPay';
+import StripeCheckoutForm from '@core_modules/checkout/pages/default/components/payment/components/StripeCheckoutForm';
 import TravelokaPayForm from '@core_modules/checkout/pages/default/components/payment/components/TravelokaPayForm';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 import Arrow from '@material-ui/icons/ArrowDropDown';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
+
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import React from 'react';
 import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
 
 const ExpansionPanel = withStyles(ExpanPanelStyle)(MuiExpansionPanel);
@@ -26,6 +31,7 @@ const ExpansionPanelDetails = withStyles(ExpanDetailStyle)(MuiExpansionPanelDeta
 const PO = 'purchaseorder';
 const PaypalCode = 'paypal_express';
 const travelokapay = 'travelokapay';
+const stripePayments = 'stripe_payments';
 
 /**
  * Loader
@@ -82,7 +88,9 @@ const PaymentView = (props) => {
     const {
         loading,
         data,
+        clientSecret,
         checkout,
+        setCheckout,
         t,
         paymentMethodList,
         handlePayment,
@@ -102,6 +110,15 @@ const PaymentView = (props) => {
     const [expanded, setExpanded] = React.useState(null);
     const [expandedActive, setExpandedActive] = React.useState(true);
     const [openModal, setModal] = React.useState(false);
+    const [stripePromise, setStripePromise] = React.useState(null);
+
+    React.useEffect(() => {
+        const key = storeConfig
+            && storeConfig.stripe_config
+            && storeConfig.stripe_config.stripe_mode === 'test'
+            ? storeConfig.stripe_config.test_pk : storeConfig.stripe_config.live_pk;
+        setStripePromise(loadStripe(key));
+    }, []);
 
     let content;
 
@@ -204,7 +221,7 @@ const PaymentView = (props) => {
                                                 <PaymentGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
                                                 <Typography letter="uppercase" variant="span" type="bold">
                                                     {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
-                                                    === `paymentGrouping.${item.group.replace('pg-', '')}`
+                                                        === `paymentGrouping.${item.group.replace('pg-', '')}`
                                                         ? item.group.replace('pg-', '')
                                                         : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
                                                 </Typography>
@@ -223,8 +240,9 @@ const PaymentView = (props) => {
                                                                 // prettier-ignore
                                                                 const isPurchaseOrder = item.code === PO && selected.payment === PO;
                                                                 const isPaypal = item.code === PaypalCode && selected.payment === PaypalCode;
-                                                                const isTravelokaPay = item.code === travelokapay
-                                                                    && selected.payment === travelokapay;
+                                                                const isStripe = item.code === stripePayments && selected.payment === stripePayments;
+                                                                // eslint-disable-next-line max-len
+                                                                const isTravelokaPay = item.code === travelokapay && selected.payment === travelokapay;
 
                                                                 if (isPurchaseOrder) {
                                                                     return (
@@ -272,6 +290,20 @@ const PaymentView = (props) => {
                                                                         />
                                                                     );
                                                                 }
+                                                                if (isStripe) {
+                                                                    return (
+                                                                        <>
+                                                                            {stripePromise && clientSecret && (
+                                                                                <Elements
+                                                                                    stripe={stripePromise}
+                                                                                    options={{ clientSecret }}
+                                                                                >
+                                                                                    <StripeCheckoutForm {...props} setCheckout={setCheckout} />
+                                                                                </Elements>
+                                                                            )}
+                                                                        </>
+                                                                    );
+                                                                }
 
                                                                 return null;
                                                             }}
@@ -279,6 +311,7 @@ const PaymentView = (props) => {
                                                                 borderBottom: false,
                                                                 RightComponent: true,
                                                             }}
+                                                            disabled={loading.order || loading.all}
                                                         />
                                                     </Grid>
                                                 ) : null}
@@ -307,7 +340,7 @@ const PaymentView = (props) => {
                 setDisplayHowToPay={setDisplayHowToPay}
             />
             <div className={styles.paymentHeader}>
-                <Typography variant="title" type="bold" letter="uppercase">
+                <Typography variant="h2" type="bold" letter="uppercase">
                     {t('checkout:payment')}
                 </Typography>
                 {(modules.checkout.howtoPay.enabled && displayHowToPay) ? (

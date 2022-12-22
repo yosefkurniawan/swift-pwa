@@ -18,7 +18,7 @@ const ShippingView = (props) => {
 
     return (
         <div id="checkoutDeliveryMethod" className={styles.block}>
-            <Typography variant="title" type="bold" letter="uppercase">
+            <Typography variant="h2" type="bold" letter="uppercase">
                 {t('checkout:deliveryMethod:label')}
             </Typography>
             <div className="row">
