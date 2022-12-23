@@ -18,7 +18,7 @@ const ContentPagination = (props) => {
         query, showTabs, customFilter, elastic, t,
         aggregations, setFiltervalue, category, defaultSort, config, TabView,
         products, categoryPath, renderEmptyMessage, ProductListSkeleton, loading,
-        loadmore, dataTabs, onChangeTabs, page, totalPage, totalCount, handleChangePage, ...other
+        loadmore, dataTabs, onChangeTabs, page, totalPage, totalCount, handleChangePage, price, loadPrice, ...other
     } = props;
     const styles = useStyles();
     const [isGrid, setGridState] = useState(true);
@@ -46,6 +46,8 @@ const ContentPagination = (props) => {
                         isGrid,
                         catalogList: true,
                         className: 'grid-item',
+                        price,
+                        loadPrice,
                         ...other,
                     }}
                     gridItemProps={
@@ -78,7 +80,7 @@ const ContentPagination = (props) => {
      * using useMemo to prevent re-render list
      * @returns
      */
-    const MainListSection = React.useMemo(() => <PaginationSection />, [products, totalPage, loading, loadmore]);
+    const MainListSection = React.useMemo(() => <PaginationSection />, [products, totalPage, loading, loadmore, loadPrice]);
 
     return (
         <>
@@ -173,7 +175,7 @@ const ContentLoadMore = (props) => {
         query, showTabs, customFilter, elastic, t,
         aggregations, setFiltervalue, category, defaultSort, config, TabView,
         products, categoryPath, renderEmptyMessage, ProductListSkeleton, loading,
-        loadmore, handleLoadMore, dataTabs, onChangeTabs, ...other
+        loadmore, handleLoadMore, dataTabs, onChangeTabs, price, loadPrice, ...other
     } = props;
     const { storeConfig } = props;
     const styles = useStyles();
@@ -304,6 +306,8 @@ const ContentLoadMore = (props) => {
                                     isGrid,
                                     catalogList: true,
                                     className: 'grid-item',
+                                    price,
+                                    loadPrice,
                                     ...other,
                                 }}
                                 gridItemProps={

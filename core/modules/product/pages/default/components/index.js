@@ -24,6 +24,8 @@ import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import ShareOutlined from '@material-ui/icons/ShareOutlined';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
+import { getPriceFromList } from '@core_modules/product/helpers/getPrice';
+import Skeleton from '@material-ui/lab/Skeleton';
 import React from 'react';
 
 const Button = dynamic(() => import('@common_button'), { ssr: true });
@@ -31,7 +33,7 @@ const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: tru
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
 const ExpandDetail = dynamic(() => import('@core_modules/product/pages/default/components/ExpandDetail'), { ssr: false });
 const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: false });
-const PriceFormat = dynamic(() => import('@common_priceformat'), { ssr: true });
+const PriceFormat = dynamic(() => import('@common_priceformat'), { ssr: false });
 const RatingStar = dynamic(() => import('@common_ratingstar'), { ssr: true });
 const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: false });
 const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
@@ -77,6 +79,9 @@ const ProductPage = (props) => {
         enablePopupImage,
         enableMultiSeller,
         storeConfig,
+        loadPrice,
+        dataPrice = [],
+        errorPrice,
         handleChat,
         showChat,
         dataSeller,
@@ -109,6 +114,87 @@ const ProductPage = (props) => {
         top: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '0') || [],
         after: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '1') || [],
         label: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '2') || [],
+    };
+
+    const priceData = getPriceFromList(dataPrice, data.id);
+    const generatePrice = (priceDataItem, priceItem) => {
+        // handle if loading price
+        if (loadPrice) {
+            return (
+                <div>
+                    <Skeleton variant="text" width={100} />
+                    {' '}
+                </div>
+            );
+        }
+
+        let priceProduct = priceItem;
+        if (priceDataItem.length > 0 && !loadPrice && !errorPrice) {
+            priceProduct = {
+                priceRange: priceDataItem[0].price_range,
+                priceTiers: priceDataItem[0].price_tiers,
+                // eslint-disable-next-line no-underscore-dangle
+                productType: priceDataItem[0].__typename,
+                specialFromDate: priceDataItem[0].special_from_date,
+                specialToDate: priceDataItem[0].special_to_date,
+            };
+        }
+        return (
+            <>
+                {
+                    priceProduct && <PriceFormat isPdp {...priceProduct} additionalPrice={additionalPrice} />
+                }
+            </>
+        );
+    };
+
+    const generateTiersPrice = (priceDataItem, priceItem) => {
+        // handle if loading price
+        if (loadPrice) {
+            return (
+                <div>
+                    <Skeleton variant="text" width={100} />
+                    {' '}
+                </div>
+            );
+        }
+
+        let priceProduct = priceItem;
+        if (priceDataItem.length > 0 && !loadPrice && !errorPrice) {
+            priceProduct = {
+                priceRange: priceDataItem[0].price_range,
+                priceTiers: priceDataItem[0].price_tiers,
+                // eslint-disable-next-line no-underscore-dangle
+                productType: priceDataItem[0].__typename,
+                specialFromDate: priceDataItem[0].special_from_date,
+                specialToDate: priceDataItem[0].special_to_date,
+            };
+        }
+        return (
+            <div className={styles.titleContainer}>
+                <div className={styles.priceTiersContainer}>
+                    {
+                        priceProduct.priceTiers.length > 0 && priceProduct.priceTiers.map((tiers, index) => {
+                            const priceTiers = {
+                                quantity: tiers.quantity,
+                                currency: tiers.final_price.currency,
+                                price: formatPrice(tiers.final_price.value),
+                                discount: tiers.discount.percent_off,
+                            };
+                            return (
+                                <>
+                                    {priceTiers.quantity > 1 && (
+                                        <Typography variant="p" type="regular" key={index}>
+                                            {t('product:priceTiers', { priceTiers })}
+                                        </Typography>
+                                    )}
+                                </>
+                            );
+                        })
+                    }
+                </div>
+            </div>
+        );
     };
 
     const favoritIcon = wishlist ? <Favorite className={styles.iconShare} /> : <FavoriteBorderOutlined className={styles.iconShare} />;
@@ -207,7 +293,7 @@ const ProductPage = (props) => {
                             <Typography variant="title" type="bold" letter="capitalize" className={classNames(styles.title, 'clear-margin-padding')}>
                                 {data.name}
                             </Typography>
-                            <PriceFormat {...price} additionalPrice={additionalPrice} />
+                            {generatePrice(priceData, price)}
                         </div>
                         <div className={styles.shareContainer}>
                             {modules.productcompare.enabled && (
@@ -302,22 +388,7 @@ const ProductPage = (props) => {
                     ) : null}
 
                     <div className={styles.titleContainer}>
-                        <div className={styles.priceTiersContainer}>
-                            {price.priceTiers.length > 0
-                                && price.priceTiers.map((tiers, index) => {
-                                    const priceTiers = {
-                                        quantity: tiers.quantity,
-                                        currency: tiers.final_price.currency,
-                                        price: formatPrice(tiers.final_price.value),
-                                        discount: tiers.discount.percent_off,
-                                    };
-                                    return (
-                                        <Typography variant="p" type="regular" key={index}>
-                                            {t('product:priceTiers', { priceTiers })}
-                                        </Typography>
-                                    );
-                                })}
-                        </div>
+                        {generateTiersPrice(priceData, price)}
                     </div>
 
                     <div className="row">

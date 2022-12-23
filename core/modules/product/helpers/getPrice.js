@@ -100,4 +100,13 @@ const getPrice = ({
     return otherProductPrice({ priceRange, priceTiers, ...other });
 };
 
+export const getPriceFromList = (priceList = [], productId = 0) => {
+    if (priceList.filter) {
+        // eslint-disable-next-line eqeqeq
+        const productPrice = priceList.filter((product) => product.id == productId);
+        return productPrice;
+    }
+    return '';
+};
+
 export default getPrice;

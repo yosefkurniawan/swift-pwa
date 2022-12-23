@@ -18,6 +18,8 @@ import StorefrontIcon from '@material-ui/icons/Storefront';
 import Link from 'next/link';
 import Image from '@common_image';
 import dynamic from 'next/dynamic';
+import { getPriceFromList } from '@core_modules/product/helpers/getPrice';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const PriceFormat = dynamic(() => import('@common_priceformat'), { ssr: false });
 
@@ -27,9 +29,9 @@ const SingleProduct = (props) => {
         type,
         product, product_display,
         product_compare, product_shortdescription,
-        product_image, product_price, product_review,
+        product_image, product_review,
         product_wishlist, product_name,
-        item_xl, item_lg, item_md, item_sm, item_xs, storeConfig,
+        item_xl, item_lg, item_md, item_sm, item_xs, storeConfig, dataPrice = [], loadingPrice, errorPrice,
     } = props;
     const isGrid = product_display && product_display === 'grid';
     const isProductGrid = type === 'product_grid';
@@ -75,12 +77,39 @@ const SingleProduct = (props) => {
         return classes;
     };
 
+    const priceData = getPriceFromList(dataPrice, product.id);
+
     let defaultWidth = storeConfig?.pwa?.image_product_width;
     let defaultHeight = storeConfig?.pwa?.image_product_height;
 
     if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
     if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
 
+    const generatePrice = (priceDataItem, priceItem) => {
+        // handle if loading price
+        if (loadingPrice) {
+            return (<div className="mgz-single-product-price"><Skeleton variant="text" width={100} /> </div>);
+        }
+
+        let priceProduct = priceItem;
+        if (priceDataItem.length > 0 && !loadingPrice && !errorPrice) {
+            priceProduct = {
+                priceRange: priceDataItem[0].price_range,
+                priceTiers: priceDataItem[0].price_tiers,
+                // eslint-disable-next-line no-underscore-dangle
+                productType: priceDataItem[0].__typename,
+                specialFromDate: priceDataItem[0].special_from_date,
+                specialToDate: priceDataItem[0].special_to_date,
+            };
+        }
+        return (
+            <div className="mgz-single-product-price">
+                {
+                    priceProduct && <PriceFormat {...priceProduct} />
+                }
+            </div>
+        );
+    };
     return (
         <>
             <Grid
@@ -147,13 +176,7 @@ const SingleProduct = (props) => {
                     )}
                     <Grid item container justify={isGrid || isProductGrid || isSlider ? 'center' : 'flex-start'}>
                         <Grid item>
-                            {product_price && (
-                                <div className="mgz-single-product-price">
-                                    {
-                                        price && <PriceFormat {...price} />
-                                    }
-                                </div>
-                            )}
+                            {generatePrice(priceData, price)}
                             {product_shortdescription && (
                                 <Link href={url_key}>
                                     <CmsRenderer content={short_description.html} />

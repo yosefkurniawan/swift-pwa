@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { debuging, features, modules } from '@config';
 import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
 import Header from '@core_modules/product/pages/default/components/header';
@@ -10,6 +10,7 @@ import {
     getProduct,
     getProductLabel,
     getSeller,
+    getProductPrice,
     smartProductTabs,
 } from '@core_modules/product/services/graphql';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
@@ -22,13 +23,13 @@ import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React from 'react';
 import TagManager from 'react-gtm-module';
+import { priceVar } from '@root/core/services/graphql/cache';
 
 const ContentDetail = ({
-    t, product, keyProduct, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig,
+    t, product, keyProduct, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig, dataPrice, loadPrice, errorPrice,
 }) => {
     const item = product.items[keyProduct];
     const route = useRouter();
-
     const reviewValue = parseInt(item.review.rating_summary, 0) / 20;
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
     const [addProductCompare] = addProductsToCompareList();
@@ -459,6 +460,9 @@ const ContentDetail = ({
             setOpenDrawer={setOpenDrawer}
             breadcrumbsData={breadcrumbsData}
             price={price}
+            loadPrice={loadPrice}
+            errorPrice={errorPrice}
+            dataPrice={dataPrice}
             handleWishlist={handleWishlist}
             reviewValue={reviewValue}
             wishlist={wishlist}
@@ -525,8 +529,12 @@ const PageDetail = (props) => {
         };
 
     const labels = getProductLabel(storeConfig, { context, variables: { url: slug[0] } });
-    const { loading, data, error } = getProduct(storeConfig, { context, ...productVariables });
+    const { loading, data, error } = getProduct(storeConfig, { ...productVariables });
+    const [getProdPrice, { data: dataPrice, loading: loadPrice, error: errorPrice }] = getProductPrice();
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
+    // cache price
+    const cachePrice = useReactiveVar(priceVar);
+
     let productByUrl;
     React.useEffect(() => {
         if (slug[0] !== '') {
@@ -541,6 +549,46 @@ const PageDetail = (props) => {
             });
         }
     }, [slug[0]]);
+
+    const generateIdentifier = () => {
+        let identifier = `${slug[0]}`;
+        identifier = identifier.replace(/ /g, '-');
+        return identifier;
+    };
+
+    React.useEffect(() => {
+        if (!cachePrice[generateIdentifier()]) {
+            getProdPrice({
+                context,
+                variables: {
+                    url: slug[0],
+                },
+            });
+        }
+    }, [data]);
+
+    React.useEffect(() => {
+        if (dataPrice) {
+            const identifier = generateIdentifier();
+            const dataTemp = cachePrice;
+            dataTemp[identifier] = dataPrice;
+            priceVar({
+                ...cachePrice,
+            });
+        }
+    }, [dataPrice]);
+
+    const getPrice = () => {
+        let productPrice = [];
+
+        if (cachePrice[generateIdentifier()] && cachePrice[generateIdentifier()].products && cachePrice[generateIdentifier()].products.items) {
+            productPrice = cachePrice[generateIdentifier()].products.items;
+        } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
+            productPrice = dataPrice.products.items;
+        }
+
+        return productPrice;
+    };
 
     if (error || loading || !data) {
         return (
@@ -691,6 +739,9 @@ const PageDetail = (props) => {
             <ContentDetail
                 keyProduct={productByUrl}
                 product={product}
+                dataPrice={getPrice()}
+                loadPrice={loadPrice}
+                errorPrice={errorPrice}
                 t={t}
                 Content={Content}
                 isLogin={isLogin}
