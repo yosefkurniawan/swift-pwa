@@ -8,8 +8,8 @@ import {
     addProductsToCompareList,
     addWishlist as mutationAddWishlist,
     getProduct,
-    getSeller,
     getProductLabel,
+    getSeller,
     smartProductTabs,
 } from '@core_modules/product/services/graphql';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';

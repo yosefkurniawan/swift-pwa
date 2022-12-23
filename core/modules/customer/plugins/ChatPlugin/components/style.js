@@ -289,19 +289,19 @@ export default makeStyles((theme) => ({
         },
     },
     blockedUserContent: {
-        height: '90%', 
+        height: '90%',
         padding: '0 2em',
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center', 
-        justifyContent: 'center'
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     closeBlockedUser: {
-        height: '10%', 
+        height: '10%',
         paddingRight: '1em',
-        display: 'flex', 
-        justifyContent: 'flex-end', 
-        alignItems: 'center'
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
     },
     messageContent: {
         flex: 1,

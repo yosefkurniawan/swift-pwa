@@ -4,7 +4,7 @@ import {
     combinedMessagesData, filteredUser, generateCombinedUser, generateGroupedMessages,
 } from '@core_modules/customer/helpers/chatHelper';
 import {
-    addMessage, createFirebaseDoc, getCustomerSettings, getMessageList, getSessionMessageList, getBlacklist
+    addMessage, createFirebaseDoc, getCustomerSettings, getMessageList, getSessionMessageList, getBlacklist,
 } from '@core_modules/customer/services/graphql';
 import firebaseApp from '@lib_firebase/index';
 import 'firebase/firestore';
@@ -14,7 +14,14 @@ import * as Yup from 'yup';
 
 const ChatPluginCore = (props) => {
     const {
-        Content, handleChatPdp = () => null, isPdp = false, agentPdpCode = '', agentPdpName = '', pdpMessage,
+        Content,
+        handleChatPdp = () => null,
+        handleChatSellerPage = () => null,
+        isPdp = false,
+        isSellerPage = false,
+        agentSellerCode = '',
+        agentSellerName = '',
+        sellerMessage,
     } = props;
 
     const db = firebaseApp.firestore();
@@ -34,12 +41,12 @@ const ChatPluginCore = (props) => {
     const customerEmail = customerData && customerData.customer && customerData.customer.email;
     const customerName = customerData && customerData.customer && `${customerData.customer.firstname} ${customerData.customer.lastname}`;
     const customerWhatsappNumber = customerData && customerData.customer && customerData.customer.whatsapp_number;
-    const { data : blacklistStatus, loading: blacklistLoading } = getBlacklist({
+    const { data: blacklistStatus, loading: blacklistLoading } = getBlacklist({
         variables: {
             email: customerEmail,
         },
         skip: !customerEmail,
-    }); 
+    });
     const { data, loading, refetch } = getSessionMessageList({
         variables: {
             customer_email: customerEmail,
@@ -311,51 +318,37 @@ const ChatPluginCore = (props) => {
     }, [customerEmail]);
 
     useEffect(() => {
-        if (customerEmail || customerName) {
-            if (agentPdpCode || agentPdpName) {
-                createFirebaseMsg({
-                    variables: {
-                        agent_code: agentPdpCode,
-                        agent_name: agentPdpName,
-                        customer_email: customerEmail,
-                        customer_name: customerName,
-                        phone_number: customerWhatsappNumber,
-                    },
-                }).then(async () => {
-                    refetch();
-                });
-            } else {
-                createFirebaseMsg({
-                    variables: {
-                        agent_code: 'admin',
-                        agent_name: 'Admin',
-                        customer_email: customerEmail,
-                        customer_name: customerName,
-                        phone_number: customerWhatsappNumber,
-                    },
-                }).then(async () => {
-                    refetch();
-                });
-            }
+        if (customerEmail && customerName) {
+            createFirebaseMsg({
+                variables: {
+                    agent_code: agentSellerCode.toString() || 'admin',
+                    agent_name: agentSellerName || 'Admin',
+                    customer_email: customerEmail,
+                    customer_name: customerName,
+                    phone_number: customerWhatsappNumber,
+                },
+            }).then(async () => {
+                refetch();
+            });
         }
-    }, [customerEmail, customerName, agentPdpCode, agentPdpName]);
+    }, [customerEmail, customerName, agentSellerCode, agentSellerName]);
 
     useEffect(() => {
-        if (pdpMessage && firstLoad && isPdp && filteredUserResult.length > 0 && customerEmail && agentPdpCode) {
-            const selectedChatPdp = filteredUserResult.filter((user) => user.chatId === `${customerEmail}-${agentPdpCode}`);
+        if ((isSellerPage || isPdp) && sellerMessage && firstLoad && filteredUserResult.length > 0 && customerEmail && agentSellerCode) {
+            const selectedChatSellerPage = filteredUserResult.filter((user) => user.chatId === `${customerEmail}-${agentSellerCode}`);
 
-            if (selectedChatPdp.length > 0) {
-                selectUserToChat(selectedChatPdp[0]);
-                if (pdpMessage) {
+            if (selectedChatSellerPage.length > 0) {
+                selectUserToChat(selectedChatSellerPage[0]);
+                if (sellerMessage) {
                     const chatPar = {
-                        ...selectedChatPdp[0],
+                        ...selectedChatSellerPage[0],
                     };
-                    submitChat(pdpMessage, chatPar);
+                    submitChat(sellerMessage, chatPar);
                 }
             }
             setFirstLoad(false);
         }
-    }, [pdpMessage, firstLoad, customerEmail, agentPdpCode, filteredUserResult, isPdp]);
+    }, [sellerMessage, firstLoad, customerEmail, agentSellerCode, filteredUserResult, isSellerPage, isPdp]);
 
     if (loading || blacklistLoading || customerLoading) {
         return null;
@@ -384,6 +377,8 @@ const ChatPluginCore = (props) => {
             autoResponseContent={autoResponseContent}
             isPdp={isPdp}
             handleChatPdp={handleChatPdp}
+            isSellerPage={isSellerPage}
+            handleChatSellerPage={handleChatSellerPage}
         />
     );
 };

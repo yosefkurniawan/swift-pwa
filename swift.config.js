@@ -125,12 +125,12 @@ const features = {
         AwGiftCardProduct: true,
     },
     chatSystem: {
-        enable: true,
+        enable: false,
         graphqlEndpoint: {
-            local: 'https://chat-upgrade244.testingnow.me/graphql',
-            dev: 'https://chat-upgrade244.testingnow.me/graphql',
-            stage: 'https://chat-upgrade244.testingnow.me/graphql',
-            prod: 'https://chat-upgrade244.testingnow.me/graphql',
+            local: '', // sample: 'https://chat-swift.testingnow.me/graphql',
+            dev: '', // sample: 'https://chat-swift.testingnow.me/graphql',
+            stage: '', // sample: 'https://chat-swift.testingnow.me/graphql',
+            prod: '', // sample: 'https://chat-swift.testingnow.me/graphql',
         },
     },
     firebase: {

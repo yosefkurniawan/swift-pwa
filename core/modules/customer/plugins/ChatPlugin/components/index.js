@@ -29,6 +29,8 @@ const Content = (props) => {
         autoResponseContent,
         isPdp,
         handleChatPdp,
+        isSellerPage,
+        handleChatSellerPage,
     } = props;
 
     const styles = useStyles();
@@ -37,6 +39,8 @@ const Content = (props) => {
     const toggleChat = () => {
         if (isPdp) {
             handleChatPdp();
+        } else if (isSellerPage) {
+            handleChatSellerPage();
         } else {
             setShowChat(!showChat);
             clearChat();
@@ -46,7 +50,7 @@ const Content = (props) => {
     useEffect(() => {
         let unsub = () => null;
 
-        if (customerEmail && !isPdp) {
+        if (customerEmail && !isPdp && !isSellerPage) {
             const refereceUserDb = db.collection('messages');
             const customerQuery = refereceUserDb.where('is_customer_read', 'in', [0]).where('customer_email', '==', customerEmail);
             const q = customerQuery;
@@ -64,7 +68,7 @@ const Content = (props) => {
         }
 
         return unsub;
-    }, [customerEmail, isPdp]);
+    }, [customerEmail, isPdp, isSellerPage]);
 
     useEffect(() => {
         if (msgs && msgs.length > 0 && typeof window !== 'undefined') {
@@ -85,7 +89,7 @@ const Content = (props) => {
 
     return (
         <div>
-            {isPdp ? (
+            {isPdp || isSellerPage ? (
                 <ChatWrapper
                     loading={loading}
                     loadingMessages={loadingMessages}
