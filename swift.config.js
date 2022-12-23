@@ -99,8 +99,9 @@ const features = {
     ssrCache: false,
     magezon: {
         instagramFeed: {
-            // eslint-disable-next-line max-len
-            urlGraph: 'https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=',
+            urlGraph:
+                // eslint-disable-next-line max-len
+                'https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=',
         },
         keyStorage: 'mgz_ig_token',
     },
@@ -122,6 +123,15 @@ const features = {
         BundleProduct: true,
         DownloadableProduct: false,
         AwGiftCardProduct: true,
+    },
+    chatSystem: {
+        enable: true,
+        graphqlEndpoint: {
+            local: 'https://chat-upgrade244.testingnow.me/graphql',
+            dev: 'https://chat-upgrade244.testingnow.me/graphql',
+            stage: 'https://chat-upgrade244.testingnow.me/graphql',
+            prod: 'https://chat-upgrade244.testingnow.me/graphql',
+        },
     },
     firebase: {
         config: {

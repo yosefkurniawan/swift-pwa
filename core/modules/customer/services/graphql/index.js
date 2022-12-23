@@ -1,4 +1,4 @@
-import { useLazyQuery, useQuery, useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import * as Schema from '@core_modules/customer/services/graphql/schema';
 import { getLoginInfo } from '@helper_auth';
 
@@ -12,6 +12,46 @@ const config = {
         request: 'internal',
     },
 };
+
+// CHAT RELATED SCHEMA
+
+export const getSessionMessageList = (options = {}) => useQuery(Schema.getSessionMessageListSchema, {
+    ...options,
+    context: {
+        request: 'internal',
+    },
+});
+
+export const addMessage = (options = {}) => useMutation(Schema.addMessageSchema, {
+    ...options,
+    context: {
+        request: 'internal',
+    },
+});
+
+export const createFirebaseDoc = (options = {}) => useMutation(Schema.createFirebaseDocSchema, {
+    ...options,
+    context: {
+        request: 'internal',
+    },
+});
+
+export const getMessageList = (options = {}) => useLazyQuery(Schema.getMessageListSchema, {
+    ...options,
+    context: {
+        request: 'internal',
+    },
+    fetchPolicy: 'network-only',
+});
+
+export const getBlacklist = (options = {}) => useQuery(Schema.getBlacklistSchema, {
+    ...options,
+    context: {
+        request: 'internal',
+    },
+});
+
+// END CHAT RELATED SCHEMA
 
 export const getRegions = () => useLazyQuery(Schema.getRegion);
 
@@ -155,5 +195,10 @@ export const newPassword = () => useMutation(Schema.setNewPassword, {
 export const subscribeNewsletter = () => useMutation(Schema.subscribeNewsletter, { ...config });
 
 export default {
-    getCountries, getCityByRegionId, customerNotificationList, getCustomer, getCustomerOrder, reOrder,
+    getCountries,
+    getCityByRegionId,
+    customerNotificationList,
+    getCustomer,
+    getCustomerOrder,
+    reOrder,
 };
