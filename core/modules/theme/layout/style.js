@@ -1,8 +1,6 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {
-    CreatePadding,
-} from '@theme_mixins';
 import { GRAY_PRIMARY } from '@theme_color';
+import { CreatePadding } from '@theme_mixins';
 
 const useStyles = makeStyles((theme) => ({
     footerContainer: {
@@ -110,6 +108,15 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             width: '200px',
         },
+    },
+    chatPlugin: {
+        position: 'fixed',
+        right: theme.spacing(2),
+        bottom: theme.spacing(10),
+        zIndex: theme.zIndex.drawer + 3,
+    },
+    chatIcon: {
+        fontSize: '20px',
     },
 }));
 

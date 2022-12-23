@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 const Seller = (props) => {
-    const { t, storeConfig, pageConfig, Content, ...other } = props;
+    const { t, storeConfig, pageConfig, Content, isLogin, ...other } = props;
     const router = useRouter();
 
     const { data, error, loading } = getSeller({
@@ -31,8 +31,27 @@ const Seller = (props) => {
 
     const link = getHost() + router.asPath;
 
+    const [showChat, setShowChat] = React.useState(false);
+    const handleChat = () => {
+        if (isLogin && isLogin === 1) {
+            setShowChat(!showChat);
+        } else {
+            window.toastMessage({
+                open: true,
+                variant: 'warning',
+                text: 'to continue chat, please log in first',
+            });
+        }
+    };
+
     return (
-        <Layout pageConfig={pageConfig || config} {...props}>
+        <Layout
+            isShowChat={false}
+            pageConfig={pageConfig || config}
+            {...props}
+            data={data}
+            isSellerPage
+        >
             <Content
                 t={t}
                 storeConfig={storeConfig}
@@ -41,6 +60,10 @@ const Seller = (props) => {
                 loading={loading}
                 link={link}
                 sellerId={router.query.sellerId}
+                route={router}
+                isLogin={isLogin}
+                handleChat={handleChat}
+                showChat={showChat}
                 {...other}
             />
         </Layout>

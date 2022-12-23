@@ -1,5 +1,6 @@
-/* eslint-disable max-len */
 /* eslint-disable object-curly-newline */
+/* eslint-disable max-len */
+/* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable func-names */
@@ -24,8 +25,9 @@ import React from 'react';
 import { gql } from '@apollo/client';
 import PageProgressLoader from '@common_loaders/PageProgress';
 import graphRequest from '@graphql_request';
-import firebase from '@lib_firebase/index';
+import requestInternal from '@rest_request';
 import Notification from '@lib_firebase/notification';
+import firebase from '@lib_firebase/index';
 import routeMiddleware from '@middleware_route';
 import getConfig from 'next/config';
 import TagManager from 'react-gtm-module';
@@ -125,22 +127,10 @@ class MyApp extends App {
         let frontendOptions;
         let { storeConfig } = pageProps;
 
-        if (typeof window !== 'undefined') {
-            frontendOptions = await pageProps.apolloClient
-                .query({
-                    query: gql`
-                        ${FrontendSchema}
-                    `,
-                })
-                .then(({ data }) => data);
-            if (ctx && frontendOptions && frontendOptions.response && frontendOptions.response.status && frontendOptions.response.status > 500) {
-                ctx.res.redirect('/maintenance');
-            }
-        }
         if (typeof window === 'undefined' && (!storeConfig || typeof storeConfig.secure_base_media_url === 'undefined')) {
-            storeConfig = await graphRequest(ConfigSchema);
-            frontendOptions = await graphRequest(FrontendSchema);
-
+            // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
+            storeConfig = await requestInternal('getConfig');
+            frontendOptions = storeConfig;
             // Handle redirecting to tomaintenance page automatically when GQL is in maintenance mode.
             // We do this here since query storeConfig is the first query and be done in server side
             if (ctx && storeConfig.response && storeConfig.response.status && storeConfig.response.status > 500) {
@@ -149,8 +139,7 @@ class MyApp extends App {
             storeConfig = storeConfig.storeConfig;
             if (!modules.checkout.checkoutOnly) {
                 dataVesMenu = storeConfig.pwa.ves_menu_enable
-                    ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias })
-                    : await graphRequest(getCategories);
+                    ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }, {}, { method: 'GET' }) : await graphRequest(getCategories, {}, {}, { method: 'GET' });
             }
             frontendOptions = frontendOptions.storeConfig;
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null ? storeConfig?.pwa?.remove_decimal_price_enable : false;
@@ -173,6 +162,7 @@ class MyApp extends App {
 
                 storeConfig = storeConfig.storeConfig;
             }
+
             if (!modules.checkout.checkoutOnly) {
                 dataVesMenu = getLocalStorage('pwa_vesmenu');
                 if (!dataVesMenu) {

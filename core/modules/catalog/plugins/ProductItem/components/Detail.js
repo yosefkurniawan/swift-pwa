@@ -113,7 +113,7 @@ const Detail = (props) => {
                     {name}
                 </a>
             </Link>
-            {enableMultiSeller && seller.seller_name && (
+            {enableMultiSeller && seller && seller.seller_name && (
                 <div className={styles.infoSeller}>
                     <StorefrontIcon className={styles.iconSeller} />
                     <Typography variant="p" className={styles.productTitle} letter="capitalize">
