@@ -77,9 +77,9 @@ const ProductPage = (props) => {
         enablePopupImage,
         enableMultiSeller,
         storeConfig,
-        dataSeller,
         handleChat,
         showChat,
+        dataSeller,
     } = props;
     const desktop = breakPointsUp('sm');
 
