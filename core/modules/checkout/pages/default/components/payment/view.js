@@ -311,6 +311,7 @@ const PaymentView = (props) => {
                                                                 borderBottom: false,
                                                                 RightComponent: true,
                                                             }}
+                                                            disabled={loading.order || loading.all}
                                                         />
                                                     </Grid>
                                                 ) : null}

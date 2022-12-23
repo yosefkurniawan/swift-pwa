@@ -10,9 +10,9 @@ import { modules } from '@config';
  * @returns string query to generate on grapql tag
  */
 
-const filterProduct = (filter, router) => {
+export const filterProduct = (filter, router) => {
     let queryFilter = '{ ';
-    if (router.asPath.includes('color')) {
+    if (router && router.asPath && router.asPath.includes('color')) {
         const routerPaths = router.asPath.split('?');
         const routerPathsNext = routerPaths[1].split('&');
         const routerPathsColor = routerPathsNext[0].split('=');
@@ -22,7 +22,7 @@ const filterProduct = (filter, router) => {
       }`;
     }
     // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < filter.length; index++) {
+    for (let index = 0; index < filter?.length; index++) {
         const detailFilter = filter[index];
         if (detailFilter.type === 'price') {
             queryFilter += `
@@ -327,6 +327,71 @@ export const getProduct = (config = {}, router) => gql`
   }
 `;
 
+export const getProductPrice = (config = {}, router) => gql`
+  query getProducts(
+    $pageSize: Int,
+    $currentPage: Int,
+  ){
+  products( search: "${config.search}" ,filter: ${filterProduct(config.filter, router)},
+  pageSize: $pageSize,
+  currentPage: $currentPage
+  ${config.sort && config.sort.key && config.sort.key !== 'position' ? `, sort: {${config.sort.key} : ${config.sort.value}}` : ''}
+    ) {
+      page_info {
+        current_page
+       page_size
+       total_pages
+     }
+      total_count
+      __typename
+        
+      items {
+        id
+        sku
+        name
+        url_key
+        price_range {
+            maximum_price {
+                regular_price {
+                    value
+                }
+                final_price {
+                    value
+                }
+                discount {
+                    amount_off
+                    percent_off
+                }
+            }
+            minimum_price {
+                regular_price {
+                    value
+                }
+                final_price {
+                    value
+                }
+                discount {
+                    amount_off
+                    percent_off
+                }
+            }
+        }
+        price_tiers {
+            discount {
+                amount_off
+                percent_off
+            }
+            final_price {
+                currency
+                value
+            }
+            quantity
+        }
+      }
+    }
+  }
+`;
+
 export const addWishlist = gql`
     mutation addWishlist($productId: Int!) {
         addProductToWishlist(productId: $productId) {
@@ -478,6 +543,25 @@ query getDetailproduct($url_key: String!){
         seller_id
       }
       total_count
+    }
+}`;
+
+export const getDetailProductPrice = () => gql`
+query getDetailproduct($url_key: String!){
+  products(
+      search: "" ,filter: {
+        url_key: {
+          eq: $url_key
+        }
+      }
+    ) {
+      items {
+        id
+        name
+        sku
+        ${priceRange}
+        ${priceTiers}
+      }
     }
 }`;
 

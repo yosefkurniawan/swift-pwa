@@ -7,7 +7,9 @@ import SellerList from '@core_modules/searchresult/components/SellerList';
 
 const SearchResult = (props) => {
     const styles = useStyles();
-    const { storeConfig, t, q } = props;
+    const {
+        storeConfig, t, q, isLogin,
+    } = props;
     return (
         <div className={styles.container}>
             {/* add url path if no redirect to slug */}
@@ -33,6 +35,7 @@ const SearchResult = (props) => {
                     catalog_search_engine={storeConfig.catalog_search_engine}
                     t={t}
                     storeConfig={storeConfig}
+                    isLogin={isLogin}
                 />
             </div>
         </div>
