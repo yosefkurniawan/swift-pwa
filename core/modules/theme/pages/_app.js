@@ -15,7 +15,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { getAppEnv } from '@root/core/helpers/env';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
-import { frontendOptions as FrontendSchema, getCategories, getVesMenu, storeConfig as ConfigSchema } from '@services/graphql/schema/config';
+import { getCategories, getVesMenu, storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import theme from '@theme_theme';
 import Cookie from 'js-cookie';
 import { unregister } from 'next-offline/runtime';
@@ -23,7 +23,7 @@ import App from 'next/app';
 import React from 'react';
 
 import { gql } from '@apollo/client';
-import { storeConfigVar } from '@root/core/services/graphql/cache';
+import { cmsPageVar, storeConfigVar } from '@root/core/services/graphql/cache';
 import PageProgressLoader from '@common_loaders/PageProgress';
 import graphRequest from '@graphql_request';
 import requestInternal from '@rest_request';
@@ -185,14 +185,7 @@ class MyApp extends App {
                             .then(({ data }) => data);
                 }
             }
-            frontendOptions = await pageProps.apolloClient
-                .query({
-                    query: gql`
-                        ${FrontendSchema}
-                    `,
-                })
-                .then(({ data }) => data);
-            frontendOptions = frontendOptions.storeConfig;
+            frontendOptions = storeConfig;
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null ? storeConfig?.pwa?.remove_decimal_price_enable : false;
         }
 
@@ -384,7 +377,7 @@ class MyApp extends App {
         }
 
         if (typeof window !== 'undefined') {
-            setLocalStorage('cms_page', pageProps.storeConfig && pageProps.storeConfig.cms_page ? pageProps.storeConfig.cms_page : '');
+            cmsPageVar(pageProps.storeConfig && pageProps.storeConfig.cms_page ? pageProps.storeConfig.cms_page : '');
             storeConfigVar(pageProps.storeConfig);
             if (!modules.checkout.checkoutOnly) {
                 setLocalStorage('pwa_vesmenu', pageProps.dataVesMenu);
@@ -394,7 +387,6 @@ class MyApp extends App {
                 locales: pageProps.storeConfig && pageProps.storeConfig.locale,
                 remove_decimal_config: pageProps.removeDecimalConfig,
             });
-            setLocalStorage('frontend_options', pageProps.frontendOptions);
         }
 
         return (

@@ -1,9 +1,11 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable prefer-destructuring */
 import Error from '@core_modules/error/pages/default';
-import { getResolver as getLocalResolver, getLocalStorage, setLocalStorage } from '@helper_localstorage';
+import { getResolver as getLocalResolver, setLocalStorage } from '@helper_localstorage';
 import Layout from '@layout';
 import { getResolver } from '@core_modules/slug/services/graphql';
+import { useReactiveVar } from '@apollo/client';
+import { cmsPageVar } from '@root/core/services/graphql/cache';
 
 // import components
 import CategoryPage from '@core_modules/catalog/pages/category';
@@ -33,7 +35,7 @@ const Slug = (props) => {
         slug, storeConfig, t, cms_page = '', ...other
     } = props;
 
-    const cmsList = getLocalStorage('cms_page');
+    const cmsList = useReactiveVar(cmsPageVar);
     if (!cmsList) {
         setLocalStorage('cms_page', cms_page || '');
     }

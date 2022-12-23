@@ -6,7 +6,8 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable max-len */
 
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, useReactiveVar } from '@apollo/client';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 import classNames from 'classnames';
 import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
@@ -21,7 +22,6 @@ import useStyles from '@core_modules/theme/layout/style';
 import { getAppEnv } from '@helpers/env';
 import { getHost } from '@helper_config';
 import { getCookies, setCookies } from '@helper_cookies';
-import { getLocalStorage } from '@helper_localstorage';
 import { breakPointsDown, breakPointsUp } from '@helper_theme';
 import crypto from 'crypto';
 
@@ -85,6 +85,7 @@ const Layout = (props) => {
     const [restrictionCookies, setRestrictionCookies] = useState(false);
     const [showGlobalPromo, setShowGlobalPromo] = React.useState(false);
     const [setCompareList] = createCompareList();
+    const frontendCache = useReactiveVar(storeConfigVar);
 
     // get app name config
 
@@ -291,7 +292,7 @@ const Layout = (props) => {
 
     useEffect(() => {
         if (storeConfig && storeConfig.pwa && typeof window !== 'undefined') {
-            const pwaConfig = getLocalStorage('frontend_options').pwa;
+            const pwaConfig = frontendCache.pwa;
 
             const stylesheet = document.createElement('style');
             const fontStylesheet = document.createElement('link');
