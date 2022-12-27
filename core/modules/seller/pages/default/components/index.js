@@ -23,6 +23,8 @@ import ImageProductView from '@plugin_productitem/components/Image';
 import CoreBase from '@plugin_productlist/core';
 import dynamic from 'next/dynamic';
 import React from 'react';
+import { features } from '@config';
+import { getHost } from '@helper_config';
 
 const ErrorMessage = dynamic(() => import('@plugin_productlist/components/ErrorMessage'), { ssr: false });
 const ProductListSkeleton = dynamic(() => import('@plugin_productlist/components/ProductListSkeleton'), { ssr: false });
@@ -31,8 +33,14 @@ const FilterModalView = dynamic(() => import('@plugin_productlist/components/Fil
 
 const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: false });
 
+// CHAT FEATURES IMPORT
+
+const ChatContent = dynamic(() => import('@core_modules/customer/plugins/ChatPlugin'), { ssr: false });
+
+// END CHAT FEATURES IMPORT
+
 const Content = (props) => {
-    const { storeConfig, t, data, error, loading, link, sellerId, ...other } = props;
+    const { storeConfig, t, data, error, loading, link, sellerId, isLogin, route, handleChat, showChat, ...other } = props;
     const styles = useStyles();
 
     const [openInfoPanel, setOpenInfoPanel] = React.useState(false);
@@ -83,14 +91,31 @@ const Content = (props) => {
                                     <IconButton onClick={handleOpenInfoPanel}>
                                         <InfoIcon className={styles.sellerActionIcon} />
                                     </IconButton>
-                                    <IconButton className={styles.sellerActionIcon}>
-                                        <ChatIcon className={styles.sellerActionIcon} />
-                                    </IconButton>
+                                    {isLogin !== 1 || !showChat ? (
+                                        <IconButton className={styles.sellerActionIcon} onClick={handleChat}>
+                                            <ChatIcon className={styles.sellerActionIcon} />
+                                        </IconButton>
+                                    ) : null}
                                     <IconButton onClick={handleOpenSharePanel}>
                                         <ShareIcon className={styles.sellerActionIcon} />
                                     </IconButton>
                                 </Grid>
                             </Grid>
+                            {/* CHAT FEATURES ON DESKTOP */}
+                            {features.chatSystem.enable && (
+                                <div>
+                                    {isLogin === 1 && showChat ? (
+                                        <ChatContent
+                                            isSellerPage
+                                            handleChatSellerPage={handleChat}
+                                            agentSellerCode={data.getSeller[0].id}
+                                            agentSellerName={data.getSeller[0].name}
+                                            sellerMessage={`${getHost() + route.asPath}`}
+                                        />
+                                    ) : null}
+                                </div>
+                            )}
+                            {/* END CHAT FEATURES ON DESKTOP */}
                         </Box>
                     </Paper>
                     <Dialog

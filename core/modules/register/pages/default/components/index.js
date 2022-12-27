@@ -123,8 +123,8 @@ const RegisterView = ({
                                 name: 'phoneNumber',
                                 value: formik.values.phoneNumber,
                                 onChange: handleChangePhone,
-                                error: !!(formik.errors.phoneNumber && formik.touched.phoneNumber),
-                                errorMessage: (formik.touched.phoneNumber && formik.errors.phoneNumber) || null,
+                                error: !!formik.errors.phoneNumber,
+                                errorMessage: formik.errors.phoneNumber || null,
                             }}
                             codeProps={{
                                 id: 'register-otp-textfield',

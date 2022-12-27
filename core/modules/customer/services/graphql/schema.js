@@ -610,3 +610,150 @@ export const reOrder = gql`
     }
   }
 `;
+
+// CHAT RELATED SCHEMA
+
+export const getSessionMessageListSchema = gql`
+  query getSessionList(
+    $customer_email: String
+  ){
+    getSessionMessageList(customer_email: $customer_email, pageSize: 1000, currentPage: 1) {
+      answered
+      # chat_session_id
+      chat_id
+      created_at
+      customer_email
+      customer_id
+      customer_name
+      ip_address
+      is_read
+      agent_code
+      updated_at
+      last_message{
+        time
+        message
+      }
+    }
+  }
+`;
+
+export const getMessageListSchema = gql`
+  query getMessageList(
+    $chat_session_id: Int!
+  ){
+    getMessageList(
+      chat_session_id: $chat_session_id, 
+      pageSize: 1000, 
+      currentPage: 1
+    ) {
+      # chat_session_id
+      chat_id
+      customer_email
+      customer_id
+      customer_name
+      messages {
+        body_message
+        # chat_message_id
+        message_id
+        created_at
+        is_robot
+        question_id
+        updated_at
+        sender
+        is_read
+        is_read_customer
+        filename
+        filetype
+      }
+      agent_code
+    }
+  }
+`;
+
+export const addMessageSchema = gql`
+  mutation sendMessage(
+    $body_message: String!
+    $chat_session_id: Int!
+    $customer_email: String!
+    $customer_id: Int
+    $customer_name: String!
+    $is_robot: Int!
+    $agent_code: String!
+    $sender: Int!
+    $file: String
+    $response_question_id: Int
+  ){
+    addMessage(
+      input: {
+        body_message: $body_message
+        chat_session_id: $chat_session_id
+        customer_email: $customer_email
+        customer_id: $customer_id
+        customer_name: $customer_name
+        is_robot: $is_robot
+        agent_code: $agent_code
+        sender: $sender
+        file: $file
+        response_question_id: $response_question_id
+      }
+    ) {
+      body_message
+      chat_message_id
+      chat_session_id
+      created_at
+      customer_email
+      customer_id
+      customer_name
+      is_robot
+      product_id
+      agent_code
+      updated_at
+      auto_response {
+        agent_code
+        auto_response_text
+        message
+        question_id
+        answer {
+          message
+          answer_id
+          question_id
+          response_question_id
+        }
+      }
+    }
+  }
+`;
+
+export const createFirebaseDocSchema = gql`
+  mutation createFirebaseDoc(
+    $agent_code: String!
+    $agent_name: String!
+    $customer_email: String!
+    $customer_name: String!
+    $phone_number: String
+  ){
+    createFirebaseDocument(
+      input: {
+        agent_code: $agent_code
+        agent_name: $agent_name
+        customer_email: $customer_email
+        customer_name: $customer_name
+        phone_number: $phone_number
+      }
+    ) {
+      status
+    }
+  }
+`;
+
+export const getBlacklistSchema = gql`
+  query getBlacklist(
+    $email: String!
+  ){
+    getBlacklist(email: $email) {
+      status
+    }
+  }
+`;
+
+// END CHAT RELATED SCHEMA

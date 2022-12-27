@@ -485,6 +485,7 @@ const ShippingView = (props) => {
                                                                 borderBottom: false,
                                                                 classContent: styles.listShippingGroup,
                                                             }}
+                                                            disabled={loading.order || loading.all}
                                                         />
                                                     ) : null}
                                                 </div>

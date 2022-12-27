@@ -23,8 +23,8 @@ const OrderView = (props) => {
     // cache currency
     const currencyCache = useReactiveVar(currencyVar);
 
-    const customerData = JSON.parse(Cookies.get('cdt'));
-    const currencyData = JSON.parse(Cookies.get('app_currency'));
+    const customerData = Cookies.get('cdt') && JSON.parse(Cookies.get('cdt'));
+    const currencyData = Cookies.get('app_currency') && JSON.parse(Cookies.get('app_currency'));
     return (
         <>
             <h2 className={styles.infoTitle}>
