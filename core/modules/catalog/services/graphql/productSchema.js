@@ -10,7 +10,7 @@ import { modules } from '@config';
  * @returns string query to generate on grapql tag
  */
 
-export const filterProduct = (filter, router) => {
+export const filterProduct = (config, filter, router) => {
     let queryFilter = '{ ';
     if (router && router.asPath && router.asPath.includes('color')) {
         const routerPaths = router.asPath.split('?');
@@ -332,7 +332,7 @@ export const getProductPrice = (config = {}, router) => gql`
     $pageSize: Int,
     $currentPage: Int,
   ){
-  products( search: "${config.search}" ,filter: ${filterProduct(config.filter, router)},
+  products( search: "${config.search}" ,filter: ${filterProduct(config, config.filter, router)},
   pageSize: $pageSize,
   currentPage: $currentPage
   ${config.sort && config.sort.key && config.sort.key !== 'position' ? `, sort: {${config.sort.key} : ${config.sort.value}}` : ''}
@@ -387,6 +387,31 @@ export const getProductPrice = (config = {}, router) => gql`
             }
             quantity
         }
+        ${
+    config.configurable_options_enable
+        ? `
+        ... on ConfigurableProduct {
+          id
+          name
+          url_key
+          variants{
+            attributes{
+              label
+              code
+            }
+            product{
+              sku
+              price_range{
+                maximum_price{
+                  final_price{
+                    value
+                  }
+                }
+              }
+            }
+          }
+          __typename
+        }` : ''}
       }
     }
   }
@@ -546,7 +571,7 @@ query getDetailproduct($url_key: String!){
     }
 }`;
 
-export const getDetailProductPrice = () => gql`
+export const getDetailProductPrice = (config = {}) => gql`
 query getDetailproduct($url_key: String!){
   products(
       search: "" ,filter: {
@@ -561,6 +586,32 @@ query getDetailproduct($url_key: String!){
         sku
         ${priceRange}
         ${priceTiers}
+        ${
+    config.configurable_options_enable
+        ? `
+              ... on ConfigurableProduct {
+                id
+                name
+                url_key
+                variants{
+                  attributes{
+                    label
+                    code
+                  }
+                  product{
+                    sku
+                    ${priceRange}
+                    ${priceTiers}
+                  }
+                  attributes {
+                    uid
+                    label
+                    code
+                    value_index
+                  }
+                }
+                __typename
+              }` : ''}
       }
     }
 }`;

@@ -394,7 +394,7 @@ export const getProduct = (config = {}) => {
     return query;
 };
 
-export const getProductPrice = () => {
+export const getProductPrice = (config = {}) => {
     const query = gql`
 query getProducts(
   $url: String!
@@ -412,6 +412,32 @@ query getProducts(
         sku
         ${priceRange}
         ${priceTiers}
+        ${
+    config.configurable_options_enable
+        ? `
+          ... on ConfigurableProduct {
+            id
+            name
+            url_key
+            variants{
+              attributes{
+                label
+                code
+              }
+              product{
+                sku
+                ${priceRange}
+                ${priceTiers}
+              }
+              attributes {
+                uid
+                label
+                code
+                value_index
+              }
+            }
+            __typename
+          }` : ''}
       }
     }
 }`;
