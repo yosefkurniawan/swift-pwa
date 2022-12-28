@@ -230,6 +230,7 @@ const Content = (props) => {
                                     t={t}
                                     storeConfig={storeConfig}
                                     ExtraFeeView={ExtraFeeView}
+                                    currencyCache={currencyCache}
                                 />
                             ) : null}
                             {modules.promo.enabled ? (
@@ -268,6 +269,7 @@ const Content = (props) => {
                                         formik={formik}
                                         storeConfig={storeConfig}
                                         RewardPointView={RewardPointView}
+                                        currencyCache={currencyCache}
                                     />
                                 </div>
                             ) : null}
@@ -281,6 +283,7 @@ const Content = (props) => {
                                         formik={formik}
                                         storeConfig={storeConfig}
                                         StoreCreditView={StoreCreditView}
+                                        currencyCache={currencyCache}
                                     />
                                 </div>
                             ) : null}

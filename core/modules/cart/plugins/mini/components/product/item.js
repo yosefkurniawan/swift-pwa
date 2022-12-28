@@ -66,8 +66,8 @@ const Item = (props) => {
                                                 {item.label}
                                                 {' '}
                                                 <strong>
-                                                    + $
-                                                    {item.price}
+                                                    {' + '}
+                                                    {formatPrice(item.price, 'IDR', currencyCache)}
                                                 </strong>
                                             </div>
                                         ))}
@@ -123,9 +123,6 @@ const Item = (props) => {
                         <span className="item-count">{quantity}</span>
                         <span className="item-plus qty-update" onClick={() => updateCart(id, quantity + 1)} />
                     </div>
-                    {/* <div className="item-price">
-                        {formatPrice(prices?.row_total_including_tax?.value, currencyCache || 0, prices?.row_total_including_tax?.currency, currencyCache || 'IDR', currencyCache)}
-                    </div> */}
                     <div className="item-price">
                         {formatPrice(prices?.row_total_including_tax?.value, currencyCache || 0, currencyCache, prices?.row_total_including_tax?.currency, currencyCache || 'IDR')}
                     </div>

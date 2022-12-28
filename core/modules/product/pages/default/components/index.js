@@ -85,6 +85,7 @@ const ProductPage = (props) => {
         handleChat,
         showChat,
         dataSeller,
+        currencyCache,
     } = props;
     const desktop = breakPointsUp('sm');
 
@@ -178,7 +179,7 @@ const ProductPage = (props) => {
                             const priceTiers = {
                                 quantity: tiers.quantity,
                                 currency: tiers.final_price.currency,
-                                price: formatPrice(tiers.final_price.value),
+                                price: tiers.final_price.value,
                                 discount: tiers.discount.percent_off,
                             };
                             return (
@@ -186,6 +187,8 @@ const ProductPage = (props) => {
                                     {priceTiers.quantity > 1 && (
                                         <Typography variant="p" type="regular" key={index}>
                                             {t('product:priceTiers', { priceTiers })}
+                                            {' '}
+                                            {formatPrice(priceTiers.price, priceTiers.currency, currencyCache)}
                                         </Typography>
                                     )}
                                 </>

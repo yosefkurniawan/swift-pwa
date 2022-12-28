@@ -19,7 +19,7 @@ import Loader from '@core_modules/customer/pages/giftcard/components/skeleton';
 const GiftCard = (props) => {
     const {
         t, storeConfig, openDetail, handleCloseDetail, selectedCode, handleOpenDetail, data, search, handleTextSearch, handleSearch,
-        error, loading,
+        error, loading, currencyCache,
     } = props;
     const styles = useStyles();
 
@@ -43,6 +43,7 @@ const GiftCard = (props) => {
                     close={handleCloseDetail}
                     code={selectedCode}
                     DetailView={DetailView}
+                    currencyCache={currencyCache}
                 />
                 {data && data.customer.gift_card.length === 0 && (
                     <Alert className="m-15" severity="warning">

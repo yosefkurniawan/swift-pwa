@@ -172,7 +172,7 @@ const ItemView = (props) => {
                                     <div className="option-wrapper__item">
                                         {val.values.map((item, idt) => (
                                             <div key={idt}>
-                                                {item.quantity} x{item.label} <strong>+ ${item.price}</strong>
+                                                {item.quantity} x{item.label} <strong>+ {formatPrice(item.price, 'IDR', currencyCache)}</strong>
                                             </div>
                                         ))}
                                     </div>

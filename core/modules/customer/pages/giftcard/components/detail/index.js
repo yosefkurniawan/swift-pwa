@@ -2,7 +2,7 @@ import React from 'react';
 import { checkBalance } from '@core_modules/customer/services/graphql';
 
 const ModalDetail = ({
-    open, close, code, storeConfig, t, DetailView,
+    open, close, code, storeConfig, t, DetailView, currencyCache,
 }) => {
     let loading = false;
     let data = null;
@@ -23,6 +23,7 @@ const ModalDetail = ({
             close={close}
             storeConfig={storeConfig}
             code={code}
+            currencyCache={currencyCache}
         />
     );
 };
