@@ -17,6 +17,8 @@ const Price = ({
     priceRange = {},
     priceTiers = [],
     productType = 'SimpleProduct',
+    isPdp = false,
+    isQuickView = false,
     ...other
 }) => {
     const currencyCache = useReactiveVar(currencyVar);
@@ -31,6 +33,8 @@ const Price = ({
                 priceRange={priceRange}
                 priceTiers={priceTiers}
                 currencyCache={currencyCache}
+                isPdp={isPdp}
+                isQuickView={isQuickView}
                 {...other}
             />
         );

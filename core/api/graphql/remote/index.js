@@ -30,9 +30,9 @@ const executor = async ({ document, variables, context }) => {
         if (token && token !== '') {
             additionalHeader.Authorization = `Bearer ${decrypt(token)}`;
         }
-        
+
         additionalHeader.Authentication = `Bearer ${getAccessEnv()}`;
-        
+
         if (checkoutToken && checkoutToken !== '') {
             additionalHeader['Checkout-Token'] = `${decrypt(checkoutToken)}`;
         }

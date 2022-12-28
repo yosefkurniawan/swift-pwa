@@ -1,7 +1,7 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable max-len */
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { custDataNameCookie, expiredToken } from '@config';
 import { getLastPathWithoutLogin, setEmailConfirmationFlag, setLogin } from '@helper_auth';
 import { getCartId, setCartId } from '@helper_cartid';
@@ -26,6 +26,7 @@ import {
 import { getCustomer } from '@core_modules/register/services/graphql/schema';
 
 import { registerConfig } from '@services/graphql/repository/pwa_config';
+import { priceVar } from '@root/core/services/graphql/cache';
 
 const appEnv = getAppEnv();
 
@@ -40,6 +41,9 @@ const Register = (props) => {
     };
     // enable recaptcha
     let enableRecaptcha = false;
+
+    // cache price
+    const cachePrice = useReactiveVar(priceVar);
 
     const { loading: loadingRegisterConfig, data: dataRegisterConfig } = registerConfig();
     if (!loadingRegisterConfig && dataRegisterConfig && dataRegisterConfig.storeConfig && dataRegisterConfig.storeConfig.pwa) {
@@ -169,12 +173,14 @@ const Register = (props) => {
                         text: t('register:openEmail'),
                         variant: 'success',
                     });
-
                     setTimeout(() => {
                         Router.push('/customer/account/login');
                     }, 2000);
                 } else {
                     await setIsLogin(1);
+                    if (Object.keys(cachePrice).length > 0) {
+                        priceVar({});
+                    }
                     getCart();
                     window.backdropLoader(false);
                 }

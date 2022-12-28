@@ -19,12 +19,12 @@ const CustomImage = ({
     storeConfig = {},
     ...other
 }) => {
-    if (storeConfig) {
-        if (storeConfig.pwa === undefined) {
-            // eslint-disable-next-line no-console
-            console.log(storeConfig);
-        }
-    }
+    // comment because unused
+    // if (storeConfig) {
+    //     if (storeConfig.pwa === undefined) {
+    //         // console.log(storeConfig);
+    //     }
+    // }
     const enable = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_enable;
     const useHttpsOrHttp = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_https_http;
     const url = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_url;
