@@ -127,7 +127,7 @@ const OptionsItemConfig = (props) => {
                 // eslint-disable-next-line no-underscore-dangle
                 productType: __typename,
             });
-            setStockStatus('OUT_OF_STOCK');
+            setStockStatus(stock_status);
             handleSelecteProduct({ ...data });
         }
 
