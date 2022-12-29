@@ -15,7 +15,7 @@ const Content = (props) => {
     let useCmsPage = {};
 
     const {
-        homePageConfig, storeConfig: config, ...other
+        cmsHome, homePageConfig, storeConfig: config, ...other
     } = props;
     let storeConfig = config;
 
@@ -43,11 +43,12 @@ const Content = (props) => {
                 <CmsPage
                     onlyCms
                     slug={[useCmsPage.identifier]}
-                    withLayoutHeader={false}
-                    withLayoutFooter={false}
+                    withLayoutHeader
+                    withLayoutFooter
                     withCmsTitle={false}
                     {...other}
                     storeConfig={storeConfig}
+                    pageConfig={cmsHome}
                 />
             </>
         );
