@@ -18,6 +18,7 @@ const Content = (props) => {
         cmsHome, homePageConfig, storeConfig: config, ...other
     } = props;
     let storeConfig = config;
+    const useCms = storeConfig?.pwa?.use_cms_page_enable;
 
     if (homePageConfig && homePageConfig.storeConfig && homePageConfig.storeConfig.pwa) {
         storeConfig = {
@@ -63,7 +64,7 @@ const Content = (props) => {
     }
 
     return (
-        <div className={styles.container}>
+        <div className={useCms ? styles.cmsContainer : styles.container}>
             {props.storeConfig && props.storeConfig.pwa && props.storeConfig.pwa.mobile_navigation !== 'burger_menu' && (
                 <div className={classNames(styles.header)}>
                     <div className={classNames(styles.logo, 'hidden-desktop')}>
