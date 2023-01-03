@@ -12,10 +12,6 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         overflowX: 'hidden',
         ...CreatePadding(0, 0, 0, 0),
-        [theme.breakpoints.down('sm')]: {
-            display: 'flex',
-            flexDirection: 'column',
-        },
     },
     container: {
         width: '100%',
