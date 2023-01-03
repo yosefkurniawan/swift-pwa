@@ -451,6 +451,7 @@ const ProductItem = (props) => {
                                 data={{
                                     ...other,
                                     url_key,
+                                    review,
                                 }}
                                 showQty={false}
                                 catalogList={catalogList}
@@ -536,6 +537,7 @@ const ProductItem = (props) => {
                                         data={{
                                             ...other,
                                             url_key,
+                                            review,
                                         }}
                                         showQty={false}
                                         catalogList={catalogList}
