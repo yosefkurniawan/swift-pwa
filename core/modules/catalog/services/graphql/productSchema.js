@@ -10,7 +10,7 @@ import { modules } from '@config';
  * @returns string query to generate on grapql tag
  */
 
-export const filterProduct = (config, filter, router) => {
+export const filterProduct = (filter, router) => {
     let queryFilter = '{ ';
     if (router && router.asPath && router.asPath.includes('color')) {
         const routerPaths = router.asPath.split('?');
@@ -332,7 +332,7 @@ export const getProductPrice = (config = {}, router) => gql`
     $pageSize: Int,
     $currentPage: Int,
   ){
-  products( search: "${config.search}" ,filter: ${filterProduct(config, config.filter, router)},
+  products( search: "${config.search}" ,filter: ${filterProduct(config.filter, router)},
   pageSize: $pageSize,
   currentPage: $currentPage
   ${config.sort && config.sort.key && config.sort.key !== 'position' ? `, sort: {${config.sort.key} : ${config.sort.value}}` : ''}
