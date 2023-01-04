@@ -553,7 +553,7 @@ const Layout = (props) => {
                     setOpen={handleCloseMessage}
                     message={state.toastMessage.text}
                 />
-                {storeConfig.weltpixel_newsletter_general_enable === '1' && (
+                {!isHomepage && storeConfig.weltpixel_newsletter_general_enable === '1' && (
                     <NewsletterPopup t={t} storeConfig={storeConfig} pageConfig={pageConfig} isLogin={isLogin} />
                 )}
                 {children}
