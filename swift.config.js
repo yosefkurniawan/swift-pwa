@@ -14,8 +14,8 @@ const HOST = {
 
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
-    local: 'https://upgrade244.testingnow.me/graphql',
-    dev: 'https://upgrade244.testingnow.me/graphql',
+    local: 'https://swift.testingnow.me/graphql',
+    dev: 'https://swift.testingnow.me/graphql',
     stage: 'https://b2cdemonew.gcp-staging.testingnow.me/graphql',
     prod: 'https://b2cdemo.getswift.asia/graphql',
 };
@@ -125,12 +125,13 @@ const features = {
         AwGiftCardProduct: true,
     },
     chatSystem: {
-        enable: false,
+        enable: true,
+        autoTerminate: 5, // minutes
         graphqlEndpoint: {
-            local: '', // sample: 'https://chat-swift.testingnow.me/graphql',
-            dev: '', // sample: 'https://chat-swift.testingnow.me/graphql',
-            stage: '', // sample: 'https://chat-swift.testingnow.me/graphql',
-            prod: '', // sample: 'https://chat-swift.testingnow.me/graphql',
+            local: 'https://chat-upgrade244.testingnow.me/graphql',
+            dev: 'https://chat-upgrade244.testingnow.me/graphql',
+            stage: 'https://chat-upgrade244.testingnow.me/graphql',
+            prod: 'https://chat-upgrade244.testingnow.me/graphql',
         },
     },
     firebase: {
