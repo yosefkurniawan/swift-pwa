@@ -20,8 +20,10 @@ export default class MyDocument extends Document {
                 environment: process.env.APP_ENV || 'prod',
             };
         }
+        // eslint-disable-next-line no-underscore-dangle
+        const currentLang = this.props.__NEXT_DATA__.props.initialLanguage;
         return (
-            <Html lang="en">
+            <Html lang={currentLang}>
                 <HeadCustom>
                     {/* PWA primary color */}
                     <meta name="theme-color" content={theme.palette.primary.main} />

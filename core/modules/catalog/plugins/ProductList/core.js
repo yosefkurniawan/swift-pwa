@@ -8,18 +8,20 @@
 /* eslint-disable no-empty */
 /* eslint-disable array-callback-return */
 /* eslint-disable max-len */
+import React from 'react';
+import PropTypes from 'prop-types';
+import Router, { useRouter } from 'next/router';
+import getQueryFromPath from '@helper_generatequery';
+import TagManager from 'react-gtm-module';
+import { getProduct, getProductAgragations, getProductPrice } from '@core_modules/catalog/services/graphql';
+import { getSessionStorage, setSessionStorage } from '@helpers/sessionstorage';
+import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
+import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
 import generateConfig from '@core_modules/catalog/helpers/generateConfig';
 import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
-import { getProduct, getProductAgragations } from '@core_modules/catalog/services/graphql';
-import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
-import { getSessionStorage, setSessionStorage } from '@helpers/sessionstorage';
-import getQueryFromPath from '@helper_generatequery';
-import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import Content from '@plugin_productlist/components';
-import Router, { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
-import React from 'react';
-import TagManager from 'react-gtm-module';
+import { priceVar } from '@root/core/services/graphql/cache';
+import { useReactiveVar } from '@apollo/client';
 
 const ProductPagination = (props) => {
     const {
@@ -41,7 +43,8 @@ const ProductPagination = (props) => {
         ...other
     } = props;
     const router = useRouter();
-
+    // cache price
+    const cachePrice = useReactiveVar(priceVar);
     /**
      * start handle previous
      * backPage = (from category)
@@ -196,11 +199,52 @@ const ProductPagination = (props) => {
                 pageSize,
                 currentPage: page,
             },
-            context,
             fetchPolicy: config.sort && config.sort.key === 'random' && filterSaved ? 'cache-and-network' : 'cache-first',
         },
         router
     );
+    /* ====Start get price Product==== */
+    const [getProdPrice, { data: dataPrice, loading: loadPrice, error: errorPrice }] = getProductPrice(config, {
+        variables: {
+            pageSize,
+            currentPage: page,
+        },
+        context,
+    },
+    router);
+
+    const generateIdentifier = () => `page_${page}_${router.asPath}`;
+
+    React.useEffect(() => {
+        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier()]) {
+            getProdPrice();
+        }
+    }, []);
+
+    React.useEffect(() => {
+        if (dataPrice) {
+            const identifier = generateIdentifier();
+            const dataTemp = cachePrice;
+            dataTemp[identifier] = dataPrice;
+            priceVar({
+                ...cachePrice,
+            });
+        }
+    }, [dataPrice]);
+
+    const getPrice = () => {
+        let productPrice = [];
+
+        if (cachePrice[generateIdentifier()] && cachePrice[generateIdentifier()].products && cachePrice[generateIdentifier()].products.items) {
+            productPrice = cachePrice[generateIdentifier()].products.items;
+        } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
+            productPrice = dataPrice.products.items;
+        }
+
+        return productPrice;
+    };
+
+    /* ====End get price Product==== */
 
     React.useEffect(() => {
         const totalProduct = products && products.total_count ? products.total_count : 0;
@@ -208,7 +252,6 @@ const ProductPagination = (props) => {
         setTotalCount(totalProduct);
         setTotalPage(totalPageProduct);
     }, [products]);
-
     /**
      * useEffect for pagination to change loadmore to false
      * after getting response from GQL API
@@ -372,8 +415,7 @@ const ProductPagination = (props) => {
         totalCount,
         handleChangePage,
     };
-
-    return <Content {...contentProps} {...other} />;
+    return <Content {...contentProps} {...other} price={getPrice()} loadPrice={loadPrice} errorPrice={errorPrice} />;
 };
 
 const ProductLoadMore = (props) => {
@@ -396,6 +438,8 @@ const ProductLoadMore = (props) => {
         ...other
     } = props;
     const router = useRouter();
+    // cache price
+    const cachePrice = useReactiveVar(priceVar);
     const [products, setProducts] = React.useState({
         total_count: 0,
         items: [],
@@ -484,7 +528,6 @@ const ProductLoadMore = (props) => {
             },
         };
     }
-
     const { loading, data, fetchMore } = getProduct(
         config,
         {
@@ -497,6 +540,50 @@ const ProductLoadMore = (props) => {
         },
         router
     );
+    /* ====Start get price Product==== */
+    const page = data && data.products && data.products.page_info && data.products.page_info.current_page;
+    const [getProdPrice, { data: dataPrice, loading: loadPrice, error: errorPrice }] = getProductPrice(config, {
+        variables: {
+            pageSize: storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 0) : 10,
+            currentPage: page,
+        },
+        context,
+    },
+    router);
+
+    const generateIdentifier = () => `page_${page}_${router.asPath}`;
+
+    React.useEffect(() => {
+        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier()]) {
+            getProdPrice();
+        }
+    }, [data]);
+
+    React.useEffect(() => {
+        if (dataPrice) {
+            const identifier = generateIdentifier();
+            const dataTemp = cachePrice;
+            dataTemp[identifier] = dataPrice;
+            priceVar({
+                ...cachePrice,
+            });
+        }
+    }, [dataPrice]);
+
+    const getPrice = () => {
+        let productPrice = [];
+
+        if (cachePrice[generateIdentifier()] && cachePrice[generateIdentifier()].products && cachePrice[generateIdentifier()].products.items) {
+            productPrice = cachePrice[generateIdentifier()].products.items;
+        } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
+            productPrice = dataPrice.products.items;
+        }
+
+        return productPrice;
+    };
+
+    /* ====End get price Product==== */
+
     // generate filter if donthave custom filter
     const aggregations = [];
     if (!customFilter && !loading && products.aggregations) {
@@ -689,7 +776,7 @@ const ProductLoadMore = (props) => {
         storeConfig,
     };
 
-    return <Content {...contentProps} {...other} />;
+    return <Content {...contentProps} {...other} price={getPrice()} loadPrice={loadPrice} errorPrice={errorPrice} />;
 };
 
 ProductPagination.propTypes = {
@@ -717,7 +804,6 @@ const ProductWrapper = (props) => {
      */
     const isPagination = storeConfig && storeConfig.pwa && storeConfig.pwa.product_listing_navigation !== 'infinite_scroll';
     const Product = isPagination ? ProductPagination : ProductLoadMore;
-
     let availableFilter = [];
     let loadingAgg;
     if (Object.keys(query).length > 0) {

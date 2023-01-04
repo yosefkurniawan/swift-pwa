@@ -238,16 +238,30 @@ const useStyles = makeStyles((theme) => ({
     },
     rowItem: {
         ...FlexRow,
-        justifyContent: 'space-around',
         width: '350px',
+    },
+    itemShare: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginRight: '5px',
+        borderRight: `2px solid ${GRAY_PRIMARY}`,
+    },
+    compareChat: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginLeft: '5px',
     },
     btnCompare: {
         background: 'none',
         border: 'none',
         boxShadow: 'none',
-        width: '120px',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        marginRight: '5px',
+    },
+    btnChat: {
+        background: 'none',
+        border: 'none',
+        boxShadow: 'none',
+        marginLeft: '5px',
     },
     sellerContainer: {
         display: 'flex',

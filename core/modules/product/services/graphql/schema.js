@@ -394,6 +394,30 @@ export const getProduct = (config = {}) => {
     return query;
 };
 
+export const getProductPrice = () => {
+    const query = gql`
+query getProducts(
+  $url: String!
+) {
+    products(
+        search: "" ,filter: {
+          url_key: {
+            eq: $url
+          }
+        }
+    ) {
+      items {
+        id
+        name
+        sku
+        ${priceRange}
+        ${priceTiers}
+      }
+    }
+}`;
+    return query;
+};
+
 export const smartProductTabs = () => {
     const query = gql`
     query getSmartProductTabs($search: String, $filter: ProductAttributeFilterInput) {
