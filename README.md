@@ -195,3 +195,11 @@ Explanation :
 
 ### IMPORTANT NOTICE
 Please make sure to run `pm2 restart {PROCESS_ID} --update-env` after updating .env file! Otherwise, new configurations will not work!
+
+# Note for version >=2.6.2
+## Store Config Setup
+To optimize memory usage in swift PWA, store config will be stored in a JSON file (config.json) and called through an internal request
+### How to create config.json file
+#### Local mode:
+1. Run the project
+2. Hit endpoint `{host}/generate-config` with headers Authorization `Bearer {ENCRYPTION_KEY}` (you can use postman to do this). The encryption key value is from .env file with definer `ENCRYPTION_KEY`
