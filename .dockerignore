@@ -1,5 +1,4 @@
 .buildkite
-.jenkins
 .ipynb_checkpoints/*
 *.sample
 /notebooks/*
