@@ -2,8 +2,8 @@ FROM node:14
 RUN npm install pm2 -g;
 
 # Key for copy source code
-COPY .jenkins/git/ssh_config /root/.ssh/config
-COPY .jenkins/git/git_rsa /root/.ssh/git_rsa
+COPY --chmod=0600 .jenkins/git/ssh_config /root/.ssh/config
+COPY --chmod=0600 .jenkins/git/git_rsa /root/.ssh/git_rsa
 
 WORKDIR /usr/src/app
 COPY . .
