@@ -14,6 +14,7 @@ Launching Checklist:
 
 ## Requirements
 - NodeJS v14 or higher
+- Each Swift PWA version depends on certain SWIFT Magento version. Please see the [release notes](https://github.com/icubeus/swift-pwa/releases) for the dependency.
 
 ## Pre-Installation
 ### Configurations
