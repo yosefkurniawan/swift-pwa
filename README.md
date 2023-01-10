@@ -143,22 +143,16 @@ Explanations:
 7. NEXT_PUBLIC_ENCRYPTION_KEY = Encryption key to encrypt sensitive data (required) -> This is for client side usage, consider make this different from the server side one (`ENCRYPTION_KEY`)
 8. NEXT_PUBLIC_ALGORITHM = Encryption algorithm (required) -> This is for client side usage, consider make this different from the server side one (`ALGORITHM`)
 
-# IMPORTANT NOTICE
-## Version <= 2.4.9
-### Homepage Setup
-In the previous versions, Swift PWA comes with hardcode contents which are sliders, highlighted products list, and highlighted categories.
-But we recommend to use CMS Page instead.
-To do so please follow this step:
-1. Download the sample CMS page from [here](sample/pwa-homepage.csv), then upload/import on Magento backoffice using Firebear feature
-2. Update the Swift PWA swift.config.js
-    - home ▸ useCmsPage ▸ enable = true
-    - home ▸ useCmsPage ▸ identifier = "pwa-homepage" or any CMS identifier you created for PWA Homepage.
-
-## Version >= 2.5.0
+# HIGHLIGHT RELEASE
+## Version 2.5.0
 ### Moving configurations from swift.config.js to Magento Backoffice
 Many Configurations are moved from swift.config.js into Magento Backoffice. Click [here](https://docs.google.com/document/d/1DaZhkHjANgPfISH8eHS7T2njNCQhty1uORHTZ9fYIDk) for more details.
 
-## Version >=2.6.2
+## Version 2.6.0
+### Support Multiseller feature
+This feature allow customer to split their checkout into several orders by the seller. The items in cart will be grouped by same seller.
+
+## Version 2.6.2
 ### Store Configuration Setup
 To optimize memory usage in swift PWA, store config will be cached in PWA server side by storing it in a JSON file (config.json). This file will only be generated when the PWA request the storeConfig query to Magento GQL. 
 There are 2 ways to trigger this process (generating   config.json):
@@ -168,3 +162,8 @@ There are 2 ways to trigger this process (generating   config.json):
 #### 2: From Magento Backoffice
 1. Go to Backoffice > Systems > Cache Management
 2. Click "Refresh PWA Configuration" button. 
+
+## Version 2.6.4
+### Support new deployment approach
+In the new deployment approach, the project/custom files will be put into different repo.
+Use this repo as template for project repo: https://github.com/icubeus/swift-pwa
