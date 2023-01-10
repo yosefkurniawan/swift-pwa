@@ -93,12 +93,10 @@ Click [here](core/lib/readme.md) for more detail.
 ### Public
 Click [here](core/public/readme.md) for more detail.
 
-# Overriding
-Do not ever touch files under under [core](core) folder!
+# Rules of the Game 🚨
+**For project team**, do not ever touch files under under [core](core) folder!
 Instead, please create `src` folder in the root (if not exists) then put all custom (including overriden files) in this `src` folder.
-
-# PWA Config
-Since version 2.5.0 Swift PWA must be get any config from graphql where config can be change from backoffice magento. Detail documentation can be read at [here](https://docs.google.com/document/d/1DaZhkHjANgPfISH8eHS7T2njNCQhty1uORHTZ9fYIDk)
+Otherwise, you could have problems when the time you upgrade the version.
 
 # Patches
 ### How to apply patch file for swift pwa project
@@ -145,7 +143,7 @@ Explanations:
 8. NEXT_PUBLIC_ALGORITHM = Encryption algorithm (required) -> This is for client side usage, consider make this different from the server side one (`ALGORITHM`)
 
 # IMPORTANT NOTICE
-## Note for version <= 2.4.9
+## Version <= 2.4.9
 ### Homepage Setup
 In the previous versions, Swift PWA comes with hardcode contents which are sliders, highlighted products list, and highlighted categories.
 But we recommend to use CMS Page instead.
@@ -155,7 +153,11 @@ To do so please follow this step:
     - home ▸ useCmsPage ▸ enable = true
     - home ▸ useCmsPage ▸ identifier = "pwa-homepage" or any CMS identifier you created for PWA Homepage.
 
-## Note for version >=2.6.2
+## Version >= 2.5.0
+### Moving configurations from swift.config.js to Magento Backoffice
+Many Configurations are moved from swift.config.js into Magento Backoffice. Click [here](https://docs.google.com/document/d/1DaZhkHjANgPfISH8eHS7T2njNCQhty1uORHTZ9fYIDk) for more details.
+
+## Version >=2.6.2
 ### Store Configuration Setup
 To optimize memory usage in swift PWA, store config will be cached in PWA server side by storing it in a JSON file (config.json). This file will only be generated when the PWA request the storeConfig query to Magento GQL. 
 There are 2 ways to trigger this process (generating   config.json):
