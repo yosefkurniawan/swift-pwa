@@ -9,7 +9,7 @@ import { useTranslation } from '@i18n';
 
 const Item = (props) => {
     const {
-        quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options, customizable_options,
+        quantity, custom_price, product, deleteCart, updateCart, id, configurable_options, bundle_options, customizable_options,
         SimpleMiniCustomizable, ConfigurableMiniCustomizable,
         aw_giftcard_option, storeConfig,
     } = props;
@@ -29,7 +29,7 @@ const Item = (props) => {
                             height={92}
                             storeConfig={storeConfig}
                         />
-                        {prices?.row_total_including_tax?.value === 0 ? <span>{t('common:title:free')}</span> : null}
+                        {custom_price?.row_total_incl_tax?.value === 0 ? <span>{t('common:title:free')}</span> : null}
                     </a>
                 </Link>
                 <div className="product-item-details">
@@ -124,7 +124,7 @@ const Item = (props) => {
                         <span className="item-plus qty-update" onClick={() => updateCart(id, quantity + 1)} />
                     </div>
                     <div className="item-price">
-                        {formatPrice(prices?.price_including_tax?.value || 0, prices?.price_including_tax?.currency || 'IDR')}
+                        {formatPrice(custom_price?.price_incl_tax?.value || 0, custom_price?.price_incl_tax?.currency || 'IDR')}
                     </div>
                 </div>
 

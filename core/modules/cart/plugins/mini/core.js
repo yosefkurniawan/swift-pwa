@@ -140,11 +140,11 @@ const MiniCart = (props) => {
                         {
                             item_name: itemProps.product.name,
                             item_id: itemProps.product.sku,
-                            price: itemProps.prices.price.value || 0,
+                            price: itemProps.custom_price.price_incl_tax.value || 0,
                             item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
                             item_list_name: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
                             quantity: itemProps.quantity,
-                            currency: itemProps.prices.price.currency || storeConfig.base_currency_code,
+                            currency: itemProps.custom_price.price_incl_tax.currency || storeConfig.base_currency_code,
                         },
                     ],
                 },

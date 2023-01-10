@@ -143,11 +143,6 @@ customizable_options {
   values {
     label
     value
-    price {
-      type
-      units
-      value
-    }
   }
 }
 `;
@@ -239,6 +234,79 @@ items {
 }
 `;
 
+const itemsCart = `
+items {
+  id
+  note
+  quantity
+  ... on SimpleCartItem {
+    SimpleMiniCustomizable: ${customizable_options}
+  }
+
+  ... on VirtualCartItem {
+    virutalItemCustomizable: ${customizable_options}
+  }
+  ... on ConfigurableCartItem {
+    ConfigurableMiniCustomizable: ${customizable_options}
+      configurable_options {
+      option_label
+      value_label
+    }
+  }
+  ... on BundleCartItem {
+    bundle_options {
+      label
+      type
+      values {
+        label
+        price
+        quantity
+      }
+    }
+  }
+  ... on DownloadableCartItem {
+    downloadablItemCustomizable: ${customizable_options}
+    links {
+      title
+    }
+  }
+  ... on AwGiftCardCartItem {
+    aw_giftcard_option {
+      label
+      value
+    }
+  }
+  custom_price {
+    price_incl_tax {
+      value
+      currency
+    }
+    row_total_incl_tax {
+      value
+      currency
+    }
+  }
+  product {
+    id
+    name
+    small_image {
+      url
+      label
+    }
+    url_key
+    sku
+    stock_status
+    seller {
+      seller_id
+      seller_name
+    }
+    categories {
+      name
+    }
+  }
+}
+`;
+
 const cartAvailablePaymentMethods = `
     available_payment_methods {
         code
@@ -295,7 +363,7 @@ export const getCart = gql`
 
 export const getCartItem = gql`query getCartData($cartId: String!) {
   cart(cart_id: $cartId) {
-      ${items}
+    ${itemsCart}
   }
 }`;
 
@@ -401,13 +469,6 @@ export const getMiniCart = gql`
             errorItems
             total_quantity
             prices {
-                discounts {
-                    amount {
-                        currency
-                        value
-                    }
-                    label
-                }
                 grand_total {
                     currency
                     value
@@ -417,7 +478,6 @@ export const getMiniCart = gql`
                   value
                 }
             }
-            ${cartAvailablePaymentMethods}
             items {
               id
               quantity
@@ -460,30 +520,16 @@ export const getMiniCart = gql`
                   value
                 }
               }
-              prices {
-                discounts {
-                  amount {
-                    currency
-                    value
-                  }
-                }
-                price {
+              custom_price {
+                price_incl_tax {
                   value
                   currency
                 }
-                price_including_tax {
+                row_total_incl_tax {
                   value
                   currency
                 }
-                row_total_including_tax {
-                  currency
-                  value
-                }
-                total_item_discount {
-                  currency
-                  value
-                }
-            }
+              }
             product {
               id
               name
@@ -515,7 +561,7 @@ export const deleteCartitem = gql`
         cart {
           id
           total_quantity
-          ${items}
+          ${itemsCart}
           ${prices}
         }
       }
@@ -537,7 +583,7 @@ export const deleteCartItemOnPage = gql`
           ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
           ${modules.storecredit.enabled ? applied_store_credit : ''}
           ${prices}
-          ${items}
+          ${itemsCart}
           ${promoBanner}
           ${cartAvailableFreeItems}
         }
@@ -556,7 +602,7 @@ export const updateCartitem = gql`
         cart {
           ${applied_giftcard}
           ${cartRequiredSelection}
-          ${items}
+          ${itemsCart}
           ${cartAvailableFreeItems}
         }
       }

@@ -24,7 +24,7 @@ const ItemProduct = (props) => {
         quantity,
         configurable_options = [],
         deleteItem,
-        prices,
+        custom_price,
         handleFeed,
         bundle_options,
         links,
@@ -41,7 +41,7 @@ const ItemProduct = (props) => {
             id: props.id,
             product: props.product,
             quantity: props.quantity,
-            prices: props.prices,
+            prices: props.custom_price,
         });
     };
 
@@ -62,7 +62,7 @@ const ItemProduct = (props) => {
             bundle_options={bundle_options}
             links={links}
             quantity={quantity}
-            prices={prices}
+            prices={custom_price}
             editMode={editMode}
             toggleEditDrawer={toggleEditDrawer}
             customizable_options={SimpleMiniCustomizable || ConfigurableMiniCustomizable || customizable_options}

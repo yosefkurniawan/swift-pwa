@@ -122,8 +122,6 @@ const ItemView = (props) => {
         );
     };
 
-    // console.log(product && product);
-
     return (
         <div className={styles.item}>
             <ConfirmationDelete t={t} open={confirmDel} handleDelete={handleDelete} handleCancel={() => setConfirmDel(false)} />
@@ -137,7 +135,7 @@ const ItemView = (props) => {
                     quality={80}
                     storeConfig={storeConfig}
                 />
-                {prices.price.value === 0 ? <span>{t('common:title:free')}</span> : null}
+                {prices.price_incl_tax.value === 0 ? <span>{t('common:title:free')}</span> : null}
             </div>
             <div className={styles.itemInfo}>
                 <Link href="/[...slug]" as={`/${product.url_key}`}>
@@ -210,7 +208,7 @@ const ItemView = (props) => {
                         {t('cart:oos')}
                     </Alert>
                 )}
-                <div className={styles.itemPrice}>{formatPrice(prices.price_including_tax.value, prices.price_including_tax.currency)}</div>
+                <div className={styles.itemPrice}>{formatPrice(prices.price_incl_tax.value, prices.price_incl_tax.currency)}</div>
             </div>
 
             <div className={styles.itemActions}>

@@ -183,14 +183,14 @@ const Cart = (props) => {
             eventLabel: itemProps.product.name,
             label: itemProps.product.name,
             ecommerce: {
-                currencyCode: itemProps.prices.price.currency || storeConfig.base_currency_code,
+                currencyCode: itemProps.prices.price_incl_tax.currency || storeConfig.base_currency_code,
                 remove: {
                     cartItem: itemProps.id,
                     quantity: itemProps.quantity,
                     product: {
                         name: itemProps.product.name,
                         id: itemProps.product.sku,
-                        price: itemProps.prices.price.value || 0,
+                        price: itemProps.prices.price_incl_tax.value || 0,
                         dimensions4: itemProps.product.stock_status || '',
                     },
                 },
@@ -205,11 +205,11 @@ const Cart = (props) => {
                         {
                             item_name: itemProps.product.name,
                             item_id: itemProps.product.sku,
-                            price: itemProps.prices.price.value || 0,
+                            price: itemProps.prices.price_incl_tax.value || 0,
                             item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
                             item_list_name: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
                             quantity: itemProps.quantity,
-                            currency: itemProps.prices.price.currency || storeConfig.base_currency_code,
+                            currency: itemProps.prices.price_incl_tax.currency || storeConfig.base_currency_code,
                         },
                     ],
                 },
@@ -398,10 +398,10 @@ const Cart = (props) => {
                 ecommerce: {
                     items: [
                         cart.items.map((item) => ({
-                            currency: item.prices.price.currency || storeConfig.base_currency_code,
+                            currency: item.custom_price.price_incl_tax.currency || storeConfig.base_currency_code,
                             item_name: item.product.name,
                             item_id: item.product.sku,
-                            price: item.prices.price.value || 0,
+                            price: item.custom_price.price_incl_tax.value || 0,
                             item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
                             item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
                             quantity: item.quantity,
