@@ -163,7 +163,7 @@ There are 2 ways to trigger this process (generating   config.json):
 1. Go to Backoffice > Systems > Cache Management
 2. Click "Refresh PWA Configuration" button. 
 
-## Version 2.6.4
+## Version 2.6.3
 ### Support new deployment approach
 In the new deployment approach, the project/custom files will be put into different repo.
 Use this repo as template for project repo: https://github.com/icubeus/swift-pwa
