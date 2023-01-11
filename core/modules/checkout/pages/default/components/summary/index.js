@@ -34,6 +34,7 @@ const Summary = ({
     setCheckoutTokenState,
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
+    const errorItems = checkout?.data?.errorItems;
     const isSelectedPurchaseOrder = checkout.selected.payment === 'purchaseorder';
 
     // origin name config
@@ -629,7 +630,7 @@ const Summary = ({
                         t={t}
                         loading={loading}
                         isLoader={checkout.loading.order}
-                        disabled={disabled || (isSelectedPurchaseOrder && !isPurchaseOrderApply) || checkout.error.shippingAddress}
+                        disabled={errorItems || disabled || (isSelectedPurchaseOrder && !isPurchaseOrderApply) || checkout.error.shippingAddress}
                         handleActionSummary={handlePlaceOrder}
                         dataCart={checkout.data.cart}
                         isDesktop={false}
@@ -648,7 +649,7 @@ const Summary = ({
                     isLoader={checkout.loading.order}
                     handleActionSummary={handlePlaceOrder}
                     dataCart={checkout.data.cart}
-                    disabled={disabled || (isSelectedPurchaseOrder && !isPurchaseOrderApply) || checkout.error.shippingAddress}
+                    disabled={errorItems || disabled || (isSelectedPurchaseOrder && !isPurchaseOrderApply) || checkout.error.shippingAddress}
                     isDesktop
                     showItems
                     hideButton

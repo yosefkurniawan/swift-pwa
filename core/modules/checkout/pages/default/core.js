@@ -137,6 +137,7 @@ const Checkout = (props) => {
     const [checkout, setCheckout] = useState({
         order_id: '',
         data: {
+            errorItems: false,
             cart: null,
             customer: null,
             shippingMethods: [],
@@ -396,10 +397,25 @@ const Checkout = (props) => {
 
     const initData = () => {
         let { cart } = dataCart;
-        const { items } = itemCart.cart;
+        const { errorItems, items } = itemCart.cart;
         const state = { ...checkout };
         cart = { ...cart, items };
-
+        // check error items
+        if (errorItems && errorItems.length > 0) {
+            state.data.errorItems = true;
+            setCheckout(state);
+            const errorMessage = {
+                variant: 'warning',
+                text: errorItems[0],
+                open: true,
+            };
+            window.toastMessage({
+                ...errorMessage,
+            });
+            setTimeout(() => {
+                Router.push('/checkout/cart');
+            }, 3000);
+        }
         // Check minimum order amount and enabled Start
         const minimumOrderEnabled = storeConfig.minimum_order_enable;
         const grandTotalValue = cart.prices.grand_total.value;

@@ -20,5 +20,6 @@
     "updateFailed": "Update cart item failed",
     "addWishlistSuccess": "Item has been added into your wishlist",
     "addWishlistFailed": "Failed on adding item into wishlist",
-    "addWishlistWithoutLogin": "Please login to add this item to your wishlist"
+    "addWishlistWithoutLogin": "Please login to add this item to your wishlist",
+    "errorqty": "The requested qty is not available"
 }

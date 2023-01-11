@@ -3,17 +3,18 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import Link from 'next/link';
+import Alert from '@material-ui/lab/Alert';
 import Thumbor from '@common_image';
 import { formatPrice } from '@helper_currency';
 import { useTranslation } from '@i18n';
 
 const Item = (props) => {
     const {
-        quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options, customizable_options,
+        errorCartItems, quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options, customizable_options,
         SimpleMiniCustomizable, ConfigurableMiniCustomizable,
         aw_giftcard_option, storeConfig,
     } = props;
-    const { t } = useTranslation(['common']);
+    const { t } = useTranslation(['common', 'cart']);
     const cartCustomOptions = SimpleMiniCustomizable || ConfigurableMiniCustomizable || customizable_options;
 
     return (
@@ -142,6 +143,13 @@ const Item = (props) => {
                     x
                 </div>
             </div>
+            {
+                errorCartItems && errorCartItems.length > 0 && (
+                    <div className="error-status-qty">
+                        <Alert severity="warning">{t('cart:errorqty')}</Alert>
+                    </div>
+                )
+            }
         </li>
     );
 };

@@ -27,5 +27,6 @@
     "failedSaveOrderNote": "Catatan pemesanan gagal disimpan",
     "addANote": "Tambahkan catatan",
     "itemNote": "Catatan item",
-    "maxChar": "(Maks {{maxChar.value}} karakter)"
+    "maxChar": "(Maks {{maxChar.value}} karakter)",
+    "errorqty": "Qty yang diminta tidak tersedia"
 }
