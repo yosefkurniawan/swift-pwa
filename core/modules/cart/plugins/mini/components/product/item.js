@@ -14,7 +14,7 @@ const Item = (props) => {
         SimpleMiniCustomizable, ConfigurableMiniCustomizable,
         aw_giftcard_option, storeConfig,
     } = props;
-    const { t } = useTranslation(['common', 'cart']);
+    const { t } = useTranslation(['common']);
     const cartCustomOptions = SimpleMiniCustomizable || ConfigurableMiniCustomizable || customizable_options;
 
     return (
@@ -146,7 +146,7 @@ const Item = (props) => {
             {
                 errorCartItems && errorCartItems.length > 0 && (
                     <div className="error-status-qty">
-                        <Alert severity="warning">{t('cart:errorqty')}</Alert>
+                        <Alert severity="warning">{errorCartItems[0]}</Alert>
                     </div>
                 )
             }

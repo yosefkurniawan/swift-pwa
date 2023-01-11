@@ -27,6 +27,5 @@
     "failedSaveOrderNote": "Save order note failed",
     "addANote": "Add a note",
     "itemNote": "Item note",
-    "maxChar": "(Max {{maxChar.value}} characters)",
-    "errorqty": "The requested qty is not available"
+    "maxChar": "(Max {{maxChar.value}} characters)"
 }

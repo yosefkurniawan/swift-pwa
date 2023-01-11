@@ -212,7 +212,7 @@ const ItemView = (props) => {
                     </Alert>
                 ) : errorCartItems && errorCartItems.length > 0 ? (
                     <Alert severity="warning" className="alert m-15">
-                        {t('cart:errorqty')}
+                        {errorCartItems[0]}
                     </Alert>
                 ) : null}
                 <div className={styles.itemPrice}>{formatPrice(prices.price_including_tax.value, prices.price_including_tax.currency)}</div>

@@ -20,6 +20,5 @@
     "updateFailed": "Update item cart gagal",
     "addWishlistSuccess": "Produk berhasil ditambahkan ke wishlist",
     "addWishlistFailed": "Produk gagal ditambahkan ke wishlist",
-    "addWishlistWithoutLogin": "Silahkan masuk untuk menambahkan produk ini ke wishlist",
-    "errorqty": "Qty yang diminta tidak tersedia"
+    "addWishlistWithoutLogin": "Silahkan masuk untuk menambahkan produk ini ke wishlist"
 }

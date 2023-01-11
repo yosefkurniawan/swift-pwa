@@ -375,7 +375,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                     ) : val && val.errorCartItems && val.errorCartItems.length > 0 ? (
                                                         <TableCell colSpan={3}>
                                                             <Alert severity="warning">
-                                                                {t('cart:errorqty')}
+                                                                {val.errorCartItems[0]}
                                                             </Alert>
                                                         </TableCell>
                                                     ) : (
@@ -585,7 +585,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                             ) : val && val.errorCartItems && val.errorCartItems.length > 0 ? (
                                                         <TableCell colSpan={3}>
                                                             <Alert severity="warning">
-                                                                {t('cart:errorqty')}
+                                                                {val.errorCartItems[0]}
                                                             </Alert>
                                                         </TableCell>
                                                         ) : (
