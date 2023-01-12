@@ -67,10 +67,7 @@ const SearchDialog = ({ open, setOpen }) => {
     const classBody = value === '' ? classNames(styles.body, styles.hide) : classNames(styles.body, styles.show);
     const handleSearch = (ev) => {
         if (ev.key === 'Enter') {
-            Router.push({
-                pathname: '/catalogsearch/result',
-                query: { q: value },
-            });
+            Router.push(`/catalogsearch/result?q=${encodeURIComponent(value)}`);
         }
     };
 
