@@ -1,11 +1,11 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable no-lonely-if */
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, useReactiveVar } from '@apollo/client';
 import { modules } from '@config';
 import { removeCartId, setCartId } from '@helper_cartid';
 import { getHost, getStoreHost } from '@helper_config';
 import { setCheckoutData } from '@helper_cookies';
-import { getLocalStorage } from '@helper_localstorage';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 import { localTotalCart } from '@services/graphql/schema/local';
 import React, { useEffect, useState } from 'react';
 
@@ -55,7 +55,7 @@ const Summary = ({
     const [placeOrderWithOrderComment] = gqlService.placeOrderWithOrderComment({ onError: () => {} });
     const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
-    const storeConfigLocalStorage = getLocalStorage('storeConfig');
+    const storeConfigLocalStorage = useReactiveVar(storeConfigVar);
     // indodana
     const [getIndodanaRedirect, urlIndodana] = gqlService.getIndodanaUrl();
     // xendit

@@ -9,7 +9,8 @@ import Typography from '@common_typography';
 import Item from '@core_modules/cart/pages/default/components/item/item';
 import TableList from '@core_modules/cart/pages/default/components/item/TableListItem';
 import useStyles from '@core_modules/cart/pages/default/components/style';
-import { getLocalStorage } from '@helper_localstorage';
+import { useReactiveVar } from '@apollo/client';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 import classNames from 'classnames';
 import { useState } from 'react';
 
@@ -75,7 +76,8 @@ const ItemProduct = (props) => {
 const ItemView = (props) => {
     const styles = useStyles();
     const { data, t, toggleEditMode, editMode, deleteItem, handleFeed, toggleEditDrawer, currencyCache, ...other } = props;
-    const storeConfigLocalStorage = getLocalStorage('storeConfig');
+    const storeConfigLocalStorage = useReactiveVar(storeConfigVar);
+
     let cartItemBySeller = {};
 
     if (storeConfigLocalStorage && storeConfigLocalStorage.enable_oms_multiseller && data && data.items) {

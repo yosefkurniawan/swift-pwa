@@ -124,7 +124,7 @@ const Item = (props) => {
                         <span className="item-plus qty-update" onClick={() => updateCart(id, quantity + 1)} />
                     </div>
                     <div className="item-price">
-                        {formatPrice(prices?.row_total_including_tax?.value, currencyCache || 0, currencyCache, prices?.row_total_including_tax?.currency, currencyCache || 'IDR')}
+                        {formatPrice(prices?.price_including_tax?.value || 0, prices?.price_including_tax?.currency || 'IDR', currencyCache)}
                     </div>
                 </div>
 

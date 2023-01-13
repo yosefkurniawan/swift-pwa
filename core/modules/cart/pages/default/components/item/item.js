@@ -7,7 +7,8 @@ import useStyles from '@core_modules/cart/pages/default/components/style';
 import { updateCartItemNote } from '@core_modules/cart/services/graphql';
 import { getCartId } from '@helpers/cartId';
 import { formatPrice } from '@helper_currency';
-import { getLocalStorage } from '@helper_localstorage';
+import { useReactiveVar } from '@apollo/client';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 import IconButton from '@material-ui/core/IconButton';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Zoom from '@material-ui/core/Zoom';
@@ -41,7 +42,7 @@ const ItemView = (props) => {
     } = props;
     const styles = useStyles();
 
-    const storeConfigLocalStorage = getLocalStorage('storeConfig');
+    const storeConfigLocalStorage = useReactiveVar(storeConfigVar);
 
     let defaultWidth = storeConfig?.pwa?.image_product_width;
     let defaultHeight = storeConfig?.pwa?.image_product_height;

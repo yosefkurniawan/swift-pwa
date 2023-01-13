@@ -10,7 +10,10 @@ export const currencyVar = makeVar({
 
 export const priceVar = makeVar({});
 
+export const storeConfigVar = makeVar({});
+
 export default {
     currencyVar,
     priceVar,
+    storeConfigVar,
 };

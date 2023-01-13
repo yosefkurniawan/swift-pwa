@@ -6,6 +6,8 @@ import useStyles from '@common_forms/Radio/style';
 import Typography from '@common_typography';
 import { getCartId } from '@helper_cartid';
 import { getLocalStorage } from '@helper_localstorage';
+import { useReactiveVar } from '@apollo/client';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -41,7 +43,7 @@ function CustomRadio({
     storeConfig,
     isShipping = false,
 }) {
-    const storeConfigLocalStorage = getLocalStorage('storeConfig');
+    const storeConfigLocalStorage = useReactiveVar(storeConfigVar);
     const styles = useStyles();
 
     const rootStyle = classNames(styles.root, className);

@@ -16,7 +16,7 @@ import { getAppEnv } from '@root/core/helpers/env';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 import { frontendOptions as FrontendSchema, getCategories, getVesMenu, storeConfig as ConfigSchema } from '@services/graphql/schema/config';
-import { currencyVar } from '@root/core/services/graphql/cache';
+import { currencyVar, storeConfigVar } from '@root/core/services/graphql/cache';
 import theme from '@theme_theme';
 import Cookie from 'js-cookie';
 import { unregister } from 'next-offline/runtime';
@@ -24,6 +24,7 @@ import App from 'next/app';
 import React from 'react';
 
 import { gql } from '@apollo/client';
+
 import PageProgressLoader from '@common_loaders/PageProgress';
 import graphRequest from '@graphql_request';
 import requestInternal from '@rest_request';
@@ -145,7 +146,7 @@ class MyApp extends App {
             frontendOptions = frontendOptions.storeConfig;
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null ? storeConfig?.pwa?.remove_decimal_price_enable : false;
         } else if (typeof window !== 'undefined' && !storeConfig) {
-            storeConfig = getLocalStorage('pwa_config');
+            storeConfig = storeConfigVar();
             if (!storeConfig || storeConfig === '' || storeConfig === {}) {
                 storeConfig = await pageProps.apolloClient
                     .query({
@@ -317,7 +318,7 @@ class MyApp extends App {
         * NOTE: this GTM functionality includes connecting to GA via GTM tag.
         */
 
-        const storeConfig = getLocalStorage('pwa_config');
+        const storeConfig = storeConfigVar();
         let GTM = {};
 
         if (storeConfig && storeConfig.pwa) {
@@ -385,7 +386,7 @@ class MyApp extends App {
 
         if (typeof window !== 'undefined') {
             setLocalStorage('cms_page', pageProps.storeConfig && pageProps.storeConfig.cms_page ? pageProps.storeConfig.cms_page : '');
-            setLocalStorage('pwa_config', pageProps.storeConfig);
+            storeConfigVar(pageProps.storeConfig);
             if (!modules.checkout.checkoutOnly) {
                 setLocalStorage('pwa_vesmenu', pageProps.dataVesMenu);
             }

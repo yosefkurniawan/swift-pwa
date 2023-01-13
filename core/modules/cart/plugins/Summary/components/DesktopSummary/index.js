@@ -5,7 +5,8 @@ import Button from '@common_button';
 import Thumbor from '@common_image';
 import Typography from '@common_typography';
 import { formatPrice } from '@helper_currency';
-import { getLocalStorage } from '@helper_localstorage';
+import { useReactiveVar } from '@apollo/client';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -27,7 +28,7 @@ const Summary = (props) => {
         labelItemAlign = 'left', dataCart, storeConfig, currencyCache,
     } = props;
     const styles = useStyles();
-    const storeConfigLocalStorage = getLocalStorage('storeConfig');
+    const storeConfigLocalStorage = useReactiveVar(storeConfigVar);
     const [openItem, setOpenItem] = React.useState(false);
     const Loader = () => (
         <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>

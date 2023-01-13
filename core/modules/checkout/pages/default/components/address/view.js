@@ -6,7 +6,8 @@ import Typography from '@common_typography';
 import _ from 'lodash';
 import ModalAddress from '@core_modules/checkout/pages/default/components/ModalAddress';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
-import { getLocalStorage } from '@helpers/localstorage';
+import { useReactiveVar } from '@apollo/client';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 
 const CLOSE_ADDRESS_DIALOG = 100;
 
@@ -28,7 +29,7 @@ const AddressView = (props) => {
         ...other
     } = props;
 
-    const pwaConfig = getLocalStorage('pwa_config');
+    const pwaConfig = useReactiveVar(storeConfigVar);
     const gmapKey = pwaConfig && pwaConfig.icube_pinlocation_gmap_key ? pwaConfig.icube_pinlocation_gmap_key : null;
     const { formik } = other;
 
