@@ -59,7 +59,7 @@ const GiftCard = (props) => {
                                         <ListItemText primary={item.giftcard_code} />
                                         <ListItemSecondaryAction>
                                             <Typography variant="span" type="bold">
-                                                {formatPrice(item.giftcard_balance, storeConfig.base_currency_code)}
+                                                {formatPrice(item.giftcard_balance, storeConfig.base_currency_code, currencyCache)}
                                             </Typography>
                                         </ListItemSecondaryAction>
                                     </ListItem>
