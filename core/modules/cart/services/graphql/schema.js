@@ -537,10 +537,6 @@ export const getMiniCart = gql`
                 url
                 label
               }
-              seller {
-                seller_id
-                seller_name
-              }
               url_key
               sku
               stock_status

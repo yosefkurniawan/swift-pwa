@@ -79,7 +79,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
     if (data) {
         const unGroupedData = data;
         // eslint-disable-next-line no-shadow
-        const groupData = unGroupedData.reduce((groupData, { SimpleMiniCustomizable, id, note, prices, product, quantity, ...other }) => {
+        const groupData = unGroupedData.reduce((groupData, { SimpleMiniCustomizable, id, note, custom_price, product, quantity, ...other }) => {
             let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
             if (!item) {
                 item = { seller_id: product.seller.seller_id, seller_name: product.seller.seller_name, children: [] };
@@ -91,7 +91,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                     SimpleMiniCustomizable,
                     id,
                     note,
-                    prices,
+                    custom_price,
                     product,
                     quantity,
                     ...other,
@@ -543,8 +543,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                             <TableCell align="right" className={styles.noBorder}>
                                                                 <Typography variant="span" align="right" letter="capitalize">
                                                                     {formatPrice(
-                                                                        val.custom_price?.row_total_incl_tax.value?.value || 0,
-                                                                        val.custom_price?.row_total_incl_tax.value?.currency || 'IDR'
+                                                                        val.custom_price?.price_incl_tax?.value || 0,
+                                                                        val.custom_price?.price_incl_tax?.currency || 'IDR'
                                                                     )}
                                                                 </Typography>
                                                             </TableCell>
