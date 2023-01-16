@@ -9,7 +9,9 @@ import FormControl from '@material-ui/core/FormControl';
 import { formatPrice } from '@helper_currency';
 import useStyles from '@plugin_optionitem/BundleOption/style';
 
-const Multiple = ({ data, options = [], selectOptions }) => {
+const Multiple = ({
+    data, options = [], selectOptions, currencyCache,
+}) => {
     const styles = useStyles();
     const defaultValue = [];
     for (let index = 0; index < options.length; index++) {
@@ -35,7 +37,7 @@ const Multiple = ({ data, options = [], selectOptions }) => {
                         value={val.id}
                         dangerouslySetInnerHTML={{
                             __html: `${val.label} + <b>${formatPrice(val.product.price_range.minimum_price.final_price.value,
-                                val.product.price_range.minimum_price.final_price.currency)}</b>`,
+                                val.product.price_range.minimum_price.final_price.currency, currencyCache)}</b>`,
                         }}
                     />
                 ))}

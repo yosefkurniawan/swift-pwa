@@ -16,6 +16,7 @@ import { getAppEnv } from '@root/core/helpers/env';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 import { frontendOptions as FrontendSchema, getCategories, getVesMenu, storeConfig as ConfigSchema } from '@services/graphql/schema/config';
+import { currencyVar, storeConfigVar } from '@root/core/services/graphql/cache';
 import theme from '@theme_theme';
 import Cookie from 'js-cookie';
 import { unregister } from 'next-offline/runtime';
@@ -23,7 +24,7 @@ import App from 'next/app';
 import React from 'react';
 
 import { gql } from '@apollo/client';
-import { storeConfigVar } from '@root/core/services/graphql/cache';
+
 import PageProgressLoader from '@common_loaders/PageProgress';
 import graphRequest from '@graphql_request';
 import requestInternal from '@rest_request';
@@ -395,6 +396,13 @@ class MyApp extends App {
                 remove_decimal_config: pageProps.removeDecimalConfig,
             });
             setLocalStorage('frontend_options', pageProps.frontendOptions);
+            const appCurrency = Cookie.get('app_currency');
+            currencyVar({
+                currency: pageProps.storeConfig.base_currency_code,
+                locale: pageProps.storeConfig.locale,
+                enableRemoveDecimal: pageProps.storeConfig?.pwa?.remove_decimal_price_enable,
+                appCurrency,
+            });
         }
 
         return (

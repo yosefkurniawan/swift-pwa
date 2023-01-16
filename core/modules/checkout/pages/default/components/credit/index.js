@@ -4,7 +4,7 @@ import gqlService from '@core_modules/checkout/services/graphql';
 
 const DiscountSection = (props) => {
     const {
-        t, checkout, setCheckout, handleOpenMessage, storeConfig, StoreCreditView,
+        t, checkout, setCheckout, handleOpenMessage, storeConfig, StoreCreditView, currencyCache,
     } = props;
 
     const [applyStoreCreditToCart] = gqlService.applyStoreCreditToCart({
@@ -96,6 +96,7 @@ const DiscountSection = (props) => {
                 checkout={checkout}
                 handleUseCredit={handleUseCredit}
                 total={total}
+                currencyCache={currencyCache}
                 t={t}
             />
         );

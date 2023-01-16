@@ -4,6 +4,8 @@ import CustomerLayout from '@layout_customer';
 import PropTypes from 'prop-types';
 import { debuging } from '@config';
 import { getRewardPoint } from '@core_modules/rewardpoint/services/graphql';
+import { useReactiveVar } from '@apollo/client';
+import { currencyVar } from '@root/core/services/graphql/cache';
 
 const RewardPoint = (props) => {
     const {
@@ -16,6 +18,9 @@ const RewardPoint = (props) => {
         headerTitle: t('rewardpoint:title'),
         bottomNav: false,
     };
+
+    // cache currency
+    const currencyCache = useReactiveVar(currencyVar);
 
     const [page, setPage] = React.useState(0);
     const [count, setRowsPerPage] = React.useState(rowsPerPage || 10);
@@ -92,6 +97,7 @@ const RewardPoint = (props) => {
                 page={page}
                 handleChangePage={handleChangePage}
                 handleChangeRowsPerPage={handleChangeRowsPerPage}
+                currencyCache={currencyCache}
             />
         </Layout>
     );

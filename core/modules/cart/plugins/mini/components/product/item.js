@@ -11,7 +11,7 @@ const Item = (props) => {
     const {
         quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options, customizable_options,
         SimpleMiniCustomizable, ConfigurableMiniCustomizable,
-        aw_giftcard_option, storeConfig,
+        aw_giftcard_option, storeConfig, currencyCache,
     } = props;
     const { t } = useTranslation(['common']);
     const cartCustomOptions = SimpleMiniCustomizable || ConfigurableMiniCustomizable || customizable_options;
@@ -66,8 +66,8 @@ const Item = (props) => {
                                                 {item.label}
                                                 {' '}
                                                 <strong>
-                                                    + $
-                                                    {item.price}
+                                                    {' + '}
+                                                    {formatPrice(item.price, 'IDR', currencyCache)}
                                                 </strong>
                                             </div>
                                         ))}
@@ -124,7 +124,7 @@ const Item = (props) => {
                         <span className="item-plus qty-update" onClick={() => updateCart(id, quantity + 1)} />
                     </div>
                     <div className="item-price">
-                        {formatPrice(prices?.price_including_tax?.value || 0, prices?.price_including_tax?.currency || 'IDR')}
+                        {formatPrice(prices?.price_including_tax?.value || 0, prices?.price_including_tax?.currency || 'IDR', currencyCache)}
                     </div>
                 </div>
 

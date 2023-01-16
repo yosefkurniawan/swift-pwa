@@ -39,5 +39,5 @@
     "customizeAdd": "Sesuaikan dan Tambahkan ke Keranjang",
     "yourCustomization": "Pilihan Kamu",
     "quantity": "Jumlah",
-    "priceTiers": "Beli {{priceTiers.quantity}} seharga {{priceTiers.currency}} {{priceTiers.price}}"
+    "priceTiers": "Beli {{priceTiers.quantity}} seharga "
 }
