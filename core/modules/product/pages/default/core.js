@@ -531,7 +531,9 @@ const PageDetail = (props) => {
 
     const labels = getProductLabel(storeConfig, { context, variables: { url: slug[0] } });
     const { loading, data, error } = getProduct(storeConfig, { ...productVariables });
-    const [getProdPrice, { data: dataPrice, loading: loadPrice, error: errorPrice }] = getProductPrice();
+    const [getProdPrice, { data: dataPrice, loading: loadPrice, error: errorPrice }] = getProductPrice(
+        storeConfig.pwa || {},
+    );
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
 
     // cache currency
