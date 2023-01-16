@@ -113,11 +113,15 @@ const PaymentView = (props) => {
     const [stripePromise, setStripePromise] = React.useState(null);
 
     React.useEffect(() => {
-        const key = storeConfig
-            && storeConfig.stripe_config
-            && storeConfig.stripe_config.stripe_mode === 'test'
-            ? storeConfig.stripe_config.test_pk : storeConfig.stripe_config.live_pk;
-        setStripePromise(loadStripe(key));
+        if (storeConfig && storeConfig.stripe_config && storeConfig.stripe_config.stripe_enable
+            && storeConfig.stripe_config.test_pk && storeConfig.stripe_config.stripe_mode === 'test') {
+            const key = storeConfig.stripe_config.test_pk;
+            setStripePromise(loadStripe(key));
+        } else if (storeConfig && storeConfig.stripe_config && storeConfig.stripe_config.stripe_enable
+            && storeConfig.stripe_config.live_pk && storeConfig.stripe_config.stripe_mode === 'live') {
+            const key = storeConfig.stripe_config.live_pk;
+            setStripePromise(loadStripe(key));
+        }
     }, []);
 
     let content;
@@ -290,7 +294,12 @@ const PaymentView = (props) => {
                                                                         />
                                                                     );
                                                                 }
-                                                                if (isStripe) {
+                                                                if (isStripe
+                                                                    && storeConfig
+                                                                    && storeConfig.stripe_config
+                                                                    && storeConfig.stripe_config.stripe_enable
+                                                                    && (storeConfig.stripe_config.live_pk || storeConfig.stripe_config.test_pk)
+                                                                ) {
                                                                     return (
                                                                         <>
                                                                             {stripePromise && clientSecret && (
