@@ -18,7 +18,7 @@ const ProductSlider = (props) => {
         owl_item_xl, owl_item_lg, owl_item_md, owl_item_sm, owl_item_xs,
         owl_lazyload, owl_loop, owl_nav, owl_nav_position,
         owl_nav_size, owl_stage_padding,
-        owl_active_background_color, owl_slide_by,
+        owl_active_background_color,
         owl_background_color, owl_color,
         owl_hover_background_color, owl_hover_color,
         owl_autoplay, owl_autoplay_hover_pause,
@@ -61,10 +61,10 @@ const ProductSlider = (props) => {
             </a>
         ),
         slidesToShow: getItemsToShow(),
-        slidesToScroll: owl_slide_by || 1,
+        slidesToScroll: getItemsToShow() || 1,
         initialSlide: owl_active ? owl_active - 1 : 0,
         onReInit: () => {
-            if (document.querySelector('.slick-dots')) {
+            if (isXl || document.querySelector('.slick-dots')) {
                 setShowNav(true);
             } else {
                 setShowNav(false);
@@ -137,7 +137,7 @@ const ProductSlider = (props) => {
                         top: ${owl_nav_position.includes('top') ? (isXs || isSm ? '2%' : '10%') : '50%'};
                         bottom: ${owl_nav_position.includes('bottom') ? '-10%' : '50%'};
                         display: flex;
-                        width: 100%;
+                        width: 98.5%;
                         justify-content: ${owl_nav_position === 'top_left' || owl_nav_position === 'bottom_left'
                             ? 'flex-start'
                             : owl_nav_position === 'top_right' || owl_nav_position === 'bottom_right'
