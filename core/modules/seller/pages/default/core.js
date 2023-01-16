@@ -10,22 +10,23 @@ const Seller = (props) => {
     const { t, storeConfig, pageConfig, Content, isLogin, ...other } = props;
     const router = useRouter();
 
-    const { data, error, loading } = getSeller({
+    const { data: dataSeller, error: errorSeller, loading: loadingSeller } = getSeller({
         variables: {
             sellerId: parseInt(router.query.sellerId, 10),
         },
     });
 
     const config = {
-        title: data && data.getSeller.length > 0 && data.getSeller[0].name ? data.getSeller[0].name : 'Seller Page', // t('forgotpassword:title')
+        title: dataSeller && dataSeller.getSeller.length > 0 && dataSeller.getSeller[0].name ? dataSeller.getSeller[0].name : 'Seller Page', // t('forgotpassword:title')
         header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: data && data.getSeller.length > 0 && data.getSeller[0].name ? data.getSeller[0].name : 'Seller Page', // t('forgotpassword:title')
+        headerTitle: dataSeller && dataSeller.getSeller.length > 0 && dataSeller.getSeller[0].name ? dataSeller.getSeller[0].name : 'Seller Page', // t('forgotpassword:title')
         bottomNav: true,
         customFilter: false,
         search: '',
         pageSize: 8,
         currentPage: 1,
         filter: [],
+        pageType: 'seller',
         ...storeConfig.pwa,
     };
 
@@ -49,15 +50,15 @@ const Seller = (props) => {
             isShowChat={false}
             pageConfig={pageConfig || config}
             {...props}
-            data={data}
+            data={dataSeller}
             isSellerPage
         >
             <Content
                 t={t}
                 storeConfig={storeConfig}
-                data={data}
-                error={error}
-                loading={loading}
+                dataSeller={dataSeller}
+                errorSeller={errorSeller}
+                loadingSeller={loadingSeller}
                 link={link}
                 sellerId={router.query.sellerId}
                 route={router}
