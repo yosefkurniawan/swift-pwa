@@ -188,6 +188,7 @@ const reqBody = gql`{
     pwa_checkout_debug_enable
     snap_client_key
     stripe_config {
+        stripe_enable
         stripe_mode
         test_pk
         live_pk

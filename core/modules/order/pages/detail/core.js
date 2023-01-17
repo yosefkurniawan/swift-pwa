@@ -8,11 +8,17 @@ import CustomerLayout from '@layout_customer';
 import Alert from '@material-ui/lab/Alert';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
+import { useReactiveVar } from '@apollo/client';
+import { currencyVar } from '@root/core/services/graphql/cache';
 
 const OrderDetail = (props) => {
     const {
         t, Content, Skeleton, ...other
     } = props;
+
+    // cache currency
+    const currencyCache = useReactiveVar(currencyVar);
+
     const { storeConfig } = other;
     const router = useRouter();
     const { id } = router.query;
@@ -117,6 +123,7 @@ const OrderDetail = (props) => {
                 printOrder={printOrder}
                 paymentInfo={paymentInfo.OrderPaymentInformation}
                 dataTrackingOrder={dataTrackingOrder}
+                currencyCache={currencyCache}
             />
         </Layout>
     );

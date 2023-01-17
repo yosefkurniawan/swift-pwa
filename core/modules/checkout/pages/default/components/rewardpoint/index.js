@@ -3,7 +3,7 @@ import { modules } from '@config';
 import gqlService from '@core_modules/checkout/services/graphql';
 
 const RewardPoint = ({
-    t, checkout, setCheckout, handleOpenMessage, formik, RewardPointView, storeConfig,
+    t, checkout, setCheckout, handleOpenMessage, formik, RewardPointView, storeConfig, currencyCache,
 }) => {
     const [loading, setLoading] = React.useState(false);
     const [removeRewardPointsFromCart, applRewardPoint] = gqlService.removeRewardPointsFromCart({
@@ -78,6 +78,7 @@ const RewardPoint = ({
                 reward_point={reward_point}
                 total={total}
                 storeConfig={storeConfig}
+                currencyCache={currencyCache}
             />
         );
     }

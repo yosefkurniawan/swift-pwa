@@ -6,6 +6,8 @@ import React from 'react';
 import { getLoginInfo } from '@helper_auth';
 import { getCartId, setCartId } from '@helper_cartid';
 import { formatPrice } from '@helper_currency';
+import { useReactiveVar } from '@apollo/client';
+import { currencyVar } from '@root/core/services/graphql/cache';
 import TagManager from 'react-gtm-module';
 import {
     addBundleProductsToCart,
@@ -14,7 +16,7 @@ import {
     getCustomerCartId,
 } from '@core_modules/product/services/graphql';
 
-const generateBundlePrice = (items) => {
+const generateBundlePrice = (items, currencyCache) => {
     let price = 0;
     let currency = 'USD';
     for (let index = 0; index < items.length; index++) {
@@ -31,7 +33,7 @@ const generateBundlePrice = (items) => {
         }
     }
 
-    return formatPrice(price, currency);
+    return formatPrice(price, currency, currencyCache);
 };
 
 const changeSelectedOption = (position, id, items) => {
@@ -85,6 +87,10 @@ const OptionsItemsBundle = (props) => {
         setLoading: setCustomLoading,
         customButton,
     } = props;
+
+    // cache currency
+    const currencyCache = useReactiveVar(currencyVar);
+
     const reviewValue = parseInt(review.rating_summary, 0) / 20;
     const [items, setItems] = React.useState([]);
     let [loadingAdd, setLoadingAdd] = React.useState(false);
@@ -261,6 +267,7 @@ const OptionsItemsBundle = (props) => {
             t={t}
             disabled={stock_status === 'OUT_OF_STOCK'}
             customButton={customButton}
+            currencyCache={currencyCache}
         />
     );
 };

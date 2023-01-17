@@ -23,6 +23,8 @@ import { formatPrice } from '@helper_currency';
 import Link from 'next/link';
 import { SkeletonContent } from '@core_modules/order/pages/history/components/skeleton';
 import useStyles from '@core_modules/order/pages/history/style';
+import { useReactiveVar } from '@apollo/client';
+import { currencyVar } from '@root/core/services/graphql/cache';
 
 const DefaultView = (props) => {
     const {
@@ -31,6 +33,9 @@ const DefaultView = (props) => {
         returnUrl,
     } = props;
     const styles = useStyles();
+
+    // cache currency
+    const currencyCache = useReactiveVar(currencyVar);
     return (
         <Layout t={t} wishlist={[]}>
             <div>
@@ -155,7 +160,7 @@ const DefaultView = (props) => {
                                                                     </div>
                                                                     <div className={styles.value}>
                                                                         <Typography variant="span" letter="capitalize">
-                                                                            {formatPrice(val.grand_total, storeConfig.base_currency_code || 'IDR')}
+                                                                            {formatPrice(val.grand_total, storeConfig.base_currency_code || 'IDR', currencyCache)}
                                                                         </Typography>
                                                                     </div>
                                                                 </div>

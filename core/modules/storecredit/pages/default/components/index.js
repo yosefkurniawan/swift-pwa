@@ -25,6 +25,7 @@ const StoreCreditPage = (props) => {
         page,
         handleChangePage,
         handleChangeRowsPerPage,
+        currencyCache,
     } = props;
 
     const handlePage = (event) => {
@@ -94,6 +95,7 @@ const StoreCreditPage = (props) => {
                                                                 {formatPrice(
                                                                     val.store_credit_adjustment.value,
                                                                     val.store_credit_adjustment.currency,
+                                                                    currencyCache,
                                                                 )}
                                                             </div>
                                                         </div>
@@ -109,7 +111,11 @@ const StoreCreditPage = (props) => {
                                                             <b>{t('storecredit:creditbalance')}</b>
                                                         </div>
                                                         <div className={styles.value}>
-                                                            {formatPrice(val.store_credit_balance.value, val.store_credit_balance.currency)}
+                                                            {formatPrice(
+                                                                val.store_credit_balance.value,
+                                                                val.store_credit_balance.currency,
+                                                                currencyCache,
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </TableCell>

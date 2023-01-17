@@ -39,5 +39,5 @@
     "customizeAdd": "Customize and Add toCart",
     "yourCustomization": "Your Customization",
     "quantity": "Quantity",
-    "priceTiers": "Buy {{priceTiers.quantity}} for {{priceTiers.currency}} {{priceTiers.price}}"
+    "priceTiers": "Buy {{priceTiers.quantity}} for "
 }

@@ -34,7 +34,6 @@ const QuickView = (props) => {
     const {
         onClose, selectedValue, keyProduct, open, data, weltpixel_labels, storeConfig = {}, dataPrice = [], loadPrice, errorPrice,
     } = props;
-    // console.log('dataPrice', dataPrice);
     let productKey;
     for (let i = 0; i < data.items.length; i += 1) {
         if (keyProduct === data.items[i].url_key) {
@@ -106,6 +105,7 @@ const QuickView = (props) => {
     // Customizable Options
     const [customizableOptions, setCustomizableOptions] = React.useState([]);
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
+    const [spesificProduct, setSpesificProduct] = React.useState({});
 
     const checkCustomizableOptionsValue = async () => {
         if (product.options && product.options.length > 0) {
@@ -163,12 +163,11 @@ const QuickView = (props) => {
                 </div>
             );
         }
-
         let priceProduct = priceItem;
         if (priceDataItem.length > 0 && !loadPrice && !errorPrice) {
             priceProduct = {
-                priceRange: priceDataItem[0].price_range,
-                priceTiers: priceDataItem[0].price_tiers,
+                priceRange: spesificProduct.price_range ? spesificProduct.price_range : priceDataItem[0].price_range,
+                priceTiers: spesificProduct.price_tiers ? spesificProduct.price_tiers : priceDataItem[0].price_tiers,
                 // eslint-disable-next-line no-underscore-dangle
                 productType: priceDataItem[0].__typename,
                 specialFromDate: priceDataItem[0].special_from_date,
@@ -198,8 +197,8 @@ const QuickView = (props) => {
         let priceProduct = priceItem;
         if (priceDataItem.length > 0 && !loadPrice && !errorPrice) {
             priceProduct = {
-                priceRange: priceDataItem[0].price_range,
-                priceTiers: priceDataItem[0].price_tiers,
+                priceRange: spesificProduct.price_range ? spesificProduct.price_range : priceDataItem[0].price_range,
+                priceTiers: spesificProduct.price_tiers ? spesificProduct.price_tiers : priceDataItem[0].price_tiers,
                 // eslint-disable-next-line no-underscore-dangle
                 productType: priceDataItem[0].__typename,
                 specialFromDate: priceDataItem[0].special_from_date,
@@ -344,6 +343,7 @@ const QuickView = (props) => {
                                 price={price}
                                 t={t}
                                 data={product}
+                                dataPrice={dataPrice}
                                 setBanner={setBanner}
                                 setPrice={setPrice}
                                 setStockStatus={setStockStatus}
@@ -353,6 +353,7 @@ const QuickView = (props) => {
                                 errorCustomizableOptions={errorCustomizableOptions}
                                 checkCustomizableOptionsValue={checkCustomizableOptionsValue}
                                 additionalPrice={additionalPrice}
+                                handleSelecteProduct={setSpesificProduct}
                             />
                             <Button
                                 className={classNames(styles.btnGoToProduct)}

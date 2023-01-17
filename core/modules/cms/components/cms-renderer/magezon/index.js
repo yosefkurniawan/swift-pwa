@@ -61,13 +61,15 @@ const MagezonElement = (props) => {
         mouse_parallax, mouse_parallax_size, mouse_parallax_speed,
         background_image, background_color, full_height,
         xs_hide, sm_hide, md_hide, lg_hide, xl_hide,
-        hidden_default, disable_element,
+        hidden_default, disable_element, el_class, el_id, el_inner_class,
         storeConfig,
     } = props;
     const { base_media_url } = storeConfig;
     const customStyles = useStyles();
     let childrenContent;
     let classes = `${customStyles.wrapper} mgz-element `;
+    let customId = '';
+    let innerClasses = 'mgz-element-inner ';
     const { className, styles } = generateCustomCssAnimation(animation_duration, animation_delay, animation_infinite);
     const enumCustomAnimation = {
         topToBottom: 'mgz_top-to-bottom',
@@ -79,6 +81,18 @@ const MagezonElement = (props) => {
         fadeUpIn: 'owl-fadeUp-in',
         goDownIn: 'owl-goDown-in',
     };
+
+    if (el_class) {
+        classes += `${el_class}`;
+    }
+
+    if (el_id) {
+        customId += `${el_id}`;
+    }
+
+    if (el_inner_class) {
+        innerClasses += `${el_inner_class}`;
+    }
 
     if (full_height) {
         classes += 'full_height ';
@@ -238,21 +252,23 @@ const MagezonElement = (props) => {
 
     return (
         <>
-            <div className={classes}>
-                {background_image && (
-                    <>
-                        <div className="parallax-wrapper mouse-parallax">
-                            <MagezonParallax
-                                src={`${base_media_url}${background_image}`}
-                                speed={parallax_speed}
-                                type={parallax_type}
-                                mouseParallax={mouse_parallax}
-                                mouseSize={mouse_parallax_size}
-                            />
-                        </div>
-                    </>
-                )}
-                {childrenContent}
+            <div className={classes} id={customId || null}>
+                <div className={innerClasses}>
+                    {background_image && (
+                        <>
+                            <div className="parallax-wrapper mouse-parallax">
+                                <MagezonParallax
+                                    src={`${base_media_url}${background_image}`}
+                                    speed={parallax_speed}
+                                    type={parallax_type}
+                                    mouseParallax={mouse_parallax}
+                                    mouseSize={mouse_parallax_size}
+                                />
+                            </div>
+                        </>
+                    )}
+                    {childrenContent}
+                </div>
             </div>
             <style jsx>
                 {`
@@ -304,25 +320,25 @@ const MagezonElement = (props) => {
                     }
 
                     @media screen and (min-width: 768px) {
-                        .mgz-element:not(.full_height) >.row > .mgz-column > * {
+                        .mgz-element:not(.full_height) > .mgz-element-inner >.row > .mgz-column > * {
                             padding: 10px;
                         }
                     }
 
                     @media screen and (max-width: 768px) {
-                        .mgz-element.full_height > .row > .mgz-column > .mgz-element {
+                        .mgz-element.full_height > .mgz-element-inner >  .row > .mgz-column > .mgz-element {
                             margin-top: -15px;
                             position: absolute;
                         }
 
-                        .mgz-element > div > p {
+                        .mgz-element > .mgz-element-inner > div > p {
                             margin: 0px !important;
                             padding: 0px !important;
                         }
                     }
 
                     @media screen and (min-width: 1200px) {
-                        .mgz-element.full_height > .row > .mgz-column > .mgz-element {
+                        .mgz-element.full_height > .mgz-element-inner > .row > .mgz-column > .mgz-element {
                             padding-top: 0px !important;
                             padding-left: 0px !important;
                             padding-right: 0px !important;

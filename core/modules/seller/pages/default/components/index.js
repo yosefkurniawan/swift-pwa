@@ -40,7 +40,7 @@ const ChatContent = dynamic(() => import('@core_modules/customer/plugins/ChatPlu
 // END CHAT FEATURES IMPORT
 
 const Content = (props) => {
-    const { storeConfig, t, data, error, loading, link, sellerId, isLogin, route, handleChat, showChat, ...other } = props;
+    const { storeConfig, t, dataSeller, errorSeller, loadingSeller, link, sellerId, isLogin, route, handleChat, showChat, ...other } = props;
     const styles = useStyles();
 
     const [openInfoPanel, setOpenInfoPanel] = React.useState(false);
@@ -64,26 +64,26 @@ const Content = (props) => {
 
     return (
         <>
-            {!loading && data && data.getSeller.length === 0 && (
+            {!loadingSeller && dataSeller && dataSeller.getSeller.length === 0 && (
                 <Typography type="bold" variant="h4" letter="capitalize" style={{ paddingBottom: '1rem', paddingLeft: '1rem' }}>
                     {t('seller:notFound')}
                 </Typography>
             )}
-            {data && data.getSeller.length > 0 && (
+            {dataSeller && dataSeller.getSeller.length > 0 && (
                 <>
                     <Paper elevation={3} className={styles.sellerPaper}>
                         <Box className={styles.sellerPanel}>
                             <Grid container spacing={2}>
                                 <Grid item xs={3} xm={3} sm={3} md={3} lg={2} className={styles.sellerLogoWrapper}>
-                                    <Avatar alt="Remy Sharp" src={data.getSeller[0].logo} className={styles.sellerLogo} variant="rounded" />
+                                    <Avatar alt="Remy Sharp" src={dataSeller.getSeller[0].logo} className={styles.sellerLogo} variant="rounded" />
                                 </Grid>
                                 <Grid item xs={9} xm={6} sm={6} md={6} lg={8}>
                                     <div className={styles.sellerName}>
                                         <Typography type="bold" variant="h2" letter="capitalize">
-                                            {data.getSeller[0].name}
+                                            {dataSeller.getSeller[0].name}
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">
-                                            {data.getSeller[0].city.split(', ')[0]}
+                                            {dataSeller.getSeller[0].city.split(', ')[0]}
                                         </Typography>
                                     </div>
                                 </Grid>
@@ -108,8 +108,8 @@ const Content = (props) => {
                                         <ChatContent
                                             isSellerPage
                                             handleChatSellerPage={handleChat}
-                                            agentSellerCode={data.getSeller[0].id}
-                                            agentSellerName={data.getSeller[0].name}
+                                            agentSellerCode={dataSeller.getSeller[0].id}
+                                            agentSellerName={dataSeller.getSeller[0].name}
                                             sellerMessage={`${getHost() + route.asPath}`}
                                         />
                                     ) : null}
@@ -138,7 +138,7 @@ const Content = (props) => {
                                         {t('seller:description')}
                                     </Typography>
                                     <Typography type="regular" variant="body2">
-                                        <div dangerouslySetInnerHTML={{ __html: data.getSeller[0].description }} />
+                                        <div dangerouslySetInnerHTML={{ __html: dataSeller.getSeller[0].description }} />
                                     </Typography>
                                 </div>
                                 <div className={styles.address}>
@@ -146,7 +146,7 @@ const Content = (props) => {
                                         {t('seller:address')}
                                     </Typography>
                                     <Typography type="regular" variant="body2">
-                                        {data.getSeller[0].address}
+                                        {dataSeller.getSeller[0].address}
                                     </Typography>
                                 </div>
                             </DialogContentText>
