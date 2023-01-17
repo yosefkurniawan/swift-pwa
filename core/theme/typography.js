@@ -1,6 +1,6 @@
-import { getLocalStorage } from '@helper_localstorage';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 
-const pwaConfig = getLocalStorage('frontend_options');
+const pwaConfig = storeConfigVar();
 
 export const FONT_DEFAULT = {
     fontFamily: pwaConfig && pwaConfig.pwa && pwaConfig.pwa.primary_color

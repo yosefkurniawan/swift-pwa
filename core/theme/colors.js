@@ -1,6 +1,6 @@
-import { getLocalStorage } from '@helper_localstorage';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 
-const pwaConfig = getLocalStorage('frontend_options');
+const pwaConfig = storeConfigVar();
 
 export const PRIMARY = pwaConfig && pwaConfig.pwa && pwaConfig.pwa.primary_color ? pwaConfig.pwa.primary_color : '#000000';
 export const SECONDARY = pwaConfig && pwaConfig.pwa && pwaConfig.pwa.secondary_color ? pwaConfig.pwa.secondary_color : '#818181';
