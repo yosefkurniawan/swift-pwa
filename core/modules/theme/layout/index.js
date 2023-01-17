@@ -6,7 +6,8 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable max-len */
 
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, useReactiveVar } from '@apollo/client';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 import classNames from 'classnames';
 import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
@@ -15,13 +16,12 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import TagManager from 'react-gtm-module';
 // eslint-disable-next-line object-curly-newline
-import { assetsVersion, custDataNameCookie, debuging, features, modules, storeConfigNameCookie } from '@config';
+import { assetsVersion, custDataNameCookie, debuging, features, modules } from '@config';
 import { createCompareList } from '@core_modules/product/services/graphql';
 import useStyles from '@core_modules/theme/layout/style';
 import { getAppEnv } from '@helpers/env';
 import { getHost } from '@helper_config';
 import { getCookies, setCookies } from '@helper_cookies';
-import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import { breakPointsDown, breakPointsUp } from '@helper_theme';
 import crypto from 'crypto';
 import Fab from '@material-ui/core/Fab';
@@ -49,12 +49,6 @@ const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/rece
 // CHAT FEATURES IMPORT
 const ChatContent = dynamic(() => import('@core_modules/customer/plugins/ChatPlugin'), { ssr: false });
 // END CHAT FEATURES IMPORT
-
-const fromEntriesPolyfills = (iterable) => [...iterable].reduce((obj, [key, val]) => {
-        // eslint-disable-next-line no-param-reassign
-        obj[key] = val;
-        return obj;
-    }, {});
 
 const Layout = (props) => {
     const bodyStyles = useStyles();
@@ -98,6 +92,7 @@ const Layout = (props) => {
     const [restrictionCookies, setRestrictionCookies] = useState(false);
     const [showGlobalPromo, setShowGlobalPromo] = React.useState(false);
     const [setCompareList] = createCompareList();
+    const frontendCache = useReactiveVar(storeConfigVar);
 
     // get app name config
 
@@ -302,28 +297,9 @@ const Layout = (props) => {
         styles.marginTop = 0;
     }
 
-    if (typeof window !== 'undefined' && storeConfig) {
-        const arrayStoreConfig = Object.entries(storeConfig);
-        // eslint-disable-next-line no-unused-vars, consistent-return, array-callback-return
-        const filteredStoreConfig = arrayStoreConfig.filter(([key, value]) => {
-            if (
-                key !== 'snap_is_production' &&
-                key !== 'snap_client_key' &&
-                key !== 'firebase_api_key' &&
-                key !== 'paypal_key' &&
-                key !== 'swift_server' &&
-                !key.includes('payment_travelokapay_')
-            ) {
-                return true;
-            }
-        });
-        const excludePrivateStoreConfig = fromEntriesPolyfills(filteredStoreConfig);
-        setLocalStorage(storeConfigNameCookie, excludePrivateStoreConfig);
-    }
-
     useEffect(() => {
         if (storeConfig && storeConfig.pwa && typeof window !== 'undefined') {
-            const pwaConfig = getLocalStorage('frontend_options').pwa;
+            const pwaConfig = frontendCache.pwa;
 
             const stylesheet = document.createElement('style');
             const fontStylesheet = document.createElement('link');
@@ -553,7 +529,7 @@ const Layout = (props) => {
                     setOpen={handleCloseMessage}
                     message={state.toastMessage.text}
                 />
-                {storeConfig.weltpixel_newsletter_general_enable === '1' && (
+                {!isHomepage && storeConfig.weltpixel_newsletter_general_enable === '1' && (
                     <NewsletterPopup t={t} storeConfig={storeConfig} pageConfig={pageConfig} isLogin={isLogin} />
                 )}
                 {children}

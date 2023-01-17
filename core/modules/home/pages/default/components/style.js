@@ -5,6 +5,14 @@ import {
 } from '@theme_mixins';
 
 const useStyles = makeStyles((theme) => ({
+    cmsContainer: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflowX: 'hidden',
+        ...CreatePadding(0, 0, 0, 0),
+    },
     container: {
         width: '100%',
         height: '100%',

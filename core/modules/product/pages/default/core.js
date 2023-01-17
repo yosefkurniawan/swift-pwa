@@ -23,10 +23,10 @@ import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React from 'react';
 import TagManager from 'react-gtm-module';
-import { priceVar } from '@root/core/services/graphql/cache';
+import { priceVar, currencyVar } from '@root/core/services/graphql/cache';
 
 const ContentDetail = ({
-    t, product, keyProduct, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig, dataPrice, loadPrice, errorPrice,
+    t, product, keyProduct, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig, dataPrice, loadPrice, errorPrice, currencyCache,
 }) => {
     const item = product.items[keyProduct];
     const route = useRouter();
@@ -487,6 +487,7 @@ const ContentDetail = ({
             storeConfig={storeConfig}
             handleChat={handleChat}
             showChat={showChat}
+            currencyCache={currencyCache}
         />
     );
 };
@@ -530,8 +531,14 @@ const PageDetail = (props) => {
 
     const labels = getProductLabel(storeConfig, { context, variables: { url: slug[0] } });
     const { loading, data, error } = getProduct(storeConfig, { ...productVariables });
-    const [getProdPrice, { data: dataPrice, loading: loadPrice, error: errorPrice }] = getProductPrice();
+    const [getProdPrice, { data: dataPrice, loading: loadPrice, error: errorPrice }] = getProductPrice(
+        storeConfig.pwa || {},
+    );
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
+
+    // cache currency
+    const currencyCache = useReactiveVar(currencyVar);
+
     // cache price
     const cachePrice = useReactiveVar(priceVar);
 
@@ -748,6 +755,7 @@ const PageDetail = (props) => {
                 weltpixel_labels={weltpixel_labels}
                 dataProductTabs={productTab}
                 storeConfig={storeConfig}
+                currencyCache={currencyCache}
             />
         </Layout>
     );

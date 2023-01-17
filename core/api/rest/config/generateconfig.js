@@ -7,6 +7,8 @@ const { GraphQLClient, gql } = require('graphql-request');
 const { graphqlEndpoint } = require('../../../../swift.config');
 const { getAppEnv, getAccessEnv, getEncryptEnv } = require('../../../helpers/env');
 
+const { generateSetting } = require('../setting/generatesetting');
+
 const baseDir = path.join(__dirname, '../config/');
 
 const appEnv = getAppEnv();
@@ -186,6 +188,7 @@ const reqBody = gql`{
     pwa_checkout_debug_enable
     snap_client_key
     stripe_config {
+        stripe_enable
         stripe_mode
         test_pk
         live_pk
@@ -251,8 +254,9 @@ const reqBody = gql`{
     }
 }`;
 
-const generateConfig = (req, res) => {
+const generateConfig = async (req, res) => {
     if (`Bearer ${getEncryptEnv()}` == req.headers.authorization) {
+        await generateSetting();
         graphQLClient.request(reqBody, {}).then((data) => {
             fs.writeFile(`${baseDir}config.json`, JSON.stringify(data), (err) => {
                 if (err) throw err;

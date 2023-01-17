@@ -73,8 +73,8 @@ const Detail = (props) => {
         };
         if (priceDataItem && priceDataItem.length > 0 && !loadPrice && !errorPrice) {
             priceProduct = {
-                priceRange: priceDataItem[0].price_range,
-                priceTiers: priceDataItem[0].price_tiers,
+                priceRange: spesificProduct.price_range ? spesificProduct.price_range : priceDataItem[0].price_range,
+                priceTiers: spesificProduct.price_tiers ? spesificProduct.price_tiers : priceDataItem[0].price_tiers,
                 // eslint-disable-next-line no-underscore-dangle
                 productType: priceDataItem[0].__typename,
                 specialFromDate: priceDataItem[0].special_from_date,

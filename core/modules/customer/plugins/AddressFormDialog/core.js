@@ -8,7 +8,8 @@ import { groupingCity, groupingSubCity } from '@helpers/city';
 import { modules, storeConfigNameCookie } from '@config';
 import helperCookies from '@helper_cookies';
 import { getCityByRegionId, getCountries as getAllCountries, getRegions } from '@core_modules/customer/services/graphql';
-import { getLocalStorage } from '@helpers/localstorage';
+import { useReactiveVar } from '@apollo/client';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 
 const AddressFormDialog = (props) => {
     const {
@@ -44,7 +45,8 @@ const AddressFormDialog = (props) => {
     if (!storeConfig && typeof window !== 'undefined') {
         storeConfig = helperCookies.get(storeConfigNameCookie);
     }
-    const pwaConfig = getLocalStorage('pwa_config');
+
+    const pwaConfig = useReactiveVar(storeConfigVar);
     const gmapKey = pwaConfig && pwaConfig.icube_pinlocation_gmap_key ? pwaConfig.icube_pinlocation_gmap_key : null;
     const geocodingKey = pwaConfig && pwaConfig.icube_pinlocation_geocoding_key ? pwaConfig.icube_pinlocation_geocoding_key : null;
     const { pin_location_latitude, pin_location_longitude } = pwaConfig ?? {};

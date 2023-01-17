@@ -16,17 +16,37 @@ const Radio = dynamic(() => import('./customizeType/radio'), { ssr: false });
 const Checkbox = dynamic(() => import('./customizeType/checkbox'), { ssr: false });
 
 const GenerateOptionsSelect = (props) => {
-    const { data, options = [], selectOptions } = props;
+    const {
+        data, options = [], selectOptions, currencyCache,
+    } = props;
     if (data.type === 'select') {
         return <Select {...props} />;
-    } if (data.type === 'multi') {
+    }
+    if (data.type === 'multi') {
         return <Multiple {...props} />;
     }
     return options.map((val, idx) => {
         if (data.type === 'radio') {
-            return val.product !== null ? <Radio val={val} key={idx} data={data} selectOptions={selectOptions} /> : null;
-        } if (data.type === 'checkbox') {
-            return val.product !== null ? <Checkbox val={val} key={idx} data={data} selectOptions={selectOptions} /> : null;
+            return val.product !== null ? (
+                <Radio
+                    val={val}
+                    key={idx}
+                    data={data}
+                    selectOptions={selectOptions}
+                    currencyCache={currencyCache}
+                />
+            ) : null;
+        }
+        if (data.type === 'checkbox') {
+            return val.product !== null ? (
+                <Checkbox
+                    val={val}
+                    key={idx}
+                    data={data}
+                    selectOptions={selectOptions}
+                    currencyCache={currencyCache}
+                />
+            ) : null;
         }
 
         return null;
@@ -35,7 +55,7 @@ const GenerateOptionsSelect = (props) => {
 
 const Customize = (props) => {
     const {
-        data, t, items, changeQty, generateBundlePrice, selectOptions, handleAddToCart, loading,
+        data, t, items, changeQty, generateBundlePrice, selectOptions, handleAddToCart, loading, currencyCache,
     } = props;
     const [qty, setQty] = React.useState(1);
     const styles = useStyles();
@@ -48,68 +68,58 @@ const Customize = (props) => {
                 {' '}
                 {product.name}
             </Typography>
-            {
-                items.length > 0 ? (
-                    <div className={styles.customizeContainer}>
-                        <div className="row">
-                            <div className="col-xs-12 col-lg-12">
-                                {items.map((val, idx) => (
-                                    <div className="item-list" key={idx}>
-                                        <Typography variant="label" type="bold">
-                                            {val.title}
-                                            <span className="required-label">
-                                                *
-                                            </span>
-                                        </Typography>
-                                        <GenerateOptionsSelect data={val} options={val.options} selectOptions={selectOptions} />
-                                        <Typography variant="label" type="bold">
-                                            {t('product:quantity')}
-                                        </Typography>
-                                        <ButtonQty
-                                            value={val.options.find((option) => option.is_default)?.quantity}
-                                            onChange={(e) => changeQty(val.position, e)}
-                                            max={10000}
-                                            disabled={!val.options.find((option) => option.is_default)?.can_change_quantity}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="col-xs-12 col-lg-12" style={{ marginTop: 20 }}>
-                                <Typography variant="label" type="bold">
-                                    {t('product:yourCustomization')}
-                                </Typography>
-                                <hr />
-                                <Typography variant="h3" type="bold">
-                                    {generateBundlePrice(items)}
-                                </Typography>
-                                <ButtonQty
-                                    value={1}
-                                    onChange={(e) => setQty(e)}
-                                    max={10000}
-                                />
-                                <Button
-                                    id="plugin-addToCart-btn"
-                                    className={styles.btnAddToCard}
-                                    color="primary"
-                                    onClick={() => handleAddToCart(qty)}
-                                    loading={loading}
-                                >
-                                    <Typography
-                                        align="center"
-                                        type="bold"
-                                        letter="uppercase"
-                                        color="white"
-                                        variant="span"
-                                    >
-                                        {t('product:addToCart')}
+            {items.length > 0 ? (
+                <div className={styles.customizeContainer}>
+                    <div className="row">
+                        <div className="col-xs-12 col-lg-12">
+                            {items.map((val, idx) => (
+                                <div className="item-list" key={idx}>
+                                    <Typography variant="label" type="bold">
+                                        {val.title}
+                                        <span className="required-label">*</span>
                                     </Typography>
-                                </Button>
-                            </div>
+                                    <GenerateOptionsSelect
+                                        data={val}
+                                        options={val.options}
+                                        selectOptions={selectOptions}
+                                        currencyCache={currencyCache}
+                                    />
+                                    <Typography variant="label" type="bold">
+                                        {t('product:quantity')}
+                                    </Typography>
+                                    <ButtonQty
+                                        value={val.options.find((option) => option.is_default)?.quantity}
+                                        onChange={(e) => changeQty(val.position, e)}
+                                        max={10000}
+                                        disabled={!val.options.find((option) => option.is_default)?.can_change_quantity}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <div className="col-xs-12 col-lg-12" style={{ marginTop: 20 }}>
+                            <Typography variant="label" type="bold">
+                                {t('product:yourCustomization')}
+                            </Typography>
+                            <hr />
+                            <Typography variant="h3" type="bold">
+                                {generateBundlePrice(items, currencyCache)}
+                            </Typography>
+                            <ButtonQty value={1} onChange={(e) => setQty(e)} max={10000} />
+                            <Button
+                                id="plugin-addToCart-btn"
+                                className={styles.btnAddToCard}
+                                color="primary"
+                                onClick={() => handleAddToCart(qty)}
+                                loading={loading}
+                            >
+                                <Typography align="center" type="bold" letter="uppercase" color="white" variant="span">
+                                    {t('product:addToCart')}
+                                </Typography>
+                            </Button>
                         </div>
                     </div>
-                ) : null
-            }
-
+                </div>
+            ) : null}
         </>
     );
 };

@@ -3,6 +3,8 @@
 import Typography from '@common_typography';
 import useStyles from '@core_modules/checkout/components/radioitem/style';
 import { formatPrice } from '@helpers/currency';
+import { useReactiveVar } from '@apollo/client';
+import { currencyVar } from '@root/core/services/graphql/cache';
 import Radio from '@material-ui/core/Radio';
 import classNames from 'classnames';
 
@@ -28,6 +30,10 @@ const RadioDeliveryItem = (props) => {
             onChange(value);
         }
     };
+
+    // cache currency
+    const currencyCache = useReactiveVar(currencyVar);
+
     const labelType = selected ? 'bold' : 'regular';
     const rootStyle = borderBottom ? styles.root : styles.rootRmBorder;
     let rightSide;
@@ -41,12 +47,12 @@ const RadioDeliveryItem = (props) => {
             <div className="row between-xs">
                 <div className="col-xs-12 col-sm-6">
                     <Typography variant="p" type={labelType} className={styles.originalPrice} align="right">
-                        {formatPrice(price_incl_tax.value, amount.currency || base_currency_code)}
+                        {formatPrice(price_incl_tax.value, amount.currency, currencyCache || base_currency_code, currencyCache)}
                     </Typography>
                 </div>
                 <div className="col-xs-12 col-sm-6">
                     <Typography variant="p" type={labelType} className={styles.promo} align="right">
-                        {formatPrice(amount.value, amount.currency || base_currency_code)}
+                        {formatPrice(amount.value, amount.currency, currencyCache || base_currency_code, currencyCache)}
                     </Typography>
                 </div>
             </div>
@@ -56,7 +62,7 @@ const RadioDeliveryItem = (props) => {
             <div className="row">
                 <div className="col-xs-12 col-sm-6">
                     <Typography variant="p" type={labelType} className={styles.notPromo} align="right">
-                        {formatPrice(price_incl_tax.value, amount.currency || base_currency_code)}
+                        {formatPrice(price_incl_tax.value, amount.currency, currencyCache || base_currency_code, currencyCache)}
                     </Typography>
                 </div>
             </div>
@@ -66,7 +72,8 @@ const RadioDeliveryItem = (props) => {
             <div className="row">
                 <div className="col-xs-12 col-sm-6">
                     <Typography variant="p" type={labelType} className={styles.freeShipping} align="right">
-                        {price_incl_tax.value !== 0 ? formatPrice(price_incl_tax.value, amount.currency || base_currency_code) : 'FREE'}
+                        {price_incl_tax.value !== 0 ? formatPrice(price_incl_tax.value, amount.currency, currencyCache
+                            || base_currency_code, currencyCache) : 'FREE'}
                     </Typography>
                 </div>
             </div>

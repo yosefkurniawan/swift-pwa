@@ -35,3 +35,10 @@ package-lock.json
 
 #storeconfig
 /core/api/rest/config/config.json
+
+#setting
+/core/api/rest/setting/currency.json
+/core/api/rest/setting/availableStores.json
+
+#project files
+/src

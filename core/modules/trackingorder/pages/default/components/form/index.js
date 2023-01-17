@@ -45,8 +45,8 @@ const FormCom = (props) => {
 
     const formik = useFormik({
         initialValues: {
-            email: email || '' || hashedVal[0],
-            order_id: '' || hashedVal[1],
+            email: hashedVal !== '' ? hashedVal[0] : email || '',
+            order_id: hashedVal !== '' ? hashedVal[1] : '',
         },
         validationSchema: TrackingSchema,
         onSubmit: async (values, { resetForm, setValues }) => {

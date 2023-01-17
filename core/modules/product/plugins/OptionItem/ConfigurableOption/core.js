@@ -17,6 +17,7 @@ const OptionsItemConfig = (props) => {
         setPrice = () => {},
         t,
         data,
+        dataPrice,
         setOpen = () => {},
         ConfigurableView,
         Footer,
@@ -34,6 +35,8 @@ const OptionsItemConfig = (props) => {
         noValidate = false,
         ...other
     } = props;
+    // console.log('dataPrice', dataPrice);
+    // console.log('isi data', data);
 
     const { storeConfig = {} } = props;
 
@@ -66,9 +69,16 @@ const OptionsItemConfig = (props) => {
             ...selectedOption,
         });
         const product = await ProductByVariant(selectedOption, configProduct.data.products.items[0].variants);
+        const productPrice = await ProductByVariant(selectedOption, dataPrice[0].variants);
         if (product && JSON.stringify(product) !== '{}') {
-            setSelectedProduct({ ...product });
-            handleSelecteProduct({ ...product });
+            setSelectedProduct({
+                ...product,
+                ...productPrice,
+            });
+            handleSelecteProduct({
+                ...product,
+                ...productPrice,
+            });
             const bannerData = [];
             if (product.media_gallery.length > 0) {
                 // eslint-disable-next-line array-callback-return
@@ -92,8 +102,8 @@ const OptionsItemConfig = (props) => {
             }
             setBanner(bannerData);
             setPrice({
-                priceRange: product.price_range,
-                priceTiers: product.price_tiers,
+                priceRange: productPrice.price_range,
+                priceTiers: productPrice.price_tiers,
                 // eslint-disable-next-line no-underscore-dangle
                 productType: product.__typename,
             });
@@ -127,7 +137,7 @@ const OptionsItemConfig = (props) => {
                 // eslint-disable-next-line no-underscore-dangle
                 productType: __typename,
             });
-            setStockStatus('OUT_OF_STOCK');
+            setStockStatus(stock_status);
             handleSelecteProduct({ ...data });
         }
 

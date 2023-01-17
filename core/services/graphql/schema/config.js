@@ -324,6 +324,7 @@ export const storeConfig = `
       payment_travelokapay_bin_whitelist
       snap_client_key
       stripe_config {
+        stripe_enable
         stripe_mode
         test_pk
         live_pk

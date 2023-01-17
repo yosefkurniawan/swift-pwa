@@ -7,7 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const StoreCreditView = (props) => {
     const styles = useStyles();
     const {
-        store_credit, credit, storeConfig, checkout, handleUseCredit, total, t,
+        store_credit, credit, storeConfig, checkout, handleUseCredit, total, t, currencyCache,
     } = props;
     return (
         <div className={styles.cardPoint} id="checkoutUserCredit">
@@ -21,6 +21,7 @@ const StoreCreditView = (props) => {
                             minimumFractionDigits: 0,
                         }),
                         storeConfig.default_display_currency_code,
+                        currencyCache,
                     )}
                 </Typography>
             </div>
