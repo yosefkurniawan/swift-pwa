@@ -8,13 +8,10 @@
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, useReactiveVar } from '@apollo/client';
 import Toast from '@common_toast';
 import { modules, nameCheckoutState } from '@config';
-import {
-    // eslint-disable-next-line comma-dangle
-    getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl
-} from '@core_modules/checkout/helpers/config';
+import { getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '@core_modules/checkout/helpers/config';
 import gqlService from '@core_modules/checkout/services/graphql';
 import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import { getCartId } from '@helpers/cartId';
@@ -32,6 +29,7 @@ import Router from 'next/router';
 import React, { useEffect, useState } from 'react';
 import TagManager from 'react-gtm-module';
 import * as Yup from 'yup';
+import { currencyVar } from '@root/core/services/graphql/cache';
 
 function equalTo(ref, msg) {
     return this.test({
@@ -65,6 +63,9 @@ const Checkout = (props) => {
     };
     const [actUpdatePwaCheckoutLog] = updatePwaCheckoutLog();
     const apolloClient = useApolloClient();
+
+    // cache currency
+    const currencyCache = useReactiveVar(currencyVar);
 
     let { isLogin } = props;
     let pwaCheckoutState = null;
@@ -423,7 +424,7 @@ const Checkout = (props) => {
         if (minimumOrderEnabled && grandTotalValue < minimumOrderAmount) {
             const errorMessage = {
                 variant: 'error',
-                text: `Unable to place order: Minimum order amount is ${formatPrice(minimumOrderAmount)}`,
+                text: `Unable to place order: Minimum order amount is ${formatPrice(minimumOrderAmount, currencyCache)}`,
                 open: true,
             };
             window.toastMessage({
@@ -1343,7 +1344,7 @@ const Checkout = (props) => {
                 <script src="https://js.braintreegateway.com/web/3.78.2/js/paypal-checkout.min.js" />
                 <script type="text/javascript" src="https://js.xendit.co/v1/xendit.min.js" />
             </Head>
-            <Content {...contentProps} {...props} modules={modules} />
+            <Content {...contentProps} {...props} modules={modules} currencyCache={currencyCache} />
             <Toast open={isError} message={t('checkout:cartError')} variant="error" setOpen={setError} />
         </Layout>
     );

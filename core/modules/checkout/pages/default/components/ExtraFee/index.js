@@ -5,7 +5,7 @@ import gqlService from '@core_modules/checkout/services/graphql';
 
 const AdditionSelect = (props) => {
     const {
-        t, checkout, setCheckout, storeConfig, ExtraFeeView,
+        t, checkout, setCheckout, storeConfig, ExtraFeeView, currencyCache,
     } = props;
     const [updateExtraFee] = gqlService.updateExtraFee();
     const { data: { cart }, loading } = checkout;
@@ -120,6 +120,7 @@ const AdditionSelect = (props) => {
                 handleChange={handleChange}
                 loading={loading}
                 cart={cart}
+                currencyCache={currencyCache}
             />
         );
     }

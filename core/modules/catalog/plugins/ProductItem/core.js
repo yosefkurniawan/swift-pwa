@@ -451,7 +451,9 @@ const ProductItem = (props) => {
                                 data={{
                                     ...other,
                                     url_key,
+                                    review,
                                 }}
+                                dataPrice={getPrice()}
                                 showQty={false}
                                 catalogList={catalogList}
                                 handleSelecteProduct={setSpesificProduct}
@@ -536,7 +538,9 @@ const ProductItem = (props) => {
                                         data={{
                                             ...other,
                                             url_key,
+                                            review,
                                         }}
+                                        dataPrice={getPrice()}
                                         showQty={false}
                                         catalogList={catalogList}
                                         handleSelecteProduct={setSpesificProduct}

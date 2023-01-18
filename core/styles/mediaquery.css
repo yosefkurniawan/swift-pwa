@@ -38,7 +38,7 @@
     }
 
     .main-app-v1-sticky-homepage {
-        margin-top: 0rem !important;
+        margin-top: 12rem !important;
     }
 
     .main-app-v1-sticky-not-homepage {
@@ -100,10 +100,6 @@
 
     .main-app-sticky-homepage {
         margin-top: 0rem;
-    }
-
-    .main-app-v1-sticky-homepage {
-        margin-top: 0rem !important;
     }
 
     .main-app-sticky {

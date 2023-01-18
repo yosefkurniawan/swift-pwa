@@ -11,7 +11,7 @@ import Alert from '@material-ui/lab/Alert';
 import useStyles from '@core_modules/order/pages/print/components/TableListItem/style';
 
 const TableListProduct = ({
-    data, t, currency,
+    data, t, currency, currencyCache,
 }) => {
     const styles = useStyles();
     return (
@@ -89,7 +89,7 @@ const TableListProduct = ({
                                             align="right"
                                         >
                                             <Typography variant="span" align="right" letter="capitalize">
-                                                {formatPrice(val.price_incl_tax, currency)}
+                                                {formatPrice(val.price_incl_tax, currency, currencyCache)}
                                             </Typography>
                                         </TableCell>
                                         <TableCell
@@ -103,7 +103,7 @@ const TableListProduct = ({
                                             align="right"
                                         >
                                             <Typography variant="span" align="right" letter="capitalize">
-                                                {formatPrice(val.row_total_incl_tax, currency)}
+                                                {formatPrice(val.row_total_incl_tax, currency, currencyCache)}
                                             </Typography>
                                         </TableCell>
                                     </TableRow>

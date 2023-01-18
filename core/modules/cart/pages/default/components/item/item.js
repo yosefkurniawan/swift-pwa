@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable radix */
 /* eslint-disable no-nested-ternary */
+/* eslint-disable max-len */
 import Image from '@common_image';
 import Typography from '@common_typography';
 import ConfirmationDelete from '@core_modules/cart/pages/default/components/confirmDelete';
@@ -40,6 +41,7 @@ const ItemView = (props) => {
         customizable_options,
         storeConfig = {},
         errorCartItems,
+        currencyCache,
     } = props;
     const styles = useStyles();
 
@@ -123,8 +125,6 @@ const ItemView = (props) => {
         );
     };
 
-    // console.log(product && product);
-
     return (
         <div className={styles.item}>
             <ConfirmationDelete t={t} open={confirmDel} handleDelete={handleDelete} handleCancel={() => setConfirmDel(false)} />
@@ -175,7 +175,7 @@ const ItemView = (props) => {
                                     <div className="option-wrapper__item">
                                         {val.values.map((item, idt) => (
                                             <div key={idt}>
-                                                {item.quantity} x{item.label} <strong>+ ${item.price}</strong>
+                                                {item.quantity} x{item.label} <strong>+ {formatPrice(item.price, 'IDR', currencyCache)}</strong>
                                             </div>
                                         ))}
                                     </div>
@@ -215,7 +215,7 @@ const ItemView = (props) => {
                         {errorCartItems[0]}
                     </Alert>
                 ) : null}
-                <div className={styles.itemPrice}>{formatPrice(prices.price_including_tax.value, prices.price_including_tax.currency)}</div>
+                <div className={styles.itemPrice}>{formatPrice(prices.price_including_tax.value, prices.price_including_tax.currency, currencyCache)}</div>
             </div>
 
             <div className={styles.itemActions}>

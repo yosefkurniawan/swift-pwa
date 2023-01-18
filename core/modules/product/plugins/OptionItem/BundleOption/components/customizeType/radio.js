@@ -3,7 +3,7 @@
 import { formatPrice } from '@helper_currency';
 
 const Radio = ({
-    val, selectOptions, data,
+    val, selectOptions, data, currencyCache,
 }) => (
     <div className="options-container">
         <input
@@ -20,7 +20,7 @@ const Radio = ({
             htmlFor={val.id}
             dangerouslySetInnerHTML={{
                 __html: `${val.label} + <b>${formatPrice(val.product.price_range.minimum_price.final_price.value,
-                    val.product.price_range.minimum_price.final_price.currency)}</b>`,
+                    val.product.price_range.minimum_price.final_price.currency, currencyCache)}</b>`,
             }}
         />
         <br />

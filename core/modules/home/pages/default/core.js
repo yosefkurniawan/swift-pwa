@@ -12,6 +12,7 @@ const HomeCore = (props) => {
     const { pageConfig, storeConfig, ...other } = props;
 
     const homeKey = keyLocalStorage.home;
+    const useCms = storeConfig?.pwa?.use_cms_page_enable;
 
     if (typeof window !== 'undefined' && storeConfig) {
         const appCurrency = Cookies.get('app_currency');
@@ -54,9 +55,16 @@ const HomeCore = (props) => {
     };
 
     return (
-        <Layout {...props} pageConfig={config} isHomepage>
-            <Content storeConfig={storeConfig} homePageConfig={{ storeConfig }} {...other} />
-        </Layout>
+        <>
+            {
+                useCms ? <Content cmsHome={config} storeConfig={storeConfig} homePageConfig={{ storeConfig }} {...other} />
+                    : (
+                        <Layout {...props} pageConfig={config} isHomepage>
+                            <Content storeConfig={storeConfig} homePageConfig={{ storeConfig }} {...other} />
+                        </Layout>
+                    )
+            }
+        </>
     );
 };
 

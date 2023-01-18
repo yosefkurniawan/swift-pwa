@@ -15,7 +15,7 @@ const Content = (props) => {
         ItemView, CrossSellView, CheckoutDrawerView, dataCart, t, handleFeed,
         toggleEditMode, editMode, deleteItem, toggleEditDrawer, crosssell, errorCart,
         EditDrawerView, editItem, openEditDrawer, updateItem, SummaryView, PromoModalItemView, handleAddPromoItemToCart,
-        applyCoupon, removeCoupon, storeConfig,
+        applyCoupon, removeCoupon, storeConfig, currencyCache,
         ...other
     } = props;
     const errorCartItems = dataCart?.errorItems?.length > 0;
@@ -27,7 +27,7 @@ const Content = (props) => {
         if (minimumOrderEnabled && grandTotalValue < minimumOrderAmount) {
             const errorMessage = {
                 variant: 'error',
-                text: `Unable to place order: Minimum order amount is ${formatPrice(minimumOrderAmount)}`,
+                text: `Unable to place order: Minimum order amount is ${formatPrice(minimumOrderAmount, currencyCache)}`,
                 open: true,
             };
             window.toastMessage({
@@ -53,6 +53,7 @@ const Content = (props) => {
                     handleFeed={handleFeed}
                     toggleEditDrawer={toggleEditDrawer}
                     storeConfig={storeConfig}
+                    currencyCache={currencyCache}
                 />
                 <CrossSell dataCart={dataCart} {...props} editMode={editMode} View={CrossSellView} />
                 {editItem.id ? (

@@ -12,11 +12,12 @@ import formatDate from '@helper_date';
 import Alert from '@material-ui/lab/Alert';
 import Layout from '@layout_customer';
 import useStyles from '@core_modules/rewardpoint/pages/default/style';
+import { formatPrice } from '@helper_currency';
 
 const DefaultView = (props) => {
     const styles = useStyles();
     const {
-        data, t, loading, getPath, getId, rowsPerPage, page, handleChangePage, handleChangeRowsPerPage,
+        data, t, loading, getPath, getId, rowsPerPage, page, handleChangePage, handleChangeRowsPerPage, currencyCache,
     } = props;
     return (
         <Layout {...props}>
@@ -29,7 +30,13 @@ const DefaultView = (props) => {
                 <Typography variant="p">
                     {t('rewardpoint:canbeTitle')}
                     {' '}
-                    <Typography variant="span" type="bold">{data.formatedBalanceCurrency || ''}</Typography>
+                    <Typography variant="span" type="bold">
+                        {formatPrice(
+                            data.balanceCurrency,
+                            'IDR',
+                            currencyCache,
+                        )}
+                    </Typography>
                 </Typography>
                 <Typography variant="p">
                     {t('rewardpoint:learnMore').split('$')[0]}

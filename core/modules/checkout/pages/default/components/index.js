@@ -69,6 +69,7 @@ const Content = (props) => {
         setCheckoutTokenState,
         setLoadingSellerInfo,
         loadingSellerInfo,
+        currencyCache,
     } = props;
 
     const styles = useStyles();
@@ -213,6 +214,7 @@ const Content = (props) => {
                         setCheckoutTokenState={setCheckoutTokenState}
                         setLoadingSellerInfo={setLoadingSellerInfo}
                         loadingSellerInfo={loadingSellerInfo}
+                        currencyCache={currencyCache}
                     />
 
                     <div className={classNames(styles.block)}>
@@ -229,6 +231,7 @@ const Content = (props) => {
                                     t={t}
                                     storeConfig={storeConfig}
                                     ExtraFeeView={ExtraFeeView}
+                                    currencyCache={currencyCache}
                                 />
                             ) : null}
                             {modules.promo.enabled ? (
@@ -267,6 +270,7 @@ const Content = (props) => {
                                         formik={formik}
                                         storeConfig={storeConfig}
                                         RewardPointView={RewardPointView}
+                                        currencyCache={currencyCache}
                                     />
                                 </div>
                             ) : null}
@@ -280,6 +284,7 @@ const Content = (props) => {
                                         formik={formik}
                                         storeConfig={storeConfig}
                                         StoreCreditView={StoreCreditView}
+                                        currencyCache={currencyCache}
                                     />
                                 </div>
                             ) : null}

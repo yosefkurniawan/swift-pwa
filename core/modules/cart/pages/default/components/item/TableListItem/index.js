@@ -34,7 +34,7 @@ import { useFormik } from 'formik';
 import Link from 'next/link';
 import React from 'react';
 
-const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, storeConfig = {} }) => {
+const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, storeConfig = {}, currencyCache, }) => {
     const styles = useStyles();
     const [confirmDel, setConfirmDel] = React.useState(false);
     const [selectDelete, setSelectDelet] = React.useState(null);
@@ -276,7 +276,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                                         <div className="option-wrapper__item">
                                                                             {value.values.map((item, idt) => (
                                                                                 <div key={idt}>
-                                                                                    {item.quantity} x{item.label} <strong>+ ${item.price}</strong>
+                                                                                    {item.quantity} x{item.label} <strong>+ {formatPrice(item.price, 'IDR', currencyCache)}</strong>
                                                                                 </div>
                                                                             ))}
                                                                         </div>
@@ -292,7 +292,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                                         <div className="option-wrapper__item">
                                                                             {bundle.values.map((item, idt) => (
                                                                                 <div key={idt}>
-                                                                                    {item.quantity} x{item.label} <strong>+ ${item.price}</strong>
+                                                                                    {item.quantity} x{item.label} <strong>+ {formatPrice(item.price, 'IDR', currencyCache)}</strong>
                                                                                 </div>
                                                                             ))}
                                                                         </div>
@@ -321,7 +321,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                         <Typography variant="span" align="right" letter="capitalize">
                                                             {formatPrice(
                                                                 val.prices?.price_including_tax?.value || 0,
-                                                                val.prices?.price_including_tax?.currency || 'IDR'
+                                                                val.prices?.price_including_tax?.currency || 'IDR',
+                                                                currencyCache
                                                             )}
                                                         </Typography>
                                                     </TableCell>
@@ -334,7 +335,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                         <Typography variant="span" align="right" letter="capitalize">
                                                             {formatPrice(
                                                                 val.prices.row_total_including_tax.value,
-                                                                val.prices.row_total_including_tax.currency
+                                                                val.prices.row_total_including_tax.currency,
+                                                                currencyCache
                                                             )}
                                                         </Typography>
                                                     </TableCell>
@@ -550,7 +552,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                                 <Typography variant="span" align="right" letter="capitalize">
                                                                     {formatPrice(
                                                                         val.prices?.price_including_tax?.value || 0,
-                                                                        val.prices?.price_including_tax?.currency || 'IDR'
+                                                                        val.prices?.price_including_tax?.currency || 'IDR',
+                                                                        currencyCache
                                                                     )}
                                                                 </Typography>
                                                             </TableCell>
@@ -568,7 +571,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                                 <Typography variant="span" align="right" letter="capitalize">
                                                                     {formatPrice(
                                                                         val.prices.row_total_including_tax.value,
-                                                                        val.prices.row_total_including_tax.currency
+                                                                        val.prices.row_total_including_tax.currency,
+                                                                        currencyCache
                                                                     )}
                                                                 </Typography>
                                                             </TableCell>

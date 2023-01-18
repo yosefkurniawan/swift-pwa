@@ -4,13 +4,9 @@ This is SwiftPWA base project bootstrapped with [Next.js](https://nextjs.org/).
 
 Demo: [https://pwa.getswift.asia/](https://pwa.getswift.asia/)
 
-Roadmap: [Click here](https://bit.ly/swift-timeline)
-
 Release Note: [Click here](https://github.com/icubeus/swift-pwa/releases)
 
 Latest Stable Version branch: `master` (for more version, please check tags)
-
-Development branch: `develop-v2`
 
 Launching Checklist:
 - [Full PWA mode Checklist](https://teamwork.icubeonline.com/#/projects/120618/notebooks/354196) 
@@ -18,11 +14,12 @@ Launching Checklist:
 
 ## Requirements
 - NodeJS v14 or higher
+- Each Swift PWA version depends on certain SWIFT Magento version. Please see the [release notes](https://github.com/icubeus/swift-pwa/releases) for the dependency.
 
 ## Pre-Installation
-### Setup Host and Graphql Endpoint
+### Configurations
 1. Open file [swift.config.js](swift.config.js)
-2. Edit the host of each environment at thes lines:
+2. Edit the host of each environment at these lines:
 ```
 const HOST = {
     local: 'http://localhost:3000'
@@ -40,22 +37,12 @@ const graphqlEndpoint = {
     prod: '[gql endpoint for prod]',
 };
 ```
-4. Setup `.env`. See [Setup Environment](#authorization-key) section for more details.
-```
-ACCESS_KEY="YOUR_ACCESS_KEY"
-ENCRYPTION_KEY=TXAjwm8k53PJG9NacLbyZavvQB2qBh43
-ALGORITHM=aes-256-cbc
-FCM_KEY_SERVER=
-FCM_TOPIC=notificationspwa
-SESSION_SECRET=asdasdd1212ads12!!!@**DADxx1
-NEXT_PUBLIC_ENCRYPTION_KEY=TXAjwm8k53PJG9NacLbyZavvQB2qBh43
-NEXT_PUBLIC_ALGORITHM=aes-256-cbc
-```
-5. **IMPORTANT** : Please make sure to run `pm2 restart {PROCESS_ID} --update-env` after updating .env file! Otherwise, new configurations will not work!
+4. Setup environment variables in `.env`. See [Environment Variables](##environment-variables) section for more details.
+5. Run / Restart the PWA <br />
 
 ## Installation
-You can run SwiftPWA with or without docker.
-### Without Docker
+You can run the PWA manually run the command or using pm2.
+### Manually run the command
 #### Dev mode
 1. Build static assets (do once only for the first time)
 ```
@@ -90,26 +77,12 @@ yarn local:start
 
 3. Open [http://localhost:3000](http://localhost:3000) on browser to see the frontend.
 
-### With Docker
-#### Local environment (dev mode): 
-1. build: `docker-compose -f ./docker/local/docker-compose.yml build`
-2. run: `docker-compose -f ./docker/local/docker-compose.yml up`
-
-
-Alternatively, build and run in one step: `docker-compose -f ./docker/local/docker-compose.yml up --build`
-
-
-#### Dev environment (prod mode): 
-1. build: `docker-compose -f ./docker/dev/docker-compose.yml build`
-2. run: `docker-compose -f ./docker/dev/docker-compose.yml up`
-
-Alternatively, build and run in one step: `docker-compose -f ./docker/dev/docker-compose.yml up --build`
-
-#### Prod environment (prod mode):
-1. build: `docker-compose build`
-2. run: `docker-composer up`
-
-Alternatively, build and run in one step: `docker-compose up --build`
+### Using [PM2](https://pm2.keymetrics.io/)
+PM2 is usually used in dev site environment.
+The steps are same with the previous one. The only different is on the step number 2. Wrap the command in step number 2 with pm2 command, example:
+```
+pm2 start yarn --name "[project-name]" --interpreter bash -- dev:start
+```
 
 ## The SwiftPWA Cores
 ### Modules
@@ -121,25 +94,10 @@ Click [here](core/lib/readme.md) for more detail.
 ### Public
 Click [here](core/public/readme.md) for more detail.
 
-# Overriding
-Do not ever touch files under under [core](core) folder!
-Do override in [src](src) folder instead!
-
-# PWA Config
-Since version 2.5.0 Swift PWA must be get any config from graphql where config can be change from backoffice magento. Detail documentation can be read at [here](https://docs.google.com/document/d/1DaZhkHjANgPfISH8eHS7T2njNCQhty1uORHTZ9fYIDk)
-
-# Note for version <= 2.4.9
-
-## Homepage Setup
-By default, Swift PWA comes with hardcode contents which are sliders, highlighted products list, and highlighted categories.
-But we recommend to use CMS Page instead.
-To do so please follow this step:
-1. Download the sample CMS page from [here](sample/pwa-homepage.csv), then upload/import on Magento backoffice using Firebear feature
-2. Update the Swift PWA swift.config.js
-    - home ▸ useCmsPage ▸ enable = true
-    - home ▸ useCmsPage ▸ identifier = "pwa-homepage" or any CMS identifier you created for PWA Homepage.
-
-
+# Rules of the Game 🚨
+**For project team**, do not ever touch files under under [core](core) folder!
+Instead, please create `src` folder in the root (if not exists) then put all custom (including overriden files) in this `src` folder.
+Otherwise, you could have problems when the time you upgrade the version.
 
 # Patches
 ### How to apply patch file for swift pwa project
@@ -156,22 +114,14 @@ patch -p1 --forward < patches/fix_loadmore_plp.patch || true
 
 ```
 
-# Authorization Key
-Authorization key is a key that retrieved from Backoffice to get sensitive store configurations such as traveloka API key, xendit key, paypal key, etc for PWA
-### How to get authorization key for Swift PWA project
+# Environment Variables
+Environment varibales are variables that defined in the server side. The typical information of variable environment is only for sensitive informations which will no editable by the user admin, such as Magento integration key, encription key, etc. Otherwise, configurations are stored in swift.config.js or Magento Backoffice.
 
-1. Open backoffice
-2. Click on systems menu
-3. Click on integrations menu
-4. Click on add new integration
-5. Fill in the name and current user identity verification (this is backoffice account/admin password)
-6. On the API section, select resource access to "All"
-7. Click save
-8. And then on the Integrations list, click "Activate" on the key you just created
-9. Click Allow
-10. Copy the "Access Token" part
-11. Create `.env` file in root PWA project
-11. Open `.env` file and add the key on with definer `ACCESS_KEY` example like below
+**For local or dev site**, you can create `.env` file by duplicating `.env.example` file. This file contains the the default environment variables that are used by Swift PWA.
+
+**For staging and production**, it requires infra's help. Please reach out the infra team to set the variables for each staging and production. Note: the values could be different between staging and production, such as the ACCESS_KEY.
+
+Default environment variables in `.env.example`:
 ```
 ACCESS_KEY="YOUR_ACCESS_KEY"
 ENCRYPTION_KEY=TXAjwm8k53PJG9NacLbyZavvQB2qBh43
@@ -183,8 +133,8 @@ NEXT_PUBLIC_ENCRYPTION_KEY=TXAjwm8k53PJG9NacLbyZavvQB2qBh43
 NEXT_PUBLIC_ALGORITHM=aes-256-cbc
 ```
 
-Explanation :
-1. ACCESS_KEY = Authorization key to fetch storeConfig (required)
+Explanations:
+1. ACCESS_KEY = This is a key that is generated by Magento (Backoffice > Systems > Integration). This key is mandatory for PWA to get store configurations from Magento via graphql. GQL query storeConfig requires this key for security purpose. The generated key could be different between Magento dev, staging, and production.
 2. ENCRYPTION_KEY = Encryption key to encrypt sensitive data (required)
 3. ALGORITHM = Encryption algorithm (required)
 4. FCM_KEY_SERVER = Firebase server key (optional)
@@ -193,13 +143,27 @@ Explanation :
 7. NEXT_PUBLIC_ENCRYPTION_KEY = Encryption key to encrypt sensitive data (required) -> This is for client side usage, consider make this different from the server side one (`ENCRYPTION_KEY`)
 8. NEXT_PUBLIC_ALGORITHM = Encryption algorithm (required) -> This is for client side usage, consider make this different from the server side one (`ALGORITHM`)
 
-### IMPORTANT NOTICE
-Please make sure to run `pm2 restart {PROCESS_ID} --update-env` after updating .env file! Otherwise, new configurations will not work!
+# HIGHLIGHT RELEASE
+## Version 2.5.0
+### Moving configurations from swift.config.js to Magento Backoffice
+Many Configurations are moved from swift.config.js into Magento Backoffice. Click [here](https://docs.google.com/document/d/1DaZhkHjANgPfISH8eHS7T2njNCQhty1uORHTZ9fYIDk) for more details.
 
-# Note for version >=2.6.2
-## Store Config Setup
-To optimize memory usage in swift PWA, store config will be stored in a JSON file (config.json) and called through an internal request
-### How to create config.json file
-#### Local mode:
+## Version 2.6.0
+### Support Multiseller feature
+This feature allow customer to split their checkout into several orders by the seller. The items in cart will be grouped by same seller.
+
+## Version 2.6.2
+### Store Configuration Setup
+To optimize memory usage in swift PWA, store config will be cached in PWA server side by storing it in a JSON file (config.json). This file will only be generated when the PWA request the storeConfig query to Magento GQL. 
+There are 2 ways to trigger this process (generating   config.json):
+#### 1: Hit the API manually (Will be usefull for local environment)
 1. Run the project
-2. Hit endpoint `{host}/generate-config` with headers Authorization `Bearer {ENCRYPTION_KEY}` (you can use postman to do this). The encryption key value is from .env file with definer `ENCRYPTION_KEY`
+2. Hit endpoint `{host}/generate-config` with headers Authorization `Bearer {ENCRYPTION_KEY}` (you can use postman to do this). The encryption key value is from .env file with varibale `ENCRYPTION_KEY`
+#### 2: From Magento Backoffice
+1. Go to Backoffice > Systems > Cache Management
+2. Click "Refresh PWA Configuration" button. 
+
+## Version 2.6.3
+### Support new deployment approach
+In the new deployment approach, the project/custom files will be put into different repo.
+Use this repo as template for project repo: https://github.com/icube-mage/swift-pwa-demo

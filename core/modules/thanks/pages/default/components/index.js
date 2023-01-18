@@ -26,6 +26,7 @@ const View = (props) => {
         handleConfirmPayment,
         bankList,
         paymentInformation,
+        currencyCache,
     } = props;
     const styles = useStyles();
     const goToRegisterPage = () => {
@@ -76,7 +77,7 @@ const View = (props) => {
                 </Typography>
                 <Typography variant="span" className="clear-margin-padding" letter="none">
                     {`${t('thanks:amount')} : `}
-                    {ordersFilter && formatPrice(ordersFilter.data[0].detail[0].grand_total, storeConfig.base_currency_code || 'IDR')}
+                    {ordersFilter && formatPrice(ordersFilter.data[0].detail[0].grand_total, storeConfig.base_currency_code || 'IDR', currencyCache)}
                 </Typography>
             </div>
             {ordersFilter && ordersFilter.data[0].detail[0].payment.method === 'banktransfer' ? (

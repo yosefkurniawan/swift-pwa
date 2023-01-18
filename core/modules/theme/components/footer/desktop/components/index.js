@@ -186,6 +186,7 @@ const FooterView = (props) => {
                         margin-bottom: 6px;
                         height: unset;
                         color: #575757;
+                        z-index: unset;
                     }
 
                     .footer-v1-content .links li a {
