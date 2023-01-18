@@ -4,7 +4,7 @@ const { print } = require('graphql');
 const { wrapSchema, introspectSchema } = require('@graphql-tools/wrap');
 const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
 const { decrypt } = require('../../../helpers/encryption');
-const { getAppEnv } = require('../../../helpers/env');
+const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
 
 const executor = async ({ document, variables, context }) => {
     try {
@@ -30,6 +30,9 @@ const executor = async ({ document, variables, context }) => {
         if (token && token !== '') {
             additionalHeader.Authorization = `Bearer ${decrypt(token)}`;
         }
+
+        additionalHeader.Authentication = `Bearer ${getAccessEnv()}`;
+
         if (checkoutToken && checkoutToken !== '') {
             additionalHeader['Checkout-Token'] = `${decrypt(checkoutToken)}`;
         }

@@ -99,8 +99,9 @@ const features = {
     ssrCache: false,
     magezon: {
         instagramFeed: {
-            // eslint-disable-next-line max-len
-            urlGraph: 'https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=',
+            urlGraph:
+                // eslint-disable-next-line max-len
+                'https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=',
         },
         keyStorage: 'mgz_ig_token',
     },
@@ -122,6 +123,15 @@ const features = {
         BundleProduct: true,
         DownloadableProduct: false,
         AwGiftCardProduct: true,
+    },
+    chatSystem: {
+        enable: false,
+        graphqlEndpoint: {
+            local: '', // sample: 'https://chat-swift.testingnow.me/graphql',
+            dev: '', // sample: 'https://chat-swift.testingnow.me/graphql',
+            stage: '', // sample: 'https://chat-swift.testingnow.me/graphql',
+            prod: '', // sample: 'https://chat-swift.testingnow.me/graphql',
+        },
     },
     firebase: {
         config: {
@@ -249,7 +259,7 @@ const modules = {
         },
         xendit: {
             paymentPrefixCodeOnSuccess: ['alfamart', 'bcava', 'briva', 'bniva', 'mandiriva', 'permatava', 'indomaret'],
-            paymentPrefixCode: ['cc', 'cc_subscription', 'dana', 'ovo', 'linkaja', 'qr_codes', 'dd_bri', 'kredivo'],
+            paymentPrefixCode: ['cc', 'cc_subscription', 'dana', 'ovo', 'linkaja', 'qr_codes', 'dd_bri', 'kredivo', 'qris'],
         },
     },
     cart: {

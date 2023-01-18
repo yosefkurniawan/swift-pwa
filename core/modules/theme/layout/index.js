@@ -6,7 +6,8 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable max-len */
 
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, useReactiveVar } from '@apollo/client';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 import classNames from 'classnames';
 import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
@@ -15,15 +16,16 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import TagManager from 'react-gtm-module';
 // eslint-disable-next-line object-curly-newline
-import { assetsVersion, custDataNameCookie, debuging, features, modules, storeConfigNameCookie } from '@config';
+import { assetsVersion, custDataNameCookie, debuging, features, modules } from '@config';
 import { createCompareList } from '@core_modules/product/services/graphql';
 import useStyles from '@core_modules/theme/layout/style';
 import { getAppEnv } from '@helpers/env';
 import { getHost } from '@helper_config';
 import { getCookies, setCookies } from '@helper_cookies';
-import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import { breakPointsDown, breakPointsUp } from '@helper_theme';
 import crypto from 'crypto';
+import Fab from '@material-ui/core/Fab';
+import ChatIcon from '@material-ui/icons/Chat';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
 import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
@@ -44,11 +46,9 @@ const RestrictionPopup = dynamic(() => import('@common_restrictionPopup'), { ssr
 const NewsletterPopup = dynamic(() => import('@core_modules/theme/components/newsletterPopup'), { ssr: false });
 const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/recentlyViewed'), { ssr: false });
 
-const fromEntriesPolyfills = (iterable) => [...iterable].reduce((obj, [key, val]) => {
-        // eslint-disable-next-line no-param-reassign
-        obj[key] = val;
-        return obj;
-    }, {});
+// CHAT FEATURES IMPORT
+const ChatContent = dynamic(() => import('@core_modules/customer/plugins/ChatPlugin'), { ssr: false });
+// END CHAT FEATURES IMPORT
 
 const Layout = (props) => {
     const bodyStyles = useStyles();
@@ -76,6 +76,7 @@ const Layout = (props) => {
         isBlp = false,
         isCheckout = false,
         isLoginPage = false,
+        isShowChat = true,
     } = props;
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
@@ -91,6 +92,7 @@ const Layout = (props) => {
     const [restrictionCookies, setRestrictionCookies] = useState(false);
     const [showGlobalPromo, setShowGlobalPromo] = React.useState(false);
     const [setCompareList] = createCompareList();
+    const frontendCache = useReactiveVar(storeConfigVar);
 
     // get app name config
 
@@ -164,8 +166,8 @@ const Layout = (props) => {
 
     if (!ogData['og:image']) {
         ogData['og:image'] = storeConfig.header_logo_src
-        ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
-        : `${getHost()}/assets/img/swift-logo.png` || '';
+            ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
+            : `${getHost()}/assets/img/swift-logo.png` || '';
     }
 
     if (!ogData['og:url']) {
@@ -295,28 +297,9 @@ const Layout = (props) => {
         styles.marginTop = 0;
     }
 
-    if (typeof window !== 'undefined' && storeConfig) {
-        const arrayStoreConfig = Object.entries(storeConfig);
-        // eslint-disable-next-line no-unused-vars, consistent-return, array-callback-return
-        const filteredStoreConfig = arrayStoreConfig.filter(([key, value]) => {
-            if (
-                key !== 'snap_is_production' &&
-                key !== 'snap_client_key' &&
-                key !== 'firebase_api_key' &&
-                key !== 'paypal_key' &&
-                key !== 'swift_server' &&
-                !key.includes('payment_travelokapay_')
-            ) {
-                return true;
-            }
-        });
-        const excludePrivateStoreConfig = fromEntriesPolyfills(filteredStoreConfig);
-        setLocalStorage(storeConfigNameCookie, excludePrivateStoreConfig);
-    }
-
     useEffect(() => {
         if (storeConfig && storeConfig.pwa && typeof window !== 'undefined') {
-            const pwaConfig = getLocalStorage('frontend_options').pwa;
+            const pwaConfig = frontendCache.pwa;
 
             const stylesheet = document.createElement('style');
             const fontStylesheet = document.createElement('link');
@@ -324,11 +307,15 @@ const Layout = (props) => {
 
             if (pwaConfig) {
                 // eslint-disable-next-line max-len
-                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.default_font ? pwaConfig.default_font.replace(' ', '-') : 'Montserrat'}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${
+                    pwaConfig.default_font ? pwaConfig.default_font.replace(' ', '-') : 'Montserrat'
+                }:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
                 fontStylesheet.id = 'font-stylesheet-id';
                 fontStylesheet.rel = 'stylesheet';
                 // eslint-disable-next-line max-len
-                fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${pwaConfig.heading_font ? pwaConfig.heading_font.replace(' ', '-') : 'Montserrat'}:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
+                fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${
+                    pwaConfig.heading_font ? pwaConfig.heading_font.replace(' ', '-') : 'Montserrat'
+                }:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
                 fontStylesheetHeading.id = 'font-stylesheet-heading-id';
                 fontStylesheetHeading.rel = 'stylesheet';
                 stylesheet.innerHTML = frontendConfig(pwaConfig);
@@ -450,10 +437,7 @@ const Layout = (props) => {
     return (
         <>
             <Head>
-                <meta
-                    name="keywords"
-                    content={metaKeywordValue}
-                />
+                <meta name="keywords" content={metaKeywordValue} />
                 <meta name="robots" content={appEnv === 'prod' && storeConfig.pwa ? storeConfig.pwa.default_robot : 'NOINDEX,NOFOLLOW'} />
                 <link rel="apple-touch-icon" href={iconAppleTouch} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -463,10 +447,10 @@ const Layout = (props) => {
                 {Object.keys(ogData).map((key, idx) => {
                     let valueWithMeta = ogData[key];
                     if (key === 'og:description') {
-                           valueWithMeta = metaDescValue;
+                        valueWithMeta = metaDescValue;
                     }
                     if (key === 'og:title') {
-                           valueWithMeta = metaTitleValue;
+                        valueWithMeta = metaTitleValue;
                     }
                     if (typeof ogData[key] === 'object' && ogData[key].type && ogData[key].type === 'meta') {
                         valueWithMeta = ogData[key].value;
@@ -545,12 +529,27 @@ const Layout = (props) => {
                     setOpen={handleCloseMessage}
                     message={state.toastMessage.text}
                 />
-                {storeConfig.weltpixel_newsletter_general_enable === '1' && (
+                {!isHomepage && storeConfig.weltpixel_newsletter_general_enable === '1' && (
                     <NewsletterPopup t={t} storeConfig={storeConfig} pageConfig={pageConfig} isLogin={isLogin} />
                 )}
                 {children}
                 {desktop ? <ScrollToTop {...props} /> : null}
             </main>
+
+            {/* CHAT FEATURES */}
+            {features.chatSystem.enable && isShowChat && (
+                <div className={bodyStyles.chatPlugin}>
+                    {isLogin ? (
+                        <ChatContent />
+                    ) : (
+                        <Fab color="primary" size="medium" onClick={() => router.push(`${getHost()}/customer/account/login`)} className={bodyStyles.buttonChat}>
+                            <ChatIcon className={bodyStyles.chatIcon} />
+                        </Fab>
+                    )}
+                </div>
+            )}
+            {/* END CHAT FEATURES */}
+
             {withLayoutFooter && (
                 <footer className={bodyStyles.footerContainer} ref={refFooter}>
                     <div className="hidden-mobile">

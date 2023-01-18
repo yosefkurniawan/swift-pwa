@@ -2,14 +2,13 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/alt-text */
 import useStyles from '@core_modules/theme/components/header/desktop/components/autocomplete/style';
-import { formatPrice } from '@helper_currency';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import classNames from 'classnames';
 
 const OptionsItem = (props) => {
     const styles = useStyles();
     const {
-        name, type, position, small_image, price_range, breadcrumbs, logo, city, seller_name,
+        name, type, position, small_image, breadcrumbs, logo, city, seller_name,
     } = props;
     const citySplit = city?.split(',');
     let breadcrumbsText = '';
@@ -35,9 +34,6 @@ const OptionsItem = (props) => {
                             <div className={styles.titleSeller}>{seller_name}</div>
                         </div>
                     )}
-                    <div className={styles.price}>
-                        {formatPrice(price_range.minimum_price.final_price.value, price_range.minimum_price.final_price.currency)}
-                    </div>
                 </div>
             ) : null}
             {type === 'category' ? (

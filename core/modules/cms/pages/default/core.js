@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import Layout from '@layout';
 import { getCmsPage } from '@core_modules/cms/services/graphql';
 import Content from '@core_modules/cms/pages/default/components';
@@ -29,9 +30,9 @@ const CmsSlug = (props) => {
         header: 'relative', // available values: "absolute", "relative", false (default)
         ogContent,
     };
-
+    const isHome = pageConfig?.pageType;
     return (
-        <Layout {...props} pageConfig={pageConfig || Config} data={data} isCms>
+        <Layout {...props} pageConfig={pageConfig || Config} data={data} isCms={isHome != 'home'} isHomepage={isHome == 'home'}>
             {other.storeConfig.pwa.use_cms_page_enable ? <h1 style={{ display: 'none' }}>{Config.title}</h1> : null}
             <Content data={data} t={t} loading={loading} error={error} {...other} />
         </Layout>

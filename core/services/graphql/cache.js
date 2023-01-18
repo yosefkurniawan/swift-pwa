@@ -8,6 +8,15 @@ export const currencyVar = makeVar({
     appCurrency: undefined,
 });
 
+export const priceVar = makeVar({});
+
+export const cmsPageVar = makeVar({});
+
+export const storeConfigVar = makeVar({});
+
 export default {
     currencyVar,
+    priceVar,
+    storeConfigVar,
+    cmsPageVar,
 };

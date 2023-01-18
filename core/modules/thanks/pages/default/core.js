@@ -3,6 +3,8 @@
 import { debuging } from '@config';
 import { getOrder, getPaymentBankList, getPaymentInformation } from '@core_modules/thanks/services/graphql';
 import { getCheckoutData, removeCheckoutData } from '@helper_cookies';
+import { useReactiveVar } from '@apollo/client';
+import { currencyVar } from '@root/core/services/graphql/cache';
 import Layout from '@layout';
 import Router from 'next/router';
 import * as React from 'react';
@@ -19,6 +21,9 @@ const PageStoreCredit = (props) => {
         pageType: 'purchase',
         ...pageConfig,
     };
+
+    // cache currency
+    const currencyCache = useReactiveVar(currencyVar);
 
     const { data, loading, error } = getOrder(typeof checkoutData === 'string' ? JSON.parse(checkoutData) : checkoutData);
     const [getBankList, { data: bankList, error: errorBankList }] = getPaymentBankList();
@@ -192,6 +197,7 @@ const PageStoreCredit = (props) => {
                     handleConfirmPayment={handleConfirmPayment}
                     bankList={bankList.getPaymentBankList}
                     paymentInformation={paymentInformation}
+                    currencyCache={currencyCache}
                 />
             </Layout>
         );

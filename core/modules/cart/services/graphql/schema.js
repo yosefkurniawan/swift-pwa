@@ -471,6 +471,10 @@ export const getMiniCart = gql`
                   value
                   currency
                 }
+                price_including_tax {
+                  value
+                  currency
+                }
                 row_total_including_tax {
                   currency
                   value

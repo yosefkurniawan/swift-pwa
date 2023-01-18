@@ -18,6 +18,7 @@ const Shipping = (props) => {
         setCheckoutTokenState,
         setLoadingSellerInfo,
         loadingSellerInfo,
+        currencyCache,
     } = props;
 
     const { loading, data, selected } = checkout;
@@ -390,6 +391,7 @@ const Shipping = (props) => {
             isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
             setLoadingSellerInfo={setLoadingSellerInfo}
             loadingSellerInfo={loadingSellerInfo}
+            currencyCache={currencyCache}
         />
     );
 };

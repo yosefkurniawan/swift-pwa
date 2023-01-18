@@ -1,6 +1,7 @@
+import { useReactiveVar } from '@apollo/client';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 import useStyles from '@common_textfield/style';
 import Typography from '@common_typography';
-import { getLocalStorage } from '@helper_localstorage';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
@@ -28,8 +29,7 @@ const CustomTextField = ({
 }) => {
     const styles = useStyles();
     const customClass = classNames(styles.container, className);
-
-    const pwaConfig = getLocalStorage('pwa_config');
+    const pwaConfig = useReactiveVar(storeConfigVar);
 
     let customTextFieldInput = (
         <FormControl disabled={disabled || loading} fullWidth={fullWidth} error={error} variant={variant} className={customClass}>

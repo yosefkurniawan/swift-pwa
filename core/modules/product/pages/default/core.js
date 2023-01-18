@@ -1,13 +1,17 @@
 /* eslint-disable array-callback-return */
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { debuging, features, modules } from '@config';
 import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
 import Header from '@core_modules/product/pages/default/components/header';
 import Loading from '@core_modules/product/pages/default/components/Loader';
 import {
-    addProductsToCompareList, addWishlist as mutationAddWishlist, getProduct,
-    // eslint-disable-next-line comma-dangle
-    getProductLabel, getSeller, smartProductTabs
+    addProductsToCompareList,
+    addWishlist as mutationAddWishlist,
+    getProduct,
+    getProductLabel,
+    getSeller,
+    getProductPrice,
+    smartProductTabs,
 } from '@core_modules/product/services/graphql';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { getCookies } from '@helper_cookies';
@@ -19,13 +23,13 @@ import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React from 'react';
 import TagManager from 'react-gtm-module';
+import { priceVar, currencyVar } from '@root/core/services/graphql/cache';
 
 const ContentDetail = ({
-    t, product, keyProduct, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig,
+    t, product, keyProduct, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig, dataPrice, loadPrice, errorPrice, currencyCache,
 }) => {
     const item = product.items[keyProduct];
     const route = useRouter();
-
     const reviewValue = parseInt(item.review.rating_summary, 0) / 20;
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
     const [addProductCompare] = addProductsToCompareList();
@@ -55,17 +59,29 @@ const ContentDetail = ({
         }
     }, [isLogin, dataUid]);
 
+    const [showChat, setShowChat] = React.useState(false);
+    const handleChat = () => {
+        if (isLogin && isLogin === 1) {
+            setShowChat(!showChat);
+        } else {
+            window.toastMessage({
+                open: true,
+                variant: 'warning',
+                text: 'to continue chat, please log in first',
+            });
+        }
+    };
+
     React.useEffect(() => {
         let categoryProduct = '';
         let categoryOne = '';
         // eslint-disable-next-line no-unused-expressions
-        item.categories.length > 0 && (
-            categoryOne = item.categories[0].name,
+        item.categories.length > 0
+            && ((categoryOne = item.categories[0].name),
             item.categories.map(({ name }, indx) => {
                 if (indx > 0) categoryProduct += `/${name}`;
                 else categoryProduct += name;
-            })
-        );
+            }));
         // GTM UA dayaLayer
         const tagManagerArgs = {
             dataLayer: {
@@ -444,6 +460,9 @@ const ContentDetail = ({
             setOpenDrawer={setOpenDrawer}
             breadcrumbsData={breadcrumbsData}
             price={price}
+            loadPrice={loadPrice}
+            errorPrice={errorPrice}
+            dataPrice={dataPrice}
             handleWishlist={handleWishlist}
             reviewValue={reviewValue}
             wishlist={wishlist}
@@ -466,6 +485,9 @@ const ContentDetail = ({
             enablePopupImage={enablePopupImage}
             enableMultiSeller={enableMultiSeller}
             storeConfig={storeConfig}
+            handleChat={handleChat}
+            showChat={showChat}
+            currencyCache={currencyCache}
         />
     );
 };
@@ -508,8 +530,18 @@ const PageDetail = (props) => {
         };
 
     const labels = getProductLabel(storeConfig, { context, variables: { url: slug[0] } });
-    const { loading, data, error } = getProduct(storeConfig, { context, ...productVariables });
+    const { loading, data, error } = getProduct(storeConfig, { ...productVariables });
+    const [getProdPrice, { data: dataPrice, loading: loadPrice, error: errorPrice }] = getProductPrice(
+        storeConfig.pwa || {},
+    );
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
+
+    // cache currency
+    const currencyCache = useReactiveVar(currencyVar);
+
+    // cache price
+    const cachePrice = useReactiveVar(priceVar);
+
     let productByUrl;
     React.useEffect(() => {
         if (slug[0] !== '') {
@@ -524,6 +556,46 @@ const PageDetail = (props) => {
             });
         }
     }, [slug[0]]);
+
+    const generateIdentifier = () => {
+        let identifier = `${slug[0]}`;
+        identifier = identifier.replace(/ /g, '-');
+        return identifier;
+    };
+
+    React.useEffect(() => {
+        if (!cachePrice[generateIdentifier()]) {
+            getProdPrice({
+                context,
+                variables: {
+                    url: slug[0],
+                },
+            });
+        }
+    }, [data]);
+
+    React.useEffect(() => {
+        if (dataPrice) {
+            const identifier = generateIdentifier();
+            const dataTemp = cachePrice;
+            dataTemp[identifier] = dataPrice;
+            priceVar({
+                ...cachePrice,
+            });
+        }
+    }, [dataPrice]);
+
+    const getPrice = () => {
+        let productPrice = [];
+
+        if (cachePrice[generateIdentifier()] && cachePrice[generateIdentifier()].products && cachePrice[generateIdentifier()].products.items) {
+            productPrice = cachePrice[generateIdentifier()].products.items;
+        } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
+            productPrice = dataPrice.products.items;
+        }
+
+        return productPrice;
+    };
 
     if (error || loading || !data) {
         return (
@@ -663,16 +735,27 @@ const PageDetail = (props) => {
     };
 
     return (
-        <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props} data={data} isPdp>
+        <Layout
+            isShowChat={false}
+            pageConfig={pageConfig || config}
+            CustomHeader={CustomHeader ? <CustomHeader /> : <Header />}
+            {...props}
+            data={data}
+            isPdp
+        >
             <ContentDetail
                 keyProduct={productByUrl}
                 product={product}
+                dataPrice={getPrice()}
+                loadPrice={loadPrice}
+                errorPrice={errorPrice}
                 t={t}
                 Content={Content}
                 isLogin={isLogin}
                 weltpixel_labels={weltpixel_labels}
                 dataProductTabs={productTab}
                 storeConfig={storeConfig}
+                currencyCache={currencyCache}
             />
         </Layout>
     );

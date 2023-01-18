@@ -3,7 +3,7 @@
 import { formatPrice } from '@helper_currency';
 
 const Checkbox = ({
-    val, selectOptions, data, dynamicPrice,
+    val, selectOptions, data, currencyCache, dynamicPrice,
 }) => (
     <div className="options-container">
         <input
@@ -21,7 +21,7 @@ const Checkbox = ({
                 __html: `${val.label} + <b>${formatPrice(dynamicPrice === false
                     ? val.price
                     : val.product.price_range.minimum_price.final_price.value,
-                val.product.price_range.minimum_price.final_price.currency)}</b>`,
+                val.product.price_range.minimum_price.final_price.currency, currencyCache)}</b>`,
             }}
         />
         <br />

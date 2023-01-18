@@ -36,7 +36,7 @@ const generateItemData = (product, category, seller, enableMultiseller) => {
         };
         result.push(cat);
     }
-    if (enableMultiseller === '1') {
+    if (enableMultiseller) {
         for (let index = 0; index < seller.length; index++) {
             const element = seller[index];
             const sell = {
@@ -69,7 +69,7 @@ export default function ComboBox(props) {
     const [close, setClose] = React.useState(false);
     const [search, setSearch] = React.useState('');
 
-    const enableMultiseller = storeConfig.enable_oms_multiseller;
+    const enableMultiseller = storeConfig.enable_oms_multiseller === '1';
 
     const [actGetProduct, { loading, data, called }] = getProduct(search);
 
@@ -78,9 +78,9 @@ export default function ComboBox(props) {
     const [actGetSeller, { data: dSeller }] = getSellerByName(search);
 
     let itemData = [];
-    if (enableMultiseller === '1' && data && dCategory && dSeller && !open && !loading) {
+    if (enableMultiseller && data && dCategory && dSeller && !open && !loading) {
         itemData = generateItemData(data.products, dCategory.categoryList, dSeller.getSeller, enableMultiseller);
-    } else if (enableMultiseller === '0' && data && dCategory && !open && !loading) {
+    } else if (!enableMultiseller && data && dCategory && !open && !loading) {
         itemData = generateItemData(data.products, dCategory.categoryList, enableMultiseller);
     }
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Layout from '@layout';
 import { getHost } from '@helper_config';
 import { setLocalStorage } from '@helper_localstorage';
@@ -8,12 +9,12 @@ import Cookies from 'js-cookie';
 
 const HomeCore = (props) => {
     // eslint-disable-next-line object-curly-newline
-    const { pageConfig, storeConfig, homePageConfig, ...other } = props;
+    const { pageConfig, storeConfig, ...other } = props;
 
     const homeKey = keyLocalStorage.home;
+    const useCms = storeConfig?.pwa?.use_cms_page_enable;
 
-    if (typeof window !== 'undefined' && homePageConfig) {
-        setLocalStorage(homeKey, homePageConfig);
+    if (typeof window !== 'undefined' && storeConfig) {
         const appCurrency = Cookies.get('app_currency');
         currencyVar({
             currency: storeConfig.base_currency_code,
@@ -54,9 +55,16 @@ const HomeCore = (props) => {
     };
 
     return (
-        <Layout {...props} pageConfig={config} isHomepage>
-            <Content storeConfig={storeConfig} homePageConfig={homePageConfig} {...other} />
-        </Layout>
+        <>
+            {
+                useCms ? <Content cmsHome={config} storeConfig={storeConfig} homePageConfig={{ storeConfig }} {...other} />
+                    : (
+                        <Layout {...props} pageConfig={config} isHomepage>
+                            <Content storeConfig={storeConfig} homePageConfig={{ storeConfig }} {...other} />
+                        </Layout>
+                    )
+            }
+        </>
     );
 };
 

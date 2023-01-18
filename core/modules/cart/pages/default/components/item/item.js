@@ -7,7 +7,8 @@ import useStyles from '@core_modules/cart/pages/default/components/style';
 import { updateCartItemNote } from '@core_modules/cart/services/graphql';
 import { getCartId } from '@helpers/cartId';
 import { formatPrice } from '@helper_currency';
-import { getLocalStorage } from '@helper_localstorage';
+import { useReactiveVar } from '@apollo/client';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 import IconButton from '@material-ui/core/IconButton';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Zoom from '@material-ui/core/Zoom';
@@ -37,10 +38,11 @@ const ItemView = (props) => {
         cartItemId,
         customizable_options,
         storeConfig = {},
+        currencyCache,
     } = props;
     const styles = useStyles();
 
-    const storeConfigLocalStorage = getLocalStorage('storeConfig');
+    const storeConfigLocalStorage = useReactiveVar(storeConfigVar);
 
     let defaultWidth = storeConfig?.pwa?.image_product_width;
     let defaultHeight = storeConfig?.pwa?.image_product_height;
@@ -121,8 +123,6 @@ const ItemView = (props) => {
         );
     };
 
-    // console.log(product && product);
-
     return (
         <div className={styles.item}>
             <ConfirmationDelete t={t} open={confirmDel} handleDelete={handleDelete} handleCancel={() => setConfirmDel(false)} />
@@ -173,7 +173,7 @@ const ItemView = (props) => {
                                     <div className="option-wrapper__item">
                                         {val.values.map((item, idt) => (
                                             <div key={idt}>
-                                                {item.quantity} x{item.label} <strong>+ ${item.price}</strong>
+                                                {item.quantity} x{item.label} <strong>+ {formatPrice(item.price, 'IDR', currencyCache)}</strong>
                                             </div>
                                         ))}
                                     </div>
@@ -209,7 +209,9 @@ const ItemView = (props) => {
                         {t('cart:oos')}
                     </Alert>
                 )}
-                <div className={styles.itemPrice}>{formatPrice(prices.price_including_tax.value, prices.price_including_tax.currency)}</div>
+                <div className={styles.itemPrice}>
+                    {formatPrice(prices.price_including_tax.value, prices.price_including_tax.currency, currencyCache)}
+                </div>
             </div>
 
             <div className={styles.itemActions}>

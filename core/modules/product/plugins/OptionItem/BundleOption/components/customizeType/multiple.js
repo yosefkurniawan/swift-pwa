@@ -10,7 +10,7 @@ import { formatPrice } from '@helper_currency';
 import useStyles from '@plugin_optionitem/BundleOption/style';
 
 const Multiple = ({
-    data, options = [], selectOptions, dynamicPrice,
+    data, options = [], selectOptions, currencyCache, dynamicPrice,
 }) => {
     const styles = useStyles();
     const defaultValue = [];
@@ -39,7 +39,7 @@ const Multiple = ({
                             __html: `${val.label} + <b>${formatPrice(dynamicPrice === false
                                 ? val.price
                                 : val.product.price_range.minimum_price.final_price.value,
-                            val.product.price_range.minimum_price.final_price.currency)}</b>`,
+                            val.product.price_range.minimum_price.final_price.currency, currencyCache)}</b>`,
                         }}
                     />
                 ))}

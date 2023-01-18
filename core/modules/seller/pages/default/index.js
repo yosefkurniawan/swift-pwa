@@ -6,7 +6,7 @@ import { withApollo } from '@lib_apollo';
 const Page = (props) => <Core Content={Content} {...props} />;
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'seller', 'catalog'],
+    namespacesRequired: ['common', 'seller', 'catalog', 'product'],
 });
 
 export default withApollo({ ssr: true })(withTranslation()(Page));

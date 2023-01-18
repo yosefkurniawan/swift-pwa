@@ -394,6 +394,56 @@ export const getProduct = (config = {}) => {
     return query;
 };
 
+export const getProductPrice = (config = {}) => {
+    const query = gql`
+query getProducts(
+  $url: String!
+) {
+    products(
+        search: "" ,filter: {
+          url_key: {
+            eq: $url
+          }
+        }
+    ) {
+      items {
+        id
+        name
+        sku
+        ${priceRange}
+        ${priceTiers}
+        ${
+    config.configurable_options_enable
+        ? `
+          ... on ConfigurableProduct {
+            id
+            name
+            url_key
+            variants{
+              attributes{
+                label
+                code
+              }
+              product{
+                sku
+                ${priceRange}
+                ${priceTiers}
+              }
+              attributes {
+                uid
+                label
+                code
+                value_index
+              }
+            }
+            __typename
+          }` : ''}
+      }
+    }
+}`;
+    return query;
+};
+
 export const smartProductTabs = () => {
     const query = gql`
     query getSmartProductTabs($search: String, $filter: ProductAttributeFilterInput) {

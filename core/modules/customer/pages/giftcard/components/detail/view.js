@@ -14,7 +14,7 @@ import Loader from '@core_modules/customer/pages/giftcard/components/skeleton';
 
 const DetailView = (props) => {
     const {
-        t, loading, error, data, open, close, storeConfig, code,
+        t, loading, error, data, open, close, storeConfig, code, currencyCache,
     } = props;
     if (error) {
         return (
@@ -46,7 +46,7 @@ const DetailView = (props) => {
                                             {
                                                 // eslint-disable-next-line no-restricted-globals
                                                 isNaN(data.giftCardAccount[item]) ? data.giftCardAccount[item]
-                                                    : formatPrice(data.giftCardAccount[item], storeConfig.base_currency_code)
+                                                    : formatPrice(data.giftCardAccount[item], storeConfig.base_currency_code, currencyCache)
                                             }
                                         </Typography>
                                     </ListItemSecondaryAction>

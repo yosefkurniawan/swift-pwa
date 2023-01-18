@@ -11,6 +11,8 @@ import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import useStyles from '@plugin_productitem/style';
+import { getPriceFromList } from '@core_modules/product/helpers/getPrice';
+import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
 import Link from 'next/link';
 import React from 'react';
@@ -37,13 +39,63 @@ const Detail = (props) => {
         storeConfig = {},
         seller,
         urlKey,
+        price: dataPrice,
+        loadPrice,
+        errorPrice,
     } = props;
     const styles = useStyles();
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
     const FeedIcon = feed ? <Favorite className={classFeedActive} /> : <FavoriteBorderOutlined className={styles.iconFeed} />;
     const showWishlist = typeof enableWishlist !== 'undefined' ? enableWishlist : modules.wishlist.enabled;
     const showRating = typeof enableRating !== 'undefined' ? enableRating : storeConfig?.pwa?.rating_enable;
+    const priceData = getPriceFromList(dataPrice, id);
     const enableMultiSeller = storeConfig.enable_oms_multiseller === '1';
+
+    const generatePrice = (priceDataItem = []) => {
+        // handle if loading price
+
+        if (loadPrice) {
+            return (
+                <div className="mgz-single-product-price">
+                    <Skeleton variant="text" width={100} />
+                    {' '}
+                </div>
+            );
+        }
+
+        let priceProduct = {
+            priceRange: spesificProduct.price_range ? spesificProduct.price_range : price_range,
+            // eslint-disable-next-line camelcase
+            priceTiers: spesificProduct.price_tiers ? spesificProduct.price_tiers : price_tiers,
+            productType: __typename,
+            specialFromDate: special_from_date,
+            specialToDate: special_to_date,
+        };
+        if (priceDataItem && priceDataItem.length > 0 && !loadPrice && !errorPrice) {
+            priceProduct = {
+                priceRange: spesificProduct.price_range ? spesificProduct.price_range : priceDataItem[0].price_range,
+                priceTiers: spesificProduct.price_tiers ? spesificProduct.price_tiers : priceDataItem[0].price_tiers,
+                // eslint-disable-next-line no-underscore-dangle
+                productType: priceDataItem[0].__typename,
+                specialFromDate: priceDataItem[0].special_from_date,
+                specialToDate: priceDataItem[0].special_to_date,
+            };
+        }
+
+        return (
+            <div className="mgz-single-product-price">
+                {
+                    priceProduct && (
+                        <PriceFormat
+                            {...priceProduct}
+                            specialFromDate={special_from_date}
+                            specialToDate={special_to_date}
+                        />
+                    )
+                }
+            </div>
+        );
+    };
     return (
         <div className={styles.descItem}>
             {showWishlist && (
@@ -61,7 +113,7 @@ const Detail = (props) => {
                     {name}
                 </a>
             </Link>
-            {enableMultiSeller && seller.seller_name && (
+            {enableMultiSeller && seller && seller.seller_name && (
                 <div className={styles.infoSeller}>
                     <StorefrontIcon className={styles.iconSeller} />
                     <Typography variant="p" className={styles.productTitle} letter="capitalize">
@@ -71,15 +123,7 @@ const Detail = (props) => {
             )}
             {showRating && <RatingStar value={ratingValue} />}
             {enablePrice && (
-                <PriceFormat
-                    // eslint-disable-next-line camelcase
-                    priceRange={spesificProduct.price_range ? spesificProduct.price_range : price_range}
-                    // eslint-disable-next-line camelcase
-                    priceTiers={spesificProduct.price_tiers ? spesificProduct.price_tiers : price_tiers}
-                    productType={__typename}
-                    specialFromDate={special_from_date}
-                    specialToDate={special_to_date}
-                />
+                generatePrice(priceData)
             )}
         </div>
     );

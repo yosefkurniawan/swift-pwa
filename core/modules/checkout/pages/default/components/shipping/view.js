@@ -82,6 +82,7 @@ const ShippingView = (props) => {
         shippingMethodList,
         setLoadingSellerInfo,
         loadingSellerInfo,
+        currencyCache,
     } = props;
     let content;
     const unique = [];
@@ -127,10 +128,10 @@ const ShippingView = (props) => {
     }, [data.shippingMethods, storeConfig.enable_oms_multiseller]);
 
     if (checkout.selected.delivery === 'pickup') {
-        const price = formatPrice(0, storeConfig.base_currency_code || 'IDR');
+        const price = formatPrice(0, storeConfig.base_currency_code || 'IDR', currencyCache);
         content = <DeliveryItem value={{ price }} label={t('checkout:pickupStore')} selected borderBottom={false} />;
     } else if (checkout.selected.delivery === 'instore') {
-        const price = formatPrice(0, storeConfig.base_currency_code || 'IDR');
+        const price = formatPrice(0, storeConfig.base_currency_code || 'IDR', currencyCache);
         content = <DeliveryItem value={{ price }} label={t('checkout:instorePickup')} selected borderBottom={false} />;
     } else if (loading.shipping || loading.addresses || loading.all || loadingSellerInfo) {
         if (data.shippingMethods.length > 0
@@ -484,6 +485,7 @@ const ShippingView = (props) => {
                                                                 borderBottom: false,
                                                                 classContent: styles.listShippingGroup,
                                                             }}
+                                                            disabled={loading.order || loading.all}
                                                         />
                                                     ) : null}
                                                 </div>
