@@ -9,6 +9,14 @@ export const getSeller = (options = {}) =>
         },
     });
 
+export const getBannerSeller = (options = {}) =>
+    useQuery(Schema.getBannerSeller, {
+        ...options,
+        context: {
+            request: 'internal',
+        },
+    });
+
 export const getProductBySellerId = (options = {}) =>
     useQuery(Schema.getProductBySellerId, {
         ...options,
@@ -16,5 +24,6 @@ export const getProductBySellerId = (options = {}) =>
 
 export default {
     getSeller,
+    getBannerSeller,
     getProductBySellerId,
 };
