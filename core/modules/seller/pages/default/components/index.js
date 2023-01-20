@@ -3,7 +3,6 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable max-len */
 import { getBannerSeller } from '@core_modules/seller/services/graphql';
-import { breakPointsUp } from '@helper_theme';
 import Typography from '@common_typography';
 import Skeleton from '@common_skeleton';
 import useStyles from '@core_modules/seller/pages/default/components/style';

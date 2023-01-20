@@ -17,6 +17,14 @@ export const getBannerSeller = (options = {}) =>
         },
     });
 
+export const getEtalase = (options = {}) =>
+    useQuery(Schema.getEtalase, {
+        ...options,
+        context: {
+            request: 'internal',
+        },
+    });
+
 export const getProductBySellerId = (options = {}) =>
     useQuery(Schema.getProductBySellerId, {
         ...options,
@@ -25,5 +33,6 @@ export const getProductBySellerId = (options = {}) =>
 export default {
     getSeller,
     getBannerSeller,
+    getEtalase,
     getProductBySellerId,
 };

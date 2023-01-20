@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/no-danger */
-/* eslint-disable object-curly-newline */
+import { getEtalase } from '@core_modules/seller/services/graphql';
 import TabView from '@common_tabs';
 import Typography from '@common_typography';
 import useStyles from '@core_modules/seller/pages/default/components/style';
@@ -11,6 +10,8 @@ import dynamic from 'next/dynamic';
 import React from 'react';
 import TabLayout from '@core_modules/seller/pages/default/components/TabLayout';
 import SellerInfo from '@core_modules/seller/pages/default/components/SellerInfo';
+import EtalaseDesktop from '@core_modules/seller/pages/default/components/Products/etalaseDesktop';
+import EtalaseMobile from '@core_modules/seller/pages/default/components/Products/etalaseMobile';
 
 const ErrorMessage = dynamic(() => import('@plugin_productlist/components/ErrorMessage'), { ssr: false });
 const ProductListSkeleton = dynamic(() => import('@plugin_productlist/components/ProductListSkeleton'), { ssr: false });
@@ -18,8 +19,18 @@ const FilterView = dynamic(() => import('@plugin_productlist/components/Filter/v
 const FilterModalView = dynamic(() => import('@plugin_productlist/components/Filter/FilterDialog'), { ssr: false });
 
 const ContentProducts = (props) => {
-    const { storeConfig, t, dataSeller, errorSeller, loadingSeller, link, sellerId, isLogin, route, handleChat, showChat, ...other } = props;
+    const {
+        storeConfig, t, dataSeller, errorSeller, loadingSeller, link, sellerId, isLogin, route, handleChat, showChat, ...other
+    } = props;
     const styles = useStyles();
+
+    const { data } = getEtalase({
+        variables: {
+            sellerId: parseInt(route.query.sellerId, 10),
+        },
+    });
+
+    const dataEtalase = data && data.getEtalase.length > 0 ? data.getEtalase : null;
 
     return (
         <>
@@ -33,19 +44,35 @@ const ContentProducts = (props) => {
                     <SellerInfo {...props} />
                     <div className={styles.sellerProduct}>
                         <TabLayout t={t}>
-                            <CoreBase
-                                t={t}
-                                ErrorMessage={ErrorMessage}
-                                ProductListSkeleton={ProductListSkeleton}
-                                ImageProductView={ImageProductView}
-                                DetailProductView={DetailProductView}
-                                TabView={TabView}
-                                FilterView={FilterView}
-                                FilterModalView={FilterModalView}
-                                defaultSort={{ key: 'position', value: 'ASC' }}
-                                sellerId={sellerId}
-                                {...props}
-                            />
+                            <div className="row">
+                                {
+                                    dataEtalase && (
+                                        <>
+                                            <div className="col-md-2 hidden-mobile">
+                                                <EtalaseDesktop t={t} data={dataEtalase} route={route} />
+                                            </div>
+                                            <div className="hidden-desktop" style={{ width: '100%' }}>
+                                                <EtalaseMobile t={t} data={dataEtalase} route={route} />
+                                            </div>
+                                        </>
+                                    )
+                                }
+                                <div className={dataEtalase ? 'col-md-10 col-12' : 'col-md-12'} style={{ width: '100%' }}>
+                                    <CoreBase
+                                        t={t}
+                                        ErrorMessage={ErrorMessage}
+                                        ProductListSkeleton={ProductListSkeleton}
+                                        ImageProductView={ImageProductView}
+                                        DetailProductView={DetailProductView}
+                                        TabView={TabView}
+                                        FilterView={FilterView}
+                                        FilterModalView={FilterModalView}
+                                        defaultSort={{ key: 'position', value: 'ASC' }}
+                                        sellerId={sellerId}
+                                        {...props}
+                                    />
+                                </div>
+                            </div>
                         </TabLayout>
                     </div>
                 </>
