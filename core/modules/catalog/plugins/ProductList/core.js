@@ -40,6 +40,7 @@ const ProductPagination = (props) => {
         token,
         isLogin,
         sellerId = null,
+        banner,
         ...other
     } = props;
     const router = useRouter();
@@ -161,8 +162,9 @@ const ProductPagination = (props) => {
         }
         config = generateConfig(query, config, elastic, availableFilter);
     } else {
-        const setSortOnSellerPage = queryKeys.filter((key) => key.match(/seller\/\d\d\/product\?sort/));
-        const setFilterSellerPage = queryKeys.find((key) => key === `seller/${sellerId}/product?filter`);
+        const urlFilter = banner ? `seller/${sellerId}?filter` : `seller/${sellerId}/product?filter`;
+        const setSortOnSellerPage = queryKeys.filter((key) => key.match(banner ? /seller\/\d\d\?sort/ : /seller\/\d\d\/product\?sort/));
+        const setFilterSellerPage = queryKeys.find((key) => key === urlFilter);
 
         let filterObj = {
             type: 'seller_id',

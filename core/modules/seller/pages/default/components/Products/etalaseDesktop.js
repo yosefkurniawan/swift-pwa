@@ -7,13 +7,17 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-function EtalaseDesktop({ t, data, route }) {
+function EtalaseDesktop({
+    noBanner, t, data, route,
+}) {
     const styles = useStyles();
     const [selectedIndex, setSelectedIndex] = React.useState(0);
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
     };
+
+    const url = !noBanner ? `/seller/${route.query.sellerId}/product` : `/seller/${route.query.sellerId}`;
 
     return (
         <div className={styles.etalaseContainer}>
@@ -26,7 +30,7 @@ function EtalaseDesktop({ t, data, route }) {
                         <List>
                             <Link
                                 href={{
-                                    pathname: `/seller/${route.query.sellerId}/product`,
+                                    pathname: url,
                                 }}
                                 key={0}
                             >
@@ -36,6 +40,7 @@ function EtalaseDesktop({ t, data, route }) {
                                         selected={selectedIndex === 0}
                                         onClick={(event) => handleListItemClick(event, 0)}
                                     >
+                                        <ListItemIcon><img src="/assets/img/etalase-product.svg" alt="etalase-product" width="24px" /></ListItemIcon>
                                         <ListItemText>
                                             <Typography variant="label" type="regular" size="12">
                                                 {t('seller:allProducts')}
@@ -48,7 +53,7 @@ function EtalaseDesktop({ t, data, route }) {
                             { data.map((list) => (
                                 <Link
                                     href={{
-                                        pathname: `/seller/${route.query.sellerId}/product`,
+                                        pathname: url,
                                         query: { filter: list.entity_id },
                                     }}
                                     key={list.entity_id}

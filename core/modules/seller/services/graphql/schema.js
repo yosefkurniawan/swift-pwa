@@ -13,13 +13,6 @@ export const getSeller = gql`
             longitude
             name
             status
-        }
-    }
-`;
-
-export const getBannerSeller = gql`
-    query getBannerSeller($sellerId: [Int!]) {
-        getSeller(input: { seller_id: $sellerId }) {
             banner_desktop
             banner_mobile
         }
@@ -158,7 +151,6 @@ export const getProductBySellerId = gql`
 
 export default {
     getSeller,
-    getBannerSeller,
     getEtalase,
     getProductBySellerId,
 };

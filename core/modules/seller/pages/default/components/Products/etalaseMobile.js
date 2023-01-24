@@ -6,13 +6,17 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import useStyles from '@core_modules/seller/pages/default/components/style';
 
-function EtalaseMobile({ t, data, route }) {
+function EtalaseMobile({
+    noBanner, t, data, route,
+}) {
     const [value, setValue] = React.useState(0);
     const styles = useStyles();
 
     const handleChange = (event) => {
         setValue(event.target.value);
     };
+
+    const url = !noBanner ? `/seller/${route.query.sellerId}/product` : `/seller/${route.query.sellerId}`;
 
     return (
         <div className={styles.etalaseSelect}>
@@ -28,7 +32,7 @@ function EtalaseMobile({ t, data, route }) {
                     <MenuItem value={0} key={0}>
                         <Link
                             href={{
-                                pathname: `/seller/${route.query.sellerId}/product`,
+                                pathname: url,
                             }}
                             key={0}
                         >
@@ -40,7 +44,7 @@ function EtalaseMobile({ t, data, route }) {
                             <MenuItem value={list.entity_id} key={list.entity_id}>
                                 <Link
                                     href={{
-                                        pathname: `/seller/${route.query.sellerId}/product`,
+                                        pathname: url,
                                         query: { filter: list.entity_id },
                                     }}
                                     key={list.entity_id}

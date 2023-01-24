@@ -20,7 +20,7 @@ const FilterModalView = dynamic(() => import('@plugin_productlist/components/Fil
 
 const ContentProducts = (props) => {
     const {
-        storeConfig, t, dataSeller, errorSeller, loadingSeller, link, sellerId, isLogin, route, handleChat, showChat, ...other
+        storeConfig, t, dataSeller, errorSeller, loadingSeller, link, sellerId, isLogin, route, handleChat, showChat, banner, ...other
     } = props;
     const styles = useStyles();
 
@@ -43,16 +43,16 @@ const ContentProducts = (props) => {
                 <>
                     <SellerInfo {...props} />
                     <div className={styles.sellerProduct}>
-                        <TabLayout t={t}>
+                        <TabLayout noBanner={banner} t={t}>
                             <div className="row">
                                 {
                                     dataEtalase && (
                                         <>
                                             <div className="col-md-2 hidden-mobile">
-                                                <EtalaseDesktop t={t} data={dataEtalase} route={route} />
+                                                <EtalaseDesktop noBanner={banner} t={t} data={dataEtalase} route={route} />
                                             </div>
                                             <div className="hidden-desktop" style={{ width: '100%' }}>
-                                                <EtalaseMobile t={t} data={dataEtalase} route={route} />
+                                                <EtalaseMobile noBanner={banner} t={t} data={dataEtalase} route={route} />
                                             </div>
                                         </>
                                     )
