@@ -19,8 +19,8 @@ const MiniComponent = (props) => {
     } = props;
     const styles = useStyles();
     const disabled = errorCart && errorCart.length > 0;
-    const subtotal_including_tax = data?.prices?.subtotal_including_tax?.value || 0;
-    const subtotal_including_tax_currency = data?.prices?.subtotal_including_tax?.currency || 'IDR';
+    const subtotal_including_tax = data?.custom_total_price?.subtotal_including_tax?.value || 0;
+    const subtotal_including_tax_currency = data?.custom_total_price?.subtotal_including_tax?.currency || 'IDR';
     return (
         <Drawer anchor="right" open={open} onClose={setOpen}>
             <div className={styles.container}>
@@ -41,7 +41,7 @@ const MiniComponent = (props) => {
                                 {t('common:cart:cardTotal')}
                                 :
                             </span>
-                            <span>{data.prices ? formatPrice(subtotal_including_tax, subtotal_including_tax_currency) : '-'}</span>
+                            <span>{data.custom_total_price ? formatPrice(subtotal_including_tax, subtotal_including_tax_currency) : '-'}</span>
                         </div>
                         <div
                             id="plugin-minicart-editCartBtn"
@@ -60,7 +60,7 @@ const MiniComponent = (props) => {
                                     id="plugin-minicart-checkoutBtn"
                                     onClick={() => {
                                         const minimumOrderEnabled = storeConfig.minimum_order_enable;
-                                        const grandTotalValue = data.prices.grand_total.value;
+                                        const grandTotalValue = data.custom_total_price.grand_total.value;
                                         const minimumOrderAmount = storeConfig.minimum_order_amount;
                                         if (minimumOrderEnabled && grandTotalValue < minimumOrderAmount) {
                                             const errorMessage = {

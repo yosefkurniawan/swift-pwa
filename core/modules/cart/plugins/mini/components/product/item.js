@@ -65,10 +65,10 @@ const Item = (props) => {
                                                 x
                                                 {item.label}
                                                 {' '}
-                                                <strong>
+                                                {/* <strong>
                                                     + $
                                                     {item.price}
-                                                </strong>
+                                                </strong> */}
                                             </div>
                                         ))}
                                     </div>

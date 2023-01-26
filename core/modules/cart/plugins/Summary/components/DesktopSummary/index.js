@@ -72,13 +72,14 @@ const Summary = (props) => {
             pickup_item_store_info,
             custom_price,
             product,
+            custom_seller,
             ...other
         }) => {
-            let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+            let item = groupData.find((p) => p.seller_id === custom_seller.seller_id);
             if (!item) {
                 item = {
-                    seller_id: product.seller.seller_id,
-                    seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
+                    seller_id: custom_seller.seller_id,
+                    seller_name: custom_seller.seller_name ? custom_seller.seller_name : 'Default Seller',
                     productList: [],
                     subtotal: {
                         currency: '',

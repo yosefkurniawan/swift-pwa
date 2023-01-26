@@ -134,6 +134,19 @@ prices {
 }
 `;
 
+const custom_price = `
+custom_total_price{
+  subtotal_including_tax{
+    value
+    currency
+  }
+  grand_total{
+    value
+    currency
+  }
+}
+`;
+
 const customizable_options = `
 customizable_options {
   id
@@ -172,94 +185,6 @@ items {
       type
       values {
         label
-        price
-        quantity
-      }
-    }
-  }
-  ... on DownloadableCartItem {
-    downloadablItemCustomizable: ${customizable_options}
-    links {
-      title
-    }
-  }
-  ... on AwGiftCardCartItem {
-    aw_giftcard_option {
-      label
-      value
-    }
-  }
-  prices {
-    discounts {
-      amount {
-        currency
-        value
-      }
-    }
-    price {
-      value
-      currency
-    }
-    price_including_tax {
-      value
-      currency
-    }
-    row_total_including_tax {
-      currency
-      value
-    }
-    total_item_discount {
-      currency
-      value
-    }
-  }
-  product {
-    id
-    name
-    small_image {
-      url
-      label
-    }
-    url_key
-    sku
-    stock_status
-    seller {
-      seller_id
-      seller_name
-    }
-    categories {
-      name
-    }
-  }
-}
-`;
-
-const itemsCart = `
-items {
-  id
-  note
-  quantity
-  ... on SimpleCartItem {
-    SimpleMiniCustomizable: ${customizable_options}
-  }
-
-  ... on VirtualCartItem {
-    virutalItemCustomizable: ${customizable_options}
-  }
-  ... on ConfigurableCartItem {
-    ConfigurableMiniCustomizable: ${customizable_options}
-      configurable_options {
-      option_label
-      value_label
-    }
-  }
-  ... on BundleCartItem {
-    bundle_options {
-      label
-      type
-      values {
-        label
-        price
         quantity
       }
     }
@@ -296,13 +221,76 @@ items {
     url_key
     sku
     stock_status
-    seller {
-      seller_id
-      seller_name
+  }
+}
+`;
+
+const itemsCart = `
+items {
+  id
+  note
+  quantity
+  ... on SimpleCartItem {
+    SimpleMiniCustomizable: ${customizable_options}
+  }
+
+  ... on VirtualCartItem {
+    virutalItemCustomizable: ${customizable_options}
+  }
+  ... on ConfigurableCartItem {
+    ConfigurableMiniCustomizable: ${customizable_options}
+      configurable_options {
+      option_label
+      value_label
     }
-    categories {
-      name
+  }
+  ... on BundleCartItem {
+    bundle_options {
+      label
+      type
+      values {
+        label
+        quantity
+      }
     }
+  }
+  ... on DownloadableCartItem {
+    downloadablItemCustomizable: ${customizable_options}
+    links {
+      title
+    }
+  }
+  ... on AwGiftCardCartItem {
+    aw_giftcard_option {
+      label
+      value
+    }
+  }
+  custom_price {
+    price_incl_tax {
+      value
+      currency
+    }
+    row_total_incl_tax {
+      value
+      currency
+    }
+  }
+  custom_seller{
+    seller_id
+    seller_city
+    seller_name
+  }
+  product {
+    id
+    name
+    small_image {
+      url
+      label
+    }
+    url_key
+    sku
+    stock_status
   }
 }
 `;
@@ -322,7 +310,12 @@ promoBanner {
   rule_id
 }
 `;
-
+const miniCartSelection = `
+id
+errorItems
+total_quantity
+${custom_price}
+`;
 const cartRequiredSelection = `
 id
 errorItems
@@ -468,14 +461,14 @@ export const getMiniCart = gql`
             id
             errorItems
             total_quantity
-            prices {
-                grand_total {
-                    currency
-                    value
-                }
+            custom_total_price {
                 subtotal_including_tax {
                   currency
                   value
+                }
+                grand_total{
+                  value
+                  currency
                 }
             }
             items {
@@ -503,7 +496,6 @@ export const getMiniCart = gql`
                   type
                   values {
                     label
-                    price
                     quantity
                   }
                 }
@@ -539,13 +531,24 @@ export const getMiniCart = gql`
               }
               url_key
               sku
-              stock_status
-              categories {
-                name
-              }
             }
           }
         }
+    }
+`;
+
+export const deleteMiniCartItem = gql`
+    mutation deleteCartItem($cartId: String!, $cart_item_id: Int!) {
+      removeItemFromCart(
+        input: { cart_id: $cartId, cart_item_id: $cart_item_id }
+      ) {
+        cart {
+          id
+          total_quantity
+          ${itemsCart}
+          ${custom_price}
+        }
+      }
     }
 `;
 
@@ -582,6 +585,22 @@ export const deleteCartItemOnPage = gql`
           ${itemsCart}
           ${promoBanner}
           ${cartAvailableFreeItems}
+        }
+      }
+    }
+`;
+
+export const updateMiniCartItem = gql`
+    mutation updateCartItems($cartId: String!, $cart_item_id: Int!, $quantity: Float!) {
+      updateCartItems(
+        input: { 
+          cart_id: $cartId,
+          cart_items: {cart_item_id: $cart_item_id, quantity: $quantity }
+        }
+      ) {
+        cart {
+          ${miniCartSelection}
+          ${itemsCart}
         }
       }
     }
