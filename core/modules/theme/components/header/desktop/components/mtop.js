@@ -39,7 +39,8 @@ const ViewTop = (props) => {
                                         {t('common:menu:mywishlist')}
                                         {' '}
                                         (
-                                        {data.wishlist ? data.wishlist.items.length : 0}
+                                        { data.customer?.wishlists[0].items_v2
+                                            ? data.customer?.wishlists[0].items_v2.items.length : 0 }
                                         {' '}
                                         items )
                                         {' '}
