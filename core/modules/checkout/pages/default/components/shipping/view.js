@@ -512,8 +512,6 @@ const ShippingView = (props) => {
         } else {
             content = <Typography variant="p">{t('checkout:noShipping')}</Typography>;
         }
-    } else if (loadingSellerInfo) {
-        content = <Loader />;
     } else {
         content = <Typography variant="p">{t('checkout:noShipping')}</Typography>;
     }
@@ -523,7 +521,7 @@ const ShippingView = (props) => {
             <Typography variant="h2" type="bold" letter="uppercase">
                 {t('checkout:shippingMethod')}
             </Typography>
-            {!loadingSellerInfo ? content : <Loader />}
+            {content}
         </div>
     );
 };
