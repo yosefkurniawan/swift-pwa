@@ -57,7 +57,7 @@ const CoreGiftCardOptionItem = ({
         aw_gc_recipient_email: '',
         aw_gc_sender_name: '',
         aw_gc_sender_email: '',
-        aw_gc_template: aw_gc_email_templates.length === 1 ? aw_gc_email_templates[0].value : '',
+        aw_gc_template: aw_gc_email_templates?.length === 1 ? aw_gc_email_templates[0].value : '',
     };
 
     if (aw_gc_allow_delivery_date) {

@@ -304,7 +304,9 @@ const ProductPage = (props) => {
                             <Typography variant="title" type="bold" letter="capitalize" className={classNames(styles.title, 'clear-margin-padding')}>
                                 {data.name}
                             </Typography>
-                            {generatePrice(priceData, price)}
+                            {// eslint-disable-next-line no-underscore-dangle
+                                data.__typename !== 'AwGiftCardProduct' && generatePrice(priceData, price)
+                            }
                         </div>
                         <div className={styles.shareContainer}>
                             {modules.productcompare.enabled && (

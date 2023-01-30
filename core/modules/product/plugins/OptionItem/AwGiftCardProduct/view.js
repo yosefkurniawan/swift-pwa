@@ -322,7 +322,7 @@ const AwGiftCardProduct = (props) => {
                                     src={`${storeConfig?.secure_base_media_url}logo/${storeConfig?.header_logo_src}`}
                                     width={240}
                                     height={104}
-                                    alt={storeConfig.logo_alt || ''}
+                                    alt={storeConfig?.logo_alt || ''}
                                 />
                             </div>
                             <div className="gc-dialog-card-details">
