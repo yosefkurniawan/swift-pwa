@@ -115,7 +115,7 @@ const CoreSummary = (props) => {
             dataSummary.push({ item: `${t('common:summary:rewardPoint')} `, value: `-${price}` });
         }
 
-        if (modules.giftcard.enabled && applied_giftcard) {
+        if (modules.giftcard.enabled && Object.keys(applied_giftcard).length>0) {
             let giftCards = [];
             if (modules.giftcard.useCommerceModule) {
                 if (applied_giftcard && applied_giftcard.length > 0) {

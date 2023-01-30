@@ -2,82 +2,82 @@
 import { gql } from '@apollo/client';
 import { modules } from '@config';
 
-const applied_store_credit = modules.storecredit.useCommerceModule
-    ? `
-applied_store_credit {
-    applied_balance {
-      currency
-      value
-    }
-    current_balance {
-      currency
-      value
-    }
-    enabled
-}
-`
-    : `
-applied_store_credit {
-    store_credit_amount
-    is_use_store_credit
-}
-`;
+// const applied_store_credit = modules.storecredit.useCommerceModule
+//     ? `
+// applied_store_credit {
+//     applied_balance {
+//       currency
+//       value
+//     }
+//     current_balance {
+//       currency
+//       value
+//     }
+//     enabled
+// }
+// `
+//     : `
+// applied_store_credit {
+//     store_credit_amount
+//     is_use_store_credit
+// }
+// `;
 
-const applied_cashback = `
-applied_cashback {
-    data {
-        amount
-        promo_name
-    }
-    is_cashback
-    total_cashback
-}
-`;
+// const applied_cashback = `
+// applied_cashback {
+//     data {
+//         amount
+//         promo_name
+//     }
+//     is_cashback
+//     total_cashback
+// }
+// `;
 
-const applied_reward_points = `
-applied_reward_points {
-    is_use_reward_points
-    reward_points_amount
-}
-`;
+// const applied_reward_points = `
+// applied_reward_points {
+//     is_use_reward_points
+//     reward_points_amount
+// }
+// `;
 
-const applied_coupons = `
-applied_coupons {
-    code
-}
-`;
+// const applied_coupons = `
+// applied_coupons {
+//     code
+// }
+// `;
 
-const applied_extrafee = `
-applied_extra_fee {
-    extrafee_value {
-      currency
-      value
-    }
-    select_options {
-      default
-      label
-      option_id
-      price
-    }
-    show_on_cart
-    title
-}
-addtional_fees {
-    data {
-      enabled
-      fee_name
-      frontend_type
-      id_fee
-      options {
-        default
-        label
-        option_id
-        price
-      }
-    }
-    show_on_cart
-}
-`;
+// const applied_extrafee = `
+// applied_extra_fee {
+//     extrafee_value {
+//       currency
+//       value
+//     }
+//     select_options {
+//       default
+//       label
+//       option_id
+//       price
+//     }
+//     show_on_cart
+//     title
+// }
+// addtional_fees {
+//     data {
+//       enabled
+//       fee_name
+//       frontend_type
+//       id_fee
+//       options {
+//         default
+//         label
+//         option_id
+//         price
+//       }
+//     }
+//     show_on_cart
+// }
+// `;
 
 const applied_giftcard = modules.giftcard.useCommerceModule
     ? `
@@ -104,35 +104,35 @@ applied_giftcard {
 
 `;
 
-const prices = `
-prices {
-  discounts {
-      amount {
-          currency
-          value
-      }
-      label
-  }
-  subtotal_excluding_tax {
-      currency
-      value
-  }
-  subtotal_including_tax {
-      currency
-      value
-  }
-  applied_taxes {
-      amount {
-          value
-          currency
-      }
-  }
-  grand_total {
-      currency
-      value
-  }
-}
-`;
+// const prices = `
+// prices {
+//   discounts {
+//       amount {
+//           currency
+//           value
+//       }
+//       label
+//   }
+//   subtotal_excluding_tax {
+//       currency
+//       value
+//   }
+//   subtotal_including_tax {
+//       currency
+//       value
+//   }
+//   applied_taxes {
+//       amount {
+//           value
+//           currency
+//       }
+//   }
+//   grand_total {
+//       currency
+//       value
+//   }
+// }
+// `;
 
 const custom_price = `
 custom_total_price{
@@ -164,6 +164,7 @@ const items = `
 items {
   id
   note
+  errorCartItems
   quantity
   ... on SimpleCartItem {
     SimpleMiniCustomizable: ${customizable_options}
@@ -220,7 +221,6 @@ items {
     }
     url_key
     sku
-    stock_status
   }
 }
 `;
@@ -229,6 +229,7 @@ const itemsCart = `
 items {
   id
   note
+  errorCartItems
   quantity
   ... on SimpleCartItem {
     SimpleMiniCustomizable: ${customizable_options}
@@ -290,7 +291,6 @@ items {
     }
     url_key
     sku
-    stock_status
   }
 }
 `;
@@ -320,12 +320,7 @@ const cartRequiredSelection = `
 id
 errorItems
 total_quantity
-${modules.checkout.cashback.enabled ? applied_cashback : ''}
-${modules.rewardpoint.enabled ? applied_reward_points : ''}
-${modules.promo.enabled ? applied_coupons : ''}
-${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
-${modules.storecredit.enabled ? applied_store_credit : ''}
-${prices}
+${custom_price}
 ${promoBanner}
 `;
 const cartAvailableFreeItems = `
@@ -346,16 +341,15 @@ const cartAvailableFreeItems = `
 export const getCart = gql`
     query getCartData($cartId: String!) {
         cart(cart_id: $cartId) {
-            ${applied_giftcard}
             ${cartRequiredSelection}
             ${cartAvailablePaymentMethods}
-            ${cartAvailableFreeItems}
         }
     }
 `;
 
 export const getCartItem = gql`query getCartData($cartId: String!) {
   cart(cart_id: $cartId) {
+    id
     ${itemsCart}
   }
 }`;
@@ -474,6 +468,7 @@ export const getMiniCart = gql`
             items {
               id
               quantity
+              errorCartItems
               note
               ... on SimpleCartItem {
                 SimpleMiniCustomizable: ${customizable_options}
@@ -561,7 +556,7 @@ export const deleteCartitem = gql`
           id
           total_quantity
           ${itemsCart}
-          ${prices}
+          ${custom_price}
         }
       }
     }
@@ -575,16 +570,9 @@ export const deleteCartItemOnPage = gql`
         cart {
           id
           total_quantity
-          ${applied_giftcard}
-          ${modules.checkout.cashback.enabled ? applied_cashback : ''}
-          ${modules.rewardpoint.enabled ? applied_reward_points : ''}
-          ${modules.promo.enabled ? applied_coupons : ''}
-          ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
-          ${modules.storecredit.enabled ? applied_store_credit : ''}
-          ${prices}
+          ${custom_price}
           ${itemsCart}
           ${promoBanner}
-          ${cartAvailableFreeItems}
         }
       }
     }
@@ -615,10 +603,8 @@ export const updateCartitem = gql`
         }
       ) {
         cart {
-          ${applied_giftcard}
           ${cartRequiredSelection}
           ${itemsCart}
-          ${cartAvailableFreeItems}
         }
       }
     }

@@ -4,6 +4,7 @@ import Summary from '@plugin_summary';
 import useStyles from '@core_modules/cart/pages/default/components/style';
 import dynamic from 'next/dynamic';
 import { formatPrice } from '@helper_currency';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const CrossSell = dynamic(() => import('@core_modules/cart/pages/default/components/crosssell'), { ssr: false });
 const GimmickBanner = dynamic(() => import('@plugin_gimmickbanner'), { ssr: false });
@@ -13,12 +14,13 @@ const Content = (props) => {
         ItemView, CrossSellView, CheckoutDrawerView, dataCart, t, handleFeed,
         toggleEditMode, editMode, deleteItem, toggleEditDrawer, crosssell, errorCart,
         EditDrawerView, editItem, openEditDrawer, updateItem, SummaryView, PromoModalItemView, handleAddPromoItemToCart,
-        applyCoupon, removeCoupon, storeConfig,
+        applyCoupon, removeCoupon, storeConfig, dataSummary, loadingSummary,
         ...other
     } = props;
+    let allData = !loadingSummary ? {...dataCart, ...dataSummary} : null;
     const handleOnCheckoutClicked = () => {
         const minimumOrderEnabled = storeConfig.minimum_order_enable;
-        const grandTotalValue = dataCart.prices.grand_total.value;
+        const grandTotalValue = allData.prices.grand_total.value;
         const minimumOrderAmount = storeConfig.minimum_order_amount;
 
         if (minimumOrderEnabled && grandTotalValue < minimumOrderAmount) {
@@ -56,16 +58,21 @@ const Content = (props) => {
                     <EditDrawerView {...props} {...editItem} open={openEditDrawer} toggleOpen={toggleEditDrawer} updateItem={updateItem} />
                 ) : null}
                 <div className="hidden-desktop">
-                    <Summary
+                    {
+                        !loadingSummary && allData ? (
+                        <Summary
                         disabled={errorCart && errorCart.length > 0}
                         isDesktop={false}
                         t={t}
-                        dataCart={dataCart}
+                        dataCart={allData}
                         editMode={editMode}
                         storeConfig={storeConfig}
                         {...other}
                         handleActionSummary={handleOnCheckoutClicked}
-                    />
+                        />
+                        ) : null
+                    }
+                    
                 </div>
                 {/* commented for now */}
                 {/* {modules.promo.enabled ? (
@@ -80,17 +87,18 @@ const Content = (props) => {
                 ) : null} */}
             </div>
             <div className="col-xs-12 col-sm-4 col-md-3 hidden-mobile">
-                <Summary
+                {
+                    !loadingSummary && allData ? (<Summary
                     disabled={errorCart && errorCart.length > 0}
                     isDesktop
                     t={t}
-                    dataCart={dataCart}
+                    dataCart={allData}
                     editMode={editMode}
                     storeConfig={storeConfig}
                     {...other}
                     handleActionSummary={handleOnCheckoutClicked}
                     isCart
-                />
+                />) : <Skeleton variant="rect" width="100%" height={200} />}
             </div>
         </div>
     );

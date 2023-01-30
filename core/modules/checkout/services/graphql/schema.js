@@ -199,6 +199,11 @@ items {
             currency
         }
     }
+    custom_seller{
+    seller_id
+    seller_city
+    seller_name
+    }
     product {
         id
         name
@@ -206,10 +211,6 @@ items {
         name
         }
         url_key
-        seller {
-            seller_id
-            seller_name
-        }
         sku
         stock_status
         small_image {
