@@ -69,7 +69,6 @@ const AwGiftCardProduct = (props) => {
         if (aw_gc_amounts) {
             setselectedCustomAmount(aw_gc_amounts[0]);
         }
-        setselectedCustomAmount([]);
     }, [aw_gc_amounts]);
 
     const handleSelectTemplate = (e) => {
@@ -138,7 +137,7 @@ const AwGiftCardProduct = (props) => {
                     </div>
                 </div>
             )}
-            {aw_gc_type !== 'PHYSICAL' && (
+            {aw_gc_type !== 'PHYSICAL' && emailTemplates.length > 1 && (
                 <div className="gc-first">
                     <Typography variant="h2">
                         {aw_gc_allow_open_amount || aw_gc_amounts?.length > 1 ? '2.' : '1.'} {`${t('validate:selectDesign')}`}
@@ -172,9 +171,11 @@ const AwGiftCardProduct = (props) => {
                         ? aw_gc_allow_open_amount || aw_gc_amounts?.length > 1
                             ? '2.'
                             : '1.'
-                        : aw_gc_allow_open_amount
-                            ? '3.'
-                            : '2.'}
+                        : emailTemplates.length > 1
+                            ? aw_gc_allow_open_amount
+                                ? '3.'
+                                : '2.'
+                            : '1.'}
                     {' '}
                     {`${t('validate:composeEmail')}`}
                 </Typography>
