@@ -62,7 +62,7 @@ const CoreGiftCardOptionItem = ({
 
     if (aw_gc_allow_delivery_date) {
         formInitalValues.aw_gc_delivery_date = '';
-        formInitalValues.aw_gc_delivery_date_timezone = other.storeConfig.timezone;
+        formInitalValues.aw_gc_delivery_date_timezone = other.storeConfig?.timezone || 'Asia/Jakarta';
     }
 
     if (aw_gc_allow_open_amount) {

@@ -539,6 +539,21 @@ query getDetailproduct($url_key: String!){
       }
     ) {
       items {
+        ... on AwGiftCardProduct {
+          aw_gc_allow_delivery_date
+          aw_gc_allow_open_amount
+          aw_gc_amounts
+          aw_gc_custom_message_fields
+          aw_gc_description
+          aw_gc_email_templates {
+            image_url
+            name
+            value
+          }
+          aw_gc_open_amount_max
+          aw_gc_open_amount_min
+          aw_gc_type   
+        }
         ${
     modules.product.customizableOptions.enabled
         ? `
