@@ -85,6 +85,7 @@ const ProductPage = (props) => {
         handleChat,
         showChat,
         dataSeller,
+        currencyCache,
     } = props;
     const desktop = breakPointsUp('sm');
 
@@ -116,6 +117,7 @@ const ProductPage = (props) => {
         label: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '2') || [],
     };
 
+    const [spesificProduct, setSpesificProduct] = React.useState({});
     const priceData = getPriceFromList(dataPrice, data.id);
     const generatePrice = (priceDataItem, priceItem) => {
         // handle if loading price
@@ -131,8 +133,8 @@ const ProductPage = (props) => {
         let priceProduct = priceItem;
         if (priceDataItem.length > 0 && !loadPrice && !errorPrice) {
             priceProduct = {
-                priceRange: priceDataItem[0].price_range,
-                priceTiers: priceDataItem[0].price_tiers,
+                priceRange: spesificProduct.price_range ? spesificProduct.price_range : priceDataItem[0].price_range,
+                priceTiers: spesificProduct.price_tiers ? spesificProduct.price_tiers : priceDataItem[0].price_tiers,
                 // eslint-disable-next-line no-underscore-dangle
                 productType: priceDataItem[0].__typename,
                 specialFromDate: priceDataItem[0].special_from_date,
@@ -162,8 +164,8 @@ const ProductPage = (props) => {
         let priceProduct = priceItem;
         if (priceDataItem.length > 0 && !loadPrice && !errorPrice) {
             priceProduct = {
-                priceRange: priceDataItem[0].price_range,
-                priceTiers: priceDataItem[0].price_tiers,
+                priceRange: spesificProduct.price_range ? spesificProduct.price_range : priceDataItem[0].price_range,
+                priceTiers: spesificProduct.price_tiers ? spesificProduct.price_tiers : priceDataItem[0].price_tiers,
                 // eslint-disable-next-line no-underscore-dangle
                 productType: priceDataItem[0].__typename,
                 specialFromDate: priceDataItem[0].special_from_date,
@@ -178,7 +180,7 @@ const ProductPage = (props) => {
                             const priceTiers = {
                                 quantity: tiers.quantity,
                                 currency: tiers.final_price.currency,
-                                price: formatPrice(tiers.final_price.value),
+                                price: tiers.final_price.value,
                                 discount: tiers.discount.percent_off,
                             };
                             return (
@@ -186,6 +188,8 @@ const ProductPage = (props) => {
                                     {priceTiers.quantity > 1 && (
                                         <Typography variant="p" type="regular" key={index}>
                                             {t('product:priceTiers', { priceTiers })}
+                                            {' '}
+                                            {formatPrice(priceTiers.price, priceTiers.currency, currencyCache)}
                                         </Typography>
                                     )}
                                 </>
@@ -213,7 +217,14 @@ const ProductPage = (props) => {
                     <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} storeConfig={storeConfig} />
                 )}
             </div>
-            <OptionItem {...props} open={openOption} setOpen={() => setOpenOption(!openOption)} setBanner={setBanner} setPrice={setPrice} />
+            <OptionItem
+                {...props}
+                open={openOption}
+                setOpen={() => setOpenOption(!openOption)}
+                setBanner={setBanner}
+                setPrice={setPrice}
+                handleSelecteProduct={setSpesificProduct}
+            />
             <SharePopup open={openShare} setOpen={() => setOpenShare(!openShare)} link={getHost() + route.asPath} {...props} />
             <div className={classNames(styles.container, 'row')}>
                 <div className="col-lg-12 hidden-mobile">
@@ -423,7 +434,13 @@ const ProductPage = (props) => {
                         </div>
                     </div>
                     <div className="hidden-mobile">
-                        <DesktopOptions {...props} setOpen={setOpenOption} setBanner={setBanner} setPrice={setPrice} />
+                        <DesktopOptions
+                            {...props}
+                            setOpen={setOpenOption}
+                            setBanner={setBanner}
+                            setPrice={setPrice}
+                            handleSelecteProduct={setSpesificProduct}
+                        />
 
                         <div className="row">
                             {bannerLiteObj.after

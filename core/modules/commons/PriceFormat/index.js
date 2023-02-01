@@ -52,9 +52,12 @@ const Price = ({
 
     return (
         <OtherProductTypePrice
+            productType={productType}
             priceRange={priceRange}
             priceTiers={priceTiers}
             currencyCache={currencyCache}
+            isPdp={isPdp}
+            isQuickView={isQuickView}
             {...other}
         />
     );

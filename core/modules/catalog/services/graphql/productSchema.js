@@ -387,6 +387,31 @@ export const getProductPrice = (config = {}, router) => gql`
             }
             quantity
         }
+        ${
+    config.configurable_options_enable
+        ? `
+        ... on ConfigurableProduct {
+          id
+          name
+          url_key
+          variants{
+            attributes{
+              label
+              code
+            }
+            product{
+              sku
+              price_range{
+                maximum_price{
+                  final_price{
+                    value
+                  }
+                }
+              }
+            }
+          }
+          __typename
+        }` : ''}
       }
     }
   }
@@ -546,7 +571,7 @@ query getDetailproduct($url_key: String!){
     }
 }`;
 
-export const getDetailProductPrice = () => gql`
+export const getDetailProductPrice = (config = {}) => gql`
 query getDetailproduct($url_key: String!){
   products(
       search: "" ,filter: {
@@ -561,6 +586,32 @@ query getDetailproduct($url_key: String!){
         sku
         ${priceRange}
         ${priceTiers}
+        ${
+    config.configurable_options_enable
+        ? `
+              ... on ConfigurableProduct {
+                id
+                name
+                url_key
+                variants{
+                  attributes{
+                    label
+                    code
+                  }
+                  product{
+                    sku
+                    ${priceRange}
+                    ${priceTiers}
+                  }
+                  attributes {
+                    uid
+                    label
+                    code
+                    value_index
+                  }
+                }
+                __typename
+              }` : ''}
       }
     }
 }`;

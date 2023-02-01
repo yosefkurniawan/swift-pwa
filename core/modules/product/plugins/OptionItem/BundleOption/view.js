@@ -66,7 +66,7 @@ const AccordionDetails = withStyles(
 const BundleView = (props) => {
     const {
         t, data, items, changeQty, generateBundlePrice, selectOptions,
-        handleAddToCart, loading, disabled, customButton,
+        handleAddToCart, loading, disabled, customButton, currencyCache,
     } = props;
     const [open, setOpen] = React.useState(false || (typeof window !== 'undefined' && window.innerWidth <= 768));
     const styles = useStyles();
@@ -109,6 +109,7 @@ const BundleView = (props) => {
                             selectOptions={selectOptions}
                             handleAddToCart={handleAddToCart}
                             loading={loading}
+                            currencyCache={currencyCache}
                         />
                     ) : null}
 

@@ -38,6 +38,7 @@ const ItemView = (props) => {
         cartItemId,
         customizable_options,
         storeConfig = {},
+        currencyCache,
     } = props;
     const styles = useStyles();
 
@@ -172,8 +173,8 @@ const ItemView = (props) => {
                                     <div className="option-wrapper__item">
                                         {val.values.map((item, idt) => (
                                             <div key={idt}>
-                                                {item.quantity} x{item.label}
-                                                {/* <strong>+ ${item.price}</strong> */}
+                                                {item.quantity} x{item.label} 
+                                                {/* <strong>+ {formatPrice(item.price, 'IDR', currencyCache)}</strong> */}
                                             </div>
                                         ))}
                                     </div>
@@ -209,7 +210,7 @@ const ItemView = (props) => {
                         {t('cart:oos')}
                     </Alert>
                 )}
-                <div className={styles.itemPrice}>{formatPrice(prices.price_incl_tax.value, prices.price_incl_tax.currency)}</div>
+                <div className={styles.itemPrice}>{formatPrice(prices.price_incl_tax.value, prices.price_incl_tax.currency, currencyCache)}</div>
             </div>
 
             <div className={styles.itemActions}>

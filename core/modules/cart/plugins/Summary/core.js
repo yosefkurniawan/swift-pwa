@@ -1,6 +1,8 @@
 /* eslint-disable no-lonely-if */
 import config from '@config';
 import { formatPrice } from '@helper_currency';
+import { useReactiveVar } from '@apollo/client';
+import { currencyVar } from '@root/core/services/graphql/cache';
 import propTypes from 'prop-types';
 
 const CoreSummary = (props) => {
@@ -8,6 +10,9 @@ const CoreSummary = (props) => {
         DesktopView, MobileView, isDesktop, dataCart, globalCurrency = 'IDR', storeConfig,
         ...other
     } = props;
+    // cache currency
+    const currencyCache = useReactiveVar(currencyVar);
+
     const { t } = other;
     const { modules } = config;
     let dataSummary = [];
@@ -34,12 +39,14 @@ const CoreSummary = (props) => {
         if (prices && prices.applied_taxes && prices.applied_taxes.length) {
             subtotal = formatPrice(
                 prices.subtotal_excluding_tax.value,
-                prices.subtotal_excluding_tax.currency || globalCurrency,
+                prices.subtotal_excluding_tax.currency, currencyCache || globalCurrency,
+                currencyCache,
             );
         } else {
             subtotal = formatPrice(
                 prices.subtotal_including_tax.value,
                 prices.subtotal_including_tax.currency || globalCurrency,
+                currencyCache,
             );
         }
         total = prices.grand_total;
@@ -56,7 +63,7 @@ const CoreSummary = (props) => {
                 // eslint-disable-next-line comma-dangle
                 { value: 0 }
             );
-            const price = formatPrice(taxes.value, taxes.currency);
+            const price = formatPrice(taxes.value, taxes.currency, currencyCache);
             dataSummary.push({ item: t('common:summary:tax'), value: price });
         }
 
@@ -66,6 +73,7 @@ const CoreSummary = (props) => {
                 value: formatPrice(
                     applied_extra_fee.extrafee_value.value ? applied_extra_fee.extrafee_value.value : 0,
                     globalCurrency,
+                    currencyCache,
                 ),
             });
         }
@@ -79,18 +87,18 @@ const CoreSummary = (props) => {
                     totalShipping += ship.selected_shipping_method.amount.value;
                 }
             });
-            const price = formatPrice(totalShipping, storeConfig.base_currency_code);
+            const price = formatPrice(totalShipping, storeConfig.base_currency_code, currencyCache);
             dataSummary.push({ item: 'shipping', value: price });
         } else {
             if (shipping && shipping.selected_shipping_method) {
                 const shippingMethod = shipping.selected_shipping_method;
-                const price = formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency);
+                const price = formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency, currencyCache);
                 dataSummary.push({ item: 'shipping', value: price });
             }
         }
         if (prices && prices.discounts && prices.discounts.length) {
             const discounts = prices.discounts.map((disc) => {
-                const price = formatPrice(disc.amount.value, disc.amount.currency);
+                const price = formatPrice(disc.amount.value, disc.amount.currency, currencyCache);
                 return { item: `${disc.label}`, value: `-${price}` };
             });
             dataSummary = dataSummary.concat(discounts);
@@ -103,15 +111,15 @@ const CoreSummary = (props) => {
                                        && applied_store_credit.applied_balance
                                        && applied_store_credit.applied_balance.value > 0
             ) {
-                price = formatPrice(Math.abs(applied_store_credit.applied_balance.value), globalCurrency);
+                price = formatPrice(Math.abs(applied_store_credit.applied_balance.value), globalCurrency, currencyCache);
             } else if (applied_store_credit.is_use_store_credit) {
-                price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
+                price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency, currencyCache);
             }
             if (price !== '') dataSummary.push({ item: `${t('common:summary:storeCredit')} `, value: `-${price}` });
         }
 
         if (modules.rewardpoint.enabled && applied_reward_points.is_use_reward_points) {
-            const price = formatPrice(Math.abs(applied_reward_points.reward_points_amount), globalCurrency);
+            const price = formatPrice(Math.abs(applied_reward_points.reward_points_amount), globalCurrency, currencyCache);
             dataSummary.push({ item: `${t('common:summary:rewardPoint')} `, value: `-${price}` });
         }
 
@@ -120,13 +128,13 @@ const CoreSummary = (props) => {
             if (modules.giftcard.useCommerceModule) {
                 if (applied_giftcard && applied_giftcard.length > 0) {
                     giftCards = applied_giftcard.map((item) => {
-                        const price = formatPrice(Math.abs(item.applied_balance.value), globalCurrency);
+                        const price = formatPrice(Math.abs(item.applied_balance.value), globalCurrency, currencyCache);
                         return { item: `${t('common:summary:giftCard')} (${item.code}) - ${price}`, value: `-${price}` };
                     });
                 }
             } else {
                 giftCards = applied_giftcard.giftcard_detail.map((item) => {
-                    const price = formatPrice(Math.abs(item.giftcard_amount_used), globalCurrency);
+                    const price = formatPrice(Math.abs(item.giftcard_amount_used), globalCurrency, currencyCache);
                     return { item: `${t('common:summary:giftCard')} (${item.giftcard_code}) - ${price}`, value: `-${price}` };
                 });
             }
@@ -143,6 +151,7 @@ const CoreSummary = (props) => {
                 {...other}
                 dataCart={dataCart}
                 storeConfig={storeConfig}
+                currencyCache={currencyCache}
             />
         );
     }
@@ -155,6 +164,7 @@ const CoreSummary = (props) => {
             t={t}
             dataCart={dataCart}
             storeConfig={storeConfig}
+            currencyCache={currencyCache}
         />
     );
 };

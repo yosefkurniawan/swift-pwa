@@ -11,7 +11,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import useStyles from '@core_modules/checkout/pages/default/components/ExtraFee/style';
 
 const ExtraFeeView = ({
-    cart, globalCurrency, t, state, handleChange, loading,
+    cart, globalCurrency, t, state, handleChange, loading, currencyCache,
 }) => {
     const styles = useStyles();
     const Loader = () => (
@@ -33,7 +33,7 @@ const ExtraFeeView = ({
                         const data = item.options.map((option) => ({
                             ...option,
                             originalLabel: option.label,
-                            label: `${option.label} (${formatPrice(option.price, globalCurrency)})`,
+                            label: `${option.label} (${formatPrice(option.price, globalCurrency, currencyCache)})`,
                             value: JSON.stringify(option),
                         }));
                         if (item.frontend_type === 'checkbox' && item.enabled) {

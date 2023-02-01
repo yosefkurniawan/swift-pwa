@@ -33,6 +33,7 @@ const ItemProduct = (props) => {
         ConfigurableMiniCustomizable,
         note,
         storeConfig,
+        currencyCache,
     } = props;
     const [confirmDel, setConfirmDel] = useState(false);
     const handleDelete = () => {
@@ -67,14 +68,14 @@ const ItemProduct = (props) => {
             toggleEditDrawer={toggleEditDrawer}
             customizable_options={SimpleMiniCustomizable || ConfigurableMiniCustomizable || customizable_options}
             storeConfig={storeConfig}
+            currencyCache={currencyCache}
         />
     );
 };
 
 const ItemView = (props) => {
     const styles = useStyles();
-    const { data, t, toggleEditMode, editMode, deleteItem, handleFeed, toggleEditDrawer, ...other } = props;
-
+    const { data, t, toggleEditMode, editMode, deleteItem, handleFeed, toggleEditDrawer, currencyCache, ...other } = props;
     const storeConfigLocalStorage = useReactiveVar(storeConfigVar);
 
     let cartItemBySeller = {};
@@ -144,6 +145,7 @@ const ItemView = (props) => {
                                     }
                                     deleteItem={deleteItem}
                                     handleFeed={handleFeed}
+                                    currencyCache={currencyCache}
                                     {...other}
                                 />
                             ))}
@@ -167,12 +169,21 @@ const ItemView = (props) => {
                             }
                             deleteItem={deleteItem}
                             handleFeed={handleFeed}
+                            currencyCache={currencyCache}
                             {...other}
                         />
                     ))}
             </div>
             <div className="hidden-mobile">
-                <TableList data={data.items} t={t} deleteItem={deleteItem} handleFeed={handleFeed} toggleEditDrawer={toggleEditDrawer} {...other} />
+                <TableList
+                    data={data.items}
+                    t={t}
+                    deleteItem={deleteItem}
+                    handleFeed={handleFeed}
+                    toggleEditDrawer={toggleEditDrawer}
+                    currencyCache={currencyCache}
+                    {...other}
+                />
             </div>
         </div>
     );

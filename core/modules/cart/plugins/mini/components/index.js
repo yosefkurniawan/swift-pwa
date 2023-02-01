@@ -15,7 +15,7 @@ import PaypalButtonView from '@plugin_paypalbutton';
 const MiniComponent = (props) => {
     const router = useRouter();
     const {
-        open, setOpen, count, t, loading, data, deleteCart, updateCart, errorCart, storeConfig,
+        open, setOpen, count, t, loading, data, deleteCart, updateCart, errorCart, storeConfig, currencyCache,
     } = props;
     const styles = useStyles();
     const disabled = errorCart && errorCart.length > 0;
@@ -33,7 +33,7 @@ const MiniComponent = (props) => {
                     <span>{t('common:cart:myCart')}</span>
                     <span onClick={setOpen}>{t('common:button:close')}</span>
                 </div>
-                {loading || !data.items ? <Skeleton /> : <ItemCart data={data.items} t={t} deleteCart={deleteCart} updateCart={updateCart} storeConfig={storeConfig} />}
+                {loading || !data.items ? <Skeleton /> : <ItemCart data={data.items} t={t} deleteCart={deleteCart} updateCart={updateCart} storeConfig={storeConfig} currencyCache={currencyCache} />}
                 {data && data.total_quantity > 0 ? (
                     <div className={styles.mini_bottom}>
                         <div className="sub-total">
@@ -41,7 +41,7 @@ const MiniComponent = (props) => {
                                 {t('common:cart:cardTotal')}
                                 :
                             </span>
-                            <span>{data.custom_total_price ? formatPrice(subtotal_including_tax, subtotal_including_tax_currency) : '-'}</span>
+                            <span>{data.custom_total_price ? formatPrice(subtotal_including_tax, subtotal_including_tax_currency, currencyCache) : '-'}</span>
                         </div>
                         <div
                             id="plugin-minicart-editCartBtn"
@@ -65,7 +65,7 @@ const MiniComponent = (props) => {
                                         if (minimumOrderEnabled && grandTotalValue < minimumOrderAmount) {
                                             const errorMessage = {
                                                 variant: 'error',
-                                                text: `Unable to place order: Minimum order amount is ${formatPrice(minimumOrderAmount)}`,
+                                                text: `Unable to place order: Minimum order amount is ${formatPrice(minimumOrderAmount, currencyCache)}`,
                                                 open: true,
                                             };
                                             window.toastMessage({

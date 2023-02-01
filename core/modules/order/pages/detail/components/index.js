@@ -24,7 +24,7 @@ import React from 'react';
 
 const DetailOrder = (props) => {
     const {
-        t, detail, currency, storeConfig, reOrder, returnUrl, paymentInfo, dataTrackingOrder, printOrder,
+        t, detail, currency, storeConfig, reOrder, returnUrl, paymentInfo, dataTrackingOrder, printOrder, currencyCache,
     } = props;
     const {
         checkout: {
@@ -389,7 +389,7 @@ const DetailOrder = (props) => {
                                         ))}
                                 </div>
                                 <div className="hidden-mobile">
-                                    <Table data={items} t={t} currency={currency} />
+                                    <Table data={items} t={t} currency={currency} currencyCache={currencyCache} />
                                 </div>
                             </div>
                         </div>
@@ -407,6 +407,7 @@ const DetailOrder = (props) => {
                                             {formatPrice(
                                                 detail[0].detail[0].tax_amount ? detail[0].detail[0].subtotal : detail[0].detail[0].subtotal_incl_tax,
                                                 currency,
+                                                currencyCache,
                                             )}
                                         </Typography>
                                     </div>
@@ -417,7 +418,7 @@ const DetailOrder = (props) => {
                                             {t('order:tax')}
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">
-                                            {formatPrice(detail[0].detail[0].tax_amount, currency)}
+                                            {formatPrice(detail[0].detail[0].tax_amount, currency, currencyCache)}
                                         </Typography>
                                     </div>
                                 )}
@@ -427,7 +428,7 @@ const DetailOrder = (props) => {
                                             {t('order:shipping')}
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">
-                                            {formatPrice(detail[0].detail[0].payment.shipping_amount, currency)}
+                                            {formatPrice(detail[0].detail[0].payment.shipping_amount, currency, currencyCache)}
                                         </Typography>
                                     </div>
                                 )}
@@ -437,7 +438,7 @@ const DetailOrder = (props) => {
                                             {t('order:discount')}
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">
-                                            {formatPrice(detail[0].detail[0].discount_amount, currency)}
+                                            {formatPrice(detail[0].detail[0].discount_amount, currency, currencyCache)}
                                         </Typography>
                                     </div>
                                 ) : null}
@@ -447,7 +448,7 @@ const DetailOrder = (props) => {
                                             {t('order:credit')}
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">
-                                            {formatPrice(detail[0].detail[0].aw_store_credit.store_credit_amount, currency)}
+                                            {formatPrice(detail[0].detail[0].aw_store_credit.store_credit_amount, currency, currencyCache)}
                                         </Typography>
                                     </div>
                                 ) : null}
@@ -457,7 +458,7 @@ const DetailOrder = (props) => {
                                             {t('order:rewardPoints')}
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">
-                                            {formatPrice(detail[0].detail[0].aw_reward_points.reward_points_amount, currency)}
+                                            {formatPrice(detail[0].detail[0].aw_reward_points.reward_points_amount, currency, currencyCache)}
                                         </Typography>
                                     </div>
                                 ) : null}
@@ -478,7 +479,7 @@ const DetailOrder = (props) => {
                                             )
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">
-                                            {formatPrice(-detail[0].detail[0].aw_giftcard.giftcard_amount, currency)}
+                                            {formatPrice(-detail[0].detail[0].aw_giftcard.giftcard_amount, currency, currencyCache)}
                                         </Typography>
                                     </div>
                                 ) : null}
@@ -491,6 +492,7 @@ const DetailOrder = (props) => {
                                             {formatPrice(
                                                 detail[0].detail[0].applied_extra_fee.extrafee_value.value,
                                                 detail[0].detail[0].applied_extra_fee.extrafee_value.currency,
+                                                currencyCache,
                                             )}
                                         </Typography>
                                     </div>
@@ -500,7 +502,7 @@ const DetailOrder = (props) => {
                                         Total
                                     </Typography>
                                     <Typography variant="title" type="bold" letter="capitalize">
-                                        {detail[0].detail[0].grand_total && formatPrice(detail[0].detail[0].grand_total, currency)}
+                                        {detail[0].detail[0].grand_total && formatPrice(detail[0].detail[0].grand_total, currency, currencyCache)}
                                     </Typography>
                                 </div>
                             </div>
