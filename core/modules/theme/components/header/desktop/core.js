@@ -77,13 +77,13 @@ const CoreTopNavigation = (props) => {
 
     const handleSearch = (ev) => {
         if (ev.key === 'Enter' && ev.target.value !== '') {
-            Router.push(`/catalogsearch/result?q=${value}`);
+            Router.push(`/catalogsearch/result?q=${encodeURIComponent(value)}`);
         }
     };
 
     const searchByClick = () => {
         if (value !== '') {
-            Router.push(`/catalogsearch/result?q=${value}`);
+            Router.push(`/catalogsearch/result?q=${encodeURIComponent(value)}`);
         }
     };
     return (

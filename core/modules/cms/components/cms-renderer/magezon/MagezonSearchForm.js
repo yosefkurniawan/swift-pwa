@@ -14,19 +14,13 @@ const MagezonSearchForm = (props) => {
     const { t } = useTranslation();
     const handleSearch = (ev) => {
         if (ev.key === 'Enter' && ev.target.value !== '') {
-            Router.push({
-                pathname: '/catalogsearch/result',
-                query: { q: value },
-            });
+            Router.push(`/catalogsearch/result?q=${encodeURIComponent(value)}`);
         }
     };
 
     const searchByClick = () => {
         if (value !== '') {
-            Router.push({
-                pathname: '/catalogsearch/result',
-                query: { q: value },
-            });
+            Router.push(`/catalogsearch/result?q=${encodeURIComponent(value)}`);
         }
     };
 

@@ -15,7 +15,7 @@ const getQueryFromPath = (router) => {
     } else {
         path = router.pathname;
     }
-    asPath = decodeURI(asPath);
+    asPath = decodeURIComponent(asPath);
     asPath = asPath.replace(path, '').substr(1);
     asPath = asPath.split('&');
     const query = {};
