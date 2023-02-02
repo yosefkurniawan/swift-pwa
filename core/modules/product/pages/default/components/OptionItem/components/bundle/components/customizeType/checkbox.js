@@ -3,7 +3,7 @@
 import { formatPrice } from '@helper_currency';
 
 const Checkbox = ({
-    val, selectOptions, data,
+    val, selectOptions, data, dynamicPrice,
 }) => (
     <div className="options-container">
         <input
@@ -18,8 +18,10 @@ const Checkbox = ({
             className="label-options"
             htmlFor={val.id}
             dangerouslySetInnerHTML={{
-                __html: `${val.label} + <b>${formatPrice(val.product.price_range.minimum_price.final_price.value,
-                    val.product.price_range.minimum_price.final_price.currency)}</b>`,
+                __html: `${val.label} + <b>${formatPrice(dynamicPrice === false
+                    ? val.price
+                    : val.product.price_range.minimum_price.final_price.value,
+                val.product.price_range.minimum_price.final_price.currency)}</b>`,
             }}
         />
         <br />

@@ -11,7 +11,7 @@ import useStyles from '@plugin_optionitem/BundleOption/style';
 import React from 'react';
 
 const SelectItem = ({
-    data, options = [], selectOptions, currencyCache,
+    data, options = [], selectOptions, currencyCache, dynamicPrice,
 }) => {
     const styles = useStyles();
     let defaultValue = 0;
@@ -38,8 +38,9 @@ const SelectItem = ({
                             <label
                                 className="label-options"
                                 dangerouslySetInnerHTML={{
-                                    __html: `${val.label} + <b>${formatPrice(
-                                        val.product.price_range.minimum_price.final_price.value,
+                                    __html: `${val.label} + <b>${formatPrice(dynamicPrice === false
+                                        ? val.price
+                                        : val.product.price_range.minimum_price.final_price.value,
                                         val.product.price_range.minimum_price.final_price.currency,
                                         currencyCache,
                                     )}</b>`,
