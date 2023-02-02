@@ -1,6 +1,8 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { GRAY_SECONDARY } from '@theme_color';
-import { CreateMargin, CreatePadding, FlexRow } from '@theme_mixins';
+import {
+    CreateMargin, CreatePadding, FlexRow, CenterAbsolute,
+} from '@theme_mixins';
 import { FONT_10 } from '@theme_typography';
 
 export default makeStyles((theme) => ({
@@ -174,6 +176,16 @@ export default makeStyles((theme) => ({
         boxShadow: 'none',
         borderBottom: `1px solid ${GRAY_SECONDARY}`,
     },
+    tabContainer: {
+        display: 'flex',
+        marginBottom: '30px',
+        '& h2': {
+            padding: '16px 24px',
+        },
+        '& .makeStyles-bold': {
+            borderBottom: '1px solid green',
+        },
+    },
     btnLoadmore: {
         cursor: 'pointer',
         width: '100%',
@@ -198,5 +210,46 @@ export default makeStyles((theme) => ({
         textAlign: 'center',
         padding: 20,
         visibility: 'hidden',
+    },
+    skeletonWrapper: {
+        padding: '0 0 12px 0',
+        width: '100%',
+        postion: 'relative',
+        marginTop: '20px',
+        '& .logo': {
+            width: 100,
+            top: 5,
+            position: 'absolute',
+            zIndex: 99,
+            ...CenterAbsolute,
+        },
+        [theme.breakpoints.down('sm')]: {
+            '& .MuiGrid-spacing-xs-2': {
+                marginTop: 10,
+            },
+            marginTop: 0,
+        },
+    },
+    imgColumn: {
+        maxWidth: 450,
+        maxHeight: 450,
+        width: 'auto',
+        height: 'auto',
+    },
+    videoContainer: {
+        position: 'relative',
+        width: '100%',
+        overflow: 'hidden',
+        paddingTop: '56.25%', /* 16:9 ratio */
+        '& .video-iframe': {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            width: '100%',
+            height: '100%',
+            border: 'none',
+        },
     },
 }));

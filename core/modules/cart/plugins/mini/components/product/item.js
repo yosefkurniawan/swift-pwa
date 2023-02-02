@@ -3,13 +3,14 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import Link from 'next/link';
+import Alert from '@material-ui/lab/Alert';
 import Thumbor from '@common_image';
 import { formatPrice } from '@helper_currency';
 import { useTranslation } from '@i18n';
 
 const Item = (props) => {
     const {
-        quantity, custom_price, product, deleteCart, updateCart, id, configurable_options, bundle_options, customizable_options,
+        errorCartItems, quantity, custom_price, product, deleteCart, updateCart, id, configurable_options, bundle_options, customizable_options,
         SimpleMiniCustomizable, ConfigurableMiniCustomizable,
         aw_giftcard_option, storeConfig, currencyCache,
     } = props;
@@ -128,7 +129,7 @@ const Item = (props) => {
                     </div>
                 </div>
 
-                {product.stock_status === 'OUT_OF_STOCK' && (
+                {errorCartItems && errorCartItems.length > 0 && errorCartItems[0] === null && (
                     <div className="oos-info">
                         <span className="oos-info-content">{t('common:cart:oos')}</span>
                     </div>
@@ -142,6 +143,13 @@ const Item = (props) => {
                     x
                 </div>
             </div>
+            {
+                errorCartItems && errorCartItems.length > 0 && errorCartItems[0] !== null && (
+                    <div className="error-status-qty">
+                        <Alert severity="warning">{errorCartItems[0]}</Alert>
+                    </div>
+                )
+            }
         </li>
     );
 };

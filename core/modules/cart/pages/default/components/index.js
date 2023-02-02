@@ -1,3 +1,5 @@
+/* eslint-disable no-mixed-operators */
+/* eslint-disable no-nested-ternary */
 import Route from 'next/router';
 import classNames from 'classnames';
 import Summary from '@plugin_summary';
@@ -17,7 +19,8 @@ const Content = (props) => {
         applyCoupon, removeCoupon, storeConfig, dataSummary, loadingSummary, currencyCache,
         ...other
     } = props;
-    let allData = !loadingSummary ? {...dataCart, ...dataSummary} : null;
+    const allData = !loadingSummary ? { ...dataCart, ...dataSummary } : null;
+    const errorCartItems = dataCart?.errorItems?.length > 0;
     const handleOnCheckoutClicked = () => {
         const minimumOrderEnabled = storeConfig.minimum_order_enable;
         const grandTotalValue = allData.prices.grand_total.value;
@@ -61,19 +64,19 @@ const Content = (props) => {
                 <div className="hidden-desktop">
                     {
                         !loadingSummary && allData ? (
-                        <Summary
-                        disabled={errorCart && errorCart.length > 0}
-                        isDesktop={false}
-                        t={t}
-                        dataCart={allData}
-                        editMode={editMode}
-                        storeConfig={storeConfig}
-                        {...other}
-                        handleActionSummary={handleOnCheckoutClicked}
-                        />
+                            <Summary
+                                disabled={errorCartItems || errorCart && errorCart.length > 0}
+                                isDesktop={false}
+                                t={t}
+                                dataCart={allData}
+                                editMode={editMode}
+                                storeConfig={storeConfig}
+                                {...other}
+                                handleActionSummary={handleOnCheckoutClicked}
+                            />
                         ) : null
                     }
-                    
+
                 </div>
                 {/* commented for now */}
                 {/* {modules.promo.enabled ? (
@@ -89,17 +92,20 @@ const Content = (props) => {
             </div>
             <div className="col-xs-12 col-sm-4 col-md-3 hidden-mobile">
                 {
-                    !loadingSummary && allData ? (<Summary
-                    disabled={errorCart && errorCart.length > 0}
-                    isDesktop
-                    t={t}
-                    dataCart={allData}
-                    editMode={editMode}
-                    storeConfig={storeConfig}
-                    {...other}
-                    handleActionSummary={handleOnCheckoutClicked}
-                    isCart
-                />) : <Skeleton variant="rect" width="100%" height={200} />}
+                    !loadingSummary && allData ? (
+                        <Summary
+                            disabled={errorCartItems || errorCart && errorCart.length > 0}
+                            isDesktop
+                            t={t}
+                            dataCart={allData}
+                            editMode={editMode}
+                            storeConfig={storeConfig}
+                            {...other}
+                            handleActionSummary={handleOnCheckoutClicked}
+                            isCart
+                        />
+                    ) : <Skeleton variant="rect" width="100%" height={200} />
+                }
             </div>
         </div>
     );

@@ -10,7 +10,7 @@ const WidgetPwaLink = (props) => {
     } = props;
     const customStyle = props?.class;
     const buttonText = props?.button;
-    const isExternal = url.startsWith('http');
+    const isExternal = url?.startsWith('http') || url?.startsWith('https');
     const router = useRouter();
 
     if (!url) return <span>no url found in pwa link widget</span>;

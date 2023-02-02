@@ -17,6 +17,15 @@ export const getSeller = gql`
     }
 `;
 
+export const getBannerSeller = gql`
+    query getBannerSeller($sellerId: [Int!]) {
+        getSeller(input: { seller_id: $sellerId }) {
+            banner_desktop
+            banner_mobile
+        }
+    }
+`;
+
 export const getProductBySellerId = gql`
     query getProductBySellerId(
         $filter: ProductAttributeFilterInput,
@@ -134,5 +143,6 @@ export const getProductBySellerId = gql`
 
 export default {
     getSeller,
+    getBannerSeller,
     getProductBySellerId,
 };

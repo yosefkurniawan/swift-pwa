@@ -3,5 +3,7 @@
     "share": "Share",
     "popularProducts": "Popular Products",
     "address": "Address",
-    "notFound": "Seller not found."
+    "notFound": "Seller not found.",
+    "home": "Home",
+    "product": "Products"
 }

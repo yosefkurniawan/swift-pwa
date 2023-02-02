@@ -535,6 +535,7 @@ export const getStripePaymentIntent = gql`
 export const getItemCart = gql`
     query Cart($cartId: String!) {
         cart(cart_id: $cartId) {
+            errorItems
             ${itemsProduct}
         }
     }
