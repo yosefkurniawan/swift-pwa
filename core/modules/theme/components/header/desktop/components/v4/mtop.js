@@ -94,7 +94,9 @@ const ViewTop = (props) => {
                                 <li>
                                     <Link href="/wishlist">
                                         <a>
-                                            {t('common:menu:mywishlist')} ({data.wishlist ? data.wishlist.items.length : 0} items ){' '}
+                                            {t('common:menu:mywishlist')}
+                                            ({ data.customer?.wishlists[0].items_v2
+                                                ? data.customer?.wishlists[0].items_v2.items.length : 0} items ){' '}
                                         </a>
                                     </Link>
                                 </li>

@@ -64,10 +64,12 @@ export const getCustomer = gql`
             lastname
             email
             is_subscribed
-        }
-        wishlist {
-            items {
-                id
+            wishlists {
+                items_v2 {
+                    items {
+                        id
+                    }
+                }
             }
         }
     }
