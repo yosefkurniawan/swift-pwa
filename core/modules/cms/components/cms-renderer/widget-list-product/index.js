@@ -28,11 +28,17 @@ const WidgetListProduct = (props) => {
      */
     const dataConditions = useMemo(() => getProductListConditions(conditions_encoded), [conditions_encoded]);
     const dataFilter = generateQueries(template, dataConditions);
-    const { data, loading, error } = getProductList({ ...dataFilter, pageSize: products_count });
+    const [fetchProductList, { data, loading, error }] = getProductList();
     const dataItems = data?.products?.items || [];
 
     let drawerFilterOnDesktop = {};
     const { data: dataDrawerFilterOnDesktop, loading: loadingDrawerFilterOnDesktop } = drawerFilterOnDesktopConfig();
+
+    React.useEffect(() => {
+        fetchProductList({
+            variables: { ...dataFilter, pageSize: parseInt(products_count, 10) },
+        });
+    }, []);
 
     if (!loadingDrawerFilterOnDesktop
         && dataDrawerFilterOnDesktop
