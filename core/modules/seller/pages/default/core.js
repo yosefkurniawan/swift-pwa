@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 const Seller = (props) => {
-    const { t, storeConfig, pageConfig, Content, isLogin, ...other } = props;
+    const { t, storeConfig, pageConfig, Content, ContentProducts, isLogin, ...other } = props;
     const router = useRouter();
 
     const { data: dataSeller, error: errorSeller, loading: loadingSeller } = getSeller({
@@ -53,20 +53,41 @@ const Seller = (props) => {
             data={dataSeller}
             isSellerPage
         >
-            <Content
-                t={t}
-                storeConfig={storeConfig}
-                dataSeller={dataSeller}
-                errorSeller={errorSeller}
-                loadingSeller={loadingSeller}
-                link={link}
-                sellerId={router.query.sellerId}
-                route={router}
-                isLogin={isLogin}
-                handleChat={handleChat}
-                showChat={showChat}
-                {...other}
-            />
+            {
+                router.route === '/seller/[sellerId]' ? (
+                    <Content
+                        t={t}
+                        storeConfig={storeConfig}
+                        dataSeller={dataSeller}
+                        errorSeller={errorSeller}
+                        loadingSeller={loadingSeller}
+                        link={link}
+                        sellerId={router.query.sellerId}
+                        route={router}
+                        isLogin={isLogin}
+                        handleChat={handleChat}
+                        showChat={showChat}
+                        {...other}
+                    />
+                )
+                    : (
+                        <ContentProducts
+                            t={t}
+                            storeConfig={storeConfig}
+                            dataSeller={dataSeller}
+                            errorSeller={errorSeller}
+                            loadingSeller={loadingSeller}
+                            link={link}
+                            sellerId={router.query.sellerId}
+                            route={router}
+                            isLogin={isLogin}
+                            handleChat={handleChat}
+                            showChat={showChat}
+                            {...other}
+                        />
+                    )
+            }
+
         </Layout>
     );
 };

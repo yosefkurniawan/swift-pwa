@@ -2,20 +2,20 @@ import useStyles from '@common_slick/Banner/style';
 
 const generateVideo = (props) => {
     const styles = useStyles();
-    const { videoUrl, video } = props;
+    const { urlEmbed, videoUrl, video } = props;
 
-    if (video) {
-        const urlVideoTag = video.split('"');
+    if (urlEmbed || video) {
+        const urlVideoTag = video ? video.split('"') : null;
         return (
             <div className={styles.productVideo}>
                 <iframe
                     width="100%"
                     height="600"
-                    src={urlVideoTag[5]}
+                    src={urlEmbed || urlVideoTag[5]}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
-                    title={urlVideoTag[8]}
+                    title={urlVideoTag ? urlVideoTag[8] : ''}
                 />
             </div>
         );
