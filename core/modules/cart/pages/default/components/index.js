@@ -1,3 +1,5 @@
+/* eslint-disable no-mixed-operators */
+/* eslint-disable no-nested-ternary */
 import Route from 'next/router';
 import classNames from 'classnames';
 import Summary from '@plugin_summary';
@@ -16,6 +18,7 @@ const Content = (props) => {
         applyCoupon, removeCoupon, storeConfig, currencyCache,
         ...other
     } = props;
+    const errorCartItems = dataCart?.errorItems?.length > 0;
     const handleOnCheckoutClicked = () => {
         const minimumOrderEnabled = storeConfig.minimum_order_enable;
         const grandTotalValue = dataCart.prices.grand_total.value;
@@ -58,7 +61,7 @@ const Content = (props) => {
                 ) : null}
                 <div className="hidden-desktop">
                     <Summary
-                        disabled={errorCart && errorCart.length > 0}
+                        disabled={errorCartItems || errorCart && errorCart.length > 0}
                         isDesktop={false}
                         t={t}
                         dataCart={dataCart}
@@ -82,7 +85,7 @@ const Content = (props) => {
             </div>
             <div className="col-xs-12 col-sm-4 col-md-3 hidden-mobile">
                 <Summary
-                    disabled={errorCart && errorCart.length > 0}
+                    disabled={errorCartItems || errorCart && errorCart.length > 0}
                     isDesktop
                     t={t}
                     dataCart={dataCart}
