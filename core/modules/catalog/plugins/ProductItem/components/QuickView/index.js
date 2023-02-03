@@ -164,7 +164,11 @@ const QuickView = (props) => {
             );
         }
         let priceProduct = priceItem;
-        if (priceDataItem.length > 0 && !loadPrice && !errorPrice) {
+        // handle if have an update price state
+        if (priceItem && priceItem.update) {
+            priceProduct = priceItem;
+        }
+        if (priceDataItem.length > 0 && !loadPrice && !errorPrice && !priceItem.update) {
             priceProduct = {
                 priceRange: spesificProduct.price_range ? spesificProduct.price_range : priceDataItem[0].price_range,
                 priceTiers: spesificProduct.price_tiers ? spesificProduct.price_tiers : priceDataItem[0].price_tiers,

@@ -30,7 +30,6 @@ const OptionsItemDownload = ({
     ...other
 }) => {
     const [qty, setQty] = React.useState(1);
-
     let cartId = '';
     let isLogin = 0;
 
@@ -90,6 +89,7 @@ const OptionsItemDownload = ({
                     },
                 },
             },
+            update: true,
         };
         setPrice(final_price_value);
     };
