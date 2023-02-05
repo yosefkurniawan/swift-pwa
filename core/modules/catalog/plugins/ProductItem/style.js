@@ -160,7 +160,11 @@ export default makeStyles((theme) => ({
         position: 'relative',
     },
     productTitle: {
-        ...CreateMargin(0, 0, 5, 0),
+        ...CreateMargin(0, 50, 5, 0),
+        display: '-webkit-box',
+        overflow: 'hidden',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
         fontSize: 12,
         fontWeight: '600',
     },
