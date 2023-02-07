@@ -143,7 +143,8 @@ const PromoModalItem = (props) => {
 
     React.useEffect(() => {
         if (checkout.data && checkout.data.cart && checkout.data.cart.items && checkout.data.cart.items.length > 0
-            && !dataProducts.loading && dataProducts.data && dataProducts.data.products && dataProducts.data.products.items
+            && checkout.data.cart.available_free_items && !dataProducts.loading && dataProducts.data
+            && dataProducts.data.products && dataProducts.data.products.items
             && dataProducts.data.products.items.length > 0
         ) {
             const items = [];

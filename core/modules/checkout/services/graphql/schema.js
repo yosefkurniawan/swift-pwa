@@ -884,6 +884,8 @@ export const setShippingMethod = gql`
                 ${modules.checkout.cashback.enabled ? applied_cashback : ''}
                 ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
                 ${prices}
+                ${cartAvailFreeItems}
+                ${itemsProduct}
                 ${modules.promo.enabled ? applied_coupons : ''}
                 ${modules.rewardpoint.enabled ? applied_reward_points : ''}
                 ${modules.giftcard.enabled ? applied_giftcard : ''}
@@ -910,6 +912,8 @@ export const setShippingMethodMultiseller = gql`
                 ${modules.checkout.cashback.enabled ? applied_cashback : ''}
                 ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
                 ${prices}
+                ${cartAvailFreeItems}
+                ${itemsProduct}
                 ${modules.promo.enabled ? applied_coupons : ''}
                 ${modules.rewardpoint.enabled ? applied_reward_points : ''}
                 ${modules.giftcard.enabled ? applied_giftcard : ''}
@@ -939,7 +943,9 @@ export const setPaymentMethod = gql`
                 ${modules.giftcard.enabled ? applied_giftcard : ''}
                 ${modules.storecredit.enabled ? applied_store_credit : ''}
                 ${prices}
+                ${cartAvailFreeItems}
                 ${promoBanner}
+                ${itemsProduct}
             }
         }
     }
