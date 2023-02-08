@@ -166,19 +166,24 @@ const ProductPagination = (props) => {
         const setSortOnSellerPage = queryKeys.filter((key) => key.match(banner ? /seller\/\d\d\?sort/ : /seller\/\d\d\/product\?sort/));
         const setFilterSellerPage = queryKeys.find((key) => key === urlFilter);
 
-        let filterObj = {
+        let filterObj = [{
             type: 'seller_id',
             value: sellerId,
-        };
+        }];
         // set default sort when there is no sort in query
         if (setSortOnSellerPage.length > 0) {
             query.sort = query[setSortOnSellerPage[0]];
         }
         if (setFilterSellerPage) {
-            filterObj = {
+            filterObj = [{
                 type: 'etalase',
                 value: router.query.filter
-            };
+                },
+                {
+                type: 'seller_id',
+                value: sellerId,
+                }
+            ];
         }
 
         config = {
@@ -186,9 +191,7 @@ const ProductPagination = (props) => {
             search: '',
             pageSize: 8,
             currentPage: 1,
-            filter: [
-                filterObj
-            ],
+            filter: filterObj,
             ...storeConfig.pwa,
         };
         config = generateConfig(query, config, elastic, availableFilter);
@@ -512,29 +515,30 @@ const ProductLoadMore = (props) => {
         const setSortOnSellerPage = queryKeys.filter((key) => key.match(/seller\/\d\d\/product\?sort/));
         const setFilterSellerPage = queryKeys.find((key) => key === `seller/${sellerId}/product?filter`);
 
-        let filterObj = {
+        let filterObj = [{
             type: 'seller_id',
             value: sellerId,
-        };
+        }];
 
         // set default sort when there is no sort in query
         if (setSortOnSellerPage.length > 0) {
             query.sort = query[setSortOnSellerPage[0]];
         }
         if (setFilterSellerPage) {
-            filterObj = {
+            filterObj = [{
                 type: 'etalase',
-                value: router.query.filter
-            };
+                value: router.query.filter,
+            }, {
+                type: 'seller_id',
+                value: sellerId,
+            }];
         }
         config = {
             customFilter: false,
             search: '',
             pageSize: 8,
             currentPage: 1,
-            filter: [
-                filterObj
-            ],
+            filter: filterObj,
             ...storeConfig.pwa,
         };
         config = generateConfig(query, config, elastic, availableFilter);
