@@ -1,13 +1,11 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable no-restricted-syntax */
 const fs = require('fs');
-const { getAccessEnv, getAppEnv, getEncryptEnv } = require('../../../helpers/env');
-const { HOST } = require('../../../../swift.config');
+const { getAccessEnv } = require('../../../helpers/env');
+const generateConfig = require('./generateconfig');
 
-const appEnv = getAppEnv();
-const url = HOST[appEnv] || HOST.prod;
 // urlpath for json file
-const urlList = ['./core/api/rest/config/config.json', './core/api/rest/setting/availableStores.json', './core/api/rest/setting/currency.json'];
+const urlList = ['./generated/config.json', './generated/availableStores.json', './generated/currency.json'];
 // check file existence
 const checkExist = urlList.map((list) => (
     fs.existsSync(list)
@@ -15,7 +13,7 @@ const checkExist = urlList.map((list) => (
 
 // function to read file json
 function readTheFile(req, res) {
-    fs.readFile('./core/api/rest/config/config.json', 'utf8', (err, jsonString) => {
+    fs.readFile('./generated/config.json', 'utf8', (err, jsonString) => {
         if (err) {
             // eslint-disable-next-line no-console
             console.log('File read failed:', err);
@@ -36,28 +34,12 @@ function readTheFile(req, res) {
         res.status(200).json(response);
     });
 }
-// function to call generate-config
-async function fetchConfig(req, res) {
-    await fetch(`${url}/generate-config`, {
-        headers: {
-            Authorization: `Bearer ${getEncryptEnv()}`,
-            'Content-Type': 'application/json',
-        },
-    })
-    // eslint-disable-next-line no-console, no-unused-vars
-        .then((resp) => {
-            console.log('generate config success');
-            return readTheFile(req, res);
-        })
-        .catch((err) => {
-        // eslint-disable-next-line no-console
-            console.log(err);
-        });
-}
-module.exports = (req, res) => {
+
+module.exports = async (req, res) => {
     if (`Bearer ${getAccessEnv()}` == req.headers.authorization) {
         if (checkExist.includes(false)) {
-            fetchConfig(req, res);
+            // function to call generate-config
+            await generateConfig(req, res);
         } else {
             readTheFile(req, res);
         }
