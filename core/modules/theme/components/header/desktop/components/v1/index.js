@@ -36,35 +36,6 @@ const ViewTopNavigation = (props) => {
         enablePopupInstallation = false,
     } = props;
 
-    const [triger, setTriger] = React.useState(false);
-
-    const maxHeigtToShow = 600;
-
-    React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const middleSubmenu = document.getElementById('submenu-center');
-            const leftSubmenu = document.getElementById('submenu-left');
-            const checkScrollTop = () => {
-                // handle show hide header
-                if (middleSubmenu && leftSubmenu) {
-                    if (window.pageYOffset > 100) {
-                        middleSubmenu.classList.remove('hidden-submenu');
-                        leftSubmenu.classList.add('hidden-submenu');
-                    } else {
-                        middleSubmenu.classList.add('hidden-submenu');
-                        leftSubmenu.classList.remove('hidden-submenu');
-                    }
-                }
-                if (!triger && window.pageYOffset > maxHeigtToShow) {
-                    setTriger(true);
-                } else if (triger && window.pageYOffset < maxHeigtToShow) {
-                    setTriger(false);
-                }
-            };
-            window.addEventListener('scroll', checkScrollTop);
-        }
-    }, [triger]);
-
     return (
         <div id="header">
             <div className="row header-top">
@@ -84,16 +55,6 @@ const ViewTopNavigation = (props) => {
                                         src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
                                     />
                                 </Link>
-                            </div>
-                        </div>
-                        <div id="submenu-center" className="header-middle__center hidden-submenu">
-                            <div className="row menu-category">
-                                <div className="col-xs-12 menu-middle">
-                                    {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
-                                </div>
-                            </div>
-                            <div className="header-small__menu">
-                                {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
                             </div>
                         </div>
                         <div className="header-middle__right">
@@ -135,27 +96,16 @@ const ViewTopNavigation = (props) => {
                         </div>
                     </div>
                     <div className="header-middle">
-                        <div id="submenu-left" className="header-middle__center">
+                        <div id="submenu" className="header-middle__center">
                             <div className="row menu-category">
                                 <div className="col-xs-12 menu-middle">
                                     {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
                                 </div>
                             </div>
-                            <div className="header-small__menu">
-                                {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
-                            </div>
                         </div>
                     </div>
                 </div>
             </main>
-            <div className="header-tab">
-                <div className="row menu-category">
-                    <div className="col-xs-12">{loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}</div>
-                </div>
-                <div className="header-small__menu">
-                    {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
-                </div>
-            </div>
             <style jsx>
                 {`
                     .header-main {
@@ -173,9 +123,6 @@ const ViewTopNavigation = (props) => {
                             z-index: 3;
                             top: ${showGlobalPromo ? '45px' : '0'};
                             transition: top 1s ease;
-                        }
-                        .header-middle__center {
-                            display: none;
                         }
                         .hidden-submenu {
                             display: none !important;
@@ -210,9 +157,6 @@ const ViewTopNavigation = (props) => {
                     }
                     .header-middle__right {
                         width: 600px;
-                    }
-                    .header-small__menu {
-                        display: none;
                     }
                     .header-middle img {
                         width: 120px;
@@ -268,18 +212,6 @@ const ViewTopNavigation = (props) => {
                         top: -45px !important;
                     }
                     @media (min-width: 1250px) {
-                        .header-small .header-small__menu {
-                            display: block;
-                        }
-                        .header-middle__center {
-                            display: block !important;
-                        }
-                        .header-tab {
-                            display: none;
-                        }
-                        .header-small .menu-category {
-                            display: none;
-                        }
                         .header-small {
                             height: 75px !important;
                         }
