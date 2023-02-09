@@ -77,6 +77,14 @@ const SingleProduct = (props) => {
         return classes;
     };
 
+    const responsiveProps = isProductGrid ? {
+        xl: isProductGrid && item_xl !== 5 && 12 / item_xl,
+        lg: isProductGrid && item_lg !== 5 && 12 / item_lg,
+        md: isProductGrid && item_md !== 5 && 12 / item_md,
+        sm: isProductGrid && item_sm !== 5 && 12 / item_sm,
+        xs: isProductGrid && item_xs !== 5 && 12 / item_xs,
+    } : {};
+
     const priceData = getPriceFromList(dataPrice, product.id);
 
     let defaultWidth = storeConfig?.pwa?.image_product_width;
@@ -118,11 +126,7 @@ const SingleProduct = (props) => {
                 direction={isGrid || isProductGrid || isSlider ? 'column' : 'row'}
                 alignItems={isGrid || isSlider ? 'center' : 'stretch'}
                 className={`mgz-single-product-card ${getCol5Classes()}`}
-                xl={isProductGrid && item_xl !== 5 && 12 / item_xl}
-                lg={isProductGrid && item_lg !== 5 && 12 / item_lg}
-                md={isProductGrid && item_md !== 5 && 12 / item_md}
-                sm={isProductGrid && item_sm !== 5 && 12 / item_sm}
-                xs={isProductGrid && item_xs !== 5 && 12 / item_xs}
+                {...responsiveProps}
             >
                 {product_image && (
                     <Grid
