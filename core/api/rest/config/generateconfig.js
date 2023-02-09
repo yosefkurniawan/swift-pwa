@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const { GraphQLClient, gql } = require('graphql-request');
 const { graphqlEndpoint } = require('../../../../swift.config');
-const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
+const { getAppEnv, getAccessEnv, getEncryptEnv } = require('../../../helpers/env');
 
 const { generateSetting } = require('../setting/generatesetting');
 
@@ -255,7 +255,7 @@ const reqBody = gql`{
 }`;
 
 const generateConfig = async (req, res) => {
-    if (`Bearer ${getAccessEnv()}` == req.headers.authorization) {
+    if (`Bearer ${getEncryptEnv()}` == req.headers.authorization) {
         await generateSetting();
         graphQLClient.request(reqBody, {}).then((data) => {
             fs.writeFile(`${baseDir}config.json`, JSON.stringify(data), (err) => {

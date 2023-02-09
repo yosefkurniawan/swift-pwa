@@ -1,7 +1,7 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable no-restricted-syntax */
 const fs = require('fs');
-const { getAccessEnv } = require('../../../helpers/env');
+const { getAccessEnv, getEncryptEnv } = require('../../../helpers/env');
 const generateConfig = require('./generateconfig');
 
 // urlpath for json file
@@ -38,8 +38,13 @@ function readTheFile(req, res) {
 module.exports = async (req, res) => {
     if (`Bearer ${getAccessEnv()}` == req.headers.authorization) {
         if (checkExist.includes(false)) {
+            const reqHeader = {
+                headers: {
+                    authorization: `Bearer ${getEncryptEnv()}`,
+                },
+            };
             // function to call generate-config
-            await generateConfig(req, res);
+            await generateConfig(reqHeader, res);
         } else {
             readTheFile(req, res);
         }
