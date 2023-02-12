@@ -79,6 +79,9 @@ const AwGiftCardProduct = (props) => {
     };
 
     const handleChangeSelect = (e) => {
+        if (e.target.value !== 'custom') {
+            formik.setFieldValue('aw_gc_custom_amount', '');
+        }
         setselectedCustomAmount(e.target.value);
     };
 
