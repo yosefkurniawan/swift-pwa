@@ -31,7 +31,7 @@ const Detail = (props) => {
             <div className={styles.dateShare}>
                 <Typography variant="p">{formatDate(publish_date || Date.now())}</Typography>
                 <Divider orientation="vertical" flexItem />
-                <ShareIcons url={`${getHost() + modules.blog.urlPath}/${url_key}`} />
+                <ShareIcons url={`${getHost() + modules.blog.link.detail.as}${url_key}`} />
             </div>
             {
                 featuredImage
@@ -64,7 +64,7 @@ const Detail = (props) => {
                                     {' '}
                                     :
                                 </Typography>
-                                <ShareIcons url={`${getHost() + modules.blog.urlPath}/${url_key}`} />
+                                <ShareIcons url={`${getHost() + modules.blog.link.detail.as}${url_key}`} />
                             </div>
                         </>
                     ) : (
