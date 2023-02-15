@@ -107,6 +107,8 @@ const Menu = (props) => {
                             prefix += `<i class='${val.caret}'></i>`;
                         }
 
+                        const generatedLink = generateLink(val);
+
                         return (
                             <li
                                 key={idx}
@@ -125,10 +127,10 @@ const Menu = (props) => {
                                     }
                                 }}
                             >
-                                {val.link ? (
+                                {val.link && val.link !== '#' ? (
                                     <>
                                         {val.before_html && <div dangerouslySetInnerHTML={{ __html: val.before_html }} />}
-                                        <Link href={{ pathname: generateLink(val)[0], query: generateLink(val)[1] }} as={generateLink(val)[1]}>
+                                        <Link href={{ pathname: generatedLink[0], query: generatedLink[1] }} as={generatedLink[1]}>
                                             <a
                                                 onClick={() => handleClick(val)}
                                                 ref={linkEl}
