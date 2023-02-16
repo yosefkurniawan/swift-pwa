@@ -297,6 +297,7 @@ const Shipping = (props) => {
                     state = { ...checkout };
                     state.data.paymentMethod = paymentMethod;
                     state.data.cart = updatedCart;
+                    state.newupdate = true;
                     setCheckout(state);
                     const selectedShipping = data.shippingMethods.filter((item) => item.method_code === method_code);
 

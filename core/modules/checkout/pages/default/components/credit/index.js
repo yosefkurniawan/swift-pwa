@@ -52,6 +52,7 @@ const DiscountSection = (props) => {
         const state = { ...checkout };
         const cartId = state.data.cart.id;
         state.loading.storeCredit = true;
+        state.newupdate = true;
 
         if (store_credit.is_use_store_credit) {
             const result = await removeStoreCreditFromCart({ variables: { cartId } });

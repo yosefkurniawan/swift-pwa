@@ -131,6 +131,23 @@ addtional_fees {
 }
 `;
 
+const extra_fee = `
+applied_extra_fee {
+    extrafee_value {
+      currency
+      value
+    }
+    select_options {
+      default
+      label
+      option_id
+      price
+    }
+    show_on_cart
+    title
+}
+`;
+
 const applied_giftcard = modules.giftcard.useCommerceModule
     ? `
 applied_gift_cards {
@@ -399,7 +416,7 @@ mutation($cartId: String! $code: String!){
     }) {
       cart {
         id
-        ${cartRequiredSelection}
+        ${modules.giftcard.enabled ? applied_giftcard : ''}
         ${cartAvailablePaymentMethods}
       }
     }
@@ -415,7 +432,7 @@ mutation($cartId: String! $code: String!){
         ) {
             cart {
                 id
-                ${cartRequiredSelection}
+                ${modules.giftcard.enabled ? applied_giftcard : ''}
                 ${cartAvailablePaymentMethods}
             }
         }
@@ -431,7 +448,7 @@ mutation($cartId: String! $code: String!) {
   }) {
     cart {
       id
-      ${cartRequiredSelection}
+      ${modules.giftcard.enabled ? applied_giftcard : ''}
       ${cartAvailablePaymentMethods}
     }
   }
@@ -447,7 +464,7 @@ mutation($cartId: String! $code: String!) {
     ) {
         cart {
             id
-            ${cartRequiredSelection}
+            ${modules.giftcard.enabled ? applied_giftcard : ''}
             ${cartAvailablePaymentMethods}
         }
     }
@@ -463,7 +480,7 @@ export const applyStoreCreditToCart = gql`
         ) {
             cart {
                 id
-                ${cartRequiredSelection}
+                ${modules.storecredit.enabled ? applied_store_credit : ''}
             }
         }
     }
@@ -478,7 +495,7 @@ export const removeStoreCreditFromCart = gql`
         ) {
             cart {
                 id
-                ${cartRequiredSelection}
+                ${modules.storecredit.enabled ? applied_store_credit : ''}
             }
         }
     }
@@ -549,6 +566,16 @@ export const getCart = gql`
             ${cartShippingAddress}
             ${cartBillingAddress}
             ${selected_payment_method}
+        }
+    }
+`;
+
+export const getPrice = gql`
+    query Cart($cartId: String!) {
+        cart(cart_id: $cartId) {
+            ${prices}
+            ${promoBanner}
+            ${cartAvailFreeItems}
         }
     }
 `;
@@ -877,17 +904,9 @@ export const setShippingMethod = gql`
         }) {
             cart {
                 id
-                ${promoBanner}
                 shipping_addresses {
                     ${selected_shipping_method}
                 }
-                ${modules.checkout.cashback.enabled ? applied_cashback : ''}
-                ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
-                ${prices}
-                ${modules.promo.enabled ? applied_coupons : ''}
-                ${modules.rewardpoint.enabled ? applied_reward_points : ''}
-                ${modules.giftcard.enabled ? applied_giftcard : ''}
-                ${modules.storecredit.enabled ? applied_store_credit : ''}
             }
         }
     }
@@ -905,7 +924,6 @@ export const setShippingMethodMultiseller = gql`
         }) {
             cart {
                 id
-                ${promoBanner}
                 ${cartShippingAddress}
                 ${modules.checkout.cashback.enabled ? applied_cashback : ''}
                 ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
@@ -933,13 +951,6 @@ export const setPaymentMethod = gql`
             cart {
                 id
                 ${selected_payment_method}
-                ${modules.checkout.cashback.enabled ? applied_cashback : ''}
-                ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
-                ${modules.rewardpoint.enabled ? applied_reward_points : ''}
-                ${modules.giftcard.enabled ? applied_giftcard : ''}
-                ${modules.storecredit.enabled ? applied_store_credit : ''}
-                ${prices}
-                ${promoBanner}
             }
         }
     }
@@ -988,10 +999,6 @@ export const applyCouponToCart = gql`
                 applied_coupons {
                     code
                 }
-                ${cartRequiredSelection}
-                ${cartShippingAddress}
-                ${cartAvailablePaymentMethods}
-                ${itemsProduct}
             }
         }
     }
@@ -1005,10 +1012,6 @@ export const removeCouponFromCart = gql`
                 applied_coupons {
                     code
                 }
-                ${cartRequiredSelection}
-                ${cartShippingAddress}
-                ${cartAvailablePaymentMethods}
-                ${itemsProduct}
             }
         }
     }
@@ -1019,7 +1022,7 @@ export const applyRewardPointsToCart = gql`
         applyRewardPointsToCart(input: { cart_id: $cartId }) {
             cart {
                 id
-                ${cartRequiredSelection}
+                ${modules.rewardpoint.enabled ? applied_reward_points : ''}
             }
         }
     }
@@ -1030,7 +1033,7 @@ export const removeRewardPointsFromCart = gql`
         removeRewardPointsFromCart(input: { cart_id: $cartId }) {
             cart {
                 id
-                ${cartRequiredSelection}
+                ${modules.rewardpoint.enabled ? applied_reward_points : ''}
             }
         }
     }
@@ -1264,7 +1267,7 @@ mutation updateExtraFee(
     }) {
         cart {
             id
-            ${cartRequiredSelection}
+            ${modules.checkout.extraFee.enabled ? extra_fee : ''}
         }
     }
 }

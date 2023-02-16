@@ -65,6 +65,7 @@ const RewardPoint = ({
         if (cart) {
             state.data.cart = cart;
         }
+        state.newupdate = true;
         setCheckout(state);
         setLoading(false);
     };

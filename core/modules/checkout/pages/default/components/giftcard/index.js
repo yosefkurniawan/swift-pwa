@@ -43,6 +43,7 @@ const GiftCard = (props) => {
             },
         };
         state.loading.giftCard = true;
+        state.newupdate = true;
         setCheckout(state);
 
         const cartId = state.data.cart.id;
@@ -99,6 +100,7 @@ const GiftCard = (props) => {
             },
         };
         state.loading.giftCard = true;
+        state.newupdate = true;
         setCheckout(state);
 
         const cartId = state.data.cart.id;
