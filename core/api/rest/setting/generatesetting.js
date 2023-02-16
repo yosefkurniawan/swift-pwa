@@ -8,7 +8,7 @@ const { GraphQLClient, gql } = require('graphql-request');
 const { graphqlEndpoint } = require('../../../../swift.config');
 const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
 
-const baseDir = path.join(__dirname, '../setting/');
+const baseDir = path.join(__dirname, '../../../../generated/');
 
 const appEnv = getAppEnv();
 

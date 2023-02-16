@@ -5,7 +5,7 @@ const { getAccessEnv } = require('../../../helpers/env');
 
 module.exports = (req, res) => {
     if (`Bearer ${getAccessEnv()}` == req.headers.authorization) {
-        fs.readFile(`./core/api/rest/setting/${req.query.field}.json`, 'utf8', (err, jsonString) => {
+        fs.readFile(`./generated/${req.query.field}.json`, 'utf8', (err, jsonString) => {
             if (err) {
             // eslint-disable-next-line no-console
                 console.log('File read failed:', err);

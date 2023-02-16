@@ -9,7 +9,7 @@ const { getAppEnv, getAccessEnv, getEncryptEnv } = require('../../../helpers/env
 
 const { generateSetting } = require('../setting/generatesetting');
 
-const baseDir = path.join(__dirname, '../config/');
+const baseDir = path.join(__dirname, '../../../../generated/');
 
 const appEnv = getAppEnv();
 
