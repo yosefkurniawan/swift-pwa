@@ -1,19 +1,28 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable no-restricted-syntax */
 const fs = require('fs');
+const path = require('path');
+const { dirname } = require('path');
 const { getAccessEnv, getEncryptEnv } = require('../../../helpers/env');
 const generateConfig = require('./generateconfig');
 
 // urlpath for json file
-const urlList = ['./generated/config.json', './generated/availableStores.json', './generated/currency.json'];
+const myRoot = dirname(require.main.filename);
+const baseDir = path.join(myRoot, 'generated/');
+const urlList = [`${baseDir}config.json`, `${baseDir}availableStores.json`, `${baseDir}currency.json`];
+
 // check file existence
-const checkExist = urlList.map((list) => (
-    fs.existsSync(list)
-));
+let check;
+async function checkExist() {
+    check = urlList.map((list) => (
+        fs.existsSync(list)
+    ));
+    return check;
+}
 
 // function to read file json
 function readTheFile(req, res) {
-    fs.readFile('./generated/config.json', 'utf8', (err, jsonString) => {
+    fs.readFile(`${baseDir}config.json`, 'utf8', (err, jsonString) => {
         if (err) {
             // eslint-disable-next-line no-console
             console.log('File read failed:', err);
@@ -37,7 +46,8 @@ function readTheFile(req, res) {
 
 module.exports = async (req, res) => {
     if (`Bearer ${getAccessEnv()}` == req.headers.authorization) {
-        if (checkExist.includes(false)) {
+        await checkExist();
+        if (check.includes(false)) {
             const reqHeader = {
                 headers: {
                     authorization: `Bearer ${getEncryptEnv()}`,
