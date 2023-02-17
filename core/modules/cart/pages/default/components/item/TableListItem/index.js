@@ -320,8 +320,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                     <TableCell align="right" className={styles.noBorder}>
                                                         <Typography variant="span" align="right" letter="capitalize">
                                                             {formatPrice(
-                                                                val.prices?.price_including_tax?.value || 0,
-                                                                val.prices?.price_including_tax?.currency || 'IDR',
+                                                                val.custom_price?.price_incl_tax?.value || 0,
+                                                                val.custom_price?.price_incl_tax?.currency || 'IDR',
                                                                 currencyCache
                                                             )}
                                                         </Typography>
@@ -334,8 +334,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                     <TableCell align="right" className={styles.noBorder}>
                                                         <Typography variant="span" align="right" letter="capitalize">
                                                             {formatPrice(
-                                                                val.prices.row_total_including_tax.value,
-                                                                val.prices.row_total_including_tax.currency,
+                                                                val.custom_price.row_total_incl_tax.value,
+                                                                val.custom_price.row_total_incl_tax.currency,
                                                                 currencyCache
                                                             )}
                                                         </Typography>
