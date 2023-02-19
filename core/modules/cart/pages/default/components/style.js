@@ -102,7 +102,10 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: 'none',
         color: PRIMARY,
         marginBottom: 4,
-        display: 'inline-block',
+        display: '-webkit-box',
+        overflow: 'hidden',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
     },
     itemPrice: {
         position: 'absolute',
