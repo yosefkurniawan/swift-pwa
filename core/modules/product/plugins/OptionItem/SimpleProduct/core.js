@@ -182,7 +182,7 @@ const CoreSimpleOptionItem = ({
                                         currency: price_range.minimum_price.regular_price.currency || 'USD',
                                         item_stock_status: stock_status,
                                         item_reviews_score: reviewValue,
-                                        item_reviews_count: review.reviews_count,
+                                        item_reviews_count: review?.reviews_count,
                                         item_sale_product: sale === 0 ? 'NO' : 'YES',
                                     },
                                 ],
