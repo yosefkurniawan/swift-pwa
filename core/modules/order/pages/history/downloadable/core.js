@@ -12,9 +12,9 @@ const HistoryDownload = (props) => {
     const [pageSize, setPageSize] = React.useState(size || 10);
     const [loadMore, setLoadMore] = React.useState(false);
     const pageConfig = {
-        title: t('order:title'),
+        title: t('customer:menu:myDownload'),
         header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: t('order:title'),
+        headerTitle: t('customer:menu:myDownload'),
         bottomNav: false,
     };
     const handleChangePage = (event, newPage) => {
