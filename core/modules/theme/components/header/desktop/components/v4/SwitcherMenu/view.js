@@ -47,21 +47,12 @@ const ViewSwitcherCurrency = (props) => {
     }
 
     /**
-     * not loading && check data
-     */
-    if (!loading && currencyState !== null) {
-        if (currencyState.exchange_rates.length <= 1) {
-            return null;
-        }
-    }
-
-    /**
      * rendering
      */
     return (
         <div>
             {/* [CURRENCY] TITLE */}
-            {title && (
+            {currencyState?.exchange_rates.length > 1 && title && (
                 <div>
                     <strong style={styleTitle}>{title}</strong>
                 </div>
