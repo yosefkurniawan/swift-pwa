@@ -1,5 +1,5 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { GRAY_SECONDARY } from '@theme_color';
+import { WHITE, GRAY_SECONDARY } from '@theme_color';
 import {
     CreateMargin, CreatePadding, FlexRow, CenterAbsolute,
 } from '@theme_mixins';
@@ -250,6 +250,46 @@ export default makeStyles((theme) => ({
             width: '100%',
             height: '100%',
             border: 'none',
+        },
+    },
+    etalaseContainer: {
+        position: 'sticky',
+        top: '140px',
+        '& .etalase-content': {
+            width: '100%',
+            height: '350px',
+            overflow: 'hidden',
+            overflowY: 'auto',
+            padding: 10,
+            border: '1px solid #0000000d',
+            borderRadius: 8,
+            boxSizing: 'border-box',
+            background: WHITE,
+            boxShadow: '-2px 2px 5px 3px #0000000d',
+            '&::-webkit-scrollbar': {
+                width: '0.3em',
+            },
+            '&::-webkit-scrollbar-track': {
+                backgroundColor: WHITE,
+            },
+            '&::-webkit-scrollbar-thumb': {
+                backgroundColor: '#0000001A',
+                borderRadius: '8px',
+            },
+            '& .MuiListItemIcon-root': {
+                minWidth: 30,
+            },
+            '& .MuiListItem-root.Mui-selected': {
+                '& span': {
+                    fontWeight: 600,
+                },
+            },
+        },
+    },
+    etalaseSelect: {
+        padding: '0px 20px',
+        '& .MuiFormControl-root': {
+            minWidth: '100%',
         },
     },
 }));

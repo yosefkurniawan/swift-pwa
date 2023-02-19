@@ -80,7 +80,7 @@ const ContentPagination = (props) => {
      * using useMemo to prevent re-render list
      * @returns
      */
-    const MainListSection = React.useMemo(() => <PaginationSection />, [products, totalPage, loading, loadmore, loadPrice]);
+    const MainListSection = React.useMemo(() => <PaginationSection />, [products, totalPage, loading, loadmore, loadPrice, isGrid]);
 
     return (
         <>

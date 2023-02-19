@@ -16,6 +16,9 @@ const Seller = (props) => {
         },
     });
 
+    const bannerMobile = dataSeller?.getSeller?.length > 0 && dataSeller?.getSeller[0]?.banner_mobile;
+    const bannerDesktop = dataSeller?.getSeller?.length > 0 && dataSeller?.getSeller[0]?.banner_desktop;
+
     const config = {
         title: dataSeller && dataSeller.getSeller.length > 0 && dataSeller.getSeller[0].name ? dataSeller.getSeller[0].name : 'Seller Page', // t('forgotpassword:title')
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -54,7 +57,7 @@ const Seller = (props) => {
             isSellerPage
         >
             {
-                router.route === '/seller/[sellerId]' ? (
+                (bannerMobile && router.route === '/seller/[sellerId]') ? (
                     <Content
                         t={t}
                         storeConfig={storeConfig}
@@ -67,6 +70,7 @@ const Seller = (props) => {
                         isLogin={isLogin}
                         handleChat={handleChat}
                         showChat={showChat}
+                        banner={!bannerDesktop || !bannerMobile}
                         {...other}
                     />
                 )
@@ -83,6 +87,7 @@ const Seller = (props) => {
                             isLogin={isLogin}
                             handleChat={handleChat}
                             showChat={showChat}
+                            banner={!bannerDesktop || !bannerMobile}
                             {...other}
                         />
                     )
