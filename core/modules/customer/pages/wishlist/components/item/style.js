@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
     btnAdd: {
         marginTop: 10,
     },
+    productTitle: {
+        display: '-webkit-box',
+        overflow: 'hidden',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
+    },
 }));
 
 export default useStyles;
