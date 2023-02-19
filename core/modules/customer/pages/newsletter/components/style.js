@@ -22,6 +22,7 @@ export default makeStyles((theme) => ({
         position: 'fixed',
         width: '100%',
         bottom: 0,
+        zIndex: 1,
         ...CreatePadding(16, 16, 16, 16),
         [theme.breakpoints.up('sm')]: {
             position: 'unset',
