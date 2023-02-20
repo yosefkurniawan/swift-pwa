@@ -16,7 +16,7 @@ import { RetryLink } from 'apollo-link-retry';
 import firebase from 'firebase/app';
 import fetch from 'isomorphic-unfetch';
 import cookies from 'js-cookie';
-import ApolloLinkTimeout from './ApolloLinkTimeout';
+import ApolloLinkTimeout from './apolloLinkTimeout';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData: {

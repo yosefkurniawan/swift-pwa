@@ -1,5 +1,5 @@
 import { ApolloLink, Observable } from '@apollo/client/core';
-import TimeoutError from './TimeoutError';
+import TimeoutError from './timeoutError';
 
 const DEFAULT_TIMEOUT = 15000;
 /**
