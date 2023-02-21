@@ -443,6 +443,7 @@ const ProductPage = (props) => {
                             setOpen={setOpenOption}
                             setBanner={setBanner}
                             setPrice={setPrice}
+                            priceData={priceData}
                             handleSelecteProduct={setSpesificProduct}
                         />
 

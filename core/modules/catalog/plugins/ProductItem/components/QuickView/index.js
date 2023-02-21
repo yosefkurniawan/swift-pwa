@@ -348,6 +348,7 @@ const QuickView = (props) => {
                                 t={t}
                                 data={product}
                                 dataPrice={dataPrice}
+                                priceData={priceData}
                                 setBanner={setBanner}
                                 setPrice={setPrice}
                                 setStockStatus={setStockStatus}
