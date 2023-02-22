@@ -1,8 +1,8 @@
 import GridList from '@common_gridlist';
 import Typography from '@common_typography';
 import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
-import Pagination from '@material-ui/lab/Pagination';
 import LabelView from '@plugin_productitem/components/LabelView';
+import PaginationSection from '@plugin_productlist/components/PaginationSection';
 import ProductItem from '@plugin_productitem/index';
 import useStyles from '@plugin_productlist/components/style';
 import classNames from 'classnames';
@@ -28,59 +28,6 @@ const ContentPagination = (props) => {
         setLocalStorage('isGrid', state);
         setGridState(state);
     };
-
-    /**
-     * LoadMore Section when pagination is true
-     * @returns
-     */
-    const PaginationSection = () => (
-        <>
-            {loading && <ProductListSkeleton />}
-            {!loadmore && !loading && (
-                <GridList
-                    data={products.items}
-                    ItemComponent={ProductItem}
-                    itemProps={{
-                        categorySelect: categoryPath,
-                        LabelView,
-                        isGrid,
-                        catalogList: true,
-                        className: 'grid-item',
-                        price,
-                        loadPrice,
-                        ...other,
-                    }}
-                    gridItemProps={
-                        isGrid
-                            ? {
-                                xs: 6, sm: 4, md: storeConfig?.pwa?.drawer_filter_on_desktop_enable ? 3 : 2,
-                            } : {
-                                xs: 12, sm: 12, md: storeConfig?.pwa?.drawer_filter_on_desktop_enable ? 12 : 12,
-                            }
-                    }
-                />
-            )}
-            {totalPage && totalPage > 0 ? (
-                <div className={styles.loadmorePagination}>
-                    <Pagination
-                        count={totalPage}
-                        page={page}
-                        onChange={(e, p) => handleChangePage(p)}
-                        showFirstButton
-                        showLastButton
-                        siblingCount={1}
-                        boundaryCount={1}
-                    />
-                </div>
-            ) : null}
-        </>
-    );
-
-    /**
-     * using useMemo to prevent re-render list
-     * @returns
-     */
-    const MainListSection = React.useMemo(() => <PaginationSection />, [products, totalPage, loading, loadmore, loadPrice, isGrid]);
 
     return (
         <>
@@ -156,7 +103,7 @@ const ContentPagination = (props) => {
                         ) : null}
                     <div className={styles.productContainer}>
                         {/** Pagination List */}
-                        {MainListSection}
+                        <PaginationSection isGrid={isGrid} {...props} />
                         {/** Pagination List */}
                         <div className="latest-product-indicator" />
                         {(products.items.length === products.total_count) || loading
