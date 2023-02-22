@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+/* eslint-disable no-mixed-operators */
 import React from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
@@ -25,13 +26,14 @@ const ImageSlide = ({
     videoUrl,
     storeConfig,
     alt = '',
+    urlEmbed,
 }) => {
     const styles = useStyles();
     const href = (link && link.includes('http://')) || link.includes('https://') ? link : link[0] === '/' ? link : `/${link}`;
 
-    if (video) {
-        if (imageUrl && video) {
-            return <ProductVideo video={video} />;
+    if (urlEmbed || video) {
+        if (urlEmbed || imageUrl && video) {
+            return <ProductVideo urlEmbed={urlEmbed} video={video} />;
         }
         if (!imageUrl && video) {
             return <ProductVideo video={video} />;

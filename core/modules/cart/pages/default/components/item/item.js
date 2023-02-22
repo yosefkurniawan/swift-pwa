@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable radix */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable max-len */
 import Image from '@common_image';
 import Typography from '@common_typography';
 import ConfirmationDelete from '@core_modules/cart/pages/default/components/confirmDelete';
@@ -38,6 +40,7 @@ const ItemView = (props) => {
         cartItemId,
         customizable_options,
         storeConfig = {},
+        errorCartItems,
         currencyCache,
     } = props;
     const styles = useStyles();
@@ -85,7 +88,6 @@ const ItemView = (props) => {
         });
 
         const maxChar = { value: '255' };
-
         return (
             <form onSubmit={formik.handleSubmit}>
                 {/* <TableRow> */}
@@ -204,14 +206,16 @@ const ItemView = (props) => {
                             <div>{orderNote(cartItemId, note, quantity)}</div>
                         )}
                 </div>
-                {product.stock_status === 'OUT_OF_STOCK' && (
+                {product.stock_status === 'OUT_OF_STOCK' ? (
                     <Alert severity="error" className="alert m-15">
                         {t('cart:oos')}
                     </Alert>
-                )}
-                <div className={styles.itemPrice}>
-                    {formatPrice(prices.price_including_tax.value, prices.price_including_tax.currency, currencyCache)}
-                </div>
+                ) : errorCartItems && errorCartItems.length > 0 ? (
+                    <Alert severity="warning" className="alert m-15">
+                        {errorCartItems[0]}
+                    </Alert>
+                ) : null}
+                <div className={styles.itemPrice}>{formatPrice(prices.price_including_tax.value, prices.price_including_tax.currency, currencyCache)}</div>
             </div>
 
             <div className={styles.itemActions}>

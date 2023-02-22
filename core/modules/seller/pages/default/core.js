@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 const Seller = (props) => {
-    const { t, storeConfig, pageConfig, Content, isLogin, ...other } = props;
+    const { t, storeConfig, pageConfig, Content, ContentProducts, isLogin, ...other } = props;
     const router = useRouter();
 
     const { data: dataSeller, error: errorSeller, loading: loadingSeller } = getSeller({
@@ -15,6 +15,9 @@ const Seller = (props) => {
             sellerId: parseInt(router.query.sellerId, 10),
         },
     });
+
+    const bannerMobile = dataSeller?.getSeller?.length > 0 && dataSeller?.getSeller[0]?.banner_mobile;
+    const bannerDesktop = dataSeller?.getSeller?.length > 0 && dataSeller?.getSeller[0]?.banner_desktop;
 
     const config = {
         title: dataSeller && dataSeller.getSeller.length > 0 && dataSeller.getSeller[0].name ? dataSeller.getSeller[0].name : 'Seller Page', // t('forgotpassword:title')
@@ -53,20 +56,43 @@ const Seller = (props) => {
             data={dataSeller}
             isSellerPage
         >
-            <Content
-                t={t}
-                storeConfig={storeConfig}
-                dataSeller={dataSeller}
-                errorSeller={errorSeller}
-                loadingSeller={loadingSeller}
-                link={link}
-                sellerId={router.query.sellerId}
-                route={router}
-                isLogin={isLogin}
-                handleChat={handleChat}
-                showChat={showChat}
-                {...other}
-            />
+            {
+                (bannerMobile && router.route === '/seller/[sellerId]') ? (
+                    <Content
+                        t={t}
+                        storeConfig={storeConfig}
+                        dataSeller={dataSeller}
+                        errorSeller={errorSeller}
+                        loadingSeller={loadingSeller}
+                        link={link}
+                        sellerId={router.query.sellerId}
+                        route={router}
+                        isLogin={isLogin}
+                        handleChat={handleChat}
+                        showChat={showChat}
+                        banner={!bannerDesktop || !bannerMobile}
+                        {...other}
+                    />
+                )
+                    : (
+                        <ContentProducts
+                            t={t}
+                            storeConfig={storeConfig}
+                            dataSeller={dataSeller}
+                            errorSeller={errorSeller}
+                            loadingSeller={loadingSeller}
+                            link={link}
+                            sellerId={router.query.sellerId}
+                            route={router}
+                            isLogin={isLogin}
+                            handleChat={handleChat}
+                            showChat={showChat}
+                            banner={!bannerDesktop || !bannerMobile}
+                            {...other}
+                        />
+                    )
+            }
+
         </Layout>
     );
 };

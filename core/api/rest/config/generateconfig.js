@@ -3,13 +3,16 @@
 /* eslint-disable no-restricted-syntax */
 const fs = require('fs');
 const path = require('path');
+const { dirname } = require('path');
 const { GraphQLClient, gql } = require('graphql-request');
 const { graphqlEndpoint } = require('../../../../swift.config');
 const { getAppEnv, getAccessEnv, getEncryptEnv } = require('../../../helpers/env');
 
 const { generateSetting } = require('../setting/generatesetting');
 
-const baseDir = path.join(__dirname, '../config/');
+// urlpath for json file
+const myRoot = dirname(require.main.filename);
+const baseDir = path.join(myRoot, 'generated/');
 
 const appEnv = getAppEnv();
 

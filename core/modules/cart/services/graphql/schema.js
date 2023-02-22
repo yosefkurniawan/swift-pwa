@@ -156,6 +156,7 @@ const items = `
 items {
   id
   note
+  errorCartItems
   quantity
   ... on SimpleCartItem {
     SimpleMiniCustomizable: ${customizable_options}
@@ -421,6 +422,7 @@ export const getMiniCart = gql`
             items {
               id
               quantity
+              errorCartItems
               note
               ... on SimpleCartItem {
                 SimpleMiniCustomizable: ${customizable_options}

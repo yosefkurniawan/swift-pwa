@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable no-mixed-operators */
 import { useRouter } from 'next/router';
 import { formatPrice } from '@helper_currency';
 
@@ -18,7 +19,8 @@ const MiniComponent = (props) => {
         open, setOpen, count, t, loading, data, deleteCart, updateCart, errorCart, storeConfig, currencyCache,
     } = props;
     const styles = useStyles();
-    const disabled = errorCart && errorCart.length > 0;
+    const errorCartItems = data?.errorItems?.length > 0;
+    const disabled = errorCartItems || errorCart && errorCart.length > 0;
     const subtotal_including_tax = data?.prices?.subtotal_including_tax?.value || 0;
     const subtotal_including_tax_currency = data?.prices?.subtotal_including_tax?.currency || 'IDR';
     return (

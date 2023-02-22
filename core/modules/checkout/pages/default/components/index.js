@@ -84,6 +84,7 @@ const Content = (props) => {
 
     const [displayHowToPay, setDisplayHowToPay] = useState(false);
     const enableMultiSeller = storeConfig.enable_oms_multiseller === '1';
+    const errorItems = checkout?.data?.errorItems;
 
     /**
      * [METHOD] handle click for place order
@@ -369,6 +370,7 @@ const Content = (props) => {
                     fullWidth
                     loading={loading}
                     disabled={
+                        errorItems ||
                         disabled ||
                         checkout.error.shippingAddress ||
                         (isSelectedPurchaseOrder && !isPurchaseOrderApply) ||

@@ -199,6 +199,13 @@ const useStyles = makeStyles(() => ({
                 width: 10,
                 height: 10,
             },
+            '& .error-status-qty': {
+                textTransform: 'none',
+                margin: '2px 0px',
+                '& .MuiAlert-root': {
+                    padding: '0px 16px',
+                },
+            },
         },
     },
     emptyCart: {

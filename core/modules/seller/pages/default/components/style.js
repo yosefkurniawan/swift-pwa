@@ -1,6 +1,8 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { GRAY_SECONDARY } from '@theme_color';
-import { CreateMargin, CreatePadding, FlexRow } from '@theme_mixins';
+import { WHITE, GRAY_SECONDARY } from '@theme_color';
+import {
+    CreateMargin, CreatePadding, FlexRow, CenterAbsolute,
+} from '@theme_mixins';
 import { FONT_10 } from '@theme_typography';
 
 export default makeStyles((theme) => ({
@@ -174,6 +176,16 @@ export default makeStyles((theme) => ({
         boxShadow: 'none',
         borderBottom: `1px solid ${GRAY_SECONDARY}`,
     },
+    tabContainer: {
+        display: 'flex',
+        marginBottom: '30px',
+        '& h2': {
+            padding: '16px 24px',
+        },
+        '& .makeStyles-bold': {
+            borderBottom: '1px solid green',
+        },
+    },
     btnLoadmore: {
         cursor: 'pointer',
         width: '100%',
@@ -198,5 +210,86 @@ export default makeStyles((theme) => ({
         textAlign: 'center',
         padding: 20,
         visibility: 'hidden',
+    },
+    skeletonWrapper: {
+        padding: '0 0 12px 0',
+        width: '100%',
+        postion: 'relative',
+        marginTop: '20px',
+        '& .logo': {
+            width: 100,
+            top: 5,
+            position: 'absolute',
+            zIndex: 99,
+            ...CenterAbsolute,
+        },
+        [theme.breakpoints.down('sm')]: {
+            '& .MuiGrid-spacing-xs-2': {
+                marginTop: 10,
+            },
+            marginTop: 0,
+        },
+    },
+    imgColumn: {
+        maxWidth: 450,
+        maxHeight: 450,
+        width: 'auto',
+        height: 'auto',
+    },
+    videoContainer: {
+        position: 'relative',
+        width: '100%',
+        overflow: 'hidden',
+        paddingTop: '56.25%', /* 16:9 ratio */
+        '& .video-iframe': {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            width: '100%',
+            height: '100%',
+            border: 'none',
+        },
+    },
+    etalaseContainer: {
+        position: 'sticky',
+        top: '140px',
+        '& .etalase-content': {
+            width: '100%',
+            height: '350px',
+            overflow: 'hidden',
+            overflowY: 'auto',
+            padding: 10,
+            border: '1px solid #0000000d',
+            borderRadius: 8,
+            boxSizing: 'border-box',
+            background: WHITE,
+            boxShadow: '-2px 2px 5px 3px #0000000d',
+            '&::-webkit-scrollbar': {
+                width: '0.3em',
+            },
+            '&::-webkit-scrollbar-track': {
+                backgroundColor: WHITE,
+            },
+            '&::-webkit-scrollbar-thumb': {
+                backgroundColor: '#0000001A',
+                borderRadius: '8px',
+            },
+            '& .MuiListItemIcon-root': {
+                minWidth: 30,
+            },
+            '& .MuiListItem-root.Mui-selected': {
+                '& span': {
+                    fontWeight: 600,
+                },
+            },
+        },
+    },
+    etalaseSelect: {
+        padding: '0px 20px',
+        '& .MuiFormControl-root': {
+            minWidth: '100%',
+        },
     },
 }));

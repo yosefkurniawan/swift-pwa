@@ -7,6 +7,7 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable radix */
 /* eslint-disable max-len */
+/* eslint-disable no-nested-ternary */
 // import Button from '@common_button';
 // import TextField from '@common_forms/TextField';
 import Image from '@common_image';
@@ -75,7 +76,6 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
     if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
 
     let cartItemBySeller = {};
-
     if (data) {
         const unGroupedData = data;
         // eslint-disable-next-line no-shadow
@@ -374,6 +374,12 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                                 </Alert>
                                                             </TableCell>
                                                         </>
+                                                    ) : val && val.errorCartItems && val.errorCartItems.length > 0 ? (
+                                                        <TableCell colSpan={3}>
+                                                            <Alert severity="warning">
+                                                                {val.errorCartItems[0]}
+                                                            </Alert>
+                                                        </TableCell>
                                                     ) : (
                                                         <TableCell colSpan={3} />
                                                     )}
@@ -580,7 +586,13 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                                         </Alert>
                                                                     </TableCell>
                                                                 </>
-                                                            ) : (
+                                                            ) : val && val.errorCartItems && val.errorCartItems.length > 0 ? (
+                                                        <TableCell colSpan={3}>
+                                                            <Alert severity="warning">
+                                                                {val.errorCartItems[0]}
+                                                            </Alert>
+                                                        </TableCell>
+                                                        ) : (
                                                                 <TableCell colSpan={3} className={styles.noBorder} />
                                                             )}
                                                             <TableCell align="right" className={styles.noBorder}>

@@ -32,6 +32,7 @@ const ItemProduct = (props) => {
         SimpleMiniCustomizable,
         ConfigurableMiniCustomizable,
         note,
+        errorCartItems,
         storeConfig,
         currencyCache,
     } = props;
@@ -53,6 +54,7 @@ const ItemProduct = (props) => {
         <Item
             t={t}
             note={note}
+            errorCartItems={errorCartItems}
             cartItemId={cartItemId}
             confirmDel={confirmDel}
             handleDelete={handleDelete}
@@ -77,7 +79,6 @@ const ItemView = (props) => {
     const styles = useStyles();
     const { data, t, toggleEditMode, editMode, deleteItem, handleFeed, toggleEditDrawer, currencyCache, ...other } = props;
     const storeConfigLocalStorage = useReactiveVar(storeConfigVar);
-
     let cartItemBySeller = {};
 
     if (storeConfigLocalStorage && storeConfigLocalStorage.enable_oms_multiseller && data && data.items) {

@@ -17,7 +17,7 @@ const Checkbox = dynamic(() => import('./customizeType/checkbox'), { ssr: false 
 
 const GenerateOptionsSelect = (props) => {
     const {
-        data, options = [], selectOptions, currencyCache,
+        data, options = [], selectOptions, currencyCache, dynamicPrice
     } = props;
     if (data.type === 'select') {
         return <Select {...props} />;
@@ -34,6 +34,7 @@ const GenerateOptionsSelect = (props) => {
                     data={data}
                     selectOptions={selectOptions}
                     currencyCache={currencyCache}
+                    dynamicPrice={dynamicPrice}
                 />
             ) : null;
         }
@@ -45,6 +46,7 @@ const GenerateOptionsSelect = (props) => {
                     data={data}
                     selectOptions={selectOptions}
                     currencyCache={currencyCache}
+                    dynamicPrice={dynamicPrice}
                 />
             ) : null;
         }
@@ -60,6 +62,7 @@ const Customize = (props) => {
     const [qty, setQty] = React.useState(1);
     const styles = useStyles();
     const product = data && data.products ? data.products.items[0] : {};
+    const isDynamicPrice = product ? product.dynamic_price : true;
 
     return (
         <>
@@ -83,6 +86,7 @@ const Customize = (props) => {
                                         options={val.options}
                                         selectOptions={selectOptions}
                                         currencyCache={currencyCache}
+                                        dynamicPrice={isDynamicPrice}
                                     />
                                     <Typography variant="label" type="bold">
                                         {t('product:quantity')}
@@ -102,7 +106,7 @@ const Customize = (props) => {
                             </Typography>
                             <hr />
                             <Typography variant="h3" type="bold">
-                                {generateBundlePrice(items, currencyCache)}
+                                {generateBundlePrice(items, currencyCache, isDynamicPrice)}
                             </Typography>
                             <ButtonQty value={1} onChange={(e) => setQty(e)} max={10000} />
                             <Button

@@ -13,6 +13,23 @@ export const getSeller = gql`
             longitude
             name
             status
+            banner_desktop
+            banner_mobile
+        }
+    }
+`;
+
+export const getEtalase = gql`
+    query getEtalase($sellerId: Int!){
+        getEtalase(input: { seller_id: $sellerId }) {
+            entity_id
+            name
+            is_default
+            is_pinned
+            position
+            image
+            products
+            seller_id
         }
     }
 `;
@@ -134,5 +151,6 @@ export const getProductBySellerId = gql`
 
 export default {
     getSeller,
+    getEtalase,
     getProductBySellerId,
 };
