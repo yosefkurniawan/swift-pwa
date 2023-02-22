@@ -318,6 +318,7 @@ const ProductPagination = (props) => {
      * @param {*} pageInput
      */
 
+    // eslint-disable-next-line consistent-return
     const handleChangePage = async (pageInput) => {
         try {
             if (fetchMore && typeof fetchMore !== 'undefined' && pageInput <= totalPage) {
@@ -332,9 +333,13 @@ const ProductPagination = (props) => {
                 });
                 setPage(pageInput);
                 // to change setLoadmore to false on useEffect
-                setTimeout(() => {
+                const timer = setTimeout(() => {
                     window.scroll(0, 0);
                 }, 200);
+                return () => {
+                    // clear timeout when the component unmounts
+                    clearTimeout(timer);
+                };
             }
         } catch (error) {
             setLoadmore(false);
