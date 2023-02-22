@@ -289,7 +289,8 @@ const ProductPagination = (props) => {
 
     // generate filter if donthave custom filter
     const aggregations = [];
-    if (!customFilter && !loading && products.aggregations) {
+    React.useMemo(() => {
+        if (!customFilter && !loading && products.aggregations) {
         // eslint-disable-next-line no-plusplus
         for (let index = 0; index < products.aggregations.length; index++) {
             aggregations.push({
@@ -298,7 +299,9 @@ const ProductPagination = (props) => {
                 value: products.aggregations[index].options,
             });
         }
-    }
+        }
+    }, [loading, customFilter, products]);
+
     const category = getCategoryFromAgregations(aggregations);
 
     // eslint-disable-next-line no-shadow
@@ -610,7 +613,8 @@ const ProductLoadMore = (props) => {
 
     // generate filter if donthave custom filter
     const aggregations = [];
-    if (!customFilter && !loading && products.aggregations) {
+    React.useMemo(() => {
+        if (!customFilter && !loading && products.aggregations) {
         // eslint-disable-next-line no-plusplus
         for (let index = 0; index < products.aggregations.length; index++) {
             aggregations.push({
@@ -619,7 +623,9 @@ const ProductLoadMore = (props) => {
                 value: products.aggregations[index].options,
             });
         }
-    }
+        }
+    }, [loading, customFilter, products]);
+
     const category = getCategoryFromAgregations(aggregations);
 
     // eslint-disable-next-line no-shadow
