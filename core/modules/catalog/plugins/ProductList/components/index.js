@@ -7,7 +7,7 @@ import ProductItem from '@plugin_productitem/index';
 import useStyles from '@plugin_productlist/components/style';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 const Filter = dynamic(() => import('@plugin_productlist/components/Filter'));
 const FilterDesktop = dynamic(() => import('@plugin_productlist/components/FilterDesktop'));
@@ -128,7 +128,7 @@ const ContentLoadMore = (props) => {
     const styles = useStyles();
     const [isGrid, setGridState] = useState(true);
     const [isExceedingOffset, setIsExceedingOffset] = useState(false);
-    const handleScroll = () => {
+    const handleScroll = useCallback(() => {
         // To get page offset of last user
         // const lastUserLoaded = document.querySelector(`.grid-item:last-child`);
         const lastUserLoaded = document.querySelector('.latest-product-indicator');
@@ -142,7 +142,7 @@ const ContentLoadMore = (props) => {
                 setIsExceedingOffset(false);
             }
         }
-    };
+    }, []);
 
     React.useEffect(() => {
         if (isExceedingOffset && !loadmore && products.items.length < products.total_count) {
@@ -160,7 +160,7 @@ const ContentLoadMore = (props) => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    });
+    }, [handleScroll]);
 
     useEffect(() => {
         const gridView = getLocalStorage('isGrid');
