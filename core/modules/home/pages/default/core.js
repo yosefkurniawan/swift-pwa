@@ -21,7 +21,7 @@ const HomeCore = (props) => {
                 appCurrency,
             });
         }
-    });
+    }, [storeConfig]);
 
     const schemaOrg = [
         {
