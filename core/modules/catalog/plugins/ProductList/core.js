@@ -8,7 +8,7 @@
 /* eslint-disable no-empty */
 /* eslint-disable array-callback-return */
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helper_generatequery';
@@ -317,7 +317,7 @@ const ProductPagination = (props) => {
      * pagination is true
      * @param {*} pageInput
      */
-
+    const timerRef = useRef(null);
     const handleChangePage = async (pageInput) => {
         try {
             if (fetchMore && typeof fetchMore !== 'undefined' && pageInput <= totalPage) {
@@ -332,7 +332,7 @@ const ProductPagination = (props) => {
                 });
                 setPage(pageInput);
                 // to change setLoadmore to false on useEffect
-                setTimeout(() => {
+                timerRef.current = setTimeout(() => {
                     window.scroll(0, 0);
                 }, 200);
             }
@@ -340,6 +340,13 @@ const ProductPagination = (props) => {
             setLoadmore(false);
         }
     };
+
+    React.useEffect(() =>
+         // clear timeout when the component unmounts
+         () => {
+            clearTimeout(timerRef.current);
+        },
+     []);
 
     React.useEffect(() => {
         if (data && data.products) {
