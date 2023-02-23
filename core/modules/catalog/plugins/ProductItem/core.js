@@ -134,7 +134,7 @@ const ProductItem = (props) => {
 
     const generateIdentifier = () => {
         let identifier = url_key;
-        identifier = identifier.replace(/ /g, '-');
+        identifier = identifier?.replace(/ /g, '-');
         return identifier;
     };
 
@@ -311,7 +311,9 @@ const ProductItem = (props) => {
                 },
             },
         });
-        if (modules.checkout.checkoutOnly) {
+        if (!url_key) {
+            route.push('/null');
+        } else if (modules.checkout.checkoutOnly) {
             window.open(`${getStoreHost(getAppEnv()) + url_key}.html`);
         } else {
             const { name, small_image } = props;
@@ -347,12 +349,17 @@ const ProductItem = (props) => {
     };
 
     const handleQuickView = async () => {
-        window.backdropLoader(true);
-        getProduct({
-            variables: {
-                url_key,
-            },
-        });
+        if (!url_key) {
+            window.backdropLoader(false);
+            setOpenQuickView(false);
+        } else {
+            window.backdropLoader(true);
+            getProduct({
+                variables: {
+                    url_key,
+                },
+            });
+        }
     };
 
     React.useEffect(() => {
@@ -517,7 +524,7 @@ const ProductItem = (props) => {
                             )}
                             <ImageProductView
                                 t={t}
-                                handleClick={handleClick}
+                                handleClick={() => handleClick(props)}
                                 spesificProduct={spesificProduct}
                                 urlKey={url_key}
                                 {...other}
