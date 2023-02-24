@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-unused-vars */
+import React from 'react';
 import Button from '@common_button';
 import CheckBox from '@common_checkbox';
 import CheckBoxColor from '@common_forms/CheckBoxColor';
@@ -40,18 +41,19 @@ const ViewFilter = (props) => {
         storeConfig,
     } = props;
     const styles = useStyles();
+    const timeRef = React.useRef(null);
     const checkedFilter = (field, value) => {
-        if (globalTimeout) {
-            clearTimeout(globalTimeout);
+        if (timeRef.current) {
+            clearTimeout(timeRef.current);
         }
         setCheckedFilter(field, value);
-        globalTimeout = setTimeout(() => {
+        timeRef.current = setTimeout(() => {
             handleSave();
         }, 1000);
     };
 
     const selectFilter = (field, value) => {
-        if (globalTimeout) {
+        if (timeRef.current) {
             clearTimeout(globalTimeout);
         }
         setSelectedFilter(field, value);
@@ -59,6 +61,11 @@ const ViewFilter = (props) => {
             handleSave();
         }, 1000);
     };
+
+    React.useEffect(() =>
+        // clear timeout when the component unmounts
+        () => clearTimeout(timeRef.current),
+    []);
 
     // const setPrice = (value) => {
     //     if (globalTimeout) {
