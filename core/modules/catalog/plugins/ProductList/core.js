@@ -288,19 +288,20 @@ const ProductPagination = (props) => {
     }, [page]);
 
     // generate filter if donthave custom filter
-    const aggregations = [];
-    React.useMemo(() => {
+    const aggregations = React.useMemo(() => {
+        const agg = [];
         if (!customFilter && !loading && products.aggregations) {
         // eslint-disable-next-line no-plusplus
         for (let index = 0; index < products.aggregations.length; index++) {
-            aggregations.push({
+            agg.push({
                 field: products.aggregations[index].attribute_code,
                 label: products.aggregations[index].label,
                 value: products.aggregations[index].options,
             });
         }
         }
-    }, [loading, customFilter, products]);
+        return agg;
+    }, [products, loading, customFilter]);
 
     const category = getCategoryFromAgregations(aggregations);
 
@@ -619,19 +620,20 @@ const ProductLoadMore = (props) => {
     /* ====End get price Product==== */
 
     // generate filter if donthave custom filter
-    const aggregations = [];
-    React.useMemo(() => {
+    const aggregations = React.useMemo(() => {
+        const agg = [];
         if (!customFilter && !loading && products.aggregations) {
         // eslint-disable-next-line no-plusplus
         for (let index = 0; index < products.aggregations.length; index++) {
-            aggregations.push({
+            agg.push({
                 field: products.aggregations[index].attribute_code,
                 label: products.aggregations[index].label,
                 value: products.aggregations[index].options,
             });
         }
         }
-    }, [loading, customFilter, products]);
+        return agg;
+    }, [products, loading, customFilter]);
 
     const category = getCategoryFromAgregations(aggregations);
 
