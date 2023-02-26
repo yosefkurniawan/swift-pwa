@@ -67,15 +67,6 @@ const ViewFilter = (props) => {
         () => clearTimeout(timeRef.current),
     []);
 
-    // const setPrice = (value) => {
-    //     if (globalTimeout) {
-    //         clearTimeout(globalTimeout);
-    //     }
-    //     setPriceRange(value);
-    //     globalTimeout = setTimeout(() => {
-    //         handleSave();
-    //     }, 1000);
-    // };
     const generateFilter = (data, itemFilter, idx) => {
         const ItemValueByLabel = [];
         // eslint-disable-next-line no-plusplus
