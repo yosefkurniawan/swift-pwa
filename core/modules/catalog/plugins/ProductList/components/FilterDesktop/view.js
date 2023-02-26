@@ -33,8 +33,6 @@ const ViewFilter = (props) => {
         setCheckedFilter,
         setSelectedFilter,
         handleSave,
-        handleClear,
-        category,
         onChangeTabs,
         isSearch,
         filter,
