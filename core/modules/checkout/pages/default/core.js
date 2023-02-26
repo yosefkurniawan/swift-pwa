@@ -246,7 +246,9 @@ const Checkout = (props) => {
         if (cartItems) {
             const cartItemsFilter = cartItems.filter((item) => {
                 const { __typename } = item.product;
-                return __typename !== 'VirtualProduct' && __typename !== 'DownloadableProduct' && __typename !== 'AwGiftCardProduct';
+                let isVirtualAwGc = !!(__typename === 'AwGiftCardProduct'
+                && item.product.aw_gc_type === 'VIRTUAL');
+                return __typename !== 'VirtualProduct' && __typename !== 'DownloadableProduct' && !isVirtualAwGc;
             });
 
             /**
