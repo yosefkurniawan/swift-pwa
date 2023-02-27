@@ -29,9 +29,9 @@ const CustomTabs = ({
 }) => {
     const styles = useStyles();
     const [localValue, setLocalValue] = React.useState(0);
-    const handleChange = (event, newValue) => {
+    const handleChange = React.useCallback((event, newValue) => {
         setLocalValue(newValue);
-    };
+    }, []);
     return (
         <AppBar position="static" color="inherit" className={styles.tabs} {...containerProps}>
             <Tabs
