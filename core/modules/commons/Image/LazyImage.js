@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const placeHolder = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAQAAADVobXoAAAAEElEQVR42mM8858BDBhhDAArAgOZPzQZFwAAAABJRU5ErkJggg==';
 
@@ -6,13 +6,13 @@ const LazyImage = ({ src, alt, style = {} }) => {
     const [imageSrc, setImageSrc] = useState(placeHolder);
     const [imageRef, setImageRef] = useState();
 
-    const onLoad = (event) => {
+    const onLoad = useCallback((event) => {
         event.target.classList.add('loaded');
-    };
+    }, []);
 
-    const onError = (event) => {
+    const onError = useCallback((event) => {
         event.target.classList.add('has-error');
-    };
+    }, []);
 
     useEffect(
         () => {
