@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
         ...Centering,
         height: 156,
         backgroundColor: WHITE,
+        [theme.breakpoints.up('sm')]: {
+            margin: '2px 0px',
+        },
     },
     imgProduct: {
         width: 'auto',
@@ -26,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         ...FlexColumn,
         alignItems: 'center',
         textAlign: 'center',
-        width: '60%',
+        width: '70%',
     },
     btnAdd: {
         marginTop: 10,
