@@ -13,7 +13,7 @@ const CoreOptionsItemVirtual = ({
     View,
     handleAddToCart: CustomAddToCart,
     loading: customLoading,
-    setLoading: setCustomLoading,
+    // setLoading: setCustomLoading,
     checkCustomizableOptionsValue,
     errorCustomizableOptions,
     customizableOptions,
@@ -32,11 +32,7 @@ const CoreOptionsItemVirtual = ({
         cartId = getCartId();
     }
 
-    let [loading, setLoading] = React.useState(false);
-    if (typeof customLoading !== 'undefined' && typeof setCustomLoading === 'function') {
-        loading = customLoading;
-        setLoading = setCustomLoading;
-    }
+    const [loading, setLoading] = React.useState(customLoading || false);
 
     const reviewValue = parseInt(review?.rating_summary, 0) / 20;
     const [addCartVirtual] = addVirtualProductToCart();
