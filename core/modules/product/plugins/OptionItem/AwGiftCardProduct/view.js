@@ -23,6 +23,7 @@ import classnames from 'classnames';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { getHost } from '@helper_config';
 
 const Button = dynamic(() => import('@common_button'), { ssr: false });
 const Footer = dynamic(() => import('@plugin_optionitem/components/Footer'), { ssr: true });
@@ -81,6 +82,7 @@ const AwGiftCardProduct = (props) => {
     const handleChangeSelect = (e) => {
         if (e.target.value !== 'custom') {
             formik.setFieldValue('aw_gc_custom_amount', '');
+            formik.setFieldValue('aw_gc_amount', e.target.value);
         }
         setselectedCustomAmount(e.target.value);
     };
@@ -333,7 +335,7 @@ const AwGiftCardProduct = (props) => {
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <Typography>From:</Typography>
+                                                <Typography>To:</Typography>
                                             </td>
                                             <td>
                                                 <Typography>{formik.values.aw_gc_recipient_name}</Typography>
@@ -341,7 +343,7 @@ const AwGiftCardProduct = (props) => {
                                         </tr>
                                         <tr>
                                             <td>
-                                                <Typography>To:</Typography>
+                                                <Typography>From:</Typography>
                                             </td>
                                             <td>
                                                 <Typography>{formik.values.aw_gc_sender_name}</Typography>
@@ -370,7 +372,7 @@ const AwGiftCardProduct = (props) => {
                                     </tbody>
                                 </table>
                             </div>
-                            <Button className="gc-dialog-card-details-button" onClick={() => router.push(`${storeConfig.base_url}`)}>
+                            <Button className="gc-dialog-card-details-button" onClick={() => router.push(`${getHost()}`)}>
                                 <Typography variant="h2" color="white">
                                     Shop Now
                                 </Typography>
