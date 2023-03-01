@@ -14,6 +14,7 @@ const CoreSimpleOptionItem = ({
     View,
     handleAddToCart: CustomAddToCart,
     loading: customLoading,
+    setLoading: setCustomLoading,
     checkCustomizableOptionsValue,
     errorCustomizableOptions,
     customizableOptions,
@@ -35,7 +36,12 @@ const CoreSimpleOptionItem = ({
     const [addConfigurableProducts] = addConfigurableProductsToCart();
     const [getGuestCartId] = queryGetGuestCartId();
     const cartUser = getCustomerCartId();
-    const [loading, setLoading] = useState(customLoading || false);
+    let [loading, setLoading] = useState(false);
+
+    if (typeof customLoading !== 'undefined' && typeof setCustomLoading === 'function') {
+        loading = customLoading;
+        setLoading = setCustomLoading;
+    }
 
     const addToCart = async () => {
         let customizable_options = [];
