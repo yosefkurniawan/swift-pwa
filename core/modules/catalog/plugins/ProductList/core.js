@@ -8,7 +8,7 @@
 /* eslint-disable no-empty */
 /* eslint-disable array-callback-return */
 /* eslint-disable max-len */
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helper_generatequery';
@@ -86,6 +86,7 @@ const ProductPagination = (props) => {
     const [totalPage, setTotalPage] = React.useState(0);
     const [loadmore, setLoadmore] = React.useState(false);
     const [filterSaved, setFilterSaved] = React.useState(false);
+    const timerRef = React.useRef(null);
 
     /**
      * config from BO
@@ -318,7 +319,6 @@ const ProductPagination = (props) => {
      * pagination is true
      * @param {*} pageInput
      */
-    const timerRef = useRef(null);
     const handleChangePage = async (pageInput) => {
         try {
             if (fetchMore && typeof fetchMore !== 'undefined' && pageInput <= totalPage) {
