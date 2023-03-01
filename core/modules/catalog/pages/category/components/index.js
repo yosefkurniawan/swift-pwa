@@ -117,7 +117,7 @@ const CategoryPage = ({
                 <Typography variant="h1" className={styles.categoryName}>
                     {categoryList.name}
                 </Typography>
-                {dataCategory.banner[0] && dataCategory.banner[0].description && (
+                {dataCategory.banner.length > 0 && dataCategory.banner[0] && dataCategory.banner[0]?.description && (
                     /* eslint-disable-next-line react/no-danger */
                     <div className="cms-container" dangerouslySetInnerHTML={{ __html: dataCategory.banner[0].description }} />
                 )}
