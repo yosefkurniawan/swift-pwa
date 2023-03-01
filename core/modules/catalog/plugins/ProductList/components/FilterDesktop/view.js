@@ -60,10 +60,10 @@ const ViewFilter = (props) => {
         }, 1000);
     };
 
-    React.useEffect(() =>
+    React.useEffect(() =>{
         // clear timeout when the component unmounts
-        () => clearTimeout(timeRef.current),
-    []);
+        return () => clearTimeout(timeRef.current);
+    },[]);
 
     const generateFilter = React.useMemo(() => {
         if (filter && filter.length > 0) {
