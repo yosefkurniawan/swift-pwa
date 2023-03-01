@@ -1,0 +1,1 @@
+{"currency":{"base_currency_code":"IDR","base_currency_symbol":null,"default_display_currency_code":"IDR","default_display_currency_symbol":null,"available_currency_codes":["IDR","SGD","USD"],"exchange_rates":[{"currency_to":"IDR","rate":1},{"currency_to":"SGD","rate":0.0001},{"currency_to":"USD","rate":0.0001}]}}

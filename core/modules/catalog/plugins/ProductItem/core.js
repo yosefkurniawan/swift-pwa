@@ -134,7 +134,7 @@ const ProductItem = (props) => {
 
     const generateIdentifier = () => {
         let identifier = url_key;
-        identifier = identifier.replace(/ /g, '-');
+        identifier = identifier?.replace(/ /g, '-');
         return identifier;
     };
 
