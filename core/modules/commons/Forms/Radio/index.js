@@ -63,18 +63,18 @@ function CustomRadio({
                 {valueData.map((item, index) => {
                     if (CustomItem) {
                         return (
-                            <>
+                            <React.Fragment key={`${index}-${item.code}`}>
                                 <CustomItem
-                                    key={index}
                                     {...item}
+                                    {...propsItem}
+                                    key={`${index}-${item.code}`}
                                     selected={JSON.stringify(value) === JSON.stringify(item.value)}
                                     onChange={handleChangeCustom}
                                     className={classItem}
                                     storeConfig={storeConfig}
-                                    {...propsItem}
                                 />
                                 {ComponentOptional(item)}
-                            </>
+                            </React.Fragment>
                         );
                     }
                     return <RadioItem key={index} {...item} {...propsItem} className={classItem} />;
