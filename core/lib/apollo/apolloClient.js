@@ -7,13 +7,16 @@ import { getAppEnv } from '@helpers/env';
 import { removeIsLoginFlagging } from '@helper_auth';
 import { removeCartId } from '@helper_cartid';
 import { removeCookies } from '@root/core/helpers/cookies';
-import { graphqlEndpoint, HOST, storeCode } from '@root/swift.config.js';
+import {
+    graphqlEndpoint, HOST, storeCode, requestTimeout,
+} from '@root/swift.config.js';
 import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { RetryLink } from 'apollo-link-retry';
 import firebase from 'firebase/app';
 import fetch from 'isomorphic-unfetch';
 import cookies from 'js-cookie';
+import ApolloLinkTimeout from './apolloLinkTimeout';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData: {
@@ -48,6 +51,8 @@ const logoutLink = onError((err) => {
         window.location.href = `/customer/account/login?n=${new Date().getTime()}`;
     }
 });
+
+const timeoutLink = new ApolloLinkTimeout(requestTimeout); // 10 second timeout
 
 const link = new RetryLink().split(
     (operation) => operation.getContext().request === 'internal',
@@ -104,7 +109,7 @@ export default function createApolloClient(initialState, ctx) {
 
     return new ApolloClient({
         ssrMode: Boolean(ctx),
-        link: from([middlewareHeader, logoutLink, link]),
+        link: from([timeoutLink, middlewareHeader, logoutLink, link]),
         cache: new InMemoryCache({
             fragmentMatcher,
             possibleTypes: {
