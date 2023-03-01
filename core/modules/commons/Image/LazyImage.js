@@ -7,6 +7,7 @@ const placeHolder = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAQAA
 const LazyImage = ({ src, alt, style = {} }) => {
     const [imageSrc, setImageSrc] = useState(placeHolder);
     const [imageRef, setImageRef] = useState();
+    const mount = useRef(null);
 
     const onLoad = useCallback((event) => {
         event.target.classList.add('loaded');
@@ -16,7 +17,6 @@ const LazyImage = ({ src, alt, style = {} }) => {
         event.target.classList.add('has-error');
     }, []);
 
-    const mount = useRef(null);
     useEffect(
         () => {
             mount.current = true;
