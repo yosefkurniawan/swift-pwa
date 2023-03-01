@@ -6,7 +6,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-// import checkPassword from '@helper_passwordstrength';
 import classNames from 'classnames';
 import Cookies from 'js-cookie';
 import { storeConfigNameCookie, passwordStrength } from '@config';
