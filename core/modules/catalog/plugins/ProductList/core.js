@@ -234,6 +234,10 @@ const ProductPagination = (props) => {
         if (typeof window !== 'undefined' && !cachePrice[generateIdentifier()]) {
             getProdPrice();
         }
+        // clear timeout when the component unmounts
+        return () => {
+            clearTimeout(timerRef.current);
+        };
     }, []);
 
     React.useEffect(() => {
@@ -341,13 +345,6 @@ const ProductPagination = (props) => {
             setLoadmore(false);
         }
     };
-
-    React.useEffect(() =>
-         // clear timeout when the component unmounts
-         () => {
-            clearTimeout(timerRef.current);
-        },
-     []);
 
     React.useEffect(() => {
         if (data && data.products) {
