@@ -64,6 +64,7 @@ const ContentDetail = ({
             },
         },
     });
+    const mount = React.useRef(null);
 
     let enableMultiSeller = false;
     if (storeConfig) {
@@ -209,15 +210,21 @@ const ContentDetail = ({
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
 
     React.useEffect(() => {
-        setPrice({
-            priceRange: item.price_range,
-            priceTiers: item.price_tiers,
-            // eslint-disable-next-line no-underscore-dangle
-            productType: item.__typename,
-            specialFromDate: item.special_from_date,
-            specialToDate: item.special_to_date,
-        });
-        setBanner(bannerData);
+        mount.current = true;
+        if (mount.current) {
+            setPrice({
+                priceRange: item.price_range,
+                priceTiers: item.price_tiers,
+                // eslint-disable-next-line no-underscore-dangle
+                productType: item.__typename,
+                specialFromDate: item.special_from_date,
+                specialToDate: item.special_to_date,
+            });
+            setBanner(bannerData);
+        }
+        return () => {
+            mount.current = false;
+        };
     }, [item]);
 
     const [addWishlist] = mutationAddWishlist();
