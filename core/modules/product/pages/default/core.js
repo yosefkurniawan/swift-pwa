@@ -25,6 +25,28 @@ import React from 'react';
 import TagManager from 'react-gtm-module';
 import { priceVar, currencyVar } from '@root/core/services/graphql/cache';
 
+const generateIdentifier = (slug) => {
+    let identifier = `${slug[0]}`;
+    identifier = identifier.replace(/ /g, '-');
+    return identifier;
+};
+
+const getPrice = (cachePrice, slug, dataPrice) => {
+    let productPrice = [];
+
+    if (
+        cachePrice[generateIdentifier(slug)]
+        && cachePrice[generateIdentifier(slug)].products
+        && cachePrice[generateIdentifier(slug)].products.items
+    ) {
+        productPrice = cachePrice[generateIdentifier(slug)].products.items;
+    } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
+        productPrice = dataPrice.products.items;
+    }
+
+    return productPrice;
+};
+
 const ContentDetail = ({
     t, product, keyProduct, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig, dataPrice, loadPrice, errorPrice, currencyCache,
 }) => {
@@ -401,7 +423,7 @@ const ContentDetail = ({
         setOpenImageDetail(!openImageDetail);
     }, [openImageDetail]);
 
-    const checkCustomizableOptionsValue = async () => {
+    const checkCustomizableOptionsValue = React.useCallback(async () => {
         if (item.options && item.options.length > 0) {
             const requiredOptions = item.options.filter((op) => op.required);
             if (requiredOptions.length > 0) {
@@ -429,7 +451,7 @@ const ContentDetail = ({
             return true;
         }
         return true;
-    };
+    }, [item?.options, customizableOptions]);
 
     React.useEffect(() => {
         if (errorCustomizableOptions && errorCustomizableOptions.length > 0) {
@@ -656,14 +678,8 @@ const PageDetail = (props) => {
         }
     }, [slug[0]]);
 
-    const generateIdentifier = () => {
-        let identifier = `${slug[0]}`;
-        identifier = identifier.replace(/ /g, '-');
-        return identifier;
-    };
-
     React.useEffect(() => {
-        if (!cachePrice[generateIdentifier()]) {
+        if (!cachePrice[generateIdentifier(slug)]) {
             getProdPrice({
                 context,
                 variables: {
@@ -671,30 +687,18 @@ const PageDetail = (props) => {
                 },
             });
         }
-    }, [data]);
+    }, [data, slug]);
 
     React.useEffect(() => {
         if (dataPrice) {
-            const identifier = generateIdentifier();
+            const identifier = generateIdentifier(slug);
             const dataTemp = cachePrice;
             dataTemp[identifier] = dataPrice;
             priceVar({
                 ...cachePrice,
             });
         }
-    }, [dataPrice]);
-
-    const getPrice = () => {
-        let productPrice = [];
-
-        if (cachePrice[generateIdentifier()] && cachePrice[generateIdentifier()].products && cachePrice[generateIdentifier()].products.items) {
-            productPrice = cachePrice[generateIdentifier()].products.items;
-        } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
-            productPrice = dataPrice.products.items;
-        }
-
-        return productPrice;
-    };
+    }, [dataPrice, slug]);
 
     if (error || loading || !data) {
         return (
@@ -768,7 +772,7 @@ const PageDetail = (props) => {
             <ContentDetail
                 keyProduct={productByUrl}
                 product={product}
-                dataPrice={getPrice()}
+                dataPrice={getPrice(cachePrice, slug, dataPrice)}
                 loadPrice={loadPrice}
                 errorPrice={errorPrice}
                 t={t}
