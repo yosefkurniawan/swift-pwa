@@ -461,7 +461,7 @@ const ContentDetail = ({
     }, [item?.options, customizableOptions]);
 
     React.useEffect(() => {
-        if (errorCustomizableOptions && errorCustomizableOptions.length > 0) {
+        if (mount.current && errorCustomizableOptions && errorCustomizableOptions.length > 0) {
             // eslint-disable-next-line consistent-return
             const errorCustomizable = errorCustomizableOptions.filter((err) => {
                 const findValue = customizableOptions.find((op) => op.option_id === err.option_id);
