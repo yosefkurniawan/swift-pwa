@@ -19,6 +19,7 @@ import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
 import generateConfig from '@core_modules/catalog/helpers/generateConfig';
 import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
+import getPrice from '@core_modules/catalog/helpers/getPrice';
 import Content from '@plugin_productlist/components';
 import { priceVar } from '@root/core/services/graphql/cache';
 import { useReactiveVar } from '@apollo/client';
@@ -251,20 +252,6 @@ const ProductPagination = (props) => {
         }
     }, [dataPrice]);
 
-    const getPrice = () => {
-        let productPrice = [];
-
-        if (cachePrice[generateIdentifier()] && cachePrice[generateIdentifier()].products && cachePrice[generateIdentifier()].products.items) {
-            productPrice = cachePrice[generateIdentifier()].products.items;
-        } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
-            productPrice = dataPrice.products.items;
-        }
-
-        return productPrice;
-    };
-
-    /* ====End get price Product==== */
-
     React.useEffect(() => {
         const totalProduct = products && products.total_count ? products.total_count : 0;
         const totalPageProduct = Math.ceil(totalProduct / pageSize);
@@ -437,7 +424,7 @@ const ProductPagination = (props) => {
         totalCount,
         handleChangePage,
     };
-    return <Content {...contentProps} {...other} price={getPrice()} loadPrice={loadPrice} errorPrice={errorPrice} />;
+    return <Content {...contentProps} {...other} price={getPrice(cachePrice, generateIdentifier, dataPrice)} loadPrice={loadPrice} errorPrice={errorPrice} />;
 };
 
 const ProductLoadMore = (props) => {
@@ -601,20 +588,6 @@ const ProductLoadMore = (props) => {
             });
         }
     }, [dataPrice]);
-
-    const getPrice = () => {
-        let productPrice = [];
-
-        if (cachePrice[generateIdentifier()] && cachePrice[generateIdentifier()].products && cachePrice[generateIdentifier()].products.items) {
-            productPrice = cachePrice[generateIdentifier()].products.items;
-        } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
-            productPrice = dataPrice.products.items;
-        }
-
-        return productPrice;
-    };
-
-    /* ====End get price Product==== */
 
     // generate filter if donthave custom filter
     const aggregations = React.useMemo(() => {
@@ -797,7 +770,7 @@ const ProductLoadMore = (props) => {
         storeConfig,
     };
 
-    return <Content {...contentProps} {...other} price={getPrice()} loadPrice={loadPrice} errorPrice={errorPrice} />;
+    return <Content {...contentProps} {...other} price={getPrice(cachePrice, generateIdentifier, dataPrice)} loadPrice={loadPrice} errorPrice={errorPrice} />;
 };
 
 ProductPagination.propTypes = {
