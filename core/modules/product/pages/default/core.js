@@ -141,25 +141,29 @@ const ContentDetail = ({
         TagManager.dataLayer(tagManagerArgsGA4);
     }, []);
 
-    const bannerData = [];
-    if (item.media_gallery.length > 0) {
-        // eslint-disable-next-line array-callback-return
-        item.media_gallery.map((media) => {
-            bannerData.push({
-                link: '#',
-                imageUrl: media.url,
-                videoUrl: media && media.video_content,
-                imageAlt: media.label,
+    const bannerData = React.useMemo(() => {
+        const bannerResult = [];
+        if (item.media_gallery.length > 0) {
+            // eslint-disable-next-line array-callback-return
+            item.media_gallery.map((media) => {
+                bannerResult.push({
+                    link: '#',
+                    imageUrl: media.url,
+                    videoUrl: media && media.video_content,
+                    imageAlt: media.label,
+                });
             });
-        });
-    } else {
-        bannerData.push({
-            link: '#',
-            imageUrl: item.image.url,
-            videoUrl: '#',
-            imageAlt: item.image.label,
-        });
-    }
+        } else {
+            bannerResult.push({
+                link: '#',
+                imageUrl: item.image.url,
+                videoUrl: '#',
+                imageAlt: item.image.label,
+            });
+        }
+
+        return bannerResult;
+    }, [item?.media_gallery, item?.image]);
 
     const [openOption, setOpenOption] = React.useState(false);
     const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -288,33 +292,37 @@ const ContentDetail = ({
         ];
     }
 
-    let breadcrumbsData = [];
-    if (typeof window !== 'undefined') {
-        const lastCategory = getCookies('lastCategory');
-        const cat = item.categories.filter(({ url_path }) => url_path === lastCategory);
-        if (cat.length > 0) {
-            if (cat[0].breadcrumbs && cat[0].breadcrumbs.length > 0) {
-                breadcrumbsData = cat[0].breadcrumbs.map((bc) => ({
-                    label: bc.category_name,
-                    link: `/${bc.category_url_path}`,
+    const breadcrumbsData = React.useMemo(() => {
+        if (typeof window !== 'undefined') {
+            let breadCrumbResult = [];
+            const lastCategory = getCookies('lastCategory');
+            const cat = item.categories.filter(({ url_path }) => url_path === lastCategory);
+            if (cat.length > 0) {
+                if (cat[0].breadcrumbs && cat[0].breadcrumbs.length > 0) {
+                    breadCrumbResult = cat[0].breadcrumbs.map((bc) => ({
+                        label: bc.category_name,
+                        link: `/${bc.category_url_path}`,
+                        active: false,
+                        id: bc.category_id,
+                    }));
+                }
+                breadCrumbResult.push({
+                    label: cat[0].name,
+                    link: `/${cat[0].url_path}`,
                     active: false,
-                    id: bc.category_id,
-                }));
+                    id: cat[0].id,
+                });
             }
-            breadcrumbsData.push({
-                label: cat[0].name,
-                link: `/${cat[0].url_path}`,
-                active: false,
-                id: cat[0].id,
-            });
-        }
 
-        breadcrumbsData.push({
-            label: item.name,
-            link: '#',
-            active: true,
-        });
-    }
+            breadCrumbResult.push({
+                label: item.name,
+                link: '#',
+                active: true,
+            });
+            return breadCrumbResult;
+        }
+        return [];
+    }, [item]);
 
     const handleOption = () => {
         const { productAvailableToCart } = features;
@@ -389,9 +397,9 @@ const ContentDetail = ({
         }
     };
 
-    const handleOpenImageDetail = () => {
+    const handleOpenImageDetail = React.useCallback(() => {
         setOpenImageDetail(!openImageDetail);
-    };
+    }, [openImageDetail]);
 
     const checkCustomizableOptionsValue = async () => {
         if (item.options && item.options.length > 0) {
@@ -493,14 +501,7 @@ const ContentDetail = ({
 };
 
 const PageDetail = (props) => {
-    let product = {};
     let weltpixel_labels = [];
-    let productTab = {
-        tab_1: {
-            label: null,
-            content: null,
-        },
-    };
     const {
         slug, Content, t, isLogin, pageConfig, CustomHeader, storeConfig,
     } = props;
@@ -536,13 +537,111 @@ const PageDetail = (props) => {
     );
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
 
+    const product = React.useMemo(() => {
+        let productResult = {};
+        let temporaryArr = [];
+        let productByUrlMemo;
+        if (data) {
+            productResult = data.products;
+            if (Object.keys(productProps).length > 0) {
+                for (let i = 0; i < productResult.items.length; i += 1) {
+                    if (routeKey[0] === productResult.items[i].url_key) {
+                        productByUrlMemo = [i];
+                    }
+                }
+                productResult = {
+                    ...productResult,
+                    items: [
+                        {
+                            ...productResult.items[productByUrlMemo],
+                            name: productProps.name || '',
+                            small_image: productProps.small_image || {},
+                            price: productProps.price || {},
+                            price_range: { ...productProps.price.priceRange },
+                            price_tiers: [...productProps.price.priceTiers],
+                            special_from_date: { ...productProps.price.specialFromDate },
+                            special_to_date: { ...productProps.price.specialToDate },
+                        },
+                    ],
+                };
+            }
+            if (typeof window !== 'undefined') {
+                if (productResult.items.length > 0) {
+                    for (let i = 0; i < productResult.items.length; i += 1) {
+                        if (routeKey[0] === productResult.items[i].url_key) {
+                            productByUrlMemo = [i];
+                        }
+                    }
+                    const item = productResult.items[productByUrlMemo];
+                    let isExist = false;
+                    const viewedProduct = getLocalStorage('recently_viewed_product_pwa');
+
+                    if (viewedProduct) {
+                        temporaryArr = viewedProduct;
+                        if (viewedProduct.length > 0) {
+                            viewedProduct.map((val) => {
+                                if (val.url_key === item.url_key) {
+                                    isExist = true;
+                                }
+                                return null;
+                            });
+                        }
+                    }
+                    if (isExist === false) {
+                        temporaryArr = [];
+
+                        const newItem = {
+                            url_key: item.url_key,
+                        };
+                        temporaryArr.push(newItem);
+                        setLocalStorage('recently_viewed_product_pwa', temporaryArr);
+                    }
+                }
+            }
+        }
+
+        return productResult;
+    }, [data, productProps]);
+
+    const productByUrl = React.useMemo(() => {
+        let productByUrlResult;
+        if (product?.items) {
+            for (let i = 0; i < product.items.length; i += 1) {
+                if (routeKey[0] === product.items[i].url_key) {
+                    productByUrlResult = [i];
+                }
+            }
+        }
+        return productByUrlResult;
+    }, [product]);
+
+    const productTab = React.useMemo(() => {
+        let productTabResult = {
+            tab_1: {
+                label: null,
+                content: null,
+            },
+        };
+        const productItem = dataProductTabs?.products;
+        if (productItem?.items?.length > 0) {
+            productTabResult = productItem.items[0].smartProductTabs
+                ? productItem.items[0].smartProductTabs
+                : {
+                    tab_1: {
+                        label: null,
+                        content: null,
+                    },
+                };
+        }
+        return productTabResult;
+    }, [dataProductTabs]);
+
     // cache currency
     const currencyCache = useReactiveVar(currencyVar);
 
     // cache price
     const cachePrice = useReactiveVar(priceVar);
 
-    let productByUrl;
     React.useEffect(() => {
         if (slug[0] !== '') {
             getProductTabs({
@@ -609,90 +708,13 @@ const PageDetail = (props) => {
             </Layout>
         );
     }
-    if (data) {
-        let temporaryArr = [];
-        product = data.products;
-        if (Object.keys(productProps).length > 0) {
-            for (let i = 0; i < product.items.length; i += 1) {
-                if (routeKey[0] === product.items[i].url_key) {
-                    productByUrl = [i];
-                }
-            }
-            product = {
-                ...product,
-                items: [
-                    {
-                        ...product.items[productByUrl],
-                        name: productProps.name || '',
-                        small_image: productProps.small_image || {},
-                        price: productProps.price || {},
-                        price_range: { ...productProps.price.priceRange },
-                        price_tiers: [...productProps.price.priceTiers],
-                        special_from_date: { ...productProps.price.specialFromDate },
-                        special_to_date: { ...productProps.price.specialToDate },
-                    },
-                ],
-            };
-        }
-        if (typeof window !== 'undefined') {
-            if (product.items.length > 0) {
-                for (let i = 0; i < product.items.length; i += 1) {
-                    if (routeKey[0] === product.items[i].url_key) {
-                        productByUrl = [i];
-                    }
-                }
-                const item = product.items[productByUrl];
-                let isExist = false;
-                const viewedProduct = getLocalStorage('recently_viewed_product_pwa');
 
-                if (viewedProduct) {
-                    temporaryArr = viewedProduct;
-                    if (viewedProduct.length > 0) {
-                        viewedProduct.map((val) => {
-                            if (val.url_key === item.url_key) {
-                                isExist = true;
-                            }
-                            return null;
-                        });
-                    }
-                }
-                if (isExist === false) {
-                    temporaryArr = [];
-
-                    const newItem = {
-                        url_key: item.url_key,
-                    };
-                    temporaryArr.push(newItem);
-                    setLocalStorage('recently_viewed_product_pwa', temporaryArr);
-                }
-            }
-            if (product.items.length === 0) return <Error statusCode={404} />;
-        }
-    }
+    if (product?.items?.length === 0) return <Error statusCode={404} />;
 
     if (labels.data && labels.data.products && labels.data.products.items.length > 0 && labels.data.products.items[0].weltpixel_labels) {
         weltpixel_labels = labels.data.products.items[0].weltpixel_labels;
     }
 
-    if (dataProductTabs) {
-        const productItem = dataProductTabs.products;
-        if (productItem.items.length > 0) {
-            productTab = productItem.items[0].smartProductTabs
-                ? productItem.items[0].smartProductTabs
-                : {
-                    tab_1: {
-                        label: null,
-                        content: null,
-                    },
-                };
-        }
-    }
-
-    for (let i = 0; i < product.items.length; i += 1) {
-        if (routeKey[0] === product.items[i].url_key) {
-            productByUrl = [i];
-        }
-    }
     const schemaOrg = generateSchemaOrg(product.items[productByUrl]);
     let keywords = {};
     if (product.items[productByUrl]?.meta_keywords) {
