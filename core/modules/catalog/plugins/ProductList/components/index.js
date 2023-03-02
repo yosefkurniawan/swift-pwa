@@ -103,7 +103,32 @@ const ContentPagination = (props) => {
                         ) : null}
                     <div className={styles.productContainer}>
                         {/** Pagination List */}
-                        <PaginationSection isGrid={isGrid} {...props} />
+                        {loading && <ProductListSkeleton />}
+                        {!loadmore && !loading && (
+                            <GridList
+                                data={products.items}
+                                ItemComponent={ProductItem}
+                                itemProps={{
+                                    categorySelect: categoryPath,
+                                    LabelView,
+                                    isGrid,
+                                    catalogList: true,
+                                    className: 'grid-item',
+                                    price,
+                                    loadPrice,
+                                    ...other,
+                                }}
+                                gridItemProps={
+                                    isGrid
+                                        ? {
+                                            xs: 6, sm: 4, md: storeConfig?.pwa?.drawer_filter_on_desktop_enable ? 3 : 2,
+                                        } : {
+                                            xs: 12, sm: 12, md: storeConfig?.pwa?.drawer_filter_on_desktop_enable ? 12 : 12,
+                                        }
+                                }
+                            />
+                        )}
+                        <PaginationSection {...props} />
                         {/** Pagination List */}
                         <div className="latest-product-indicator" />
                         {(products.items.length === products.total_count) || loading
