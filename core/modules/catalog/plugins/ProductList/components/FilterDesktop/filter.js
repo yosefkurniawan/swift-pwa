@@ -58,11 +58,12 @@ const GenerateFilter = React.memo((props) => {
         }, 1000);
     };
 
-    React.useEffect(() =>
+    React.useEffect(() =>{
         // clear timeout when the component unmounts
-        () => clearTimeout(timeRef.current),
-    []);
-
+        return() => clearTimeout(timeRef.current);
+    },[])
+        
+    React.useMemo(()=>{
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < itemFilter.value.length; index++) {
         ItemValueByLabel.push({
@@ -70,6 +71,8 @@ const GenerateFilter = React.memo((props) => {
             value: itemFilter.value[index].label,
         });
     }
+    },[itemFilter?.value])
+
     if (itemFilter.field !== 'attribute_set_id') {
         if (itemFilter.field === 'price') {
             const price = priceRange;
