@@ -742,28 +742,30 @@ const ProductLoadMore = (props) => {
         }
     }, [data]);
 
-    React.useEffect(() => {
-        const handleRouteChange = () => {
-            if (router.pathname === '/catalogsearch/result') {
-                window.history.scrollRestoration = 'manual';
-                const sessionStorageItems = ['lastCatalogsOffset', 'lastCatalogsVisited', 'lastProductsVisited'];
-                const lastCatalogsOffset = getSessionStorage('lastCatalogsOffset') || [];
-                const prevUrl = sessionStorage.getItem('prevUrl');
-                const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
-                const restoreCatalogPosition = getSessionStorage('restoreCatalogPosition');
+    const handleRouteChange = React.useCallback(() => {
+        window.history.scrollRestoration = 'manual';
+        const sessionStorageItems = ['lastCatalogsOffset', 'lastCatalogsVisited', 'lastProductsVisited'];
+        const lastCatalogsOffset = getSessionStorage('lastCatalogsOffset') || [];
+        const prevUrl = sessionStorage.getItem('prevUrl');
+        const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
+        const restoreCatalogPosition = getSessionStorage('restoreCatalogPosition');
 
-                if (prevUrl === lastProductsVisited[0] && restoreCatalogPosition && lastCatalogsOffset[0] !== 0) {
-                    window.scrollTo({
-                        top: lastCatalogsOffset[0],
-                    });
-                    sessionStorageItems.forEach((item) => {
-                        const itemData = getSessionStorage(item);
-                        setSessionStorage(item, itemData.slice(1, itemData.length));
-                    });
-                    sessionStorage.removeItem('restoreCatalogPosition');
-                }
-            }
-        };
+        if (prevUrl === lastProductsVisited[0] && restoreCatalogPosition && lastCatalogsOffset[0] !== 0) {
+            window.scrollTo({
+                top: lastCatalogsOffset[0],
+            });
+            sessionStorageItems.forEach((item) => {
+                const itemData = getSessionStorage(item);
+                setSessionStorage(item, itemData.slice(1, itemData.length));
+            });
+            sessionStorage.removeItem('restoreCatalogPosition');
+        }
+    }, []);
+
+    React.useEffect(() => {
+        if (router.pathname === '/catalogsearch/result') {
+            handleRouteChange();
+        }
         router.events.on('routeChangeComplete', handleRouteChange);
         return () => {
             router.events.off('routeChangeComplete', handleRouteChange);
@@ -772,24 +774,7 @@ const ProductLoadMore = (props) => {
 
     React.useEffect(() => {
         if (router.pathname !== '/catalogsearch/result') {
-            const sessionStorageItems = ['lastCatalogsOffset', 'lastCatalogsVisited', 'lastProductsVisited'];
-            window.history.scrollRestoration = 'manual';
-            const prevUrl = sessionStorage.getItem('prevUrl');
-            const lastCatalogsOffset = getSessionStorage('lastCatalogsOffset') || [];
-            const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
-            const restoreCatalogPosition = getSessionStorage('restoreCatalogPosition');
-            if (prevUrl === lastProductsVisited[0] && restoreCatalogPosition && lastCatalogsOffset[0] !== 0) {
-                setTimeout(() => {
-                    window.scrollTo({
-                        top: lastCatalogsOffset[0],
-                    });
-                }, 800);
-                sessionStorageItems.forEach((item) => {
-                    const itemData = getSessionStorage(item);
-                    setSessionStorage(item, itemData.slice(1, itemData.length));
-                });
-                sessionStorage.removeItem('restoreCatalogPosition');
-            }
+            handleRouteChange();
         }
     }, [data, !loading]);
 
