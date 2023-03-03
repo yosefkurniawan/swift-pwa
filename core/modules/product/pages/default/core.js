@@ -25,21 +25,15 @@ import React from 'react';
 import TagManager from 'react-gtm-module';
 import { priceVar, currencyVar } from '@root/core/services/graphql/cache';
 
-const generateIdentifier = (slug) => {
-    let identifier = `${slug[0]}`;
-    identifier = identifier.replace(/ /g, '-');
-    return identifier;
-};
-
-const getPrice = (cachePrice, slug, dataPrice) => {
+const getPrice = (cachePrice, generateIdentifier, dataPrice) => {
     let productPrice = [];
 
     if (
-        cachePrice[generateIdentifier(slug)]
-        && cachePrice[generateIdentifier(slug)].products
-        && cachePrice[generateIdentifier(slug)].products.items
+        cachePrice[generateIdentifier]
+        && cachePrice[generateIdentifier].products
+        && cachePrice[generateIdentifier].products.items
     ) {
-        productPrice = cachePrice[generateIdentifier(slug)].products.items;
+        productPrice = cachePrice[generateIdentifier].products.items;
     } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
         productPrice = dataPrice.products.items;
     }
@@ -685,8 +679,10 @@ const PageDetail = (props) => {
         }
     }, [slug[0]]);
 
+    const generateIdentifier = slug[0].replace(/ /g, '-');
+
     React.useEffect(() => {
-        if (!cachePrice[generateIdentifier(slug)]) {
+        if (!cachePrice[generateIdentifier]) {
             getProdPrice({
                 context,
                 variables: {
@@ -698,7 +694,7 @@ const PageDetail = (props) => {
 
     React.useEffect(() => {
         if (dataPrice) {
-            const identifier = generateIdentifier(slug);
+            const identifier = generateIdentifier;
             const dataTemp = cachePrice;
             dataTemp[identifier] = dataPrice;
             priceVar({
@@ -779,7 +775,7 @@ const PageDetail = (props) => {
             <ContentDetail
                 keyProduct={productByUrl}
                 product={product}
-                dataPrice={getPrice(cachePrice, slug, dataPrice)}
+                dataPrice={getPrice(cachePrice, generateIdentifier, dataPrice)}
                 loadPrice={loadPrice}
                 errorPrice={errorPrice}
                 t={t}
