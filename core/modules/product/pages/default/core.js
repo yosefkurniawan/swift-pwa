@@ -205,6 +205,12 @@ const ContentDetail = ({
 
     React.useEffect(() => {
         mount.current = true;
+        return () => {
+            mount.current = false;
+        };
+    }, []);
+
+    React.useEffect(() => {
         if (mount.current) {
             setPrice({
                 priceRange: item.price_range,
@@ -216,9 +222,6 @@ const ContentDetail = ({
             });
             setBanner(bannerData);
         }
-        return () => {
-            mount.current = false;
-        };
     }, [item]);
 
     const [addWishlist] = mutationAddWishlist();
