@@ -24,8 +24,6 @@ import Content from '@plugin_productlist/components';
 import { priceVar } from '@root/core/services/graphql/cache';
 import { useReactiveVar } from '@apollo/client';
 
-const generateIdentifier = (page, path) => `page_${page}_${path}`;
-
 const getTagManager = (categoryPath, storeConfig, data) => ({
         dataLayer: {
             event: 'impression',
@@ -108,7 +106,6 @@ const ProductPagination = (props) => {
         ...other
     } = props;
     const router = useRouter();
-    const routerPath = router?.asPath;
     // cache price
     const cachePrice = useReactiveVar(priceVar);
     /**
@@ -293,8 +290,10 @@ const ProductPagination = (props) => {
     },
     router);
 
+    const generateIdentifier = () => `page_${page}_${router.asPath}`;
+
     React.useEffect(() => {
-        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier(page, routerPath)]) {
+        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier()]) {
             getProdPrice();
         }
         // clear timeout when the component unmounts
@@ -305,7 +304,7 @@ const ProductPagination = (props) => {
 
     React.useEffect(() => {
         if (dataPrice) {
-            const identifier = generateIdentifier(page, routerPath);
+            const identifier = generateIdentifier();
             const dataTemp = cachePrice;
             dataTemp[identifier] = dataPrice;
             priceVar({
@@ -428,7 +427,7 @@ const ProductPagination = (props) => {
         totalCount,
         handleChangePage,
     };
-    return <Content {...contentProps} {...other} price={getPrice(cachePrice, generateIdentifier(page, routerPath), dataPrice)} loadPrice={loadPrice} errorPrice={errorPrice} />;
+    return <Content {...contentProps} {...other} price={getPrice(cachePrice, generateIdentifier, dataPrice)} loadPrice={loadPrice} errorPrice={errorPrice} />;
 };
 
 const ProductLoadMore = (props) => {
@@ -451,7 +450,6 @@ const ProductLoadMore = (props) => {
         ...other
     } = props;
     const router = useRouter();
-    const routerPath = router?.asPath;
     // cache price
     const cachePrice = useReactiveVar(priceVar);
     const [products, setProducts] = React.useState({
@@ -575,15 +573,17 @@ const ProductLoadMore = (props) => {
     },
     router);
 
+    const generateIdentifier = () => `page_${page}_${router.asPath}`;
+
     React.useEffect(() => {
-        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier(page, routerPath)]) {
+        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier()]) {
             getProdPrice();
         }
     }, [data]);
 
     React.useEffect(() => {
         if (dataPrice) {
-            const identifier = generateIdentifier(page, routerPath);
+            const identifier = generateIdentifier();
             const dataTemp = cachePrice;
             dataTemp[identifier] = dataPrice;
             priceVar({
@@ -715,7 +715,7 @@ const ProductLoadMore = (props) => {
         storeConfig,
     };
 
-    return <Content {...contentProps} {...other} price={getPrice(cachePrice, generateIdentifier(page, routerPath), dataPrice)} loadPrice={loadPrice} errorPrice={errorPrice} />;
+    return <Content {...contentProps} {...other} price={getPrice(cachePrice, generateIdentifier, dataPrice)} loadPrice={loadPrice} errorPrice={errorPrice} />;
 };
 
 ProductPagination.propTypes = {
