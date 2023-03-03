@@ -290,10 +290,10 @@ const ProductPagination = (props) => {
     },
     router);
 
-    const generateIdentifier = () => `page_${page}_${router.asPath}`;
+    const generateIdentifier = `page_${page}_${router.asPath}`;
 
     React.useEffect(() => {
-        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier()]) {
+        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier]) {
             getProdPrice();
         }
         // clear timeout when the component unmounts
@@ -304,7 +304,7 @@ const ProductPagination = (props) => {
 
     React.useEffect(() => {
         if (dataPrice) {
-            const identifier = generateIdentifier();
+            const identifier = generateIdentifier;
             const dataTemp = cachePrice;
             dataTemp[identifier] = dataPrice;
             priceVar({
@@ -573,17 +573,17 @@ const ProductLoadMore = (props) => {
     },
     router);
 
-    const generateIdentifier = () => `page_${page}_${router.asPath}`;
+    const generateIdentifier = `page_${page}_${router.asPath}`;
 
     React.useEffect(() => {
-        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier()]) {
+        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier]) {
             getProdPrice();
         }
     }, [data]);
 
     React.useEffect(() => {
         if (dataPrice) {
-            const identifier = generateIdentifier();
+            const identifier = generateIdentifier;
             const dataTemp = cachePrice;
             dataTemp[identifier] = dataPrice;
             priceVar({
