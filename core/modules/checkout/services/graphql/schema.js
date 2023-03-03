@@ -968,6 +968,7 @@ export const placeOrder = gql`
                 order_number
                 order_id
             }
+            infoMsg
         }
     }
 `;
@@ -982,6 +983,7 @@ export const placeOrderWithOrderComment = gql`
                 order_number
                 order_id
             }
+            infoMsg
         }
     }
 `;

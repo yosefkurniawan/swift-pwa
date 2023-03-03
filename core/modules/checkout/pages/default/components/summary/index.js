@@ -334,14 +334,17 @@ const Summary = ({
                 if (!validateResponse(result, state)) return;
 
                 let orderNumber = '';
+                let infoMsg = '';
                 if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
                     if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
                         // eslint-disable-next-line array-callback-return
                         result.data.placeOrder.map((order, index) => {
                             if (index !== result.data.placeOrder.length - 1) {
                                 orderNumber = `${orderNumber}${order.order.order_number}|`;
+                                infoMsg = order.infoMsg;
                             } else {
                                 orderNumber = `${orderNumber}${order.order.order_number}`;
+                                infoMsg = order.infoMsg;
                             }
                             tempMidtransOrderId.push(order.order.order_number);
                         });
@@ -349,6 +352,7 @@ const Summary = ({
                 } else {
                     if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
                         orderNumber = result.data.placeOrder[0].order.order_number;
+                        infoMsg = result.data.placeOrder[0].infoMsg;
                         tempMidtransOrderId.push(orderNumber);
                     }
                 }
@@ -358,12 +362,14 @@ const Summary = ({
                             email: isGuest ? formik.values.email : cart.email,
                             order_number: orderNumber,
                             order_id: orderNumber,
+                            infoMsg,
                         });
                     } else {
                         setCheckoutData({
                             email: isGuest ? formik.values.email : cart.email,
                             order_number: orderNumber,
                             order_id: result.data.placeOrder[0].order.order_id,
+                            infoMsg,
                         });
                     }
                     if (client && client.query && typeof client.query === 'function') {
