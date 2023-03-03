@@ -35,7 +35,6 @@ const GenerateFilter = React.memo((props) => {
         storeConfig,
     } = props;
     const styles = useStyles();
-    const ItemValueByLabel = [];
     const timeRef = React.useRef(null);
 
     const checkedFilter = (field, value) => {
@@ -60,18 +59,20 @@ const GenerateFilter = React.memo((props) => {
 
     React.useEffect(() =>{
         // clear timeout when the component unmounts
-        return() => clearTimeout(timeRef.current);
+        return () => clearTimeout(timeRef.current);
     },[])
-        
-    React.useMemo(()=>{
-    // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < itemFilter.value.length; index++) {
-        ItemValueByLabel.push({
-            label: itemFilter.value[index].label,
-            value: itemFilter.value[index].label,
-        });
-    }
-    },[itemFilter?.value])
+
+    const ItemValueByLabel = React.useMemo(() => {
+        const itemValue = [];
+        // eslint-disable-next-line no-plusplus
+        for (let index = 0; index < itemFilter.value.length; index++) {
+            itemValue.push({
+                label: itemFilter.value[index].label,
+                value: itemFilter.value[index].label,
+            });
+        }
+        return itemValue;
+    }, [itemFilter?.value]);
 
     if (itemFilter.field !== 'attribute_set_id') {
         if (itemFilter.field === 'price') {
