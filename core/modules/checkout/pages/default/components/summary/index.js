@@ -8,6 +8,7 @@ import { setCheckoutData } from '@helper_cookies';
 import { storeConfigVar } from '@root/core/services/graphql/cache';
 import { localTotalCart } from '@services/graphql/schema/local';
 import React, { useEffect, useState } from 'react';
+import Router from 'next/router';
 
 import { getIpayUrl } from '@core_modules/checkout/helpers/config';
 import gqlService from '@core_modules/checkout/services/graphql';
@@ -80,6 +81,7 @@ const Summary = ({
     // mutation update delete
     const [actDeleteItem] = gqlService.deleteItemCart();
     const [actUpdateItem] = gqlService.updateItemCart();
+    const [getUpdatedCart, updatedCart] = gqlService.getUpdatedCart();
 
     const validateResponse = (response, parentState) => {
         const state = parentState;
@@ -521,6 +523,35 @@ const Summary = ({
     }
     // End - Process Snap Pop Up Close (Waitinge Response From Reorder)
 
+    const setCart = (cart = {}) => {
+        const state = { ...checkout };
+        state.data.cart = { ...state.data.cart, ...cart };
+        setCheckout(state);
+    };
+
+    const setLoadSummary = (load) => {
+        const state = { ...checkout };
+        window.backdropLoader(load);
+        state.loading.addresses = load;
+        state.loading.order = load;
+        state.loading.shipping = load;
+        state.loading.payment = load;
+        state.loading.extraFee = load;
+        setCheckout(state);
+    };
+
+    useEffect(() => {
+        if (!updatedCart.loading && updatedCart.data) {
+            setLoadSummary(false);
+            window.toastMessage({
+                open: true,
+                text: t('common:cart:updateSuccess'),
+                variant: 'success',
+            });
+            setCart({ ...updatedCart.data.cart });
+        }
+    }, [updatedCart.loading]);
+
     useEffect(() => {
         if (typeof refSummary !== 'undefined') {
             // eslint-disable-next-line no-param-reassign
@@ -539,23 +570,6 @@ const Summary = ({
         return <Loader />;
     }
 
-    const setCart = (cart = {}) => {
-        const state = { ...checkout };
-        state.data.cart = { ...state.data.cart, ...cart };
-        setCheckout(state);
-    };
-
-    const setLoadSummary = (load) => {
-        const state = { ...checkout };
-        window.backdropLoader(load);
-        state.loading.addresses = load;
-        state.loading.order = load;
-        state.loading.shipping = load;
-        state.loading.payment = load;
-        state.loading.extraFee = load;
-        setCheckout(state);
-    };
-
     // update items
     const updateCart = (id, qty) => {
         setLoadSummary(true);
@@ -571,13 +585,7 @@ const Summary = ({
         })
             .then((res) => {
                 if (res && res.data && res.data.updateCartItems && res.data.updateCartItems.cart) {
-                    setLoadSummary(false);
-                    window.toastMessage({
-                        open: true,
-                        text: t('common:cart:updateSuccess'),
-                        variant: 'success',
-                    });
-                    setCart({ ...res.data.updateCartItems.cart });
+                    getUpdatedCart({ variables: { cartId: checkout.data.cart.id } });
                 }
             })
             .catch((e) => {
@@ -625,6 +633,21 @@ const Summary = ({
                 });
             });
     };
+
+    // check error items
+    if (checkout.data.cart.errorItems && checkout.data.cart.errorItems?.length > 0) {
+        const errorMessage = {
+            variant: 'warning',
+            text: checkout.data.cart.errorItems[0],
+            open: true,
+        };
+        window.toastMessage({
+            ...errorMessage,
+        });
+        setTimeout(() => {
+            Router.push('/checkout/cart');
+        }, 3000);
+    }
 
     if (checkout && checkout.data && checkout.data.cart && checkout.loading) {
         return (

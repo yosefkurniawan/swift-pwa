@@ -167,6 +167,7 @@ const itemsProduct = `
 items {
     id
     quantity
+    errorCartItems
     ... on ConfigurableCartItem {
         configurable_options {
             option_label
@@ -1343,6 +1344,20 @@ export const updateCartitem = gql`
             ${itemsProduct}
         }
       }
+    }
+`;
+
+export const getUpdatedCart = gql`
+    query Cart($cartId: String!) {
+        cart(cart_id: $cartId) {
+            id
+            total_quantity
+            errorItems
+            ${cartRequiredSelection}
+            ${cartShippingAddress}
+            ${cartAvailablePaymentMethods}
+            ${itemsProduct}
+        }
     }
 `;
 
