@@ -41,9 +41,15 @@ export const filterProduct = (filter, router) => {
                 in: [${inFilter}]
               }`;
         } else if (detailFilter.type === 'seller_id') {
-            queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type}: {
-            match: "${detailFilter.value}"
-          }`;
+            let inFilter = '';
+            const arrVal = detailFilter.value.split(',');
+            // eslint-disable-next-line no-plusplus
+            for (let idx = 0; idx < arrVal.length; idx++) {
+                inFilter += `${idx !== 0 ? ',' : ''}"${arrVal[idx]}"`;
+            }
+            queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type} : {
+                in: [${inFilter}]
+              }`;
         } else if (detailFilter.type === 'seller_name') {
             queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type}: {
             match: "${detailFilter.value}"

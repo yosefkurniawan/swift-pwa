@@ -130,12 +130,13 @@ const FilterDialog = (props) => {
                         if (itemFilter.field === 'seller_id' && sellerId && sellerId.field && sellerId.label) {
                             return (
                                 <div className={`${styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']}`} key={idx}>
-                                    <RadioGroup
-                                        name={sellerId.field}
-                                        label={sellerId.label}
-                                        valueData={sellerId.value || []}
-                                        value={selectedFilter[sellerId.field]}
-                                        onChange={(value) => setSelectedFilter(sellerId.field, value)}
+                                    <CheckBox
+                                        field={sellerId.field}
+                                        label={sellerId.label || ''}
+                                        data={sellerId.value || []}
+                                        value={selectedFilter[sellerId.field] ? selectedFilter[sellerId.field].split(',') : []}
+                                        flex="column"
+                                        onChange={(val) => setCheckedFilter(sellerId.field, val)}
                                     />
                                 </div>
                             );
@@ -183,7 +184,8 @@ const FilterDialog = (props) => {
                                 </div>
                             );
                         }
-                        if (itemFilter.field === 'cat' || itemFilter.field === 'category_id') {
+                        if (itemFilter.field === 'cat' || itemFilter.field === 'category_id'
+                        || itemFilter.field === 'etalase' || (itemFilter.field === 'seller_id' && sellerId?.length === 0)) {
                             return <span key={idx} />;
                         }
                         return (
