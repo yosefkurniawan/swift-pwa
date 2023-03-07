@@ -1,12 +1,13 @@
 import Thumbor from '@common_image';
 import { generateImageDimensions } from '@helpers/image';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const PromoBannersLite = (props) => {
     const {
         src = '', imgSrc = '', alt = '', classes, type = 'top', storeConfig = {},
     } = props;
     let { width, height } = generateImageDimensions(imgSrc);
+    const mount = useRef(null);
 
     const resizeImg = () => {
         let top = storeConfig?.pwa?.promo_banner_lite_top_width;
@@ -33,7 +34,14 @@ const PromoBannersLite = (props) => {
     };
 
     useEffect(() => {
-        resizeImg();
+        mount.current = true;
+        return () => {
+            mount.current = false;
+        };
+    }, []);
+
+    useEffect(() => {
+        if (mount.current) resizeImg();
     }, [imgSrc]);
 
     return (
