@@ -282,6 +282,10 @@ export const storeConfig = `
           gtm_id_stage
           gtm_id_prod
       }
+      pwacheckout {
+          enable
+          version
+      }
       pwa_checkout_debug_enable
       secure_base_media_url
       secure_base_static_url

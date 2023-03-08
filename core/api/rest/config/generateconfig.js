@@ -148,6 +148,10 @@ const reqBody = gql`{
         link_font_decoration
         link_font_hover_decoration
     }
+    pwacheckout {
+        enable
+        version
+    }
     secure_base_media_url
     secure_base_static_url
     customer_password_minimum_password_length

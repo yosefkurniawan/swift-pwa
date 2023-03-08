@@ -125,3 +125,9 @@ export const addProductToCartPromo = () => useMutation(Schema.addProductsToPromo
         request: 'internal',
     },
 });
+
+export const getCheckoutScv2Url = () => useMutation(Schema.getCheckoutScv2Url, {
+    context: {
+        request: 'internal',
+    },
+});

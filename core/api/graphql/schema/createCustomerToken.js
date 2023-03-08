@@ -74,6 +74,10 @@ input internalSetCheckoutSessionInput {
     cart_id: String
 }
 
+type Scv2 {
+    url: String
+}
+
 type Mutation {
     internalGenerateCustomerToken(username: String!, password: String!): Token
     internalCreateCustomerToken(input: internalCreateCustomerTokenInput): Token
@@ -85,6 +89,7 @@ type Mutation {
     internalGenerateSession(state: String!): internalGenerateSessionOutput
     internalDeleteSession: internalDeleteSessionOutput
     internalGetInstagramFeed(token: String!): internalGetInstagramFeedOutput
+    internalGetScv2Url(cart_id: String!): Scv2
 }
 
 type internalGetInstagramFeedItem {
