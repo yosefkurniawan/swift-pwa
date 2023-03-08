@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-const fetch = require('cross-fetch');
 const { print } = require('graphql');
 const { wrapSchema, introspectSchema } = require('@graphql-tools/wrap');
 const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
 const { decrypt } = require('../../../helpers/encryption');
 const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
+const fetchWithTimeout = require('../../../helpers/fetchWithTimeout');
 
 const executor = async ({ document, variables, context }) => {
     try {
@@ -40,7 +40,8 @@ const executor = async ({ document, variables, context }) => {
             const admin = parseInt(JSON.parse(adminId)[0], 10);
             additionalHeader['Admin-Id'] = admin;
         }
-        const fetchResult = await fetch(url, {
+
+        const fetchResult = await fetchWithTimeout(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -48,6 +49,7 @@ const executor = async ({ document, variables, context }) => {
             },
             body: JSON.stringify({ query, variables }),
         });
+
         if (fetchResult && fetchResult.json) {
             const response = await fetchResult.json();
             if (response.errors) {

@@ -37,7 +37,6 @@ const BannerSlider = (props) => {
     if (!data || data.slider.images.length === 0) {
         return <ErrorInfo variant="warning" text={t('home:nullData')} />;
     }
-
     if (data && data.slider) {
         return (
             <>
