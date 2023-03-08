@@ -70,7 +70,7 @@ const Summary = (props) => {
             id,
             quantity,
             pickup_item_store_info,
-            custom_price,
+            prices,
             product,
             custom_seller,
             ...other
@@ -92,14 +92,14 @@ const Summary = (props) => {
             if (!child) {
                 child = {
                     id,
-                    custom_price,
+                    prices,
                     product,
                     quantity,
                     ...other,
                 };
                 item.productList.push(child);
-                item.subtotal.currency = custom_price?.row_total_incl_tax.currency;
-                item.subtotal.value += custom_price?.row_total_incl_tax.value;
+                item.subtotal.currency = prices.row_total_including_tax.currency;
+                item.subtotal.value += prices.row_total_including_tax.value;
             }
             return groupData;
         }, []);
