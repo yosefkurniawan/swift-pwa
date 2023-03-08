@@ -49,6 +49,7 @@ const OptionsItemConfig = (props) => {
     const [selectedProduct, setSelectedProduct] = React.useState({});
     const [qty, setQty] = React.useState(1);
     let [loading, setLoading] = React.useState(false);
+    const mount = React.useRef(null);
 
     if (typeof customLoading !== 'undefined' && typeof setCustomLoading === 'function') {
         loading = customLoading;
@@ -375,20 +376,32 @@ const OptionsItemConfig = (props) => {
         }
     };
 
+    /**
+     * [useEffect] for react lifecycle
+     */
     React.useEffect(() => {
-        if (
-            configProduct.data
-            && configProduct.data.products.items.length > 0
-            && options.length === 0
-            && configProduct.data.products.items[0].configurable_options
-        ) {
-            const op = generateValue(selectConfigurable, configProduct.data.products.items[0].configurable_options, combination);
-            setOptions(op);
+        mount.current = true;
+        // eslint-disable-next-line no-return-assign
+        return () => (mount.current = false);
+    }, []);
+
+    React.useEffect(() => {
+        if (mount.current) {
+            if (
+                configProduct.data
+                && configProduct.data.products.items.length > 0
+                && options.length === 0
+                && configProduct.data.products.items[0].configurable_options
+            ) {
+                const op = generateValue(selectConfigurable, configProduct.data.products.items[0].configurable_options, combination);
+                setOptions(op);
+            }
         }
     }, [configProduct]);
 
     React.useMemo(() => {
-        if (configProduct.data && configProduct.data.products.items.length > 0 && configProduct.data.products.items[0].configurable_options) {
+        // eslint-disable-next-line max-len
+        if (mount.current && configProduct.data && configProduct.data.products.items.length > 0 && configProduct.data.products.items[0].configurable_options) {
             const op = generateValue(selectConfigurable, configProduct.data.products.items[0].configurable_options, combination);
             setOptions(op);
         }

@@ -22,8 +22,17 @@ const useStyles = makeStyles({
     },
 });
 
+const handleClick = async (url, id) => {
+    const urlResolver = getResolver();
+    urlResolver[url] = {
+        type: 'CATEGORY',
+        id,
+    };
+    await setResolver(urlResolver);
+};
+
 const ItemBreadcrub = ({
-    label, link, active, id, handleClick,
+    label, link, active, id,
 }) => {
     if (link) {
         return (
@@ -41,14 +50,6 @@ const ItemBreadcrub = ({
 };
 
 const CustomBreadcrumb = ({ data = [], variant = 'text' }) => {
-    const handleClick = async (url, id) => {
-        const urlResolver = getResolver();
-        urlResolver[url] = {
-            type: 'CATEGORY',
-            id,
-        };
-        await setResolver(urlResolver);
-    };
     const styles = useStyles();
     return (
         <Breadcrumbs separator={<NavigateNext fontSize="small" />} className={styles.root}>
@@ -67,7 +68,6 @@ const CustomBreadcrumb = ({ data = [], variant = 'text' }) => {
                         link={link}
                         active={active}
                         id={id}
-                        handleClick={handleClick}
                     />
                 ))
                     : data.map(({

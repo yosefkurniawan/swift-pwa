@@ -8,18 +8,25 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import { formatPrice } from '@helper_currency';
 import useStyles from '@plugin_optionitem/BundleOption/style';
+import React from 'react';
 
 const Multiple = ({
     data, options = [], selectOptions, currencyCache, dynamicPrice,
 }) => {
     const styles = useStyles();
-    const defaultValue = [];
-    for (let index = 0; index < options.length; index++) {
-        const element = options[index];
-        if (element.is_default) {
-            defaultValue.push(element.id);
+    const defaultValue = React.useMemo(() => {
+        const tempValue = [];
+        if (options && options.length > 0) {
+            for (let index = 0; index < options.length; index++) {
+                const element = options[index];
+                if (element.is_default) {
+                    tempValue.push(element.id);
+                }
+            }
         }
-    }
+        return tempValue;
+    }, [options]);
+
     return (
         <FormControl className={styles.selectItem}>
             <Select
