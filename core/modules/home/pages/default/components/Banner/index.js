@@ -22,10 +22,9 @@ const BannerSlider = (props) => {
     if (error) {
         return <ErrorInfo variant="error" text={t('home:errorFetchData')} />;
     }
-    if (!data || data.slider.images.length === 0) {
+    if (!data || data.slider?.images.length === 0) {
         return (
             <>
-                <h1>Test</h1>
                 <ErrorInfo variant="warning" text={t('home:nullData')} />
             </>
         );

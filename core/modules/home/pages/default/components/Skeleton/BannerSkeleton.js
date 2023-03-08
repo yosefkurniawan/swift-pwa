@@ -8,7 +8,7 @@ const BannerSliderSkeleteon = (props) => {
     return (
         <span className={styles.skeletonWrapper}>
             <img src={logoUrl} className="logo hidden-desktop" alt="Logo" />
-            <Skeleton variant="rect" animation="wave" xsStyle={{ width: '100%', height: `${storeConfig.pwa.home_slider_mobile_height}px` }} mdStyle={{ width: '100%', height: `${storeConfig.pwa.home_slider_desktop_height}px` }} />
+            <Skeleton variant="rect" animation="wave" xsStyle={{ width: '100%', height: `${storeConfig.pwa?.home_slider_mobile_height}px` }} mdStyle={{ width: '100%', height: `${storeConfig.pwa?.home_slider_desktop_height}px` }} />
         </span>
     );
 };
