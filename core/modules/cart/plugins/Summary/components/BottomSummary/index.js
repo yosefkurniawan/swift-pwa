@@ -67,7 +67,7 @@ const CheckoutDrawer = ({
         const unGroupedData = items;
 
         // eslint-disable-next-line no-shadow, object-curly-newline, max-len
-        const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, custom_seller, ...other }) => {
+        const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, custom_price, product, custom_seller, ...other }) => {
             let item = groupData.find((p) => p.seller_id === custom_seller.seller_id);
             if (!item) {
                 item = {
@@ -85,14 +85,14 @@ const CheckoutDrawer = ({
             if (!child) {
                 child = {
                     id,
-                    prices,
+                    custom_price,
                     product,
                     quantity,
                     ...other,
                 };
                 item.productList.push(child);
-                item.subtotal.currency = prices.row_total_including_tax.currency;
-                item.subtotal.value += prices.row_total_including_tax.value;
+                item.subtotal.currency = custom_price?.row_total_incl_tax.currency;
+                item.subtotal.value += custom_price?.row_total_incl_tax.value;
             }
             return groupData;
         }, []);
