@@ -227,6 +227,16 @@ items {
           value
         }
     }
+    custom_price {
+        price_incl_tax {
+          value
+          currency
+        }
+        row_total_incl_tax {
+          value
+          currency
+        }
+    }
 }`;
 
 const selected_payment_method = `
