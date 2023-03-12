@@ -43,7 +43,7 @@ const Content = (props) => {
             <div className="col-xs-12">
                 <GimmickBanner data={dataCart.promoBanner || []} t={t} {...other} />
             </div>
-            <div className="col-xs-12 col-sm-8 col-md-9" style={{ height: '100%' }}>
+            <div className="col-xs-12 col-sm-12 col-md-9" style={{ height: '100%' }}>
                 <ItemView
                     data={dataCart}
                     t={t}
