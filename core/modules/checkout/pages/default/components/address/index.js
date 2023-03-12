@@ -217,7 +217,6 @@ const Address = (props) => {
                     });
             } else {
                 const setShippingBilling = () => {
-                    setLoadingSellerInfo(true);
                     setShippingAddressById({
                         variables: {
                             cartId: cart.id,
