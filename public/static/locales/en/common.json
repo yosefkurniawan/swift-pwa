@@ -56,7 +56,8 @@
     },
     "subtotal": "Subtotal",
     "price": {
-        "asLowAs": "As low as"
+        "asLowAs": "As low as",
+        "startFrom": "Starting at"
     },
     "form": {
         "firstName": "First Name",
