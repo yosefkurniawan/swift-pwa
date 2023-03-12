@@ -144,7 +144,7 @@ const Summary = (props) => {
                                                     />
                                                 </div>
                                                 <div className={classNames('col-xs-8', styles.bodyProductItem)}>
-                                                    <Typography variant="span">{item.product.name}</Typography>
+                                                    <Typography variant="span" className={styles.productTitle}>{item.product.name}</Typography>
                                                     {item.configurable_options && item.configurable_options.length ? (
                                                         <div className="product-options">
                                                             {item.configurable_options.map((val, idx) => (
@@ -225,7 +225,7 @@ const Summary = (props) => {
                                         />
                                     </div>
                                     <div className={classNames('col-xs-8', styles.bodyProductItem)}>
-                                        <Typography variant="span">{item.product.name}</Typography>
+                                        <Typography variant="span" className={styles.productTitle}>{item.product.name}</Typography>
                                         {item.configurable_options && item.configurable_options.length ? (
                                             <div className="product-options">
                                                 {item.configurable_options.map((val, idx) => (

@@ -127,6 +127,12 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: '0px !important',
         marginRight: '0px !important',
     },
+    productTitle: {
+        display: '-webkit-box',
+        overflow: 'hidden',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
+    },
 }));
 
 export default useStyles;

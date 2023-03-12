@@ -66,7 +66,7 @@ const WishlistComp = ({
                 </div>
                 <div className={styles.content}>
                     <Link href="/[...slug]" as={`/${url_key}`}>
-                        <a onClick={() => handleClick(`/${url_key}`)}>
+                        <a onClick={() => handleClick(`/${url_key}`)} className={styles.productTitle}>
                             <Typography variant="p">{name}</Typography>
                         </a>
                     </Link>

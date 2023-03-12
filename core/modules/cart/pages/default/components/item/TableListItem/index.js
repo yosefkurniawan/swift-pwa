@@ -238,7 +238,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                             <div className="col-xs-12">
                                                                 <Link href="/[...slug]" as={`/${val.product.url_key}`}>
                                                                     <a>
-                                                                        <Typography variant="span" letter="capitalize">
+                                                                        <Typography variant="span" letter="capitalize" className={styles.productTitle}>
                                                                             {val.product.name}
                                                                         </Typography>
                                                                     </a>
@@ -465,7 +465,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                                     <div className="col-xs-12">
                                                                         <Link href="/[...slug]" as={`/${val.product.url_key}`}>
                                                                             <a>
-                                                                                <Typography variant="span" letter="capitalize">
+                                                                                <Typography variant="span" letter="capitalize" className={styles.productTitle}>
                                                                                     {val.product.name}
                                                                                 </Typography>
                                                                             </a>

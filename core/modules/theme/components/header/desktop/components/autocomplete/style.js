@@ -34,6 +34,10 @@ const useStyles = makeStyles(() => ({
         paddingBottom: '0rem',
         textTransform: 'uppercase',
         fontSize: 10,
+        display: '-webkit-box',
+        overflow: 'hidden',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
     },
     titleSeller: {
         paddingTop: 2,

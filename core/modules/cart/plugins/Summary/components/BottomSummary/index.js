@@ -134,7 +134,9 @@ const CheckoutDrawer = ({
                                                         >
                                                             <div className="col-xs-12 row between-xs clear-margin-padding">
                                                                 <div className="col-xs-6">
-                                                                    <Typography variant="p">{item.product.name}</Typography>
+                                                                    <Typography variant="p" className={styles.productTitle}>
+                                                                        {item.product.name}
+                                                                    </Typography>
                                                                 </div>
                                                                 <div className="col-xs-6">
                                                                     <Typography variant="p" align="right">
@@ -196,7 +198,9 @@ const CheckoutDrawer = ({
                                                 <div className="col-xs-12 row" key={index} id="bottomListItemProductSummary">
                                                     <div className="col-xs-12 row between-xs">
                                                         <div className="col-xs-6">
-                                                            <Typography variant="p">{item.product.name}</Typography>
+                                                            <Typography variant="p" className={styles.productTitle}>
+                                                                {item.product.name}
+                                                            </Typography>
                                                         </div>
                                                         <div className="col-xs-6">
                                                             <Typography variant="p" align="right">
