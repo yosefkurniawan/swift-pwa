@@ -167,6 +167,7 @@ const itemsProduct = `
 items {
     id
     quantity
+    errorCartItems
     ... on ConfigurableCartItem {
         configurable_options {
             option_label
@@ -884,6 +885,8 @@ export const setShippingMethod = gql`
                 ${modules.checkout.cashback.enabled ? applied_cashback : ''}
                 ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
                 ${prices}
+                ${cartAvailFreeItems}
+                ${itemsProduct}
                 ${modules.promo.enabled ? applied_coupons : ''}
                 ${modules.rewardpoint.enabled ? applied_reward_points : ''}
                 ${modules.giftcard.enabled ? applied_giftcard : ''}
@@ -910,6 +913,8 @@ export const setShippingMethodMultiseller = gql`
                 ${modules.checkout.cashback.enabled ? applied_cashback : ''}
                 ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
                 ${prices}
+                ${cartAvailFreeItems}
+                ${itemsProduct}
                 ${modules.promo.enabled ? applied_coupons : ''}
                 ${modules.rewardpoint.enabled ? applied_reward_points : ''}
                 ${modules.giftcard.enabled ? applied_giftcard : ''}
@@ -939,7 +944,9 @@ export const setPaymentMethod = gql`
                 ${modules.giftcard.enabled ? applied_giftcard : ''}
                 ${modules.storecredit.enabled ? applied_store_credit : ''}
                 ${prices}
+                ${cartAvailFreeItems}
                 ${promoBanner}
+                ${itemsProduct}
             }
         }
     }
@@ -962,6 +969,7 @@ export const placeOrder = gql`
                 order_number
                 order_id
             }
+            infoMsg
         }
     }
 `;
@@ -976,6 +984,7 @@ export const placeOrderWithOrderComment = gql`
                 order_number
                 order_id
             }
+            infoMsg
         }
     }
 `;
@@ -1335,6 +1344,20 @@ export const updateCartitem = gql`
             ${itemsProduct}
         }
       }
+    }
+`;
+
+export const getUpdatedCart = gql`
+    query Cart($cartId: String!) {
+        cart(cart_id: $cartId) {
+            id
+            total_quantity
+            errorItems
+            ${cartRequiredSelection}
+            ${cartShippingAddress}
+            ${cartAvailablePaymentMethods}
+            ${itemsProduct}
+        }
     }
 `;
 
