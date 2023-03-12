@@ -12,10 +12,12 @@ import { modules } from '@config';
 
 export const filterProduct = (filter, router) => {
     let queryFilter = '{ ';
+    let isColorInQuery = false;
     if (router && router.asPath && router.asPath.includes('color')) {
         const routerPaths = router.asPath.split('?');
         const routerPathsNext = routerPaths[1].split('&');
         const routerPathsColor = routerPathsNext[0].split('=');
+        isColorInQuery = true;
 
         queryFilter += `color: {
         eq: "${routerPathsColor[1]}"
@@ -24,6 +26,8 @@ export const filterProduct = (filter, router) => {
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < filter?.length; index++) {
         const detailFilter = filter[index];
+        // eslint-disable-next-line no-continue
+        if (detailFilter.type === 'color' && isColorInQuery) continue;
         if (detailFilter.type === 'price') {
             queryFilter += `
           ,${detailFilter.type} : {
@@ -41,9 +45,15 @@ export const filterProduct = (filter, router) => {
                 in: [${inFilter}]
               }`;
         } else if (detailFilter.type === 'seller_id') {
-            queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type}: {
-            match: "${detailFilter.value}"
-          }`;
+            let inFilter = '';
+            const arrVal = detailFilter.value.split(',');
+            // eslint-disable-next-line no-plusplus
+            for (let idx = 0; idx < arrVal.length; idx++) {
+                inFilter += `${idx !== 0 ? ',' : ''}"${arrVal[idx]}"`;
+            }
+            queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type} : {
+                in: [${inFilter}]
+              }`;
         } else if (detailFilter.type === 'seller_name') {
             queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type}: {
             match: "${detailFilter.value}"
