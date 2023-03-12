@@ -138,7 +138,7 @@ const ItemView = (props) => {
                     quality={80}
                     storeConfig={storeConfig}
                 />
-                {prices.price.value === 0 ? <span>{t('common:title:free')}</span> : null}
+                {prices.price_incl_tax.value === 0 ? <span>{t('common:title:free')}</span> : null}
             </div>
             <div className={styles.itemInfo}>
                 <Link href="/[...slug]" as={`/${product.url_key}`}>
@@ -175,7 +175,8 @@ const ItemView = (props) => {
                                     <div className="option-wrapper__item">
                                         {val.values.map((item, idt) => (
                                             <div key={idt}>
-                                                {item.quantity} x{item.label} <strong>+ {formatPrice(item.price, 'IDR', currencyCache)}</strong>
+                                                {item.quantity} x{item.label}
+                                                {/* <strong>+ {formatPrice(item.price, 'IDR', currencyCache)}</strong> */}
                                             </div>
                                         ))}
                                     </div>
@@ -206,16 +207,16 @@ const ItemView = (props) => {
                             <div>{orderNote(cartItemId, note, quantity)}</div>
                         )}
                 </div>
-                {product.stock_status === 'OUT_OF_STOCK' ? (
+                { errorCartItems && errorCartItems.length > 0 && errorCartItems[0] === null ? (
                     <Alert severity="error" className="alert m-15">
-                        {t('cart:oos')}
+                        {t('common:cart:oos')}
                     </Alert>
-                ) : errorCartItems && errorCartItems.length > 0 ? (
+                ) : errorCartItems && errorCartItems.length > 0 && errorCartItems[0] !== null ? (
                     <Alert severity="warning" className="alert m-15">
                         {errorCartItems[0]}
                     </Alert>
                 ) : null}
-                <div className={styles.itemPrice}>{formatPrice(prices.price_including_tax.value, prices.price_including_tax.currency, currencyCache)}</div>
+                <div className={styles.itemPrice}>{formatPrice(prices.price_incl_tax.value, prices.price_incl_tax.currency, currencyCache)}</div>
             </div>
 
             <div className={styles.itemActions}>

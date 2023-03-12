@@ -360,12 +360,12 @@ const Checkout = (props) => {
                 const unGroupedData = itemCart.cart.items;
 
                 // eslint-disable-next-line no-shadow
-                const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, ...other }) => {
-                    let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+                const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, custom_seller, ...other }) => {
+                    let item = groupData.find((p) => p.seller_id === custom_seller.seller_id);
                     if (!item) {
                         item = {
-                            seller_id: product.seller.seller_id ? product.seller.seller_id : null,
-                            seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
+                            seller_id: custom_seller.seller_id ? custom_seller.seller_id : null,
+                            seller_name: custom_seller.seller_name ? custom_seller.seller_name : 'Default Seller',
                             productList: [],
                             subtotal: {
                                 currency: '',
@@ -548,12 +548,12 @@ const Checkout = (props) => {
             const unGroupedData = itemCart.cart.items;
 
             // eslint-disable-next-line no-shadow
-            const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, ...other }) => {
-                let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+            const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, custom_seller, ...other }) => {
+                let item = groupData.find((p) => p.seller_id === custom_seller.seller_id);
                 if (!item) {
                     item = {
-                        seller_id: product.seller.seller_id ? product.seller.seller_id : null,
-                        seller_name: product.seller.seller_name ? product.seller.seller_name : null,
+                        seller_id: custom_seller.seller_id ? custom_seller.seller_id : null,
+                        seller_name: custom_seller.seller_name ? custom_seller.seller_name : null,
                         productList: [],
                         subtotal: {
                             currency: '',
@@ -859,12 +859,12 @@ const Checkout = (props) => {
                 const unGroupedData = itemCart.cart.items;
 
                 // eslint-disable-next-line no-shadow
-                const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, ...other }) => {
-                    let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+                const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, custom_seller, ...other }) => {
+                    let item = groupData.find((p) => p.seller_id === custom_seller.seller_id);
                     if (!item) {
                         item = {
-                            seller_id: product.seller.seller_id ? product.seller.seller_id : 0,
-                            seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
+                            seller_id: custom_seller.seller_id ? custom_seller.seller_id : 0,
+                            seller_name: custom_seller.seller_name ? custom_seller.seller_name : 'Default Seller',
                             productList: [],
                             subtotal: {
                                 currency: '',

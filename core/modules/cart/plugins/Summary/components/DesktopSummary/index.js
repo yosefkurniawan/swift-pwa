@@ -70,15 +70,16 @@ const Summary = (props) => {
             id,
             quantity,
             pickup_item_store_info,
-            prices,
+            custom_price,
             product,
+            custom_seller,
             ...other
         }) => {
-            let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+            let item = groupData.find((p) => p.seller_id === custom_seller.seller_id);
             if (!item) {
                 item = {
-                    seller_id: product.seller.seller_id,
-                    seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
+                    seller_id: custom_seller.seller_id,
+                    seller_name: custom_seller.seller_name ? custom_seller.seller_name : 'Default Seller',
                     productList: [],
                     subtotal: {
                         currency: '',
@@ -91,14 +92,14 @@ const Summary = (props) => {
             if (!child) {
                 child = {
                     id,
-                    prices,
+                    custom_price,
                     product,
                     quantity,
                     ...other,
                 };
                 item.productList.push(child);
-                item.subtotal.currency = prices.row_total_including_tax.currency;
-                item.subtotal.value += prices.row_total_including_tax.value;
+                item.subtotal.currency = custom_price?.row_total_incl_tax.currency;
+                item.subtotal.value += custom_price?.row_total_incl_tax.value;
             }
             return groupData;
         }, []);

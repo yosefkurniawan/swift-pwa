@@ -10,7 +10,7 @@ import { useTranslation } from '@i18n';
 
 const Item = (props) => {
     const {
-        errorCartItems, quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options, customizable_options,
+        errorCartItems, quantity, custom_price, product, deleteCart, updateCart, id, configurable_options, bundle_options, customizable_options,
         SimpleMiniCustomizable, ConfigurableMiniCustomizable,
         aw_giftcard_option, storeConfig, currencyCache,
     } = props;
@@ -30,7 +30,7 @@ const Item = (props) => {
                             height={92}
                             storeConfig={storeConfig}
                         />
-                        {prices?.row_total_including_tax?.value === 0 ? <span>{t('common:title:free')}</span> : null}
+                        {custom_price?.row_total_incl_tax?.value === 0 ? <span>{t('common:title:free')}</span> : null}
                     </a>
                 </Link>
                 <div className="product-item-details">
@@ -66,10 +66,10 @@ const Item = (props) => {
                                                 x
                                                 {item.label}
                                                 {' '}
-                                                <strong>
+                                                {/* <strong>
                                                     {' + '}
                                                     {formatPrice(item.price, 'IDR', currencyCache)}
-                                                </strong>
+                                                </strong> */}
                                             </div>
                                         ))}
                                     </div>
@@ -125,11 +125,11 @@ const Item = (props) => {
                         <span className="item-plus qty-update" onClick={() => updateCart(id, quantity + 1)} />
                     </div>
                     <div className="item-price">
-                        {formatPrice(prices?.price_including_tax?.value || 0, prices?.price_including_tax?.currency || 'IDR', currencyCache)}
+                        {formatPrice(custom_price?.price_incl_tax?.value || 0, custom_price?.price_incl_tax?.currency || 'IDR', currencyCache)}
                     </div>
                 </div>
 
-                {product.stock_status === 'OUT_OF_STOCK' && (
+                {errorCartItems && errorCartItems.length > 0 && errorCartItems[0] === null && (
                     <div className="oos-info">
                         <span className="oos-info-content">{t('common:cart:oos')}</span>
                     </div>
@@ -144,7 +144,7 @@ const Item = (props) => {
                 </div>
             </div>
             {
-                errorCartItems && errorCartItems.length > 0 && (
+                errorCartItems && errorCartItems.length > 0 && errorCartItems[0] !== null && (
                     <div className="error-status-qty">
                         <Alert severity="warning">{errorCartItems[0]}</Alert>
                     </div>

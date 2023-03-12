@@ -200,6 +200,11 @@ items {
             currency
         }
     }
+    custom_seller{
+    seller_id
+    seller_city
+    seller_name
+    }
     product {
         id
         name
@@ -207,10 +212,6 @@ items {
         name
         }
         url_key
-        seller {
-            seller_id
-            seller_name
-        }
         sku
         stock_status
         small_image {
@@ -225,6 +226,16 @@ items {
         aw_giftcard_option {
           label
           value
+        }
+    }
+    custom_price {
+        price_incl_tax {
+          value
+          currency
+        }
+        row_total_incl_tax {
+          value
+          currency
         }
     }
 }`;
