@@ -387,7 +387,12 @@ const ProductItem = (props) => {
                     <ModalQuickView
                         open={openQuickView}
                         onClose={() => setOpenQuickView(false)}
-                        data={dataDetailProduct?.products}
+                        data={
+                            // eslint-disable-next-line no-underscore-dangle
+                            dataDetailProduct?.__typename === 'AwGiftCardProduct'
+                                ? dataDetailProduct
+                                : dataDetailProduct?.products
+                        }
                         dataPrice={getPrice()}
                         loadPrice={loadPrice}
                         errorPrice={errorPrice}
@@ -486,7 +491,12 @@ const ProductItem = (props) => {
                 <ModalQuickView
                     open={openQuickView}
                     onClose={() => setOpenQuickView(false)}
-                    data={dataDetailProduct?.products}
+                    data={
+                        // eslint-disable-next-line no-underscore-dangle
+                        dataDetailProduct?.__typename === 'AwGiftCardProduct'
+                            ? dataDetailProduct
+                            : dataDetailProduct?.products
+                    }
                     dataPrice={getPrice()}
                     loadPrice={loadPrice}
                     errorPrice={errorPrice}

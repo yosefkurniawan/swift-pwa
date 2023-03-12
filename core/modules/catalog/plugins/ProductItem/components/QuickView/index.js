@@ -30,7 +30,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 const QuickView = (props) => {
     const styles = useStyles();
     const route = useRouter();
-    const { t } = useTranslation(['common', 'product', 'catalog']);
+    const { t } = useTranslation(['validate', 'common', 'product', 'catalog']);
     const {
         onClose, selectedValue, keyProduct, open, data, weltpixel_labels, storeConfig = {}, dataPrice = [], loadPrice, errorPrice,
     } = props;
@@ -271,7 +271,9 @@ const QuickView = (props) => {
                                 >
                                     {product.name}
                                 </Typography>
-                                {generatePrice(priceData, price)}
+                                {// eslint-disable-next-line no-underscore-dangle
+                                    product.__typename !== 'AwGiftCardProduct' && generatePrice(priceData, price)
+                                }
                             </div>
                         </div>
                         <div className={styles.titleContainer}>

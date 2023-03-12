@@ -770,7 +770,7 @@ export const setBillingAddressVirtualProduct = gql`
         setBillingAddressOnCart(input: { 
             cart_id: $cartId, 
             billing_address: { 
-                same_as_shipping: true, 
+                use_for_shipping: true, 
                 address:{
                     city: $city
                     country_code: $countryCode
@@ -799,7 +799,7 @@ export const setBillingAddressById = gql`
         setBillingAddressOnCart(input: { 
             cart_id: $cartId, 
             billing_address: { 
-                same_as_shipping: true, 
+                use_for_shipping: true, 
                 customer_address_id: $addressId 
             }
         }) {

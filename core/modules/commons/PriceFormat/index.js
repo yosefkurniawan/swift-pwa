@@ -39,7 +39,7 @@ const Price = ({
             />
         );
     }
-    if (productType === 'BundleProduct') {
+    if (productType === 'BundleProduct' || productType === 'AwGiftCardProduct') {
         return (
             <BundleProductTypePrice
                 priceRange={priceRange}

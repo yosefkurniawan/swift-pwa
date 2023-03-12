@@ -31,7 +31,8 @@ const CoreGiftCardOptionItem = ({
         __typename, sku, name, categories,
         price_range, stock_status, url_key,
         aw_gc_allow_delivery_date, aw_gc_allow_open_amount, aw_gc_custom_message_fields,
-        aw_gc_amounts, aw_gc_open_amount_max, aw_gc_open_amount_min, aw_gc_type, review, sale,
+        aw_gc_amounts, aw_gc_open_amount_max, aw_gc_open_amount_min, aw_gc_email_templates,
+        aw_gc_type, review, sale,
     } = data;
 
     if (typeof window !== 'undefined') {
@@ -56,12 +57,12 @@ const CoreGiftCardOptionItem = ({
         aw_gc_recipient_email: '',
         aw_gc_sender_name: '',
         aw_gc_sender_email: '',
-        aw_gc_template: '',
+        aw_gc_template: aw_gc_email_templates?.length === 1 ? aw_gc_email_templates[0].value : '',
     };
 
     if (aw_gc_allow_delivery_date) {
         formInitalValues.aw_gc_delivery_date = '';
-        formInitalValues.aw_gc_delivery_date_timezone = other.storeConfig.timezone;
+        formInitalValues.aw_gc_delivery_date_timezone = other.storeConfig?.timezone || 'Asia/Jakarta';
     }
 
     if (aw_gc_allow_open_amount) {

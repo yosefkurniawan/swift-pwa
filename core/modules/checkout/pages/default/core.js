@@ -247,7 +247,9 @@ const Checkout = (props) => {
         if (cartItems) {
             const cartItemsFilter = cartItems.filter((item) => {
                 const { __typename } = item.product;
-                return __typename !== 'VirtualProduct' && __typename !== 'DownloadableProduct' && __typename !== 'AwGiftCardProduct';
+                let isVirtualAwGc = !!(__typename === 'AwGiftCardProduct'
+                && item.product.aw_gc_type === 'VIRTUAL');
+                return __typename !== 'VirtualProduct' && __typename !== 'DownloadableProduct' && !isVirtualAwGc;
             });
 
             /**
@@ -578,7 +580,7 @@ const Checkout = (props) => {
             cartItemBySeller = groupData;
         }
 
-        if (shipping && shipping[0].available_shipping_methods.length === 0) setLoadingSellerInfo(false);
+        if (shipping && shipping[0].available_shipping_methods?.length === 0) setLoadingSellerInfo(false);
 
         // init shipping method
         // if multiseller active

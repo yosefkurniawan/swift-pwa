@@ -23,6 +23,7 @@ import classnames from 'classnames';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { getHost } from '@helper_config';
 
 const Button = dynamic(() => import('@common_button'), { ssr: false });
 const Footer = dynamic(() => import('@plugin_optionitem/components/Footer'), { ssr: true });
@@ -69,7 +70,6 @@ const AwGiftCardProduct = (props) => {
         if (aw_gc_amounts) {
             setselectedCustomAmount(aw_gc_amounts[0]);
         }
-        setselectedCustomAmount([]);
     }, [aw_gc_amounts]);
 
     const handleSelectTemplate = (e) => {
@@ -80,6 +80,10 @@ const AwGiftCardProduct = (props) => {
     };
 
     const handleChangeSelect = (e) => {
+        if (e.target.value !== 'custom') {
+            formik.setFieldValue('aw_gc_custom_amount', '');
+            formik.setFieldValue('aw_gc_amount', e.target.value);
+        }
         setselectedCustomAmount(e.target.value);
     };
 
@@ -138,7 +142,7 @@ const AwGiftCardProduct = (props) => {
                     </div>
                 </div>
             )}
-            {aw_gc_type !== 'PHYSICAL' && (
+            {aw_gc_type !== 'PHYSICAL' && emailTemplates.length > 1 && (
                 <div className="gc-first">
                     <Typography variant="h2">
                         {aw_gc_allow_open_amount || aw_gc_amounts?.length > 1 ? '2.' : '1.'} {`${t('validate:selectDesign')}`}
@@ -172,9 +176,11 @@ const AwGiftCardProduct = (props) => {
                         ? aw_gc_allow_open_amount || aw_gc_amounts?.length > 1
                             ? '2.'
                             : '1.'
-                        : aw_gc_allow_open_amount
-                            ? '3.'
-                            : '2.'}
+                        : emailTemplates.length > 1
+                            ? aw_gc_allow_open_amount
+                                ? '3.'
+                                : '2.'
+                            : '1.'}
                     {' '}
                     {`${t('validate:composeEmail')}`}
                 </Typography>
@@ -321,7 +327,7 @@ const AwGiftCardProduct = (props) => {
                                     src={`${storeConfig?.secure_base_media_url}logo/${storeConfig?.header_logo_src}`}
                                     width={240}
                                     height={104}
-                                    alt={storeConfig.logo_alt || ''}
+                                    alt={storeConfig?.logo_alt || ''}
                                 />
                             </div>
                             <div className="gc-dialog-card-details">
@@ -329,7 +335,7 @@ const AwGiftCardProduct = (props) => {
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <Typography>From:</Typography>
+                                                <Typography>To:</Typography>
                                             </td>
                                             <td>
                                                 <Typography>{formik.values.aw_gc_recipient_name}</Typography>
@@ -337,7 +343,7 @@ const AwGiftCardProduct = (props) => {
                                         </tr>
                                         <tr>
                                             <td>
-                                                <Typography>To:</Typography>
+                                                <Typography>From:</Typography>
                                             </td>
                                             <td>
                                                 <Typography>{formik.values.aw_gc_sender_name}</Typography>
@@ -366,7 +372,7 @@ const AwGiftCardProduct = (props) => {
                                     </tbody>
                                 </table>
                             </div>
-                            <Button className="gc-dialog-card-details-button" onClick={() => router.push(`${storeConfig.base_url}`)}>
+                            <Button className="gc-dialog-card-details-button" onClick={() => router.push(`${getHost()}`)}>
                                 <Typography variant="h2" color="white">
                                     Shop Now
                                 </Typography>
