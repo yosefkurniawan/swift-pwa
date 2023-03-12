@@ -11,7 +11,7 @@ import CustomizableOption from '@plugin_customizableitem';
 const Options = (props) => {
     const {
         data, price, customizableOptions, setCustomizableOptions,
-        errorCustomizableOptions, additionalPrice, setAdditionalPrice,
+        errorCustomizableOptions, additionalPrice, setAdditionalPrice, priceData,
     } = props;
     const { __typename } = data;
     return (
@@ -54,6 +54,7 @@ const Options = (props) => {
             {__typename === 'DownloadableProduct' && (
                 <DownloadOption
                     {...props}
+                    priceData={priceData}
                 />
             )}
 

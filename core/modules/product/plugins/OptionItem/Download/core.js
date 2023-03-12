@@ -27,10 +27,10 @@ const OptionsItemDownload = ({
     checkCustomizableOptionsValue,
     errorCustomizableOptions,
     customizableOptions,
+    priceData = [],
     ...other
 }) => {
     const [qty, setQty] = React.useState(1);
-
     let cartId = '';
     let isLogin = 0;
 
@@ -66,7 +66,8 @@ const OptionsItemDownload = ({
     }, [downloadProduct.data]);
 
     const handleOption = (id, price_value) => {
-        let final_price_sum = 0;
+        const initPrice = priceData[0]?.price_range?.minimum_price?.regular_price?.value;
+        let final_price_sum = initPrice || 0;
         const selectedOption = handleSelectedDownload(selectDownloadable, id, price_value);
         setSelectDownloadable({
             ...selectedOption,
@@ -90,6 +91,7 @@ const OptionsItemDownload = ({
                     },
                 },
             },
+            update: true,
         };
         setPrice(final_price_value);
     };
