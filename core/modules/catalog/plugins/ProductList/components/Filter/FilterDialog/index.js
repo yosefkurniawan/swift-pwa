@@ -15,6 +15,7 @@ import Slide from '@material-ui/core/Slide';
 import CloseIcon from '@material-ui/icons/Close';
 import { BREAKPOINTS } from '@theme/vars';
 import React from 'react';
+import { useRouter } from 'next/router';
 import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction={window.innerWidth >= BREAKPOINTS.sm ? 'left' : 'up'} ref={ref} {...props} />);
@@ -44,6 +45,7 @@ const FilterDialog = (props) => {
     const data = filter;
     const [actGetSeller, dataSeller] = getSeller();
     const [sellerId, setSellerId] = React.useState([]);
+    const router = useRouter();
 
     React.useEffect(() => {
         // console.log('data', data);
@@ -127,6 +129,11 @@ const FilterDialog = (props) => {
                     }
 
                     if (itemFilter.field !== 'attribute_set_id' && itemFilter.field !== 'indexed_attributes' && itemFilter.field !== 'seller_name') {
+                        if (itemFilter.field === 'cat' || itemFilter.field === 'category_id'
+                        || itemFilter.field === 'etalase' || (itemFilter.field === 'seller_id' && router.route.includes('seller'))) {
+                            return <span key={idx} />;
+                        }
+
                         if (itemFilter.field === 'seller_id' && sellerId && sellerId.field && sellerId.label) {
                             return (
                                 <div className={`${styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']}`} key={idx}>
@@ -184,10 +191,7 @@ const FilterDialog = (props) => {
                                 </div>
                             );
                         }
-                        if (itemFilter.field === 'cat' || itemFilter.field === 'category_id'
-                        || itemFilter.field === 'etalase' || (itemFilter.field === 'seller_id' && sellerId?.length === 0)) {
-                            return <span key={idx} />;
-                        }
+
                         return (
                             <div className={`${styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']}`} key={idx}>
                                 {elastic ? (
