@@ -7,6 +7,7 @@ import Product from '@plugin_productlist';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
 import useStyles from '@core_modules/catalog/pages/category/components/style';
+import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 import dynamic from 'next/dynamic';
 import BreadcrumbView from '@common_breadcrumb';
 import TabView from '@common_tabs';
@@ -127,7 +128,7 @@ const CategoryPage = ({
                     && (categoryList.display_mode === 'PRODUCTS_AND_PAGE' || categoryList.display_mode === 'PAGE')
                     && categoryList.cms_block
                     && (
-                        <div className="cms-block-category" dangerouslySetInnerHTML={{ __html: categoryList.cms_block.content }} />
+                        <CmsRenderer content={categoryList.cms_block.content} storeConfig={storeConfig} />
                     )
                 }
                 {
