@@ -8,9 +8,10 @@
 import React, { useRef, useState } from 'react';
 import Slider from 'react-slick';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
+import { generateThumborUrl } from '@helpers/image';
 import { getStoreHost } from '@helpers/config';
 import MagezonHeading from '@core_modules/cms/components/cms-renderer/magezon/MagezonHeading';
+import MagezonImage from '@core_modules/cms/components/cms-renderer/magezon/MagezonImage';
 import LeftArrowIcon from '@material-ui/icons/ChevronLeft';
 import RightArrowIcon from '@material-ui/icons/ChevronRight';
 
@@ -60,7 +61,7 @@ const MagezonSliderContent = (props) => {
         content_align, content_padding, content_position,
         content_width, content_wrapper_width,
         youtube_id, vimeo_id, local_link,
-        image, background_type, slider_height, storeConfig,
+        image, background_type, slider_height, slide_link, storeConfig,
     } = props;
     const enable = storeConfig.pwa.thumbor_enable;
     const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
@@ -114,17 +115,10 @@ const MagezonSliderContent = (props) => {
                         </div>
                     </div>
                     <div className="magezon-slide-image">
-                        <picture>
-                            <source srcSet={getImgThumbor} type="image/webp" />
-                            <source srcSet={getImageFallbackUrl(getImgThumbor)} type="image/jpeg" />
-                            <img
-                                data-pagespeed-no-defer
-                                className="img-bg"
-                                src={getImgThumbor}
-                                onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
-                                alt="gambar"
-                            />
-                        </picture>
+                        <MagezonImage
+                            getImgThumbor={getImgThumbor}
+                            slide_link={slide_link}
+                        />
                     </div>
                 </div>
             )}
@@ -134,7 +128,6 @@ const MagezonSliderContent = (props) => {
                         height: ${slider_height}px;
                     }
                     .magezon-slide-image {
-                        z-index: -1;
                         height: ${slider_height}px;
                         overflow: hidden;
                     }
@@ -150,14 +143,7 @@ const MagezonSliderContent = (props) => {
                     .magezon-slide-captions {
                         max-width: ${content_wrapper_width}px;
                         display: flex;
-                        position: absolute;
-                        height: 100%;
-                        width: 100%;
                         margin: 0 auto;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        z-index: 100;
                     }
                     .magezon-slide-captions > div {
                         max-width: ${content_width}px;
