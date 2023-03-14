@@ -320,7 +320,7 @@ const QuickView = (props) => {
                                                     {dataSeller[0].name}
                                                 </Typography>
                                                 <Typography variant="p" type="regular" letter="capitalize" size="14">
-                                                    {citySplit[0]}
+                                                    {citySplit ? citySplit[0] : ''}
                                                 </Typography>
                                             </Box>
                                         </Link>

@@ -52,7 +52,7 @@ const OptionsItem = (props) => {
                         <img className={styles.img} src={logo} />
                     </div>
                     <div className={styles.title}>{name}</div>
-                    <div className={styles.address}>{citySplit[0]}</div>
+                    <div className={styles.address}>{citySplit ? citySplit[0] : ''}</div>
                 </div>
             ) : null}
         </>
