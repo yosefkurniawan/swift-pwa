@@ -94,6 +94,12 @@ export const deleteCartItem = () => useMutation(Schema.deleteCartItemOnPage, {
     },
 });
 
+export const updateMiniCartItem = () => useMutation(Schema.updateMiniCartItem, {
+    context: {
+        request: 'internal',
+    },
+});
+
 export const updateCartitem = () => useMutation(Schema.updateCartitem, {
     context: {
         request: 'internal',

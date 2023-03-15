@@ -54,7 +54,8 @@
     },
     "subtotal": "Subtotal",
     "price": {
-        "asLowAs": "Termurah"
+        "asLowAs": "Termurah",
+        "startFrom": "Mulai dari"
     },
     "qty": "Jumlah",
     "form": {

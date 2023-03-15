@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Typography from '@common_typography';
 import { formatPrice } from '@helper_currency';
 import useStyles from '@common_priceformat/style';
+import { useTranslation } from '@i18n';
 
 const getLowestTierPrice = (tier_price) => {
     let lowestTierPrice;
@@ -20,6 +21,7 @@ const getLowestTierPrice = (tier_price) => {
 
 const AsLowAsText = () => {
     const styles = useStyles();
+    const { t } = useTranslation(['common']);
     return (
         <Typography
             variant="span"
@@ -27,7 +29,7 @@ const AsLowAsText = () => {
             letter="uppercase"
             className={classNames(styles.noMargin, 'price_text')}
         >
-            as low as:
+            {t('common:price:asLowAs')}
             {' '}
         </Typography>
     );

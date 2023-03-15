@@ -627,7 +627,7 @@ const PageDetail = (props) => {
                         small_image: productProps.small_image || {},
                         price: productProps.price || {},
                         price_range: { ...productProps.price.priceRange },
-                        price_tiers: [...productProps.price.priceTiers],
+                        price_tiers: { ...productProps.price.priceTiers },
                         special_from_date: { ...productProps.price.specialFromDate },
                         special_to_date: { ...productProps.price.specialToDate },
                     },

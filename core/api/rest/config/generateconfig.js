@@ -125,7 +125,6 @@ const reqBody = gql`{
         share_icon_twitter
         ves_menu_alias
         ves_menu_enable
-        ves_menu_enable
         primary_color
         secondary_color
         background_color
@@ -147,6 +146,12 @@ const reqBody = gql`{
         link_hover_color
         link_font_decoration
         link_font_hover_decoration
+        button_disabled_background_color
+        gtm_enable
+        gtm_id_local
+        gtm_id_dev
+        gtm_id_stage
+        gtm_id_prod
     }
     pwacheckout {
         enable

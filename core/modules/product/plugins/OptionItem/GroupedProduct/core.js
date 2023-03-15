@@ -29,7 +29,7 @@ const GroupedProductOption = ({
     }
     const [getGuestCartId] = queryGetGuestCartId();
     const cartUser = getCustomerCartId();
-    const { loading: loadData, data: products } = getGroupedProduct(storeConfig, { variables: sku });
+    const { loading: loadData, data: products } = getGroupedProduct(storeConfig, { variables: { sku } });
 
     let optionsData = [];
 
@@ -108,7 +108,6 @@ const GroupedProductOption = ({
                                 open: true,
                             });
                             setLoading(false);
-                            setOpen(false);
                         } else {
                             setLoading(false);
                             window.toastMessage({
