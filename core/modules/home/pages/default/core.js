@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 
 const HomeCore = (props) => {
     // eslint-disable-next-line object-curly-newline
-    const { pageConfig, storeConfig, homePageConfig, ...other } = props;
+    const { pageConfig, storeConfig, ...other } = props;
 
     const homeKey = keyLocalStorage.home;
     const useCms = storeConfig?.pwa?.use_cms_page_enable;
@@ -57,10 +57,10 @@ const HomeCore = (props) => {
     return (
         <>
             {
-                useCms ? <Content cmsHome={config} storeConfig={storeConfig} homePageConfig={homePageConfig} {...other} />
+                useCms ? <Content cmsHome={config} storeConfig={storeConfig} homePageConfig={{ storeConfig }} {...other} />
                     : (
                         <Layout {...props} pageConfig={config} isHomepage>
-                            <Content storeConfig={storeConfig} homePageConfig={homePageConfig} {...other} />
+                            <Content storeConfig={storeConfig} homePageConfig={{ storeConfig }} {...other} />
                         </Layout>
                     )
             }

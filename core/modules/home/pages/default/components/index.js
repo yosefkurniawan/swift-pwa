@@ -20,12 +20,12 @@ const Content = (props) => {
     let storeConfig = config;
     const useCms = storeConfig?.pwa?.use_cms_page_enable;
 
-    if (homePageConfig && homePageConfig.pwa) {
+    if (homePageConfig && homePageConfig.storeConfig && homePageConfig.storeConfig.pwa) {
         storeConfig = {
             ...config,
             pwa: {
                 ...config.pwa,
-                ...homePageConfig.pwa,
+                ...homePageConfig.storeConfig.pwa,
             },
         };
         useCmsPage = {
