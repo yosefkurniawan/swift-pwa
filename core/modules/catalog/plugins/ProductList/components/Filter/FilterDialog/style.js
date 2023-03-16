@@ -47,6 +47,25 @@ const useStyles = makeStyles((theme) => ({
         ...FlexColumn,
         position: 'relative',
     },
+    listCategoryWrapper: {
+        ...CreatePadding(10, 30, 10, 30),
+    },
+    listCategoryBody: {
+        marginTop: '17px',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(1fr)',
+    },
+    listCategory: {
+        cursor: 'pointer',
+        textAlign: 'left',
+        border: 'none',
+        backgroundColor: 'transparent',
+        margin: '0 0 10px 0',
+        padding: '0 0 5px 5px',
+        '&:hover': {
+            backgroundColor: '#f5f5f5',
+        },
+    },
     textSearch: {
         ...FlexRow,
         justifyContent: 'space-between',
