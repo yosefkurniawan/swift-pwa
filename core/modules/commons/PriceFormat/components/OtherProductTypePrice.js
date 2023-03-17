@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Typography from '@common_typography';
 import { formatPrice } from '@helper_currency';
 import useStyles from '@common_priceformat/style';
+import { useTranslation } from '@i18n';
 
 const getLowestTierPrice = (tier_price) => {
     let lowestTierPrice;
@@ -20,6 +21,7 @@ const getLowestTierPrice = (tier_price) => {
 
 const AsLowAsText = () => {
     const styles = useStyles();
+    const { t } = useTranslation(['common']);
     return (
         <Typography
             variant="span"
@@ -27,7 +29,23 @@ const AsLowAsText = () => {
             letter="uppercase"
             className={classNames(styles.noMargin, 'price_text')}
         >
-            as low as:
+            {t('common:price:asLowAs')}
+            {' '}
+        </Typography>
+    );
+};
+
+const StartingAt = () => {
+    const styles = useStyles();
+    const { t } = useTranslation(['common']);
+    return (
+        <Typography
+            variant="span"
+            size="8"
+            letter="uppercase"
+            className={classNames(styles.noMargin, 'price_text')}
+        >
+            {t('common:price:startFrom')}
             {' '}
         </Typography>
     );
@@ -50,6 +68,17 @@ const OtherProductTypePrice = (props) => {
     if (specialToDate && specialToDate !== null) {
         const endTime = new Date(specialToDate).getTime();
         if (nowTime > endTime) validSpecial = false;
+    }
+
+    if (productType === 'GroupedProduct' && !isPdp && !isQuickView) {
+        return (
+            <>
+                <StartingAt />
+                <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
+                    {formatPrice(finalPrice.value + otherPrice, finalPrice.currency, currencyCache)}
+                </Typography>
+            </>
+        );
     }
 
     // if has tierprice & is configurable product

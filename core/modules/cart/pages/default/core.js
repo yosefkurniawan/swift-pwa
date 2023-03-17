@@ -29,12 +29,20 @@ const Cart = (props) => {
         prices: {},
         items: [],
     };
+    const dataSummary = {
+        id: null,
+        total_quantity: 0,
+        applied_coupons: null,
+        prices: {},
+    }
     const [cart, setCart] = React.useState(dataCart);
+    const [summary, setSummary] = useState(dataSummary);
     const [errorCart, setErrorCart] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [editItem, setEditItem] = useState({});
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
     const [loadingCart, setLoadingCart] = useState(true);
+    const [loadingSummary, setLoadingSummary] = useState(true);
     const config = {
         title: t('cart:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -91,13 +99,15 @@ const Cart = (props) => {
         } else {
             const cartId = getCartId();
             if (cartId) {
-                if (getCart && !responseCart.called && getCartItem && !responseCartItem.called) {
-                    getCart({
+                if (getCartItem && !responseCartItem.called) {
+                    getCartItem({
                         variables: {
                             cartId,
                         },
                     });
-                    getCartItem({
+                }
+                if (getCart && !responseCart.called ) {
+                    getCart({
                         variables: {
                             cartId,
                         },
@@ -105,6 +115,7 @@ const Cart = (props) => {
                 }
             } else {
                 setLoadingCart(false);
+                setLoadingSummary(false);
             }
         }
     }, []);
@@ -138,22 +149,34 @@ const Cart = (props) => {
     }, [cancelAndReorderResponse]);
 
     React.useEffect(() => {
-        if (responseCart.loading || responseCartItem.loading) setLoadingCart(true);
-        if (responseCart && responseCart.data && responseCart.data.cart
-            && responseCartItem && responseCartItem.data && responseCartItem.data.cart) {
+        if (responseCartItem.loading) setLoadingCart(true);
+        if (responseCartItem && responseCartItem.data && responseCartItem.data.cart) {
             const itemsCart = responseCartItem.data.cart.items.filter((item) => item !== null);
             const carts = {
-                ...responseCart.data.cart,
+                ...responseCartItem.data.cart,
                 items: itemsCart,
             };
             setCart(carts);
+            setLoadingCart(false);
+        }
+    }, [responseCartItem]);
+
+    React.useEffect(() => {
+        if (responseCart.loading) setLoadingSummary(true);
+        if (responseCart && responseCart.data && responseCart.data.cart) {
+            const carts = {
+                ...responseCart.data.cart,
+                prices: responseCart.data.cart.custom_total_price
+            };
+            setCart({...cart, total_quantity: responseCart.data.cart.total_quantity});
+            setSummary(carts);
             if (responseCart.client && responseCart.data.cart.total_quantity && responseCart.data.cart.total_quantity > 0) {
                 responseCart.client.writeQuery({
                     query: localTotalCart,
                     data: { totalCart: responseCart.data.cart.total_quantity },
                 });
             }
-            setLoadingCart(false);
+            setLoadingSummary(false);
         }
 
         if (responseCart.error) {
@@ -170,8 +193,9 @@ const Cart = (props) => {
             }
             setErrorCart(errorList);
             setLoadingCart(false);
+            setLoadingSummary(false);
         }
-    }, [responseCart, responseCartItem]);
+    }, [responseCart]);
 
     // React.useMemo(() => {
     //     if (!loadingCart && tmpData && tmpData.id) {
@@ -187,14 +211,14 @@ const Cart = (props) => {
             eventLabel: itemProps.product.name,
             label: itemProps.product.name,
             ecommerce: {
-                currencyCode: itemProps.prices.price.currency || storeConfig.base_currency_code,
+                currencyCode: itemProps.prices.price_incl_tax.currency || storeConfig.base_currency_code,
                 remove: {
                     cartItem: itemProps.id,
                     quantity: itemProps.quantity,
                     product: {
                         name: itemProps.product.name,
                         id: itemProps.product.sku,
-                        price: itemProps.prices.price.value || 0,
+                        price: itemProps.prices.price_incl_tax.value || 0,
                         dimensions4: itemProps.product.stock_status || '',
                     },
                 },
@@ -209,11 +233,11 @@ const Cart = (props) => {
                         {
                             item_name: itemProps.product.name,
                             item_id: itemProps.product.sku,
-                            price: itemProps.prices.price.value || 0,
-                            item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
-                            item_list_name: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                            price: itemProps.prices.price_incl_tax.value || 0,
+                            // item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                            // item_list_name: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
                             quantity: itemProps.quantity,
-                            currency: itemProps.prices.price.currency || storeConfig.base_currency_code,
+                            currency: itemProps.prices.price_incl_tax.currency || storeConfig.base_currency_code,
                         },
                     ],
                 },
@@ -226,6 +250,7 @@ const Cart = (props) => {
 
         const cartId = getCartId();
         setLoadingCart(true);
+        setLoadingSummary(true);
         actDeleteItem({
             variables: {
                 cartId,
@@ -236,7 +261,7 @@ const Cart = (props) => {
             },
         })
             .then(() => {
-                setLoadingCart(false);
+                // setLoadingCart(false);
                 toggleEditMode();
                 window.backdropLoader(false);
                 window.toastMessage({
@@ -246,7 +271,7 @@ const Cart = (props) => {
                 });
             })
             .catch((e) => {
-                setLoadingCart(false);
+                // setLoadingCart(false);
                 toggleEditMode();
                 window.backdropLoader(false);
                 window.toastMessage({
@@ -260,7 +285,8 @@ const Cart = (props) => {
     // update items
     const updateItem = (itemData) => {
         window.backdropLoader(true);
-
+        setLoadingCart(true);
+        setLoadingSummary(true);
         const cartId = getCartId();
         actUpdateItem({
             variables: {
@@ -342,12 +368,22 @@ const Cart = (props) => {
     React.useMemo(() => {
         if (!update.loading && update.data && update.data.updateCartItems) {
             setCart({ ...update.data.updateCartItems.cart });
+            setLoadingCart(false);
+            setSummary({ total_quantity: update.data.updateCartItems.cart.total_quantity,
+                prices: update.data.updateCartItems.cart.custom_total_price
+            });
+            setLoadingSummary(false);
         }
     }, [update.loading]);
 
     React.useMemo(() => {
         if (!deleteData.loading && deleteData.data && deleteData.data.removeItemFromCart) {
             setCart({ ...deleteData.data.removeItemFromCart.cart });
+            setLoadingCart(false);
+            setSummary({ total_quantity: deleteData.data.removeItemFromCart.cart.total_quantity,
+                prices: deleteData.data.removeItemFromCart.cart.custom_total_price
+            });
+            setLoadingSummary(false);
         }
     }, [deleteData.loading]);
 
@@ -355,6 +391,9 @@ const Cart = (props) => {
     useEffect(() => {
         if (!promoItems.loading && promoItems.data?.addProductsToCartPromo) {
             setCart({ ...promoItems.data.addProductsToCartPromo.cart });
+            setSummary({total_quantity: promoItems.data.addProductsToCartPromo.cart.total_quantity,
+                prices: promoItems.data.addProductsToCartPromo.cart.custom_total_price
+            });
         }
     }, [promoItems.loading]);
 
@@ -362,6 +401,7 @@ const Cart = (props) => {
     useEffect(() => {
         if (!appliedCouponResult.loading && appliedCouponResult.data?.applyCouponToCart) {
             setCart({ ...appliedCouponResult.data.applyCouponToCart.cart });
+            setSummary({ total_quantity: appliedCouponResult.data.applyCouponToCart.cart.total_quantity, prices: appliedCouponResult.data.applyCouponToCart.cart.custom_total_price });
         }
     }, [appliedCouponResult.loading]);
 
@@ -369,6 +409,7 @@ const Cart = (props) => {
     useEffect(() => {
         if (!removedCouponResult.loading && removedCouponResult.data?.removeCouponFromCart) {
             setCart({ ...removedCouponResult.data.removeCouponFromCart.cart });
+            setSummary({ total_quantity: removedCouponResult.data.removeCouponFromCart.cart.total_quantity, prices: removedCouponResult.data.removeCouponFromCart.cart.custom_total_price});
         }
     }, [removedCouponResult.loading]);
 
@@ -392,22 +433,22 @@ const Cart = (props) => {
 
     // GA 4 dataLayer
     React.useMemo(() => {
-        if (cart.items.length > 0) {
+        if (summary.id && cart.items.length > 0) {
             const dataLayer = {
                 pageName: t('cart:pageTitle'),
                 pageType: 'cart',
                 event: 'view_cart',
-                cart_total: cart.prices.grand_total.value,
-                currency: cart.prices.grand_total.currency || storeConfig.base_currency_code,
+                cart_total: summary.prices.grand_total.value,
+                currency: summary.prices.grand_total.currency || storeConfig.base_currency_code,
                 ecommerce: {
                     items: [
                         cart.items.map((item) => ({
-                            currency: item.prices.price.currency || storeConfig.base_currency_code,
+                            currency: item.custom_price.price_incl_tax.currency || storeConfig.base_currency_code,
                             item_name: item.product.name,
                             item_id: item.product.sku,
-                            price: item.prices.price.value || 0,
-                            item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
-                            item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                            price: item.custom_price.price_incl_tax.value || 0,
+                            // item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                            // item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
                             quantity: item.quantity,
                             item_stock_status: item.product.stock_status,
                         })),
@@ -416,7 +457,7 @@ const Cart = (props) => {
             };
             TagManager.dataLayer({ dataLayer });
         }
-    }, [cart.items.length]);
+    }, [cart.items.length, summary.id]);
 
     // add to wishlist
     const [addWishlist] = mutationWishlist();
@@ -436,8 +477,8 @@ const Cart = (props) => {
                                     name: itemProps.product.name,
                                     id: itemProps.product.sku,
                                     price: itemProps.prices.price.value || 0,
-                                    category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
-                                    list: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                                    // category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                                    // list: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
                                     dimensions4: itemProps.product.stock_status,
                                 },
                             ],
@@ -456,7 +497,7 @@ const Cart = (props) => {
                                     item_name: itemProps.product.name,
                                     item_id: itemProps.product.sku,
                                     price: itemProps.prices.price.value || 0,
-                                    item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                                    // item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
                                     item_stock_status: itemProps.product.stock_status,
                                 },
                             ],
@@ -512,6 +553,8 @@ const Cart = (props) => {
 
     const contentProps = {
         dataCart: cart,
+        dataSummary: summary,
+        loadingSummary,
         t,
         handleFeed,
         toggleEditMode,

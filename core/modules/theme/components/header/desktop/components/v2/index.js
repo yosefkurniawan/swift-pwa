@@ -75,7 +75,7 @@ const ViewTopNavigation = (props) => {
 
     return (
         <>
-            <div id="header">
+            <div id="header-inner">
                 <main style={{ width: '100%', maxWidth: 'unset' }}>
                     <div id="submenu-center" className="header-main hidden-submenu">
                         <div className="header-middle">
@@ -331,7 +331,7 @@ const ViewTopNavigation = (props) => {
                             ul {
                                 // padding-top: 2vh;
                             }
-                            #header {
+                            #header-inner {
                                 ${storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header
                                     ? 'position: fixed;'
                                     : 'position: relative; z-index: 1100;'}
@@ -340,6 +340,9 @@ const ViewTopNavigation = (props) => {
                                 z-index: 3;
                                 top: ${showGlobalPromo ? '45px' : '0'};
                                 transition: top 1s ease;
+                            }
+                            #header-inner.header-inner {
+                                top: 0px;
                             }
                             .header-bgcolor {
                                 background-color: white !important;

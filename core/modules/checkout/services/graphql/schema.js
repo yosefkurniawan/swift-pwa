@@ -167,6 +167,7 @@ const itemsProduct = `
 items {
     id
     quantity
+    errorCartItems
     ... on ConfigurableCartItem {
         configurable_options {
             option_label
@@ -199,6 +200,11 @@ items {
             currency
         }
     }
+    custom_seller{
+    seller_id
+    seller_city
+    seller_name
+    }
     product {
         id
         name
@@ -206,10 +212,6 @@ items {
         name
         }
         url_key
-        seller {
-            seller_id
-            seller_name
-        }
         sku
         stock_status
         small_image {
@@ -224,6 +226,16 @@ items {
         aw_giftcard_option {
           label
           value
+        }
+    }
+    custom_price {
+        price_incl_tax {
+          value
+          currency
+        }
+        row_total_incl_tax {
+          value
+          currency
         }
     }
 }`;
@@ -770,7 +782,7 @@ export const setBillingAddressVirtualProduct = gql`
         setBillingAddressOnCart(input: { 
             cart_id: $cartId, 
             billing_address: { 
-                same_as_shipping: true, 
+                use_for_shipping: true, 
                 address:{
                     city: $city
                     country_code: $countryCode
@@ -799,7 +811,7 @@ export const setBillingAddressById = gql`
         setBillingAddressOnCart(input: { 
             cart_id: $cartId, 
             billing_address: { 
-                same_as_shipping: true, 
+                use_for_shipping: true, 
                 customer_address_id: $addressId 
             }
         }) {
@@ -884,6 +896,8 @@ export const setShippingMethod = gql`
                 ${modules.checkout.cashback.enabled ? applied_cashback : ''}
                 ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
                 ${prices}
+                ${cartAvailFreeItems}
+                ${itemsProduct}
                 ${modules.promo.enabled ? applied_coupons : ''}
                 ${modules.rewardpoint.enabled ? applied_reward_points : ''}
                 ${modules.giftcard.enabled ? applied_giftcard : ''}
@@ -910,6 +924,8 @@ export const setShippingMethodMultiseller = gql`
                 ${modules.checkout.cashback.enabled ? applied_cashback : ''}
                 ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
                 ${prices}
+                ${cartAvailFreeItems}
+                ${itemsProduct}
                 ${modules.promo.enabled ? applied_coupons : ''}
                 ${modules.rewardpoint.enabled ? applied_reward_points : ''}
                 ${modules.giftcard.enabled ? applied_giftcard : ''}
@@ -939,7 +955,9 @@ export const setPaymentMethod = gql`
                 ${modules.giftcard.enabled ? applied_giftcard : ''}
                 ${modules.storecredit.enabled ? applied_store_credit : ''}
                 ${prices}
+                ${cartAvailFreeItems}
                 ${promoBanner}
+                ${itemsProduct}
             }
         }
     }
@@ -962,6 +980,7 @@ export const placeOrder = gql`
                 order_number
                 order_id
             }
+            infoMsg
         }
     }
 `;
@@ -976,6 +995,7 @@ export const placeOrderWithOrderComment = gql`
                 order_number
                 order_id
             }
+            infoMsg
         }
     }
 `;
@@ -1335,6 +1355,20 @@ export const updateCartitem = gql`
             ${itemsProduct}
         }
       }
+    }
+`;
+
+export const getUpdatedCart = gql`
+    query Cart($cartId: String!) {
+        cart(cart_id: $cartId) {
+            id
+            total_quantity
+            errorItems
+            ${cartRequiredSelection}
+            ${cartShippingAddress}
+            ${cartAvailablePaymentMethods}
+            ${itemsProduct}
+        }
     }
 `;
 

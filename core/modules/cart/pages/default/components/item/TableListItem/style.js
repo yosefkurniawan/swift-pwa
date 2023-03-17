@@ -150,4 +150,10 @@ export default makeStyles((theme) => ({
         borderBottom: 'none !important',
         paddingLeft: '0 !important',
     },
+    productTitle: {
+        display: '-webkit-box',
+        overflow: 'hidden',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
+    },
 }));
