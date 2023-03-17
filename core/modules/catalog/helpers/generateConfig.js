@@ -14,16 +14,12 @@ const generateConfig = (query, config, elastic, availableFilter = []) => {
     const resolveConfig = config;
     // eslint-disable-next-line no-restricted-syntax
     for (const q in query) {
-        if (q.includes('seller') && !q.includes('filter')) {
+        if (q.includes('seller') && !q.includes('filter')
+        && q !== 'seller_id' && q !== 'seller_name') {
             const trueQuery = q.split('?');
             if (trueQuery && trueQuery[1]) {
                 resolveConfig.filter.push({
                     type: trueQuery[1],
-                    value: query[q],
-                });
-            } else {
-                resolveConfig.filter.push({
-                    type: q,
                     value: query[q],
                 });
             }
