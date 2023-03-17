@@ -14,14 +14,22 @@ const generateConfig = (query, config, elastic, availableFilter = []) => {
     const resolveConfig = config;
     // eslint-disable-next-line no-restricted-syntax
     for (const q in query) {
-        if ((q === 'sort' || q.includes('sort')) && query[q] !== '') {
+        if (q.includes('seller') && !q.includes('filter')) {
+            const trueQuery = q.split('?');
+            if (trueQuery && trueQuery[1]) {
+                resolveConfig.filter.push({
+                    type: trueQuery[1],
+                    value: query[q],
+                });
+            } else {
+                resolveConfig.filter.push({
+                    type: q,
+                    value: query[q],
+                });
+            }
+        } else if ((q === 'sort' || q.includes('sort')) && query[q] !== '') {
             resolveConfig.sort = JSON.parse(decodeURIComponent(query[q]));
-        } else if (q === 'seller_id') {
-            resolveConfig.filter.push({
-                type: q,
-                value: query[q],
-            });
-        } else if (q === 'seller_name') {
+        } else if (q === 'seller_id' || q === 'seller_name') {
             resolveConfig.filter.push({
                 type: q,
                 value: query[q],

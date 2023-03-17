@@ -10,24 +10,26 @@ import { modules } from '@config';
  * @returns string query to generate on grapql tag
  */
 
+// eslint-disable-next-line no-unused-vars
 export const filterProduct = (filter, router) => {
+    // remove duplicate filter
+    const newFilter = filter.filter((value, index) => {
+    // eslint-disable-next-line no-underscore-dangle
+        const _value = JSON.stringify(value);
+        return index === filter.findIndex((obj) => JSON.stringify(obj) === _value);
+    });
     let queryFilter = '{ ';
-    let isColorInQuery = false;
-    if (router && router.asPath && router.asPath.includes('color')) {
-        const routerPaths = router.asPath.split('?');
-        const routerPathsNext = routerPaths[1].split('&');
-        const routerPathsColor = routerPathsNext[0].split('=');
-        isColorInQuery = true;
-
-        queryFilter += `color: {
-        eq: "${routerPathsColor[1]}"
-      }`;
-    }
+    // if (router && router.asPath && router.asPath.includes('color')) {
+    //     const routerPaths = router.asPath.split('?');
+    //     const routerPathsNext = routerPaths[1].split('&');
+    //     const routerPathsColor = routerPathsNext[0].split('=');
+    //     queryFilter += `color: {
+    //     eq: "${routerPathsColor[1]}"
+    //   }`;
+    // }
     // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < filter?.length; index++) {
-        const detailFilter = filter[index];
-        // eslint-disable-next-line no-continue
-        if (detailFilter.type === 'color' && isColorInQuery) continue;
+    for (let index = 0; index < newFilter?.length; index++) {
+        const detailFilter = newFilter[index];
         if (detailFilter.type === 'price') {
             queryFilter += `
           ,${detailFilter.type} : {

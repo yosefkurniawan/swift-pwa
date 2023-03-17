@@ -24,6 +24,12 @@ const getQueryFromPath = (router) => {
         let tempQuery = asPath[index];
         if (tempQuery !== '') {
             tempQuery = tempQuery.split('=');
+            if (tempQuery[0].includes('?') && tempQuery[0].includes('seller')
+            && !tempQuery[0].includes('filter') && tempQuery[1]) {
+                const newQuery = tempQuery[0].split('?');
+                // eslint-disable-next-line prefer-destructuring
+                tempQuery[0] = newQuery[1];
+            }
             // eslint-disable-next-line prefer-destructuring
             query[tempQuery[0]] = tempQuery[1];
         }
