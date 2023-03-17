@@ -1,6 +1,6 @@
-import { useReactiveVar } from '@apollo/client';
-import { storeConfigVar } from '@root/core/services/graphql/cache';
 import * as Sentry from '@sentry/node';
+import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
+import graphRequest from '@graphql_request';
 import NextErrorComponent from 'next/error';
 import { sentry } from '@config';
 import Core from '@core_modules/error/pages/default/core';
@@ -13,7 +13,7 @@ ErrorPage.getInitialProps = async ({ res, err, asPath }) => {
         res,
         err,
     });
-    const storeConfig = useReactiveVar(storeConfigVar);
+    const storeConfig = await graphRequest(ConfigSchema);
 
     errorInitialProps.hasGetInitialPropsRun = true;
     errorInitialProps.namespacesRequired = ['common'];

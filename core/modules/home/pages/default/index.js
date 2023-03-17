@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { modules, keyLocalStorage } from '@config';
 import graphRequest from '@graphql_request';
 import { getHomePageConfig } from '@core_modules/home/service/graphql/schema';
+import { storeConfigVar } from '@root/core/services/graphql/cache';
 
 const Page = dynamic(() => ((!modules.checkout.checkoutOnly)
     ? import('@core_modules/home/pages/default/core')
@@ -15,10 +16,13 @@ Page.getInitialProps = async (ctx) => {
     let homePageConfig;
 
     if (!modules.checkout.checkoutOnly && ctx && ctx.req) {
-        homePageConfig = await graphRequest(getHomePageConfig);
+        const homeConfig = await graphRequest(getHomePageConfig);
+        homePageConfig = homeConfig.storeConfig;
     } else if (!modules.checkout.checkoutOnly && typeof window !== 'undefined') {
+        homePageConfig = storeConfigVar();
         if (!homePageConfig) {
-            homePageConfig = await graphRequest(getHomePageConfig);
+            const homeConfig = await graphRequest(getHomePageConfig);
+            homePageConfig = homeConfig.storeConfig;
         }
     }
     return {
