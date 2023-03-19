@@ -1,4 +1,5 @@
 import useStyles from '@common_slick/Banner/style';
+import { basePath } from '@config';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import { BREAKPOINTS } from '@theme_vars';
 import classNames from 'classnames';
@@ -24,7 +25,7 @@ const BannerThumbnail = (props) => {
     const url = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_url;
     const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, url);
     const mobileImageUrl = srcMobile ? generateThumborUrl(srcMobile, widthMobile, heightMobile, enable, useHttpsOrHttp, url) : null;
-    const placeholderImage = '/assets/img/placeholder.png';
+    const placeholderImage = `${basePath}/assets/img/placeholder.png`;
     const [imgSource, setImgSource] = useState(imageUrl);
     const [mobileImgSource, setMobileImgSource] = useState(mobileImageUrl);
 
@@ -63,7 +64,7 @@ const BannerThumbnail = (props) => {
                             src={imgSource}
                             onError={(e) => {
                                 e.target.onerror = null;
-                                e.target.src = '/assets/img/placeholder.png';
+                                e.target.src = `${basePath}/assets/img/placeholder.png`;
                             }}
                             alt={alt}
                         />

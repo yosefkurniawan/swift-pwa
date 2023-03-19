@@ -1,3 +1,4 @@
+import { basePath } from '@config';
 import { CreatePadding } from '@theme_mixins';
 
 const configStyleIcon = {
@@ -12,31 +13,31 @@ const configStyleIcon = {
 export const IconAccordion = {
     reguler: {
         ...configStyleIcon,
-        backgroundImage: 'url(/assets/img/shipping-reguler.svg)',
+        backgroundImage: `url(${basePath}/assets/img/shipping-reguler.svg)`,
     },
     freeshipping: {
         ...configStyleIcon,
-        backgroundImage: 'url(/assets/img/shipping-free.svg)',
+        backgroundImage: `url(${basePath}/assets/img/shipping-free.svg)`,
     },
     express: {
         ...configStyleIcon,
-        backgroundImage: 'url(/assets/img/shipping-express.svg)',
+        backgroundImage: `url(${basePath}/assets/img/shipping-express.svg)`,
     },
     instant: {
         ...configStyleIcon,
-        backgroundImage: 'url(/assets/img/shipping-instant.svg)',
+        backgroundImage: `url(${basePath}/assets/img/shipping-instant.svg)`,
     },
     sameday: {
         ...configStyleIcon,
-        backgroundImage: 'url(/assets/img/shipping-sameday.svg)',
+        backgroundImage: `url(${basePath}/assets/img/shipping-sameday.svg)`,
     },
     international: {
         ...configStyleIcon,
-        backgroundImage: 'url(/assets/img/shipping-international.svg)',
+        backgroundImage: `url(${basePath}/assets/img/shipping-international.svg)`,
     },
     trucking: {
         ...configStyleIcon,
-        backgroundImage: 'url(/assets/img/shipping-trucking.svg)',
+        backgroundImage: `url(${basePath}/assets/img/shipping-trucking.svg)`,
     },
 };
 

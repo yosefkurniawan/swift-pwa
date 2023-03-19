@@ -3,6 +3,7 @@ import Button from '@common_button';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@helpers/env';
 
+import { basePath } from '@config';
 import useStyle from './style';
 
 const Error = ({ t }) => {
@@ -25,7 +26,7 @@ const Error = ({ t }) => {
 
     return (
         <div className={styles.container}>
-            <img src="/assets/img/ghosts.png" alt="ghost-error" className={styles.img} />
+            <img src={`${basePath}/assets/img/ghosts.png`} alt="ghost-error" className={styles.img} />
             <Typography variant="h1" type="bold">
                 {t('checkout:error:title')}
             </Typography>

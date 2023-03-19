@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import TagManager from 'react-gtm-module';
 // eslint-disable-next-line object-curly-newline
-import { assetsVersion, custDataNameCookie, debuging, features, modules } from '@config';
+import { assetsVersion, basePath, custDataNameCookie, debuging, features, modules } from '@config';
 import { createCompareList } from '@core_modules/product/services/graphql';
 import useStyles from '@core_modules/theme/layout/style';
 import { getAppEnv } from '@helpers/env';
@@ -99,7 +99,7 @@ const Layout = (props) => {
     let appName = '';
     let installMessage = '';
     let showPopup = false;
-    let iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
+    let iconAppleTouch = `${basePath}/assets/img/swiftpwa_apple_touch.png`;
     if (storeConfig && storeConfig.pwa) {
         iconAppleTouch = storeConfig.pwa.icon_apple_touch;
         appName = storeConfig.pwa.app_name;
@@ -166,8 +166,8 @@ const Layout = (props) => {
 
     if (!ogData['og:image']) {
         ogData['og:image'] = storeConfig.header_logo_src
-            ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
-            : `${getHost()}/assets/img/swift-logo.png` || '';
+        ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
+        : `${getHost()}${basePath}/assets/img/swift-logo.png` || '';
     }
 
     if (!ogData['og:url']) {

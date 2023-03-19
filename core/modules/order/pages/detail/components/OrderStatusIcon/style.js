@@ -1,6 +1,7 @@
 import { PRIMARY, WHITE, GRAY_PRIMARY } from '@theme_color';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { Centering } from '@theme_mixins';
+import { basePath } from '@config';
 
 export const lineStyle = {
     alternativeLabel: {
@@ -81,21 +82,21 @@ export const useIconStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/waiting-gray.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/waiting-gray.svg)`,
     },
     iconpendingactive: {
         ...configStyleIcon,
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/waiting-black.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/waiting-black.svg)`,
     },
     iconpendingskip: {
         ...configStyleIcon,
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/waiting-white.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/waiting-white.svg)`,
     },
 
     // icon processing
@@ -104,7 +105,7 @@ export const useIconStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/processing-gray.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/processing-gray.svg)`,
     },
     iconprocessingactive: {
         ...configStyleIcon,
@@ -112,14 +113,14 @@ export const useIconStyles = makeStyles((theme) => ({
             width: 20,
             height: 20,
         },
-        backgroundImage: 'url(/assets/img/order_status/processing-black.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/processing-black.svg)`,
     },
     iconprocessingskip: {
         ...configStyleIcon,
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/processing-white.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/processing-white.svg)`,
     },
 
     // icon shipping
@@ -129,21 +130,21 @@ export const useIconStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/shipping-gray.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/shipping-gray.svg)`,
     },
     iconshippingactive: {
         ...configStyleIcon,
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/shipping-black.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/shipping-black.svg)`,
     },
     iconshippingskip: {
         ...configStyleIcon,
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/shipping-white.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/shipping-white.svg)`,
     },
 
     // icon completed
@@ -152,21 +153,21 @@ export const useIconStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/completed-gray.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/completed-gray.svg)`,
     },
     iconcompleteactive: {
         ...configStyleIcon,
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/completed-black.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/completed-black.svg)`,
     },
     iconcompleteskip: {
         ...configStyleIcon,
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/completed-white.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/completed-white.svg)`,
     },
     // icon canceled
     iconcanceledinactive: {
@@ -174,20 +175,20 @@ export const useIconStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/completed-gray.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/completed-gray.svg)`,
     },
     iconcanceledactive: {
         ...configStyleIcon,
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/completed-black.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/completed-black.svg)`,
     },
     iconcanceledskip: {
         ...configStyleIcon,
         [theme.breakpoints.down('xs')]: {
             ...configIconSm,
         },
-        backgroundImage: 'url(/assets/img/order_status/completed-white.svg)',
+        backgroundImage: `url(${basePath}/assets/img/order_status/completed-white.svg)`,
     },
 }));

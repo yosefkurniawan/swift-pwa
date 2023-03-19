@@ -5,6 +5,7 @@ import Thumbor from '@common_image';
 import Link from 'next/link';
 import React from 'react';
 import useStyles from '@plugin_productitem/style';
+import { basePath } from '@config';
 
 const ImageDetail = (props) => {
     const {
@@ -32,7 +33,7 @@ const ImageDetail = (props) => {
                     src={spesificProduct.id ? spesificProduct.image.url
                         : small_image && small_image.url
                             ? small_image.url
-                            : '/assets/img/placeholder.png'}
+                            : `${basePath}/assets/img/placeholder.png`}
                     className={styles.imgProduct}
                     width={defaultWidth}
                     height={defaultHeight}

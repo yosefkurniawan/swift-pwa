@@ -2,10 +2,12 @@
 /* eslint-disable no-unused-vars */
 const withOffline = require('next-offline');
 const { createSecureHeaders } = require('next-secure-headers');
+const { basePath } = require('./swift.config');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 // const withCSS = require('@zeit/next-css');
 
 module.exports = withOffline({
+    basePath,
     // Secure Header
     async headers() {
         return [{ source: '/(.*)', headers: createSecureHeaders() }];
@@ -77,7 +79,7 @@ module.exports = withOffline({
     async rewrites() {
         return [
             {
-                source: '/service-worker.js',
+                source: `${basePath}/service-worker.js`,
                 destination: '/_next/static/service-worker.js',
             },
         ];

@@ -14,6 +14,7 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const remoteSchema = require('./core/api/graphql');
 const nextI18next = require('./core/lib/i18n');
+const { basePath } = require('./swift.config');
 
 const { json } = express;
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -99,31 +100,31 @@ async function renderAndCache(req, res) {
     // if ssr cache on
     if (features.ssrCache) {
         // handle next js request
-        server.get('/_next/*', (req, res) => {
+        server.get(path.join(basePath, '/_next'), (req, res) => {
             /* serving _next static content using next.js handler */
             handle(req, res);
         });
 
-        server.get('/assets/*', (req, res) => {
+        server.get(path.join(basePath, '/assets/*'), (req, res) => {
             /* serving assets static content using next.js handler */
             handle(req, res);
         });
 
-        server.get('/static/*', (req, res) => {
+        server.get(path.join(basePath, '/static/*'), (req, res) => {
             /* serving static content using next.js handler */
             handle(req, res);
         });
 
-        server.get('/manifest.json', (req, res) => {
+        server.get(path.join(basePath, '/manifest.json'), (req, res) => {
             /* serving manifest json */
             handle(req, res);
         });
 
-        server.get('/favicon.ico', (req, res) => {
+        server.get(path.join(basePath, '/favicon.ico'), (req, res) => {
             /* serving manifest json */
             handle(req, res);
         });
-        server.get('/service-worker.js', (req, res) => {
+        server.get(path.join(basePath, '/service-worker.js'), (req, res) => {
             /* serving service-worker */
             handle(req, res);
         });
@@ -166,32 +167,33 @@ async function renderAndCache(req, res) {
             return err;
         },
     });
-    serverGraph.applyMiddleware({ app: server });
+    // serverGraph.applyMiddleware({ app: server,  });
+    serverGraph.applyMiddleware({ app: server, path: `${basePath}/graphql` });
 
     /**
      * handle maintenance pave
      */
-    server.get('/maintenance', (req, res) => {
+    server.get(path.join(basePath, '/maintenance'), (req, res) => {
         res.sendFile(path.join(__dirname, '/public/static/maintenance.html'));
     });
 
     // generate config from magento
-    server.get('/generate-config', generateConfig);
+    server.get(path.join(basePath, '/generate-config'), generateConfig);
 
-    server.get('/sitemap.xml', generateXml);
-    server.post('/captcha-validation', captchaValidation);
+    server.get(path.join(basePath, '/sitemap.xml'), generateXml);
+    server.post(path.join(basePath, '/captcha-validation'), captchaValidation);
 
     // add firebase validation
-    server.post('/auth/fcm-token', firebaseValidation);
+    server.post(path.join(basePath, '/auth/fcm-token'), firebaseValidation);
 
     // paypal route
-    server.post('/paypal/detail-transaction', getPaypalDetail);
+    server.post(path.join(basePath, '/paypal/detail-transaction'), getPaypalDetail);
 
     // geocoding services
-    server.post('/geocoding-services', geocodingServices);
+    server.post(path.join(basePath, '/geocoding-services'), geocodingServices);
 
-    server.get('/getConfig', getConfig);
-    server.get('/getSetting', getSetting);
+    server.get(path.join(basePath, '/getConfig'), getConfig);
+    server.get(path.join(basePath, '/getSetting'), getSetting);
 
     /**
      * configuration firebase messaging
@@ -212,7 +214,7 @@ async function renderAndCache(req, res) {
     ];
 
     serviceWorkers.forEach(({ filename, pathfile }) => {
-        server.get(`/${filename}`, (req, res) => {
+        server.get(path.join(basePath, filename), (req, res) => {
             app.serveStatic(req, res, pathfile);
         });
     });

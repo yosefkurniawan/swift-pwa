@@ -13,6 +13,7 @@ import { getStoreHost } from '@helpers/config';
 import MagezonHeading from '@core_modules/cms/components/cms-renderer/magezon/MagezonHeading';
 import LeftArrowIcon from '@material-ui/icons/ChevronLeft';
 import RightArrowIcon from '@material-ui/icons/ChevronRight';
+import { basePath } from '@config';
 
 const VideoContent = (props) => {
     const {
@@ -121,7 +122,7 @@ const MagezonSliderContent = (props) => {
                                 data-pagespeed-no-defer
                                 className="img-bg"
                                 src={getImgThumbor}
-                                onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
+                                onError={(e) => { e.target.onerror = null; e.target.src = `${basePath}/assets/img/placeholder.png`; }}
                                 alt="gambar"
                             />
                         </picture>

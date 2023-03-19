@@ -1,5 +1,7 @@
+import { basePath } from '@config';
+
 function setDefaultWhenEmpty(imageSrc) {
-    return imageSrc || '/assets/img/sample/product.png';
+    return imageSrc || `${basePath}/assets/img/sample/product.png`;
 }
 
 export default setDefaultWhenEmpty;
