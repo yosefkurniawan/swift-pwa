@@ -11026,6 +11026,11 @@ react-zoom-pan-pinch@^1.6.1:
   resolved "https://registry.yarnpkg.com/react-zoom-pan-pinch/-/react-zoom-pan-pinch-1.6.1.tgz#da16267c258ab37e8ebcdc7c252794a9633e91ec"
   integrity sha512-J2eM0gZ04XiUWvmKZrOhSAB2zjyoK7kw2POIeN1X0yTTlmp6HPGV0zYfjnlkhgt8nQwpvXAbsF/oAnkuiwk1kA==
 
+react-zoom-pan-pinch@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-zoom-pan-pinch/-/react-zoom-pan-pinch-3.0.4.tgz#c771fb1f3da549616dd64cd275c57c11638f2020"
+  integrity sha512-HsGEUQY0g8A3SfQLgZT09rI9e01ywUp08XQj23FLUyA/ZIBXVyztmvTkXTwzwug1ZfH/fLCgeMh2urzi0J8RWw==
+
 react@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.1.tgz#6e0600416bd57574e3f86d92edba3d9008726127"

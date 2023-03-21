@@ -2,8 +2,6 @@ import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
-import Plus from '@material-ui/icons/Add';
-import Min from '@material-ui/icons/Minimize';
 import Banner from '@common_slick/BannerThumbnail';
 import useStyles from '@core_modules/product/pages/default/components/ModalPopupImage/style';
 
@@ -12,19 +10,6 @@ const PopupImage = (props) => {
         open, setOpen, banner, storeConfig,
     } = props;
     const styles = useStyles();
-    const refZoom = React.createRef();
-
-    const zoomIn = () => {
-        if (refZoom && refZoom.current && refZoom.current.zoomIn) {
-            refZoom.current.zoomIn(refZoom.current.getZoom() + 1);
-        }
-    };
-
-    const zoomOut = () => {
-        if (refZoom && refZoom.current && refZoom.current.zoomOut) {
-            refZoom.current.zoomOut(refZoom.current.getZoom() - 1);
-        }
-    };
 
     return (
         <Dialog fullScreen open={open} onClose={setOpen}>
@@ -32,14 +17,6 @@ const PopupImage = (props) => {
                 <IconButton className={styles.buttonClose} onClick={setOpen}>
                     <Close color="inherit" fontSize="inherit" />
                 </IconButton>
-                <div className={styles.actionZoom}>
-                    <IconButton className={styles.buttonActionZoom} onClick={zoomIn}>
-                        <Plus color="inherit" fontSize="inherit" />
-                    </IconButton>
-                    <IconButton className={styles.buttonActionZoom} onClick={zoomOut}>
-                        <Min color="inherit" fontSize="inherit" />
-                    </IconButton>
-                </div>
                 <Banner
                     data={banner}
                     noLink
@@ -50,7 +27,6 @@ const PopupImage = (props) => {
                     width={960}
                     height={1120}
                     zoom
-                    zoomRef={refZoom}
                     storeConfig={storeConfig}
                 />
             </div>
