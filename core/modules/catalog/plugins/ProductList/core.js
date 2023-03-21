@@ -346,6 +346,7 @@ const ProductPagination = (props) => {
     React.useEffect(() => {
         if (data && data.products) {
             setProducts(data.products);
+            setFilterSaved(false);
             // GTM UA dataLayer
             const tagManagerArgs = {
                 dataLayer: {
@@ -673,6 +674,7 @@ const ProductLoadMore = (props) => {
     React.useEffect(() => {
         if (data && data.products) {
             setProducts(data.products);
+            setFilterSaved(false);
             // GTM UA dataLayer
             const tagManagerArgs = {
                 dataLayer: {
