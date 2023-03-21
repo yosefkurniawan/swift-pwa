@@ -39,7 +39,7 @@ const useStyles = makeStyles(() => ({
             height: 20,
             top: 5,
             right: 5,
-            zIndex: 100,
+            zIndex: 1,
             cursor: 'pointer',
         },
     },
