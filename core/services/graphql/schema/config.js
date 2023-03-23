@@ -133,6 +133,7 @@ export const getVesMenu = `
 export const storeConfig = `
 {
     storeConfig {
+      allow_guests_to_write_product_reviews
       allow_guest_checkout
       aw_blog_general_comments_enabled
       aw_blog_general_disqus_forum_code
