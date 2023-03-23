@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import Typography from '@common_typography';
-import { modules } from '@config';
+import { basePath, modules } from '@config';
 import formatDate from '@helper_date';
 import { getHost } from '@helper_config';
 import Divider from '@material-ui/core/Divider';
@@ -47,7 +47,7 @@ const Detail = (props) => {
                                 className={styles.imageBlog}
                                 onError={(e) => {
                                     e.target.onerror = null;
-                                    e.target.src = '/assets/img/placeholder.png';
+                                    e.target.src = `${basePath}/assets/img/placeholder.png`;
                                 }}
                             />
                         </div>

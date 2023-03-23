@@ -5,11 +5,19 @@ const useMagentoCommerce = false; // setup uses magento commerce or community
 const storeCode = ''; // fill it with any store code when the magento is setup with multiple stores. leave it empty to use default store.
 const assetsVersion = '1.0.6';
 
+/* Custom base path
+ * leave it blank if there is no custom base path
+ * url/path on several files should be changed manually (/public/static/maintenance.html and /public/manifest.json)
+ * move locales folder from /public/static into /public/{basePath}/static
+ * NOTE: custom base path below should not end with '/'
+ */
+const basePath = '';
+
 const HOST = {
-    local: 'http://localhost:3000',
-    dev: 'https://swiftpwa.testingnow.me',
-    stage: 'https://getswift-pwa.gcp-staging.testingnow.me',
-    prod: 'https://pwa.getswift.asia',
+    local: `http://localhost:3000${basePath}`,
+    dev: `https://swiftpwa.testingnow.me${basePath}`,
+    stage: `https://getswift-pwa.gcp-staging.testingnow.me${basePath}`,
+    prod: `https://pwa.getswift.asia${basePath}`,
 };
 
 /* Magento GraphQL Endpoint */
@@ -72,7 +80,7 @@ const cmsSocialMediaLinkIdentifiers = 'pwa_socmed_links';
 const enableSocialMediaLink = true;
 
 /* Loader */
-const loaderImage = '/assets/img/loader.svg';
+const loaderImage = `${basePath}/assets/img/loader.svg`;
 
 /* --------------------------------------- */
 /* LOCAD DATA CACHE & COKIES
@@ -418,6 +426,7 @@ const general = {
 module.exports = {
     assetsVersion,
     general,
+    basePath,
     sentry,
     storeCode,
     debuging,

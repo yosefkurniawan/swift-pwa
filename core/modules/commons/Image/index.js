@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
 /* eslint-disable no-unused-vars */
+import { basePath } from '@config';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import React, { useEffect, useState } from 'react';
 import LazyImage from './LazyImage';
@@ -48,7 +49,7 @@ const CustomImage = ({
     useEffect(() => {
         const img = new Image();
         img.src = imageUrl;
-        img.onerror = () => setImgSource('/assets/img/placeholder.png');
+        img.onerror = () => setImgSource(`${basePath}/assets/img/placeholder.png`);
         img.onload = () => setImgSource(imageUrl);
     }, [imageUrl]);
 

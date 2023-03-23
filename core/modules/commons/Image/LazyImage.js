@@ -1,3 +1,4 @@
+import { basePath } from '@config';
 import React, { useState, useEffect } from 'react';
 
 const placeHolder = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAQAAADVobXoAAAAEElEQVR42mM8858BDBhhDAArAgOZPzQZFwAAAABJRU5ErkJggg==';
@@ -102,7 +103,7 @@ const LazyImage = ({ src, alt, style = {} }) => {
 
                     img.has-error {
                         // fallback to placeholder image on error
-                        content: url(/assets/img/placeholder.png);
+                        content: url(${basePath}/assets/img/placeholder.png);
                     }
                 `}
             </style>

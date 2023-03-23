@@ -7,6 +7,7 @@ import Typography from '@common_typography';
 import DeliveryItem from '@core_modules/checkout/components/radioitem';
 import RadioMultiseller from '@core_modules/checkout/pages/default/components/shipping/plugin/Radio';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
+import { basePath } from '@config';
 import { formatPrice } from '@helper_currency';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
@@ -41,7 +42,7 @@ const ShippingGroupIcon = (props) => {
     const styles = useStyles();
 
     // check if image exist on the backoffice, otherwise use fallback image from PWA
-    const [imageSrc, setImageSrc] = React.useState(`./assets/img/shipping-${src.replace('sg-', '')}.svg`);
+    const [imageSrc, setImageSrc] = React.useState(`${basePath}/assets/img/shipping-${src.replace('sg-', '')}.svg`);
     const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
 
     // set image fallback url

@@ -12,6 +12,7 @@ import { getAppEnv } from '@root/core/helpers/env';
 import SimpleReactLightbox, { SRLWrapper, useLightbox } from 'simple-react-lightbox';
 import PopupMapVideo from '@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/PopupMapVideo';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
+import { basePath } from '@config';
 
 const Carousel = dynamic(import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel/components'));
 
@@ -31,7 +32,7 @@ const ImageWithAction = ({
     const enable = storeConfig.pwa.thumbor_enable;
     const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
     const url_thumbor = storeConfig.pwa.thumbor_url;
-    const src = url || '/assets/img/placeholder.png';
+    const src = url || `${basePath}/assets/img/placeholder.png`;
     const imageUrl = generateThumborUrl(src, 500, 500, enable, useHttpsOrHttp, url_thumbor);
     return (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -44,7 +45,7 @@ const ImageWithAction = ({
                 alt={alt_tag || 'magezon image'}
                 onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = '/assets/img/placeholder.png';
+                    e.target.src = `${basePath}/assets/img/placeholder.png`;
                 }}
             />
         </a>
@@ -199,8 +200,10 @@ const MagezonText = (props) => {
         hoverClass += ' mgz-carousel-zoomout';
     }
 
-    const imageUrl = (item) => (`${getStoreHost(getAppEnv())}media/${item.image}` || '/assets/img/placeholder.png');
-    const popupImageUrl = (item) => (`${getStoreHost(getAppEnv())}media/${item.popup_image || item.image}` || '/assets/img/placeholder.png');
+    const imageUrl = (item) => (`${getStoreHost(getAppEnv())}media/${item.image}` || `${basePath}/assets/img/placeholder.png`);
+    const popupImageUrl = (item) => (
+        `${getStoreHost(getAppEnv())}media/${item.popup_image || item.image}` || `${basePath}/assets/img/placeholder.png`
+    );
 
     const ligthboxSetting = {
         buttons: {
@@ -365,7 +368,7 @@ const MagezonText = (props) => {
                                                     alt={item.popup_title || item.title || ''}
                                                     onError={(e) => {
                                                         e.target.onerror = null;
-                                                        e.target.src = '/assets/img/placeholder.png';
+                                                        e.target.src = `${basePath}/assets/img/placeholder.png`;
                                                     }}
                                                 />
                                             </ImageWrapper>

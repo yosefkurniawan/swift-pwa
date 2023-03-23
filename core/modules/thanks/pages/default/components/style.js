@@ -2,6 +2,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { GRAY_PRIMARY, GRAY_THIRD, WHITE } from '@theme_color';
 // eslint-disable-next-line object-curly-newline
 import { CenterAbsolute, Centering, CreateMargin, CreatePadding, FlexColumn } from '@theme_mixins';
+import { basePath } from '@config';
 
 export default makeStyles((theme) => ({
     container: {
@@ -14,7 +15,7 @@ export default makeStyles((theme) => ({
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundImage: 'url("/assets/img/thanks/background.jpg")',
+        backgroundImage: `url("${basePath}/assets/img/thanks/background.jpg")`,
     },
     iconContainer: {
         width: '65%',

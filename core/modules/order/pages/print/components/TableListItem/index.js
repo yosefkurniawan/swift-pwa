@@ -62,11 +62,11 @@ const TableListProduct = ({
                                         >
                                             <div className={styles.productImgContainer}>
                                                 <img
-                                                    src={val.image_url || '/assets/img/placeholder.png'}
+                                                    src={val.image_url || `${basePath}/assets/img/placeholder.png`}
                                                     className={styles.productImg}
                                                     alt={val.name}
                                                     onError={(e) => {
-                                                        e.target.onerror = null; e.target.src = '/assets/img/placeholder.png';
+                                                        e.target.onerror = null; e.target.src = `${basePath}/assets/img/placeholder.png`;
                                                     }}
                                                 />
                                             </div>

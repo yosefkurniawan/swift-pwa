@@ -1,9 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
+
+import { basePath } from '@config';
+
 /* eslint-disable jsx-a11y/alt-text */
 const Maintenance = () => (
     <div className="error-container">
-        <img className="img-logo" src="/assets/img/logo_white.png" />
-        <img className="img-center" src="/assets/img/construction.png" />
+        <img className="img-logo" src={`${basePath}/assets/img/logo_white.png`} />
+        <img className="img-center" src={`${basePath}/assets/img/construction.png`} />
         <div className="error-description">
             <p>We're to make our website better than over.</p>
             <p>Check back in a bit. we'll see you soon.</p>

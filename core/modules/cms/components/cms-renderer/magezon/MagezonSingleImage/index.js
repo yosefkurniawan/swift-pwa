@@ -10,6 +10,7 @@ import { getAppEnv } from '@root/core/helpers/env';
 import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
 import SimpleReactLightbox, { SRLWrapper, useLightbox } from 'simple-react-lightbox';
 import PopupMapVideo from '@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/PopupMapVideo';
+import { basePath } from '@config';
 
 const ImageWithAction = ({
     withPopup, onClick, url, classContainer,
@@ -29,7 +30,7 @@ const ImageWithAction = ({
             <Thumbor
                 magezon
                 // eslint-disable-next-line no-nested-ternary
-                src={url || '/assets/img/placeholder.png'}
+                src={url || `${basePath}/assets/img/placeholder.png`}
                 className={classImage}
                 quality={80}
                 width={image_width ? image_width.replace('px', '') : ''}
@@ -109,17 +110,17 @@ const MagezonSingleImage = (props) => {
     }
 
     const url = custom_src || ((image && source === 'media_library')
-        ? `${getStoreHost(getAppEnv())}media/${image}` : '/assets/img/placeholder.png');
+        ? `${getStoreHost(getAppEnv())}media/${image}` : `${basePath}/assets/img/placeholder.png`);
 
     const popupImageUrl = custom_src || ((image && source === 'media_library')
         ? popup_image ? `${getStoreHost(getAppEnv())}media/${popup_image}`
             : `${getStoreHost(getAppEnv())}media/${image}`
-        : '/assets/img/placeholder.png');
+        : `${basePath}/assets/img/placeholder.png`);
 
     const hoverImage = custom_src || ((image && source === 'media_library')
         ? hover_image ? `${getStoreHost(getAppEnv())}media/${hover_image}`
             : `${getStoreHost(getAppEnv())}media/${image}`
-        : '/assets/img/placeholder.png');
+        : `${basePath}/assets/img/placeholder.png`);
 
     const [openPopupMap, setOpenPopupMap] = React.useState(false);
 
