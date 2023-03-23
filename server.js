@@ -225,5 +225,5 @@ async function renderAndCache(req, res) {
     // create server
     const httpServer = http.createServer(server);
     await httpServer.listen(3000);
-    console.log('> Ready on http://localhost:3000'); // eslint-disable-line no-console
+    console.log(`> Ready on http://localhost:3000${basePath}`); // eslint-disable-line no-console
 })();

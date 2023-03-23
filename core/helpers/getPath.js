@@ -1,4 +1,4 @@
-import { graphqlEndpoint } from '@config';
+import { basePath, graphqlEndpoint } from '@config';
 import { getAppEnv } from './env';
 
 const getPath = (href = '') => {
@@ -19,6 +19,7 @@ const getPath = (href = '') => {
     url = url.replace('/graphql', '');
     let path = href.replace('.html', '');
     path = path.replace(url, '');
+    path = `${basePath}${path}`;
     return path;
 };
 
