@@ -33,29 +33,31 @@ const CategoryPage = ({
     const [value] = React.useState(0);
     const categoryList = data.categoryList[0];
     let dataBanner = [];
+
     const handleChange = (event, newValue) => {
         Router.push(
             '/[...slug]',
             `/${categoryList.children[newValue - 1].url_path}`,
         );
     };
-    if (categoryList.image_path) {
+
+    if (categoryList) {
         dataBanner = [
             {
-                imageUrl: categoryList.image_path,
-                link: categoryList.url_path,
-                description: categoryList.description,
+                imageUrl: categoryList?.image_path,
+                link: categoryList?.url_path,
+                description: categoryList?.description,
             },
         ];
     }
-    // console.log(dataBanner);
+
     const urlDest = new URL(getStoreHost(getAppEnv()));
     let UrlString = '';
     if (dataBanner.length > 0) {
-        if (dataBanner[0].imageUrl.toLowerCase().indexOf(urlDest.hostname) === -1) {
+        if (dataBanner[0].imageUrl?.toLowerCase().indexOf(urlDest.hostname) === -1) {
             UrlString = `${urlDest.protocol}//${urlDest.hostname}${dataBanner[0].imageUrl}`;
         } else {
-            UrlString = dataBanner[0].imageUrl;
+            UrlString = dataBanner[0].imageUrl ? dataBanner[0].imageUrl : '';
         }
     } else {
         UrlString = '';
@@ -94,8 +96,14 @@ const CategoryPage = ({
                 <div className={classNames(styles.breadcrumbs, 'hidden-mobile')}>
                     <BreadcrumbView data={breadcrumbsData} />
                 </div>
+                <div className={classNames(styles.breadcrumbs, 'hidden-desktop')}>
+                    <BreadcrumbView data={breadcrumbsData} />
+                </div>
+                <Typography variant="h1" className={styles.categoryName}>
+                    {categoryList.name}
+                </Typography>
                 <div className={styles.headContainer} style={{ width: '100%', height: 'auto' }}>
-                    {dataBanner.length > 0
+                    {dataBanner[0] && dataBanner[0].imageUrl
                         ? (
                             <BannerView
                                 src={UrlString}
@@ -106,12 +114,6 @@ const CategoryPage = ({
                             />
                         ) : null}
                 </div>
-                <div className={classNames(styles.breadcrumbs, 'hidden-desktop')}>
-                    <BreadcrumbView data={breadcrumbsData} />
-                </div>
-                <Typography variant="h1" className={styles.categoryName}>
-                    {categoryList.name}
-                </Typography>
                 {dataBanner[0] && dataBanner[0].description && (
                     /* eslint-disable-next-line react/no-danger */
                     <div className="cms-container" dangerouslySetInnerHTML={{ __html: dataBanner[0].description }} />
