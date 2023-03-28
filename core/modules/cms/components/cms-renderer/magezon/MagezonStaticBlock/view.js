@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
 import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
+import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 
 const MagezonStaticBlockView = (props) => {
     const {
@@ -15,8 +16,8 @@ const MagezonStaticBlockView = (props) => {
     if (lg_hide) className += 'hidden-lg ';
 
     return (
-        <div className={`${classes.container} ${className}`}>
-            <div dangerouslySetInnerHTML={{ __html: content }} />
+        <div className={`${classes?.container} ${className}`}>
+            <CmsRenderer content={content} {...props} {...other} />
         </div>
     );
 };
