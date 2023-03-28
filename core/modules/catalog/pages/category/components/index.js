@@ -27,7 +27,7 @@ const categoryTabs = (category) => {
 };
 
 const CategoryPage = ({
-    data, storeConfig, t, ...other
+    data, storeConfig, configCache, t, ...other
 }) => {
     const styles = useStyles();
     const [value] = React.useState(0);
@@ -115,9 +115,16 @@ const CategoryPage = ({
                         ) : null}
                 </div>
                 {dataBanner[0] && dataBanner[0].description && (
-                    /* eslint-disable-next-line react/no-danger */
-                    <div className="cms-container" dangerouslySetInnerHTML={{ __html: dataBanner[0].description }} />
+                    <CmsRenderer content={dataBanner[0].description} storeConfig={configCache} />
                 )}
+                {
+                    categoryList
+                    && (categoryList.display_mode === 'PRODUCTS_AND_PAGE' || categoryList.display_mode === 'PAGE')
+                    && categoryList.cms_block
+                    && (
+                        <CmsRenderer content={categoryList.cms_block.content} storeConfig={configCache} />
+                    )
+                }
                 <div className="hidden-desktop">
                     <TabView
                         data={categoryTabs(categoryList.children)}
@@ -125,14 +132,6 @@ const CategoryPage = ({
                         value={value}
                     />
                 </div>
-                {
-                    categoryList
-                    && (categoryList.display_mode === 'PRODUCTS_AND_PAGE' || categoryList.display_mode === 'PAGE')
-                    && categoryList.cms_block
-                    && (
-                        <CmsRenderer content={categoryList.cms_block.content} storeConfig={storeConfig} />
-                    )
-                }
                 {
                     categoryList
                     && (!categoryList.display_mode || categoryList.display_mode === 'PRODUCTS_AND_PAGE' || categoryList.display_mode === 'PRODUCTS')
