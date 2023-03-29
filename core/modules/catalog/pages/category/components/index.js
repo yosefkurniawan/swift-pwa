@@ -115,8 +115,7 @@ const CategoryPage = ({
                         ) : null}
                 </div>
                 {dataBanner[0] && dataBanner[0].description && (
-                    /* eslint-disable-next-line react/no-danger */
-                    <div className="cms-container" dangerouslySetInnerHTML={{ __html: dataBanner[0].description }} />
+                    <CmsRenderer content={dataBanner[0].description} storeConfig={storeConfig} />
                 )}
                 <div className="hidden-desktop">
                     <TabView
