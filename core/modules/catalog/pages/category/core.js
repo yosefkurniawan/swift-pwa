@@ -1,6 +1,4 @@
 /* eslint-disable prefer-destructuring */
-import { useReactiveVar } from '@apollo/client';
-import { storeConfigVar } from '@root/core/services/graphql/cache';
 import Layout from '@layout';
 import { StripHtmlTags } from '@helper_text';
 import { getCategory, getPwaConfig } from '@core_modules/catalog/services/graphql';
@@ -15,7 +13,6 @@ const Page = (props) => {
     const {
         categoryId, storeConfig: configStore, pageConfig = {}, ...other
     } = props;
-    const configCache = useReactiveVar(storeConfigVar);
     const { loading, data } = getCategory({
         productSize: configStore?.pwa?.page_size || 10,
         id: categoryId,
@@ -66,7 +63,7 @@ const Page = (props) => {
     }
     return (
         <Layout {...props} pageConfig={config} data={category} isPlp>
-            <Content categoryId={categoryId} data={data} {...other} storeConfig={storeConfig} configCache={configCache} />
+            <Content categoryId={categoryId} data={data} {...other} storeConfig={storeConfig} />
         </Layout>
     );
 };
