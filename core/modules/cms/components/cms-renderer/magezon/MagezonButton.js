@@ -9,7 +9,7 @@ import classNames from 'classnames';
 const MagezonButton = (props) => {
     const {
         title, link, icon, icon_position, onClick = () => {},
-        button_align, button_color,
+        button_align, button_color, button_border_radius,
     } = props;
     const classes = useStyles(props);
     const wrapper = 'mgz-button';
@@ -27,7 +27,13 @@ const MagezonButton = (props) => {
         <div className={wrapper}>
             {link && link !== '' ? (
                 <MagezonLink link={link}>
-                    <Button className={classNames(classes.button, 'mgz-btn')} type="button" align={`${button_align || 'left'}`} onClick={onClick}>
+                    <Button
+                        style={{ borderRadius: button_border_radius || '0px' }}
+                        className={classNames(classes.button, 'mgz-btn')}
+                        type="button"
+                        align={`${button_align || 'left'}`}
+                        onClick={onClick}
+                    >
                         {icon && isLeftIconPosition ? <MagezonIcon icon={icon} icon_color={button_color} /> : null}
                         {title || ''}
                         {icon && !isLeftIconPosition ? <MagezonIcon icon={icon} icon_color={button_color} /> : null}
