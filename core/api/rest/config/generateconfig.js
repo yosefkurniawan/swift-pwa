@@ -212,6 +212,7 @@ const reqBody = gql`{
         path
         return_url
     }
+    allow_guests_to_write_product_reviews
     allow_guest_checkout
     snap_is_production
     aw_blog_general_enabled
