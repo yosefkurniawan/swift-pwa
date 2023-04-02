@@ -70,6 +70,7 @@ const ProductPage = (props) => {
         expandData,
         openImageDetail,
         handleOpenImageDetail,
+        selectedImgIdx,
         stockStatus,
         additionalPrice,
         smartProductTabs,
@@ -217,7 +218,13 @@ const ProductPage = (props) => {
                 />
             </div>
             {enablePopupImage && (
-                <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} storeConfig={storeConfig} />
+                <ModalPopupImage
+                    open={openImageDetail}
+                    setOpen={handleOpenImageDetail}
+                    banner={banner}
+                    selectedImgIdx={selectedImgIdx}
+                    storeConfig={storeConfig}
+                />
             )}
             <OptionItem
                 {...props}

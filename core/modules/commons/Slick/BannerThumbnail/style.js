@@ -27,6 +27,15 @@ const useStyles = makeStyles((theme) => ({
         color: GRAY_SECONDARY,
         fontSize: '3rem',
     },
+    contentWrapper: {
+        '& .react-transform-component': {
+            width: '100%',
+        },
+        '& .react-transform-element': {
+            justifyContent: 'center',
+            width: '100%',
+        },
+    },
     dots: {
         zIndex: 2,
         display: 'flex',

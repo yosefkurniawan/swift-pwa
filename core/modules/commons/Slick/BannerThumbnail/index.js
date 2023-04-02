@@ -107,17 +107,17 @@ const Banner = ({
             <div className={classCarousel}>
                 <Slider ref={(slider) => sliderRef = slider} {...settings}>
                     {data.map((item, key) => (
-                        <div onClick={actionImage} key={key}>
+                        <div onClick={(e) => actionImage(e, key)} key={key}>
                             {
                                 zoom ? (
                                     <TransformWrapper>
                                         {({ zoomIn, zoomOut, ...rest }) => (
-                                            <>
+                                            <div className={styles.contentWrapper}>
                                                 <div className={styles.actionZoom}>
-                                                    <IconButton className={styles.buttonActionZoom} onClick={() => zoomIn()}>
+                                                    <IconButton className={styles.buttonActionZoom} onClick={(e) => zoomIn(e)}>
                                                         <Plus color="inherit" fontSize="inherit" />
                                                     </IconButton>
-                                                    <IconButton className={styles.buttonActionZoom} onClick={() => zoomOut()}>
+                                                    <IconButton className={styles.buttonActionZoom} onClick={(e) => zoomOut(e)}>
                                                         <Min color="inherit" fontSize="inherit" />
                                                     </IconButton>
                                                 </div>
@@ -136,7 +136,7 @@ const Banner = ({
                                                         storeConfig={storeConfig}
                                                     />
                                                 </TransformComponent>
-                                            </>
+                                            </div>
                                         )}
                                     </TransformWrapper>
                                 ) : (
@@ -181,7 +181,7 @@ const Banner = ({
                             className={slideIndex === id ? dotActive : dotItem}
                             key={id}
                             onClick={() => {
-                                sliderRef.slickGoTo(data.length - (id + 1));
+                                sliderRef.slickGoTo(id);
                             }}
                         />
                     ))}
