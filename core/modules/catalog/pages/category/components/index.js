@@ -40,6 +40,17 @@ const CategoryPage = ({
             `/${categoryList.children[newValue - 1].url_path}`,
         );
     };
+    /** function to handle option category in filter */
+    const handleCategory = (event, valueId) => {
+        if (categoryList && categoryList.children) {
+            // eslint-disable-next-line eqeqeq
+            const category = categoryList.children.find((val) => val.id == valueId);
+            return Router.push(
+                '/[...slug]',
+                `/${category.url_path}`,
+            );
+        } return null;
+    };
 
     if (categoryList) {
         dataBanner = [
@@ -54,10 +65,10 @@ const CategoryPage = ({
     const urlDest = new URL(getStoreHost(getAppEnv()));
     let UrlString = '';
     if (dataBanner.length > 0) {
-        if (dataBanner[0].imageUrl?.toLowerCase().indexOf(urlDest.hostname) === -1) {
+        if (dataBanner[0].imageUrl.toLowerCase().indexOf(urlDest.hostname) === -1) {
             UrlString = `${urlDest.protocol}//${urlDest.hostname}${dataBanner[0].imageUrl}`;
         } else {
-            UrlString = dataBanner[0].imageUrl ? dataBanner[0].imageUrl : '';
+            UrlString = dataBanner[0].imageUrl;
         }
     } else {
         UrlString = '';
@@ -103,7 +114,7 @@ const CategoryPage = ({
                     {categoryList.name}
                 </Typography>
                 <div className={styles.headContainer} style={{ width: '100%', height: 'auto' }}>
-                    {dataBanner[0] && dataBanner[0].imageUrl
+                    {dataBanner.length > 0
                         ? (
                             <BannerView
                                 src={UrlString}
@@ -146,6 +157,7 @@ const CategoryPage = ({
                             category={categoryTabs(categoryList.children)}
                             dataTabs={categoryTabs(categoryList.children)}
                             onChangeTabs={handleChange}
+                            onChangeCategory={handleCategory}
                             storeConfig={storeConfig}
                             defaultSort={{ key: 'position', value: 'ASC' }}
                             {...other}
