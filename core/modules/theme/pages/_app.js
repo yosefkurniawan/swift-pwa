@@ -26,7 +26,6 @@ import React from 'react';
 import { gql } from '@apollo/client';
 import PageProgressLoader from '@common_loaders/PageProgress';
 import graphRequest from '@graphql_request';
-import requestInternal from '@rest_request';
 import Notification from '@lib_firebase/notification';
 import firebase from '@lib_firebase/index';
 import routeMiddleware from '@middleware_route';
@@ -130,7 +129,9 @@ class MyApp extends App {
 
         if (typeof window === 'undefined' && (!storeConfig || typeof storeConfig.secure_base_media_url === 'undefined')) {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
-            storeConfig = await requestInternal('getConfig');
+            /** comment data cache from internal request * */
+            // storeConfig = await requestInternal('getConfig');
+            storeConfig = await graphRequest(ConfigSchema);
             frontendOptions = storeConfig;
             // Handle redirecting to tomaintenance page automatically when GQL is in maintenance mode.
             // We do this here since query storeConfig is the first query and be done in server side
