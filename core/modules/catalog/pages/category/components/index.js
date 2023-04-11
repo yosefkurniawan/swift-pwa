@@ -32,12 +32,25 @@ const CategoryPage = ({
     const [value] = React.useState(0);
     const categoryList = data.categoryList[0];
     let dataBanner = [];
+
     const handleChange = (event, newValue) => {
         Router.push(
             '/[...slug]',
             `/${categoryList.children[newValue - 1].url_path}`,
         );
     };
+    /** function to handle option category in filter */
+    const handleCategory = (event, valueId) => {
+        if (categoryList && categoryList.children) {
+            // eslint-disable-next-line eqeqeq
+            const category = categoryList.children.find((val) => val.id == valueId);
+            return Router.push(
+                '/[...slug]',
+                `/${category.url_path}`,
+            );
+        } return null;
+    };
+
     if (categoryList.image_path) {
         dataBanner = [
             {
@@ -47,7 +60,7 @@ const CategoryPage = ({
             },
         ];
     }
-    // console.log(dataBanner);
+
     const urlDest = new URL(getStoreHost(getAppEnv()));
     let UrlString = '';
     if (dataBanner.length > 0) {
@@ -144,6 +157,7 @@ const CategoryPage = ({
                             category={categoryTabs(categoryList.children)}
                             dataTabs={categoryTabs(categoryList.children)}
                             onChangeTabs={handleChange}
+                            onChangeCategory={handleCategory}
                             storeConfig={storeConfig}
                             defaultSort={{ key: 'position', value: 'ASC' }}
                             {...other}
