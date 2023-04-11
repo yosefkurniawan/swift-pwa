@@ -137,6 +137,7 @@ const Checkout = (props) => {
 
     const [checkout, setCheckout] = useState({
         order_id: '',
+        newupdate: false,
         data: {
             errorItems: false,
             cart: null,
@@ -187,6 +188,7 @@ const Checkout = (props) => {
             extraFee: false,
             paypal: false,
             confirmation: false,
+            totalPrice: false,
         },
         status: {
             addresses: false,
@@ -228,6 +230,7 @@ const Checkout = (props) => {
     const [getCustomer, manageCustomer] = gqlService.getCustomer();
     const [getCart, { data: dataCart, error: errorCart, refetch: refetchDataCart }] = gqlService.getCart();
     const [getItemCart, { data: itemCart, error: errorItem, refetch: refetchItemCart }] = gqlService.getItemCart();
+    const [getPrice, { data: itemPrice, loading: priceLoading }] = gqlService.getPrice();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
     const [setShippingAddressByInput] = gqlService.initiateShippingAddressMultiseller();
@@ -996,6 +999,18 @@ const Checkout = (props) => {
         }
     }, [addressCustomer]);
 
+    // effect get price after update cart
+    React.useEffect(() => {
+        if (itemPrice && itemPrice.cart) {
+            let state = { ...checkout };
+            state.newupdate = false;
+            state.loading.totalPrice = false;
+            state.data.cart.prices = itemPrice.cart.prices;
+            state.data.cart.promoBanner = itemPrice.cart.promoBanner;
+            setCheckout(state);
+        }
+    }, [itemPrice]);
+
     React.useMemo(() => {
         if (checkout.data.cart) {
             const { cart } = checkout.data;
@@ -1062,6 +1077,11 @@ const Checkout = (props) => {
             }
 
             setCheckout(state);
+            if (checkout.newupdate) {
+                getPrice({ variables: { cartId } });
+                state.loading.totalPrice = true;
+                setCheckout(state);
+            }
         }
     }, [checkout.data.cart]);
 

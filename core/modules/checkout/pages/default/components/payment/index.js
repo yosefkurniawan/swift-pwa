@@ -191,6 +191,7 @@ export default function CustomizedExpansionPanels({
             };
             state.selected.payment = val;
             state.status.purchaseOrderApply = false;
+            state.newupdate = true;
             setCheckout(state);
 
             if (val === 'purchaseorder' && checkout.selected) {

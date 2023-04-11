@@ -107,6 +107,7 @@ const AdditionSelect = (props) => {
                     order: false,
                 },
             };
+            checkoutData.newupdate = true;
             await setCheckout(checkoutData);
         }).catch(() => window.backdropLoader(false));
     };
