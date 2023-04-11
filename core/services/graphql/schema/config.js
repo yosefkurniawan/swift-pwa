@@ -251,6 +251,7 @@ export const storeConfig = `
             link_font_decoration
             link_font_hover_decoration
         }
+        allow_guests_to_write_product_reviews
         secure_base_media_url
         secure_base_static_url
         customer_password_minimum_password_length
