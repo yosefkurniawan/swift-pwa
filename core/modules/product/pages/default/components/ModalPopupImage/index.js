@@ -40,10 +40,10 @@ const PopupImage = (props) => {
                         {({ zoomIn, zoomOut, ...rest }) => (
                             <>
                                 <div className={styles.actionZoom}>
-                                    <button type="button" onClick={(e) => zoomIn(e)}>
+                                    <button type="button" onClick={() => zoomIn()}>
                                         +
                                     </button>
-                                    <button type="button" onClick={(e) => zoomOut(e)}>
+                                    <button type="button" onClick={() => zoomOut()}>
                                         -
                                     </button>
                                 </div>

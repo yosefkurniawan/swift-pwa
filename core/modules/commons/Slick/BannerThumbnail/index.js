@@ -114,10 +114,10 @@ const Banner = ({
                                         {({ zoomIn, zoomOut, ...rest }) => (
                                             <div className={styles.contentWrapper}>
                                                 <div className={styles.actionZoom}>
-                                                    <IconButton className={styles.buttonActionZoom} onClick={(e) => zoomIn(e)}>
+                                                    <IconButton className={styles.buttonActionZoom} onClick={() => zoomIn()}>
                                                         <Plus color="inherit" fontSize="inherit" />
                                                     </IconButton>
-                                                    <IconButton className={styles.buttonActionZoom} onClick={(e) => zoomOut(e)}>
+                                                    <IconButton className={styles.buttonActionZoom} onClick={() => zoomOut()}>
                                                         <Min color="inherit" fontSize="inherit" />
                                                     </IconButton>
                                                 </div>
