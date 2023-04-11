@@ -38,10 +38,12 @@ const Layout = (props) => {
             title: t('customer:menu:notification'),
         }),
         { href: '/customer/newsletter', title: t('customer:setting:newsletter') },
-        ...pushIf(storeConfig && !storeConfig.OmsRma.enable_oms_pwa_request_return, {
-            href: '/rma/customer',
+        {
+            href: storeConfig && storeConfig.OmsRma.enable_oms_rma
+                ? storeConfig.OmsRma.oms_rma_link
+                : '/rma/customer',
             title: t('customer:menu:return'),
-        }),
+        },
         ...pushIf(modules.rewardpoint.enabled, {
             href: '/aw_rewardpoints/info',
             title: t('customer:menu:rewardPoint'),

@@ -15,15 +15,9 @@ const ItemGrouped = ({
     const [localValue, setLocalValue] = React.useState(itemsCart[product.sku] || 0);
 
     const handleLocalChange = (event) => {
-        const val = event.target.value;
-        if (val && val !== '' && !disabled) {
-            if (val < 0) {
-                // window.toastMessage({
-                //     open: true,
-                //     text: 'Min input 1',
-                //     variant: 'error',
-                // });
-            } else if (val > max) {
+        const val = event.target.value.replace(/\D/, '');
+        if (!disabled) {
+            if (val > max) {
                 window.toastMessage({
                     open: true,
                     text: `Max input ${max}`,
@@ -32,10 +26,10 @@ const ItemGrouped = ({
             } else {
                 if (setItemsCart) {
                     const items = itemsCart;
-                    items[product.sku] = val;
+                    items[product.sku] = val && val !== '' ? parseInt(val, 10) : 0;
                     setItemsCart(items);
                 }
-                setLocalValue(parseInt(val, 0));
+                setLocalValue(val);
             }
         }
     };

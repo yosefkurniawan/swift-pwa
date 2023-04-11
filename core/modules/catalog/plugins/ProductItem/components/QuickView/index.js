@@ -30,7 +30,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 const QuickView = (props) => {
     const styles = useStyles();
     const route = useRouter();
-    const { t } = useTranslation(['common', 'product', 'catalog']);
+    const { t } = useTranslation(['validate', 'common', 'product', 'catalog']);
     const {
         onClose, selectedValue, keyProduct, open, data, weltpixel_labels, storeConfig = {}, dataPrice = [], loadPrice, errorPrice,
     } = props;
@@ -164,7 +164,11 @@ const QuickView = (props) => {
             );
         }
         let priceProduct = priceItem;
-        if (priceDataItem.length > 0 && !loadPrice && !errorPrice) {
+        // handle if have an update price state
+        if (priceItem && priceItem.update) {
+            priceProduct = priceItem;
+        }
+        if (priceDataItem.length > 0 && !loadPrice && !errorPrice && !priceItem.update) {
             priceProduct = {
                 priceRange: spesificProduct.price_range ? spesificProduct.price_range : priceDataItem[0].price_range,
                 priceTiers: spesificProduct.price_tiers ? spesificProduct.price_tiers : priceDataItem[0].price_tiers,
@@ -267,7 +271,9 @@ const QuickView = (props) => {
                                 >
                                     {product.name}
                                 </Typography>
-                                {generatePrice(priceData, price)}
+                                {// eslint-disable-next-line no-underscore-dangle
+                                    product.__typename !== 'AwGiftCardProduct' && generatePrice(priceData, price)
+                                }
                             </div>
                         </div>
                         <div className={styles.titleContainer}>
@@ -314,7 +320,7 @@ const QuickView = (props) => {
                                                     {dataSeller[0].name}
                                                 </Typography>
                                                 <Typography variant="p" type="regular" letter="capitalize" size="14">
-                                                    {citySplit[0]}
+                                                    {citySplit ? citySplit[0] : ''}
                                                 </Typography>
                                             </Box>
                                         </Link>
@@ -344,6 +350,7 @@ const QuickView = (props) => {
                                 t={t}
                                 data={product}
                                 dataPrice={dataPrice}
+                                priceData={priceData}
                                 setBanner={setBanner}
                                 setPrice={setPrice}
                                 setStockStatus={setStockStatus}

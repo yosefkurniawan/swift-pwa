@@ -24,6 +24,11 @@ export default makeStyles((theme) => ({
         ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
         ...CreatePadding(30, 30, 30, 30),
     },
+    deliveryCard: {
+        [theme.breakpoints.down('xs')]: {
+            marginTop: 20,
+        },
+    },
     addressContainer: {
         ...FlexRow,
         alignItems: 'center',

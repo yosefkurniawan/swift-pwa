@@ -134,13 +134,14 @@ const ShippingView = (props) => {
         const price = formatPrice(0, storeConfig.base_currency_code || 'IDR', currencyCache);
         content = <DeliveryItem value={{ price }} label={t('checkout:instorePickup')} selected borderBottom={false} />;
     } else if (loading.shipping || loading.addresses || loading.all || loadingSellerInfo) {
-        if (data.shippingMethods.length > 0
-            && storeConfig.enable_oms_multiseller === '1'
-            && data.shippingMethods[0].seller_id
-        ) {
-            setLoadingSellerInfo(false);
-        }
         content = <Loader />;
+        if (storeConfig.enable_oms_multiseller === '1') {
+            if (data.shippingMethods.length > 0 && data.shippingMethods[0].seller_id) {
+                setLoadingSellerInfo(false);
+            } else {
+                content = <Typography variant="p">{t('checkout:noShipping')}</Typography>;
+            }
+        }
     } else if (
         data.shippingMethods.length !== 0 &&
         (data.shippingMethods[0].available_shipping_methods || data.shippingMethods) &&

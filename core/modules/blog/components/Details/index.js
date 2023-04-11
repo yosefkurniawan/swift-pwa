@@ -9,6 +9,7 @@ import Link from 'next/link';
 import useStyles from '@core_modules/blog/components/Details/style';
 import ShareIcons from '@core_modules/blog/components/ShareIcon';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
+import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 
 const Detail = (props) => {
     const {
@@ -31,7 +32,7 @@ const Detail = (props) => {
             <div className={styles.dateShare}>
                 <Typography variant="p">{formatDate(publish_date || Date.now())}</Typography>
                 <Divider orientation="vertical" flexItem />
-                <ShareIcons url={`${getHost() + modules.blog.urlPath}/${url_key}`} />
+                <ShareIcons url={`${getHost() + modules.blog.link.detail.as}${url_key}`} />
             </div>
             {
                 featuredImage
@@ -57,19 +58,23 @@ const Detail = (props) => {
                 !short
                     ? (
                         <>
-                            <div classNames={styles.content} dangerouslySetInnerHTML={{ __html: content }} />
+                            <div className={styles.content}>
+                                <CmsRenderer content={content} storeConfig={storeConfig} />
+                            </div>
                             <div className={styles.shareBottom}>
                                 <Typography>
                                     {t('blog:share')}
                                     {' '}
                                     :
                                 </Typography>
-                                <ShareIcons url={`${getHost() + modules.blog.urlPath}/${url_key}`} />
+                                <ShareIcons url={`${getHost() + modules.blog.link.detail.as}${url_key}`} />
                             </div>
                         </>
                     ) : (
                         <>
-                            <div className={styles.content} dangerouslySetInnerHTML={{ __html: short_content }} />
+                            <div className={styles.content}>
+                                <CmsRenderer content={short_content} storeConfig={storeConfig} />
+                            </div>
                             <Link href={link.detail.href} as={link.detail.as + url_key}>
                                 <a>
                                     <Button rootClassName={styles.btnRead}>

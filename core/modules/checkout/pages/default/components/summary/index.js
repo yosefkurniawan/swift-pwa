@@ -8,6 +8,7 @@ import { setCheckoutData } from '@helper_cookies';
 import { storeConfigVar } from '@root/core/services/graphql/cache';
 import { localTotalCart } from '@services/graphql/schema/local';
 import React, { useEffect, useState } from 'react';
+import Router from 'next/router';
 
 import { getIpayUrl } from '@core_modules/checkout/helpers/config';
 import gqlService from '@core_modules/checkout/services/graphql';
@@ -33,7 +34,7 @@ const Summary = ({
     checkoutTokenState,
     setCheckoutTokenState,
 }) => {
-    const { order: loading, all: disabled } = checkout.loading;
+    const { order: loading, all: disabled, totalPrice } = checkout.loading;
     const errorItems = checkout?.data?.errorItems;
     const isSelectedPurchaseOrder = checkout.selected.payment === 'purchaseorder';
 
@@ -80,6 +81,7 @@ const Summary = ({
     // mutation update delete
     const [actDeleteItem] = gqlService.deleteItemCart();
     const [actUpdateItem] = gqlService.updateItemCart();
+    const [getUpdatedCart, updatedCart] = gqlService.getUpdatedCart();
 
     const validateResponse = (response, parentState) => {
         const state = parentState;
@@ -334,14 +336,17 @@ const Summary = ({
                 if (!validateResponse(result, state)) return;
 
                 let orderNumber = '';
+                let infoMsg = '';
                 if (storeConfigLocalStorage.enable_oms_multiseller === '1') {
                     if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
                         // eslint-disable-next-line array-callback-return
                         result.data.placeOrder.map((order, index) => {
                             if (index !== result.data.placeOrder.length - 1) {
                                 orderNumber = `${orderNumber}${order.order.order_number}|`;
+                                infoMsg = order.infoMsg;
                             } else {
                                 orderNumber = `${orderNumber}${order.order.order_number}`;
+                                infoMsg = order.infoMsg;
                             }
                             tempMidtransOrderId.push(order.order.order_number);
                         });
@@ -349,6 +354,7 @@ const Summary = ({
                 } else {
                     if (result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
                         orderNumber = result.data.placeOrder[0].order.order_number;
+                        infoMsg = result.data.placeOrder[0].infoMsg;
                         tempMidtransOrderId.push(orderNumber);
                     }
                 }
@@ -358,12 +364,14 @@ const Summary = ({
                             email: isGuest ? formik.values.email : cart.email,
                             order_number: orderNumber,
                             order_id: orderNumber,
+                            infoMsg,
                         });
                     } else {
                         setCheckoutData({
                             email: isGuest ? formik.values.email : cart.email,
                             order_number: orderNumber,
                             order_id: result.data.placeOrder[0].order.order_id,
+                            infoMsg,
                         });
                     }
                     if (client && client.query && typeof client.query === 'function') {
@@ -515,6 +523,35 @@ const Summary = ({
     }
     // End - Process Snap Pop Up Close (Waitinge Response From Reorder)
 
+    const setCart = (cart = {}) => {
+        const state = { ...checkout };
+        state.data.cart = { ...state.data.cart, ...cart };
+        setCheckout(state);
+    };
+
+    const setLoadSummary = (load) => {
+        const state = { ...checkout };
+        window.backdropLoader(load);
+        state.loading.addresses = load;
+        state.loading.order = load;
+        state.loading.shipping = load;
+        state.loading.payment = load;
+        state.loading.extraFee = load;
+        setCheckout(state);
+    };
+
+    useEffect(() => {
+        if (!updatedCart.loading && updatedCart.data) {
+            setLoadSummary(false);
+            window.toastMessage({
+                open: true,
+                text: t('common:cart:updateSuccess'),
+                variant: 'success',
+            });
+            setCart({ ...updatedCart.data.cart });
+        }
+    }, [updatedCart.loading]);
+
     useEffect(() => {
         if (typeof refSummary !== 'undefined') {
             // eslint-disable-next-line no-param-reassign
@@ -533,23 +570,6 @@ const Summary = ({
         return <Loader />;
     }
 
-    const setCart = (cart = {}) => {
-        const state = { ...checkout };
-        state.data.cart = { ...state.data.cart, ...cart };
-        setCheckout(state);
-    };
-
-    const setLoadSummary = (load) => {
-        const state = { ...checkout };
-        window.backdropLoader(load);
-        state.loading.addresses = load;
-        state.loading.order = load;
-        state.loading.shipping = load;
-        state.loading.payment = load;
-        state.loading.extraFee = load;
-        setCheckout(state);
-    };
-
     // update items
     const updateCart = (id, qty) => {
         setLoadSummary(true);
@@ -565,13 +585,7 @@ const Summary = ({
         })
             .then((res) => {
                 if (res && res.data && res.data.updateCartItems && res.data.updateCartItems.cart) {
-                    setLoadSummary(false);
-                    window.toastMessage({
-                        open: true,
-                        text: t('common:cart:updateSuccess'),
-                        variant: 'success',
-                    });
-                    setCart({ ...res.data.updateCartItems.cart });
+                    getUpdatedCart({ variables: { cartId: checkout.data.cart.id } });
                 }
             })
             .catch((e) => {
@@ -620,6 +634,21 @@ const Summary = ({
             });
     };
 
+    // check error items
+    if (checkout.data.cart.errorItems && checkout.data.cart.errorItems?.length > 0) {
+        const errorMessage = {
+            variant: 'warning',
+            text: checkout.data.cart.errorItems[0],
+            open: true,
+        };
+        window.toastMessage({
+            ...errorMessage,
+        });
+        setTimeout(() => {
+            Router.push('/checkout/cart');
+        }, 3000);
+    }
+
     if (checkout && checkout.data && checkout.data.cart && checkout.loading) {
         return (
             <>
@@ -628,6 +657,7 @@ const Summary = ({
                 <div className="hidden-desktop">
                     <SummaryPlugin
                         t={t}
+                        loadTotal={totalPrice}
                         loading={loading}
                         isLoader={checkout.loading.order}
                         disabled={errorItems || disabled || (isSelectedPurchaseOrder && !isPurchaseOrderApply) || checkout.error.shippingAddress}
@@ -646,6 +676,7 @@ const Summary = ({
                 <SummaryPlugin
                     t={t}
                     loading={loading}
+                    loadTotal={totalPrice}
                     isLoader={checkout.loading.order}
                     handleActionSummary={handlePlaceOrder}
                     dataCart={checkout.data.cart}

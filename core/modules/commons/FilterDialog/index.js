@@ -16,6 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Slide from '@material-ui/core/Slide';
 import CloseIcon from '@material-ui/icons/Close';
 import React from 'react';
+import { useRouter } from 'next/router';
 
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />
@@ -39,6 +40,8 @@ const FilterDialog = (props) => {
     const [selectedFilter, setFilter] = React.useState(filterValue);
     const [sort, setSort] = React.useState(filterValue.sort ? filterValue.sort : '');
     const [priceRange, setPriceRange] = React.useState(filterValue.priceRange ? filterValue.priceRange.split(',') : [0, 0]);
+    const router = useRouter();
+
     const handleClear = () => {
         // reset value for sort component
         setSort(defaultSort || '');
@@ -123,7 +126,7 @@ const FilterDialog = (props) => {
                 if (itemFilter.field === 'seller_id') {
                     itemFilter.value.forEach((item) => {
                         const findSeller = dataSeller.data.getSeller.filter((itemSeller) => itemSeller.id === parseInt(item.value));
-                        if (parseInt(item.value) === findSeller[0].id) {
+                        if (parseInt(item.value) === findSeller[0]?.id) {
                             childValue.push({
                                 count: item.count,
                                 label: findSeller[0].name,
@@ -191,15 +194,21 @@ const FilterDialog = (props) => {
                         });
                     }
                     if (itemFilter.field !== 'attribute_set_id' && itemFilter.field !== 'seller_name') {
+                        if (itemFilter.field === 'cat' || itemFilter.field === 'category_id'
+                        || itemFilter.field === 'etalase' || (itemFilter.field === 'seller_id' && router.route.includes('seller'))) {
+                            return <span key={idx} />;
+                        }
+
                         if (itemFilter.field === 'seller_id' && sellerId && sellerId.field) {
                             return (
                                 <div className={`${styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']}`} key={idx}>
-                                    <RadioGroup
-                                        name={sellerId.field}
-                                        label={sellerId.label}
-                                        valueData={sellerId.value || []}
-                                        value={selectedFilter[sellerId.field]}
-                                        onChange={(value) => setSelectedFilter(sellerId.field, value)}
+                                    <CheckBox
+                                        field={sellerId.field}
+                                        label={sellerId.label || ''}
+                                        data={sellerId.value || []}
+                                        value={selectedFilter[sellerId.field] ? selectedFilter[sellerId.field].split(',') : []}
+                                        flex="column"
+                                        onChange={(val) => setCheckedFilter(sellerId.field, val)}
                                     />
                                 </div>
                             );
@@ -246,9 +255,8 @@ const FilterDialog = (props) => {
                                     />
                                 </div>
                             );
-                        } if (itemFilter.field === 'cat' || itemFilter.field === 'category_id') {
-                            return <span key={idx} />;
                         }
+
                         return (
                             <div className={styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} key={idx}>
                                 {elastic ? (

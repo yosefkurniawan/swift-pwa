@@ -37,7 +37,7 @@ const ViewTopNavigation = (props) => {
     } = props;
 
     return (
-        <div id="header">
+        <div id="header-inner">
             <div className="row header-top">
                 <main style={{ width: '97%' }}>
                     {enablePopupInstallation ? <DesktopInstallApp appName={appName} installMessage={installMessage} /> : null}
@@ -130,7 +130,7 @@ const ViewTopNavigation = (props) => {
                         margin: 0 auto;
                     }
                     @media (min-width: 768px) {
-                        #header {
+                        #header-inner {
                             ${storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header
                                 ? 'position: fixed;'
                                 : 'position: relative; z-index: 1100;'}
@@ -139,6 +139,9 @@ const ViewTopNavigation = (props) => {
                             z-index: 3;
                             top: ${showGlobalPromo ? '45px' : '0'};
                             transition: top 1s ease;
+                        }
+                        #header-inner.header-inner {
+                            top: 0px;
                         }
                         .header-middle__center {
                             display: none;

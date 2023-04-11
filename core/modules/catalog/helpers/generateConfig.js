@@ -5,23 +5,30 @@
  * @param Object configuration
  * @returns object
  */
+// eslint-disable-next-line no-unused-vars
 const generateConfig = (query, config, elastic, availableFilter = []) => {
-    const filter = {};
-    for (let index = 0; index < availableFilter.length; index++) {
-        const element = availableFilter[index];
-        filter[element.attribute_code] = element.attribute_code;
-    }
+    // availableFilter aggregation from getProductAgragations not appropriate
+    // const filter = {};
+    // for (let index = 0; index < availableFilter.length; index++) {
+    //     const element = availableFilter[index];
+    //     filter[element.attribute_code] = element.attribute_code;
+    // }
+
     const resolveConfig = config;
     // eslint-disable-next-line no-restricted-syntax
     for (const q in query) {
-        if ((q === 'sort' || q.includes('sort')) && query[q] !== '') {
+        if (q.includes('seller') && !q.includes('filter')
+        && q !== 'seller_id' && q !== 'seller_name') {
+            const trueQuery = q.split('?');
+            if (trueQuery && trueQuery[1]) {
+                resolveConfig.filter.push({
+                    type: trueQuery[1],
+                    value: query[q],
+                });
+            }
+        } else if ((q === 'sort' || q.includes('sort')) && query[q] !== '') {
             resolveConfig.sort = JSON.parse(decodeURIComponent(query[q]));
-        } else if (q === 'seller_id') {
-            resolveConfig.filter.push({
-                type: q,
-                value: query[q],
-            });
-        } else if (q === 'seller_name') {
+        } else if (q === 'seller_id' || q === 'seller_name') {
             resolveConfig.filter.push({
                 type: q,
                 value: query[q],
@@ -41,12 +48,10 @@ const generateConfig = (query, config, elastic, availableFilter = []) => {
                 });
             }
         } else if (q !== 'cat' && query[q]) {
-            if (filter[q]) {
-                resolveConfig.filter.push({
-                    type: q,
-                    value: elastic ? query[q].split(',') : query[q],
-                });
-            }
+            resolveConfig.filter.push({
+                type: q,
+                value: elastic ? query[q].split(',') : query[q],
+            });
         }
     }
     return resolveConfig;

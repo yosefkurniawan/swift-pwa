@@ -37,6 +37,7 @@ const DownloadView = (props) => {
         showQty = true, qty, setQty, handleAddToCart, t,
         showAddToCart = true, ...other
     } = props;
+    const setLoading = !(loading === 0 || loading === false);
     return (
         <>
             <div className="options-container">
@@ -46,7 +47,7 @@ const DownloadView = (props) => {
                 <br />
             </div>
             <Footer
-                loading={loading}
+                loading={setLoading}
                 disabled={disabled}
                 showQty={showQty}
                 handleAddToCart={handleAddToCart}

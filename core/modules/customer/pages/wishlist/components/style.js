@@ -58,7 +58,9 @@ const useStyles = makeStyles((theme) => ({
     },
     btnWishlist: {
         width: '100%',
-        marginLeft: 15,
+        [theme.breakpoints.up('sm')]: {
+            margin: '0px 10px',
+        },
         [theme.breakpoints.up('md')]: {
             width: 'fit-content',
         },

@@ -13,7 +13,6 @@ import useStyles from '@core_modules/product/pages/default/components/style';
 import { getProductBannerLite } from '@core_modules/product/services/graphql';
 import { getHost } from '@helper_config';
 import { formatPrice } from '@helper_currency';
-import { breakPointsUp } from '@helper_theme';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import ChatIcon from '@material-ui/icons/Chat';
@@ -71,6 +70,7 @@ const ProductPage = (props) => {
         expandData,
         openImageDetail,
         handleOpenImageDetail,
+        selectedImgIdx,
         stockStatus,
         additionalPrice,
         smartProductTabs,
@@ -87,7 +87,6 @@ const ProductPage = (props) => {
         dataSeller,
         currencyCache,
     } = props;
-    const desktop = breakPointsUp('sm');
 
     const context = isLogin && isLogin === 1 ? { request: 'internal' } : {};
     const [getBannerLite, bannerLiteResult] = getProductBannerLite(route.asPath.slice(1), { context });
@@ -131,7 +130,11 @@ const ProductPage = (props) => {
         }
 
         let priceProduct = priceItem;
-        if (priceDataItem.length > 0 && !loadPrice && !errorPrice) {
+        // handle if have an update price state
+        if (priceItem && priceItem.update) {
+            priceProduct = priceItem;
+        }
+        if (priceDataItem.length > 0 && !loadPrice && !errorPrice && !priceItem.update) {
             priceProduct = {
                 priceRange: spesificProduct.price_range ? spesificProduct.price_range : priceDataItem[0].price_range,
                 priceTiers: spesificProduct.price_tiers ? spesificProduct.price_tiers : priceDataItem[0].price_tiers,
@@ -213,10 +216,16 @@ const ProductPage = (props) => {
                     isLogin={isLogin}
                     storeConfig={storeConfig}
                 />
-                {enablePopupImage && (
-                    <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} storeConfig={storeConfig} />
-                )}
             </div>
+            {enablePopupImage && (
+                <ModalPopupImage
+                    open={openImageDetail}
+                    setOpen={handleOpenImageDetail}
+                    banner={banner}
+                    selectedImgIdx={selectedImgIdx}
+                    storeConfig={storeConfig}
+                />
+            )}
             <OptionItem
                 {...props}
                 open={openOption}
@@ -282,7 +291,7 @@ const ProductPage = (props) => {
                         autoPlay={false}
                         width={960}
                         height={1120}
-                        actionImage={desktop && enablePopupImage ? handleOpenImageDetail : () => {}}
+                        actionImage={enablePopupImage ? handleOpenImageDetail : () => {}}
                         customProduct={styles.bannerProduct}
                         storeConfig={storeConfig}
                     >
@@ -304,7 +313,9 @@ const ProductPage = (props) => {
                             <Typography variant="title" type="bold" letter="capitalize" className={classNames(styles.title, 'clear-margin-padding')}>
                                 {data.name}
                             </Typography>
-                            {generatePrice(priceData, price)}
+                            {// eslint-disable-next-line no-underscore-dangle
+                                data.__typename !== 'AwGiftCardProduct' && generatePrice(priceData, price)
+                            }
                         </div>
                         <div className={styles.shareContainer}>
                             {modules.productcompare.enabled && (
@@ -390,7 +401,7 @@ const ProductPage = (props) => {
                                             {dataSeller[0].name}
                                         </Typography>
                                         <Typography variant="p" type="regular" letter="capitalize" size="14">
-                                            {citySplit[0]}
+                                            {citySplit ? citySplit[0] : ''}
                                         </Typography>
                                     </div>
                                 </Link>
@@ -439,6 +450,7 @@ const ProductPage = (props) => {
                             setOpen={setOpenOption}
                             setBanner={setBanner}
                             setPrice={setPrice}
+                            priceData={priceData}
                             handleSelecteProduct={setSpesificProduct}
                         />
 

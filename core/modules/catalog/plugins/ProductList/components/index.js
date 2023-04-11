@@ -18,7 +18,7 @@ const ContentPagination = (props) => {
         query, showTabs, customFilter, elastic, t,
         aggregations, setFiltervalue, category, defaultSort, config, TabView,
         products, categoryPath, renderEmptyMessage, ProductListSkeleton, loading,
-        loadmore, dataTabs, onChangeTabs, page, totalPage, totalCount, handleChangePage, price, loadPrice, ...other
+        loadmore, dataTabs, onChangeTabs, onChangeCategory, page, totalPage, totalCount, handleChangePage, price, loadPrice, ...other
     } = props;
     const styles = useStyles();
     const [isGrid, setGridState] = useState(true);
@@ -107,6 +107,7 @@ const ContentPagination = (props) => {
                     loading={loading}
                     setGrid={(state) => setGrid(state)}
                     t={t}
+                    onChangeCategory={onChangeCategory}
                     {...other}
                 />
             </div>
@@ -175,7 +176,7 @@ const ContentLoadMore = (props) => {
         query, showTabs, customFilter, elastic, t,
         aggregations, setFiltervalue, category, defaultSort, config, TabView,
         products, categoryPath, renderEmptyMessage, ProductListSkeleton, loading,
-        loadmore, handleLoadMore, dataTabs, onChangeTabs, price, loadPrice, ...other
+        loadmore, handleLoadMore, dataTabs, onChangeTabs, onChangeCategory, price, loadPrice, ...other
     } = props;
     const { storeConfig } = props;
     const styles = useStyles();
@@ -247,6 +248,7 @@ const ContentLoadMore = (props) => {
                     loading={loading}
                     setGrid={(state) => setGrid(state)}
                     t={t}
+                    onChangeCategory={onChangeCategory}
                     {...other}
                 />
             </div>

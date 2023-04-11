@@ -17,7 +17,7 @@ const ShippingView = (props) => {
         : classNames(classes.item, `${delivery}Delivery`));
 
     return (
-        <div id="checkoutDeliveryMethod" className={styles.block}>
+        <div id="checkoutDeliveryMethod" className={classNames(styles.block, styles.deliveryCard)}>
             <Typography variant="h2" type="bold" letter="uppercase">
                 {t('checkout:deliveryMethod:label')}
             </Typography>

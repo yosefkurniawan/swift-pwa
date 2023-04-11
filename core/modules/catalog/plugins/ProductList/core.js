@@ -137,6 +137,11 @@ const ProductPagination = (props) => {
                     if (v.selectedFilter[idx] !== '' && !v[idx]) {
                         if (v.selectedFilter[idx] !== undefined && !idx.includes('seller/')) {
                             queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                        } else if (v.selectedFilter[idx] !== ''
+                        && idx.includes('seller') && idx.includes('filter')) {
+                            // for etalase filter
+                            const newParam = idx.split('?');
+                            queryParams += `${queryParams !== '' ? '&' : ''}${newParam[1]}=${v.selectedFilter[idx]}`;
                         }
                     }
                 }
@@ -177,7 +182,7 @@ const ProductPagination = (props) => {
         if (setFilterSellerPage) {
             filterObj = [{
                 type: 'etalase',
-                value: router.query.filter
+                value: query[setFilterSellerPage],
                 },
                 {
                 type: 'seller_id',
@@ -341,6 +346,7 @@ const ProductPagination = (props) => {
     React.useEffect(() => {
         if (data && data.products) {
             setProducts(data.products);
+            setFilterSaved(false);
             // GTM UA dataLayer
             const tagManagerArgs = {
                 dataLayer: {
@@ -488,6 +494,11 @@ const ProductLoadMore = (props) => {
                     if (v.selectedFilter[idx] !== '' && !v[idx]) {
                         if (v.selectedFilter[idx] !== undefined && !idx.includes('seller/')) {
                             queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                        } else if (v.selectedFilter[idx] !== ''
+                        && idx.includes('seller') && idx.includes('filter')) {
+                            // for etalase filter
+                            const newParam = idx.split('?');
+                            queryParams += `${queryParams !== '' ? '&' : ''}${newParam[1]}=${v.selectedFilter[idx]}`;
                         }
                     }
                 }
@@ -527,7 +538,7 @@ const ProductLoadMore = (props) => {
         if (setFilterSellerPage) {
             filterObj = [{
                 type: 'etalase',
-                value: router.query.filter,
+                value: query[setFilterSellerPage],
             }, {
                 type: 'seller_id',
                 value: sellerId,
@@ -663,6 +674,7 @@ const ProductLoadMore = (props) => {
     React.useEffect(() => {
         if (data && data.products) {
             setProducts(data.products);
+            setFilterSaved(false);
             // GTM UA dataLayer
             const tagManagerArgs = {
                 dataLayer: {

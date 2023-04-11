@@ -49,18 +49,20 @@ const PromoModalItemView = (props) => {
 
     return (
         <>
-            <div className={triger ? styles.freeItemContainerMobileFixed : styles.freeItemContainer}>
-                <RedeemIcon />
+            {availableMaxQty > 0 ? (
+                <div className={triger ? styles.freeItemContainerMobileFixed : styles.freeItemContainer}>
+                    <RedeemIcon />
             &nbsp;
-                <span>
-                    Select your
-                    <Button variant="text" color="primary" onClick={handleClickOpen}>
-                        <Typography type="bold" letter="uppercase">
-                            Free Gift!
-                        </Typography>
-                    </Button>
-                </span>
-            </div>
+                    <span>
+                        Select your
+                        <Button variant="text" color="primary" onClick={handleClickOpen}>
+                            <Typography type="bold" letter="uppercase">
+                                Free Gift!
+                            </Typography>
+                        </Button>
+                    </span>
+                </div>
+            ) : null }
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="md">
                 <MuiDialogTitle disableTypography className={styles.root} id="customized-dialog-title">
                     <Typography variant="h6">Free Promo Items</Typography>
