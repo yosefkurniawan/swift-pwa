@@ -7,7 +7,7 @@ import { setLastPathWithoutLogin, removeLastPathWithoutLogin } from '@helper_aut
 import Router from 'next/router';
 
 import { modules } from '@config';
-import { getStoreHost } from '@helpers/config';
+import { getHost, getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
 import { availableRoute } from './routeServer';
 
@@ -70,10 +70,10 @@ const routeMiddleware = (params) => {
         if (!allow) {
             if (query.redirect && query.redirect !== '') {
                 if (typeof window !== 'undefined') {
-                    Router.push(query.redirect);
+                    Router.push(`${getHost()}/${query.redirect}`);
                     removeLastPathWithoutLogin();
                 } else {
-                    res.redirect(query.redirect);
+                    res.redirect(`${getHost()}/${query.redirect}`);
                     setLastPathNoAuth(req, '');
                 }
             } else if (typeof window !== 'undefined') {
