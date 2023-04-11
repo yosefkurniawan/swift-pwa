@@ -3,12 +3,15 @@ import Layout from '@layout';
 import { getHost } from '@helper_config';
 import Content from '@core_modules/home/pages/default/components';
 import { currencyVar } from '@root/core/services/graphql/cache';
+import { keyLocalStorage } from '@config';
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 
 const HomeCore = (props) => {
     // eslint-disable-next-line object-curly-newline
-    const { pageConfig, storeConfig, ...other } = props;
+    const { pageConfig, storeConfig, homePageConfig, ...other } = props;
+
+    const homeKey = keyLocalStorage.home;
     const useCms = storeConfig?.pwa?.use_cms_page_enable;
 
     useEffect(() => {
@@ -56,10 +59,10 @@ const HomeCore = (props) => {
     return (
         <>
             {
-                useCms ? <Content cmsHome={config} storeConfig={storeConfig} homePageConfig={{ storeConfig }} {...other} />
+                useCms ? <Content cmsHome={config} storeConfig={storeConfig} homePageConfig={homePageConfig} {...other} />
                     : (
                         <Layout {...props} pageConfig={config} isHomepage>
-                            <Content storeConfig={storeConfig} homePageConfig={{ storeConfig }} {...other} />
+                            <Content storeConfig={storeConfig} homePageConfig={homePageConfig} {...other} />
                         </Layout>
                     )
             }

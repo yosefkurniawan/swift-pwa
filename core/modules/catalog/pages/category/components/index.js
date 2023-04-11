@@ -32,6 +32,19 @@ const CategoryPage = ({
     const image_product_width = storeConfig?.pwa?.image_product_width;
     const [value] = React.useState(0);
     const categoryList = data?.categoryList[0];
+
+    /** function to handle option category in filter */
+    const handleCategory = (event, valueId) => {
+        if (categoryList && categoryList.children) {
+            // eslint-disable-next-line eqeqeq
+            const category = categoryList.children.find((val) => val.id == valueId);
+            return Router.push(
+                '/[...slug]',
+                `/${category.url_path}`,
+            );
+        } return null;
+    };
+
     const urlDest = new URL(getStoreHost(getAppEnv()));
     const dataCategory = React.useMemo(() => {
         // sementara di comment dlu, untuk custom filter memakai aggregations product
@@ -40,7 +53,7 @@ const CategoryPage = ({
         let urlString = '';
         let breadcrumbsData = [];
 
-        if (categoryList?.image_path) {
+        if (categoryList) {
             dataBanner = [
                 {
                     imageUrl: categoryList?.image_path,
@@ -150,6 +163,7 @@ const CategoryPage = ({
                             category={categoryTabs(categoryList?.children ?? [])}
                             dataTabs={categoryTabs(categoryList?.children ?? [])}
                             onChangeTabs={handleChange}
+                            onChangeCategory={handleCategory}
                             storeConfig={storeConfig}
                             defaultSort={{ key: 'position', value: 'ASC' }}
                             {...other}

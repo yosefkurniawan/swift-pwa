@@ -18,7 +18,6 @@ const ViewFilter = (props) => {
         itemProps = {},
         elastic = false,
         t,
-        tabs,
         loading,
         priceRange,
         setPriceRange,
@@ -32,38 +31,16 @@ const ViewFilter = (props) => {
         storeConfig,
     } = props;
     const styles = useStyles();
-
     return (
         <div className={styles.root}>
             {loading ? <Skeleton variant="rect" width="100%" height={705} /> : null}
-            {tabs && tabs.length > 0 ? (
-                <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                        <Typography className={styles.heading}>{t('catalog:title:category')}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <ul>
-                            {tabs.map((val, idx) => {
-                                if (val !== 'attribute_set_id') {
-                                    return (
-                                        <li onClick={(e) => onChangeTabs(e, idx + 1)} className={styles.listCategory} key={idx}>
-                                            <Typography variant="span" letter="capitalize">
-                                                {val.replace(/_/g, ' ')}
-                                            </Typography>
-                                        </li>
-                                    );
-                                }
-
-                                return null;
-                            })}
-                        </ul>
-                    </AccordionDetails>
-                </Accordion>
-            ) : null}
             {filter
                 && filter.map((itemFilter, idx) => {
                     if ((itemFilter.field === 'cat' || itemFilter.field === 'attribute_set_id') && !isSearch) {
                         return <span key={idx} />;
+                    }
+                    if (itemFilter.field === 'indexed_attributes') {
+                        return null;
                     }
                     return (
                         <Accordion key={idx} defaultExpanded={typeof selectedFilter[itemFilter.field] !== 'undefined'}>

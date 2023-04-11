@@ -186,6 +186,7 @@ const ContentDetail = ({
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const [openShare, setOpenShare] = React.useState(false);
     const [openImageDetail, setOpenImageDetail] = React.useState(false);
+    const [selectedImgIdx, setSelectedImgIdx] = React.useState(false);
     const [banner, setBanner] = React.useState(bannerData);
     const [price, setPrice] = React.useState({
         priceRange: item.price_range,
@@ -423,8 +424,10 @@ const ContentDetail = ({
         }
     };
 
-    const handleOpenImageDetail = React.useCallback(() => {
+    const handleOpenImageDetail = React.useCallback((e, idx) => {
+        e.preventDefault();
         setOpenImageDetail(!openImageDetail);
+        setSelectedImgIdx(idx);
     }, [openImageDetail]);
 
     const checkCustomizableOptionsValue = React.useCallback(async () => {
@@ -505,6 +508,7 @@ const ContentDetail = ({
             config={modules.catalog.pdp}
             openImageDetail={openImageDetail}
             handleOpenImageDetail={handleOpenImageDetail}
+            selectedImgIdx={selectedImgIdx}
             stockStatus={stockStatus}
             setStockStatus={setStockStatus}
             customizableOptions={customizableOptions}
