@@ -143,7 +143,7 @@ const ViewFilter = (props) => {
                 return <span key={idx} />;
             }
             return (
-                <div key={idx}>
+                <div key={idx} style={{ width: '100%' }}>
                     {elastic ? (
                         <CheckBox
                             field={itemFilter.field}
@@ -153,6 +153,7 @@ const ViewFilter = (props) => {
                             value={selectedFilter[itemFilter.field] ? selectedFilter[itemFilter.field].split(',') : []}
                             flex="column"
                             onChange={(val) => checkedFilter(itemFilter.field, val)}
+                            useLoadMore
                         />
                     ) : (
                         <RadioGroup
@@ -162,6 +163,7 @@ const ViewFilter = (props) => {
                             valueData={itemFilter.value || []}
                             value={selectedFilter[itemFilter.field]}
                             onChange={(value) => selectFilter(itemFilter.field, value)}
+                            useLoadMore
                         />
                     )}
                 </div>

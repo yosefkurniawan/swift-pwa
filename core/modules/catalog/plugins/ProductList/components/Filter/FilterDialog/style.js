@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     body: {
         ...FlexColumn,
         position: 'relative',
+        marginBottom: 80,
     },
     listCategoryWrapper: {
         ...CreatePadding(10, 30, 10, 30),

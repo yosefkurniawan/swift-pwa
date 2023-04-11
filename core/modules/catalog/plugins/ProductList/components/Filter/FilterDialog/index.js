@@ -116,6 +116,7 @@ const FilterDialog = (props) => {
                             valueData={sortByData || []}
                             value={itemProps.sortByValue || sort}
                             onChange={itemProps.sortByChange || setSort}
+                            useLoadMore
                         />
                     </div>
                 )}
@@ -230,6 +231,7 @@ const FilterDialog = (props) => {
                                         value={selectedFilter[itemFilter.field] ? selectedFilter[itemFilter.field].split(',') : []}
                                         flex="column"
                                         onChange={(val) => setCheckedFilter(itemFilter.field, val)}
+                                        useLoadMore
                                     />
                                 ) : (
                                     <RadioGroup
@@ -238,6 +240,7 @@ const FilterDialog = (props) => {
                                         valueData={itemFilter.value || []}
                                         value={selectedFilter[itemFilter.field]}
                                         onChange={(value) => setSelectedFilter(itemFilter.field, value)}
+                                        useLoadMore
                                     />
                                 )}
                             </div>
