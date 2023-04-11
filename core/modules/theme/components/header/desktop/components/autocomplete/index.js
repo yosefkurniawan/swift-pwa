@@ -14,7 +14,7 @@ const generateItemData = (product, category, seller, enableMultiseller) => {
         const prod = {
             id: element.id,
             name: element.name,
-            seller_name: element?.seller?.seller_name,
+            seller_name: enableMultiseller ? element?.seller?.seller_name : '',
             url_key: element.url_key,
             position: index,
             small_image: element.small_image,
