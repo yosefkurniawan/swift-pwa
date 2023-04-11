@@ -10,7 +10,9 @@ import Slider from 'react-slick';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import { getStoreHost } from '@helpers/config';
+import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
 import MagezonHeading from '@core_modules/cms/components/cms-renderer/magezon/MagezonHeading';
+import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/MagezonButton';
 import LeftArrowIcon from '@material-ui/icons/ChevronLeft';
 import RightArrowIcon from '@material-ui/icons/ChevronRight';
 
@@ -60,7 +62,9 @@ const MagezonSliderContent = (props) => {
         content_align, content_padding, content_position,
         content_width, content_wrapper_width,
         youtube_id, vimeo_id, local_link,
-        image, background_type, slider_height, storeConfig,
+        image, background_type, slider_height, button1, button2, button1_bg_color, button2_bg_color,
+        button1_color, button2_color, button1_link, button2_link, button1_size, button2_size, button1_border_style, button2_border_style,
+        link_type, slide_link, storeConfig,
     } = props;
     const enable = storeConfig.pwa.thumbor_enable;
     const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
@@ -111,20 +115,66 @@ const MagezonSliderContent = (props) => {
                                     />
                                 </div>
                             )}
+                            {
+                                link_type === 'button' && (
+                                    <div className="magezon-slide-button">
+                                        {button1 && (
+                                            <MagezonButton
+                                                link={button1_link}
+                                                title={button1}
+                                                button_size={button1_size}
+                                                button_color={`${button1_color || '#333'}`}
+                                                button_background_color={`${button1_bg_color || '#e3e3e3'}`}
+                                                button_border_style={button1_border_style}
+                                                button_align="center"
+                                            />
+                                        )}
+                                        {button2 && (
+                                            <MagezonButton
+                                                link={button2_link}
+                                                title={button2}
+                                                button_size={button2_size}
+                                                button_color={`${button2_color || '#333'}`}
+                                                button_background_color={`${button2_bg_color || '#e3e3e3'}`}
+                                                button_border_style={button2_border_style}
+                                                button_align="center"
+                                            />
+                                        )}
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                     <div className="magezon-slide-image">
-                        <picture>
-                            <source srcSet={getImgThumbor} type="image/webp" />
-                            <source srcSet={getImageFallbackUrl(getImgThumbor)} type="image/jpeg" />
-                            <img
-                                data-pagespeed-no-defer
-                                className="img-bg"
-                                src={getImgThumbor}
-                                onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
-                                alt="gambar"
-                            />
-                        </picture>
+                        {
+                            link_type === 'button' ? (
+                                <picture>
+                                    <source srcSet={getImgThumbor} type="image/webp" />
+                                    <source srcSet={getImageFallbackUrl(getImgThumbor)} type="image/jpeg" />
+                                    <img
+                                        data-pagespeed-no-defer
+                                        className="img-bg"
+                                        src={getImgThumbor}
+                                        onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
+                                        alt="gambar"
+                                    />
+                                </picture>
+                            ) : (
+                                <MagezonLink link={slide_link}>
+                                    <picture>
+                                        <source srcSet={getImgThumbor} type="image/webp" />
+                                        <source srcSet={getImageFallbackUrl(getImgThumbor)} type="image/jpeg" />
+                                        <img
+                                            data-pagespeed-no-defer
+                                            className="img-bg"
+                                            src={getImgThumbor}
+                                            onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
+                                            alt="gambar"
+                                        />
+                                    </picture>
+                                </MagezonLink>
+                            )
+                        }
                     </div>
                 </div>
             )}
@@ -134,7 +184,6 @@ const MagezonSliderContent = (props) => {
                         height: ${slider_height}px;
                     }
                     .magezon-slide-image {
-                        z-index: -1;
                         height: ${slider_height}px;
                         overflow: hidden;
                     }
@@ -150,14 +199,7 @@ const MagezonSliderContent = (props) => {
                     .magezon-slide-captions {
                         max-width: ${content_wrapper_width}px;
                         display: flex;
-                        position: absolute;
-                        height: 100%;
-                        width: 100%;
                         margin: 0 auto;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        z-index: 100;
                     }
                     .magezon-slide-captions > div {
                         max-width: ${content_width}px;
@@ -193,6 +235,16 @@ const MagezonSliderContent = (props) => {
                     }
                     .magezon-slide-captions :global(.magezone-heading) {
                         justify-content: center;
+                    }
+                    .magezon-slide-button {
+                        display: flex;
+                        gap: 10px;
+                    }
+                    .magezon-slide-captions.middle-center {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
                     }
                     .middle-center {
                         align-items: center;
@@ -487,6 +539,7 @@ const MagezonSlider = (props) => {
                     }
                     .magezon-slider-inner :global(.slick-dots) {
                         position: relative;
+                        bottom: -10px;
                         ${owl_dots_insie ? 'bottom: 50px;' : ''}
                     }
                     .magezon-slider-inner :global(.custom-slick-dots) {

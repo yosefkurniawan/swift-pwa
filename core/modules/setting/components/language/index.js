@@ -26,7 +26,7 @@ const SwitcherLanguage = (props) => {
     useEffect(() => {
         mount.current = true;
         if (mount.current && remoteLang !== undefined) {
-            if (remoteLang && remoteLang.internalGetAvailableStores) {
+            if (remoteLang && remoteLang.availableStores) {
                 const getLangFromStorage = () => {
                     // prettier-ignore
                     const defaultLangFromDatabase = translation.defaultLanguage;
@@ -34,7 +34,7 @@ const SwitcherLanguage = (props) => {
                     const storeCode = cookies.get(COOKIES_STORE_CODE);
                     let defaultDataLang = {};
                     let loginAsCustomer = {};
-                    remoteLang.internalGetAvailableStores.forEach(({
+                    remoteLang.availableStores.forEach(({
                         is_default_store, locale, store_code, store_name,
                     }) => {
                         if (is_default_store) {
@@ -131,7 +131,7 @@ const SwitcherLanguage = (props) => {
     };
 
     if (remoteLang) {
-        remoteLang.internalGetAvailableStores.map((item) => {
+        remoteLang.availableStores.map((item) => {
             dataLang.push({
                 label: item.store_name,
                 value: item.locale.slice(0, 2),

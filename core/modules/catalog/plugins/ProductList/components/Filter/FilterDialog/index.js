@@ -39,6 +39,8 @@ const FilterDialog = (props) => {
         handleSave,
         handleClear,
         filter,
+        isSearch,
+        onChangeCategory,
         storeConfig,
     } = props;
     const styles = useStyles();
@@ -114,6 +116,7 @@ const FilterDialog = (props) => {
                             valueData={sortByData || []}
                             value={itemProps.sortByValue || sort}
                             onChange={itemProps.sortByChange || setSort}
+                            useLoadMore
                         />
                     </div>
                 )}
@@ -129,8 +132,7 @@ const FilterDialog = (props) => {
                     }
 
                     if (itemFilter.field !== 'attribute_set_id' && itemFilter.field !== 'indexed_attributes' && itemFilter.field !== 'seller_name') {
-                        if (itemFilter.field === 'cat' || itemFilter.field === 'category_id'
-                        || itemFilter.field === 'etalase' || (itemFilter.field === 'seller_id' && router.route.includes('seller'))) {
+                        if (itemFilter.field === 'etalase' || (itemFilter.field === 'seller_id' && router.route.includes('seller'))) {
                             return <span key={idx} />;
                         }
 
@@ -191,7 +193,34 @@ const FilterDialog = (props) => {
                                 </div>
                             );
                         }
-
+                        if ((itemFilter.field === 'cat' || itemFilter.field === 'category_id') && !isSearch) {
+                            return (
+                                <div className={styles.listCategoryWrapper}>
+                                    <Typography variant="label" type="bold" letter="uppercase">
+                                        {itemFilter.label.replace(/_/g, ' ')}
+                                    </Typography>
+                                    <div className={styles.listCategoryBody}>
+                                        {itemFilter.value.map((val, ids) => {
+                                            if (val !== 'attribute_set_id') {
+                                                return (
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => onChangeCategory(e, val.value)}
+                                                        className={styles.listCategory}
+                                                        key={ids}
+                                                    >
+                                                        <Typography variant="span" letter="capitalize">
+                                                            {`${val.label.replace(/_/g, ' ')} (${val.count})`}
+                                                        </Typography>
+                                                    </button>
+                                                );
+                                            }
+                                            return null;
+                                        })}
+                                    </div>
+                                </div>
+                            );
+                        }
                         return (
                             <div className={`${styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']}`} key={idx}>
                                 {elastic ? (
@@ -202,6 +231,7 @@ const FilterDialog = (props) => {
                                         value={selectedFilter[itemFilter.field] ? selectedFilter[itemFilter.field].split(',') : []}
                                         flex="column"
                                         onChange={(val) => setCheckedFilter(itemFilter.field, val)}
+                                        useLoadMore
                                     />
                                 ) : (
                                     <RadioGroup
@@ -210,6 +240,7 @@ const FilterDialog = (props) => {
                                         valueData={itemFilter.value || []}
                                         value={selectedFilter[itemFilter.field]}
                                         onChange={(value) => setSelectedFilter(itemFilter.field, value)}
+                                        useLoadMore
                                     />
                                 )}
                             </div>
