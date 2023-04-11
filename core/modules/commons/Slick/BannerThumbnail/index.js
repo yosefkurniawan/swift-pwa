@@ -4,11 +4,14 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState } from 'react';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import classNames from 'classnames';
 import LeftArrowIcon from '@material-ui/icons/ArrowBackIos';
 import RightArrowIcon from '@material-ui/icons/ArrowForwardIos';
+import IconButton from '@material-ui/core/IconButton';
+import Plus from '@material-ui/icons/Add';
+import Min from '@material-ui/icons/Minimize';
 import Slider from 'react-slick';
-import Zoom from 'react-prismazoom';
 import ImageSlide from '@common_slick/Banner/ImageSlider';
 import useStyles from '@common_slick/BannerThumbnail/style';
 import Thumbor from '@common_slick/Banner/Thumbor';
@@ -26,7 +29,6 @@ const Banner = ({
     autoplaySpeed = 4000,
     actionImage = () => { },
     zoom = false,
-    zoomRef = null,
     customClassCaraousel = '',
     customProduct = '',
     children,
@@ -105,21 +107,38 @@ const Banner = ({
             <div className={classCarousel}>
                 <Slider ref={(slider) => sliderRef = slider} {...settings}>
                     {data.map((item, key) => (
-                        <div onClick={actionImage} key={key}>
+                        <div onClick={(e) => actionImage(e, key)} key={key}>
                             {
                                 zoom ? (
-                                    <Zoom ref={zoomRef}>
-                                        <ImageSlide
-                                            height={height}
-                                            customClass={customProductCaraosel}
-                                            width={width}
-                                            noLink={noLink}
-                                            key={key}
-                                            {...item}
-                                            videoUrl={item.videoUrl}
-                                            storeConfig={storeConfig}
-                                        />
-                                    </Zoom>
+                                    <TransformWrapper>
+                                        {({ zoomIn, zoomOut, ...rest }) => (
+                                            <div className={styles.contentWrapper}>
+                                                <div className={styles.actionZoom}>
+                                                    <IconButton className={styles.buttonActionZoom} onClick={() => zoomIn()}>
+                                                        <Plus color="inherit" fontSize="inherit" />
+                                                    </IconButton>
+                                                    <IconButton className={styles.buttonActionZoom} onClick={() => zoomOut()}>
+                                                        <Min color="inherit" fontSize="inherit" />
+                                                    </IconButton>
+                                                </div>
+                                                <TransformComponent
+                                                    wrapperStyle={{ width: '100%' }}
+                                                    contentStyle={{ justifyContent: 'center', width: '100%' }}
+                                                >
+                                                    <ImageSlide
+                                                        height={height}
+                                                        customClass={customProductCaraosel}
+                                                        width={width}
+                                                        noLink={noLink}
+                                                        key={key}
+                                                        {...item}
+                                                        videoUrl={item.videoUrl}
+                                                        storeConfig={storeConfig}
+                                                    />
+                                                </TransformComponent>
+                                            </div>
+                                        )}
+                                    </TransformWrapper>
                                 ) : (
                                     <ImageSlide
                                         height={height}
@@ -162,7 +181,7 @@ const Banner = ({
                             className={slideIndex === id ? dotActive : dotItem}
                             key={id}
                             onClick={() => {
-                                sliderRef.slickGoTo(data.length - (id + 1));
+                                sliderRef.slickGoTo(id);
                             }}
                         />
                     ))}

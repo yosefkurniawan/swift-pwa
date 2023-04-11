@@ -24,7 +24,7 @@ const ItemProduct = (props) => {
         quantity,
         configurable_options = [],
         deleteItem,
-        prices,
+        custom_price,
         handleFeed,
         bundle_options,
         links,
@@ -43,7 +43,7 @@ const ItemProduct = (props) => {
             id: props.id,
             product: props.product,
             quantity: props.quantity,
-            prices: props.prices,
+            prices: props.custom_price,
         });
     };
 
@@ -65,7 +65,7 @@ const ItemProduct = (props) => {
             bundle_options={bundle_options}
             links={links}
             quantity={quantity}
-            prices={prices}
+            prices={custom_price}
             editMode={editMode}
             toggleEditDrawer={toggleEditDrawer}
             customizable_options={SimpleMiniCustomizable || ConfigurableMiniCustomizable || customizable_options}
@@ -83,11 +83,11 @@ const ItemView = (props) => {
 
     if (storeConfigLocalStorage && storeConfigLocalStorage.enable_oms_multiseller && data && data.items) {
         const unGroupedData = data.items;
-        // eslint-disable-next-line no-shadow
-        const groupData = unGroupedData.reduce((groupData, { SimpleMiniCustomizable, id, note, prices, product, quantity, ...other }) => {
-            let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+        // eslint-disable-next-line no-shadow, max-len
+        const groupData = unGroupedData.reduce((groupData, { SimpleMiniCustomizable, id, note, prices, product, quantity, custom_seller, ...other }) => {
+            let item = groupData.find((p) => p.seller_id === custom_seller.seller_id);
             if (!item) {
-                item = { seller_id: product.seller.seller_id, seller_name: product.seller.seller_name, children: [] };
+                item = { seller_id: custom_seller.seller_id, seller_name: custom_seller.seller_name, children: [] };
                 groupData.push(item);
             }
             let child = item.children.find((ch) => ch.name === product.name);

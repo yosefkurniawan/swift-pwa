@@ -84,6 +84,13 @@ export const getSeller = (options = {}) => useLazyQuery(Schema.getSeller, {
 
 export const getRewardPoint = () => useLazyQuery(Schema.getRewardPoint, { ...config(USING_INTERNAL) });
 
+export const getUpdatedCart = (options = {}) => useLazyQuery(Schema.getUpdatedCart, {
+    ...options,
+    ...config(USING_INTERNAL),
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
+});
+
 export const setShippingAddress = (options = {}) => useMutation(Schema.setShippingAddressById, {
     ...options,
     ...config(USING_INTERNAL),
@@ -319,6 +326,7 @@ export default {
     getCheckoutConfigurations,
     getSeller,
     getRewardPoint,
+    getUpdatedCart,
     setShippingAddress,
     setShippingMethod,
     setShippingMethodMultiseller,

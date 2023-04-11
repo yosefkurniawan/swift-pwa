@@ -2,8 +2,10 @@
     "description": "Description",
     "share": "Share",
     "popularProducts": "Popular Products",
+    "allProducts": "All Products",
     "address": "Address",
     "notFound": "Seller not found.",
     "home": "Home",
-    "product": "Products"
+    "product": "Products",
+    "storeFront": "Etalase"
 }

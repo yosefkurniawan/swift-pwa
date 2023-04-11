@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { WHITE, PRIMARY } from '@theme_color';
+import { WHITE, PRIMARY, GRAY_SECONDARY } from '@theme_color';
 import { Centering } from '@theme_mixins';
 
 const useStyles = makeStyles((theme) => ({
@@ -12,8 +12,28 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         height: '100%',
         position: 'relative',
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
             width: 'calc(100% - 150px)',
+        },
+    },
+    actionZoom: {
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute',
+        zIndex: theme.zIndex.drawer + 9,
+    },
+    buttonActionZoom: {
+        margin: 10,
+        color: GRAY_SECONDARY,
+        fontSize: '3rem',
+    },
+    contentWrapper: {
+        '& .react-transform-component': {
+            width: '100%',
+        },
+        '& .react-transform-element': {
+            justifyContent: 'center',
+            width: '100%',
         },
     },
     dots: {

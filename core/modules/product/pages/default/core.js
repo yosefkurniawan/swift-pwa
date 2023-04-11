@@ -165,6 +165,7 @@ const ContentDetail = ({
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const [openShare, setOpenShare] = React.useState(false);
     const [openImageDetail, setOpenImageDetail] = React.useState(false);
+    const [selectedImgIdx, setSelectedImgIdx] = React.useState(false);
     const [banner, setBanner] = React.useState(bannerData);
     const [price, setPrice] = React.useState({
         priceRange: item.price_range,
@@ -389,8 +390,10 @@ const ContentDetail = ({
         }
     };
 
-    const handleOpenImageDetail = () => {
+    const handleOpenImageDetail = (e, idx) => {
+        e.preventDefault();
         setOpenImageDetail(!openImageDetail);
+        setSelectedImgIdx(idx);
     };
 
     const checkCustomizableOptionsValue = async () => {
@@ -471,6 +474,7 @@ const ContentDetail = ({
             config={modules.catalog.pdp}
             openImageDetail={openImageDetail}
             handleOpenImageDetail={handleOpenImageDetail}
+            selectedImgIdx={selectedImgIdx}
             stockStatus={stockStatus}
             setStockStatus={setStockStatus}
             customizableOptions={customizableOptions}
@@ -627,7 +631,7 @@ const PageDetail = (props) => {
                         small_image: productProps.small_image || {},
                         price: productProps.price || {},
                         price_range: { ...productProps.price.priceRange },
-                        price_tiers: [...productProps.price.priceTiers],
+                        price_tiers: { ...productProps.price.priceTiers },
                         special_from_date: { ...productProps.price.specialFromDate },
                         special_to_date: { ...productProps.price.specialToDate },
                     },

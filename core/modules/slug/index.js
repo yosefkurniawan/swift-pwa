@@ -1,6 +1,7 @@
 import { withApollo } from '@lib_apollo';
 import { withTranslation } from '@i18n';
-import requestInternal from '@rest_request';
+import { getCmsList } from '@services/graphql/schema/config';
+import graphRequest from '@graphql_request';
 import { storeConfigNameCookie } from '@config';
 import Core from '@core_modules/slug/core';
 
@@ -17,7 +18,7 @@ const Page = (props) => (
 Page.getInitialProps = async ({ query, req }) => {
     let cmsList = {};
     if (typeof window === 'undefined' && !req.cookies[storeConfigNameCookie]) {
-        cmsList = await requestInternal('getConfig?field=cms_page');
+        cmsList = await graphRequest(getCmsList);
     }
     const allcookie = req ? req.cookies : {};
     const obj = {

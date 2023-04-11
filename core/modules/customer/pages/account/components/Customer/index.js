@@ -53,9 +53,14 @@ const Customer = (props) => {
         { href: '/sales/order/history', title: t('customer:menu:myOrder') },
         { href: '/customer/account/profile', title: t('customer:menu:myAccount') },
         { href: '/customer/account/address', title: t('customer:menu:address') },
+        { href: '/sales/downloadable/history', title: t('customer:menu:myDownload') },
         ...pushIf(wishlist.length && modules.wishlist.enabled <= 0, {
             href: '/wishlist',
             title: 'Wishlist',
+        }),
+        ...pushIf(modules.productreview.enabled, {
+            href: '/review/customer',
+            title: t('customer:menu:myProductReview'),
         }),
         ...pushIf(modules.giftcard.enabled, {
             href: '/awgiftcard/card',
@@ -70,10 +75,12 @@ const Customer = (props) => {
             title: t('notification:notification'),
         }),
         { href: '/customer/newsletter', title: t('customer:setting:newsletter') },
-        ...pushIf(storeConfig && !storeConfig.OmsRma.enable_oms_pwa_request_return, {
-            href: '/rma/customer',
+        {
+            href: storeConfig && storeConfig.OmsRma.enable_oms_rma
+                ? storeConfig.OmsRma.oms_rma_link
+                : '/rma/customer',
             title: t('customer:menu:return'),
-        }),
+        },
     ];
 
     return (

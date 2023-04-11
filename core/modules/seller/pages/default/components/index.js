@@ -3,7 +3,6 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable max-len */
 import { getBannerSeller } from '@core_modules/seller/services/graphql';
-import { breakPointsUp } from '@helper_theme';
 import Typography from '@common_typography';
 import Skeleton from '@common_skeleton';
 import useStyles from '@core_modules/seller/pages/default/components/style';
@@ -14,14 +13,8 @@ import DesktopContent from '@core_modules/seller/pages/default/components/deskto
 import MobileContent from '@core_modules/seller/pages/default/components/mobile';
 
 const Content = (props) => {
-    const { storeConfig, t, dataSeller, errorSeller, loadingSeller, link, sellerId, isLogin, route, handleChat, showChat, ...other } = props;
+    const { storeConfig, t, dataSeller, errorSeller, loadingSeller, link, sellerId, isLogin, route, handleChat, showChat, banner, ...other } = props;
     const styles = useStyles();
-
-    const { data, loading } = getBannerSeller({
-        variables: {
-            sellerId: parseInt(route.query.sellerId, 10),
-        },
-    });
 
     return (
         <>
@@ -34,22 +27,22 @@ const Content = (props) => {
                 <>
                     <SellerInfo {...props} />
                     <div className={styles.sellerProduct}>
-                        <TabLayout t={t}>
+                        <TabLayout noBanner={banner} t={t}>
                             {
-                                loading && (
+                                loadingSeller && (
                                     <div className={styles.skeletonWrapper}>
                                         <Skeleton variant="rect" animation="wave" xsStyle={{ width: '100%', height: `${storeConfig.pwa.home_slider_mobile_height}px` }} mdStyle={{ width: '100%', height: `${storeConfig.pwa.home_slider_desktop_height}px` }} />
                                     </div>
                                 )
                             }
                             {
-                                data && data.getSeller && data.getSeller.length > 0 && (
+                                dataSeller && dataSeller.getSeller && dataSeller.getSeller.length > 0 && (
                                     <>
                                         <div className="hidden-mobile">
-                                            <DesktopContent data={JSON.parse(data.getSeller[0].banner_desktop)} storeConfig={storeConfig} />
+                                            <DesktopContent data={JSON.parse(dataSeller.getSeller[0].banner_desktop)} storeConfig={storeConfig} />
                                         </div>
                                         <div className="hidden-desktop">
-                                            <MobileContent data={JSON.parse(data.getSeller[0].banner_mobile)} storeConfig={storeConfig} />
+                                            <MobileContent data={JSON.parse(dataSeller.getSeller[0].banner_mobile)} storeConfig={storeConfig} />
                                         </div>
                                     </>
                                 )

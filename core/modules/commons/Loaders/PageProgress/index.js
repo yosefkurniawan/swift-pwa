@@ -41,8 +41,10 @@ const PageProgressLoader = () => {
         }, 500);
     };
 
-    const handleRouteChangeComplete = () => {
-        window.scrollTo(0, 0);
+    const handleRouteChangeComplete = (_, { scroll }) => {
+        if (scroll) {
+            window.scrollTo(0, 0);
+        }
         const sessionCurrentUrl = sessionStorage.getItem('currentUrl');
         const prevUrl = sessionCurrentUrl && sessionCurrentUrl !== Router.asPath
             ? sessionCurrentUrl

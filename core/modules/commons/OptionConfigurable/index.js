@@ -35,6 +35,16 @@ const SelectOption = (props) => {
         childContent = '';
     }
 
+    if (content.includes('https')) {
+        customStyle = {
+            backgroundImage: `url(${content})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+        };
+        childContent = '';
+    }
+
     if (thumbnail && thumbnail !== '') {
         customStyle = {
             backgroundImage: `url(${thumbnail})`,
@@ -45,7 +55,7 @@ const SelectOption = (props) => {
         childContent = '';
     }
 
-    if (!content.includes('#') && content.length > 2) {
+    if (!content.includes('https') && !content.includes('#') && content.length > 2) {
         const newWidth = ((content.length - 2) * 10) + 30;
         customStyle.width = `${newWidth}px`;
     }

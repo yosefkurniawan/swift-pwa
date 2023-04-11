@@ -24,7 +24,6 @@ const ViewFilter = (props) => {
         itemProps = {},
         elastic = false,
         t,
-        tabs,
         loading,
         priceRange,
         setPriceRange,
@@ -32,8 +31,6 @@ const ViewFilter = (props) => {
         setCheckedFilter,
         setSelectedFilter,
         handleSave,
-        handleClear,
-        category,
         onChangeTabs,
         isSearch,
         filter,
@@ -60,15 +57,6 @@ const ViewFilter = (props) => {
         }, 1000);
     };
 
-    // const setPrice = (value) => {
-    //     if (globalTimeout) {
-    //         clearTimeout(globalTimeout);
-    //     }
-    //     setPriceRange(value);
-    //     globalTimeout = setTimeout(() => {
-    //         handleSave();
-    //     }, 1000);
-    // };
     const generateFilter = (data, itemFilter, idx) => {
         const ItemValueByLabel = [];
         // eslint-disable-next-line no-plusplus
@@ -155,7 +143,7 @@ const ViewFilter = (props) => {
                 return <span key={idx} />;
             }
             return (
-                <div key={idx}>
+                <div key={idx} style={{ width: '100%' }}>
                     {elastic ? (
                         <CheckBox
                             field={itemFilter.field}
@@ -165,6 +153,7 @@ const ViewFilter = (props) => {
                             value={selectedFilter[itemFilter.field] ? selectedFilter[itemFilter.field].split(',') : []}
                             flex="column"
                             onChange={(val) => checkedFilter(itemFilter.field, val)}
+                            useLoadMore
                         />
                     ) : (
                         <RadioGroup
@@ -174,6 +163,7 @@ const ViewFilter = (props) => {
                             valueData={itemFilter.value || []}
                             value={selectedFilter[itemFilter.field]}
                             onChange={(value) => selectFilter(itemFilter.field, value)}
+                            useLoadMore
                         />
                     )}
                 </div>
@@ -184,34 +174,13 @@ const ViewFilter = (props) => {
     return (
         <div className={styles.root}>
             {loading ? <Skeleton variant="rect" width="100%" height={705} /> : null}
-            {tabs && tabs.length > 0 ? (
-                <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                        <Typography className={styles.heading}>{t('catalog:title:category')}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <ul>
-                            {tabs.map((val, idx) => {
-                                if (val !== 'attribute_set_id') {
-                                    return (
-                                        <li onClick={(e) => onChangeTabs(e, idx + 1)} className={styles.listCategory} key={idx}>
-                                            <Typography variant="span" letter="capitalize">
-                                                {val.replace(/_/g, ' ')}
-                                            </Typography>
-                                        </li>
-                                    );
-                                }
-
-                                return null;
-                            })}
-                        </ul>
-                    </AccordionDetails>
-                </Accordion>
-            ) : null}
             {filter
                 && filter.map((itemFilter, idx) => {
                     if ((itemFilter.field === 'cat' || itemFilter.field === 'attribute_set_id') && !isSearch) {
                         return <span key={idx} />;
+                    }
+                    if (itemFilter.field === 'indexed_attributes') {
+                        return null;
                     }
                     return (
                         <Accordion key={idx} defaultExpanded={typeof selectedFilter[itemFilter.field] !== 'undefined'}>

@@ -17,7 +17,7 @@ const Checkbox = dynamic(() => import('./customizeType/checkbox'), { ssr: false 
 
 const GenerateOptionsSelect = (props) => {
     const {
-        data, options = [], selectOptions, currencyCache, dynamicPrice
+        data, options = [], selectOptions, currencyCache, dynamicPrice,
     } = props;
     if (data.type === 'select') {
         return <Select {...props} />;

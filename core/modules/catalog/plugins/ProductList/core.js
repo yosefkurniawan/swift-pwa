@@ -40,6 +40,7 @@ const ProductPagination = (props) => {
         token,
         isLogin,
         sellerId = null,
+        banner,
         ...other
     } = props;
     const router = useRouter();
@@ -136,6 +137,11 @@ const ProductPagination = (props) => {
                     if (v.selectedFilter[idx] !== '' && !v[idx]) {
                         if (v.selectedFilter[idx] !== undefined && !idx.includes('seller/')) {
                             queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                        } else if (v.selectedFilter[idx] !== ''
+                        && idx.includes('seller') && idx.includes('filter')) {
+                            // for etalase filter
+                            const newParam = idx.split('?');
+                            queryParams += `${queryParams !== '' ? '&' : ''}${newParam[1]}=${v.selectedFilter[idx]}`;
                         }
                     }
                 }
@@ -161,23 +167,36 @@ const ProductPagination = (props) => {
         }
         config = generateConfig(query, config, elastic, availableFilter);
     } else {
-        const setSortOnSellerPage = queryKeys.filter((key) => key.match(/seller\/\d\d\?sort/));
+        const urlFilter = banner ? `seller/${sellerId}?filter` : `seller/${sellerId}/product?filter`;
+        const setSortOnSellerPage = queryKeys.filter((key) => key.match(banner ? /seller\/\d\d\?sort/ : /seller\/\d\d\/product\?sort/));
+        const setFilterSellerPage = queryKeys.find((key) => key === urlFilter);
 
+        let filterObj = [{
+            type: 'seller_id',
+            value: sellerId,
+        }];
         // set default sort when there is no sort in query
         if (setSortOnSellerPage.length > 0) {
             query.sort = query[setSortOnSellerPage[0]];
         }
+        if (setFilterSellerPage) {
+            filterObj = [{
+                type: 'etalase',
+                value: query[setFilterSellerPage],
+                },
+                {
+                type: 'seller_id',
+                value: sellerId,
+                }
+            ];
+        }
+
         config = {
             customFilter: false,
             search: '',
             pageSize: 8,
             currentPage: 1,
-            filter: [
-                {
-                    type: 'seller_id',
-                    value: sellerId,
-                },
-            ],
+            filter: filterObj,
             ...storeConfig.pwa,
         };
         config = generateConfig(query, config, elastic, availableFilter);
@@ -327,6 +346,7 @@ const ProductPagination = (props) => {
     React.useEffect(() => {
         if (data && data.products) {
             setProducts(data.products);
+            setFilterSaved(false);
             // GTM UA dataLayer
             const tagManagerArgs = {
                 dataLayer: {
@@ -474,6 +494,11 @@ const ProductLoadMore = (props) => {
                     if (v.selectedFilter[idx] !== '' && !v[idx]) {
                         if (v.selectedFilter[idx] !== undefined && !idx.includes('seller/')) {
                             queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                        } else if (v.selectedFilter[idx] !== ''
+                        && idx.includes('seller') && idx.includes('filter')) {
+                            // for etalase filter
+                            const newParam = idx.split('?');
+                            queryParams += `${queryParams !== '' ? '&' : ''}${newParam[1]}=${v.selectedFilter[idx]}`;
                         }
                     }
                 }
@@ -498,23 +523,33 @@ const ProductLoadMore = (props) => {
         }
         config = generateConfig(query, config, elastic, availableFilter);
     } else {
-        const setSortOnSellerPage = queryKeys.filter((key) => key.match(/seller\/\d\d\?sort/));
+        const setSortOnSellerPage = queryKeys.filter((key) => key.match(/seller\/\d\d\/product\?sort/));
+        const setFilterSellerPage = queryKeys.find((key) => key === `seller/${sellerId}/product?filter`);
+
+        let filterObj = [{
+            type: 'seller_id',
+            value: sellerId,
+        }];
 
         // set default sort when there is no sort in query
         if (setSortOnSellerPage.length > 0) {
             query.sort = query[setSortOnSellerPage[0]];
+        }
+        if (setFilterSellerPage) {
+            filterObj = [{
+                type: 'etalase',
+                value: query[setFilterSellerPage],
+            }, {
+                type: 'seller_id',
+                value: sellerId,
+            }];
         }
         config = {
             customFilter: false,
             search: '',
             pageSize: 8,
             currentPage: 1,
-            filter: [
-                {
-                    type: 'seller_id',
-                    value: sellerId,
-                },
-            ],
+            filter: filterObj,
             ...storeConfig.pwa,
         };
         config = generateConfig(query, config, elastic, availableFilter);
@@ -639,6 +674,7 @@ const ProductLoadMore = (props) => {
     React.useEffect(() => {
         if (data && data.products) {
             setProducts(data.products);
+            setFilterSaved(false);
             // GTM UA dataLayer
             const tagManagerArgs = {
                 dataLayer: {

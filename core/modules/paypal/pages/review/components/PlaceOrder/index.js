@@ -57,8 +57,10 @@ const PlaceOrder = (props) => {
         setCheckout(state);
 
         let orderNumber = '';
+        let infoMsg = '';
         if (result && result.data && result.data.placeOrder[0] && result.data.placeOrder[0].order && result.data.placeOrder[0].order.order_number) {
             orderNumber = result.data.placeOrder[0].order.order_number;
+            infoMsg = result.data.placeOrder[0].infoMsg;
         }
         if (orderNumber && orderNumber !== '') {
             const { email } = cart;
@@ -70,6 +72,7 @@ const PlaceOrder = (props) => {
                 email,
                 order_number: orderNumber,
                 order_id: result.data.placeOrder.order.order_id,
+                infoMsg,
             });
             if (client && client.query && typeof client.query === 'function') {
                 await client.query({ query: localTotalCart, data: { totalCart: 0 } });

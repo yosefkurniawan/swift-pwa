@@ -41,9 +41,8 @@ const SelectItem = ({
                                     __html: `${val.label} + <b>${formatPrice(dynamicPrice === false
                                         ? val.price
                                         : val.product.price_range.minimum_price.final_price.value,
-                                        val.product.price_range.minimum_price.final_price.currency,
-                                        currencyCache,
-                                    )}</b>`,
+                                    val.product.price_range.minimum_price.final_price.currency,
+                                    currencyCache)}</b>`,
                                 }}
                             />
                         </MenuItem>

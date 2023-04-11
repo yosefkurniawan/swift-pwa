@@ -1,7 +1,7 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable max-len */
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar, useMutation } from '@apollo/client';
 import { custDataNameCookie, expiredToken } from '@config';
 import { getLastPathWithoutLogin, setEmailConfirmationFlag, setLogin } from '@helper_auth';
 import { getCartId, setCartId } from '@helper_cartid';
@@ -23,7 +23,7 @@ import {
     otpConfig as queryOtpConfig,
     register,
 } from '@core_modules/register/services/graphql';
-import { getCustomer } from '@core_modules/register/services/graphql/schema';
+import { getCustomer, subscribeNewsletter } from '@core_modules/register/services/graphql/schema';
 
 import { registerConfig } from '@services/graphql/repository/pwa_config';
 import { priceVar } from '@root/core/services/graphql/cache';
@@ -55,6 +55,10 @@ const Register = (props) => {
     const [phoneIsWa, setPhoneIsWa] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
     const [disabled, setdisabled] = React.useState(false);
+    const [isSubscribed, setIsSubscribed] = React.useState({
+        email: '',
+        subscribed: false,
+    });
     const [getGuest, { data: guestData }] = getGuestCustomer();
     const recaptchaRef = useRef();
     let sitekey;
@@ -109,6 +113,12 @@ const Register = (props) => {
 
     const [sendRegister] = register();
 
+    const [actSubscribe] = useMutation(subscribeNewsletter, {
+        context: {
+            request: 'internal',
+        },
+    });
+
     let configValidation = {
         email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
         firstName: Yup.string().required(t('validate:firstName:required')),
@@ -159,6 +169,9 @@ const Register = (props) => {
     const RegisterSchema = Yup.object().shape(configValidation);
 
     const handleSendRegister = (values, resetForm) => {
+        if (values.subscribe && values.email) {
+            setIsSubscribed({ email: values.email, subscribed: values.subscribe });
+        }
         sendRegister({
             variables: values,
         })
@@ -287,6 +300,13 @@ const Register = (props) => {
     };
 
     if (cartData.data && custData.data) {
+        if (isSubscribed.email && isSubscribed.subscribed) {
+            actSubscribe({
+                variables: {
+                    email: isSubscribed.email,
+                },
+            });
+        }
         Cookies.set(custDataNameCookie, {
             email: custData.data.customer.email,
             firstname: custData.data.customer.firstname,

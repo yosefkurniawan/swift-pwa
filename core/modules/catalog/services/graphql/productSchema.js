@@ -10,20 +10,26 @@ import { modules } from '@config';
  * @returns string query to generate on grapql tag
  */
 
+// eslint-disable-next-line no-unused-vars
 export const filterProduct = (filter, router) => {
+    // remove duplicate filter
+    const newFilter = filter.filter((value, index) => {
+    // eslint-disable-next-line no-underscore-dangle
+        const _value = JSON.stringify(value);
+        return index === filter.findIndex((obj) => JSON.stringify(obj) === _value);
+    });
     let queryFilter = '{ ';
-    if (router && router.asPath && router.asPath.includes('color')) {
-        const routerPaths = router.asPath.split('?');
-        const routerPathsNext = routerPaths[1].split('&');
-        const routerPathsColor = routerPathsNext[0].split('=');
-
-        queryFilter += `color: {
-        eq: "${routerPathsColor[1]}"
-      }`;
-    }
+    // if (router && router.asPath && router.asPath.includes('color')) {
+    //     const routerPaths = router.asPath.split('?');
+    //     const routerPathsNext = routerPaths[1].split('&');
+    //     const routerPathsColor = routerPathsNext[0].split('=');
+    //     queryFilter += `color: {
+    //     eq: "${routerPathsColor[1]}"
+    //   }`;
+    // }
     // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < filter?.length; index++) {
-        const detailFilter = filter[index];
+    for (let index = 0; index < newFilter?.length; index++) {
+        const detailFilter = newFilter[index];
         if (detailFilter.type === 'price') {
             queryFilter += `
           ,${detailFilter.type} : {
@@ -31,6 +37,10 @@ export const filterProduct = (filter, router) => {
             to: "${detailFilter.to}"
           }
         `;
+        } else if (detailFilter.type.includes('seller') && detailFilter.type.includes('filter')) {
+            // for etalase
+            // eslint-disable-next-line no-continue
+            continue;
         } else if (typeof detailFilter.value === 'object') {
             let inFilter = '';
             // eslint-disable-next-line no-plusplus
@@ -41,9 +51,15 @@ export const filterProduct = (filter, router) => {
                 in: [${inFilter}]
               }`;
         } else if (detailFilter.type === 'seller_id') {
-            queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type}: {
-            match: "${detailFilter.value}"
-          }`;
+            let inFilter = '';
+            const arrVal = detailFilter.value.split(',');
+            // eslint-disable-next-line no-plusplus
+            for (let idx = 0; idx < arrVal.length; idx++) {
+                inFilter += `${idx !== 0 ? ',' : ''}"${arrVal[idx]}"`;
+            }
+            queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type} : {
+                in: [${inFilter}]
+              }`;
         } else if (detailFilter.type === 'seller_name') {
             queryFilter += `${index !== 0 ? ',' : ''} ${detailFilter.type}: {
             match: "${detailFilter.value}"
@@ -539,6 +555,21 @@ query getDetailproduct($url_key: String!){
       }
     ) {
       items {
+        ... on AwGiftCardProduct {
+          aw_gc_allow_delivery_date
+          aw_gc_allow_open_amount
+          aw_gc_amounts
+          aw_gc_custom_message_fields
+          aw_gc_description
+          aw_gc_email_templates {
+            image_url
+            name
+            value
+          }
+          aw_gc_open_amount_max
+          aw_gc_open_amount_min
+          aw_gc_type   
+        }
         ${
     modules.product.customizableOptions.enabled
         ? `

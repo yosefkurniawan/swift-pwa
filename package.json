@@ -1,6 +1,6 @@
 {
   "name": "swift-pwa",
-  "version": "2.6.5",
+  "version": "2.6.7",
   "private": true,
   "scripts": {
     "assets:build": "webpack",
@@ -85,9 +85,9 @@
     "react-google-recaptcha": "^2.1.0",
     "react-gtm-module": "^2.0.8",
     "react-phone-number-input": "^3.2.3",
-    "react-prismazoom": "^1.1.4",
     "react-share": "^4.1.0",
     "react-slick": "^0.28.0",
+    "react-zoom-pan-pinch": "^3.0.4",
     "simple-react-lightbox": "^3.6.6",
     "slick-carousel": "^1.8.1",
     "stripe": "^10.17.0",

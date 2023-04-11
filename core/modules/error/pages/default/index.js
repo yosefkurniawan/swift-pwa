@@ -1,8 +1,8 @@
-import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import * as Sentry from '@sentry/node';
+import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
+import graphRequest from '@graphql_request';
 import NextErrorComponent from 'next/error';
 import { sentry } from '@config';
-import graphRequest from '@graphql_request';
 import Core from '@core_modules/error/pages/default/core';
 import Content from '@core_modules/error/pages/default/components';
 
