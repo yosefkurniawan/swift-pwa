@@ -6,6 +6,8 @@ import Summary from '@plugin_summary';
 import useStyles from '@core_modules/cart/pages/default/components/style';
 import dynamic from 'next/dynamic';
 import { formatPrice } from '@helper_currency';
+import { getCheckoutScv2Url } from '@core_modules/cart/services/graphql';
+import { getCartId } from '@helper_cartid';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 const CrossSell = dynamic(() => import('@core_modules/cart/pages/default/components/crosssell'), { ssr: false });
@@ -21,6 +23,8 @@ const Content = (props) => {
     } = props;
     const allData = !loadingSummary ? { ...dataCart, ...dataSummary } : null;
     const errorCartItems = dataCart?.errorItems?.length > 0;
+    const cartId = getCartId();
+    const [getScv2Url] = getCheckoutScv2Url();
     const handleOnCheckoutClicked = () => {
         const minimumOrderEnabled = storeConfig.minimum_order_enable;
         const grandTotalValue = allData.prices.grand_total.value;
@@ -35,6 +39,23 @@ const Content = (props) => {
             window.toastMessage({
                 ...errorMessage,
             });
+        } else if (storeConfig.pwacheckout?.enable === '1'
+            && storeConfig.pwacheckout?.version === 'V2' && cartId) {
+            getScv2Url({
+                variables: {
+                    cart_id: cartId,
+                },
+            })
+                .then((res) => {
+                    window.location.replace(res.data.internalGetScv2Url.url);
+                })
+                .catch(() => {
+                    window.toastMessage({
+                        open: true,
+                        text: t('common:cart:cartError'),
+                        variant: 'error',
+                    });
+                });
         } else {
             Route.push('/checkout');
         }

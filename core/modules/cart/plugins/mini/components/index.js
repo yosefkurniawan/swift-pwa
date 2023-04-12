@@ -10,8 +10,9 @@ import Drawer from '@material-ui/core/Drawer';
 import Skeleton from '@plugin_minicart/components/skeleton';
 import ItemCart from '@plugin_minicart/components/product';
 import useStyles from '@plugin_minicart/components/style';
-
 import PaypalButtonView from '@plugin_paypalbutton';
+import { getCheckoutScv2Url } from '@core_modules/cart/services/graphql';
+import { getCartId } from '@helper_cartid';
 
 const MiniComponent = (props) => {
     const router = useRouter();
@@ -23,6 +24,9 @@ const MiniComponent = (props) => {
     const disabled = errorCartItems || errorCart && errorCart.length > 0;
     const subtotal_including_tax = data?.custom_total_price?.subtotal_including_tax?.value || 0;
     const subtotal_including_tax_currency = data?.custom_total_price?.subtotal_including_tax?.currency || 'IDR';
+    const cartId = getCartId();
+    const [getScv2Url] = getCheckoutScv2Url();
+    
     return (
         <Drawer anchor="right" open={open} onClose={setOpen}>
             <div className={styles.container}>
@@ -77,8 +81,27 @@ const MiniComponent = (props) => {
                                                 router.push('/checkout/cart');
                                             }, 3000);
                                         } else if (subtotal_including_tax) {
-                                            setOpen();
-                                            router.push('/checkout');
+                                            if (storeConfig.pwacheckout?.enable === '1'
+                                            && storeConfig.pwacheckout?.version === 'V2' && cartId) {
+                                                getScv2Url({
+                                                    variables: {
+                                                        cart_id: cartId,
+                                                    },
+                                                })
+                                                    .then((res) => {
+                                                        window.location.replace(res.data.internalGetScv2Url.url);
+                                                    })
+                                                    .catch(() => {
+                                                        window.toastMessage({
+                                                            open: true,
+                                                            text: t('common:cart:cartError'),
+                                                            variant: 'error',
+                                                        });
+                                                    });
+                                            } else {
+                                                setOpen();
+                                                router.push('/checkout');
+                                            }
                                         } else {
                                             window.toastMessage({
                                                 open: true,

@@ -729,3 +729,11 @@ export const addProductsToPromoCart = gql`
           }
     }
 `;
+
+export const getCheckoutScv2Url = gql`
+    mutation getCheckoutScv2Url($cart_id: String!) {
+        internalGetScv2Url(cart_id: $cart_id) {
+            url
+        }
+    }
+`;

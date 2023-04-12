@@ -9,6 +9,7 @@ const internalGenerateSession = require('./internalGenerateSession');
 const internalDeleteSession = require('./internalDeleteSession');
 const internalCreateSocialLogin = require('./internalCreateSocialLogin');
 const internalGetInstagramFeed = require('./internalGetInstagramFeed');
+const internalGetScv2Url = require('./internalGetScv2Url');
 
 const resolver = {
     Mutation: {
@@ -22,6 +23,7 @@ const resolver = {
         internalDeleteSession,
         internalCreateSocialLogin,
         internalGetInstagramFeed,
+        internalGetScv2Url,
     },
 };
 
