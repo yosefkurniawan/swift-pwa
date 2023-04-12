@@ -27,7 +27,7 @@ const ViewTopNavigation = (props) => {
     }
 
     return (
-        <div id="header">
+        <div>
             {content}
         </div>
     );

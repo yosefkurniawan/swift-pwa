@@ -19,9 +19,71 @@ import { getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
 import generateConfig from '@core_modules/catalog/helpers/generateConfig';
 import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
+import getPrice from '@core_modules/catalog/helpers/getPrice';
 import Content from '@plugin_productlist/components';
 import { priceVar } from '@root/core/services/graphql/cache';
 import { useReactiveVar } from '@apollo/client';
+
+const getTagManager = (categoryPath, storeConfig, data) => ({
+        dataLayer: {
+            event: 'impression',
+            eventCategory: 'Ecommerce',
+            eventAction: 'Impression',
+            eventLabel: categoryPath ? `category ${categoryPath}` : '',
+            ecommerce: {
+                currencyCode: storeConfig && storeConfig.base_currency_code ? storeConfig.base_currency_code : 'IDR',
+                impressions: data.products.items.map((product, index) => {
+                    let categoryProduct = '';
+                    // eslint-disable-next-line no-unused-expressions
+                    product.categories.length > 0 &&
+                        product.categories.map(({ name }, indx) => {
+                            if (indx > 0) categoryProduct += `/${name}`;
+                            else categoryProduct += name;
+                        });
+                    return {
+                        name: product.name,
+                        id: product.sku,
+                        category: categoryProduct,
+                        price: product.price_range.minimum_price.regular_price.value,
+                        list: categoryProduct,
+                        position: index,
+                    };
+                }),
+            },
+        },
+    });
+const getTagManagerGA4 = (categoryPath, data) => ({
+        dataLayer: {
+            event: 'view_item_list',
+            pageName: categoryPath,
+            pageType: 'category',
+            ecommerce: {
+                items: data.products.items.map((product, index) => {
+                    let categoryProduct = '';
+                    let categoryOne = '';
+                    let categoryTwo = '';
+                    // eslint-disable-next-line no-unused-expressions
+                    product.categories.length > 0 &&
+                        ((categoryOne = product.categories[0].name),
+                        (categoryTwo = product.categories[1]?.name),
+                        product.categories.map(({ name }, indx) => {
+                            if (indx > 0) categoryProduct += `/${name}`;
+                            else categoryProduct += name;
+                        }));
+                    return {
+                        item_name: product.name,
+                        item_id: product.sku,
+                        price: product.price_range.minimum_price.regular_price.value,
+                        item_category: categoryOne,
+                        item_category_2: categoryTwo,
+                        item_list_name: categoryProduct,
+                        index,
+                        currency: product.price_range.minimum_price.regular_price.currency,
+                    };
+                }),
+            },
+        }
+    });
 
 const ProductPagination = (props) => {
     const {
@@ -86,6 +148,7 @@ const ProductPagination = (props) => {
     const [totalPage, setTotalPage] = React.useState(0);
     const [loadmore, setLoadmore] = React.useState(false);
     const [filterSaved, setFilterSaved] = React.useState(false);
+    const timerRef = React.useRef(null);
 
     /**
      * config from BO
@@ -232,17 +295,21 @@ const ProductPagination = (props) => {
     },
     router);
 
-    const generateIdentifier = () => `page_${page}_${router.asPath}`;
+    const generateIdentifier = `page_${page}_${router.asPath}`;
 
     React.useEffect(() => {
-        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier()]) {
+        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier]) {
             getProdPrice();
         }
+        // clear timeout when the component unmounts
+        return () => {
+            clearTimeout(timerRef.current);
+        };
     }, []);
 
     React.useEffect(() => {
         if (dataPrice) {
-            const identifier = generateIdentifier();
+            const identifier = generateIdentifier;
             const dataTemp = cachePrice;
             dataTemp[identifier] = dataPrice;
             priceVar({
@@ -250,20 +317,6 @@ const ProductPagination = (props) => {
             });
         }
     }, [dataPrice]);
-
-    const getPrice = () => {
-        let productPrice = [];
-
-        if (cachePrice[generateIdentifier()] && cachePrice[generateIdentifier()].products && cachePrice[generateIdentifier()].products.items) {
-            productPrice = cachePrice[generateIdentifier()].products.items;
-        } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
-            productPrice = dataPrice.products.items;
-        }
-
-        return productPrice;
-    };
-
-    /* ====End get price Product==== */
 
     React.useEffect(() => {
         const totalProduct = products && products.total_count ? products.total_count : 0;
@@ -293,17 +346,21 @@ const ProductPagination = (props) => {
     }, [page]);
 
     // generate filter if donthave custom filter
-    const aggregations = [];
-    if (!customFilter && !loading && products.aggregations) {
+    const aggregations = React.useMemo(() => {
+        const agg = [];
+        if (!customFilter && !loading && products.aggregations) {
         // eslint-disable-next-line no-plusplus
         for (let index = 0; index < products.aggregations.length; index++) {
-            aggregations.push({
+            agg.push({
                 field: products.aggregations[index].attribute_code,
                 label: products.aggregations[index].label,
                 value: products.aggregations[index].options,
             });
         }
-    }
+        }
+        return agg;
+    }, [products, loading, customFilter]);
+
     const category = getCategoryFromAgregations(aggregations);
 
     // eslint-disable-next-line no-shadow
@@ -319,7 +376,6 @@ const ProductPagination = (props) => {
      * pagination is true
      * @param {*} pageInput
      */
-
     const handleChangePage = async (pageInput) => {
         try {
             if (fetchMore && typeof fetchMore !== 'undefined' && pageInput <= totalPage) {
@@ -334,7 +390,7 @@ const ProductPagination = (props) => {
                 });
                 setPage(pageInput);
                 // to change setLoadmore to false on useEffect
-                setTimeout(() => {
+                timerRef.current = setTimeout(() => {
                     window.scroll(0, 0);
                 }, 200);
             }
@@ -348,67 +404,9 @@ const ProductPagination = (props) => {
             setProducts(data.products);
             setFilterSaved(false);
             // GTM UA dataLayer
-            const tagManagerArgs = {
-                dataLayer: {
-                    event: 'impression',
-                    eventCategory: 'Ecommerce',
-                    eventAction: 'Impression',
-                    eventLabel: categoryPath ? `category ${categoryPath}` : '',
-                    ecommerce: {
-                        currencyCode: storeConfig && storeConfig.base_currency_code ? storeConfig.base_currency_code : 'IDR',
-                        impressions: data.products.items.map((product, index) => {
-                            let categoryProduct = '';
-                            // eslint-disable-next-line no-unused-expressions
-                            product.categories.length > 0 &&
-                                product.categories.map(({ name }, indx) => {
-                                    if (indx > 0) categoryProduct += `/${name}`;
-                                    else categoryProduct += name;
-                                });
-                            return {
-                                name: product.name,
-                                id: product.sku,
-                                category: categoryProduct,
-                                price: product.price_range.minimum_price.regular_price.value,
-                                list: categoryProduct,
-                                position: index,
-                            };
-                        }),
-                    },
-                },
-            };
+            const tagManagerArgs = getTagManager(categoryPath, storeConfig, data);
             // GA 4 dataLayer
-            const tagManagerArgsGA4 = {
-                dataLayer: {
-                    event: 'view_item_list',
-                    pageName: categoryPath,
-                    pageType: 'category',
-                    ecommerce: {
-                        items: data.products.items.map((product, index) => {
-                            let categoryProduct = '';
-                            let categoryOne = '';
-                            let categoryTwo = '';
-                            // eslint-disable-next-line no-unused-expressions
-                            product.categories.length > 0 &&
-                                ((categoryOne = product.categories[0].name),
-                                (categoryTwo = product.categories[1]?.name),
-                                product.categories.map(({ name }, indx) => {
-                                    if (indx > 0) categoryProduct += `/${name}`;
-                                    else categoryProduct += name;
-                                }));
-                            return {
-                                item_name: product.name,
-                                item_id: product.sku,
-                                price: product.price_range.minimum_price.regular_price.value,
-                                item_category: categoryOne,
-                                item_category_2: categoryTwo,
-                                item_list_name: categoryProduct,
-                                index,
-                                currency: product.price_range.minimum_price.regular_price.currency,
-                            };
-                        }),
-                    },
-                },
-            };
+            const tagManagerArgsGA4 = getTagManagerGA4(categoryPath, data);
             TagManager.dataLayer(tagManagerArgs);
             TagManager.dataLayer(tagManagerArgsGA4);
         }
@@ -435,7 +433,7 @@ const ProductPagination = (props) => {
         totalCount,
         handleChangePage,
     };
-    return <Content {...contentProps} {...other} price={getPrice()} loadPrice={loadPrice} errorPrice={errorPrice} />;
+    return <Content {...contentProps} {...other} price={getPrice(cachePrice, generateIdentifier, dataPrice)} loadPrice={loadPrice} errorPrice={errorPrice} />;
 };
 
 const ProductLoadMore = (props) => {
@@ -586,17 +584,17 @@ const ProductLoadMore = (props) => {
     },
     router);
 
-    const generateIdentifier = () => `page_${page}_${router.asPath}`;
+    const generateIdentifier = `page_${page}_${router.asPath}`;
 
     React.useEffect(() => {
-        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier()]) {
+        if (typeof window !== 'undefined' && !cachePrice[generateIdentifier]) {
             getProdPrice();
         }
     }, [data]);
 
     React.useEffect(() => {
         if (dataPrice) {
-            const identifier = generateIdentifier();
+            const identifier = generateIdentifier;
             const dataTemp = cachePrice;
             dataTemp[identifier] = dataPrice;
             priceVar({
@@ -605,32 +603,22 @@ const ProductLoadMore = (props) => {
         }
     }, [dataPrice]);
 
-    const getPrice = () => {
-        let productPrice = [];
-
-        if (cachePrice[generateIdentifier()] && cachePrice[generateIdentifier()].products && cachePrice[generateIdentifier()].products.items) {
-            productPrice = cachePrice[generateIdentifier()].products.items;
-        } else if (dataPrice && dataPrice.products && dataPrice.products.items) {
-            productPrice = dataPrice.products.items;
-        }
-
-        return productPrice;
-    };
-
-    /* ====End get price Product==== */
-
     // generate filter if donthave custom filter
-    const aggregations = [];
-    if (!customFilter && !loading && products.aggregations) {
+    const aggregations = React.useMemo(() => {
+        const agg = [];
+        if (!customFilter && !loading && products.aggregations) {
         // eslint-disable-next-line no-plusplus
         for (let index = 0; index < products.aggregations.length; index++) {
-            aggregations.push({
+            agg.push({
                 field: products.aggregations[index].attribute_code,
                 label: products.aggregations[index].label,
                 value: products.aggregations[index].options,
             });
         }
-    }
+        }
+        return agg;
+    }, [products, loading, customFilter]);
+
     const category = getCategoryFromAgregations(aggregations);
 
     // eslint-disable-next-line no-shadow
@@ -676,94 +664,38 @@ const ProductLoadMore = (props) => {
             setProducts(data.products);
             setFilterSaved(false);
             // GTM UA dataLayer
-            const tagManagerArgs = {
-                dataLayer: {
-                    event: 'impression',
-                    eventCategory: 'Ecommerce',
-                    eventAction: 'Impression',
-                    eventLabel: categoryPath ? `category ${categoryPath}` : '',
-                    ecommerce: {
-                        currencyCode: storeConfig && storeConfig.base_currency_code ? storeConfig.base_currency_code : 'IDR',
-                        impressions: data.products.items.map((product, index) => {
-                            let categoryProduct = '';
-                            // eslint-disable-next-line no-unused-expressions
-                            product.categories.length > 0 &&
-                                product.categories.map(({ name }, indx) => {
-                                    if (indx > 0) categoryProduct += `/${name}`;
-                                    else categoryProduct += name;
-                                });
-                            return {
-                                name: product.name,
-                                id: product.sku,
-                                category: categoryProduct,
-                                price: product.price_range.minimum_price.regular_price.value,
-                                list: categoryProduct,
-                                position: index,
-                            };
-                        }),
-                    },
-                },
-            };
+            const tagManagerArgs = getTagManager(categoryPath, storeConfig, data);
             // GA 4 dataLayer
-            const tagManagerArgsGA4 = {
-                dataLayer: {
-                    event: 'view_item_list',
-                    pageName: categoryPath,
-                    pageType: 'category',
-                    ecommerce: {
-                        items: data.products.items.map((product, index) => {
-                            let categoryProduct = '';
-                            let categoryOne = '';
-                            let categoryTwo = '';
-                            // eslint-disable-next-line no-unused-expressions
-                            product.categories.length > 0 &&
-                                ((categoryOne = product.categories[0].name),
-                                (categoryTwo = product.categories[1]?.name),
-                                product.categories.map(({ name }, indx) => {
-                                    if (indx > 0) categoryProduct += `/${name}`;
-                                    else categoryProduct += name;
-                                }));
-                            return {
-                                item_name: product.name,
-                                item_id: product.sku,
-                                price: product.price_range.minimum_price.regular_price.value,
-                                item_category: categoryOne,
-                                item_category_2: categoryTwo,
-                                item_list_name: categoryProduct,
-                                index,
-                                currency: product.price_range.minimum_price.regular_price.currency,
-                            };
-                        }),
-                    },
-                },
-            };
+            const tagManagerArgsGA4 = getTagManagerGA4(categoryPath, data);
             TagManager.dataLayer(tagManagerArgs);
             TagManager.dataLayer(tagManagerArgsGA4);
         }
     }, [data]);
 
-    React.useEffect(() => {
-        const handleRouteChange = () => {
-            if (router.pathname === '/catalogsearch/result') {
-                window.history.scrollRestoration = 'manual';
-                const sessionStorageItems = ['lastCatalogsOffset', 'lastCatalogsVisited', 'lastProductsVisited'];
-                const lastCatalogsOffset = getSessionStorage('lastCatalogsOffset') || [];
-                const prevUrl = sessionStorage.getItem('prevUrl');
-                const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
-                const restoreCatalogPosition = getSessionStorage('restoreCatalogPosition');
+    const handleRouteChange = React.useCallback(() => {
+        window.history.scrollRestoration = 'manual';
+        const sessionStorageItems = ['lastCatalogsOffset', 'lastCatalogsVisited', 'lastProductsVisited'];
+        const lastCatalogsOffset = getSessionStorage('lastCatalogsOffset') || [];
+        const prevUrl = sessionStorage.getItem('prevUrl');
+        const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
+        const restoreCatalogPosition = getSessionStorage('restoreCatalogPosition');
 
-                if (prevUrl === lastProductsVisited[0] && restoreCatalogPosition && lastCatalogsOffset[0] !== 0) {
-                    window.scrollTo({
-                        top: lastCatalogsOffset[0],
-                    });
-                    sessionStorageItems.forEach((item) => {
-                        const itemData = getSessionStorage(item);
-                        setSessionStorage(item, itemData.slice(1, itemData.length));
-                    });
-                    sessionStorage.removeItem('restoreCatalogPosition');
-                }
-            }
-        };
+        if (prevUrl === lastProductsVisited[0] && restoreCatalogPosition && lastCatalogsOffset[0] !== 0) {
+            window.scrollTo({
+                top: lastCatalogsOffset[0],
+            });
+            sessionStorageItems.forEach((item) => {
+                const itemData = getSessionStorage(item);
+                setSessionStorage(item, itemData.slice(1, itemData.length));
+            });
+            sessionStorage.removeItem('restoreCatalogPosition');
+        }
+    }, []);
+
+    React.useEffect(() => {
+        if (router.pathname === '/catalogsearch/result') {
+            handleRouteChange();
+        }
         router.events.on('routeChangeComplete', handleRouteChange);
         return () => {
             router.events.off('routeChangeComplete', handleRouteChange);
@@ -772,24 +704,7 @@ const ProductLoadMore = (props) => {
 
     React.useEffect(() => {
         if (router.pathname !== '/catalogsearch/result') {
-            const sessionStorageItems = ['lastCatalogsOffset', 'lastCatalogsVisited', 'lastProductsVisited'];
-            window.history.scrollRestoration = 'manual';
-            const prevUrl = sessionStorage.getItem('prevUrl');
-            const lastCatalogsOffset = getSessionStorage('lastCatalogsOffset') || [];
-            const lastProductsVisited = getSessionStorage('lastProductsVisited') || [];
-            const restoreCatalogPosition = getSessionStorage('restoreCatalogPosition');
-            if (prevUrl === lastProductsVisited[0] && restoreCatalogPosition && lastCatalogsOffset[0] !== 0) {
-                setTimeout(() => {
-                    window.scrollTo({
-                        top: lastCatalogsOffset[0],
-                    });
-                }, 800);
-                sessionStorageItems.forEach((item) => {
-                    const itemData = getSessionStorage(item);
-                    setSessionStorage(item, itemData.slice(1, itemData.length));
-                });
-                sessionStorage.removeItem('restoreCatalogPosition');
-            }
+            handleRouteChange();
         }
     }, [data, !loading]);
 
@@ -812,7 +727,7 @@ const ProductLoadMore = (props) => {
         storeConfig,
     };
 
-    return <Content {...contentProps} {...other} price={getPrice()} loadPrice={loadPrice} errorPrice={errorPrice} />;
+    return <Content {...contentProps} {...other} price={getPrice(cachePrice, generateIdentifier, dataPrice)} loadPrice={loadPrice} errorPrice={errorPrice} />;
 };
 
 ProductPagination.propTypes = {

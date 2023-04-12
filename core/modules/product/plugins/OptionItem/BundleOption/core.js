@@ -95,6 +95,7 @@ const OptionsItemsBundle = (props) => {
     const reviewValue = parseInt(review.rating_summary, 0) / 20;
     const [items, setItems] = React.useState([]);
     let [loadingAdd, setLoadingAdd] = React.useState(false);
+    const mount = React.useRef(null);
 
     if (typeof customLoading !== 'undefined' && typeof setCustomLoading === 'function') {
         loadingAdd = customLoading;
@@ -112,7 +113,14 @@ const OptionsItemsBundle = (props) => {
     }
 
     React.useEffect(() => {
-        if (items.length === 0 && configProduct.data && configProduct.data.products) {
+        mount.current = true;
+        return () => {
+            mount.current = false;
+        };
+    }, []);
+
+    React.useEffect(() => {
+        if (mount.current && items.length === 0 && configProduct.data && configProduct.data.products) {
             setItems([...configProduct.data.products.items[0].items]);
         }
     }, [configProduct.data]);
@@ -246,15 +254,15 @@ const OptionsItemsBundle = (props) => {
         }
     };
 
-    const selectOptions = (group, id) => {
+    const selectOptions = React.useCallback((group, id) => {
         const itemsUpdate = changeSelectedOption(group.position, id, items);
         setItems([...itemsUpdate]);
-    };
+    }, [items]);
 
-    const changeQty = (position, qty) => {
+    const changeQty = React.useCallback((position, qty) => {
         const itemsUpdate = changeQtyOption(position, qty, items);
         setItems([...itemsUpdate]);
-    };
+    }, [items]);
 
     return (
         <View

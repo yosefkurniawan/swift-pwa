@@ -13,7 +13,6 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 import { makeStyles } from '@material-ui/core/styles';
-import { useRouter } from 'next/router';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'animate.css';
 
@@ -26,7 +25,6 @@ const Menu = (props) => {
     if (!menu) {
         menu = [];
     }
-    const router = useRouter();
     const generateLink = (cat) => {
         const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
         if (storeConfig.pwa.ves_menu_enable) {
@@ -109,6 +107,8 @@ const Menu = (props) => {
                             prefix += `<i class='${val.caret}'></i>`;
                         }
 
+                        const generatedLink = generateLink(val);
+
                         return (
                             <li
                                 key={idx}
@@ -127,37 +127,30 @@ const Menu = (props) => {
                                     }
                                 }}
                             >
-                                {val.link ? (
+                                {val.link && val.link !== '#' ? (
                                     <>
-                                        <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
-                                            <>
-                                                {val.before_html && <div dangerouslySetInnerHTML={{ __html: val.before_html }} />}
-                                                <a
-                                                    href={val.link_type === 'category_link' && getPath(val.link)}
-                                                    onClick={() => {
-                                                        if (val.link_type === 'custom_link') {
-                                                            router.push(val.link);
-                                                        }
-                                                    }}
-                                                    ref={linkEl}
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: prefix !== '' ? `${prefix}` : val.name,
-                                                    }}
-                                                    onMouseEnter={() => {
-                                                        if (val.caret) {
-                                                            linkEl.current.innerHTML = linkEl.current.innerHTML.replace(val.caret, val.hover_caret);
-                                                        }
-                                                    }}
-                                                    onMouseLeave={() => {
-                                                        if (val.hover_caret) {
-                                                            linkEl.current.innerHTML = linkEl.current.innerHTML.replace(val.hover_caret, val.caret);
-                                                        }
-                                                    }}
-                                                    className={styles.linkStyle}
-                                                />
-                                                {val.after_html && <div dangerouslySetInnerHTML={{ __html: val.after_html }} />}
-                                            </>
+                                        {val.before_html && <div dangerouslySetInnerHTML={{ __html: val.before_html }} />}
+                                        <Link href={{ pathname: generatedLink[0], query: generatedLink[1] }} as={generatedLink[1]}>
+                                            <a
+                                                onClick={() => handleClick(val)}
+                                                ref={linkEl}
+                                                dangerouslySetInnerHTML={{
+                                                    __html: prefix !== '' ? `${prefix}` : val.name,
+                                                }}
+                                                onMouseEnter={() => {
+                                                    if (val.caret) {
+                                                        linkEl.current.innerHTML = linkEl.current.innerHTML.replace(val.caret, val.hover_caret);
+                                                    }
+                                                }}
+                                                onMouseLeave={() => {
+                                                    if (val.hover_caret) {
+                                                        linkEl.current.innerHTML = linkEl.current.innerHTML.replace(val.hover_caret, val.caret);
+                                                    }
+                                                }}
+                                                className={styles.linkStyle}
+                                            />
                                         </Link>
+                                        {val.after_html && <div dangerouslySetInnerHTML={{ __html: val.after_html }} />}
                                         {val.children.length > 0 ? <div className="pointer" /> : null}
                                     </>
                                 ) : (

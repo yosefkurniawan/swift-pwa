@@ -1,10 +1,12 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from 'next/link';
-import SwitcherLanguage from '@common_language';
-import SwitcherCurrency from '@common_currency';
 import config from '@config';
 import Cookies from 'js-cookie';
+import dynamic from 'next/dynamic';
+
+const SwitcherLanguage = dynamic(() => import('@common_language'), { ssr: false });
+const SwitcherCurrency = dynamic(() => import('@common_currency'), { ssr: false });
 
 const ViewTop = (props) => {
     const {

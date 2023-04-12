@@ -20,26 +20,20 @@ const BannerView = dynamic(() => import('@common_image/LazyImage'), { ssr: false
 const categoryTabs = (category) => {
     const data = [];
     // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < category.length; index++) {
+    for (let index = 0; index < category?.length; index++) {
         data.push(category[index].name);
     }
     return data;
 };
-
 const CategoryPage = ({
     data, storeConfig, t, ...other
 }) => {
     const styles = useStyles();
+    const image_product_height = storeConfig?.pwa?.image_product_height;
+    const image_product_width = storeConfig?.pwa?.image_product_width;
     const [value] = React.useState(0);
-    const categoryList = data.categoryList[0];
-    let dataBanner = [];
+    const categoryList = data?.categoryList[0];
 
-    const handleChange = (event, newValue) => {
-        Router.push(
-            '/[...slug]',
-            `/${categoryList.children[newValue - 1].url_path}`,
-        );
-    };
     /** function to handle option category in filter */
     const handleCategory = (event, valueId) => {
         if (categoryList && categoryList.children) {
@@ -52,46 +46,58 @@ const CategoryPage = ({
         } return null;
     };
 
-    if (categoryList) {
-        dataBanner = [
-            {
-                imageUrl: categoryList?.image_path,
-                link: categoryList?.url_path,
-                description: categoryList?.description,
-            },
-        ];
-    }
-
     const urlDest = new URL(getStoreHost(getAppEnv()));
-    let UrlString = '';
-    if (dataBanner.length > 0) {
-        if (dataBanner[0].imageUrl.toLowerCase().indexOf(urlDest.hostname) === -1) {
-            UrlString = `${urlDest.protocol}//${urlDest.hostname}${dataBanner[0].imageUrl}`;
-        } else {
-            UrlString = dataBanner[0].imageUrl;
-        }
-    } else {
-        UrlString = '';
-    }
-    // sementara di comment dlu, untuk custom filter memakai aggregations product
-    // const customFilter = getFilter(categoryList.id);
-    let breadcrumbsData = [];
-    if (categoryList.breadcrumbs && categoryList.breadcrumbs.length > 0) {
-        breadcrumbsData = categoryList.breadcrumbs.map((bc) => ({
-            label: bc.category_name,
-            link: `/${bc.category_url_path}`,
-            active: false,
-            id: bc.category_id,
-        }));
-    }
-    breadcrumbsData.push({
-        label: categoryList.name,
-        link: '#',
-        active: true,
-    });
+    const dataCategory = React.useMemo(() => {
+        // sementara di comment dlu, untuk custom filter memakai aggregations product
+        // const customFilter = getFilter(categoryList.id);
+        let dataBanner = [];
+        let urlString = '';
+        let breadcrumbsData = [];
 
-    const image_product_height = storeConfig?.pwa?.image_product_height;
-    const image_product_width = storeConfig?.pwa?.image_product_width;
+        if (categoryList) {
+            dataBanner = [
+                {
+                    imageUrl: categoryList?.image_path,
+                    link: categoryList?.url_path,
+                    description: categoryList?.description,
+                },
+            ];
+        }
+
+        if (dataBanner?.length > 0) {
+            urlString = dataBanner[0]?.imageUrl?.toLowerCase().indexOf(urlDest.hostname) === -1
+                ? `${urlDest.protocol}//${urlDest.hostname}${dataBanner[0]?.imageUrl}`
+                : dataBanner[0].imageUrl;
+        }
+
+        if (categoryList?.breadcrumbs && categoryList?.breadcrumbs?.length > 0) {
+            breadcrumbsData = categoryList?.breadcrumbs?.map((bc) => ({
+                label: bc.category_name,
+                link: `/${bc.category_url_path}`,
+                active: false,
+                id: bc.category_id,
+            }));
+        }
+        breadcrumbsData.push({
+            label: categoryList.name,
+            link: '#',
+            active: true,
+        });
+
+        return {
+            // custom_filter: customFilter
+            url: urlString,
+            banner: dataBanner,
+            breadcrumb: breadcrumbsData,
+        };
+    }, [categoryList]);
+
+    const handleChange = React.useCallback((event, newValue) => {
+        Router.push(
+            '/[...slug]',
+            `/${categoryList?.children[newValue - 1].url_path}`,
+        );
+    }, [categoryList]);
 
     return (
         <>
@@ -105,32 +111,32 @@ const CategoryPage = ({
             </style>
             <div className={styles.container}>
                 <div className={classNames(styles.breadcrumbs, 'hidden-mobile')}>
-                    <BreadcrumbView data={breadcrumbsData} />
+                    <BreadcrumbView data={dataCategory.breadcrumb} />
                 </div>
                 <div className={classNames(styles.breadcrumbs, 'hidden-desktop')}>
-                    <BreadcrumbView data={breadcrumbsData} />
+                    <BreadcrumbView data={dataCategory.breadcrumb} />
                 </div>
                 <Typography variant="h1" className={styles.categoryName}>
                     {categoryList.name}
                 </Typography>
                 <div className={styles.headContainer} style={{ width: '100%', height: 'auto' }}>
-                    {dataBanner.length > 0
+                    {dataCategory.banner.length > 0
                         ? (
                             <BannerView
-                                src={UrlString}
+                                src={dataCategory.url}
                                 width={typeof image_product_width === 'string' ? parseInt(image_product_width, 0) : image_product_width}
                                 height={typeof image_product_height === 'string' ? parseInt(image_product_height, 0) : image_product_height}
-                                showArrow={dataBanner.length > 1}
+                                showArrow={dataCategory.banner.length > 1}
                                 style={{ width: '100%', height: 'auto' }}
                             />
                         ) : null}
                 </div>
-                {dataBanner[0] && dataBanner[0].description && (
-                    <CmsRenderer content={dataBanner[0].description} storeConfig={storeConfig} />
+                {dataCategory.banner.length > 0 && dataCategory.banner[0] && dataCategory.banner[0]?.description && (
+                    <CmsRenderer content={dataCategory.banner[0].description} storeConfig={storeConfig} />
                 )}
                 <div className="hidden-desktop">
                     <TabView
-                        data={categoryTabs(categoryList.children)}
+                        data={categoryTabs(categoryList?.children)}
                         onChange={handleChange}
                         value={value}
                     />
@@ -154,8 +160,8 @@ const CategoryPage = ({
                             categoryPath={categoryList.url_path}
                             catalog_search_engine={storeConfig.catalog_search_engine}
                             t={t}
-                            category={categoryTabs(categoryList.children)}
-                            dataTabs={categoryTabs(categoryList.children)}
+                            category={categoryTabs(categoryList?.children ?? [])}
+                            dataTabs={categoryTabs(categoryList?.children ?? [])}
                             onChangeTabs={handleChange}
                             onChangeCategory={handleCategory}
                             storeConfig={storeConfig}

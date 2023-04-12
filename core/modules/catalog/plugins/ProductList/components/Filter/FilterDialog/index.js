@@ -79,11 +79,11 @@ const FilterDialog = (props) => {
                         }
                     });
                     if (sellerId.length === 0) {
-                        setSellerId(() => ({
+                        setSellerId({
                             field: 'seller_id',
                             label: 'Seller Name',
                             value: childValue,
-                        }));
+                        });
                     }
                 }
             });

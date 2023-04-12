@@ -3,6 +3,7 @@ import gqlService from '@core_modules/home/service/graphql';
 import BannerSliderSkeleton from '@core_modules/home/pages/default/components/Skeleton/BannerSkeleton';
 import BannerView from '@core_modules/home/pages/default/components/Banner/view';
 import ErrorInfo from '@core_modules/home/pages/default/components/ErrorInfo';
+import { useMemo } from 'react';
 
 const BannerSlider = (props) => {
     const { storeConfig, t, slider_id } = props;
@@ -16,6 +17,17 @@ const BannerSlider = (props) => {
         },
     });
 
+    const bannerImages = useMemo(() => {
+        if (data && data.slider) {
+            return data.slider.images.map((image) => ({
+                imageUrl: image.image_url,
+                mobileImageUrl: image.mobile_image_url || image.image_url,
+                link: image.url_redirection,
+                video: image.video,
+            }));
+        }
+    }, [data?.slider]);
+
     if (loading && !data) {
         return <BannerSliderSkeleton logoUrl={logoUrl} storeConfig={storeConfig} />;
     }
@@ -23,21 +35,9 @@ const BannerSlider = (props) => {
         return <ErrorInfo variant="error" text={t('home:errorFetchData')} />;
     }
     if (!data || data.slider.images.length === 0) {
-        return (
-            <>
-                <h1>Test</h1>
-                <ErrorInfo variant="warning" text={t('home:nullData')} />
-            </>
-        );
+        return <ErrorInfo variant="warning" text={t('home:nullData')} />;
     }
-
     if (data && data.slider) {
-        const bannerImages = data.slider.images.map((image) => ({
-            imageUrl: image.image_url,
-            mobileImageUrl: image.mobile_image_url || image.image_url,
-            link: image.url_redirection,
-            video: image.video,
-        }));
         return (
             <>
                 <BannerView logoUrl={logoUrl} images={bannerImages} storeConfig={storeConfig} />
