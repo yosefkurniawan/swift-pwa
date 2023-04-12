@@ -134,6 +134,7 @@ export const storeConfig = `
 {
     storeConfig {
       allow_guest_checkout
+      allow_guests_to_write_product_reviews
       aw_blog_general_comments_enabled
       aw_blog_general_disqus_forum_code
       aw_blog_general_enabled
@@ -190,15 +191,22 @@ export const storeConfig = `
           add_to_cart_enable
           app_name
           background_color
+          banner_slider_enable
+          banner_slider_title
           button_background_color
           button_background_hover_color
           button_border_color
           button_border_hover_color
           button_disabled_background_color
           button_disabled_text_color
-          button_disabled_text_color
           button_text_color
           button_text_hover_color
+          category_list_enable
+          category_list_url_key            
+          category_list_image_size_desktop_height
+          category_list_image_size_desktop_width
+          category_list_image_size_mobile_height
+          category_list_image_size_mobile_width
           cms_contact_identifiers
           cms_social_media_link_identifer
           configurable_options_enable
@@ -212,6 +220,8 @@ export const storeConfig = `
           facebook_app_id
           facebook_meta_id_app_id
           facebook_meta_id_enable
+          features_product_enable
+          features_product_url_key
           font_color
           footer_version
           header_version
@@ -245,6 +255,7 @@ export const storeConfig = `
           paypal_merchant_id
           popup_detail_image_enable
           primary_color
+          product_listing_navigation
           promo_banner_lite_after_width
           promo_banner_lite_label_width
           promo_banner_lite_top_width
@@ -272,6 +283,11 @@ export const storeConfig = `
           share_icon_telegram
           share_icon_twitter
           success_msg_color
+          thumbor_enable
+          thumbor_https_http
+          thumbor_url
+          use_cms_page_enable
+          use_cms_page_identifier
           ves_menu_alias
           ves_menu_enable
           ves_menu_enable
@@ -367,7 +383,6 @@ export const frontendOptions = `
             button_disabled_background_color
             button_text_color
             button_text_hover_color
-            button_disabled_text_color
             button_border_color
             button_border_hover_color
             link_color

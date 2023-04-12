@@ -9,8 +9,6 @@ const internalGenerateSession = require('./internalGenerateSession');
 const internalDeleteSession = require('./internalDeleteSession');
 const internalCreateSocialLogin = require('./internalCreateSocialLogin');
 const internalGetInstagramFeed = require('./internalGetInstagramFeed');
-const internalGetCurrency = require('./internalGetCurrency');
-const internalGetAvailableStores = require('./internalGetAvailableStores');
 const internalGetScv2Url = require('./internalGetScv2Url');
 
 const resolver = {
@@ -26,10 +24,6 @@ const resolver = {
         internalCreateSocialLogin,
         internalGetInstagramFeed,
         internalGetScv2Url,
-    },
-    Query: {
-        internalGetCurrency,
-        internalGetAvailableStores,
     },
 };
 
