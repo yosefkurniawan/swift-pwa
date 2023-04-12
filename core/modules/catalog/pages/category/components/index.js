@@ -7,6 +7,7 @@ import Product from '@plugin_productlist';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
 import useStyles from '@core_modules/catalog/pages/category/components/style';
+import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 import dynamic from 'next/dynamic';
 import BreadcrumbView from '@common_breadcrumb';
 import TabView from '@common_tabs';
@@ -51,12 +52,12 @@ const CategoryPage = ({
         } return null;
     };
 
-    if (categoryList.image_path) {
+    if (categoryList) {
         dataBanner = [
             {
-                imageUrl: categoryList.image_path,
-                link: categoryList.url_path,
-                description: categoryList.description,
+                imageUrl: categoryList?.image_path,
+                link: categoryList?.url_path,
+                description: categoryList?.description,
             },
         ];
     }
@@ -106,6 +107,12 @@ const CategoryPage = ({
                 <div className={classNames(styles.breadcrumbs, 'hidden-mobile')}>
                     <BreadcrumbView data={breadcrumbsData} />
                 </div>
+                <div className={classNames(styles.breadcrumbs, 'hidden-desktop')}>
+                    <BreadcrumbView data={breadcrumbsData} />
+                </div>
+                <Typography variant="h1" className={styles.categoryName}>
+                    {categoryList.name}
+                </Typography>
                 <div className={styles.headContainer} style={{ width: '100%', height: 'auto' }}>
                     {dataBanner.length > 0
                         ? (
@@ -118,15 +125,8 @@ const CategoryPage = ({
                             />
                         ) : null}
                 </div>
-                <div className={classNames(styles.breadcrumbs, 'hidden-desktop')}>
-                    <BreadcrumbView data={breadcrumbsData} />
-                </div>
-                <Typography variant="h1" className={styles.categoryName}>
-                    {categoryList.name}
-                </Typography>
                 {dataBanner[0] && dataBanner[0].description && (
-                    /* eslint-disable-next-line react/no-danger */
-                    <div className="cms-container" dangerouslySetInnerHTML={{ __html: dataBanner[0].description }} />
+                    <CmsRenderer content={dataBanner[0].description} storeConfig={storeConfig} />
                 )}
                 <div className="hidden-desktop">
                     <TabView
@@ -140,7 +140,7 @@ const CategoryPage = ({
                     && (categoryList.display_mode === 'PRODUCTS_AND_PAGE' || categoryList.display_mode === 'PAGE')
                     && categoryList.cms_block
                     && (
-                        <div className="cms-block-category" dangerouslySetInnerHTML={{ __html: categoryList.cms_block.content }} />
+                        <CmsRenderer content={categoryList.cms_block.content} storeConfig={storeConfig} />
                     )
                 }
                 {
