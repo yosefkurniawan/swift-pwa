@@ -13,8 +13,11 @@ export default makeStyles((theme) => ({
     block: {
         ...CreatePadding(16, 30, 16, 30),
         ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
             ...CreatePadding(16, 0),
+        },
+        [theme.breakpoints.down('sm')]: {
+            ...CreatePadding(16, 20, 0, 20),
         },
     },
 
@@ -22,6 +25,7 @@ export default makeStyles((theme) => ({
         position: 'fixed',
         width: '100%',
         bottom: 0,
+        zIndex: 1,
         ...CreatePadding(16, 16, 16, 16),
         [theme.breakpoints.up('sm')]: {
             position: 'unset',

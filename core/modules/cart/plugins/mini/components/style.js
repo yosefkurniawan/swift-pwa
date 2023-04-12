@@ -154,6 +154,12 @@ const useStyles = makeStyles(() => ({
                     },
                 },
             },
+            '& .product-item-name': {
+                display: '-webkit-box',
+                overflow: 'hidden',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+            },
             '& .product-item-pricing': {
                 paddingLeft: 88,
                 fontSize: 10,

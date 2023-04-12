@@ -156,10 +156,11 @@ This feature allow customer to split their checkout into several orders by the s
 ### Store Configuration Setup
 To optimize memory usage in swift PWA, store config will be cached in PWA server side by storing it in a JSON file (config.json). This file will only be generated when the PWA request the storeConfig query to Magento GQL. 
 There are 2 ways to trigger this process (generating   config.json):
-#### 1: Hit the API manually (Will be usefull for local environment)
+#### 1: Delete file under folder generated/* (Will be usefull for local environment & Production >1 pod) *Version 2.6.6
 1. Run the project
-2. Hit endpoint `{host}/generate-config` with headers Authorization `Bearer {ENCRYPTION_KEY}` (you can use postman to do this). The encryption key value is from .env file with varibale `ENCRYPTION_KEY`
-#### 2: From Magento Backoffice
+2. You need to run CLI from rundeck to delete all the config files in each pod `rm -rf generated/*`
+3. Access PWA page
+#### 2: From Magento Backoffice (Support 1 pod)
 1. Go to Backoffice > Systems > Cache Management
 2. Click "Refresh PWA Configuration" button. 
 

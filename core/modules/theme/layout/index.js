@@ -521,7 +521,7 @@ const Layout = (props) => {
                     </div>
                 </header>
             )}
-            <main style={{ ...styles }} className={classNames(!onlyCms ? 'main-app' : 'main-app main-app-cms', classMain)} id="maincontent">
+            <main style={{ ...styles, position: classMain === 'checkout-mode' ? 'relative' : '' }} className={classNames(!onlyCms ? 'main-app' : 'main-app main-app-cms', classMain)} id="maincontent">
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}

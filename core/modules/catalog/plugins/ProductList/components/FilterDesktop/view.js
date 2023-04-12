@@ -31,6 +31,7 @@ const ViewFilter = (props) => {
         storeConfig,
     } = props;
     const styles = useStyles();
+
     return (
         <div className={styles.root}>
             {loading ? <Skeleton variant="rect" width="100%" height={705} /> : null}

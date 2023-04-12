@@ -26,7 +26,7 @@ const SellerItem = (props) => {
                             {name}
                         </Typography>
                         <Typography variant="p" type="regular" letter="capitalize" size="12">
-                            {citySplit[0]}
+                            {citySplit ? citySplit[0] : ''}
                         </Typography>
                     </div>
                 </div>

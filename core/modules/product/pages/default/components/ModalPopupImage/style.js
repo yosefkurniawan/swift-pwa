@@ -2,6 +2,14 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { GRAY_SECONDARY } from '@theme_color';
 
 export default makeStyles((theme) => ({
+    wrapperDialog: {
+        '& .MuiDialog-paperFullScreen': {
+            [theme.breakpoints.down('sm')]: {
+                background: 'rgba(0, 0, 0, 0.6)',
+                justifyContent: 'center',
+            },
+        },
+    },
     container: {
         position: 'relative',
         padding: '50px 20px 0px 20px',
@@ -17,11 +25,17 @@ export default makeStyles((theme) => ({
     },
     actionZoom: {
         display: 'flex',
-        flexDirection: 'column',
         position: 'absolute',
-        left: 130,
-        top: 50,
+        left: '40%',
+        top: -20,
         zIndex: theme.zIndex.drawer + 9,
+        '& button': {
+            fontSize: 28,
+            background: '#fff',
+            margin: '0px 4px',
+            border: 'none',
+            width: 38,
+        },
     },
     buttonActionZoom: {
         margin: 10,

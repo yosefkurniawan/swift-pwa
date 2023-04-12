@@ -25,7 +25,7 @@ const Summary = (props) => {
         t, summary, handleActionSummary = () => { }, loading, disabled,
         showItems = false, items = [], hideButton = false, isDesktop,
         isLoader, deleteCart, updateCart, withAction, withLabel = true,
-        labelItemAlign = 'left', dataCart, storeConfig, currencyCache,
+        labelItemAlign = 'left', dataCart, storeConfig, currencyCache, loadTotal,
     } = props;
     const styles = useStyles();
     const storeConfigLocalStorage = useReactiveVar(storeConfigVar);
@@ -70,15 +70,16 @@ const Summary = (props) => {
             id,
             quantity,
             pickup_item_store_info,
-            prices,
+            custom_price,
             product,
+            custom_seller,
             ...other
         }) => {
-            let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+            let item = groupData.find((p) => p.seller_id === custom_seller.seller_id);
             if (!item) {
                 item = {
-                    seller_id: product.seller.seller_id,
-                    seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
+                    seller_id: custom_seller.seller_id,
+                    seller_name: custom_seller.seller_name ? custom_seller.seller_name : 'Default Seller',
                     productList: [],
                     subtotal: {
                         currency: '',
@@ -91,14 +92,14 @@ const Summary = (props) => {
             if (!child) {
                 child = {
                     id,
-                    prices,
+                    custom_price,
                     product,
                     quantity,
                     ...other,
                 };
                 item.productList.push(child);
-                item.subtotal.currency = prices.row_total_including_tax.currency;
-                item.subtotal.value += prices.row_total_including_tax.value;
+                item.subtotal.currency = custom_price?.row_total_incl_tax.currency;
+                item.subtotal.value += custom_price?.row_total_incl_tax.value;
             }
             return groupData;
         }, []);
@@ -144,7 +145,7 @@ const Summary = (props) => {
                                                     />
                                                 </div>
                                                 <div className={classNames('col-xs-8', styles.bodyProductItem)}>
-                                                    <Typography variant="span">{item.product.name}</Typography>
+                                                    <Typography variant="span" className={styles.productTitle}>{item.product.name}</Typography>
                                                     {item.configurable_options && item.configurable_options.length ? (
                                                         <div className="product-options">
                                                             {item.configurable_options.map((val, idx) => (
@@ -225,7 +226,7 @@ const Summary = (props) => {
                                         />
                                     </div>
                                     <div className={classNames('col-xs-8', styles.bodyProductItem)}>
-                                        <Typography variant="span">{item.product.name}</Typography>
+                                        <Typography variant="span" className={styles.productTitle}>{item.product.name}</Typography>
                                         {item.configurable_options && item.configurable_options.length ? (
                                             <div className="product-options">
                                                 {item.configurable_options.map((val, idx) => (
@@ -290,21 +291,37 @@ const Summary = (props) => {
                         </ListItemSecondaryAction>
                     </ListItem>
                 ))}
-                <ListItem className={classNames(styles.list, styles.listSummary, styles.listItemGrandtotal)}>
-                    <ListItemText
-                        className={styles.labelItem}
-                        primary={(
-                            <Typography variant="span" type="bold" align={labelItemAlign} size="16">
-                                Total
-                            </Typography>
-                        )}
-                    />
-                    <ListItemSecondaryAction>
-                        <Typography variant="span" type="bold" size="16">
-                            {summary.total.currency ? formatPrice(summary.total.value, summary.total.currency, currencyCache) : null}
-                        </Typography>
-                    </ListItemSecondaryAction>
-                </ListItem>
+                {
+                    loadTotal
+                        ? (
+                            <ListItem className={classNames(styles.list, 'listSummary')}>
+                                <ListItemText
+                                    primary={(
+                                        <Typography variant="title" type="bold">
+                                            Total
+                                        </Typography>
+                                    )}
+                                />
+                                <Skeleton variant="rect" width="60%" height="30px" animation="wave" />
+                            </ListItem>
+                        ) : (
+                            <ListItem className={classNames(styles.list, styles.listSummary, styles.listItemGrandtotal)}>
+                                <ListItemText
+                                    className={styles.labelItem}
+                                    primary={(
+                                        <Typography variant="span" type="bold" align={labelItemAlign} size="16">
+                                            Total
+                                        </Typography>
+                                    )}
+                                />
+                                <ListItemSecondaryAction>
+                                    <Typography variant="span" type="bold" size="16">
+                                        {summary.total.currency ? formatPrice(summary.total.value, summary.total.currency, currencyCache) : null}
+                                    </Typography>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                        )
+                }
             </List>
             <div className={styles.footer}>
                 {

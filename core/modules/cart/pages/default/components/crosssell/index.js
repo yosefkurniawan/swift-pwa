@@ -8,7 +8,7 @@ const getCrossSellProduct = (items) => {
     for (let index = 0; index < items.length; index += 1) {
         const data = items[index].product.crosssell_products.map((product) => ({
             ...product,
-            categories: items[index].product.categories,
+            // categories: items[index].product.categories,
         }));
         crosssell = crosssell.concat(data);
     }
@@ -30,17 +30,16 @@ const CrossSell = (props) => {
                 pageName: t('cart:pageTitle'),
                 pageType: 'cart',
                 ecommerce: {
-                    impressions: crosssellData.map((product, index) => {
-                        const category = product.categories && product.categories.length > 0 && product.categories[0].name;
-                        return {
+                    impressions: crosssellData.map((product, index) =>
+                        // const category = product.categories && product.categories.length > 0 && product.categories[0].name;
+                        ({
                             name: product.name,
                             id: product.sku,
-                            category: category || '',
+                            // category: category || '',
                             price: product.price_range.minimum_price.regular_price.value,
                             list: 'Crossel Products',
                             position: index + 1,
-                        };
-                    }),
+                        })),
                 },
                 event: 'impression',
                 eventCategory: 'Ecommerce',

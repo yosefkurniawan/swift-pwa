@@ -15,6 +15,7 @@ import AddReviewDialogView from '@core_modules/product/pages/default/components/
 const CustomerReview = dynamic(() => import('@core_modules/product/pages/default/components/CustomerReview'), { ssr: false });
 
 const ListReviews = (props) => {
+    const { storeConfig, isLogin } = props;
     const styles = useStyles();
     // sementara di comment dulu sudah confirm ke mas @rifki kalau tidak dipakai. dan jika tidak masalah bakal di hapus
     // const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const ListReviews = (props) => {
         sku: props.data.sku || '',
         pageSize: 2,
     });
+    const guest_review = storeConfig?.allow_guests_to_write_product_reviews;
 
     const { loading, fetchMore, data } = getReviews(reviewParams);
     const handleOpenReview = ({ message, variant }) => {
@@ -99,11 +101,15 @@ const ListReviews = (props) => {
                         </Typography>
                     </div>
                     <div className={styles.shareContainer}>
-                        <Button onClick={() => setOpenReview(true)}>
-                            <Typography variant="span" type="bold" letter="uppercase">
-                                {props.t('product:writeReview')}
-                            </Typography>
-                        </Button>
+                        {
+                            (isLogin === 1 || guest_review === '1') && (
+                                <Button onClick={() => setOpenReview(true)}>
+                                    <Typography variant="span" type="bold" letter="uppercase">
+                                        {props.t('product:writeReview')}
+                                    </Typography>
+                                </Button>
+                            )
+                        }
                     </div>
                 </div>
                 <div className={styles.reviewContainer}>

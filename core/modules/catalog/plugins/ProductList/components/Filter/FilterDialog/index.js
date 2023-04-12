@@ -15,6 +15,7 @@ import Slide from '@material-ui/core/Slide';
 import CloseIcon from '@material-ui/icons/Close';
 import { BREAKPOINTS } from '@theme/vars';
 import React from 'react';
+import { useRouter } from 'next/router';
 import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction={window.innerWidth >= BREAKPOINTS.sm ? 'left' : 'up'} ref={ref} {...props} />);
@@ -38,12 +39,15 @@ const FilterDialog = (props) => {
         handleSave,
         handleClear,
         filter,
+        isSearch,
+        onChangeCategory,
         storeConfig,
     } = props;
     const styles = useStyles();
     const data = filter;
     const [actGetSeller, dataSeller] = getSeller();
     const [sellerId, setSellerId] = React.useState([]);
+    const router = useRouter();
 
     React.useEffect(() => {
         // console.log('data', data);
@@ -66,7 +70,7 @@ const FilterDialog = (props) => {
                 if (itemFilter.field === 'seller_id') {
                     itemFilter.value.forEach((item) => {
                         const findSeller = dataSeller.data.getSeller.filter((itemSeller) => itemSeller.id === parseInt(item.value));
-                        if (parseInt(item.value) === findSeller[0].id) {
+                        if (parseInt(item.value) === findSeller[0]?.id) {
                             childValue.push({
                                 count: item.count,
                                 label: findSeller[0].name,
@@ -112,6 +116,7 @@ const FilterDialog = (props) => {
                             valueData={sortByData || []}
                             value={itemProps.sortByValue || sort}
                             onChange={itemProps.sortByChange || setSort}
+                            useLoadMore
                         />
                     </div>
                 )}
@@ -127,15 +132,20 @@ const FilterDialog = (props) => {
                     }
 
                     if (itemFilter.field !== 'attribute_set_id' && itemFilter.field !== 'indexed_attributes' && itemFilter.field !== 'seller_name') {
+                        if (itemFilter.field === 'etalase' || (itemFilter.field === 'seller_id' && router.route.includes('seller'))) {
+                            return <span key={idx} />;
+                        }
+
                         if (itemFilter.field === 'seller_id' && sellerId && sellerId.field && sellerId.label) {
                             return (
                                 <div className={`${styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']}`} key={idx}>
-                                    <RadioGroup
-                                        name={sellerId.field}
-                                        label={sellerId.label}
-                                        valueData={sellerId.value || []}
-                                        value={selectedFilter[sellerId.field]}
-                                        onChange={(value) => setSelectedFilter(sellerId.field, value)}
+                                    <CheckBox
+                                        field={sellerId.field}
+                                        label={sellerId.label || ''}
+                                        data={sellerId.value || []}
+                                        value={selectedFilter[sellerId.field] ? selectedFilter[sellerId.field].split(',') : []}
+                                        flex="column"
+                                        onChange={(val) => setCheckedFilter(sellerId.field, val)}
                                     />
                                 </div>
                             );
@@ -183,8 +193,33 @@ const FilterDialog = (props) => {
                                 </div>
                             );
                         }
-                        if (itemFilter.field === 'cat' || itemFilter.field === 'category_id') {
-                            return <span key={idx} />;
+                        if ((itemFilter.field === 'cat' || itemFilter.field === 'category_id') && !isSearch) {
+                            return (
+                                <div className={styles.listCategoryWrapper}>
+                                    <Typography variant="label" type="bold" letter="uppercase">
+                                        {itemFilter.label.replace(/_/g, ' ')}
+                                    </Typography>
+                                    <div className={styles.listCategoryBody}>
+                                        {itemFilter.value.map((val, ids) => {
+                                            if (val !== 'attribute_set_id') {
+                                                return (
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => onChangeCategory(e, val.value)}
+                                                        className={styles.listCategory}
+                                                        key={ids}
+                                                    >
+                                                        <Typography variant="span" letter="capitalize">
+                                                            {`${val.label.replace(/_/g, ' ')} (${val.count})`}
+                                                        </Typography>
+                                                    </button>
+                                                );
+                                            }
+                                            return null;
+                                        })}
+                                    </div>
+                                </div>
+                            );
                         }
                         return (
                             <div className={`${styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']}`} key={idx}>
@@ -196,6 +231,7 @@ const FilterDialog = (props) => {
                                         value={selectedFilter[itemFilter.field] ? selectedFilter[itemFilter.field].split(',') : []}
                                         flex="column"
                                         onChange={(val) => setCheckedFilter(itemFilter.field, val)}
+                                        useLoadMore
                                     />
                                 ) : (
                                     <RadioGroup
@@ -204,6 +240,7 @@ const FilterDialog = (props) => {
                                         valueData={itemFilter.value || []}
                                         value={selectedFilter[itemFilter.field]}
                                         onChange={(value) => setSelectedFilter(itemFilter.field, value)}
+                                        useLoadMore
                                     />
                                 )}
                             </div>

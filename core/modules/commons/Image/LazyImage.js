@@ -60,6 +60,30 @@ const LazyImage = ({ src, alt, style = {} }) => {
                             }
                         }
                     }
+                } else if (imageRef && imageSrc !== src) {
+                    if (IntersectionObserver) {
+                        observer = new IntersectionObserver(
+                            (entries) => {
+                                entries.forEach((entry) => {
+                                    if (
+                                        !didCancel
+                    && (entry.intersectionRatio > 0 || entry.isIntersecting)
+                                    ) {
+                                        setImageSrc(src);
+                                        observer.unobserve(imageRef);
+                                    }
+                                });
+                            },
+                            {
+                                threshold: 0.01,
+                                rootMargin: '75%',
+                            },
+                        );
+                        observer.observe(imageRef);
+                    } else {
+                        // Old browsers fallback
+                        setImageSrc(src);
+                    }
                 }
             }
             return () => {

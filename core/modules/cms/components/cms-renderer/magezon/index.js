@@ -52,6 +52,7 @@ const MagezonFlickr = dynamic(() => import('@core_modules/cms/components/cms-ren
 const MagezonCountdown = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCountdown'), { ssr: false });
 const MagezonCaraousel = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel'), { ssr: false });
 const MagezonSocialIcons = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonSocialIcons'), { ssr: false });
+const MagezonTabs = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTabs'), { ssr: false });
 
 const MagezonElement = (props) => {
     const {
@@ -245,6 +246,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonAccordion {...props} />; break;
         case 'pageable_container':
             childrenContent = <MagezonPageableContainer {...props} />; break;
+        case 'tabs':
+            childrenContent = <MagezonTabs {...props} />; break;
         default:
             childrenContent = null;
         }

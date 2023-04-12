@@ -141,6 +141,7 @@ const Checkout = (props) => {
 
     const [checkout, setCheckout] = React.useState({
         order_id: '',
+        newupdate: false,
         data: {
             errorItems: false,
             cart: null,
@@ -191,6 +192,7 @@ const Checkout = (props) => {
             extraFee: false,
             paypal: false,
             confirmation: false,
+            totalPrice: false,
         },
         status: {
             addresses: false,
@@ -231,6 +233,7 @@ const Checkout = (props) => {
     const [getCustomer, manageCustomer] = gqlService.getCustomer();
     const [getCart, { data: dataCart, error: errorCart, refetch: refetchDataCart }] = gqlService.getCart();
     const [getItemCart, { data: itemCart, error: errorItem, refetch: refetchItemCart }] = gqlService.getItemCart();
+    const [getPrice, { data: itemPrice, loading: priceLoading }] = gqlService.getPrice();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
     const [setShippingAddressByInput] = gqlService.initiateShippingAddressMultiseller();
@@ -250,7 +253,9 @@ const Checkout = (props) => {
         if (cartItems) {
             const cartItemsFilter = cartItems.filter((item) => {
                 const { __typename } = item.product;
-                return __typename !== 'VirtualProduct' && __typename !== 'DownloadableProduct' && __typename !== 'AwGiftCardProduct';
+                let isVirtualAwGc = !!(__typename === 'AwGiftCardProduct'
+                && item.product.aw_gc_type === 'VIRTUAL');
+                return __typename !== 'VirtualProduct' && __typename !== 'DownloadableProduct' && !isVirtualAwGc;
             });
 
             /**
@@ -361,12 +366,12 @@ const Checkout = (props) => {
                 const unGroupedData = itemCart.cart.items;
 
                 // eslint-disable-next-line no-shadow
-                const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, ...other }) => {
-                    let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+                const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, custom_seller, ...other }) => {
+                    let item = groupData.find((p) => p.seller_id === custom_seller.seller_id);
                     if (!item) {
                         item = {
-                            seller_id: product.seller.seller_id ? product.seller.seller_id : null,
-                            seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
+                            seller_id: custom_seller.seller_id ? custom_seller.seller_id : null,
+                            seller_name: custom_seller.seller_name ? custom_seller.seller_name : 'Default Seller',
                             productList: [],
                             subtotal: {
                                 currency: '',
@@ -549,12 +554,12 @@ const Checkout = (props) => {
             const unGroupedData = itemCart.cart.items;
 
             // eslint-disable-next-line no-shadow
-            const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, ...other }) => {
-                let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+            const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, custom_seller, ...other }) => {
+                let item = groupData.find((p) => p.seller_id === custom_seller.seller_id);
                 if (!item) {
                     item = {
-                        seller_id: product.seller.seller_id ? product.seller.seller_id : null,
-                        seller_name: product.seller.seller_name ? product.seller.seller_name : null,
+                        seller_id: custom_seller.seller_id ? custom_seller.seller_id : null,
+                        seller_name: custom_seller.seller_name ? custom_seller.seller_name : null,
                         productList: [],
                         subtotal: {
                             currency: '',
@@ -581,7 +586,7 @@ const Checkout = (props) => {
             cartItemBySeller = groupData;
         }
 
-        if (shipping && shipping[0].available_shipping_methods.length === 0) setLoadingSellerInfo(false);
+        if (shipping && shipping[0].available_shipping_methods?.length === 0) setLoadingSellerInfo(false);
 
         // init shipping method
         // if multiseller active
@@ -860,12 +865,12 @@ const Checkout = (props) => {
                 const unGroupedData = itemCart.cart.items;
 
                 // eslint-disable-next-line no-shadow
-                const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, ...other }) => {
-                    let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+                const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, custom_seller, ...other }) => {
+                    let item = groupData.find((p) => p.seller_id === custom_seller.seller_id);
                     if (!item) {
                         item = {
-                            seller_id: product.seller.seller_id ? product.seller.seller_id : 0,
-                            seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
+                            seller_id: custom_seller.seller_id ? custom_seller.seller_id : 0,
+                            seller_name: custom_seller.seller_name ? custom_seller.seller_name : 'Default Seller',
                             productList: [],
                             subtotal: {
                                 currency: '',
@@ -893,6 +898,13 @@ const Checkout = (props) => {
             }
 
             if (shipping && storeConfig.enable_oms_multiseller === '1') {
+                const sellerList = (arr) => JSON.stringify(
+                    arr
+                    .filter(({ seller_id: x }) => x)
+                    .map(({ seller_id: x }) => x.toString())
+                    .sort()
+                );
+
                 if (
                     // Multi product not yet initialized (mix/all have seller_id)
                     (shipping.length > 0 &&
@@ -905,7 +917,10 @@ const Checkout = (props) => {
                         shipping[0].seller_id === null &&
                         cartItemBySeller[0].seller_id !== 0) ||
                     // Added new product with seller_id (more/less seller on shipping_address)
-                    (shipping && cartItemBySeller.length !== shipping.length && !cartItemBySeller.find((x) => x.seller_id === null))
+                    (shipping && cartItemBySeller.length !== shipping.length && !cartItemBySeller.find((x) => x.seller_id === null)) ||
+                    // If list seller_id between cartItem and shipping address not match
+                    (shipping.length > 0 && cartItemBySeller.length > 0
+                    && sellerList(shipping) !== sellerList(cartItemBySeller))
                 ) {
                     setShippingAddressByInput({
                         variables: {
@@ -987,6 +1002,18 @@ const Checkout = (props) => {
         }
     }, [addressCustomer]);
 
+    // effect get price after update cart
+    React.useEffect(() => {
+        if (itemPrice && itemPrice.cart) {
+            let state = { ...checkout };
+            state.newupdate = false;
+            state.loading.totalPrice = false;
+            state.data.cart.prices = itemPrice.cart.prices;
+            state.data.cart.promoBanner = itemPrice.cart.promoBanner;
+            setCheckout(state);
+        }
+    }, [itemPrice]);
+
     React.useMemo(() => {
         if (checkout.data.cart) {
             const { cart } = checkout.data;
@@ -1053,6 +1080,11 @@ const Checkout = (props) => {
             }
 
             setCheckout(state);
+            if (checkout.newupdate) {
+                getPrice({ variables: { cartId } });
+                state.loading.totalPrice = true;
+                setCheckout(state);
+            }
         }
     }, [checkout.data.cart]);
 

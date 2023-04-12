@@ -4,7 +4,8 @@ import WidgetRenderer from '@core_modules/cms/components/cms-renderer/WidgetRend
 import MagezonRenderer from '@core_modules/cms/components/cms-renderer/MagezonRenderer';
 
 const CmsRenderer = (props) => {
-    const { content } = props;
+    // eslint-disable-next-line no-unused-vars
+    const { content, storeConfig } = props;
     if (content.includes('[mgz_pagebuilder]')) {
         return <MagezonRenderer {...props} />;
     }

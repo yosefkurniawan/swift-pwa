@@ -13,6 +13,7 @@ import useStyles from '@core_modules/thanks/pages/default/components/style';
 import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit';
 import { modules } from '@config';
 import dayjs from 'dayjs';
+import Alert from '@material-ui/lab/Alert';
 
 const View = (props) => {
     const {
@@ -52,6 +53,13 @@ const View = (props) => {
                         mode={paymentInformation.OrderPaymentInformation.xendit_mode}
                         xendit_qrcode_external_id={paymentInformation.OrderPaymentInformation.xendit_qrcode_external_id}
                     />
+                )
+            }
+            {
+                checkoutData?.infoMsg && (
+                    <div className={styles.divMessage}>
+                        <Alert className="m-15" severity="warning">{checkoutData.infoMsg}</Alert>
+                    </div>
                 )
             }
             <div className={styles.info}>

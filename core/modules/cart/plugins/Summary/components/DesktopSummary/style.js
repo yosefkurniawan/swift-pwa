@@ -131,6 +131,12 @@ const useStyles = makeStyles(() => ({
         paddingTop: '1rem',
         paddingBottom: '1rem',
     },
+    productTitle: {
+        display: '-webkit-box',
+        overflow: 'hidden',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
+    },
 }));
 
 export default useStyles;

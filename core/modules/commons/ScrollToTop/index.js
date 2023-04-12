@@ -13,20 +13,28 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function ScrollTop({ maxHeigtToShow = 600, storeConfig }) {
+function ScrollTop({ storeConfig }) {
     const classes = useStyles();
     const [triger, setTriger] = React.useState(false);
+    const maxHeigtToShow = 600;
 
     React.useEffect(() => {
         if (typeof window !== 'undefined') {
             const header = document.getElementById('header');
+            const headerInner = document.getElementById('header-inner');
             const checkScrollTop = () => {
                 // handle show hide header
                 if (storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header && header) {
                     if (window.pageYOffset > 100) {
                         header.classList.add('header-small');
+                        if (headerInner) {
+                            headerInner.classList.add('header-inner');
+                        }
                     } else {
                         header.classList.remove('header-small');
+                        if (headerInner) {
+                            headerInner.classList.remove('header-inner');
+                        }
                     }
                 }
                 if (!triger && window.pageYOffset > maxHeigtToShow) {

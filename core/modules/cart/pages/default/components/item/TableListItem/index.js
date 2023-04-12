@@ -48,7 +48,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
             id: selectDelete.id,
             product: selectDelete.product,
             quantity: selectDelete.quantity,
-            prices: selectDelete.prices,
+            prices: selectDelete.custom_price,
         });
     };
 
@@ -79,10 +79,10 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
     if (data) {
         const unGroupedData = data;
         // eslint-disable-next-line no-shadow
-        const groupData = unGroupedData.reduce((groupData, { SimpleMiniCustomizable, id, note, prices, product, quantity, ...other }) => {
-            let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+        const groupData = unGroupedData.reduce((groupData, { SimpleMiniCustomizable, id, note, custom_price, product, quantity, custom_seller, ...other }) => {
+            let item = groupData.find((p) => p.seller_id === custom_seller.seller_id);
             if (!item) {
-                item = { seller_id: product.seller.seller_id, seller_name: product.seller.seller_name, children: [] };
+                item = { seller_id: custom_seller.seller_id, seller_name: custom_seller.seller_name, children: [] };
                 groupData.push(item);
             }
             let child = item.children.find((ch) => ch.name === product.name);
@@ -91,7 +91,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                     SimpleMiniCustomizable,
                     id,
                     note,
-                    prices,
+                    custom_price,
                     product,
                     quantity,
                     ...other,
@@ -230,7 +230,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                                     />
                                                                 </a>
                                                             </Link>
-                                                            {val.prices.price.value === 0 ? <span>Free</span> : null}
+                                                            {val.custom_price.price_incl_tax.value === 0 ? <span>Free</span> : null}
                                                         </div>
                                                     </TableCell>
                                                     <TableCell align="left" className={styles.noBorder}>
@@ -238,7 +238,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                             <div className="col-xs-12">
                                                                 <Link href="/[...slug]" as={`/${val.product.url_key}`}>
                                                                     <a>
-                                                                        <Typography variant="span" letter="capitalize">
+                                                                        <Typography variant="span" letter="capitalize" className={styles.productTitle}>
                                                                             {val.product.name}
                                                                         </Typography>
                                                                     </a>
@@ -320,8 +320,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                     <TableCell align="right" className={styles.noBorder}>
                                                         <Typography variant="span" align="right" letter="capitalize">
                                                             {formatPrice(
-                                                                val.prices?.price_including_tax?.value || 0,
-                                                                val.prices?.price_including_tax?.currency || 'IDR',
+                                                                val.custom_price?.price_incl_tax?.value || 0,
+                                                                val.custom_price?.price_incl_tax?.currency || 'IDR',
                                                                 currencyCache
                                                             )}
                                                         </Typography>
@@ -334,8 +334,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                     <TableCell align="right" className={styles.noBorder}>
                                                         <Typography variant="span" align="right" letter="capitalize">
                                                             {formatPrice(
-                                                                val.prices.row_total_including_tax.value,
-                                                                val.prices.row_total_including_tax.currency,
+                                                                val.custom_price.row_total_incl_tax.value,
+                                                                val.custom_price.row_total_incl_tax.currency,
                                                                 currencyCache
                                                             )}
                                                         </Typography>
@@ -457,7 +457,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                                             />
                                                                         </a>
                                                                     </Link>
-                                                                    {val.prices.price.value === 0 ? <span>Free</span> : null}
+                                                                    {val.custom_price.price_incl_tax.value === 0 ? <span>Free</span> : null}
                                                                 </div>
                                                             </TableCell>
                                                             <TableCell align="left" className={styles.noBorder}>
@@ -465,7 +465,7 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                                     <div className="col-xs-12">
                                                                         <Link href="/[...slug]" as={`/${val.product.url_key}`}>
                                                                             <a>
-                                                                                <Typography variant="span" letter="capitalize">
+                                                                                <Typography variant="span" letter="capitalize" className={styles.productTitle}>
                                                                                     {val.product.name}
                                                                                 </Typography>
                                                                             </a>
@@ -551,9 +551,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                             <TableCell align="right" className={styles.noBorder}>
                                                                 <Typography variant="span" align="right" letter="capitalize">
                                                                     {formatPrice(
-                                                                        val.prices?.price_including_tax?.value || 0,
-                                                                        val.prices?.price_including_tax?.currency || 'IDR',
-                                                                        currencyCache
+                                                                        val.custom_price?.price_incl_tax?.value || 0,
+                                                                        val.custom_price?.price_incl_tax?.currency || 'IDR', currencyCache
                                                                     )}
                                                                 </Typography>
                                                             </TableCell>
@@ -570,9 +569,8 @@ const TableListProduct = ({ data, t, deleteItem, handleFeed, toggleEditDrawer, s
                                                             <TableCell align="right" className={styles.noBorder}>
                                                                 <Typography variant="span" align="right" letter="capitalize">
                                                                     {formatPrice(
-                                                                        val.prices.row_total_including_tax.value,
-                                                                        val.prices.row_total_including_tax.currency,
-                                                                        currencyCache
+                                                                        val.custom_price.row_total_incl_tax.value,
+                                                                        val.custom_price.row_total_incl_tax.currency, currencyCache
                                                                     )}
                                                                 </Typography>
                                                             </TableCell>

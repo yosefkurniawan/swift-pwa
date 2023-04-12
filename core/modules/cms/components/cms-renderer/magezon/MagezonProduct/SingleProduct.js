@@ -159,7 +159,7 @@ const SingleProduct = (props) => {
                 >
                     {product_name && (
                         <Grid item>
-                            <Typography variant="h4">{name}</Typography>
+                            <Typography variant="h4" className={styles.productTitle}>{name}</Typography>
                         </Grid>
                     )}
                     {enableMultiSeller && seller.seller_name && (

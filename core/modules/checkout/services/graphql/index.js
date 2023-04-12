@@ -68,6 +68,13 @@ export const getItemCart = (options = {}) => useLazyQuery(Schema.getItemCart, {
     errorPolicy: 'all',
 });
 
+export const getPrice = (options = {}) => useLazyQuery(Schema.getPrice, {
+    ...options,
+    ...config(USING_INTERNAL),
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
+});
+
 export const getCheckoutConfigurations = () => useQuery(Schema.getCheckoutConfigurations);
 
 export const getSeller = (options = {}) => useLazyQuery(Schema.getSeller, {
@@ -76,6 +83,13 @@ export const getSeller = (options = {}) => useLazyQuery(Schema.getSeller, {
 });
 
 export const getRewardPoint = () => useLazyQuery(Schema.getRewardPoint, { ...config(USING_INTERNAL) });
+
+export const getUpdatedCart = (options = {}) => useLazyQuery(Schema.getUpdatedCart, {
+    ...options,
+    ...config(USING_INTERNAL),
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
+});
 
 export const setShippingAddress = (options = {}) => useMutation(Schema.setShippingAddressById, {
     ...options,
@@ -307,10 +321,12 @@ export default {
     getAddressCustomer,
     getCart,
     getItemCart,
+    getPrice,
     getStripePaymentIntent,
     getCheckoutConfigurations,
     getSeller,
     getRewardPoint,
+    getUpdatedCart,
     setShippingAddress,
     setShippingMethod,
     setShippingMethodMultiseller,

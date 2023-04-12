@@ -74,14 +74,26 @@ const MagezonCategories = (props) => {
     return (
         <>
             <div className="mgz-categories">
-                <div className={`mgz-categories-heading ${showLineClass} ${linePosClass}`}>
-                    <div className="mgz-categories-heading-title">
-                        <Typography variant={title_tag} align={title_align}>
-                            {title.toUpperCase()}
-                        </Typography>
-                    </div>
-                    <div className="mgz-categories-heading-description">{description}</div>
-                </div>
+                {
+                    (title || description) && (
+                        <div className={`mgz-categories-heading ${showLineClass} ${linePosClass}`}>
+                            {
+                                title && (
+                                    <div className="mgz-categories-heading-title">
+                                        <Typography variant={title_tag} align={title_align}>
+                                            {title.toUpperCase()}
+                                        </Typography>
+                                    </div>
+                                )
+                            }
+                            {
+                                description && (
+                                    <div className="mgz-categories-heading-description">{description}</div>
+                                )
+                            }
+                        </div>
+                    )
+                }
                 <div className="mgz-categories-content">
                     {/* {memoizedCategories} */}
                     {renderCategories(data.categoryList)}

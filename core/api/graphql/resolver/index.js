@@ -9,8 +9,6 @@ const internalGenerateSession = require('./internalGenerateSession');
 const internalDeleteSession = require('./internalDeleteSession');
 const internalCreateSocialLogin = require('./internalCreateSocialLogin');
 const internalGetInstagramFeed = require('./internalGetInstagramFeed');
-const internalGetCurrency = require('./internalGetCurrency');
-const internalGetAvailableStores = require('./internalGetAvailableStores');
 
 const resolver = {
     Mutation: {
@@ -24,10 +22,6 @@ const resolver = {
         internalDeleteSession,
         internalCreateSocialLogin,
         internalGetInstagramFeed,
-    },
-    Query: {
-        internalGetCurrency,
-        internalGetAvailableStores,
     },
 };
 

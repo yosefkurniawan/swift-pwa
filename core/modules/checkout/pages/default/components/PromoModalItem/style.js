@@ -42,8 +42,8 @@ const useStyles = makeStyles((theme) => ({
             color: WHITE,
         },
         [theme.breakpoints.down('xs')]: {
-            position: 'fixed',
-            top: 50,
+            position: 'absolute',
+            top: 0,
             width: '100%',
         },
     },

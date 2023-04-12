@@ -66,13 +66,13 @@ const CheckoutDrawer = ({
     if (items.length > 0) {
         const unGroupedData = items;
 
-        // eslint-disable-next-line no-shadow, object-curly-newline
-        const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, prices, product, ...other }) => {
-            let item = groupData.find((p) => p.seller_id === product.seller.seller_id);
+        // eslint-disable-next-line no-shadow, object-curly-newline, max-len
+        const groupData = unGroupedData.reduce((groupData, { id, quantity, pickup_item_store_info, custom_price, product, custom_seller, ...other }) => {
+            let item = groupData.find((p) => p.seller_id === custom_seller.seller_id);
             if (!item) {
                 item = {
-                    seller_id: product.seller.seller_id,
-                    seller_name: product.seller.seller_name ? product.seller.seller_name : 'Default Seller',
+                    seller_id: custom_seller.seller_id,
+                    seller_name: custom_seller.seller_name ? custom_seller.seller_name : 'Default Seller',
                     productList: [],
                     subtotal: {
                         currency: '',
@@ -85,14 +85,14 @@ const CheckoutDrawer = ({
             if (!child) {
                 child = {
                     id,
-                    prices,
+                    custom_price,
                     product,
                     quantity,
                     ...other,
                 };
                 item.productList.push(child);
-                item.subtotal.currency = prices.row_total_including_tax.currency;
-                item.subtotal.value += prices.row_total_including_tax.value;
+                item.subtotal.currency = custom_price?.row_total_incl_tax.currency;
+                item.subtotal.value += custom_price?.row_total_incl_tax.value;
             }
             return groupData;
         }, []);
@@ -134,7 +134,9 @@ const CheckoutDrawer = ({
                                                         >
                                                             <div className="col-xs-12 row between-xs clear-margin-padding">
                                                                 <div className="col-xs-6">
-                                                                    <Typography variant="p">{item.product.name}</Typography>
+                                                                    <Typography variant="p" className={styles.productTitle}>
+                                                                        {item.product.name}
+                                                                    </Typography>
                                                                 </div>
                                                                 <div className="col-xs-6">
                                                                     <Typography variant="p" align="right">
@@ -196,7 +198,9 @@ const CheckoutDrawer = ({
                                                 <div className="col-xs-12 row" key={index} id="bottomListItemProductSummary">
                                                     <div className="col-xs-12 row between-xs">
                                                         <div className="col-xs-6">
-                                                            <Typography variant="p">{item.product.name}</Typography>
+                                                            <Typography variant="p" className={styles.productTitle}>
+                                                                {item.product.name}
+                                                            </Typography>
                                                         </div>
                                                         <div className="col-xs-6">
                                                             <Typography variant="p" align="right">

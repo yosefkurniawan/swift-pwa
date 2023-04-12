@@ -260,7 +260,10 @@ const modules = {
             enabled: true,
         },
         xendit: {
-            paymentPrefixCodeOnSuccess: ['alfamart', 'bcava', 'briva', 'bniva', 'mandiriva', 'permatava', 'indomaret', 'qris'],
+            paymentPrefixCodeOnSuccess: ['alfamart', 'bcava', 'briva', 'qris', 'shopeepay', 'bniva', 'mandiriva',
+                'permatava', 'indomaret', 'bjbva', 'bsiva', 'gcash', 'grabpay', 'paymaya',
+                'dd_bpi', 'seven_eleven', 'dd_ubp', 'billease', 'cebuana', 'dp_palawan',
+                'dp_mlhuillier', 'dp_ecpay_loan', 'cashalo', 'shopeepayph', 'uangme', 'astrapay', 'akulaku', 'dd_rcbc'],
             paymentPrefixCode: ['cc', 'cc_subscription', 'dana', 'ovo', 'linkaja', 'qr_codes', 'dd_bri', 'kredivo'],
         },
     },
