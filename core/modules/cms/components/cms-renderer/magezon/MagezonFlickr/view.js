@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
+import { basePath } from '@config';
 import Typography from '@common_typography';
 import PhotoSwipe from '../MagezonInstagramFeed/components/PhotoSwipe/index';
 
@@ -14,7 +15,7 @@ const ImageItem = ({ src, alt, onClick = () => {} }) => (
             src={src}
             onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = '/assets/img/placeholder.png';
+                e.target.src = `${basePath}/assets/img/placeholder.png`;
             }}
             alt={alt}
         />

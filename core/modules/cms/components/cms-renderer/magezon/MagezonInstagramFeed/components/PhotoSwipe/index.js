@@ -30,6 +30,7 @@ import Link from 'next/link';
 import fscreen from 'fscreen';
 import { useTranslation } from '@i18n';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
+import { basePath } from '@config';
 
 const Transition = React.forwardRef((props, ref) => <Zoom ref={ref} {...props} />);
 
@@ -287,7 +288,7 @@ const PhotoSwipe = (props) => {
                                         src={generateThumborUrl(item.media_url, 500, 500, enable, useHttpsOrHttp, url_thumbor)}
                                         onError={(e) => {
                                             e.target.onerror = null;
-                                            e.target.src = '/assets/img/placeholder.png';
+                                            e.target.src = `${basePath}/assets/img/placeholder.png`;
                                         }}
                                         alt={item.id}
                                     />

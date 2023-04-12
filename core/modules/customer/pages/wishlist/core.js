@@ -8,6 +8,7 @@ import { getCartIdUser } from '@core_modules/customer/services/graphql/schema';
 import {
     addSimpleProductsToCart, getCustomer, removeWishlist as gqlremoveWishlist, shareWishlist,
 } from '@core_modules/customer/services/graphql';
+import { basePath } from '@config';
 
 const Wishlist = (props) => {
     let wishlist = [];
@@ -85,7 +86,7 @@ const Wishlist = (props) => {
             wishlistItemId: id,
             name: product.name,
             link: product.url_key,
-            imageSrc: product.small_image.url || '/assets/img/placeholder.png',
+            imageSrc: product.small_image.url || `${basePath}/assets/img/placeholder.png`,
             price: product.price_range.minimum_price.regular_price.value,
         }));
     }

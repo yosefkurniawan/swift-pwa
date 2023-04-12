@@ -6,7 +6,7 @@
 /* eslint-disable func-names */
 /* eslint-disable radix */
 /* eslint-disable max-len */
-import { custDataNameCookie, features, modules, sentry } from '@config';
+import { basePath, custDataNameCookie, features, modules, sentry } from '@config';
 import { getLastPathWithoutLogin, getLoginInfo } from '@helper_auth';
 import { getLocalStorage, setLocalStorage, setResolver, testLocalStorage } from '@helper_localstorage';
 import { appWithTranslation } from '@i18n';
@@ -351,7 +351,7 @@ class MyApp extends App {
     }
 
     registerServiceWorker() {
-        navigator.serviceWorker.register('/service-worker.js').then(
+        navigator.serviceWorker.register(`${basePath}/service-worker.js`).then(
             (registration) => {
                 // eslint-disable-next-line no-console
                 console.log('Service Worker registration successful with scope: ', registration.scope);

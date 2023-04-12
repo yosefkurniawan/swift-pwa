@@ -1,3 +1,4 @@
+import { basePath } from '@config';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
     CreatePadding,
@@ -42,16 +43,16 @@ export default makeStyles({
             },
 
             '& .icon-facebook': {
-                backgroundImage: 'url(/assets/img/facebook.png)',
+                backgroundImage: `url(${basePath}/assets/img/facebook.png)`,
             },
             '& .icon-twitter': {
-                backgroundImage: 'url(/assets/img/twitter.png)',
+                backgroundImage: `url(${basePath}/assets/img/twitter.png)`,
             },
             '& .icon-instagram': {
-                backgroundImage: 'url(/assets/img/instagram.png)',
+                backgroundImage: `url(${basePath}/assets/img/instagram.png)`,
             },
             '& .icon-pinterest': {
-                backgroundImage: 'url(/assets/img/pinterest.png)',
+                backgroundImage: `url(${basePath}/assets/img/pinterest.png)`,
             },
 
         },

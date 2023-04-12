@@ -9,6 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Alert from '@material-ui/lab/Alert';
+import { basePath } from '@config';
 
 const TableListProduct = ({
     data, t, currency, currencyCache,
@@ -64,12 +65,12 @@ const TableListProduct = ({
                                     <TableCell align="center">
                                         <div className={styles.productImgContainer}>
                                             <img
-                                                src={val.image_url || '/assets/img/placeholder.png'}
+                                                src={val.image_url || `${basePath}/assets/img/placeholder.png`}
                                                 className={styles.productImg}
                                                 alt={val.name}
                                                 onError={(e) => {
                                                     e.target.onerror = null;
-                                                    e.target.src = '/assets/img/placeholder.png';
+                                                    e.target.src = `${basePath}/assets/img/placeholder.png`;
                                                 }}
                                             />
                                         </div>

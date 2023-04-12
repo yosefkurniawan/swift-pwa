@@ -1,3 +1,4 @@
+import { basePath } from '@config';
 import React, {
     useState, useEffect, useCallback, useRef,
 } from 'react';
@@ -131,7 +132,7 @@ const LazyImage = ({ src, alt, style = {} }) => {
 
                     img.has-error {
                         // fallback to placeholder image on error
-                        content: url(/assets/img/placeholder.png);
+                        content: url(${basePath}/assets/img/placeholder.png);
                     }
                 `}
             </style>

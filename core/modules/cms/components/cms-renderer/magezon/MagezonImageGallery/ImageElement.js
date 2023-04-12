@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
+import { basePath } from '@config';
 import WidgetRenderer from '@core_modules/cms/components/cms-renderer/WidgetRenderer';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
@@ -50,7 +51,7 @@ const ImageElement = (props) => {
                             src={getImgUrl}
                             onError={(e) => {
                                 e.target.onerror = null;
-                                e.target.src = '/assets/img/placeholder.png';
+                                e.target.src = `${basePath}/assets/img/placeholder.png`;
                             }}
                             alt="mediaimage"
                         />

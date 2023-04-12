@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Typography from '@common_typography';
+import { basePath } from '@config';
 import useStyles from '@core_modules/checkout/components/radioitem/style';
 import { formatPrice } from '@helpers/currency';
 import { useReactiveVar } from '@apollo/client';
@@ -128,7 +129,7 @@ const RadioDeliveryItem = (props) => {
                     } */
                     }
                     #checkoutRadioItem :global(.travelokapay-ic) {
-                        background-image: url(/assets/img/traveloka_paylater_ic.jpg);
+                        background-image: url(${basePath}/assets/img/traveloka_paylater_ic.jpg);
                         width: 60px;
                         height: 60px;
                         background-repeat: no-repeat;

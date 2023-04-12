@@ -10,6 +10,7 @@ import Link from 'next/link';
 import PhotoSwipe from '@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed/components/PhotoSwipe';
 import SimpleReactLightbox, { SRLWrapper } from 'simple-react-lightbox';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
+import { basePath } from '@config';
 
 const ImageItem = ({ src, alt, onClick = () => {}, storeConfig }) => {
     const enable = storeConfig.pwa.thumbor_enable;
@@ -27,7 +28,7 @@ const ImageItem = ({ src, alt, onClick = () => {}, storeConfig }) => {
                 src={imageUrl}
                 onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = '/assets/img/placeholder.png';
+                    e.target.src = `${basePath}/assets/img/placeholder.png`;
                 }}
                 alt={alt}
             />

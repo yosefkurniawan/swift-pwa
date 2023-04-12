@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@common_button';
 import Radio from '@common_forms/Radio';
 import Typography from '@common_typography';
-import commonConfig from '@config';
+import commonConfig, { basePath } from '@config';
 import FieldPoint from '@core_modules/checkout/components/fieldcode';
 import RadioItem from '@core_modules/checkout/components/radioitem';
 import ModalHowtoPay from '@core_modules/checkout/pages/default/components/ModalHowtoPay';
@@ -51,7 +51,7 @@ const PaymentGroupIcon = (props) => {
     const styles = useStyles();
 
     // check if image exist on the backoffice, otherwise use fallback image from PWA
-    const [imageSrc, setImageSrc] = React.useState(`./assets/img/paymenticons-${src.replace('pg-', '')}.svg`);
+    const [imageSrc, setImageSrc] = React.useState(`${basePath}/assets/img/paymenticons-${src.replace('pg-', '')}.svg`);
     const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
 
     // set image fallback url

@@ -8,7 +8,7 @@ import theme from '@theme_theme';
 
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import {
-    rollbar,
+    rollbar, basePath,
 } from '@config';
 
 export default class MyDocument extends Document {
@@ -27,7 +27,8 @@ export default class MyDocument extends Document {
                 <HeadCustom>
                     {/* PWA primary color */}
                     <meta name="theme-color" content={theme.palette.primary.main} />
-                    <link rel="manifest" href="/manifest.json" />
+                    <link rel="manifest" href={`${basePath}/manifest.json`} />
+                    <link rel="shortcut icon" href={`${basePath}/favicon.ico`} />
                     {rollbar && rollbar.enabled ? (
                         <script
                             dangerouslySetInnerHTML={{
