@@ -8,7 +8,7 @@ import { gql } from '@apollo/client';
  */
 export const getCurrencySchema = gql`
     {
-        internalGetCurrency {
+        currency {
             base_currency_code
             base_currency_symbol
             default_display_currency_code
@@ -24,7 +24,7 @@ export const getCurrencySchema = gql`
 
 export const getStoreName = gql`
     {
-        internalGetAvailableStores{
+        availableStores{
             store_code
             store_name
             locale

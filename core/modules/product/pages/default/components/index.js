@@ -13,7 +13,6 @@ import useStyles from '@core_modules/product/pages/default/components/style';
 import { getProductBannerLite } from '@core_modules/product/services/graphql';
 import { getHost } from '@helper_config';
 import { formatPrice } from '@helper_currency';
-import { breakPointsUp } from '@helper_theme';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import ChatIcon from '@material-ui/icons/Chat';
@@ -71,6 +70,7 @@ const ProductPage = (props) => {
         expandData,
         openImageDetail,
         handleOpenImageDetail,
+        selectedImgIdx,
         stockStatus,
         additionalPrice,
         smartProductTabs,
@@ -87,7 +87,6 @@ const ProductPage = (props) => {
         dataSeller,
         currencyCache,
     } = props;
-    const desktop = breakPointsUp('sm');
 
     const context = isLogin && isLogin === 1 ? { request: 'internal' } : {};
     const [getBannerLite, bannerLiteResult] = getProductBannerLite(route.asPath.slice(1), { context });
@@ -217,10 +216,16 @@ const ProductPage = (props) => {
                     isLogin={isLogin}
                     storeConfig={storeConfig}
                 />
-                {enablePopupImage && (
-                    <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} storeConfig={storeConfig} />
-                )}
             </div>
+            {enablePopupImage && (
+                <ModalPopupImage
+                    open={openImageDetail}
+                    setOpen={handleOpenImageDetail}
+                    banner={banner}
+                    selectedImgIdx={selectedImgIdx}
+                    storeConfig={storeConfig}
+                />
+            )}
             <OptionItem
                 {...props}
                 open={openOption}
@@ -286,7 +291,7 @@ const ProductPage = (props) => {
                         autoPlay={false}
                         width={960}
                         height={1120}
-                        actionImage={desktop && enablePopupImage ? handleOpenImageDetail : () => {}}
+                        actionImage={enablePopupImage ? handleOpenImageDetail : () => {}}
                         customProduct={styles.bannerProduct}
                         storeConfig={storeConfig}
                     >

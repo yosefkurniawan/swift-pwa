@@ -6,31 +6,8 @@ type Token {
     is_email_confirmation: Boolean
 }
 
-type ExchangeRate {
-    currency_to: String
-    rate: Float
-}
-
-type Currency {
-    base_currency_code: String
-    base_currency_symbol: String
-    default_display_currency_code: String
-    default_display_currency_symbol: String
-    available_currency_codes: [String]
-    exchange_rates: [ExchangeRate]
-}
-
-type Stores {
-    store_code: ID
-    store_name: String
-    locale: String
-    is_default_store: Boolean
-}
-
 type Query {
     getCustomerToken: Token
-    internalGetCurrency: Currency
-    internalGetAvailableStores: [Stores]
 }
 
 type RevokeCustomerTokenOutput {

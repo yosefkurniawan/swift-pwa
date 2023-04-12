@@ -27,6 +27,7 @@ const ImageSlide = ({
     storeConfig,
     alt = '',
     urlEmbed,
+    noLink = false,
 }) => {
     const styles = useStyles();
     const href = (link && link.includes('http://')) || link.includes('https://') ? link : link[0] === '/' ? link : `/${link}`;
@@ -45,24 +46,50 @@ const ImageSlide = ({
         }
     }
     return (
-        <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })}>
-            <a>
-                <Thumbor
-                    src={imageUrl}
-                    srcMobile={mobileImageUrl}
-                    width={width || storeConfig?.pwa?.home_slider_desktop_width}
-                    height={height || storeConfig?.pwa?.home_slider_desktop_height}
-                    widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
-                    heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
-                    alt={alt}
-                    quality={100}
-                    className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
-                    contentWidth={contentWidth}
-                    customClass={customClass}
-                    storeConfig={storeConfig}
-                />
-            </a>
-        </Link>
+        <>
+            {
+                noLink
+                    ? (
+                        <a>
+                            <Thumbor
+                                src={imageUrl}
+                                srcMobile={mobileImageUrl}
+                                width={width || storeConfig?.pwa?.home_slider_desktop_width}
+                                height={height || storeConfig?.pwa?.home_slider_desktop_height}
+                                widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
+                                heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
+                                alt={alt}
+                                quality={100}
+                                className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
+                                contentWidth={contentWidth}
+                                customClass={customClass}
+                                storeConfig={storeConfig}
+                            />
+                        </a>
+                    )
+                    : (
+                        <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })}>
+                            <a>
+                                <Thumbor
+                                    src={imageUrl}
+                                    srcMobile={mobileImageUrl}
+                                    width={width || storeConfig?.pwa?.home_slider_desktop_width}
+                                    height={height || storeConfig?.pwa?.home_slider_desktop_height}
+                                    widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
+                                    heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
+                                    alt={alt}
+                                    quality={100}
+                                    className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
+                                    contentWidth={contentWidth}
+                                    customClass={customClass}
+                                    storeConfig={storeConfig}
+                                />
+                            </a>
+                        </Link>
+                    )
+            }
+        </>
+
     );
 };
 

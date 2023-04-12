@@ -12,9 +12,10 @@ const ConfirmationDialog = ({
     open = false, handleYes, handleCancel, message, confirmationMessage, confirmOnly = false, yesNo = false,
 }) => {
     const { t } = useTranslation(['common']);
+    const isOpen = open || false;
     return (
         <Dialog
-            open={open}
+            open={isOpen}
             // onClose={handleClose}
             maxWidth="xs"
             fullWidth
@@ -53,13 +54,17 @@ const ConfirmationDialog = ({
 };
 
 ConfirmationDialog.propTypes = {
-    open: propTypes.bool.isRequired,
+    open: propTypes.oneOfType([
+        propTypes.bool.isRequired,
+        propTypes.string.isRequired,
+    ]),
     handleYes: propTypes.func.isRequired,
     handleCancel: propTypes.func.isRequired,
     message: propTypes.string,
 };
 
 ConfirmationDialog.defaultProps = {
+    open: false,
     message: 'Are you Sure ?',
 };
 

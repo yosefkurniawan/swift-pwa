@@ -70,11 +70,15 @@ const useStyles = makeStyles(() => ({
                                 : '0px 6px',
         },
         '&:hover': {
-            color: props.button_hover_color || '#333333',
+            color: props.button_hover_color
+                ? `${props.button_hover_color} !important`
+                : props.button_color
+                    ? `${props.button_color} !important`
+                    : '#333333',
             backgroundColor: props.button_hover_background_color
-                ? props.button_hover_background_color
+                ? `${props.button_hover_background_color} !important`
                 : props.button_background_color
-                    ? props.button_background_color
+                    ? `${props.button_background_color} !important`
                     : '#e3e3e3',
             borderColor: props.button_hover_border_color || 'transparent',
             ...(props.button_style === 'gradient' && (props.gradient_color_1 || props.gradient_color_2) && {

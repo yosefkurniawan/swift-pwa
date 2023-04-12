@@ -13,20 +13,21 @@ import { getAppEnv } from '@root/core/helpers/env';
 import useStyles from '@common_spancategory/style';
 import Thumbor from '@common_image';
 
+const handleClick = async (link, id) => {
+    const urlResolver = getResolver();
+    urlResolver[link] = {
+        type: 'CATEGORY',
+        id,
+    };
+    await setResolver(urlResolver);
+};
+
 const SpanCategory = (props) => {
     const {
         imageSrc, name, description, url, right = false, id, storeConfig = {},
     } = props;
     const { t } = useTranslation(['common']);
     const styles = useStyles();
-    const handleClick = async (link) => {
-        const urlResolver = getResolver();
-        urlResolver[link] = {
-            type: 'CATEGORY',
-            id,
-        };
-        await setResolver(urlResolver);
-    };
     const urlDest = new URL(getStoreHost(getAppEnv()));
     let UrlString = '';
     if (imageSrc.toLowerCase().indexOf(urlDest.hostname) === -1) {
@@ -46,7 +47,7 @@ const SpanCategory = (props) => {
             <div className={classNames('row center middle-sm', right ? 'reverse' : '')}>
                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <Link href="/[...slug]" as={`/${url}`}>
-                        <a onClick={() => handleClick(`/${url}`)}>
+                        <a onClick={() => handleClick(`/${url}`, id)}>
                             <Thumbor
                                 src={setDefaultWhenEmpty(UrlString)}
                                 alt={name}
@@ -66,7 +67,7 @@ const SpanCategory = (props) => {
                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <div className={styles.contentContainer}>
                         <Link href="/[...slug]" as={`/${url}`}>
-                            <a onClick={handleClick}>
+                            <a onClick={() => handleClick(`/${url}`, id)}>
                                 <Typography variant="title" type="bold" align="center">
                                     {name}
                                 </Typography>
@@ -77,7 +78,7 @@ const SpanCategory = (props) => {
                             <div dangerouslySetInnerHTML={{ __html: description }} />
                         </Typography>
                         <Link href="/[...slug]" as={`/${url}`}>
-                            <a onClick={handleClick}>
+                            <a onClick={() => handleClick(`/${url}`, id)}>
                                 <Typography variant="span" type="bold" className={styles.textBtn}>
                                     {t('common:button:shop')}
                                 </Typography>

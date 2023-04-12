@@ -236,6 +236,7 @@ const PaymentView = (props) => {
                                                 {item.data.length !== 0 ? (
                                                     <Grid item xs={12}>
                                                         <Radio
+                                                            key={`${index}-${item.group}`}
                                                             value={selected.payment}
                                                             onChange={handlePayment}
                                                             valueData={item.data}

@@ -14,7 +14,7 @@ const HOST = {
 
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
-    local: 'https://swift.testingnow.me/graphql',
+    local: 'https://upgrade244.testingnow.me/graphql',
     dev: 'https://swift.testingnow.me/graphql',
     stage: 'https://b2cdemonew.gcp-staging.testingnow.me/graphql',
     prod: 'https://b2cdemo.getswift.asia/graphql',
@@ -41,6 +41,8 @@ const translation = {
         id: 'Indonesia',
     },
 };
+
+const requestTimeout = 30000; // miliseconds
 
 // error management monitoring
 const sentry = {
@@ -258,7 +260,10 @@ const modules = {
             enabled: true,
         },
         xendit: {
-            paymentPrefixCodeOnSuccess: ['alfamart', 'bcava', 'briva', 'bniva', 'mandiriva', 'permatava', 'indomaret', 'qris'],
+            paymentPrefixCodeOnSuccess: ['alfamart', 'bcava', 'briva', 'qris', 'shopeepay', 'bniva', 'mandiriva',
+                'permatava', 'indomaret', 'bjbva', 'bsiva', 'gcash', 'grabpay', 'paymaya',
+                'dd_bpi', 'seven_eleven', 'dd_ubp', 'billease', 'cebuana', 'dp_palawan',
+                'dp_mlhuillier', 'dp_ecpay_loan', 'cashalo', 'shopeepayph', 'uangme', 'astrapay', 'akulaku', 'dd_rcbc'],
             paymentPrefixCode: ['cc', 'cc_subscription', 'dana', 'ovo', 'linkaja', 'qr_codes', 'dd_bri', 'kredivo'],
         },
     },
@@ -445,4 +450,5 @@ module.exports = {
     rollbar,
     translation,
     keyLocalStorage,
+    requestTimeout,
 };

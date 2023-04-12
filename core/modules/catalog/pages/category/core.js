@@ -18,7 +18,7 @@ const Page = (props) => {
         id: categoryId,
     });
     const { data: dataConfig } = getPwaConfig();
-    const storeConfig = dataConfig?.storeConfig || {};
+    const storeConfig = dataConfig?.storeConfig || configStore;
     let config = {
         ...pageConfig,
     };

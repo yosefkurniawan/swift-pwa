@@ -34,7 +34,7 @@ const Summary = ({
     checkoutTokenState,
     setCheckoutTokenState,
 }) => {
-    const { order: loading, all: disabled } = checkout.loading;
+    const { order: loading, all: disabled, totalPrice } = checkout.loading;
     const errorItems = checkout?.data?.errorItems;
     const isSelectedPurchaseOrder = checkout.selected.payment === 'purchaseorder';
 
@@ -657,6 +657,7 @@ const Summary = ({
                 <div className="hidden-desktop">
                     <SummaryPlugin
                         t={t}
+                        loadTotal={totalPrice}
                         loading={loading}
                         isLoader={checkout.loading.order}
                         disabled={errorItems || disabled || (isSelectedPurchaseOrder && !isPurchaseOrderApply) || checkout.error.shippingAddress}
@@ -675,6 +676,7 @@ const Summary = ({
                 <SummaryPlugin
                     t={t}
                     loading={loading}
+                    loadTotal={totalPrice}
                     isLoader={checkout.loading.order}
                     handleActionSummary={handlePlaceOrder}
                     dataCart={checkout.data.cart}

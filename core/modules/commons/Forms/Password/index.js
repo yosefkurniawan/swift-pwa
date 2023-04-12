@@ -6,7 +6,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import checkPassword from '@helper_passwordstrength';
 import classNames from 'classnames';
 import Cookies from 'js-cookie';
 import { storeConfigNameCookie, passwordStrength } from '@config';
@@ -44,9 +43,11 @@ const PasswordField = ({
         numberOfRequiredClass = config.customer_password_required_character_classes_number;
     }
 
-    const handleChange = (event) => {
+    const handleChange = async (event) => {
         onChange(event);
         if (showPasswordMeter) {
+            // lazyload zxcvbn function
+            const checkPassword = (await import('@helper_passwordstrength')).default;
             const strength = checkPassword({ value: event.target.value, minValue, numberOfRequiredClass });
             setErrorPasswd(strength);
         }

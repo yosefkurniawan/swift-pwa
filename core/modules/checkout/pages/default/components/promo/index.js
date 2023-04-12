@@ -26,6 +26,7 @@ const DiscountSection = (props) => {
             },
         };
         state.loading.coupon = true;
+        state.newupdate = true;
         setCheckout(state);
         const isApplied = !state.data.isCouponAppliedToCart;
 

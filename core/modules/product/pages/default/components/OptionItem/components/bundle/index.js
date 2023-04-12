@@ -234,15 +234,15 @@ const OptionsItemsBundle = (props) => {
         }
     };
 
-    const selectOptions = (group, id) => {
+    const selectOptions = React.useCallback((group, id) => {
         const itemsUpdate = changeSelectedOption(group.position, id, items);
         setItems([...itemsUpdate]);
-    };
+    }, [items]);
 
-    const changeQty = (position, qty) => {
+    const changeQty = React.useCallback((position, qty) => {
         const itemsUpdate = changeQtyOption(position, qty, items);
         setItems([...itemsUpdate]);
-    };
+    }, [items]);
 
     return (
         <BundleView

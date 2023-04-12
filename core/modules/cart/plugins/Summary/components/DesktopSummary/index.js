@@ -25,7 +25,7 @@ const Summary = (props) => {
         t, summary, handleActionSummary = () => { }, loading, disabled,
         showItems = false, items = [], hideButton = false, isDesktop,
         isLoader, deleteCart, updateCart, withAction, withLabel = true,
-        labelItemAlign = 'left', dataCart, storeConfig, currencyCache,
+        labelItemAlign = 'left', dataCart, storeConfig, currencyCache, loadTotal,
     } = props;
     const styles = useStyles();
     const storeConfigLocalStorage = useReactiveVar(storeConfigVar);
@@ -291,21 +291,37 @@ const Summary = (props) => {
                         </ListItemSecondaryAction>
                     </ListItem>
                 ))}
-                <ListItem className={classNames(styles.list, styles.listSummary, styles.listItemGrandtotal)}>
-                    <ListItemText
-                        className={styles.labelItem}
-                        primary={(
-                            <Typography variant="span" type="bold" align={labelItemAlign} size="16">
-                                Total
-                            </Typography>
-                        )}
-                    />
-                    <ListItemSecondaryAction>
-                        <Typography variant="span" type="bold" size="16">
-                            {summary.total.currency ? formatPrice(summary.total.value, summary.total.currency, currencyCache) : null}
-                        </Typography>
-                    </ListItemSecondaryAction>
-                </ListItem>
+                {
+                    loadTotal
+                        ? (
+                            <ListItem className={classNames(styles.list, 'listSummary')}>
+                                <ListItemText
+                                    primary={(
+                                        <Typography variant="title" type="bold">
+                                            Total
+                                        </Typography>
+                                    )}
+                                />
+                                <Skeleton variant="rect" width="60%" height="30px" animation="wave" />
+                            </ListItem>
+                        ) : (
+                            <ListItem className={classNames(styles.list, styles.listSummary, styles.listItemGrandtotal)}>
+                                <ListItemText
+                                    className={styles.labelItem}
+                                    primary={(
+                                        <Typography variant="span" type="bold" align={labelItemAlign} size="16">
+                                            Total
+                                        </Typography>
+                                    )}
+                                />
+                                <ListItemSecondaryAction>
+                                    <Typography variant="span" type="bold" size="16">
+                                        {summary.total.currency ? formatPrice(summary.total.value, summary.total.currency, currencyCache) : null}
+                                    </Typography>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                        )
+                }
             </List>
             <div className={styles.footer}>
                 {

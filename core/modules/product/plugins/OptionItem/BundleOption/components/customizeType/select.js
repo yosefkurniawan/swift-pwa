@@ -14,13 +14,18 @@ const SelectItem = ({
     data, options = [], selectOptions, currencyCache, dynamicPrice,
 }) => {
     const styles = useStyles();
-    let defaultValue = 0;
-    for (let index = 0; index < options.length; index++) {
-        const element = options[index];
-        if (element.is_default) {
-            defaultValue = element.id;
+    const defaultValue = React.useMemo(() => {
+        let tempValue = 0;
+        if (options && options.length > 0) {
+            for (let index = 0; index < options.length; index++) {
+                const element = options[index];
+                if (element.is_default) {
+                    tempValue = element.id;
+                }
+            }
         }
-    }
+        return tempValue;
+    }, [options]);
 
     return (
         <FormControl className={styles.selectItem}>

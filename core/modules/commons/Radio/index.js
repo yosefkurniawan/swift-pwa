@@ -1,5 +1,8 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-expressions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -41,11 +44,22 @@ function CustomRadio({
     propsItem = {},
     disabled = false,
     CustomLabel,
+    useLoadMore = false,
 }) {
+    const [more, setMore] = React.useState(7);
     const styles = useStyles();
 
     const rootStyle = classNames(styles.root, className);
     const containerStyle = classNames('radio-container', styles[flex], classContainer, styles.error);
+
+    // handle load more and load less list data
+    const handleMore = () => {
+        setMore(more + 7);
+    };
+
+    const handleLess = () => {
+        setMore(more - 7);
+    };
 
     const handleChange = (event) => {
         !disabled && onChange(event.target.value);
@@ -75,19 +89,50 @@ function CustomRadio({
                     root: containerStyle,
                 }}
             >
-                {valueData.map((item, index) => (CustomItem ? (
-                    <CustomItem
-                        key={index}
-                        {...item}
-                        selected={JSON.stringify(value) === JSON.stringify(item.value)}
-                        onChange={handleChangeCustom}
-                        className={classItem}
-                        {...propsItem}
-                    />
-                ) : (
-                    <RadioItem key={index} {...item} {...propsItem} className={classItem} />
-                )))}
+                {
+                    useLoadMore
+                    // using load more button
+                        ? valueData?.slice(0, more)?.map((item, index) => (CustomItem ? (
+                            <CustomItem
+                                key={index}
+                                {...item}
+                                selected={JSON.stringify(value) === JSON.stringify(item.value)}
+                                onChange={handleChangeCustom}
+                                className={classItem}
+                                {...propsItem}
+                            />
+                        ) : (
+                            <RadioItem key={index} {...item} {...propsItem} className={classItem} />
+                        )))
+                    // not using load more button
+                        : valueData?.map((item, index) => (CustomItem ? (
+                            <CustomItem
+                                key={index}
+                                {...item}
+                                selected={JSON.stringify(value) === JSON.stringify(item.value)}
+                                onChange={handleChangeCustom}
+                                className={classItem}
+                                {...propsItem}
+                            />
+                        ) : (
+                            <RadioItem key={index} {...item} {...propsItem} className={classItem} />
+                        )))
+                }
             </RadioGroup>
+            {
+                useLoadMore && valueData.length > 7 && more <= 7 && (
+                    <a onClick={handleMore} style={{ marginTop: '10px', textAlign: 'right' }}>
+                        <Typography decoration="underline" variant="span">See more</Typography>
+                    </a>
+                )
+            }
+            {
+                useLoadMore && more > 7 && (
+                    <a onClick={handleLess} style={{ marginTop: '10px', textAlign: 'right' }}>
+                        <Typography decoration="underline" variant="span">See less</Typography>
+                    </a>
+                )
+            }
             {error && (
                 <Typography variant="p" color="red">
                     {errorMessage}

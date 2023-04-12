@@ -8,28 +8,28 @@
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
-import { useApolloClient, useReactiveVar } from '@apollo/client';
+import React from 'react';
 import Toast from '@common_toast';
-import { modules, nameCheckoutState } from '@config';
-import { getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '@core_modules/checkout/helpers/config';
 import gqlService from '@core_modules/checkout/services/graphql';
-import * as Schema from '@core_modules/checkout/services/graphql/schema';
+import Layout from '@layout';
+import Cookies from 'js-cookie';
+import Head from 'next/head';
+import Router from 'next/router';
+import TagManager from 'react-gtm-module';
+import { useApolloClient, useReactiveVar } from '@apollo/client';
+import { modules, nameCheckoutState } from '@config';
+import { getCartCallbackUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '@core_modules/checkout/helpers/config';
 import { getCartId } from '@helpers/cartId';
 import { getStoreHost } from '@helpers/config';
 import { getCheckoutData, removeCheckoutData } from '@helpers/cookies';
 import { formatPrice } from '@helper_currency';
 import { setLocalStorage } from '@helper_localstorage';
-import Layout from '@layout';
 import { getAppEnv } from '@root/core/helpers/env';
 import { updatePwaCheckoutLog } from '@services/graphql/repository/log';
 import { useFormik } from 'formik';
-import Cookies from 'js-cookie';
-import Head from 'next/head';
-import Router from 'next/router';
-import React, { useEffect, useState } from 'react';
-import TagManager from 'react-gtm-module';
-import * as Yup from 'yup';
 import { currencyVar } from '@root/core/services/graphql/cache';
+import * as Schema from '@core_modules/checkout/services/graphql/schema';
+import * as Yup from 'yup';
 
 function equalTo(ref, msg) {
     return this.test({
@@ -66,24 +66,23 @@ const Checkout = (props) => {
 
     // cache currency
     const currencyCache = useReactiveVar(currencyVar);
+    const appEnv = getAppEnv();
 
     let { isLogin } = props;
     let pwaCheckoutState = null;
-    let urlRedirect = '/checkout/cart';
-    if (modules.checkout.checkoutOnly) {
-        urlRedirect = getStoreHost(getAppEnv());
-    }
+    let urlRedirect = modules.checkout.checkoutOnly ? getStoreHost(appEnv) : '/checkout/cart';
 
-    const [cartId, setCartId] = useState(propsCardId);
-
+    const [cartId, setCartId] = React.useState(propsCardId);
     const [setCheckoutSession] = gqlService.setCheckoutSession();
-    const [checkoutTokenState, setCheckoutTokenState] = useState();
-    const [loadingSellerInfo, setLoadingSellerInfo] = useState(storeConfig.enable_oms_multiseller === '1');
-    const [amountSeller, setAmountSeller] = useState(0);
-    const [currentIndexSeller, setCurrentIndexSeller] = useState(0);
-    const [sellerInfoState, setSellerInfoState] = useState([]);
+    const [checkoutTokenState, setCheckoutTokenState] = React.useState();
+    const [loadingSellerInfo, setLoadingSellerInfo] = React.useState(storeConfig.enable_oms_multiseller === '1');
+    const [amountSeller, setAmountSeller] = React.useState(0);
+    const [currentIndexSeller, setCurrentIndexSeller] = React.useState(0);
+    const [sellerInfoState, setSellerInfoState] = React.useState([]);
+    const timeoutCart = React.useRef(null);
+    const timeoutWindowLocation = React.useRef(null);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (typeof window !== 'undefined') {
             const cartid = getCartId();
             isLogin = Cookies.get('isLogin');
@@ -99,9 +98,14 @@ const Checkout = (props) => {
             }
             setCartId(cartid);
         }
+
+        return () => {
+            clearTimeout(timeoutCart.current);
+            clearTimeout(timeoutWindowLocation.current);
+        };
     }, []);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (cartId) {
             setCheckoutSession({
                 variables: {
@@ -135,8 +139,9 @@ const Checkout = (props) => {
 
     const url = snap_is_production === '0' ? modules.checkout.snapUrl.dev : modules.checkout.snapUrl.prod;
 
-    const [checkout, setCheckout] = useState({
+    const [checkout, setCheckout] = React.useState({
         order_id: '',
+        newupdate: false,
         data: {
             errorItems: false,
             cart: null,
@@ -187,6 +192,7 @@ const Checkout = (props) => {
             extraFee: false,
             paypal: false,
             confirmation: false,
+            totalPrice: false,
         },
         status: {
             addresses: false,
@@ -208,11 +214,10 @@ const Checkout = (props) => {
         confirmation: false,
     });
 
-    const [isError, setError] = useState(false);
-    const appEnv = getAppEnv();
+    const [isError, setError] = React.useState(false);
 
     // config paypal
-    const [initialOptionPaypal, setInitialOptionPaypal] = useState({
+    const [initialOptionPaypal, setInitialOptionPaypal] = React.useState({
         'client-id': storeConfig?.paypal_key.client_id,
         currency: storeConfig?.base_currency_code,
         intent: storeConfig?.paypal_key.intent,
@@ -222,12 +227,13 @@ const Checkout = (props) => {
         'merchant-id': storeConfig?.pwa?.paypal_merchant_id,
     });
 
-    const [tokenData, setTokenData] = useState({});
+    const [tokenData, setTokenData] = React.useState({});
 
     // start init graphql
     const [getCustomer, manageCustomer] = gqlService.getCustomer();
     const [getCart, { data: dataCart, error: errorCart, refetch: refetchDataCart }] = gqlService.getCart();
     const [getItemCart, { data: itemCart, error: errorItem, refetch: refetchItemCart }] = gqlService.getItemCart();
+    const [getPrice, { data: itemPrice, loading: priceLoading }] = gqlService.getPrice();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
     const [setShippingAddressByInput] = gqlService.initiateShippingAddressMultiseller();
@@ -432,7 +438,7 @@ const Checkout = (props) => {
             window.toastMessage({
                 ...errorMessage,
             });
-            setTimeout(() => {
+            timeoutCart.current = setTimeout(() => {
                 Router.push('/checkout/cart');
             }, 3000);
         }
@@ -780,7 +786,7 @@ const Checkout = (props) => {
         updateFormik(cart);
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         setCheckout({
             ...checkout,
             data: {
@@ -790,7 +796,7 @@ const Checkout = (props) => {
         });
     }, [isLogin]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         setCheckout({
             ...checkout,
             loading: {
@@ -827,7 +833,7 @@ const Checkout = (props) => {
                 });
             }
             setError(true);
-            setTimeout(() => {
+            timeoutWindowLocation.current = setTimeout(() => {
                 window.location.replace(config.cartRedirect.link);
             }, [1000]);
         }
@@ -996,6 +1002,18 @@ const Checkout = (props) => {
         }
     }, [addressCustomer]);
 
+    // effect get price after update cart
+    React.useEffect(() => {
+        if (itemPrice && itemPrice.cart) {
+            let state = { ...checkout };
+            state.newupdate = false;
+            state.loading.totalPrice = false;
+            state.data.cart.prices = itemPrice.cart.prices;
+            state.data.cart.promoBanner = itemPrice.cart.promoBanner;
+            setCheckout(state);
+        }
+    }, [itemPrice]);
+
     React.useMemo(() => {
         if (checkout.data.cart) {
             const { cart } = checkout.data;
@@ -1062,6 +1080,11 @@ const Checkout = (props) => {
             }
 
             setCheckout(state);
+            if (checkout.newupdate) {
+                getPrice({ variables: { cartId } });
+                state.loading.totalPrice = true;
+                setCheckout(state);
+            }
         }
     }, [checkout.data.cart]);
 
@@ -1133,7 +1156,7 @@ const Checkout = (props) => {
         Router.push(
             !modules.checkout.checkoutOnly
                 ? `/${storeConfig?.paypal_key.cancel_url}`
-                : `${getStoreHost(getAppEnv())}${storeConfig?.paypal_key.cancel_url}`,
+                : `${getStoreHost(appEnv)}${storeConfig?.paypal_key.cancel_url}`,
         );
     };
 
@@ -1299,7 +1322,7 @@ const Checkout = (props) => {
                 state.loading.order = false;
                 setCheckout(state);
 
-                const redirectMagentoUrl = `${getStoreHost(getAppEnv())}${storeConfig?.paypal_key.return_url}`;
+                const redirectMagentoUrl = `${getStoreHost(appEnv)}${storeConfig?.paypal_key.return_url}`;
                 Router.push(!modules.checkout.checkoutOnly ? `/${storeConfig?.paypal_key.return_url}` : redirectMagentoUrl);
             })
             .catch((e) => {
