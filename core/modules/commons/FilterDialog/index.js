@@ -126,7 +126,7 @@ const FilterDialog = (props) => {
                 if (itemFilter.field === 'seller_id') {
                     itemFilter.value.forEach((item) => {
                         const findSeller = dataSeller.data.getSeller.filter((itemSeller) => itemSeller.id === parseInt(item.value));
-                        if (parseInt(item.value) === findSeller[0].id) {
+                        if (parseInt(item.value) === findSeller[0]?.id) {
                             childValue.push({
                                 count: item.count,
                                 label: findSeller[0].name,

@@ -892,6 +892,13 @@ const Checkout = (props) => {
             }
 
             if (shipping && storeConfig.enable_oms_multiseller === '1') {
+                const sellerList = (arr) => JSON.stringify(
+                    arr
+                    .filter(({ seller_id: x }) => x)
+                    .map(({ seller_id: x }) => x.toString())
+                    .sort()
+                );
+
                 if (
                     // Multi product not yet initialized (mix/all have seller_id)
                     (shipping.length > 0 &&
@@ -904,7 +911,10 @@ const Checkout = (props) => {
                         shipping[0].seller_id === null &&
                         cartItemBySeller[0].seller_id !== 0) ||
                     // Added new product with seller_id (more/less seller on shipping_address)
-                    (shipping && cartItemBySeller.length !== shipping.length && !cartItemBySeller.find((x) => x.seller_id === null))
+                    (shipping && cartItemBySeller.length !== shipping.length && !cartItemBySeller.find((x) => x.seller_id === null)) ||
+                    // If list seller_id between cartItem and shipping address not match
+                    (shipping.length > 0 && cartItemBySeller.length > 0
+                    && sellerList(shipping) !== sellerList(cartItemBySeller))
                 ) {
                     setShippingAddressByInput({
                         variables: {
