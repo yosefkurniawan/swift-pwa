@@ -308,13 +308,13 @@ const Layout = (props) => {
             if (pwaConfig) {
                 // eslint-disable-next-line max-len
                 fontStylesheet.href = `https://fonts.googleapis.com/css2?family=${
-                    pwaConfig.default_font ? pwaConfig.default_font.replace(' ', '-') : 'Montserrat'
+                    pwaConfig.default_font && pwaConfig.default_font !== '0' ? pwaConfig.default_font.replace(' ', '-') : 'Montserrat'
                 }:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
                 fontStylesheet.id = 'font-stylesheet-id';
                 fontStylesheet.rel = 'stylesheet';
                 // eslint-disable-next-line max-len
                 fontStylesheetHeading.href = `https://fonts.googleapis.com/css2?family=${
-                    pwaConfig.heading_font ? pwaConfig.heading_font.replace(' ', '-') : 'Montserrat'
+                    pwaConfig.heading_font && pwaConfig.default_font !== '0' ? pwaConfig.heading_font.replace(' ', '-') : 'Montserrat'
                 }:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap`;
                 fontStylesheetHeading.id = 'font-stylesheet-heading-id';
                 fontStylesheetHeading.rel = 'stylesheet';

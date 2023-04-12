@@ -4,6 +4,17 @@ import FeaturedView from '@core_modules/home/pages/default/components/FeaturedPr
 import gqlService from '@core_modules/home/service/graphql';
 import ErrorInfo from '@core_modules/home/pages/default/components/ErrorInfo';
 
+const onReInit = () => {
+    if (typeof window !== 'undefined') {
+        if (document.getElementById('home-featured')) {
+            document.getElementById('home-featured').classList.remove('hide');
+        }
+        if (document.getElementById('home-featured-skeleton')) {
+            document.getElementById('home-featured-skeleton').classList.add('hide');
+        }
+    }
+};
+
 const FeaturedProducts = ({
     t, isLogin, storeConfig,
 }) => {
@@ -25,16 +36,6 @@ const FeaturedProducts = ({
     }
 
     if (!loading && data && data.categoryList.length > 0) {
-        const onReInit = () => {
-            if (typeof window !== 'undefined') {
-                if (document.getElementById('home-featured')) {
-                    document.getElementById('home-featured').classList.remove('hide');
-                }
-                if (document.getElementById('home-featured-skeleton')) {
-                    document.getElementById('home-featured-skeleton').classList.add('hide');
-                }
-            }
-        };
         return (
             <>
                 <div className="full-width" id="home-featured-skeleton">
@@ -44,6 +45,8 @@ const FeaturedProducts = ({
             </>
         );
     }
+
+    return null;
 };
 
 export default FeaturedProducts;

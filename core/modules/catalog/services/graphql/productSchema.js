@@ -37,6 +37,10 @@ export const filterProduct = (filter, router) => {
             to: "${detailFilter.to}"
           }
         `;
+        } else if (detailFilter.type.includes('seller') && detailFilter.type.includes('filter')) {
+            // for etalase
+            // eslint-disable-next-line no-continue
+            continue;
         } else if (typeof detailFilter.value === 'object') {
             let inFilter = '';
             // eslint-disable-next-line no-plusplus
