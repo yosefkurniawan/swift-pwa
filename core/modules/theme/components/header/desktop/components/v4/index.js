@@ -13,6 +13,7 @@ import Menu from '@core_modules/theme/components/header/desktop/components/v4/mc
 import TopMenu from '@core_modules/theme/components/header/desktop/components/v4/mtop';
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
 import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
+import React from 'react';
 
 const ViewTopNavigation = (props) => {
     const {
@@ -37,8 +38,13 @@ const ViewTopNavigation = (props) => {
     } = props;
 
     const [triger, setTriger] = React.useState(false);
+    const [headerInnerTop, setHeaderInnerTop] = React.useState(showGlobalPromo ? 45 : 0);
 
     const maxHeightToShow = 600;
+
+    React.useEffect(() => {
+        setHeaderInnerTop(showGlobalPromo ? 45 : 0);
+    }, [showGlobalPromo]);
 
     React.useEffect(() => {
         if (typeof window !== 'undefined' && storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header) {
@@ -48,8 +54,10 @@ const ViewTopNavigation = (props) => {
                 if (searchbar) {
                     if (window.pageYOffset > 100) {
                         searchbar.classList.add('show-searchbox');
+                        setHeaderInnerTop(0);
                     } else {
                         searchbar.classList.remove('show-searchbox');
+                        setHeaderInnerTop(45);
                     }
                     if (!triger && window.pageYOffset > maxHeightToShow) {
                         setTriger(true);
@@ -78,7 +86,7 @@ const ViewTopNavigation = (props) => {
     const handleClose = () => setAnchorEl(null);
 
     return (
-        <div id="header-inner">
+        <div id="header-inner" style={{ top: `${headerInnerTop}px` }}>
             <div className="row header-top">
                 <main style={{ width: '97%' }}>
                     <TopMenu
@@ -112,6 +120,9 @@ const ViewTopNavigation = (props) => {
                                 <img
                                     className="header-middle__logo-link"
                                     src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
+                                    width={120}
+                                    height={52}
+                                    alt="swift"
                                 />
                             </Link>
                         </div>
@@ -176,7 +187,6 @@ const ViewTopNavigation = (props) => {
                             width: 100%;
                             background: white;
                             z-index: 3;
-                            top: ${showGlobalPromo ? '45px' : '0'};
                             transition: top 1s ease;
                         }
                         #header-inner.header-inner {

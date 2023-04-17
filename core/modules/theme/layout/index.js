@@ -81,6 +81,10 @@ const Layout = (props) => {
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
     const appEnv = getAppEnv();
+    const enablePromo = getCookies(features.globalPromo.key_cookies) !== ''
+        ? !!getCookies(features.globalPromo.key_cookies)
+        : storeConfig.global_promo.enable;
+
     const [state, setState] = useState({
         toastMessage: {
             open: false,
@@ -90,7 +94,7 @@ const Layout = (props) => {
         backdropLoader: false,
     });
     const [restrictionCookies, setRestrictionCookies] = useState(false);
-    const [showGlobalPromo, setShowGlobalPromo] = React.useState(false);
+    const [showGlobalPromo, setShowGlobalPromo] = React.useState(enablePromo);
     const [setCompareList] = createCompareList();
     const frontendCache = useReactiveVar(storeConfigVar);
 
@@ -242,7 +246,6 @@ const Layout = (props) => {
             window.toastMessage = handleSetToast;
             window.backdropLoader = handleLoader;
             const custData = Cookies.getJSON(custDataNameCookie);
-            const enablePromo = getCookies(features.globalPromo.key_cookies);
             const tagManagerArgs = {
                 dataLayer: {
                     pageName: pageConfig.title,
@@ -260,11 +263,6 @@ const Layout = (props) => {
                 tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
             }
             TagManager.dataLayer(tagManagerArgs);
-            if (enablePromo !== '' && storeConfig.global_promo && storeConfig.global_promo.enable) {
-                setShowGlobalPromo(enablePromo);
-            } else if (storeConfig.global_promo && storeConfig.global_promo.enable) {
-                setShowGlobalPromo(true);
-            }
         }
         // setMainMinimumHeight(refFooter.current.clientHeight + refHeader.current.clientHeight);
     }, []);
