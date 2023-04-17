@@ -15,6 +15,7 @@ import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 import { makeStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 import 'animate.css';
+import { basePath } from '@config';
 
 const MenuChildren = dynamic(() => import('@common_headerdesktop/components/v2/mcategoryChildren'), { ssr: false });
 
@@ -132,7 +133,7 @@ const Menu = (props) => {
                                             <>
                                                 {val.before_html && <div dangerouslySetInnerHTML={{ __html: val.before_html }} />}
                                                 <a
-                                                    href={val.link_type === 'category_link' && getPath(val.link)}
+                                                    href={val.link_type === 'category_link' && `${basePath}${getPath(val.link)}`}
                                                     onClick={() => {
                                                         if (val.link_type === 'custom_link') {
                                                             router.push(val.link);
