@@ -29,6 +29,28 @@ export default class MyDocument extends Document {
                     <meta name="theme-color" content={theme.palette.primary.main} />
                     <link rel="manifest" href={`${basePath}/manifest.json`} />
                     <link rel="shortcut icon" href={`${basePath}/favicon.ico`} />
+                    {/* preload font */}
+                    <link
+                        rel="preload"
+                        href="/assets/fonts/montserrat-v18-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-regular.woff2"
+                        as="font"
+                        type="font/woff2"
+                        crossOrigin
+                    />
+                    <link
+                        rel="preload"
+                        href="/assets/fonts/montserrat-v18-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-500.woff2"
+                        as="font"
+                        type="font/woff2"
+                        crossOrigin
+                    />
+                    <link
+                        rel="preload"
+                        href="/assets/fonts/montserrat-v18-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-700.woff2"
+                        as="font"
+                        type="font/woff2"
+                        crossOrigin
+                    />
                     {rollbar && rollbar.enabled ? (
                         <script
                             dangerouslySetInnerHTML={{
