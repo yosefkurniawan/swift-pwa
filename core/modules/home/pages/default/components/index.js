@@ -1,14 +1,15 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable max-len */
-import CmsPage from '@core_modules/cms/pages/default';
-import useStyles from '@core_modules/home/pages/default/components/style';
+import * as React from 'react';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
-import * as React from 'react';
+
+import useStyles from '@core_modules/home/pages/default/components/style';
 
 const BannerSlider = dynamic(() => import('@core_modules/home/pages/default/components/Banner'));
-const FeaturedProducts = dynamic(() => import('@core_modules/home/pages/default/components/FeaturedProducts'));
 const CategoryList = dynamic(() => import('@core_modules/home/pages/default/components/CategoryList'));
+const CmsPage = dynamic(() => import('@core_modules/cms/pages/default'));
+const FeaturedProducts = dynamic(() => import('@core_modules/home/pages/default/components/FeaturedProducts'));
 
 const Content = (props) => {
     const styles = useStyles();
@@ -38,7 +39,7 @@ const Content = (props) => {
 
     let content = '';
 
-    if (homePageConfig && useCmsPage && useCmsPage.enable) {
+    if (homePageConfig && useCmsPage?.enable) {
         content = (
             <>
                 <CmsPage
@@ -68,6 +69,7 @@ const Content = (props) => {
             {props.storeConfig && props.storeConfig.pwa && props.storeConfig.pwa.mobile_navigation !== 'burger_menu' && (
                 <div className={classNames(styles.header)}>
                     <div className={classNames(styles.logo, 'hidden-desktop')}>
+                        {/* TODO: set height, width. priorty after desktop performance */}
                         <img src={logoUrl} alt="logo" className={styles.imgLogo} />
                     </div>
                 </div>

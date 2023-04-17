@@ -1,5 +1,7 @@
-import Loading from '@common_loaders/Backdrop';
 import Alert from '@material-ui/lab/Alert';
+import Box from '@material-ui/core/Box';
+
+import Loading from '@common_loaders/Backdrop';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 
 const CmsPage = (props) => {
@@ -14,7 +16,13 @@ const CmsPage = (props) => {
         );
     }
 
-    if (loading) return <Loading open={loading} />;
+    if (loading) {
+        return (
+            <Box style={{ minHeight: '70vh' }}>
+                <Loading open={loading} />
+            </Box>
+        );
+    }
     if (onlyCms) return <CmsRenderer {...other} t={t} content={data.cmsPage.content} storeConfig={storeConfig} />;
 
     return (
