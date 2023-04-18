@@ -1,5 +1,4 @@
 /* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable no-unused-vars */
 const withOffline = require('next-offline');
 const { createSecureHeaders } = require('next-secure-headers');
 const { basePath } = require('./swift.config');
@@ -14,9 +13,6 @@ module.exports = withOffline({
     },
     // Disable X-Powered-By
     poweredByHeader: false,
-    future: {
-        webpack5: false,
-    },
     dontAutoRegisterSw: true,
     productionBrowserSourceMaps: true,
     publicRuntimeConfig: {
@@ -29,11 +25,7 @@ module.exports = withOffline({
     webpack: (
         config,
         {
-            // activate if need to analysis size build
-            buildId,
-            dev,
             isServer,
-            defaultLoaders,
             webpack,
         },
     ) => {
