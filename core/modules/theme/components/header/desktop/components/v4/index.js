@@ -120,6 +120,7 @@ const ViewTopNavigation = (props) => {
                             <Link href="/">
                                 <Thumbor
                                     className="header-middle__logo-link"
+                                    styleContainer={{ width: 120, height: 52, background: 'transparent' }}
                                     src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
                                     alt="logo"
                                     width={120}

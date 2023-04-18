@@ -1,12 +1,17 @@
 /* eslint-disable consistent-return */
 import React, { memo } from 'react';
 import parse, { domToReact } from 'html-react-parser';
-import WidgetPwaLink from '@core_modules/cms/components/cms-renderer/widget-link-pwa';
-import WidgetListProduct from '@core_modules/cms/components/cms-renderer/widget-list-product';
-import WidgetListBrand from '@core_modules/cms/components/cms-renderer/widget-list-brand';
-import WidgetSlider from '@core_modules/cms/components/cms-renderer/widget-slider';
+import dynamic from 'next/dynamic';
+
+import { strToCSSObject } from '@helpers/text';
+import { generateThumborUrl } from '@helpers/image';
 import WidgetView from '@core_modules/cms/components/cms-renderer/view';
-import Newsletter from '@plugin_newsletter';
+
+const Newsletter = dynamic(() => import('@plugin_newsletter'));
+const WidgetListProduct = dynamic(() => import('@core_modules/cms/components/cms-renderer/widget-list-product'));
+const WidgetListBrand = dynamic(() => import('@core_modules/cms/components/cms-renderer/widget-list-brand'));
+const WidgetPwaLink = dynamic(() => import('@core_modules/cms/components/cms-renderer/widget-link-pwa'));
+const WidgetSlider = dynamic(() => import('@core_modules/cms/components/cms-renderer/widget-slider'));
 
 const TYPE_PWA_SLIDER = 'pwa-slider';
 const TYPE_PWA_FEATURED = 'pwa-featured-brands';
@@ -36,13 +41,13 @@ const WidgetRenderer = (props) => {
         }, 1000);
         /* eslint-disable */
         for (i = 0; i < coll.length; i += 1) {
-            coll[i].addEventListener("click", function () {
-                this.classList.toggle("active");
+            coll[i].addEventListener('click', function () {
+                this.classList.toggle('active');
                 var contentCMS = this.nextElementSibling;
                 if (contentCMS.style.maxHeight) {
                     contentCMS.style.maxHeight = null;
                 } else {
-                    contentCMS.style.maxHeight = contentCMS.scrollHeight + "px";
+                    contentCMS.style.maxHeight = contentCMS.scrollHeight + 'px';
                 }
             });
         }
@@ -59,6 +64,13 @@ const WidgetRenderer = (props) => {
     const WidgetComponent = () => {
         return parse(updatedContent, {
             replace: (domNode) => {
+                if (domNode.name === 'img') {
+                    const { src = '', alt = '', style = '', ...attribs } = domNode.attribs;
+                    const optImg = generateThumborUrl(src, 0, 0, true, false, storeConfig.pwa.thumbor_url);
+
+                    return <img src={optImg} alt={alt ?? 'logo'} style={strToCSSObject(style)} {...attribs} />;
+                }
+
                 if (domNode.name === DOM_NAME && domNode.attribs) {
                     const propsWidget = domNode.attribs;
                     switch (domNode.attribs.type) {
@@ -80,19 +92,12 @@ const WidgetRenderer = (props) => {
                 if (domNode.attribs) {
                     if (domNode.attribs.class === 'acctitle') {
                         return (
-                            <button
-                                type="button"
-                                className="collapsible"
-                            >
+                            <button type="button" className="collapsible">
                                 {domToReact(domNode.children, domNode)}
                             </button>
                         );
                     } else if (domNode.attribs.class === 'acc_content clearfix') {
-                        return (
-                            <div className="content-collapsible">
-                                {domToReact(domNode.children, domNode)}
-                            </div>
-                        )
+                        return <div className="content-collapsible">{domToReact(domNode.children, domNode)}</div>;
                     }
                 }
             },
