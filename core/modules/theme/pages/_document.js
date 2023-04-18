@@ -51,6 +51,13 @@ export default class MyDocument extends Document {
                         type="font/woff2"
                         crossOrigin
                     />
+                    <link
+                        rel="preload"
+                        href="/assets/fonts/montserrat-v18-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-900.woff2"
+                        as="font"
+                        type="font/woff2"
+                        crossOrigin
+                    />
                     {rollbar && rollbar.enabled ? (
                         <script
                             dangerouslySetInnerHTML={{
