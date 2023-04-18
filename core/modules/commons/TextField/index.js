@@ -1,14 +1,17 @@
 import { useReactiveVar } from '@apollo/client';
 import { storeConfigVar } from '@root/core/services/graphql/cache';
-import useStyles from '@common_textfield/style';
-import Typography from '@common_typography';
+import React from 'react';
+import dynamic from 'next/dynamic';
+import classNames from 'classnames';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import classNames from 'classnames';
-import React from 'react';
-import PhoneInput from 'react-phone-number-input';
+
+import useStyles from '@common_textfield/style';
+import Typography from '@common_typography';
+
+const PhoneInput = dynamic(() => import('react-phone-number-input'));
 
 const CustomTextField = ({
     type = null,
