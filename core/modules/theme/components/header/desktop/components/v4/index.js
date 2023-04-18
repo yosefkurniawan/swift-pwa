@@ -14,6 +14,7 @@ import TopMenu from '@core_modules/theme/components/header/desktop/components/v4
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
 import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
 import React from 'react';
+import Thumbor from '@common_image';
 
 const ViewTopNavigation = (props) => {
     const {
@@ -117,12 +118,13 @@ const ViewTopNavigation = (props) => {
                     <div className="header-middle">
                         <div className="box header-middle__logo">
                             <Link href="/">
-                                <img
+                                <Thumbor
                                     className="header-middle__logo-link"
                                     src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
+                                    alt="logo"
                                     width={120}
                                     height={52}
-                                    alt="swift"
+                                    storeConfig={storeConfig}
                                 />
                             </Link>
                         </div>
