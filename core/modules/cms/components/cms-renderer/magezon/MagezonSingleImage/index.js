@@ -4,45 +4,17 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
+import dynamic from 'next/dynamic';
+import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
+import PopupMapVideo from '@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/PopupMapVideo';
 import Thumbor from '@common_image';
+
+import { basePath } from '@config';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
-import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
-import SimpleReactLightbox, { SRLWrapper, useLightbox } from 'simple-react-lightbox';
-import PopupMapVideo from '@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/PopupMapVideo';
-import { basePath } from '@config';
 
-const ImageWithAction = ({
-    withPopup, onClick, url, classContainer,
-    classImage, image_width, image_height, title, storeConfig, ...other
-}) => {
-    const { openLightbox } = useLightbox();
-    const handleClick = () => {
-        onClick();
-        if (withPopup) {
-            setTimeout(() => {
-                openLightbox();
-            }, 100);
-        }
-    };
-    return (
-        <a onClick={handleClick}>
-            <Thumbor
-                magezon
-                // eslint-disable-next-line no-nested-ternary
-                src={url || `${basePath}/assets/img/placeholder.png`}
-                className={classImage}
-                quality={80}
-                width={image_width ? image_width.replace('px', '') : ''}
-                height={image_height ? image_height.replace('px', '') : ''}
-                alt={title}
-                classContainer={classContainer}
-                storeConfig={storeConfig}
-                {...other}
-            />
-        </a>
-    );
-};
+const { SimpleReactLightbox, SRLWrapper } = dynamic(() => import('simple-react-lightbox'));
+const ImageWithAction = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/ImageWithAction'));
 
 const MagezonSingleImage = (props) => {
     const {
