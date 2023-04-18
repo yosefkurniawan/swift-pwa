@@ -2,7 +2,8 @@ import org.jenkinsci.plugins.pipeline.modeldefinition.Utils
 pipeline {
     agent none
     environment {
-        CLUSTER_STAGING = 'kubernetes-iii-staging'
+        CLUSTER_STAGING = 'kubernetes-huawei-epro-stg'
+        CLUSTER_PROD    = 'kubernetes-huawei-epro-prod'
         ENTRYPOINT      = '/home/jenkins/entrypoint/entrypoint.sh'
     }
     stages {

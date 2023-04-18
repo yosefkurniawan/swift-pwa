@@ -8,7 +8,11 @@ fi
 ts=$(date +%s)
 githead=$(git rev-list -1 tags/$2)
 set -ex
-echo "Building Backend Docker image with tag " $$githead-$$ts
-docker login -u _json_key -p "$(cat /etc/service_key/service-account-key.json | tr '\n' ' ')" https://asia.gcr.io
-docker build -t asia.gcr.io/sirclo-iii-nonprod/$1:$2-$ts -f Dockerfile.swift-pwa .
-docker push asia.gcr.io/sirclo-iii-nonprod/$1:$2-$ts
+echo "Building Backend Docker image with tag " $$githead-$$ts$$bid
+echo $githead-$ts$bid
+
+docker login -u "$(cat /etc/docker_cred/dockeruser)" -p "$(cat /etc/docker_cred/dockerpass)" swr.ap-southeast-4.myhuaweicloud.com
+
+# Build apps image
+docker build -t swr.ap-southeast-4.myhuaweicloud.com/id_epro_prod/$1:$2-$ts$bid -f Dockerfile.swift-pwa . --no-cache
+docker push swr.ap-southeast-4.myhuaweicloud.com/id_epro_prod/$1:$2-$ts$bid
