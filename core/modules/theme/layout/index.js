@@ -83,7 +83,7 @@ const Layout = (props) => {
     const appEnv = getAppEnv();
     const enablePromo = getCookies(features.globalPromo.key_cookies) !== ''
         ? !!getCookies(features.globalPromo.key_cookies)
-        : storeConfig.global_promo.enable;
+        : storeConfig.global_promo?.enable;
 
     const [state, setState] = useState({
         toastMessage: {
