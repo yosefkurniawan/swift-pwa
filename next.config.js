@@ -13,6 +13,9 @@ module.exports = withOffline({
     },
     // Disable X-Powered-By
     poweredByHeader: false,
+    future: {
+        webpack5: true,
+    },
     dontAutoRegisterSw: true,
     productionBrowserSourceMaps: true,
     publicRuntimeConfig: {
