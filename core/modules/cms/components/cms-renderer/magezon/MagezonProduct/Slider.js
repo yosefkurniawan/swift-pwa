@@ -79,7 +79,7 @@ const ProductSlider = (props) => {
                     <Slider ref={(slider) => (sliderRef = slider)} {...settings}>
                         {children}
                     </Slider>
-                    {owl_nav && showNav && (
+                    {owl_nav && showNav && children.length > 0 && (
                         <div className="mgz-product-slider-nav">
                             <div className="mgz-product-slider-nav--btn" onClick={() => sliderRef.slickPrev()}>
                                 <LeftArrowIcon />
@@ -93,6 +93,9 @@ const ProductSlider = (props) => {
             </div>
             <style jsx>
                 {`
+                    .mgz-product-slider {
+                        min-height: 298.38px;
+                    }
                     .mgz-product-slider :global(img) {
                         max-width: 100%;
                     }
