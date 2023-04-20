@@ -1,11 +1,15 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-mixed-operators */
 import React from 'react';
-import Link from 'next/link';
 import classNames from 'classnames';
-import useStyles from '@common_slick/Banner/style';
-import Thumbor from '@common_slick/Banner/Thumbor';
+import Link from 'next/link';
+import NextImage from 'next/image';
+
+import { basePath } from '@config';
 import ProductVideo from '@common_slick/Banner/productVideo';
+import Thumbor from '@common_slick/Banner/Thumbor';
+// import thumborLoader from '@helpers/imageLoader';
+import useStyles from '@common_slick/Banner/style';
 
 /**
  slug page need props 'href' & 'as' to prevent browser reloading
@@ -47,49 +51,52 @@ const ImageSlide = ({
     }
     return (
         <>
-            {
-                noLink
-                    ? (
-                        <a>
-                            <Thumbor
-                                src={imageUrl}
-                                srcMobile={mobileImageUrl}
-                                width={width || storeConfig?.pwa?.home_slider_desktop_width}
-                                height={height || storeConfig?.pwa?.home_slider_desktop_height}
-                                widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
-                                heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
-                                alt={alt}
-                                quality={100}
-                                className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
-                                contentWidth={contentWidth}
-                                customClass={customClass}
-                                storeConfig={storeConfig}
-                            />
-                        </a>
-                    )
-                    : (
-                        <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })}>
-                            <a>
-                                <Thumbor
-                                    src={imageUrl}
-                                    srcMobile={mobileImageUrl}
-                                    width={width || storeConfig?.pwa?.home_slider_desktop_width}
-                                    height={height || storeConfig?.pwa?.home_slider_desktop_height}
-                                    widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
-                                    heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
-                                    alt={alt}
-                                    quality={100}
-                                    className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
-                                    contentWidth={contentWidth}
-                                    customClass={customClass}
-                                    storeConfig={storeConfig}
-                                />
-                            </a>
-                        </Link>
-                    )
-            }
+            {noLink ? (
+                <a>
+                    <Thumbor
+                        src={imageUrl}
+                        srcMobile={mobileImageUrl}
+                        width={width || storeConfig?.pwa?.home_slider_desktop_width}
+                        height={height || storeConfig?.pwa?.home_slider_desktop_height}
+                        widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
+                        heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
+                        alt={alt}
+                        quality={100}
+                        className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
+                        contentWidth={contentWidth}
+                        customClass={customClass}
+                        storeConfig={storeConfig}
+                    />
+                </a>
+            ) : (
+                <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })}>
+                    <a>
+                        <NextImage
+                            // loader={thumborLoader}
+                            className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
+                            src={imageUrl ?? `${basePath}/assets/img/placeholder.png`}
+                            alt={alt}
+                            width={width || storeConfig?.pwa?.home_slider_desktop_width}
+                            height={height || storeConfig?.pwa?.home_slider_desktop_height}
+                        />
+                        {/* <Thumbor
+                            src={imageUrl}
+                            srcMobile={mobileImageUrl}
+                            width={width || storeConfig?.pwa?.home_slider_desktop_width}
+                            height={height || storeConfig?.pwa?.home_slider_desktop_height}
+                            widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
+                            heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
+                            alt={alt}
+                            quality={100}
+                            className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
+                            contentWidth={contentWidth}
+                            customClass={customClass}
+                            storeConfig={storeConfig}
+                        /> */}
+                    </a>
+                </Link>
+            )}
         </>
-
     );
 };
 
