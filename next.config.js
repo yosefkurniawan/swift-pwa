@@ -7,6 +7,9 @@ const { basePath } = require('./swift.config');
 
 module.exports = withOffline({
     basePath,
+    images: {
+        domains: ['b2cdemo.huawei-staging.testingnow.me'],
+    },
     // Secure Header
     async headers() {
         return [{ source: '/(.*)', headers: createSecureHeaders() }];
