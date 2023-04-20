@@ -27,13 +27,14 @@ import crypto from 'crypto';
 import Fab from '@material-ui/core/Fab';
 import ChatIcon from '@material-ui/icons/Chat';
 
-import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
-import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
 import { getCountCart } from '@core_modules/theme/services/graphql';
 import { frontendConfig } from '@helpers/frontendOptions';
+import { generateThumborUrl } from '@helpers/image';
 import { getCartId } from '@helper_cartid';
 import { localTotalCart } from '@services/graphql/schema/local';
 
+const Copyright = dynamic(() => import('@core_modules/theme/components/footer/desktop/components/copyright'));
+const PopupInstallAppMobile = dynamic(() => import('@core_modules/theme/components/custom-install-popup/mobile'), { ssr: false });
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
 const HeaderMobile = dynamic(() => import('@common_headermobile'), { ssr: false });
@@ -170,8 +171,15 @@ const Layout = (props) => {
 
     if (!ogData['og:image']) {
         ogData['og:image'] = storeConfig.header_logo_src
-        ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
-        : `${getHost()}${basePath}/assets/img/swift-logo.png` || '';
+            ? generateThumborUrl(
+                  `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`,
+                  0,
+                  0,
+                  storeConfig.pwa?.thumbor_enable,
+                  storeConfig.pwa?.thumbor_https_http,
+                  storeConfig.pwa.thumbor_url,
+              )
+            : `${getHost()}${basePath}/assets/img/swift-logo.png` || '';
     }
 
     if (!ogData['og:url']) {

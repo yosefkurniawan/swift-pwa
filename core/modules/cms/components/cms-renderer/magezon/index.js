@@ -281,6 +281,10 @@ const MagezonElement = (props) => {
                         width: 100%;
                         ${background_color ? `background-color: ${background_color};` : ''}
                     }
+                    .mgz-element, .mgz-element > .mgz-element-inner,
+                    .mgz-element > .mgz-element-inner > :global(.magezon-image) {
+                        height: 100%;
+                    }
                     @media screen and (max-width: 360px) {
                         .full_height {
                             min-height: ${Math.round(storeConfig.pwa.magezon_slider_mobile_width * 0.8)}px;

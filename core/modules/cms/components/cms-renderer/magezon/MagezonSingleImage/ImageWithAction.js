@@ -1,10 +1,12 @@
+import NextImage from 'next/image';
 import { useLightbox } from 'simple-react-lightbox';
 
 import { basePath } from '@config';
-import Thumbor from '@common_image';
+import thumborLoader from '@helpers/imageLoader';
+// import Thumbor from '@common_image';
 
 // eslint-disable-next-line object-curly-newline
-const ImageWithAction = ({ withPopup, onClick, url, classContainer, classImage, image_width, image_height, title, storeConfig, ...other }) => {
+const ImageWithAction = ({ withPopup, onClick, url, classContainer, classImage, image_width, image_height, title }) => {
     const { openLightbox } = useLightbox();
 
     const handleClick = () => {
@@ -17,8 +19,27 @@ const ImageWithAction = ({ withPopup, onClick, url, classContainer, classImage, 
     };
 
     return (
-        <button type="button" onClick={handleClick} style={{ border: 'unset', background: 'unset' }}>
-            <Thumbor
+        <button
+            type="button"
+            className={classContainer}
+            style={{
+                position: 'relative',
+                width: image_width ? `${image_width}px` : '100%',
+                height: image_height ? `${image_height}px` : '100%',
+                border: 'unset',
+                background: 'unset',
+            }}
+            onClick={handleClick}
+        >
+            <NextImage
+                className={classImage}
+                loader={thumborLoader}
+                layout="fill"
+                quality={80}
+                src={url ?? `${basePath}/assets/img/placeholder.png`}
+                alt={title}
+            />
+            {/* <Thumbor
                 magezon
                 src={url ?? `${basePath}/assets/img/placeholder.png`}
                 className={classImage}
@@ -29,7 +50,7 @@ const ImageWithAction = ({ withPopup, onClick, url, classContainer, classImage, 
                 classContainer={classContainer}
                 storeConfig={storeConfig}
                 {...other}
-            />
+            /> */}
         </button>
     );
 };
