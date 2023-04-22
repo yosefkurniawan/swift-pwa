@@ -3,12 +3,9 @@
 import React from 'react';
 import classNames from 'classnames';
 import Link from 'next/link';
-import NextImage from 'next/image';
 
-import { basePath } from '@config';
 import ProductVideo from '@common_slick/Banner/productVideo';
-import Thumbor from '@common_slick/Banner/Thumbor';
-// import thumborLoader from '@helpers/imageLoader';
+import Thumbor from '@common_image';
 import useStyles from '@common_slick/Banner/style';
 
 /**
@@ -36,8 +33,18 @@ const ImageSlide = ({
     const styles = useStyles();
     const href = (link && link.includes('http://')) || link.includes('https://') ? link : link[0] === '/' ? link : `/${link}`;
 
+    let imgSrc = imageUrl;
+    let imgHeight = height || storeConfig?.pwa?.home_slider_desktop_height;
+    let imgWidth = width || storeConfig?.pwa?.home_slider_desktop_width;
+
+    if (mobileImageUrl) {
+        imgSrc = mobileImageUrl;
+        imgHeight = height || storeConfig?.pwa?.home_slider_mobile_height;
+        imgWidth = width || storeConfig?.pwa?.home_slider_mobile_width;
+    }
+
     if (urlEmbed || video) {
-        if (urlEmbed || imageUrl && video) {
+        if (urlEmbed || (imageUrl && video)) {
             return <ProductVideo urlEmbed={urlEmbed} video={video} />;
         }
         if (!imageUrl && video) {
@@ -54,16 +61,11 @@ const ImageSlide = ({
             {noLink ? (
                 <a>
                     <Thumbor
-                        src={imageUrl}
-                        srcMobile={mobileImageUrl}
-                        width={width || storeConfig?.pwa?.home_slider_desktop_width}
-                        height={height || storeConfig?.pwa?.home_slider_desktop_height}
-                        widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
-                        heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
+                        src={imgSrc}
+                        width={parseInt(imgWidth, 0)}
+                        height={parseInt(imgHeight, 0)}
                         alt={alt}
-                        quality={100}
                         className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
-                        contentWidth={contentWidth}
                         customClass={customClass}
                         storeConfig={storeConfig}
                     />
@@ -71,28 +73,15 @@ const ImageSlide = ({
             ) : (
                 <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })}>
                     <a>
-                        <NextImage
-                            // loader={thumborLoader}
-                            className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
-                            src={imageUrl ?? `${basePath}/assets/img/placeholder.png`}
+                        <Thumbor
+                            src={imgSrc}
+                            width={parseInt(imgWidth, 0)}
+                            height={parseInt(imgHeight, 0)}
                             alt={alt}
-                            width={width || storeConfig?.pwa?.home_slider_desktop_width}
-                            height={height || storeConfig?.pwa?.home_slider_desktop_height}
-                        />
-                        {/* <Thumbor
-                            src={imageUrl}
-                            srcMobile={mobileImageUrl}
-                            width={width || storeConfig?.pwa?.home_slider_desktop_width}
-                            height={height || storeConfig?.pwa?.home_slider_desktop_height}
-                            widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
-                            heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
-                            alt={alt}
-                            quality={100}
                             className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
-                            contentWidth={contentWidth}
                             customClass={customClass}
                             storeConfig={storeConfig}
-                        /> */}
+                        />
                     </a>
                 </Link>
             )}

@@ -1,11 +1,8 @@
-import NextImage from 'next/image';
-
 import { basePath } from '@config';
-// import thumborLoader from '@helpers/imageLoader';
-// import Thumbor from '@common_image';
+import Thumbor from '@common_image';
 
 // eslint-disable-next-line object-curly-newline
-const ImageWithAction = ({ onClick = () => null, url, classContainer, classImage, image_width, image_height, title }) => (
+const ImageWithAction = ({ onClick = () => null, url, classContainer, classImage, image_width, image_height, title, storeConfig, ...other }) => (
     <button
         type="button"
         className={classContainer}
@@ -18,26 +15,18 @@ const ImageWithAction = ({ onClick = () => null, url, classContainer, classImage
         }}
         onClick={onClick}
     >
-        <NextImage
-            className={classImage}
-            // loader={thumborLoader}
-            layout="fill"
-            quality={80}
+        <Thumbor
+            magezon
             src={url ?? `${basePath}/assets/img/placeholder.png`}
+            className={classImage}
+            quality={80}
+            width={image_width ? image_width.replace('px', '') : ''}
+            height={image_height ? image_height.replace('px', '') : ''}
             alt={title}
+            classContainer={classContainer}
+            storeConfig={storeConfig}
+            {...other}
         />
-        {/* <Thumbor
-                magezon
-                src={url ?? `${basePath}/assets/img/placeholder.png`}
-                className={classImage}
-                quality={80}
-                width={image_width ? image_width.replace('px', '') : ''}
-                height={image_height ? image_height.replace('px', '') : ''}
-                alt={title}
-                classContainer={classContainer}
-                storeConfig={storeConfig}
-                {...other}
-            /> */}
     </button>
 );
 

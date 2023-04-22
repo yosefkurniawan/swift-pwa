@@ -6,15 +6,16 @@
 import React, { useState } from 'react';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import classNames from 'classnames';
-import LeftArrowIcon from '@material-ui/icons/ArrowBackIos';
-import RightArrowIcon from '@material-ui/icons/ArrowForwardIos';
 import IconButton from '@material-ui/core/IconButton';
-import Plus from '@material-ui/icons/Add';
+import LeftArrowIcon from '@material-ui/icons/ArrowBackIos';
 import Min from '@material-ui/icons/Minimize';
+import Plus from '@material-ui/icons/Add';
+import RightArrowIcon from '@material-ui/icons/ArrowForwardIos';
 import Slider from 'react-slick';
+
 import ImageSlide from '@common_slick/Banner/ImageSlider';
+import Thumbor from '@common_image';
 import useStyles from '@common_slick/BannerThumbnail/style';
-import Thumbor from '@common_slick/Banner/Thumbor';
 
 const Banner = ({
     data = [],
@@ -93,11 +94,7 @@ const Banner = ({
                                 alt={item.imageAlt}
                                 width={100}
                                 height={100}
-                                quality={100}
                                 className={styles.thumbnailImg}
-                                videoUrl={item.videoUrl}
-                                widthMobile={width || defaultWidthMobile}
-                                heightMobile={height || defaultHeightMobile}
                                 storeConfig={storeConfig}
                             />
                         </div>
