@@ -78,6 +78,7 @@ const Layout = (props) => {
         isCheckout = false,
         isLoginPage = false,
         isShowChat = true,
+        deviceType,
     } = props;
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
@@ -502,32 +503,36 @@ const Layout = (props) => {
                             installMessage={installMessage}
                         />
                     )}
-                    <div className="hidden-mobile">
-                        {headerDesktop ? (
-                            <HeaderDesktop
-                                storeConfig={storeConfig}
-                                isLogin={isLogin}
-                                t={t}
-                                app_cookies={app_cookies}
-                                showGlobalPromo={showGlobalPromo}
-                                enablePopupInstallation={showPopup}
-                                appName={appName}
-                                installMessage={installMessage}
-                                dataVesMenu={dataVesMenu}
-                                isHomepage={isHomepage}
-                            />
-                        ) : null}
-                    </div>
-                    <div className="hidden-desktop">
-                        {React.isValidElement(CustomHeader) ? (
-                            <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
-                        ) : (
-                            <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} isCheckout />
-                        )}
-                    </div>
+                    {deviceType.isDesktop ? (
+                        <HeaderDesktop
+                            storeConfig={storeConfig}
+                            isLogin={isLogin}
+                            t={t}
+                            app_cookies={app_cookies}
+                            showGlobalPromo={showGlobalPromo}
+                            enablePopupInstallation={showPopup}
+                            appName={appName}
+                            installMessage={installMessage}
+                            dataVesMenu={dataVesMenu}
+                            isHomepage={isHomepage}
+                        />
+                    ) : null}
+                    {deviceType.isMobile && (
+                        <>
+                            {React.isValidElement(CustomHeader) ? (
+                                <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
+                            ) : (
+                                <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} isCheckout />
+                            )}
+                        </>
+                    )}
                 </header>
             )}
-            <main style={{ ...styles, position: classMain === 'checkout-mode' ? 'relative' : '' }} className={classNames(!onlyCms ? 'main-app' : 'main-app main-app-cms', classMain)} id="maincontent">
+            <main
+                style={{ ...styles, position: classMain === 'checkout-mode' ? 'relative' : '' }}
+                className={classNames(!onlyCms ? 'main-app' : 'main-app main-app-cms', classMain)}
+                id="maincontent"
+            >
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}
@@ -548,7 +553,12 @@ const Layout = (props) => {
                     {isLogin ? (
                         <ChatContent />
                     ) : (
-                        <Fab color="primary" size="medium" onClick={() => router.push(`${getHost()}/customer/account/login`)} className={bodyStyles.buttonChat}>
+                        <Fab
+                            color="primary"
+                            size="medium"
+                            onClick={() => router.push(`${getHost()}/customer/account/login`)}
+                            className={bodyStyles.buttonChat}
+                        >
                             <ChatIcon className={bodyStyles.chatIcon} />
                         </Fab>
                     )}
