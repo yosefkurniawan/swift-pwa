@@ -1,27 +1,16 @@
-import { useLightbox } from 'simple-react-lightbox';
-
 import { basePath } from '@config';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 
 // eslint-disable-next-line object-curly-newline
-const ImageWithAction = ({ withPopup, onClick = null, url, alt_tag, position, storeConfig }) => {
-    const { openLightbox } = useLightbox();
-    const handleClick = () => {
-        // eslint-disable-next-line no-unused-expressions
-        onClick ? onClick() : null;
-        if (withPopup) {
-            setTimeout(() => {
-                openLightbox(position - 1);
-            }, 100);
-        }
-    };
+const ImageWithAction = ({ onClick = () => null, url, alt_tag, storeConfig }) => {
     const enable = storeConfig.pwa.thumbor_enable;
     const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
     const url_thumbor = storeConfig.pwa.thumbor_url;
     const src = url || `${basePath}/assets/img/placeholder.png`;
     const imageUrl = generateThumborUrl(src, 500, 500, enable, useHttpsOrHttp, url_thumbor);
+
     return (
-        <button type="button" onClick={handleClick} style={{ border: 'unset', background: 'unset' }}>
+        <button type="button" onClick={onClick} style={{ border: 'unset', background: 'unset' }}>
             <source srcSet={imageUrl} type="image/webp" />
             <source srcSet={getImageFallbackUrl(imageUrl)} type="image/jpeg" />
             <img
