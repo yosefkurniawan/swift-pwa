@@ -1,9 +1,10 @@
-import React from 'react';
-import NextImage from 'next/image';
-import Box from '@material-ui/core/Box';
-
+/* eslint-disable no-param-reassign */
+/* eslint-disable func-names */
+/* eslint-disable no-unused-vars */
 import { basePath } from '@config';
-import thumborLoader from '@helpers/imageLoader';
+import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
+import React, { useEffect, useState } from 'react';
+import LazyImage from './LazyImage';
 
 const CustomImage = ({
     src,
@@ -13,23 +14,24 @@ const CustomImage = ({
     classContainer = '',
     styleContainer: initStyleContainer = {},
     className = '',
-    alt = 'preview',
+    alt = 'Image',
+    quality = 100,
+    style = {},
+    lazy = false,
     storeConfig = {},
     ...other
 }) => {
-    const [imgSrc, setImgSrc] = React.useState(src);
-
-    let imageProps = { ...other };
-    if (storeConfig?.pwa?.thumbor_enable) {
-        const isIncludeHttpProtocol = !!storeConfig?.pwa?.thumbor_https_http;
-        const loaderDefaultURL = storeConfig?.pwa?.thumbor_url || '';
-        const loaderURL = isIncludeHttpProtocol ? loaderDefaultURL : loaderDefaultURL.replace(/https?:\/\//, '');
-
-        imageProps = {
-            ...imageProps,
-            loader: (props) => thumborLoader({ ...props, loaderURL }),
-        };
-    }
+    // comment because unused
+    // if (storeConfig) {
+    //     if (storeConfig.pwa === undefined) {
+    //         // console.log(storeConfig);
+    //     }
+    // }
+    const enable = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_https_http;
+    const url = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_url;
+    const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, url);
+    const [imgSource, setImgSource] = useState(imageUrl);
 
     let styleContainer = {
         backgroundColor: '#eee',
@@ -61,26 +63,34 @@ const CustomImage = ({
         };
     }
 
-    React.useEffect(() => {
-        if (src) {
-            setImgSrc(src);
-        }
-    }, [src]);
+    useEffect(() => {
+        const img = new Image();
+        img.src = imageUrl;
+        img.onerror = () => setImgSource(`${basePath}/assets/img/placeholder.png`);
+        img.onload = () => setImgSource(imageUrl);
+    }, [imageUrl]);
 
     return (
-        <Box className={classContainer} style={styleContainer} width={width} height={height}>
-            <NextImage
-                className={`img ${className}`}
-                style={styleImage}
-                src={imgSrc}
-                alt={alt}
-                layout="fill"
-                objectFit="cover"
-                onError={() => setImgSrc(`${basePath}/assets/img/placeholder.png`)}
-                {...imageProps}
-                {...other}
-            />
-        </Box>
+        <span className={classContainer} style={styleContainer}>
+            <picture>
+                <source srcSet={imgSource} type="image/webp" />
+                <source srcSet={getImageFallbackUrl(imgSource)} type="image/jpeg" />
+                {!lazy ? (
+                    <img
+                        data-pagespeed-no-defer
+                        style={styleImage}
+                        className={`img ${className}`}
+                        src={imgSource}
+                        alt={alt}
+                        width={width}
+                        height={height}
+                        {...other}
+                    />
+                ) : (
+                    <LazyImage style={styleImage} src={imgSource} alt={alt} />
+                )}
+            </picture>
+        </span>
     );
 };
 
