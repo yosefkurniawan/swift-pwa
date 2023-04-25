@@ -2,7 +2,7 @@ import NextImage from 'next/image';
 import { useLightbox } from 'simple-react-lightbox';
 
 import { basePath } from '@config';
-// import thumborLoader from '@helpers/imageLoader';
+import thumborLoader from '@helpers/imageLoader';
 // import Thumbor from '@common_image';
 
 // eslint-disable-next-line object-curly-newline
@@ -33,7 +33,7 @@ const ImageWithAction = ({ withPopup, onClick, url, classContainer, classImage, 
         >
             <NextImage
                 className={classImage}
-                // loader={thumborLoader}
+                loader={thumborLoader}
                 layout="fill"
                 quality={80}
                 src={url ?? `${basePath}/assets/img/placeholder.png`}
