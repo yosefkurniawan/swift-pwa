@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
         position: 'relative',
         [theme.breakpoints.up('sm')]: {
             height: 'auto',
-            minHeight: 497,
         },
     },
     dots: {
