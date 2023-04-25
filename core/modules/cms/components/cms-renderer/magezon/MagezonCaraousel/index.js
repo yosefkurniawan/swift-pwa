@@ -1,78 +1,63 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable react/no-danger */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable no-return-assign */
 import React from 'react';
-import dynamic from 'next/dynamic';
-
-import { getStoreHost } from '@helpers/config';
-import { getAppEnv } from '@helpers/env';
-import { basePath } from '@config';
-import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
 import Typography from '@common_typography';
+import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
+import dynamic from 'next/dynamic';
+import { getStoreHost } from '@helpers/config';
+import { getAppEnv } from '@root/core/helpers/env';
+import PopupMapVideo from '@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/PopupMapVideo';
+import { basePath } from '@config';
 
-import { mapList, validatePx } from './helpers/index';
-import ImageWithLightbox from './components/ImageWithLightbox';
-import ImageWrapper from './components/ImageWrapper';
-
-const CaraouselComponent = dynamic(import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel/components'));
+const { SimpleReactLightbox, SRLWrapper } = dynamic(() => import('simple-react-lightbox'));
+const Carousel = dynamic(import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel/components'));
 const ImageWithAction = dynamic(import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel/components/ImageWithAction'));
 
-const MagezonCaraouel = (props) => {
+const MagezonText = (props) => {
     const {
-        content_background,
-        content_color,
-        content_fullwidth,
-        content_padding,
-        content_position,
-        display_on_hover,
-        hover_effect,
-        overlay_color,
-        onclick,
-        show_line,
-        items,
-        description,
-        description_font_size,
-        description_font_weight,
-        title,
-        title_tag,
-        title_color,
-        title_align,
-        title_font_size,
-        title_font_weight,
-        image_border_color,
-        image_border_radius,
-        image_border_style,
-        image_border_width,
-        image_size,
-        line_color,
-        line_position,
-        line_width,
-        owl_color,
-        owl_hover_color,
-        owl_active_color,
-        owl_background_color,
-        owl_hover_background_color,
-        owl_active_background_color,
-        owl_item_xs,
-        owl_item_sm,
-        owl_item_md,
-        owl_item_lg,
-        owl_item_xl,
-        owl_margin,
-        owl_nav,
-        owl_nav_size,
-        owl_nav_position,
-        owl_rtl,
-        owl_autoplay,
-        owl_autoplay_speed,
-        owl_autoplay_timeout,
-        owl_autoplay_hover_pause,
-        owl_auto_height,
-        owl_center,
-        owl_dots,
-        owl_loop,
-        owl_slide_by,
-        owl_lazyload,
-        owl_stage_padding,
-        storeConfig,
+        content_background, content_color, content_fullwidth, content_padding, content_position,
+        display_on_hover, hover_effect, overlay_color, onclick, show_line, items,
+        description, description_font_size, description_font_weight,
+        title, title_tag, title_color, title_align, title_font_size, title_font_weight,
+        image_border_color, image_border_radius, image_border_style, image_border_width, image_size,
+        line_color, line_position, line_width,
+        owl_color, owl_hover_color, owl_active_color,
+        owl_background_color, owl_hover_background_color, owl_active_background_color,
+        owl_item_xs, owl_item_sm, owl_item_md, owl_item_lg, owl_item_xl, owl_margin,
+        owl_nav, owl_nav_size, owl_nav_position,
+        owl_rtl, owl_autoplay, owl_autoplay_speed, owl_autoplay_timeout, owl_autoplay_hover_pause,
+        owl_auto_height, owl_center, owl_dots, owl_loop, owl_slide_by, owl_lazyload, owl_stage_padding, storeConfig,
     } = props;
+
+    const [openPopup, setOpenPoup] = React.useState(false);
+    const [openPopupMap, setOpenPopupMap] = React.useState(false);
+    const [videoMap, setVideoMap] = React.useState('');
+
+    const mapList = (list) => {
+        if (owl_loop) {
+            if (list && list.length && list.length < 3) {
+                return [...list, ...list, ...list];
+            }
+            if (list && list.length && list.length < 5) {
+                return [...list, ...list];
+            }
+        }
+        return list;
+    };
+
+    const validatePx = (prop) => {
+        if (prop) {
+            const tail = typeof prop !== 'string' ? String(prop).slice(-2) : prop.slice(-2);
+            if (tail.toLowerCase() !== 'px') {
+                return `${prop}px`;
+            }
+            return prop;
+        }
+        return 0;
+    };
 
     let navSize = 0;
     if (owl_nav) {
@@ -169,79 +154,218 @@ const MagezonCaraouel = (props) => {
         default:
         }
     }
+    // image hover style
+    let hoverClass = '';
+    if (hover_effect === 'zoomin') {
+        hoverClass += ' mgz-carousel-zoomin';
+    }
 
-    const imageUrl = (item) => `${getStoreHost(getAppEnv())}media/${item.image}` || `${basePath}/assets/img/placeholder.png`;
+    if (hover_effect === 'zoomout') {
+        hoverClass += ' mgz-carousel-zoomout';
+    }
+
+    const imageUrl = (item) => (`${getStoreHost(getAppEnv())}media/${item.image}` || `${basePath}/assets/img/placeholder.png`);
+    const popupImageUrl = (item) => (
+        `${getStoreHost(getAppEnv())}media/${item.popup_image || item.image}` || `${basePath}/assets/img/placeholder.png`
+    );
+
+    const ligthboxSetting = {
+        buttons: {
+            showThumbnailsButton: false,
+            showAutoplayButton: false,
+            showDownloadButton: false,
+            showFullscreenButton: false,
+        },
+        thumbnails: {
+            showThumbnails: false,
+        },
+        caption: {
+            captionContainerPadding: '10px 25% 30px 25%',
+        },
+    };
+
+    const callbacks = {
+        onLightboxClosed: () => { setOpenPoup(false); },
+    };
+
+    const ImageWrapper = ({ item, children }) => (
+        <div
+            className="mgz-carousel-item-container"
+        >
+            <div className={hoverClass}>
+                {children}
+
+                {item.title || item.description
+                    ? (
+                        <div className="mgz-carousel-content-wrapper">
+                            {item.title
+                                && (
+                                    <div className="mgz-carousel-content-title">
+                                        {item.title}
+                                    </div>
+                                )}
+                            {item.description
+                                && (
+                                    <div className="mgz-carousel-content-desc" style={{ marginTop: item.title ? 5 : 0 }}>
+                                        {item.description}
+                                    </div>
+                                )}
+                        </div>
+                    )
+                    : null}
+                {overlay_color
+                    && <div className="mgz-carousel-overlay" />}
+            </div>
+        </div>
+    );
+
+    const renderItemCarousel = (itemProp) => {
+        const { item } = itemProp;
+        return (
+            onclick === 'custom_link'
+                ? (
+                    <MagezonLink link={item.custom_link}>
+                        <ImageWrapper item={item}>
+                            <ImageWithAction
+                                url={imageUrl(item)}
+                                alt_tag={item.title || '' || 'magezon image'}
+                                onClick={null}
+                                position={item.position}
+                                storeConfig={storeConfig}
+                            />
+                        </ImageWrapper>
+                    </MagezonLink>
+                )
+                : (
+                    <ImageWrapper item={item}>
+                        <ImageWithAction
+                            url={imageUrl(item)}
+                            alt_tag={item.title || '' || 'magezon image'}
+                            // eslint-disable-next-line no-nested-ternary
+                            onClick={onclick === 'magnific'
+                                ? item.video_map ? () => {
+                                    setVideoMap(item.video_map);
+                                    setTimeout(() => {
+                                        setOpenPopupMap(!openPopup);
+                                    }, 100);
+                                }
+                                    : () => setOpenPoup(!openPopup)
+                                : null}
+                            withPopup={onclick === 'magnific' && !item.video_map}
+                            position={item.position}
+                            storeConfig={storeConfig}
+                        />
+                    </ImageWrapper>
+                )
+        );
+    };
 
     return (
-        <div className="mgz-CCaraouselComponent">
-            {title && (
-                <div className="mgz-carousel-heading">
-                    <Typography className="mgz-carousel-heading-title" variant={title_tag} align={title_align} letter="uppercase">
-                        {title}
-                    </Typography>
-                    {description && (
-                        <Typography className="mgz-carousel-heading-desc" align={title_align} variant="h6">
-                            {description}
+        <div className="mgz-carousel">
+            {title || description
+                ? title && (
+                    <div className="mgz-carousel-heading">
+                        <Typography className="mgz-carousel-heading-title" variant={title_tag} align={title_align} letter="uppercase">
+                            {title}
                         </Typography>
-                    )}
-                </div>
-            )}
-            {onclick === 'magnific' ? (
-                <ImageWithLightbox
-                    hover_effect={hover_effect}
-                    items={items}
-                    overlay_color={overlay_color}
-                    owl_autoplay={owl_autoplay}
-                    owl_autoplay_speed={owl_autoplay_speed}
-                    owl_autoplay_timeout={owl_autoplay_timeout}
-                    owl_autoplay_hover_pause={owl_autoplay_hover_pause}
-                    owl_auto_height={owl_auto_height}
-                    owl_center={owl_center}
-                    owl_dots={owl_dots}
-                    owl_item_xs={owl_item_xs}
-                    owl_item_sm={owl_item_sm}
-                    owl_item_md={owl_item_md}
-                    owl_item_lg={owl_item_lg}
-                    owl_item_xl={owl_item_xl}
-                    owl_loop={owl_loop}
-                    owl_lazyload={owl_lazyload}
-                    owl_nav={owl_nav}
-                    owl_rtl={owl_rtl}
-                    owl_slide_by={owl_slide_by}
-                    owl_stage_padding={owl_stage_padding}
-                    storeConfig={storeConfig}
-                    title={title}
-                />
-            ) : (
-                <CaraouselComponent
-                    data={mapList(items, owl_loop)}
-                    slideXs={owl_item_xs}
-                    slideSm={owl_item_sm}
-                    slideMd={owl_item_md}
-                    slideLg={owl_item_lg}
-                    slideXl={owl_item_xl}
-                    infinite={owl_loop}
-                    rtl={owl_rtl}
-                    centerMode={owl_center}
-                    pauseOnHover={owl_autoplay_hover_pause}
-                    autoplay={owl_autoplay}
-                    autoplaySpeed={owl_autoplay_speed}
-                    dots={owl_dots}
-                    slidesToScroll={owl_slide_by}
-                    speed={owl_autoplay_timeout}
-                    adaptiveHeight={owl_auto_height}
-                    arrows={owl_nav}
-                    lazyLoad={owl_lazyload}
-                    Item={({ item }) => (
-                        <MagezonLink link={item.custom_link}>
-                            <ImageWrapper hover_effect={hover_effect} item={item} overlay_color={overlay_color}>
-                                <ImageWithAction url={imageUrl(item)} alt_tag={item.title || '' || 'magezon image'} storeConfig={storeConfig} />
-                            </ImageWrapper>
-                        </MagezonLink>
-                    )}
-                    centerPadding={validatePx(owl_stage_padding)}
-                />
-            )}
+                        {description
+                            && (
+                                <Typography className="mgz-carousel-heading-desc" align={title_align} variant="h6">
+                                    {description}
+                                </Typography>
+                            )}
+                    </div>
+                )
+                : null}
+            {
+                openPopupMap && (
+                    <PopupMapVideo
+                        open={openPopupMap}
+                        setOpen={() => setOpenPopupMap(false)}
+                        url={videoMap}
+                        title={title}
+                    />
+                )
+            }
+            {onclick === 'magnific'
+                ? (
+                    <SimpleReactLightbox>
+                        <Carousel
+                            data={mapList(items)}
+                            slideXs={owl_item_xs}
+                            slideSm={owl_item_sm}
+                            slideMd={owl_item_md}
+                            slideLg={owl_item_lg}
+                            slideXl={owl_item_xl}
+                            infinite={owl_loop}
+                            rtl={owl_rtl}
+                            centerMode={owl_center}
+                            pauseOnHover={owl_autoplay_hover_pause}
+                            autoplay={owl_autoplay}
+                            autoplaySpeed={owl_autoplay_speed}
+                            dots={owl_dots}
+                            slidesToScroll={owl_slide_by}
+                            speed={owl_autoplay_timeout}
+                            adaptiveHeight={owl_auto_height}
+                            arrows={owl_nav}
+                            lazyLoad={owl_lazyload}
+                            Item={renderItemCarousel}
+                            centerPadding={validatePx(owl_stage_padding)}
+                        />
+                        <div style={{
+                            display: openPopup ? 'hidden' : 'none',
+                        }}
+                        >
+                            <SRLWrapper options={ligthboxSetting} callbacks={callbacks}>
+                                <Carousel
+                                    data={items}
+                                    infinite={false}
+                                    rtl={owl_rtl}
+                                    Item={(itemProp) => {
+                                        const { item } = itemProp;
+                                        return (
+                                            <ImageWrapper item={item}>
+                                                <img
+                                                    className="mgz-carousel-content-image"
+                                                    src={popupImageUrl(item)}
+                                                    alt={item.popup_title || item.title || ''}
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        e.target.src = `${basePath}/assets/img/placeholder.png`;
+                                                    }}
+                                                />
+                                            </ImageWrapper>
+                                        );
+                                    }}
+                                />
+                            </SRLWrapper>
+                        </div>
+                    </SimpleReactLightbox>
+                )
+                : (
+                    <Carousel
+                        data={mapList(items)}
+                        slideXs={owl_item_xs}
+                        slideSm={owl_item_sm}
+                        slideMd={owl_item_md}
+                        slideLg={owl_item_lg}
+                        slideXl={owl_item_xl}
+                        infinite={owl_loop}
+                        rtl={owl_rtl}
+                        centerMode={owl_center}
+                        pauseOnHover={owl_autoplay_hover_pause}
+                        autoplay={owl_autoplay}
+                        autoplaySpeed={owl_autoplay_speed}
+                        dots={owl_dots}
+                        slidesToScroll={owl_slide_by}
+                        speed={owl_autoplay_timeout}
+                        adaptiveHeight={owl_auto_height}
+                        arrows={owl_nav}
+                        lazyLoad={owl_lazyload}
+                        Item={renderItemCarousel}
+                        centerPadding={validatePx(owl_stage_padding)}
+                    />
+                )}
             <style jsx>
                 {`
                     .mgz-carousel {
@@ -250,7 +374,7 @@ const MagezonCaraouel = (props) => {
                         position: relative;
                     }
                     .mgz-carousel :global(a) {
-                        color: transparent !important;
+                        color : transparent !important;
                     }
                     .mgz-carousel :global(.slick-track) {
                         margin-left: auto;
@@ -304,14 +428,14 @@ const MagezonCaraouel = (props) => {
                     }
                     .mgz-carousel :global(.mgz-carousel-heading-title) {
                         display: inline-block;
-                        background: #fff;
+                        background: #FFF;
                         padding: 0 10px;
                         position: relative;
                         font-size: 1.5rem;
                         line-height: 1.2;
                     }
                     .mgz-carousel-heading-desc {
-                        font-size: 0.75rem;
+                        font-size: .75rem;
                     }
                     .mgz-carousel :global(.mgz-carousel-item-container) {
                         overflow: hidden;
@@ -319,7 +443,7 @@ const MagezonCaraouel = (props) => {
                         margin: 0 ${validatePx(owl_margin / 2)};
                         cursor: pointer;
                     }
-                    .mgz-carousel-item-container:hover .mgz-carousel-content-wrapper {
+                    .mgz-carousel-item-container:hover .mgz-carousel-content-wrapper{
                         display: grid;
                     }
                     .mgz-carousel :global(.mgz-carousel-content-wrapper) {
@@ -394,11 +518,11 @@ const MagezonCaraouel = (props) => {
                     }
                     .mgz-carousel-arrow:hover {
                         color: ${owl_hover_color};
-                        background-color: ${owl_hover_background_color || 'transparent'};
+                        background-color: ${owl_hover_background_color || 'transparent'}
                     }
                     .mgz-carousel-arrow:active {
                         color: ${owl_active_color};
-                        background-color: ${owl_active_background_color || 'transparent'};
+                        background-color: ${owl_active_background_color || 'transparent'}
                     }
                     .mgz-carousel-arrow-left {
                         ${leftNav}
@@ -417,4 +541,4 @@ const MagezonCaraouel = (props) => {
     );
 };
 
-export default MagezonCaraouel;
+export default MagezonText;

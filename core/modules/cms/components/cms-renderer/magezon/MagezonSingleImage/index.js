@@ -13,49 +13,20 @@ import { basePath } from '@config';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
 
+const { SimpleReactLightbox, SRLWrapper } = dynamic(() => import('simple-react-lightbox'));
 const ImageWithAction = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/ImageWithAction'));
-const ImageWithLightbox = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/ImageWithLightbox'));
 
 const MagezonSingleImage = (props) => {
     const {
-        xs_hide,
-        sm_hide,
-        md_hide,
-        lg_hide,
-        source,
-        custom_src,
-        image,
-        image_width,
-        image_height,
-        onclick,
-        custom_link,
-        title,
-        description,
-        image_style,
-        image_border_style,
-        image_border_width,
-        image_border_radius,
-        image_border_color,
-        title_font_size,
-        image_hover_effect,
-        display_on_hover,
-        content_position,
-        content_align,
-        content_fullwidth,
-        content_hover_background,
-        content_hover_color,
-        content_padding,
-        popup_image,
-        hover_image,
-        hover_overlay_color,
-        content_background,
-        content_color,
-        title_font_weight,
-        description_font_weight,
-        description_font_size,
-        video_map,
-        overlay_color,
-        storeConfig,
+        xs_hide, sm_hide, md_hide, lg_hide,
+        source, custom_src, image, image_width, image_height,
+        onclick, custom_link, title, description, image_style,
+        image_border_style, image_border_width, image_border_radius, image_border_color,
+        title_font_size, image_hover_effect, display_on_hover, content_position,
+        content_align, content_fullwidth, content_hover_background, content_hover_color, content_padding,
+        popup_image, hover_image, hover_overlay_color, content_background, content_color,
+        title_font_weight, description_font_weight, description_font_size, video_map,
+        overlay_color, storeConfig,
     } = props;
     let classes = 'magezon-image';
     let classImage = 'mgz-single-image';
@@ -113,6 +84,11 @@ const MagezonSingleImage = (props) => {
     const url = custom_src || ((image && source === 'media_library')
         ? `${getStoreHost(getAppEnv())}media/${image}` : `${basePath}/assets/img/placeholder.png`);
 
+    const popupImageUrl = custom_src || ((image && source === 'media_library')
+        ? popup_image ? `${getStoreHost(getAppEnv())}media/${popup_image}`
+            : `${getStoreHost(getAppEnv())}media/${image}`
+        : `${basePath}/assets/img/placeholder.png`);
+
     const hoverImage = custom_src || ((image && source === 'media_library')
         ? hover_image ? `${getStoreHost(getAppEnv())}media/${hover_image}`
             : `${getStoreHost(getAppEnv())}media/${image}`
@@ -120,7 +96,7 @@ const MagezonSingleImage = (props) => {
 
     const [openPopupMap, setOpenPopupMap] = React.useState(false);
 
-    const handleClickImage = () => {
+    const handleClick = () => {
         if (onclick === 'pdf') {
             window.location.href = url;
         }
@@ -129,7 +105,28 @@ const MagezonSingleImage = (props) => {
         }
     };
 
+    const [openPopup, setOpenPopup] = React.useState(false);
     const [isHover, setIsHover] = React.useState(false);
+    const callbacks = {
+        onLightboxClosed: () => { setIsHover(false); setOpenPopup(false); },
+    };
+
+    const ligtboxSetting = {
+        buttons: {
+            showThumbnailsButton: false,
+            showAutoplayButton: false,
+            showDownloadButton: false,
+            showFullscreenButton: false,
+            showNextButton: false,
+            showPrevButton: false,
+        },
+        thumbnails: {
+            showThumbnails: false,
+        },
+        caption: {
+            captionContainerPadding: '10px 25% 30px 25%',
+        },
+    };
 
     let imageCaption;
     if (title && description) imageCaption = `${title} - ${description}`;
@@ -139,55 +136,87 @@ const MagezonSingleImage = (props) => {
 
     return (
         <div className={classes}>
-            {openPopupMap && <PopupMapVideo open={openPopupMap} setOpen={() => setOpenPopupMap(false)} url={video_map} title={imageCaption} />}
-            {onclick && onclick === 'custom_link' ? (
-                <MagezonLink link={custom_link}>
-                    <Thumbor
-                        magezon
-                        // eslint-disable-next-line no-nested-ternary
-                        src={isHover ? hoverImage : url}
-                        className={classImage}
-                        quality={80}
-                        width={image_width ? image_width.replace('px', '') : ''}
-                        height={image_height ? image_height.replace('px', '') : ''}
-                        alt={`${title} - ${description}` || 'magezon image'}
-                        classContainer={classContainer}
-                        onMouseOver={() => setIsHover(true)}
-                        onMouseOut={() => setIsHover(false)}
-                        storeConfig={storeConfig}
+            {
+                openPopupMap && (
+                    <PopupMapVideo
+                        open={openPopupMap}
+                        setOpen={() => setOpenPopupMap(false)}
+                        url={video_map}
+                        title={imageCaption}
                     />
-                </MagezonLink>
-            ) : onclick && onclick === 'magnific' ? (
-                <ImageWithLightbox
-                    classContainer={classContainer}
-                    classImage={classImage}
-                    custom_src={custom_src}
-                    hoverImage={hoverImage}
-                    image={image}
-                    imageCaption={imageCaption}
-                    image_width={image_width}
-                    image_height={image_height}
-                    isHover={isHover}
-                    popup_image={popup_image}
-                    source={source}
-                    setIsHover={setIsHover}
-                    storeConfig={storeConfig}
-                    url={url}
-                />
-            ) : (
-                <ImageWithAction
-                    url={isHover ? hoverImage : url}
-                    image_width={image_width ? image_width.replace('px', '') : ''}
-                    image_height={image_height ? image_height.replace('px', '') : ''}
-                    classImage={classImage}
-                    title={imageCaption}
-                    classContainer={classContainer}
-                    onClick={handleClickImage}
-                    onMouseOver={() => setIsHover(true)}
-                    onMouseOut={() => setIsHover(false)}
-                    storeConfig={storeConfig}
-                />
-            )}
+                )
+            }
+            {(onclick && onclick === 'custom_link')
+                ? (
+                    <MagezonLink link={custom_link}>
+                        <Thumbor
+                            magezon
+                            // eslint-disable-next-line no-nested-ternary
+                            src={isHover ? hoverImage : url}
+                            className={classImage}
+                            quality={80}
+                            width={image_width ? image_width.replace('px', '') : ''}
+                            height={image_height ? image_height.replace('px', '') : ''}
+                            alt={(`${title} - ${description}`) || 'magezon image'}
+                            classContainer={classContainer}
+                            onMouseOver={() => setIsHover(true)}
+                            onMouseOut={() => setIsHover(false)}
+                            storeConfig={storeConfig}
+                        />
+                    </MagezonLink>
+                )
+                : (onclick && onclick === 'magnific')
+                    ? (
+                        <SimpleReactLightbox>
+                            <div className={openPopup ? '' : 'hide'}>
+                                <SRLWrapper options={ligtboxSetting} callbacks={callbacks}>
+                                    <Thumbor
+                                        magezon
+                                        // eslint-disable-next-line no-nested-ternary
+                                        src={popupImageUrl}
+                                        className={classImage}
+                                        quality={80}
+                                        width={image_width ? image_width.replace('px', '') : ''}
+                                        height={image_height ? image_height.replace('px', '') : ''}
+                                        alt={imageCaption}
+                                        classContainer={classContainer}
+                                        onMouseOver={() => setIsHover(true)}
+                                        onMouseOut={() => setIsHover(false)}
+                                        storeConfig={storeConfig}
+                                    />
+                                </SRLWrapper>
+                            </div>
+                            {!openPopup && (
+                                <ImageWithAction
+                                    url={isHover ? hoverImage : url}
+                                    image_width={image_width ? image_width.replace('px', '') : ''}
+                                    image_height={image_height ? image_height.replace('px', '') : ''}
+                                    classImage={classImage}
+                                    title={imageCaption}
+                                    classContainer={classContainer}
+                                    withPopup
+                                    onClick={() => setOpenPopup(!openPopup)}
+                                    onMouseOver={() => setIsHover(true)}
+                                    onMouseOut={() => setIsHover(false)}
+                                    storeConfig={storeConfig}
+                                />
+                            )}
+                        </SimpleReactLightbox>
+                    )
+                    : (
+                        <ImageWithAction
+                            url={isHover ? hoverImage : url}
+                            image_width={image_width ? image_width.replace('px', '') : ''}
+                            image_height={image_height ? image_height.replace('px', '') : ''}
+                            classImage={classImage}
+                            title={imageCaption}
+                            classContainer={classContainer}
+                            onClick={handleClick}
+                            onMouseOver={() => setIsHover(true)}
+                            onMouseOut={() => setIsHover(false)}
+                            storeConfig={storeConfig}
+                        />
+                    )}
             <div
                 className={classContent}
                 style={{
@@ -197,7 +226,8 @@ const MagezonSingleImage = (props) => {
                 <div className="mgz-img-content-title">{title || ''}</div>
                 <div className="mgz-img-content-desc">{description || ''}</div>
             </div>
-            {overlay_color && <div className="mgz-img-over mgz-img-overlay" />}
+            {overlay_color
+                && <div className="mgz-img-over mgz-img-overlay" />}
             <style jsx>
                 {`
                     @media (min-width: 768px) and (max-width: 991px) {
@@ -235,8 +265,7 @@ const MagezonSingleImage = (props) => {
                     .magezon-image :global(.mgz-single-image) {
                         border-radius: ${image_border_radius || '0px'};
                     }
-                    .magezon-image :global(.mgz-box-shadow),
-                    .magezon-image :global(.mgz-box-shadow2) {
+                    .magezon-image :global(.mgz-box-shadow), .magezon-image :global(.mgz-box-shadow2) {
                         border-radius: ${image_border_radius || '0px'};
                     }
                     .mgz-img-overlay {
