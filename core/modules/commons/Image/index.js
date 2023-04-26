@@ -4,20 +4,24 @@
 import { basePath } from '@config';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import React, { useEffect, useState } from 'react';
+import { BREAKPOINTS } from '@theme_vars';
 import LazyImage from './LazyImage';
 
 const CustomImage = ({
     src,
     width = 500,
     height = 500,
+    srcMobile,
+    widthMobile = 300,
+    heightMobile = 300,
     magezon,
     classContainer = '',
     styleContainer: initStyleContainer = {},
     className = '',
     alt = 'Image',
-    quality = 100,
+    quality,
     style = {},
-    lazy = false,
+    lazy = true,
     storeConfig = {},
     ...other
 }) => {
@@ -29,23 +33,24 @@ const CustomImage = ({
     // }
     const enable = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_enable;
     const useHttpsOrHttp = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_https_http;
-    const url = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_url;
-    const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, url);
+    const thumborUrl = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_url;
+    const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, thumborUrl, quality);
+    const imageUrlMobile = generateThumborUrl(srcMobile, widthMobile, heightMobile, enable, useHttpsOrHttp, thumborUrl, quality);
     const [imgSource, setImgSource] = useState(imageUrl);
+    const [imgSourceMobile, setImgSourceMobile] = useState(imageUrlMobile);
 
     let styleContainer = {
-        backgroundColor: '#eee',
         width: '100%',
         position: 'relative',
-        paddingTop: `${(height / width) * 100}%`,
+        // paddingTop: `${(height / width) * 100}%`,
         overflow: 'hidden',
         display: 'block',
         ...initStyleContainer,
     };
     let styleImage = {
         width: '100%',
-        height: '100%',
-        position: 'absolute',
+        height: 'auto',
+        position: 'unset',
         top: '0',
         left: '0',
         objectFit: 'cover',
@@ -66,28 +71,45 @@ const CustomImage = ({
     useEffect(() => {
         const img = new Image();
         img.src = imageUrl;
-        img.onerror = () => setImgSource(`${basePath}/assets/img/placeholder.png`);
+        img.onerror = () => console.log('Original Image Loading is error, falling back to provided srcset'); // setImgSource(`${basePath}/assets/img/placeholder.png`);
         img.onload = () => setImgSource(imageUrl);
-    }, [imageUrl]);
+        if (srcMobile) {
+            const mobileImg = new Image();
+            mobileImg.src = imageUrlMobile;
+            mobileImg.onerror = () => console.log('Original Image Loading is error, falling back to provided srcset'); // setImgSourceMobile(`${basePath}/assets/img/placeholder.png`);
+            mobileImg.onload = () => setImgSourceMobile(imageUrlMobile);
+        }
+    }, [imageUrl, imageUrlMobile]);
 
     return (
         <span className={classContainer} style={styleContainer}>
             <picture>
-                <source srcSet={imgSource} type="image/webp" />
-                <source srcSet={getImageFallbackUrl(imgSource)} type="image/jpeg" />
+                { srcMobile ? (
+                    <>
+                        <source srcSet={imgSourceMobile} media={`(max-width: ${BREAKPOINTS.sm - 1}px)`} type="image/webp" />
+                        <source srcSet={getImageFallbackUrl(imgSourceMobile)} media={`(max-width: ${BREAKPOINTS.sm - 1}px)`} type="image/jpeg" />
+                        <source srcSet={imgSource} media={`(min-width: ${BREAKPOINTS.sm}px)`} type="image/webp" />
+                        <source srcSet={getImageFallbackUrl(imgSource)} media={`(min-width: ${BREAKPOINTS.sm}px)`} type="image/jpeg" />
+                    </>
+                ) : (
+                    <>
+                        <source srcSet={imgSource} type="image/webp" />
+                        <source srcSet={getImageFallbackUrl(imgSource)} type="image/jpeg" />
+                    </>
+                )}
                 {!lazy ? (
                     <img
                         data-pagespeed-no-defer
                         style={styleImage}
                         className={`img ${className}`}
-                        src={imgSource}
+                        src={getImageFallbackUrl(imgSource)}
                         alt={alt}
                         width={width}
                         height={height}
                         {...other}
                     />
                 ) : (
-                    <LazyImage style={styleImage} src={imgSource} alt={alt} />
+                    <LazyImage style={styleImage} src={getImageFallbackUrl(imgSource)} alt={alt} />
                 )}
             </picture>
         </span>

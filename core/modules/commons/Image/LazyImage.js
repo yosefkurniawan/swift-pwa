@@ -110,11 +110,6 @@ const LazyImage = ({ src, alt, style = {} }) => {
             />
             <style jsx>
                 {`
-                    img {
-                        display: block;
-                        height: 100px;
-                        width: 100px;
-                    }
                     // Add a smooth animation on loading
                     @keyframes loaded {
                         0% {
