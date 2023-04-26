@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 import useStyles from '@common_slick/Banner/style';
-import Thumbor from '@common_slick/Banner/Thumbor';
+import Thumbor from '@common_image';
 import ProductVideo from '@common_slick/Banner/productVideo';
 
 /**
@@ -59,11 +59,11 @@ const ImageSlide = ({
                                 widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
                                 heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
                                 alt={alt}
-                                quality={100}
                                 className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
                                 contentWidth={contentWidth}
                                 customClass={customClass}
                                 storeConfig={storeConfig}
+                                lazy={false}
                             />
                         </a>
                     )
@@ -78,11 +78,11 @@ const ImageSlide = ({
                                     widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
                                     heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
                                     alt={alt}
-                                    quality={100}
                                     className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
                                     contentWidth={contentWidth}
                                     customClass={customClass}
                                     storeConfig={storeConfig}
+                                    lazy={false}
                                 />
                             </a>
                         </Link>

@@ -162,11 +162,6 @@ const features = {
             },
         },
     },
-    thumbor: {
-        enable: true,
-        useHttpsOrHttp: false,
-        url: 'https://thumbor.sirclocdn.com/unsafe/widthxheight/filters:format(webp)/',
-    },
     globalPromo: {
         key_cookies: 'global_promo_enable',
     },
