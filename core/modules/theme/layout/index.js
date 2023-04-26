@@ -77,7 +77,7 @@ const Layout = (props) => {
         isCheckout = false,
         isLoginPage = false,
         isShowChat = true,
-        deviceType,
+        deviceType = {},
     } = props;
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
@@ -495,7 +495,15 @@ const Layout = (props) => {
                             installMessage={installMessage}
                         />
                     )}
-                    {deviceType.isDesktop ? (
+                    {deviceType.isMobile ? (
+                        <>
+                            {React.isValidElement(CustomHeader) ? (
+                                <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
+                            ) : (
+                                <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} isCheckout />
+                            )}
+                        </>
+                    ) : (
                         <HeaderDesktop
                             storeConfig={storeConfig}
                             isLogin={isLogin}
@@ -508,15 +516,6 @@ const Layout = (props) => {
                             dataVesMenu={dataVesMenu}
                             isHomepage={isHomepage}
                         />
-                    ) : null}
-                    {deviceType.isMobile && (
-                        <>
-                            {React.isValidElement(CustomHeader) ? (
-                                <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
-                            ) : (
-                                <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} isCheckout />
-                            )}
-                        </>
                     )}
                 </header>
             )}
