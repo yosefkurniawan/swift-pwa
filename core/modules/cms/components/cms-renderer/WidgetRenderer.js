@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { strToCSSObject } from '@helpers/text';
 import { generateThumborUrl } from '@helpers/image';
 import WidgetView from '@core_modules/cms/components/cms-renderer/view';
+import Image from '@common_image';
 
 const Newsletter = dynamic(() => import('@plugin_newsletter'));
 const WidgetListProduct = dynamic(() => import('@core_modules/cms/components/cms-renderer/widget-list-product'));
@@ -65,10 +66,25 @@ const WidgetRenderer = (props) => {
         return parse(updatedContent, {
             replace: (domNode) => {
                 if (domNode.name === 'img') {
-                    const { src = '', alt = '', style = '', ...attribs } = domNode.attribs;
-                    const optImg = generateThumborUrl(src, 0, 0, true, false, storeConfig.pwa.thumbor_url);
-
-                    return <img src={optImg} alt={alt ?? 'logo'} style={strToCSSObject(style)} {...attribs} />;
+                    if(!domNode.attribs.src.includes("thumbor")) {
+                        console.log(domNode);
+                        console.log(storeConfig);
+                        const { src = '', alt = '', style = '', ...attribs } = domNode.attribs;
+                        const optImg = generateThumborUrl(src, 0, 0, true, false, storeConfig.pwa.thumbor_url);
+    
+                        return (
+                            <Image
+                                className={attribs.class}
+                                src={optImg}
+                                alt={alt ?? 'image'}
+                                width={attribs.width ? attribs.width.replace("px","") : 0}
+                                height={attribs.height ? attribs.height.replace("px","") : 0}
+                                storeConfig={storeConfig}
+                            />
+                        )
+                    }else{
+                        return <img src={optImg} alt={alt ?? 'image'} style={strToCSSObject(style)} {...attribs} />;
+                    }
                 }
 
                 if (domNode.name === DOM_NAME && domNode.attribs) {
