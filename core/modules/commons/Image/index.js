@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
 /* eslint-disable no-unused-vars */
-import { basePath } from '@config';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import React, { useEffect, useState } from 'react';
 import { BREAKPOINTS } from '@theme_vars';
@@ -48,9 +47,6 @@ const CustomImage = ({
         ...initStyleContainer,
     };
     let styleImage = {
-        width: '100%',
-        height: 'auto',
-        position: 'unset',
         top: '0',
         left: '0',
         objectFit: 'cover',
@@ -109,7 +105,7 @@ const CustomImage = ({
                         {...other}
                     />
                 ) : (
-                    <LazyImage style={styleImage} src={getImageFallbackUrl(imgSource)} alt={alt} />
+                    <LazyImage style={styleImage} src={getImageFallbackUrl(imgSource)} alt={alt} width={width} height={height} />
                 )}
             </picture>
         </span>
