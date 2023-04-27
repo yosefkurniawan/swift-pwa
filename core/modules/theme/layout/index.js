@@ -77,7 +77,7 @@ const Layout = (props) => {
         isCheckout = false,
         isLoginPage = false,
         isShowChat = true,
-        deviceType = {},
+        // deviceType = {},
     } = props;
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
@@ -495,28 +495,29 @@ const Layout = (props) => {
                             installMessage={installMessage}
                         />
                     )}
-                    {deviceType.isMobile ? (
-                        <>
-                            {React.isValidElement(CustomHeader) ? (
-                                <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
-                            ) : (
-                                <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} isCheckout />
-                            )}
-                        </>
-                    ) : (
-                        <HeaderDesktop
-                            storeConfig={storeConfig}
-                            isLogin={isLogin}
-                            t={t}
-                            app_cookies={app_cookies}
-                            showGlobalPromo={showGlobalPromo}
-                            enablePopupInstallation={showPopup}
-                            appName={appName}
-                            installMessage={installMessage}
-                            dataVesMenu={dataVesMenu}
-                            isHomepage={isHomepage}
-                        />
-                    )}
+                    <div className="hidden-mobile">
+                        {headerDesktop ? (
+                            <HeaderDesktop
+                                storeConfig={storeConfig}
+                                isLogin={isLogin}
+                                t={t}
+                                app_cookies={app_cookies}
+                                showGlobalPromo={showGlobalPromo}
+                                enablePopupInstallation={showPopup}
+                                appName={appName}
+                                installMessage={installMessage}
+                                dataVesMenu={dataVesMenu}
+                                isHomepage={isHomepage}
+                            />
+                        ) : null}
+                    </div>
+                    <div className="hidden-desktop">
+                        {React.isValidElement(CustomHeader) ? (
+                            <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
+                        ) : (
+                            <HeaderMobile pageConfig={pageConfig} storeConfig={storeConfig} {...headerProps} isCheckout />
+                        )}
+                    </div>
                 </header>
             )}
             <main
