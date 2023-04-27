@@ -48,6 +48,7 @@ const Banner = ({
         infinite: true,
         slidesToShow: 1,
         slidesToScroll: 1,
+        initialSlide: 1,
         autoplay: autoPlay,
         speed,
         autoplaySpeed,
