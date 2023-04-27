@@ -48,11 +48,10 @@ const Banner = ({
         infinite: true,
         slidesToShow: 1,
         slidesToScroll: 1,
-        initialSlide: 1,
         autoplay: autoPlay,
         speed,
         autoplaySpeed,
-        rtl: true,
+        rtl: false,
         arrows: false,
         afterChange: () => setCount(count + 1),
         beforeChange: (current, next) => setIndex(next),
@@ -69,6 +68,7 @@ const Banner = ({
                         noLink={noLink}
                         contentWidth={contentWidth}
                         key={key}
+                        lazy={key !== 0}
                         {...item}
                     />
                 ))}

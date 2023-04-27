@@ -28,6 +28,7 @@ const ImageSlide = ({
     alt = '',
     urlEmbed,
     noLink = false,
+    lazy,
 }) => {
     const styles = useStyles();
     const href = (link && link.includes('http://')) || link.includes('https://') ? link : link[0] === '/' ? link : `/${link}`;
@@ -63,7 +64,7 @@ const ImageSlide = ({
                                 contentWidth={contentWidth}
                                 customClass={customClass}
                                 storeConfig={storeConfig}
-                                lazy={false}
+                                lazy={lazy}
                             />
                         </a>
                     )
@@ -82,7 +83,7 @@ const ImageSlide = ({
                                     contentWidth={contentWidth}
                                     customClass={customClass}
                                     storeConfig={storeConfig}
-                                    lazy={false}
+                                    lazy={lazy}
                                 />
                             </a>
                         </Link>
