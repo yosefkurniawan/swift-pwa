@@ -14,6 +14,7 @@ const CustomImage = ({
     widthMobile = 300,
     heightMobile = 300,
     magezon,
+    useContainer = true,
     classContainer = '',
     styleContainer: initStyleContainer = {},
     className = '',
@@ -30,13 +31,8 @@ const CustomImage = ({
     //         // console.log(storeConfig);
     //     }
     // }
-    const enable = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_enable;
-    const useHttpsOrHttp = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_https_http;
-    const thumborUrl = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_url;
-    const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, thumborUrl, quality);
-    const imageUrlMobile = generateThumborUrl(srcMobile, widthMobile, heightMobile, enable, useHttpsOrHttp, thumborUrl, quality);
-    const [imgSource, setImgSource] = useState(imageUrl);
-    const [imgSourceMobile, setImgSourceMobile] = useState(imageUrlMobile);
+    const [imgSource, setImgSource] = useState();
+    const [imgSourceMobile, setImgSourceMobile] = useState();
 
     let styleContainer = {
         width: '100%',
@@ -65,7 +61,16 @@ const CustomImage = ({
         };
     }
 
+    const Container = useContainer
+        ? ({ children }) => <span className={classContainer} style={styleContainer}>{children}</span>
+        : ({ children }) => <>{children}</>;
+
     useEffect(() => {
+        const enable = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_enable;
+        const useHttpsOrHttp = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_https_http;
+        const thumborUrl = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_url;
+        const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, thumborUrl, quality);
+        const imageUrlMobile = generateThumborUrl(srcMobile, widthMobile, heightMobile, enable, useHttpsOrHttp, thumborUrl, quality);
         const img = new Image();
         img.src = imageUrl;
         img.onerror = () => console.log('Original Image Loading is error, falling back to provided srcset'); // setImgSource(`${basePath}/assets/img/placeholder.png`);
@@ -76,10 +81,10 @@ const CustomImage = ({
             mobileImg.onerror = () => console.log('Original Image Loading is error, falling back to provided srcset'); // setImgSourceMobile(`${basePath}/assets/img/placeholder.png`);
             mobileImg.onload = () => setImgSourceMobile(imageUrlMobile);
         }
-    }, [imageUrl, imageUrlMobile]);
+    }, [src, srcMobile]);
 
     return (
-        <span className={classContainer} style={styleContainer}>
+        <Container>
             <picture>
                 { srcMobile ? (
                     <>
@@ -106,10 +111,19 @@ const CustomImage = ({
                         {...other}
                     />
                 ) : (
-                    <LazyImage style={styleImage} src={getImageFallbackUrl(imgSource)} alt={alt} width={width} height={height} />
+                    <>
+                        <LazyImage
+                            style={styleImage}
+                            src={getImageFallbackUrl(imgSource)}
+                            alt={alt}
+                            width={width}
+                            height={height}
+                            className={`img ${className}`}
+                        />
+                    </>
                 )}
             </picture>
-        </span>
+        </Container>
     );
 };
 

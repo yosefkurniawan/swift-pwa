@@ -25,7 +25,7 @@ export const generateThumborUrl = (src = '', width = 400, height = 400, enable, 
 };
 
 export const getImageFallbackUrl = (src) => {
-    return src.replace('webp', 'jpeg');
+    return src ? src.replace('webp', 'jpeg') : src;
 };
 
 export const generateImageDimensions = (url = '') => {

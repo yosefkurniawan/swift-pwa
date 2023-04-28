@@ -21,13 +21,13 @@ const ImageSlide = ({
     isSlug = true,
     mobileImageUrl = '',
     contentWidth,
-    customClass = '',
     video,
     videoUrl,
     storeConfig,
     alt = '',
     urlEmbed,
     noLink = false,
+    lazy,
 }) => {
     const styles = useStyles();
     const href = (link && link.includes('http://')) || link.includes('https://') ? link : link[0] === '/' ? link : `/${link}`;
@@ -60,10 +60,8 @@ const ImageSlide = ({
                                 heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
                                 alt={alt}
                                 className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
-                                contentWidth={contentWidth}
-                                customClass={customClass}
                                 storeConfig={storeConfig}
-                                lazy={false}
+                                lazy={lazy}
                             />
                         </a>
                     )
@@ -79,10 +77,8 @@ const ImageSlide = ({
                                     heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
                                     alt={alt}
                                     className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
-                                    contentWidth={contentWidth}
-                                    customClass={customClass}
                                     storeConfig={storeConfig}
-                                    lazy={false}
+                                    lazy={lazy}
                                 />
                             </a>
                         </Link>
