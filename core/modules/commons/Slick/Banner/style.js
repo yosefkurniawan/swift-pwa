@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     imageSlider: {
         display: 'flex',
         width: '100%',
+        height: '100%',
         [theme.breakpoints.up('sm')]: {
             height: 'auto',
         },
@@ -48,6 +49,11 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             width: 'auto !important',
         },
+    },
+    imageSliderBackground: {
+        display: 'flex',
+        width: '100%',
+        height: '100%',
     },
     thumborContainer: {
         backgroundColor: '#eee',

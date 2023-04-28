@@ -21,7 +21,6 @@ const ImageSlide = ({
     isSlug = true,
     mobileImageUrl = '',
     contentWidth,
-    customClass = '',
     video,
     videoUrl,
     storeConfig,
@@ -61,8 +60,6 @@ const ImageSlide = ({
                                 heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
                                 alt={alt}
                                 className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
-                                contentWidth={contentWidth}
-                                customClass={customClass}
                                 storeConfig={storeConfig}
                                 lazy={lazy}
                             />
@@ -80,8 +77,6 @@ const ImageSlide = ({
                                     heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
                                     alt={alt}
                                     className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
-                                    contentWidth={contentWidth}
-                                    customClass={customClass}
                                     storeConfig={storeConfig}
                                     lazy={lazy}
                                 />
