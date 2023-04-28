@@ -6,7 +6,7 @@ import React, {
 const placeHolder = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAQAAADVobXoAAAAEElEQVR42mM8858BDBhhDAArAgOZPzQZFwAAAABJRU5ErkJggg==';
 
 const LazyImage = ({
-    src, alt, style = {}, width, height,
+    src, alt, style = {}, width, height, className,
 }) => {
     const [imageSrc, setImageSrc] = useState(placeHolder);
     const [imageRef, setImageRef] = useState();
@@ -111,6 +111,7 @@ const LazyImage = ({
                 onError={onError}
                 width={width}
                 height={height}
+                className={`img ${className}`}
             />
             <style jsx>
                 {`
