@@ -1,10 +1,6 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
-import Box from '@material-ui/core/Box';
-
 import MagezonElement from '@core_modules/cms/components/cms-renderer/magezon/index';
-
-const WidgetRenderer = dynamic(() => import('@core_modules/cms/components/cms-renderer/WidgetRenderer'));
+import WidgetRenderer from '@core_modules/cms/components/cms-renderer/WidgetRenderer';
 
 const MixedContent = (props) => {
     const {
@@ -26,14 +22,16 @@ const MagezonRenderer = (props) => {
     const removeIdentifier = JSON.parse(mixedContents[1]);
 
     return (
-        <Box style={{ minHeight: '70vh' }}>
-            {removeIdentifier?.elements.map((item, key) => {
-                if (mixedContents[0] !== '' || mixedContents[2] !== '') {
-                    return <MixedContent key={key} {...item} storeConfig={storeConfig} contents={mixedContents} />;
-                }
-                return <MagezonElement key={key} {...item} storeConfig={storeConfig} />;
-            })}
-        </Box>
+        <>
+            {
+                removeIdentifier && removeIdentifier.elements && removeIdentifier.elements.length > 0
+              && removeIdentifier.elements.map((item, key) => (
+                  mixedContents[0] !== '' || mixedContents[2] !== ''
+                      ? <MixedContent key={key} {...item} storeConfig={storeConfig} contents={mixedContents} />
+                      : <MagezonElement key={key} {...item} storeConfig={storeConfig} />
+              ))
+            }
+        </>
     );
 };
 

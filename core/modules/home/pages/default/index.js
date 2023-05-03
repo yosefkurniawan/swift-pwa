@@ -8,8 +8,9 @@ import graphRequest from '@graphql_request';
 import { getHomePageConfig } from '@core_modules/home/service/graphql/schema';
 import { storeConfigVar } from '@root/core/services/graphql/cache';
 
-// TODO: belum handle mode checkout only
-const Page = dynamic(() => import('@core_modules/home/pages/default/core'));
+const Page = dynamic(() => ((!modules.checkout.checkoutOnly)
+    ? import('@core_modules/home/pages/default/core')
+    : import('@module_checkout/pages/default')));
 
 Page.getInitialProps = async (ctx) => {
     let homePageConfig;

@@ -26,6 +26,8 @@ import React from 'react';
 import { gql } from '@apollo/client';
 import PageProgressLoader from '@common_loaders/PageProgress';
 import graphRequest from '@graphql_request';
+import Notification from '@lib_firebase/notification';
+import firebase from '@lib_firebase/index';
 import routeMiddleware from '@middleware_route';
 import getConfig from 'next/config';
 import TagManager from 'react-gtm-module';
@@ -59,59 +61,6 @@ if (sentry.enabled && typeof publicRuntimeConfig !== 'undefined' && sentry.dsn[p
         tracesSampleRate: 0.5,
     });
 }
-
-const firebaseInit = async () => {
-    if (
-        features.firebase.config.apiKey !== ''
-        && features.firebase.pushNotification.enabled
-    ) {
-        const firebase = (await import('@lib_firebase/index')).default;
-
-        // initial firebase messaging
-        const Notification = (await import('@lib_firebase/notification')).default;
-        Notification.init();
-
-        // handle if have message on focus
-        try {
-            const messaging = firebase.messaging();
-            // Handle incoming messages. Called when:
-            // - a message is received while the app has focus
-            // - the user clicks on an app notification created by a service worker
-            //   `messaging.setBackgroundMessageHandler` handler.
-            messaging.onMessage((payload) => {
-                navigator.serviceWorker.ready.then((registration) => {
-                    // This prevents to show one notification for each tab
-                    setTimeout(() => {
-                        // eslint-disable-next-line no-console
-                        console.log(
-                            '[firebase-messaging-sw.js] Received foreground message ',
-                            payload,
-                        );
-                        const lastNotification = localStorage.getItem('lastNotification');
-                        const isDifferentContent = payload.data.updated_date !== lastNotification;
-                        if (isDifferentContent) {
-                            localStorage.setItem(
-                                'lastNotification',
-                                payload.data.updated_date + payload.data.title,
-                            );
-                            registration.showNotification(payload.data.title, {
-                                body: payload.data.body,
-                                vibrate: [200, 100, 200, 100, 200, 100, 200],
-                                icon: payload.data.icons || '',
-                                image: payload.data.image || '',
-                                requireInteraction: true,
-                                data: payload.data,
-                            });
-                        }
-                    }, Math.random() * 1000);
-                });
-            });
-        } catch (err) {
-        // eslint-disable-next-line no-console
-            console.log(err);
-        }
-    }
-};
 
 class MyApp extends App {
     constructor(props) {
@@ -227,16 +176,16 @@ class MyApp extends App {
                         ? await pageProps.apolloClient
                             .query({
                                 query: gql`
-                                    ${getVesMenu}
-                                `,
+                                      ${getVesMenu}
+                                  `,
                                 variables: { alias: storeConfig.pwa.ves_menu_alias },
                             })
                             .then(({ data }) => data)
                         : await pageProps.apolloClient
                             .query({
                                 query: gql`
-                                    ${getCategories}
-                                `,
+                                      ${getCategories}
+                                  `,
                             })
                             .then(({ data }) => data);
                 }
@@ -299,7 +248,43 @@ class MyApp extends App {
          * ---------------------------------------------
          * FIREBASE INITIALIZATION
          */
-        firebaseInit();
+        if (features.firebase.config.apiKey !== '' && features.firebase.pushNotification.enabled) {
+            // initial firebase messaging
+            Notification.init();
+            // handle if have message on focus
+            try {
+                const messaging = firebase.messaging();
+                // Handle incoming messages. Called when:
+                // - a message is received while the app has focus
+                // - the user clicks on an app notification created by a service worker
+                //   `messaging.setBackgroundMessageHandler` handler.
+                messaging.onMessage((payload) => {
+                    navigator.serviceWorker.ready.then((registration) => {
+                        // This prevents to show one notification for each tab
+                        setTimeout(() => {
+                            // eslint-disable-next-line no-console
+                            console.log('[firebase-messaging-sw.js] Received foreground message ', payload);
+                            const lastNotification = localStorage.getItem('lastNotification');
+                            const isDifferentContent = payload.data.updated_date !== lastNotification;
+                            if (isDifferentContent) {
+                                localStorage.setItem('lastNotification', payload.data.updated_date + payload.data.title);
+                                registration.showNotification(payload.data.title, {
+                                    body: payload.data.body,
+                                    vibrate: [200, 100, 200, 100, 200, 100, 200],
+                                    icon: payload.data.icons || '',
+                                    image: payload.data.image || '',
+                                    requireInteraction: true,
+                                    data: payload.data,
+                                });
+                            }
+                        }, Math.random() * 1000);
+                    });
+                });
+            } catch (err) {
+                // eslint-disable-next-line no-console
+                console.log(err);
+            }
+        }
 
         /*
          * LAZY LOADING FONTS
