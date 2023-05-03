@@ -5,15 +5,12 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
-
-import { basePath } from '@config';
-import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
-import PhotoSwipe from '@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed/components/PhotoSwipe';
 import Typography from '@common_typography';
-
-const { SimpleReactLightbox, SRLWrapper } = dynamic(() => import('simple-react-lightbox'));
+import Link from 'next/link';
+import PhotoSwipe from '@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed/components/PhotoSwipe';
+import SimpleReactLightbox, { SRLWrapper } from 'simple-react-lightbox';
+import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
+import { basePath } from '@config';
 
 const ImageItem = ({ src, alt, onClick = () => {}, storeConfig }) => {
     const enable = storeConfig.pwa.thumbor_enable;
