@@ -268,11 +268,15 @@ const modules = {
             enabled: true,
         },
         xendit: {
+            // Pay via button pay now
             paymentPrefixCodeOnSuccess: ['alfamart', 'bcava', 'briva', 'qris', 'shopeepay', 'bniva', 'mandiriva',
-                'permatava', 'indomaret', 'bjbva', 'bsiva', 'gcash', 'grabpay', 'paymaya',
-                'dd_bpi', 'seven_eleven', 'dd_ubp', 'billease', 'cebuana', 'dp_palawan',
-                'dp_mlhuillier', 'dp_ecpay_loan', 'cashalo', 'shopeepayph', 'uangme', 'astrapay', 'akulaku', 'dd_rcbc'],
-            paymentPrefixCode: ['cc', 'cc_subscription', 'dana', 'ovo', 'linkaja', 'qr_codes', 'dd_bri', 'kredivo'],
+                'permatava', 'indomaret', 'bjbva', 'bsiva', 'dana', 'ovo', 'linkaja', 'qr_codes', 'gcash', 'grabpay', 'paymaya',
+                'seven_eleven', 'cebuana', 'dp_palawan', 'dp_mlhuillier', 'dp_ecpay_loan', 'shopeepayph', 'astrapay',
+            ],
+            // Should pay upon place order
+            paymentPrefixCode: ['cc', 'cc_subscription', 'dd_bri', 'kredivo', 'dd_bpi', 'dd_ubp', 'billease',
+                'uangme', 'cashalo', 'akulaku', 'dd_rcbc',
+            ],
         },
     },
     cart: {
