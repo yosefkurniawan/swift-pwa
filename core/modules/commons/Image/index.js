@@ -91,8 +91,8 @@ const CustomImage = ({
             : generateThumborUrl(`${getHostProd()}/assets/img/placeholder.png`, width, height, enable, useHttpsOrHttp, thumborUrl, quality);
         const img = new Image();
         img.src = imageUrl;
-        img.onerror = () => setImgSource(imageUrl);
-        img.onload = () => setImgSource(placeholder);// setImgSource(imageUrl);
+        img.onerror = () => setImgSource(placeholder);
+        img.onload = () => setImgSource(imageUrl);// setImgSource(imageUrl);
         if (srcMobile) {
             const placeholderMobile = !getHost().includes('localhost')
                 ? generateThumborUrl(
@@ -114,8 +114,8 @@ const CustomImage = ({
                 );
             const mobileImg = new Image();
             mobileImg.src = imageUrlMobile;
-            mobileImg.onerror = () => setImgSourceMobile(imageUrlMobile);
-            mobileImg.onload = () => setImgSourceMobile(placeholderMobile); // setImgSourceMobile(imageUrlMobile);
+            mobileImg.onerror = () => setImgSourceMobile(placeholderMobile);
+            mobileImg.onload = () => setImgSourceMobile(imageUrlMobile); // setImgSourceMobile(imageUrlMobile);
         }
     }, [imageUrl, imageUrlMobile]);
 
