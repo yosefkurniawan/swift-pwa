@@ -17,7 +17,6 @@ const DesktopInstallApp = dynamic(() => import('@core_modules/theme/components/c
 const Autocomplete = dynamic(() => import('@core_modules/theme/components/header/desktop/components/autocomplete'), { ssr: false });
 const OptionAutocomplete = dynamic(() => import('@core_modules/theme/components/header/desktop/components/autocomplete/view'), { ssr: false });
 
-
 const ViewTopNavigation = (props) => {
     const {
         storeConfig,
@@ -53,7 +52,7 @@ const ViewTopNavigation = (props) => {
                     <div className="header-middle">
                         <div className="header-middle__left">
                             <div className="box header-middle__logo">
-                                <Link href="/" >
+                                <Link href="/">
                                     <a>
                                         <Image
                                             className="header-middle__logo-link"
@@ -62,6 +61,7 @@ const ViewTopNavigation = (props) => {
                                             width={120}
                                             height={52}
                                             storeConfig={storeConfig}
+                                            lazy={false}
                                         />
                                     </a>
                                 </Link>

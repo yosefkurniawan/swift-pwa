@@ -54,13 +54,13 @@ const ViewTopNavigation = (props) => {
                 // handle show hide header
                 if (middleSubmenu && leftSubmenu) {
                     if (window.pageYOffset > 100) {
-                        middleSubmenu?.classList?.remove('hidden-submenu');
-                        header?.classList?.add('header-bgcolor');
-                        leftSubmenu?.classList?.add('hidden-submenu');
+                        middleSubmenu.classList.remove('hidden-submenu');
+                        header.classList.add('header-bgcolor');
+                        leftSubmenu.classList.add('hidden-submenu');
                     } else {
-                        middleSubmenu?.classList?.add('hidden-submenu');
-                        header?.classList?.remove('header-bgcolor');
-                        leftSubmenu?.classList?.remove('hidden-submenu');
+                        middleSubmenu.classList.add('hidden-submenu');
+                        header.classList.remove('header-bgcolor');
+                        leftSubmenu.classList.remove('hidden-submenu');
                     }
                 }
                 if (!triger && window.pageYOffset > maxHeigtToShow) {
@@ -90,6 +90,7 @@ const ViewTopNavigation = (props) => {
                                                 width={120}
                                                 height={52}
                                                 storeConfig={storeConfig}
+                                                lazy={false}
                                             />
                                         </a>
                                     </Link>
@@ -158,6 +159,7 @@ const ViewTopNavigation = (props) => {
                                                 width={120}
                                                 height={52}
                                                 storeConfig={storeConfig}
+                                                lazy={false}
                                             />
                                         </a>
                                     </Link>
