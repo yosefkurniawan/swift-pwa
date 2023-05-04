@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 
 import { strToCSSObject } from '@helpers/text';
 import { generateThumborUrl } from '@helpers/image';
+import WidgetSlider from '@core_modules/cms/components/cms-renderer/widget-slider';
 import WidgetView from '@core_modules/cms/components/cms-renderer/view';
 import Image from '@common_image';
 
@@ -12,7 +13,6 @@ const Newsletter = dynamic(() => import('@plugin_newsletter'));
 const WidgetListProduct = dynamic(() => import('@core_modules/cms/components/cms-renderer/widget-list-product'));
 const WidgetListBrand = dynamic(() => import('@core_modules/cms/components/cms-renderer/widget-list-brand'));
 const WidgetPwaLink = dynamic(() => import('@core_modules/cms/components/cms-renderer/widget-link-pwa'));
-const WidgetSlider = dynamic(() => import('@core_modules/cms/components/cms-renderer/widget-slider'));
 
 const TYPE_PWA_SLIDER = 'pwa-slider';
 const TYPE_PWA_FEATURED = 'pwa-featured-brands';

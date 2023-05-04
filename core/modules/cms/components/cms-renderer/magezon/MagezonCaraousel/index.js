@@ -6,15 +6,13 @@
 import React from 'react';
 import Typography from '@common_typography';
 import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
-import dynamic from 'next/dynamic';
+import Carousel from '@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel/components';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
 import SimpleReactLightbox, { SRLWrapper, useLightbox } from 'simple-react-lightbox';
 import PopupMapVideo from '@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/PopupMapVideo';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import { basePath } from '@config';
-
-const Carousel = dynamic(import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel/components'));
 
 const ImageWithAction = ({
     withPopup, onClick = null, url, alt_tag, position, storeConfig,
