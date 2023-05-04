@@ -1,16 +1,14 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable max-len */
-import * as React from 'react';
+import CmsPage from '@core_modules/cms/pages/default';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
-
 import Thumbor from '@common_image';
 import useStyles from '@core_modules/home/pages/default/components/style';
 
 const BannerSlider = dynamic(() => import('@core_modules/home/pages/default/components/Banner'));
-const CategoryList = dynamic(() => import('@core_modules/home/pages/default/components/CategoryList'));
-const CmsPage = dynamic(() => import('@core_modules/cms/pages/default'));
 const FeaturedProducts = dynamic(() => import('@core_modules/home/pages/default/components/FeaturedProducts'));
+const CategoryList = dynamic(() => import('@core_modules/home/pages/default/components/CategoryList'));
 
 const Content = (props) => {
     const styles = useStyles();
@@ -40,7 +38,7 @@ const Content = (props) => {
 
     let content = '';
 
-    if (homePageConfig && useCmsPage?.enable) {
+    if (homePageConfig && useCmsPage && useCmsPage.enable) {
         content = (
             <>
                 <CmsPage

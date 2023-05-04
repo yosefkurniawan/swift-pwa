@@ -66,6 +66,7 @@ const ViewTopNavigation = (props) => {
                                             width={120}
                                             height={52}
                                             storeConfig={storeConfig}
+                                            lazy={false}
                                         />
                                     </a>
                                 </Link>

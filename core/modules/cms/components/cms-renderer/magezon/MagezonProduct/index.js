@@ -2,18 +2,16 @@
 import Typography from '@common_typography';
 import Skeleton from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/Skeleton';
 import ProductSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/Slider';
+import SingleProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/SingleProduct';
 import { generateQueries, getProductListConditions } from '@core_modules/cms/helpers/getProductListConditions';
 import { getProductList, getProductPrice } from '@core_modules/cms/services/graphql';
 import { useTranslation } from '@i18n';
 import Grid from '@material-ui/core/Grid';
 import ErrorMessage from '@plugin_productlist/components/ErrorMessage';
 import React, { useMemo } from 'react';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { priceVar } from '@root/core/services/graphql/cache';
 import { useReactiveVar } from '@apollo/client';
-
-const SingleProduct = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/SingleProduct'), { ssr: false });
 
 const MagezonProductList = (props) => {
     // prettier-ignore

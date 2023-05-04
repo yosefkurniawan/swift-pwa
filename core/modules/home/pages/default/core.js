@@ -1,17 +1,17 @@
-import { useEffect } from 'react';
-import Cookies from 'js-cookie';
-import dynamic from 'next/dynamic';
-
+/* eslint-disable no-unused-vars */
+import Layout from '@layout';
 import { getHost } from '@helper_config';
-import { currencyVar } from '@root/core/services/graphql/cache';
 import Content from '@core_modules/home/pages/default/components';
-
-const Layout = dynamic(() => import('@layout'));
+import { currencyVar } from '@root/core/services/graphql/cache';
+import { keyLocalStorage } from '@config';
+import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 
 const HomeCore = (props) => {
     // eslint-disable-next-line object-curly-newline
     const { pageConfig, storeConfig, homePageConfig, ...other } = props;
 
+    const homeKey = keyLocalStorage.home;
     const useCms = storeConfig?.pwa?.use_cms_page_enable;
 
     useEffect(() => {

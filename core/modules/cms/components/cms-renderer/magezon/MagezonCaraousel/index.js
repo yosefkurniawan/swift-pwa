@@ -6,15 +6,49 @@
 import React from 'react';
 import Typography from '@common_typography';
 import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
-import dynamic from 'next/dynamic';
+import Carousel from '@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel/components';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
+import SimpleReactLightbox, { SRLWrapper, useLightbox } from 'simple-react-lightbox';
 import PopupMapVideo from '@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/PopupMapVideo';
+import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import { basePath } from '@config';
 
-const { SimpleReactLightbox, SRLWrapper } = dynamic(() => import('simple-react-lightbox'));
-const Carousel = dynamic(import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel/components'));
-const ImageWithAction = dynamic(import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel/components/ImageWithAction'));
+const ImageWithAction = ({
+    withPopup, onClick = null, url, alt_tag, position, storeConfig,
+}) => {
+    const { openLightbox } = useLightbox();
+    const handleClick = () => {
+        // eslint-disable-next-line no-unused-expressions
+        onClick ? onClick() : null;
+        if (withPopup) {
+            setTimeout(() => {
+                openLightbox(position - 1);
+            }, 100);
+        }
+    };
+    const enable = storeConfig.pwa.thumbor_enable;
+    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
+    const url_thumbor = storeConfig.pwa.thumbor_url;
+    const src = url || `${basePath}/assets/img/placeholder.png`;
+    const imageUrl = generateThumborUrl(src, 500, 500, enable, useHttpsOrHttp, url_thumbor);
+    return (
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+        <a onClick={handleClick}>
+            <source srcSet={imageUrl} type="image/webp" />
+            <source srcSet={getImageFallbackUrl(imageUrl)} type="image/jpeg" />
+            <img
+                className="mgz-carousel-content-image"
+                src={imageUrl}
+                alt={alt_tag || 'magezon image'}
+                onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = `${basePath}/assets/img/placeholder.png`;
+                }}
+            />
+        </a>
+    );
+};
 
 const MagezonText = (props) => {
     const {
@@ -290,6 +324,7 @@ const MagezonText = (props) => {
             {onclick === 'magnific'
                 ? (
                     <SimpleReactLightbox>
+
                         <Carousel
                             data={mapList(items)}
                             slideXs={owl_item_xs}

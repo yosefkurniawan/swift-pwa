@@ -3,6 +3,7 @@ import React from 'react';
 import MagezonColumn from '@core_modules/cms/components/cms-renderer/magezon/MagezonColumn';
 import MagezonRow from '@core_modules/cms/components/cms-renderer/magezon/MagezonRow';
 import MagezonHeading from '@core_modules/cms/components/cms-renderer/magezon/MagezonHeading';
+import MagezonSingleImage from '@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage';
 import MagezonText from '@core_modules/cms/components/cms-renderer/magezon/MagezonText';
 import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/MagezonButton';
 import MagezonRawHtml from '@core_modules/cms/components/cms-renderer/magezon/MagezonRawHtml';
@@ -35,22 +36,21 @@ import MagezonProgressBar from '@core_modules/cms/components/cms-renderer/magezo
 import MagezonAccordion from '@core_modules/cms/components/cms-renderer/magezon/MagezonAccordion';
 import MagezonSection from '@core_modules/cms/components/cms-renderer/magezon/MagezonSection';
 import MagezonPageableContainer from '@core_modules/cms/components/cms-renderer/magezon/MagezonPageableContainer';
+import MagezonProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct';
+import MagezonSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonSlider';
+import MagezonCaraousel from '@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
 import 'animate.css';
 import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
 
-const MagezonProduct = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonProduct'));
-const MagezonSlider = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonSlider'));
-const MagezonSingleImage = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage'));
 const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
 const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
 const MagezonTwitter = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitter'), { ssr: false });
 const MagezonParallax = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonParallax'), { ssr: false });
 const MagezonFlickr = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonFlickr'), { ssr: false });
 const MagezonCountdown = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCountdown'), { ssr: false });
-const MagezonCaraousel = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel'));
 const MagezonSocialIcons = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonSocialIcons'), { ssr: false });
 const MagezonTabs = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTabs'), { ssr: false });
 
