@@ -127,9 +127,6 @@ const ViewTopNavigation = (props) => {
                         #header-inner.header-inner {
                         top: 0px;
                         }
-                        .header-middle__center {
-                            display: none;
-                        }
                         .hidden-submenu {
                             display: none !important;
                             transition: display 1s ease;
