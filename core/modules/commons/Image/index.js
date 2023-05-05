@@ -4,12 +4,12 @@
 import { basePath } from '@config';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import { getHost, getHostProd } from '@helpers/config';
-
 import React, { useEffect, useState, useCallback } from 'react';
 import { BREAKPOINTS } from '@theme_vars';
-import Skeleton from '@common_skeleton';
 
-const dummyPlaceholder = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAQAAADVobXoAAAAEElEQVR42mM8858BDBhhDAArAgOZPzQZFwAAAABJRU5ErkJggg==';
+function gcd(a, b) {
+    return (b === 0) ? a : gcd(b, a % b);
+}
 
 const Container = ({
     children, enable, className, style,
@@ -36,19 +36,44 @@ const CustomImage = ({
     storeConfig = {},
     ...other
 }) => {
-    // comment because unused
-    // if (storeConfig) {
-    //     if (storeConfig.pwa === undefined) {
-    //         // console.log(storeConfig);
-    //     }
-    // }
     const enable = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_enable;
     const useHttpsOrHttp = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_https_http;
     const thumborUrl = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_url;
     const imageUrl = generateThumborUrl(src, width, height, enable, useHttpsOrHttp, thumborUrl, quality);
     const imageUrlMobile = srcMobile ? generateThumborUrl(srcMobile, widthMobile, heightMobile, enable, useHttpsOrHttp, thumborUrl, quality) : null;
-    const [imgSource, setImgSource] = useState(!lazy ? imageUrl : dummyPlaceholder);
-    const [imgSourceMobile, setImgSourceMobile] = useState(!lazy ? imageUrl : dummyPlaceholder);
+
+    // generate blurry image loader
+    let draftWidth = parseInt(width, 10);
+    let draftHeight = parseInt(height, 10);
+    let draftWidthMobile = parseInt(widthMobile, 10);
+    let draftHeightMobile = parseInt(heightMobile, 10);
+    if (width || height) {
+        const r = gcd(draftWidth, draftHeight);
+        const rMob = gcd(draftWidthMobile, draftHeightMobile);
+        draftWidth /= r;
+        draftHeight /= r;
+        draftWidthMobile /= rMob;
+        draftHeightMobile /= rMob;
+
+        // minimum 5px
+        if (draftWidth < 5 && draftHeight < 5) {
+            draftWidth *= 3;
+            draftHeight *= 3;
+        }
+        // minimum 5px
+        if (draftWidthMobile < 5 && draftHeightMobile < 5) {
+            draftWidthMobile *= 3;
+            draftHeightMobile *= 3;
+        }
+    } else {
+        // if dimension is not set, generate default draft with dimension width 5px, auto height
+        draftWidthMobile = 5;
+        draftHeightMobile = 0;
+    }
+    const draft = generateThumborUrl(src, draftWidth, draftHeight, enable, useHttpsOrHttp, thumborUrl, 70, 'full-fit-in', 70);
+    const draftMobile = generateThumborUrl(srcMobile, draftWidthMobile, draftHeightMobile, enable, useHttpsOrHttp, thumborUrl, 70, 'full-fit-in', 70);
+    const [imgSource, setImgSource] = useState(!lazy ? imageUrl : draft);
+    const [imgSourceMobile, setImgSourceMobile] = useState(!lazy ? imageUrlMobile : draftMobile);
 
     let styleContainer = {
         width: '100%',
@@ -87,12 +112,27 @@ const CustomImage = ({
 
     useEffect(() => {
         const placeholder = !getHost().includes('localhost')
-            ? generateThumborUrl(`${getHost()}/assets/img/placeholder.png`, width, height, enable, useHttpsOrHttp, thumborUrl, quality)
-            : generateThumborUrl(`${getHostProd()}/assets/img/placeholder.png`, width, height, enable, useHttpsOrHttp, thumborUrl, quality);
+            ? generateThumborUrl(
+                `${getHost()}/assets/img/placeholder.png`,
+                width,
+                height,
+                enable,
+                useHttpsOrHttp,
+                thumborUrl,
+                quality,
+            ) : generateThumborUrl(
+                `${getHostProd()}/assets/img/placeholder.png`,
+                widthMobile,
+                heightMobile,
+                enable,
+                useHttpsOrHttp,
+                thumborUrl,
+                quality,
+            );
         const img = new Image();
         img.src = imageUrl;
         img.onerror = () => setImgSource(placeholder);
-        img.onload = () => setImgSource(imageUrl);// setImgSource(imageUrl);
+        img.onload = () => setImgSource(imageUrl);
         if (srcMobile) {
             const placeholderMobile = !getHost().includes('localhost')
                 ? generateThumborUrl(
@@ -115,77 +155,66 @@ const CustomImage = ({
             const mobileImg = new Image();
             mobileImg.src = imageUrlMobile;
             mobileImg.onerror = () => setImgSourceMobile(placeholderMobile);
-            mobileImg.onload = () => setImgSourceMobile(imageUrlMobile); // setImgSourceMobile(imageUrlMobile);
+            mobileImg.onload = () => setImgSourceMobile(imageUrlMobile);
         }
     }, [imageUrl, imageUrlMobile]);
 
     return (
         <Container enable={useContainer} className={className} style={styleContainer}>
-            { lazy && imgSource === dummyPlaceholder
-                ? (
-                    <div style={{ maxWidth: '100%' }}>
-                        <Skeleton
-                            variant="rectangular"
-                            xsStyle={{ height: srcMobile ? heightMobile : height, width: srcMobile ? widthMobile : width }}
-                            mdStyle={{ height, width }}
+            <picture>
+                { srcMobile ? (
+                    <>
+                        <source srcSet={imgSourceMobile} media={`(max-width: ${BREAKPOINTS.sm - 1}px)`} type="image/webp" />
+                        <source
+                            srcSet={getImageFallbackUrl(imgSourceMobile)}
+                            media={`(max-width: ${BREAKPOINTS.sm - 1}px)`}
+                            type="image/jpeg"
                         />
-                    </div>
+                        <source srcSet={imgSource} media={`(min-width: ${BREAKPOINTS.sm}px)`} type="image/webp" />
+                        <source srcSet={getImageFallbackUrl(imgSource)} media={`(min-width: ${BREAKPOINTS.sm}px)`} type="image/jpeg" />
+                    </>
                 ) : (
-                    <picture>
-                        { srcMobile ? (
-                            <>
-                                <source srcSet={imgSourceMobile} media={`(max-width: ${BREAKPOINTS.sm - 1}px)`} type="image/webp" />
-                                <source
-                                    srcSet={getImageFallbackUrl(imgSourceMobile)}
-                                    media={`(max-width: ${BREAKPOINTS.sm - 1}px)`}
-                                    type="image/jpeg"
-                                />
-                                <source srcSet={imgSource} media={`(min-width: ${BREAKPOINTS.sm}px)`} type="image/webp" />
-                                <source srcSet={getImageFallbackUrl(imgSource)} media={`(min-width: ${BREAKPOINTS.sm}px)`} type="image/jpeg" />
-                            </>
-                        ) : (
-                            <>
-                                <source srcSet={imgSource} type="image/webp" />
-                                <source srcSet={getImageFallbackUrl(imgSource)} type="image/jpeg" />
-                            </>
-                        )}
-                        <img
-                            data-pagespeed-no-defer={!lazy}
-                            style={styleImage}
-                            className={`img ${className}`}
-                            src={getImageFallbackUrl(imgSource)}
-                            alt={alt}
-                            width={width !== 0 ? width : null}
-                            height={height !== 0 ? height : null}
-                            onLoad={lazy ? onLoad : null}
-                            onError={lazy ? onError : null}
-                            {...other}
-                        />
-                        <style jsx>
-                            {`
-                                    // Add a smooth animation on loading
-                                    @keyframes loaded {
-                                        0% {
-                                        opacity: 0.1;
-                                        }
-                                        100% {
-                                        opacity: 1;
-                                        }
-                                    }
-                
-                                    // I use utilitary classes instead of props to avoid style regenerating
-                                    img.loaded:not(.has-error) {
-                                        animation: loaded 300ms ease-in-out;
-                                    }
-                
-                                    img.has-error {
-                                        // fallback to placeholder image on error
-                                        content: url(${basePath}/assets/img/placeholder.png);
-                                    }
-                                `}
-                        </style>
-                    </picture>
+                    <>
+                        <source srcSet={imgSource} type="image/webp" />
+                        <source srcSet={getImageFallbackUrl(imgSource)} type="image/jpeg" />
+                    </>
                 )}
+                <img
+                    data-pagespeed-no-defer={!lazy}
+                    style={styleImage}
+                    className={`img ${className}`}
+                    src={getImageFallbackUrl(imgSource)}
+                    alt={alt}
+                    width={width !== 0 ? width : null}
+                    height={height !== 0 ? height : null}
+                    onLoad={lazy ? onLoad : null}
+                    onError={lazy ? onError : null}
+                    {...other}
+                />
+                <style jsx>
+                    {`
+                            // Add a smooth animation on loading
+                            @keyframes loaded {
+                                0% {
+                                opacity: 0.1;
+                                }
+                                100% {
+                                opacity: 1;
+                                }
+                            }
+        
+                            // I use utilitary classes instead of props to avoid style regenerating
+                            img.loaded:not(.has-error) {
+                                animation: loaded 300ms ease-in-out;
+                            }
+        
+                            img.has-error {
+                                // fallback to placeholder image on error
+                                content: url(${basePath}/assets/img/placeholder.png);
+                            }
+                        `}
+                </style>
+            </picture>
         </Container>
     );
 };

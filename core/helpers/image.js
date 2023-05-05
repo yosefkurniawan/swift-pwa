@@ -1,21 +1,36 @@
 /* eslint-disable arrow-body-style */
 
-export const generateThumborUrl = (src = '', width = 400, height = 400, enable, useHttpsOrHttp, thumborUrl, quality = 80, format = 'webp') => {
+export const generateThumborUrl = (
+    src = '',
+    width = 400,
+    height = 400,
+    enable,
+    useHttpsOrHttp,
+    thumborUrl,
+    quality = 80,
+    endpoint,
+    blur,
+    format = 'webp',
+) => {
     if (enable) {
         if (thumborUrl) {
             let source = src;
             const domain = (new URL(thumborUrl)).origin;
-            const params = `/unsafe/${width}x${height}/filters:format(${format}):quality(${quality})/`;
+            if (source.indexOf(domain) === -1) {
+                const thumborEndpoint = endpoint ? `/${endpoint}` : '';
+                const thumborBlur = blur ? `:blur(${blur})` : '';
+                const params = `/unsafe${thumborEndpoint}/${width}x${height}/filters:format(${format}):quality(${quality})${thumborBlur}/`;
 
-            if (!useHttpsOrHttp) {
-                if (source.includes('http')) {
-                    source = source.replace('http://', '');
+                if (!useHttpsOrHttp) {
+                    if (source.includes('http')) {
+                        source = source.replace('http://', '');
+                    }
+                    if (source.includes('https')) {
+                        source = source.replace('https://', '');
+                    }
                 }
-                if (source.includes('https')) {
-                    source = source.replace('https://', '');
-                }
+                return domain + params + source;
             }
-            return domain + params + source;
         }
 
         return src;
