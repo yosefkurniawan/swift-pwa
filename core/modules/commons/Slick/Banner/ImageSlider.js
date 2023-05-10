@@ -66,7 +66,7 @@ const ImageSlide = ({
                         </a>
                     )
                     : (
-                        <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })}>
+                        <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })} prefetch={false}>
                             <a>
                                 <Thumbor
                                     src={imageUrl}

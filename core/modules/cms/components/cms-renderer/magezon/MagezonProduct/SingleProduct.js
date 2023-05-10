@@ -135,8 +135,11 @@ const SingleProduct = (props) => {
                         container
                         justify="center"
                         alignItems={isProductGrid ? 'center' : 'stretch'}
+                        style={{
+                            width: defaultWidth,
+                        }}
                     >
-                        <Link href={handleClick}>
+                        <Link href={handleClick} prefetch={false}>
                             <a style={{ width: defaultWidth }}>
                                 <Image
                                     src={small_image.url}
@@ -182,7 +185,7 @@ const SingleProduct = (props) => {
                         <Grid item>
                             {generatePrice(priceData, price)}
                             {product_shortdescription && (
-                                <Link href={url_key}>
+                                <Link href={url_key} prefetch={false}>
                                     <CmsRenderer content={short_description.html} />
                                 </Link>
                             )}
