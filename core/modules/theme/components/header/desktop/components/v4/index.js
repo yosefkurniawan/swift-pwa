@@ -10,11 +10,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
 import DesktopInstallAppV4 from '@core_modules/theme/components/header/desktop/components/v4/custom-install-popup/desktop';
 import Menu from '@core_modules/theme/components/header/desktop/components/v4/mcategory';
-import TopMenu from '@core_modules/theme/components/header/desktop/components/v4/mtop';
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
 import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
 import React from 'react';
 import Image from '@common_image';
+import dynamic from 'next/dynamic';
+
+const TopMenu = dynamic(() => import('@core_modules/theme/components/header/desktop/components/v4/mtop'), { ssr: false });
 
 const ViewTopNavigation = (props) => {
     const {

@@ -6,7 +6,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
 import Menu from '@core_modules/theme/components/header/desktop/components/v1/mcategory';
-import TopMenu from '@core_modules/theme/components/header/desktop/components/mtop';
 import dynamic from 'next/dynamic';
 import Image from '@common_image';
 
@@ -16,6 +15,7 @@ const NotificationBell = dynamic(() => import('@plugin_notificationbell'));
 const DesktopInstallApp = dynamic(() => import('@core_modules/theme/components/custom-install-popup/desktop'), { ssr: false });
 const Autocomplete = dynamic(() => import('@core_modules/theme/components/header/desktop/components/autocomplete'), { ssr: false });
 const OptionAutocomplete = dynamic(() => import('@core_modules/theme/components/header/desktop/components/autocomplete/view'), { ssr: false });
+const TopMenu = dynamic(() => import('@core_modules/theme/components/header/desktop/components/mtop'), { ssr: false });
 
 const ViewTopNavigation = (props) => {
     const {
