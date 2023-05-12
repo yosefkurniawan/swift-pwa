@@ -31,6 +31,8 @@ import fscreen from 'fscreen';
 import { useTranslation } from '@i18n';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import { basePath } from '@config';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const Transition = React.forwardRef((props, ref) => <Zoom ref={ref} {...props} />);
 

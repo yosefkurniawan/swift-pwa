@@ -10,6 +10,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 import useStyles from '@common_textfield/style';
 import Typography from '@common_typography';
+import 'react-phone-number-input/style.css';
 
 const PhoneInput = dynamic(() => import('react-phone-number-input'));
 
@@ -63,27 +64,51 @@ const CustomTextField = ({
             inputValue = `+62${inputValue.substring(1)}`;
         }
         customTextFieldInput = (
-            <FormControl disabled={disabled || loading} fullWidth={fullWidth} error={error} variant={variant} className={customClass}>
-                <InputLabel shrink={shrink} htmlFor={label} className={styles.label}>
-                    {label}
-                </InputLabel>
+            <>
+                <FormControl disabled={disabled || loading} fullWidth={fullWidth} error={error} variant={variant} className={customClass}>
+                    <InputLabel shrink={shrink} htmlFor={label} className={styles.label}>
+                        {label}
+                    </InputLabel>
 
-                <PhoneInput
-                    international
-                    countryCallingCodeEditable={false}
-                    defaultCountry={pwaConfig && pwaConfig.general_country_default}
-                    value={inputValue}
-                    onChange={onChange}
-                />
+                    <PhoneInput
+                        international
+                        countryCallingCodeEditable={false}
+                        defaultCountry={pwaConfig && pwaConfig.general_country_default}
+                        value={inputValue}
+                        onChange={onChange}
+                    />
 
-                {React.isValidElement(footer) ? (
-                    footer
-                ) : (
-                    <Typography variant="p" color={error ? 'red' : 'default'}>
-                        {errorMessage}
-                    </Typography>
-                )}
-            </FormControl>
+                    {React.isValidElement(footer) ? (
+                        footer
+                    ) : (
+                        <Typography variant="p" color={error ? 'red' : 'default'}>
+                            {errorMessage}
+                        </Typography>
+                    )}
+                </FormControl>
+                <style jsx global>
+                    {`
+                        .PhoneInput {
+                            margin-top: 20px;
+                        }
+                        .PhoneInputInput {
+                            border: none;
+                            border-bottom: 1px solid grey;
+                            font-size: 16px;
+                            padding: 5px 0px;
+                        }
+
+                        .PhoneInputInput:focus {
+                            outline: none;
+                            border-bottom: 2px solid #000000;
+                        }
+
+                        .PhoneInputInput:hover {
+                            border-bottom: 2px solid #000000;
+                        }
+                    `}
+                </style>
+            </>
         );
     }
     return customTextFieldInput;
