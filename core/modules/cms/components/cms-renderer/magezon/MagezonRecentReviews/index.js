@@ -15,8 +15,6 @@ import Link from 'next/link';
 import { useRef, useState } from 'react';
 import Slider from 'react-slick';
 import Thumbor from '@common_image';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 const MagezonRecentReviews = (props) => {
     // prettier-ignore

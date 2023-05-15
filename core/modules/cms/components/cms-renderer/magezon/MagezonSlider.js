@@ -15,8 +15,6 @@ import LeftArrowIcon from '@material-ui/icons/ChevronLeft';
 import RightArrowIcon from '@material-ui/icons/ChevronRight';
 import Image from '@common_image';
 import useStyles from '@common_slick/Banner/style';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 const VideoContent = (props) => {
     const {

@@ -11,8 +11,6 @@ import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 const ImageElement = dynamic(import('@core_modules/cms/components/cms-renderer/magezon/MagezonImageGallery/ImageElement'), { ssr: false });
 

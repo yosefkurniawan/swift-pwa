@@ -8,8 +8,6 @@ import RightArrowIcon from '@material-ui/icons/ArrowForwardIos';
 import Slider from 'react-slick';
 import ImageSlide from '@common_slick/Banner/ImageSlider';
 import useStyles from '@common_slick/Banner/style';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 const Banner = ({
     data = [],

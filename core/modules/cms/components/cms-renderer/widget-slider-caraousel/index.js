@@ -13,8 +13,6 @@ import { features } from '@config';
 import { setCookies } from '@helpers/cookies';
 import propTypes from 'prop-types';
 import useStyles from '@core_modules/cms/components/cms-renderer/widget-slider-caraousel/style';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 const WidetSliderCarousel = (props) => {
     const {

@@ -16,7 +16,7 @@ const WithLink = ({ compareList, handleLink }) => {
     const styles = useStyles();
     if (compareList && compareList.compareList && compareList.compareList.item_count) {
         return (
-            <Link href={handleLink}>
+            <Link href={handleLink} prefetch={false}>
                 <a className={styles.root}>
                     {compareList ? (
                         <Badge color="secondary" badgeContent={compareList.compareList.item_count > 0 ? compareList.compareList.item_count : 0}>
@@ -32,7 +32,7 @@ const WithLink = ({ compareList, handleLink }) => {
         );
     }
     return (
-        <Link href={handleLink}>
+        <Link href={handleLink} prefetch={false}>
             <a className={styles.root}>
                 <Badge color="secondary" badgeContent={0}>
                     <CompareArrowsIcon color="secondary" />

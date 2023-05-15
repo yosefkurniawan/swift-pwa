@@ -1,7 +1,9 @@
 /* eslint-disable consistent-return */
 import React, { memo } from 'react';
-import WidgetRenderer from '@core_modules/cms/components/cms-renderer/WidgetRenderer';
-import MagezonRenderer from '@core_modules/cms/components/cms-renderer/MagezonRenderer';
+import dynamic from 'next/dynamic';
+
+const WidgetRenderer = dynamic(() => import('@core_modules/cms/components/cms-renderer/WidgetRenderer'));
+const MagezonRenderer = dynamic(() => import('@core_modules/cms/components/cms-renderer/MagezonRenderer'));
 
 const CmsRenderer = (props) => {
     // eslint-disable-next-line no-unused-vars

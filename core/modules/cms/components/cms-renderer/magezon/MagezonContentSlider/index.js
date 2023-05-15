@@ -11,8 +11,6 @@ import LeftArrowIcon from '@material-ui/icons/ChevronLeft';
 import RightArrowIcon from '@material-ui/icons/ChevronRight';
 import { useRef, useState } from 'react';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 const MagezonContentSlider = (props) => {
     // prettier-ignore
