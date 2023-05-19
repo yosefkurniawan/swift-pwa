@@ -1,4 +1,4 @@
-import BrowseModal from '@common_searchmodal';
+// import BrowseModal from '@common_searchmodal';
 import ShoppingBagIcon from '@plugin_shoppingbag';
 import { withApollo } from '@lib_apollo';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -9,6 +9,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import Router from 'next/router';
 import { useState } from 'react';
 import useStyles from '@core_modules/theme/components/bottom-navigation/mobile/style';
+import dynamic from 'next/dynamic';
+
+const BrowseModal = dynamic(() => import('@common_searchmodal'));
 
 const Navigation = ({ active, ...other }) => {
     const styles = useStyles();
@@ -22,7 +25,9 @@ const Navigation = ({ active, ...other }) => {
     if (active) {
         return (
             <>
-                <BrowseModal open={openModal} setOpenModal={handleOpenModal} {...other} />
+                {openModal ? (
+                    <BrowseModal open={openModal} setOpenModal={handleOpenModal} {...other} />
+                ) : null}
                 <BottomNavigation
                     className={styles.navigation}
                     value={active}
