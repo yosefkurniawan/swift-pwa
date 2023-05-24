@@ -77,7 +77,7 @@ const Layout = (props) => {
         isCheckout = false,
         isLoginPage = false,
         isShowChat = true,
-        deviceType = {},
+        // deviceType = {},
         preloadImages = [],
     } = props;
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
@@ -498,7 +498,7 @@ const Layout = (props) => {
                         />
                     )}
                     <div className="hidden-mobile">
-                        {!deviceType.isMobile && headerDesktop ? (
+                        {desktop && headerDesktop ? (
                             <HeaderDesktop
                                 storeConfig={storeConfig}
                                 isLogin={isLogin}
@@ -562,10 +562,12 @@ const Layout = (props) => {
 
             {withLayoutFooter && (
                 <footer className={bodyStyles.footerContainer} ref={refFooter}>
-                    <div className="hidden-mobile">
-                        {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
-                        <Copyright storeConfig={storeConfig} />
-                    </div>
+                    {desktop ? (
+                        <div className="hidden-mobile">
+                            {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
+                            <Copyright storeConfig={storeConfig} />
+                        </div>
+                    ) : null}
                     {footer && storeConfig?.pwa?.enabler_footer_mobile === true ? (
                         <div className="hidden-desktop" style={{ ...footerMobile }}>
                             <Footer storeConfig={storeConfig} t={t} />

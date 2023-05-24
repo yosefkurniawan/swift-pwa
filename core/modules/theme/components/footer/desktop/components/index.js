@@ -1,11 +1,28 @@
 import Alert from '@material-ui/lab/Alert';
 import { MAX_WIDTH } from '@theme_vars';
 import WidgetRenderer from '@core_modules/cms/components/cms-renderer/WidgetRenderer';
+import { useEffect, useRef, useState } from 'react';
 
 const FooterView = (props) => {
     const {
         data, t, loading, error, storeConfig,
     } = props;
+    const footerRef = useRef();
+    const [display, setDisplay] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            if (entries?.length > 0 && entries[0].isIntersecting && !display) {
+                setDisplay(true);
+            }
+        });
+
+        if (footerRef.current) {
+            observer.observe(footerRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, [footerRef]);
 
     if (error) {
         return (
@@ -14,12 +31,12 @@ const FooterView = (props) => {
             </Alert>
         );
     }
-    if (loading) return null;
+
     return (
-        <div className="cms-container wrapper-footer">
-            {/* eslint-disable-next-line react/no-danger */}
-            {/* <div dangerouslySetInnerHTML={{ __html: data.cmsBlocks.items[0].content }} /> */}
-            <WidgetRenderer content={data.cmsBlocks.items[0].content} storeConfig={storeConfig} />
+        <div className="cms-container wrapper-footer" ref={footerRef}>
+            {!loading && display
+                ? <WidgetRenderer content={data.cmsBlocks.items[0].content} storeConfig={storeConfig} />
+                : null}
             <style jsx global>
                 {`
                     .wrapper-footer {
