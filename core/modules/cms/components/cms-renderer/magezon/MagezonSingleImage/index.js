@@ -8,41 +8,13 @@ import Thumbor from '@common_image';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
 import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
-import SimpleReactLightbox, { SRLWrapper, useLightbox } from 'simple-react-lightbox';
 import PopupMapVideo from '@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/PopupMapVideo';
 import { basePath } from '@config';
+import dynamic from 'next/dynamic';
 
-const ImageWithAction = ({
-    withPopup, onClick, url, classContainer,
-    classImage, image_width, image_height, title, storeConfig, ...other
-}) => {
-    const { openLightbox } = useLightbox();
-    const handleClick = () => {
-        onClick();
-        if (withPopup) {
-            setTimeout(() => {
-                openLightbox();
-            }, 100);
-        }
-    };
-    return (
-        <a onClick={handleClick}>
-            <Thumbor
-                magezon
-                // eslint-disable-next-line no-nested-ternary
-                src={url || `${basePath}/assets/img/placeholder.png`}
-                className={classImage}
-                quality={80}
-                width={image_width ? image_width.replace('px', '') : ''}
-                height={image_height ? image_height.replace('px', '') : ''}
-                alt={title}
-                classContainer={classContainer}
-                storeConfig={storeConfig}
-                {...other}
-            />
-        </a>
-    );
-};
+const ImageWithLightbox = dynamic(
+    () => import('@core_modules/cms/components/cms-renderer/magezon/MagezonSingleImage/ImageWithLightbox'), { ssr: false },
+);
 
 const MagezonSingleImage = (props) => {
     const {
@@ -56,6 +28,7 @@ const MagezonSingleImage = (props) => {
         title_font_weight, description_font_weight, description_font_size, video_map,
         overlay_color, storeConfig,
     } = props;
+
     let classes = 'magezon-image';
     let classImage = 'mgz-single-image';
     let classContent = 'mgz-img-content';
@@ -132,29 +105,7 @@ const MagezonSingleImage = (props) => {
             setOpenPopupMap(true);
         }
     };
-
-    const [openPopup, setOpenPopup] = React.useState(false);
     const [isHover, setIsHover] = React.useState(false);
-    const callbacks = {
-        onLightboxClosed: () => { setIsHover(false); setOpenPopup(false); },
-    };
-
-    const ligtboxSetting = {
-        buttons: {
-            showThumbnailsButton: false,
-            showAutoplayButton: false,
-            showDownloadButton: false,
-            showFullscreenButton: false,
-            showNextButton: false,
-            showPrevButton: false,
-        },
-        thumbnails: {
-            showThumbnails: false,
-        },
-        caption: {
-            captionContainerPadding: '10px 25% 30px 25%',
-        },
-    };
 
     let imageCaption;
     if (title && description) imageCaption = `${title} - ${description}`;
@@ -195,54 +146,31 @@ const MagezonSingleImage = (props) => {
                 )
                 : (onclick && onclick === 'magnific')
                     ? (
-                        <SimpleReactLightbox>
-                            <div className={openPopup ? '' : 'hide'}>
-                                <SRLWrapper options={ligtboxSetting} callbacks={callbacks}>
-                                    <Thumbor
-                                        magezon
-                                        // eslint-disable-next-line no-nested-ternary
-                                        src={popupImageUrl}
-                                        className={classImage}
-                                        quality={80}
-                                        width={image_width ? image_width.replace('px', '') : ''}
-                                        height={image_height ? image_height.replace('px', '') : ''}
-                                        alt={imageCaption}
-                                        classContainer={classContainer}
-                                        onMouseOver={() => setIsHover(true)}
-                                        onMouseOut={() => setIsHover(false)}
-                                        storeConfig={storeConfig}
-                                    />
-                                </SRLWrapper>
-                            </div>
-                            {!openPopup && (
-                                <ImageWithAction
-                                    url={isHover ? hoverImage : url}
-                                    image_width={image_width ? image_width.replace('px', '') : ''}
-                                    image_height={image_height ? image_height.replace('px', '') : ''}
-                                    classImage={classImage}
-                                    title={imageCaption}
-                                    classContainer={classContainer}
-                                    withPopup
-                                    onClick={() => setOpenPopup(!openPopup)}
-                                    onMouseOver={() => setIsHover(true)}
-                                    onMouseOut={() => setIsHover(false)}
-                                    storeConfig={storeConfig}
-                                />
-                            )}
-                        </SimpleReactLightbox>
-                    )
-                    : (
-                        <ImageWithAction
+                        <ImageWithLightbox
                             url={isHover ? hoverImage : url}
-                            image_width={image_width ? image_width.replace('px', '') : ''}
-                            image_height={image_height ? image_height.replace('px', '') : ''}
-                            classImage={classImage}
-                            title={imageCaption}
+                            popupImageUrl={popupImageUrl}
+                            className={classImage}
+                            width={image_width ? image_width.replace('px', '') : ''}
+                            height={image_height ? image_height.replace('px', '') : ''}
+                            alt={imageCaption}
                             classContainer={classContainer}
-                            onClick={handleClick}
                             onMouseOver={() => setIsHover(true)}
                             onMouseOut={() => setIsHover(false)}
                             storeConfig={storeConfig}
+                        />
+                    )
+                    : (
+                        <Thumbor
+                            magezon
+                            src={isHover ? hoverImage : url}
+                            className={classImage}
+                            quality={80}
+                            width={image_width ? image_width.replace('px', '') : ''}
+                            height={image_height ? image_height.replace('px', '') : ''}
+                            alt={imageCaption}
+                            classContainer={classContainer}
+                            storeConfig={storeConfig}
+                            onClick={handleClick}
                         />
                     )}
             <div

@@ -77,7 +77,7 @@ const Layout = (props) => {
         isCheckout = false,
         isLoginPage = false,
         isShowChat = true,
-        // deviceType = {},
+        deviceType = {},
         preloadImages = [],
     } = props;
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
@@ -498,7 +498,7 @@ const Layout = (props) => {
                         />
                     )}
                     <div className="hidden-mobile">
-                        {headerDesktop ? (
+                        {!deviceType.isMobile && headerDesktop ? (
                             <HeaderDesktop
                                 storeConfig={storeConfig}
                                 isLogin={isLogin}
