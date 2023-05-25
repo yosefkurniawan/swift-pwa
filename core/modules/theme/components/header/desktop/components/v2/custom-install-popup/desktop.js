@@ -1,21 +1,21 @@
 import Button from '@material-ui/core/Button';
-// import TagManager from 'react-gtm-module';
+import TagManager from 'react-gtm-module';
 import useStyles from './style';
 
 const DesktopInstall = ({ installMessage = 'Install' }) => {
     const styles = useStyles();
 
     const onClick = () => {
-        // const timestamp = Date.now();
-        // const identifier = `${Math.floor(Math.random() * 100) * Math.floor(Math.random() * 100)}_${timestamp}`;
-        // const dataLayer = {
-        //     event: 'countPopupInstallation',
-        //     eventCategory: 'Count Popup Installation',
-        //     eventAction: 'Installed',
-        //     eventLabel: 'installPWA',
-        //     eventValue: identifier,
-        // };
-        // TagManager.dataLayer({ dataLayer });
+        const timestamp = Date.now();
+        const identifier = `${Math.floor(Math.random() * 100) * Math.floor(Math.random() * 100)}_${timestamp}`;
+        const dataLayer = {
+            event: 'countPopupInstallation',
+            eventCategory: 'Count Popup Installation',
+            eventAction: 'Installed',
+            eventLabel: 'installPWA',
+            eventValue: identifier,
+        };
+        TagManager.dataLayer({ dataLayer });
     };
 
     return (

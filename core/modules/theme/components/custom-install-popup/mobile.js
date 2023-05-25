@@ -4,22 +4,22 @@ import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 import useStyles from '@core_modules/theme/components/custom-install-popup/style';
 import propTypes from 'prop-types';
-// import TagManager from 'react-gtm-module';
+import TagManager from 'react-gtm-module';
 
 const PopupInstalation = ({ appName, installMessage }) => {
     const styles = useStyles();
 
     const onClick = () => {
-        // const timestamp = Date.now();
-        // const identifier = `${Math.floor(Math.random() * 100) * Math.floor(Math.random() * 100)}_${timestamp}`;
-        // const dataLayer = {
-        //     event: 'countPopupInstallation',
-        //     eventCategory: 'Count Popup Installation',
-        //     eventAction: 'Installed',
-        //     eventLabel: 'installPWA',
-        //     eventValue: identifier,
-        // };
-        // TagManager.dataLayer({ dataLayer });
+        const timestamp = Date.now();
+        const identifier = `${Math.floor(Math.random() * 100) * Math.floor(Math.random() * 100)}_${timestamp}`;
+        const dataLayer = {
+            event: 'countPopupInstallation',
+            eventCategory: 'Count Popup Installation',
+            eventAction: 'Installed',
+            eventLabel: 'installPWA',
+            eventValue: identifier,
+        };
+        TagManager.dataLayer({ dataLayer });
     };
 
     const closePopup = () => {

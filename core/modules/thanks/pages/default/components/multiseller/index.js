@@ -11,7 +11,7 @@ import Layout from '@layout';
 import Router from 'next/router';
 import propTypes from 'prop-types';
 import * as React from 'react';
-// import TagManager from 'react-gtm-module';
+import TagManager from 'react-gtm-module';
 
 const CoreMultiseller = (props) => {
     const {
@@ -88,78 +88,78 @@ const CoreMultiseller = (props) => {
 
     React.useEffect(() => {
         if (customerOrder) {
-            // customerOrder.map((orders) => {
-            //     // GTM UA dataLayer
-            //     // const dataLayer = {
-            //     //     pageType: 'purchase',
-            //     //     event: 'checkout',
-            //     //     ecommerce: {
-            //     //         purchase: {
-            //     //             actionField: {
-            //     //                 id: orders.order_number,
-            //     //                 affiliation: storeConfig.store_name || 'Swift PWA',
-            //     //                 revenue: JSON.stringify(orders.ordersFilter.data[0].detail[0].grand_total),
-            //     //                 coupon: orders.ordersFilter.data[0].detail[0].coupon.is_use_coupon
-            //     //                     ? orders.ordersFilter.data[0].detail[0].coupon.code
-            //     //                     : '',
-            //     //                 tax: JSON.stringify(orders.ordersFilter.data[0].detail[0].tax_amount),
-            //     //                 shipping: JSON.stringify(orders.ordersFilter.data[0].detail[0].payment.shipping_amount),
-            //     //             },
-            //     //             products: orders.ordersFilter.data[0].detail[0].items.map((product) => ({
-            //     //                 name: product.name,
-            //     //                 id: product.sku,
-            //     //                 category: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
-            //     //                 price: JSON.stringify(product.price),
-            //     //                 list: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
-            //     //                 quantity: JSON.stringify(product.qty_ordered),
-            //     //                 dimension4: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
-            //     //                 dimension5: JSON.stringify(product.rating.total),
-            //     //                 dimension6: JSON.stringify(product.rating.value),
-            //     //                 dimension7: orders.ordersFilter.data[0].detail[0].discount_amount !== 0 ? 'YES' : 'NO',
-            //     //             })),
-            //     //         },
-            //     //         currencyCode: storeConfig.base_currency_code || 'IDR',
-            //     //     },
-            //     // };
-            //     // TagManager.dataLayer({
-            //     //     dataLayer,
-            //     // });
-            //     // // GA 4 dataLayer
-            //     // TagManager.dataLayer({
-            //     //     dataLayer: {
-            //     //         pageType: 'purchase',
-            //     //         pageName: t('thanks:title'),
-            //     //         event: 'purchase',
-            //     //         ecommerce: {
-            //     //             purchase: {
-            //     //                 transaction_id: orders.order_number,
-            //     //                 affiliation: storeConfig.store_name || 'Swift PWA',
-            //     //                 value: JSON.stringify(orders.ordersFilter.data[0].detail[0].grand_total),
-            //     //                 coupon: orders.ordersFilter.data[0].detail[0].coupon.is_use_coupon
-            //     //                     ? orders.ordersFilter.data[0].detail[0].coupon.code
-            //     //                     : '',
-            //     //                 tax: JSON.stringify(orders.ordersFilter.data[0].detail[0].tax_amount),
-            //     //                 shipping: JSON.stringify(orders.ordersFilter.data[0].detail[0].payment.shipping_amount),
-            //     //                 currency: storeConfig.base_currency_code || 'IDR',
-            //     //                 total_lifetime_value: JSON.stringify(orders.ordersFilter.data[0].detail[0].grand_total),
-            //     //                 seller: orders.seller_name,
-            //     //                 items: orders.ordersFilter.data[0].detail[0].items.map((product) => ({
-            //     //                     currency: storeConfig.base_currency_code || 'IDR',
-            //     //                     item_name: product.name,
-            //     //                     item_id: product.sku,
-            //     //                     price: JSON.stringify(product.price),
-            //     //                     item_category: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
-            //     //                     item_list_name: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
-            //     //                     quantity: JSON.stringify(product.qty_ordered),
-            //     //                     item_stock_status: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
-            //     //                     item_reviews_score: product.rating.value ? parseInt(product.rating.value, 0) / 20 : '',
-            //     //                     item_reviews_count: product.rating.total ? product.rating.total : '',
-            //     //                 })),
-            //     //             },
-            //     //         },
-            //     //     },
-            //     // });
-            // });
+            customerOrder.map((orders) => {
+                // GTM UA dataLayer
+                const dataLayer = {
+                    pageType: 'purchase',
+                    event: 'checkout',
+                    ecommerce: {
+                        purchase: {
+                            actionField: {
+                                id: orders.order_number,
+                                affiliation: storeConfig.store_name || 'Swift PWA',
+                                revenue: JSON.stringify(orders.ordersFilter.data[0].detail[0].grand_total),
+                                coupon: orders.ordersFilter.data[0].detail[0].coupon.is_use_coupon
+                                    ? orders.ordersFilter.data[0].detail[0].coupon.code
+                                    : '',
+                                tax: JSON.stringify(orders.ordersFilter.data[0].detail[0].tax_amount),
+                                shipping: JSON.stringify(orders.ordersFilter.data[0].detail[0].payment.shipping_amount),
+                            },
+                            products: orders.ordersFilter.data[0].detail[0].items.map((product) => ({
+                                name: product.name,
+                                id: product.sku,
+                                category: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
+                                price: JSON.stringify(product.price),
+                                list: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
+                                quantity: JSON.stringify(product.qty_ordered),
+                                dimension4: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
+                                dimension5: JSON.stringify(product.rating.total),
+                                dimension6: JSON.stringify(product.rating.value),
+                                dimension7: orders.ordersFilter.data[0].detail[0].discount_amount !== 0 ? 'YES' : 'NO',
+                            })),
+                        },
+                        currencyCode: storeConfig.base_currency_code || 'IDR',
+                    },
+                };
+                TagManager.dataLayer({
+                    dataLayer,
+                });
+                // GA 4 dataLayer
+                TagManager.dataLayer({
+                    dataLayer: {
+                        pageType: 'purchase',
+                        pageName: t('thanks:title'),
+                        event: 'purchase',
+                        ecommerce: {
+                            purchase: {
+                                transaction_id: orders.order_number,
+                                affiliation: storeConfig.store_name || 'Swift PWA',
+                                value: JSON.stringify(orders.ordersFilter.data[0].detail[0].grand_total),
+                                coupon: orders.ordersFilter.data[0].detail[0].coupon.is_use_coupon
+                                    ? orders.ordersFilter.data[0].detail[0].coupon.code
+                                    : '',
+                                tax: JSON.stringify(orders.ordersFilter.data[0].detail[0].tax_amount),
+                                shipping: JSON.stringify(orders.ordersFilter.data[0].detail[0].payment.shipping_amount),
+                                currency: storeConfig.base_currency_code || 'IDR',
+                                total_lifetime_value: JSON.stringify(orders.ordersFilter.data[0].detail[0].grand_total),
+                                seller: orders.seller_name,
+                                items: orders.ordersFilter.data[0].detail[0].items.map((product) => ({
+                                    currency: storeConfig.base_currency_code || 'IDR',
+                                    item_name: product.name,
+                                    item_id: product.sku,
+                                    price: JSON.stringify(product.price),
+                                    item_category: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
+                                    item_list_name: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
+                                    quantity: JSON.stringify(product.qty_ordered),
+                                    item_stock_status: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
+                                    item_reviews_score: product.rating.value ? parseInt(product.rating.value, 0) / 20 : '',
+                                    item_reviews_count: product.rating.total ? product.rating.total : '',
+                                })),
+                            },
+                        },
+                    },
+                });
+            });
         }
     }, [customerOrder]);
 

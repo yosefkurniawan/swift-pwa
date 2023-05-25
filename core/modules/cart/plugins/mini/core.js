@@ -4,7 +4,7 @@ import { useMutation, useReactiveVar } from '@apollo/client';
 import { currencyVar } from '@root/core/services/graphql/cache';
 import { getMiniCartData } from '@core_modules/cart/services/graphql';
 import * as Schema from '@core_modules/cart/services/graphql/schema';
-// import TagManager from 'react-gtm-module';
+import TagManager from 'react-gtm-module';
 
 const MiniCart = (props) => {
     const {
@@ -135,25 +135,25 @@ const MiniCart = (props) => {
 
     const deleteCart = (itemProps) => {
         // GA 4 dataLayer
-        // const dataLayer = {
-        //     event: 'remove_from_cart',
-        //     ecommerce: {
-        //         action: {
-        //             items: [
-        //                 {
-        //                     item_name: itemProps.product.name,
-        //                     item_id: itemProps.product.sku,
-        //                     price: itemProps.custom_price.price_incl_tax.value || 0,
-        //                     // item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
-        //                     // item_list_name: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
-        //                     quantity: itemProps.quantity,
-        //                     currency: itemProps.custom_price.price_incl_tax.currency || storeConfig.base_currency_code,
-        //                 },
-        //             ],
-        //         },
-        //     },
-        // };
-        // TagManager.dataLayer({ dataLayer });
+        const dataLayer = {
+            event: 'remove_from_cart',
+            ecommerce: {
+                action: {
+                    items: [
+                        {
+                            item_name: itemProps.product.name,
+                            item_id: itemProps.product.sku,
+                            price: itemProps.custom_price.price_incl_tax.value || 0,
+                            // item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                            // item_list_name: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                            quantity: itemProps.quantity,
+                            currency: itemProps.custom_price.price_incl_tax.currency || storeConfig.base_currency_code,
+                        },
+                    ],
+                },
+            },
+        };
+        TagManager.dataLayer({ dataLayer });
         actDeleteItem({
             variables: {
                 cartId,

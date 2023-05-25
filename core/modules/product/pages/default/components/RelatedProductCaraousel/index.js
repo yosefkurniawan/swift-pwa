@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable array-callback-return */
 import React from 'react';
 import { getRelatedProduct } from '@core_modules/product/services/graphql';
 import propTypes from 'prop-types';
 import dynamic from 'next/dynamic';
-// import TagManager from 'react-gtm-module';
+import TagManager from 'react-gtm-module';
 
 const View = dynamic(() => import('@core_modules/product/pages/default/components/RelatedProductCaraousel/view'), { ssr: false });
 const Loader = dynamic(() => import('@common_slick/Caraousel/Skeleton'));
@@ -51,7 +50,7 @@ const RelatedProductCaraousel = ({
                     eventLabel: dataProduct.name,
                 },
             };
-            // TagManager.dataLayer(tagManagerArgs);
+            TagManager.dataLayer(tagManagerArgs);
         }
     }, [data]);
 

@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable operator-linebreak */
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/jsx-indent */
@@ -15,7 +14,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
-// import TagManager from 'react-gtm-module';
+import TagManager from 'react-gtm-module';
 // eslint-disable-next-line object-curly-newline
 import { assetsVersion, basePath, custDataNameCookie, debuging, features, modules } from '@config';
 import { createCompareList } from '@core_modules/product/services/graphql';
@@ -265,7 +264,7 @@ const Layout = (props) => {
                 custPhone = `${custPhone}`;
                 tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
             }
-            // TagManager.dataLayer(tagManagerArgs);
+            TagManager.dataLayer(tagManagerArgs);
         }
         // setMainMinimumHeight(refFooter.current.clientHeight + refHeader.current.clientHeight);
     }, []);
@@ -482,31 +481,7 @@ const Layout = (props) => {
                 />
                 {preloadImages && Object.values(preloadImages).map((_image) => <link rel="preload" as="image" href={_image} />)}
                 {showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />}
-                {/* {storeConfig?.pwa?.gtm_enable ? (
-                    <script
-                        defer
-                        dangerouslySetInnerHTML={{
-                            __html: `
-                            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                            })(window,document,'script','dataLayer','GTM-5G5TGZ6');
-                            `,
-                        }}
-                    />
-                ) : null} */}
             </Head>
-            {/* {storeConfig?.pwa?.gtm_enable ? (
-                <noscript>
-                    <iframe
-                        src={`https://www.googletagmanager.com/ns.html?id=GTM-5G5TGZ6'`}
-                        height="0"
-                        width="0"
-                        style={{ display: 'none', visibility: 'hidden' }}
-                    />
-                </noscript>
-            ) : null} */}
             {showPopup && storeConfig && storeConfig.pwa && storeConfig.pwa.header_version !== 'v2' ? (
                 <PopupInstallAppMobile appName={appName} installMessage={installMessage} />
             ) : null}

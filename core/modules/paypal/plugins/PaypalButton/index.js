@@ -2,7 +2,7 @@
 import { createPaypalExpressToken, setPaypalPaymentMethod } from '@core_modules/paypal/services/graphql';
 import { getCartId } from '@helper_cartid';
 import PaypalButtonView from '@plugin_paypalbutton/view';
-// import TagManager from 'react-gtm-module';
+import TagManager from 'react-gtm-module';
 // import { setLocalStorage } from '@helper_localstorage';
 import gqlService from '@core_modules/checkout/services/graphql';
 import { getLoginInfo } from '@helper_auth';
@@ -191,93 +191,93 @@ const PaypalButton = (props) => {
         })
             .then(async (result) => {
                 if (result && result.data && result.data.setPaymentMethodOnCart && result.data.setPaymentMethodOnCart.cart) {
-                    // const selectedPayment = result.data.setPaymentMethodOnCart.cart.selected_payment_method;
+                    const selectedPayment = result.data.setPaymentMethodOnCart.cart.selected_payment_method;
                     // GTM UA dataLayer
-                    // const dataLayer = {
-                    //     event: 'checkout',
-                    //     ecommerce: {
-                    //         checkout: {
-                    //             actionField: { step: 3, option: selectedPayment.title, action: 'checkout' },
-                    //             products:
-                    //                 cart
-                    //                 && cart.items
-                    //                 && cart.items.map(({ quantity, product, prices }) => ({
-                    //                     name: product.name,
-                    //                     id: product.sku,
-                    //                     price: JSON.stringify(prices.price.value),
-                    //                     category: product.categories.length > 0 ? product.categories[0].name : '',
-                    //                     list: product.categories.length > 0 ? product.categories[0].name : '',
-                    //                     quantity: JSON.stringify(quantity),
-                    //                     dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
-                    //                     dimension5: '',
-                    //                     dimension6: '',
-                    //                     dimension7: prices.discount ? 'YES' : 'NO',
-                    //                 })),
-                    //         },
-                    //         currencyCode: storeConfig.base_currency_code || 'IDR',
-                    //     },
-                    // };
-                    // const dataLayerOption = {
-                    //     event: 'checkoutOption',
-                    //     ecommerce: {
-                    //         currencyCode: storeConfig.base_currency_code || 'IDR',
-                    //         checkout_option: {
-                    //             actionField: { step: 3, option: selectedPayment.title, action: 'checkout_option' },
-                    //         },
-                    //     },
-                    // };
-                    // // GA 4 dataLayer
-                    // const dataLayerOpt = {
-                    //     event: 'add_payment_info',
-                    //     ecommerce: {
-                    //         payment_type: selectedPayment[0].title,
-                    //         currency: storeConfig.base_currency_code || 'IDR',
-                    //         items: [
-                    //             cart
-                    //                 && cart.items
-                    //                 && cart.items.map(({ quantity, product, prices }) => ({
-                    //                     currency: storeConfig.base_currency_code || 'IDR',
-                    //                     item_name: product.name,
-                    //                     item_id: product.sku,
-                    //                     price: JSON.stringify(prices.price.value),
-                    //                     item_category: product.categories.length > 0 ? product.categories[0].name : '',
-                    //                     item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
-                    //                     quantity: JSON.stringify(quantity),
-                    //                     item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
-                    //                     item_sale_product: '',
-                    //                     item_reviews_count: '',
-                    //                     item_reviews_score: '',
-                    //                 })),
-                    //         ],
-                    //         fbpixels: {
-                    //             total_price: cart.prices.grand_total.value,
-                    //             content_ids: [
-                    //                 {
-                    //                     payment_type: selectedPayment[0].title,
-                    //                     items:
-                    //                         cart
-                    //                         && cart.items.map(({ quantity, product, prices }) => ({
-                    //                             currency: storeConfig.base_currency_code || 'IDR',
-                    //                             item_name: product.name,
-                    //                             item_id: product.sku,
-                    //                             price: JSON.stringify(prices.price.value),
-                    //                             item_category: product.categories.length > 0 ? product.categories[0].name : '',
-                    //                             item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
-                    //                             quantity: JSON.stringify(quantity),
-                    //                             item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
-                    //                             item_sale_product: '',
-                    //                             item_reviews_count: '',
-                    //                             item_reviews_score: '',
-                    //                         })),
-                    //                 },
-                    //             ],
-                    //             catalog_id: cart.items.map(({ product }) => (product.categories.length > 0 ? product.categories[0].name : '')),
-                    //         },
-                    //     },
-                    // };
-                    // TagManager.dataLayer({ dataLayer });
-                    // TagManager.dataLayer({ dataLayer: dataLayerOption });
-                    // TagManager.dataLayer({ dataLayer: dataLayerOpt });
+                    const dataLayer = {
+                        event: 'checkout',
+                        ecommerce: {
+                            checkout: {
+                                actionField: { step: 3, option: selectedPayment.title, action: 'checkout' },
+                                products:
+                                    cart
+                                    && cart.items
+                                    && cart.items.map(({ quantity, product, prices }) => ({
+                                        name: product.name,
+                                        id: product.sku,
+                                        price: JSON.stringify(prices.price.value),
+                                        category: product.categories.length > 0 ? product.categories[0].name : '',
+                                        list: product.categories.length > 0 ? product.categories[0].name : '',
+                                        quantity: JSON.stringify(quantity),
+                                        dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                        dimension5: '',
+                                        dimension6: '',
+                                        dimension7: prices.discount ? 'YES' : 'NO',
+                                    })),
+                            },
+                            currencyCode: storeConfig.base_currency_code || 'IDR',
+                        },
+                    };
+                    const dataLayerOption = {
+                        event: 'checkoutOption',
+                        ecommerce: {
+                            currencyCode: storeConfig.base_currency_code || 'IDR',
+                            checkout_option: {
+                                actionField: { step: 3, option: selectedPayment.title, action: 'checkout_option' },
+                            },
+                        },
+                    };
+                    // GA 4 dataLayer
+                    const dataLayerOpt = {
+                        event: 'add_payment_info',
+                        ecommerce: {
+                            payment_type: selectedPayment[0].title,
+                            currency: storeConfig.base_currency_code || 'IDR',
+                            items: [
+                                cart
+                                    && cart.items
+                                    && cart.items.map(({ quantity, product, prices }) => ({
+                                        currency: storeConfig.base_currency_code || 'IDR',
+                                        item_name: product.name,
+                                        item_id: product.sku,
+                                        price: JSON.stringify(prices.price.value),
+                                        item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                                        item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                                        quantity: JSON.stringify(quantity),
+                                        item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                        item_sale_product: '',
+                                        item_reviews_count: '',
+                                        item_reviews_score: '',
+                                    })),
+                            ],
+                            fbpixels: {
+                                total_price: cart.prices.grand_total.value,
+                                content_ids: [
+                                    {
+                                        payment_type: selectedPayment[0].title,
+                                        items:
+                                            cart
+                                            && cart.items.map(({ quantity, product, prices }) => ({
+                                                currency: storeConfig.base_currency_code || 'IDR',
+                                                item_name: product.name,
+                                                item_id: product.sku,
+                                                price: JSON.stringify(prices.price.value),
+                                                item_category: product.categories.length > 0 ? product.categories[0].name : '',
+                                                item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+                                                quantity: JSON.stringify(quantity),
+                                                item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                                item_sale_product: '',
+                                                item_reviews_count: '',
+                                                item_reviews_score: '',
+                                            })),
+                                    },
+                                ],
+                                catalog_id: cart.items.map(({ product }) => (product.categories.length > 0 ? product.categories[0].name : '')),
+                            },
+                        },
+                    };
+                    TagManager.dataLayer({ dataLayer });
+                    TagManager.dataLayer({ dataLayer: dataLayerOption });
+                    TagManager.dataLayer({ dataLayer: dataLayerOpt });
                 } else {
                     onErrorPaypal('error');
                 }

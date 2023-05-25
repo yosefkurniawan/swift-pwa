@@ -3,7 +3,7 @@
 import { modules } from '@config';
 import gqlService from '@core_modules/checkout/services/graphql';
 import React from 'react';
-// import TagManager from 'react-gtm-module';
+import TagManager from 'react-gtm-module';
 
 export default function CustomizedExpansionPanels({
     checkout,
@@ -166,9 +166,9 @@ export default function CustomizedExpansionPanels({
                 },
             },
         };
-        // TagManager.dataLayer({ dataLayer });
-        // TagManager.dataLayer({ dataLayer: dataLayerOption });
-        // TagManager.dataLayer({ dataLayer: dataLayerOpt });
+        TagManager.dataLayer({ dataLayer });
+        TagManager.dataLayer({ dataLayer: dataLayerOption });
+        TagManager.dataLayer({ dataLayer: dataLayerOpt });
     };
 
     /**

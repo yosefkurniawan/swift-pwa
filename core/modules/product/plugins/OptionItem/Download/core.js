@@ -7,7 +7,7 @@ import { handleSelectedDownload } from '@helper_productbyvariant';
 import { modules } from '@config';
 import Router from 'next/router';
 import React from 'react';
-// import TagManager from 'react-gtm-module';
+import TagManager from 'react-gtm-module';
 import {
     addDownloadProductToCart,
     getDownloadroduct,
@@ -178,53 +178,53 @@ const OptionsItemDownload = ({
         }
         if (__typename === 'DownloadableProduct') {
             // GTM UA dataaLayer
-            // TagManager.dataLayer({
-            //     dataLayer: {
-            //         event: 'addToCart',
-            //         eventLabel: name,
-            //         ecommerce: {
-            //             currencyCode: price_range.minimum_price.regular_price.currency || 'USD',
-            //             add: {
-            //                 products: [
-            //                     {
-            //                         name,
-            //                         id: sku,
-            //                         price: price_range.minimum_price.regular_price.value || 0,
-            //                         category: categories?.length > 0 ? categories[0].name : '',
-            //                         list: categories?.length > 0 ? categories[0].name : '',
-            //                         quantity: qty,
-            //                         dimensions4: stock_status,
-            //                     },
-            //                 ],
-            //             },
-            //         },
-            //     },
-            // });
-            // // GA 4 dataLayer
-            // TagManager.dataLayer({
-            //     dataLayer: {
-            //         event: 'add_to_cart',
-            //         ecommerce: {
-            //             action: {
-            //                 items: [
-            //                     {
-            //                         item_name: name,
-            //                         item_id: sku,
-            //                         price: price_range.minimum_price.regular_price.value || 0,
-            //                         item_category: categories?.length > 0 ? categories[0].name : '',
-            //                         item_list_name: categories?.length > 0 ? categories[0].name : '',
-            //                         quantity: qty,
-            //                         currency: price_range.minimum_price.regular_price.currency || 'USD',
-            //                         item_stock_status: stock_status,
-            //                         item_reviews_score: reviewValue,
-            //                         item_reviews_count: review?.reviews_count,
-            //                         item_sale_product: sale === 0 ? 'NO' : 'YES',
-            //                     },
-            //                 ],
-            //             },
-            //         },
-            //     },
-            // });
+            TagManager.dataLayer({
+                dataLayer: {
+                    event: 'addToCart',
+                    eventLabel: name,
+                    ecommerce: {
+                        currencyCode: price_range.minimum_price.regular_price.currency || 'USD',
+                        add: {
+                            products: [
+                                {
+                                    name,
+                                    id: sku,
+                                    price: price_range.minimum_price.regular_price.value || 0,
+                                    category: categories?.length > 0 ? categories[0].name : '',
+                                    list: categories?.length > 0 ? categories[0].name : '',
+                                    quantity: qty,
+                                    dimensions4: stock_status,
+                                },
+                            ],
+                        },
+                    },
+                },
+            });
+            // GA 4 dataLayer
+            TagManager.dataLayer({
+                dataLayer: {
+                    event: 'add_to_cart',
+                    ecommerce: {
+                        action: {
+                            items: [
+                                {
+                                    item_name: name,
+                                    item_id: sku,
+                                    price: price_range.minimum_price.regular_price.value || 0,
+                                    item_category: categories?.length > 0 ? categories[0].name : '',
+                                    item_list_name: categories?.length > 0 ? categories[0].name : '',
+                                    quantity: qty,
+                                    currency: price_range.minimum_price.regular_price.currency || 'USD',
+                                    item_stock_status: stock_status,
+                                    item_reviews_score: reviewValue,
+                                    item_reviews_count: review?.reviews_count,
+                                    item_sale_product: sale === 0 ? 'NO' : 'YES',
+                                },
+                            ],
+                        },
+                    },
+                },
+            });
             addCartDownload({
                 variables: {
                     cartId,

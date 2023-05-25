@@ -2,7 +2,7 @@
 /* eslint-disable no-plusplus */
 import { useEffect, useState } from 'react';
 import { getCartId, setCartId } from '@helper_cartid';
-// import TagManager from 'react-gtm-module';
+import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Layout from '@layout';
 import { localTotalCart } from '@services/graphql/schema/local';
@@ -206,51 +206,51 @@ const Cart = (props) => {
     // delete items
     const deleteItem = (itemProps) => {
         // GTM UA dataLayer
-        // const dataLayer = {
-        //     event: 'removeFromCart',
-        //     eventLabel: itemProps.product.name,
-        //     label: itemProps.product.name,
-        //     ecommerce: {
-        //         currencyCode: itemProps.prices?.price_incl_tax.currency
-        //         || itemProps.custom_price?.price_incl_tax.currency
-        //         || storeConfig.base_currency_code,
-        //         remove: {
-        //             cartItem: itemProps.id,
-        //             quantity: itemProps.quantity,
-        //             product: {
-        //                 name: itemProps.product.name,
-        //                 id: itemProps.product.sku,
-        //                 price: itemProps.prices?.price_incl_tax.value
-        //                 || itemProps.custom_price?.price_incl_tax.value || 0,
-        //                 dimensions4: itemProps.product.stock_status || '',
-        //             },
-        //         },
-        //     },
-        // };
-        // // GA 4 dataLayer
-        // const dataLayerGA4 = {
-        //     event: 'remove_from_cart',
-        //     ecommerce: {
-        //         action: {
-        //             items: [
-        //                 {
-        //                     item_name: itemProps.product.name,
-        //                     item_id: itemProps.product.sku,
-        //                     price: itemProps.prices?.price_incl_tax.value
-        //                     || itemProps.custom_price?.price_incl_tax.value || 0,
-        //                     // item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
-        //                     // item_list_name: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
-        //                     quantity: itemProps.quantity,
-        //                     currency: itemProps.custom_price?.price_incl_tax.currency
-        //                     || itemProps.prices?.price_incl_tax.currency || storeConfig.base_currency_code,
-        //                 },
-        //             ],
-        //         },
-        //     },
-        // };
+        const dataLayer = {
+            event: 'removeFromCart',
+            eventLabel: itemProps.product.name,
+            label: itemProps.product.name,
+            ecommerce: {
+                currencyCode: itemProps.prices?.price_incl_tax.currency
+                || itemProps.custom_price?.price_incl_tax.currency
+                || storeConfig.base_currency_code,
+                remove: {
+                    cartItem: itemProps.id,
+                    quantity: itemProps.quantity,
+                    product: {
+                        name: itemProps.product.name,
+                        id: itemProps.product.sku,
+                        price: itemProps.prices?.price_incl_tax.value
+                        || itemProps.custom_price?.price_incl_tax.value || 0,
+                        dimensions4: itemProps.product.stock_status || '',
+                    },
+                },
+            },
+        };
+        // GA 4 dataLayer
+        const dataLayerGA4 = {
+            event: 'remove_from_cart',
+            ecommerce: {
+                action: {
+                    items: [
+                        {
+                            item_name: itemProps.product.name,
+                            item_id: itemProps.product.sku,
+                            price: itemProps.prices?.price_incl_tax.value
+                            || itemProps.custom_price?.price_incl_tax.value || 0,
+                            // item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                            // item_list_name: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                            quantity: itemProps.quantity,
+                            currency: itemProps.custom_price?.price_incl_tax.currency
+                            || itemProps.prices?.price_incl_tax.currency || storeConfig.base_currency_code,
+                        },
+                    ],
+                },
+            },
+        };
 
-        // TagManager.dataLayer({ dataLayer });
-        // TagManager.dataLayer({ dataLayerGA4 });
+        TagManager.dataLayer({ dataLayer });
+        TagManager.dataLayer({ dataLayerGA4 });
         window.backdropLoader(true);
 
         const cartId = getCartId();
@@ -428,102 +428,102 @@ const Cart = (props) => {
     }, [removedCouponResult.loading]);
 
     // GTM UA dataLayer
-    // React.useMemo(() => {
-    //     if (cart.items.length > 0) {
-    //         const dataLayer = {
-    //             pageName: t('cart:pageTitle'),
-    //             pageType: 'cart',
-    //             ecommerce: {
-    //                 currency: storeConfig && storeConfig.base_currency_code ? storeConfig.base_currency_code : 'IDR',
-    //             },
-    //             event: 'impression',
-    //             eventCategory: 'Ecommerce',
-    //             eventAction: 'Impression',
-    //             eventLabel: 'cart',
-    //         };
-    //         TagManager.dataLayer({ dataLayer });
-    //     }
-    // }, [cart.items.length]);
+    React.useMemo(() => {
+        if (cart.items.length > 0) {
+            const dataLayer = {
+                pageName: t('cart:pageTitle'),
+                pageType: 'cart',
+                ecommerce: {
+                    currency: storeConfig && storeConfig.base_currency_code ? storeConfig.base_currency_code : 'IDR',
+                },
+                event: 'impression',
+                eventCategory: 'Ecommerce',
+                eventAction: 'Impression',
+                eventLabel: 'cart',
+            };
+            TagManager.dataLayer({ dataLayer });
+        }
+    }, [cart.items.length]);
 
     // GA 4 dataLayer
-    // React.useMemo(() => {
-    //     if (summary.id && cart.items.length > 0) {
-    //         const dataLayer = {
-    //             pageName: t('cart:pageTitle'),
-    //             pageType: 'cart',
-    //             event: 'view_cart',
-    //             cart_total: summary.prices.grand_total.value,
-    //             currency: summary.prices.grand_total.currency || storeConfig.base_currency_code,
-    //             ecommerce: {
-    //                 items: [
-    //                     cart.items.map((item) => ({
-    //                         currency: item.custom_price.price_incl_tax.currency || storeConfig.base_currency_code,
-    //                         item_name: item.product.name,
-    //                         item_id: item.product.sku,
-    //                         price: item.custom_price.price_incl_tax.value || 0,
-    //                         // item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
-    //                         // item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
-    //                         quantity: item.quantity,
-    //                         item_stock_status: item.product.stock_status,
-    //                     })),
-    //                 ],
-    //             },
-    //         };
-    //         TagManager.dataLayer({ dataLayer });
-    //     }
-    // }, [cart.items.length, summary.id]);
+    React.useMemo(() => {
+        if (summary.id && cart.items.length > 0) {
+            const dataLayer = {
+                pageName: t('cart:pageTitle'),
+                pageType: 'cart',
+                event: 'view_cart',
+                cart_total: summary.prices.grand_total.value,
+                currency: summary.prices.grand_total.currency || storeConfig.base_currency_code,
+                ecommerce: {
+                    items: [
+                        cart.items.map((item) => ({
+                            currency: item.custom_price.price_incl_tax.currency || storeConfig.base_currency_code,
+                            item_name: item.product.name,
+                            item_id: item.product.sku,
+                            price: item.custom_price.price_incl_tax.value || 0,
+                            // item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                            // item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+                            quantity: item.quantity,
+                            item_stock_status: item.product.stock_status,
+                        })),
+                    ],
+                },
+            };
+            TagManager.dataLayer({ dataLayer });
+        }
+    }, [cart.items.length, summary.id]);
 
     // add to wishlist
     const [addWishlist] = mutationWishlist();
     const handleFeed = (itemProps) => {
         if (isLogin && isLogin === 1) {
             // GTM UA dataLayer
-            // TagManager.dataLayer({
-            //     dataLayer: {
-            //         event: 'addToWishlist',
-            //         eventLabel: itemProps.product.name,
-            //         label: itemProps.product.name,
-            //         ecommerce: {
-            //             currencyCode: itemProps.prices?.price.currency
-            //             || itemProps.custom_price?.price_incl_tax.currency,
-            //             add: {
-            //                 products: [
-            //                     {
-            //                         name: itemProps.product.name,
-            //                         id: itemProps.product.sku,
-            //                         price: itemProps.prices?.price.value
-            //                         || itemProps.custom_price?.price_incl_tax.value || 0,
-            //                         // category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
-            //                         // list: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
-            //                         dimensions4: itemProps.product.stock_status,
-            //                     },
-            //                 ],
-            //             },
-            //         },
-            //     },
-            // });
-            // // GA 4 dataLayer
-            // TagManager.dataLayer({
-            //     dataLayer: {
-            //         ecommerce: {
-            //             action: {
-            //                 items: [
-            //                     {
-            //                         currency: itemProps.prices?.price.currency
-            //                         || itemProps.custom_price?.price_incl_tax.currency,
-            //                         item_name: itemProps.product.name,
-            //                         item_id: itemProps.product.sku,
-            //                         price: itemProps.prices?.price.value
-            //                         || itemProps.custom_price?.price_incl_tax.value || 0,
-            //                         // item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
-            //                         item_stock_status: itemProps.product.stock_status,
-            //                     },
-            //                 ],
-            //             },
-            //         },
-            //         event: 'add_to_wishlist',
-            //     },
-            // });
+            TagManager.dataLayer({
+                dataLayer: {
+                    event: 'addToWishlist',
+                    eventLabel: itemProps.product.name,
+                    label: itemProps.product.name,
+                    ecommerce: {
+                        currencyCode: itemProps.prices?.price.currency
+                        || itemProps.custom_price?.price_incl_tax.currency,
+                        add: {
+                            products: [
+                                {
+                                    name: itemProps.product.name,
+                                    id: itemProps.product.sku,
+                                    price: itemProps.prices?.price.value
+                                    || itemProps.custom_price?.price_incl_tax.value || 0,
+                                    // category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                                    // list: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                                    dimensions4: itemProps.product.stock_status,
+                                },
+                            ],
+                        },
+                    },
+                },
+            });
+            // GA 4 dataLayer
+            TagManager.dataLayer({
+                dataLayer: {
+                    ecommerce: {
+                        action: {
+                            items: [
+                                {
+                                    currency: itemProps.prices?.price.currency
+                                    || itemProps.custom_price?.price_incl_tax.currency,
+                                    item_name: itemProps.product.name,
+                                    item_id: itemProps.product.sku,
+                                    price: itemProps.prices?.price.value
+                                    || itemProps.custom_price?.price_incl_tax.value || 0,
+                                    // item_category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                                    item_stock_status: itemProps.product.stock_status,
+                                },
+                            ],
+                        },
+                    },
+                    event: 'add_to_wishlist',
+                },
+            });
             window.backdropLoader(true);
             addWishlist({
                 variables: {

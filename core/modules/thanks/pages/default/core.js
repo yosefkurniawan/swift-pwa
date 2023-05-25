@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 import { debuging } from '@config';
@@ -9,7 +8,7 @@ import { currencyVar } from '@root/core/services/graphql/cache';
 import Layout from '@layout';
 import Router from 'next/router';
 import * as React from 'react';
-// import TagManager from 'react-gtm-module';
+import TagManager from 'react-gtm-module';
 
 const PageStoreCredit = (props) => {
     const {
@@ -85,52 +84,52 @@ const PageStoreCredit = (props) => {
                     currencyCode: storeConfig.base_currency_code || 'IDR',
                 },
             };
-            // TagManager.dataLayer({
-            //     dataLayer,
-            // });
-            // // GA 4 dataLayer
-            // TagManager.dataLayer({
-            //     dataLayer: {
-            //         pageType: 'purchase',
-            //         pageName: t('thanks:title'),
-            //         event: 'purchase',
-            //         ecommerce: {
-            //             purchase: {
-            //                 transaction_id: checkoutData.order_number,
-            //                 affiliation: storeConfig.store_name || 'Swift PWA',
-            //                 value: JSON.stringify(data.ordersFilter.data[0].detail[0].grand_total),
-            //                 coupon: data.ordersFilter.data[0].detail[0].coupon.is_use_coupon ? data.ordersFilter.data[0].detail[0].coupon.code : '',
-            //                 tax: JSON.stringify(data.ordersFilter.data[0].detail[0].tax_amount),
-            //                 shipping: JSON.stringify(data.ordersFilter.data[0].detail[0].payment.shipping_amount),
-            //                 currency: storeConfig.base_currency_code || 'IDR',
-            //                 total_lifetime_value: JSON.stringify(data.ordersFilter.data[0].detail[0].grand_total),
-            //                 items: itemsProduct.map((product, review) => ({
-            //                     currency: storeConfig.base_currency_code || 'IDR',
-            //                     item_name: product.name,
-            //                     item_id: product.sku,
-            //                     price: JSON.stringify(product.price),
-            //                     item_category: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
-            //                     item_list_name: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
-            //                     quantity: JSON.stringify(product.qty_ordered),
-            //                     item_stock_status: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
-            //                     item_reviews_score: review.rating_summary ? parseInt(review.rating_summary, 0) / 20 : '',
-            //                     item_reviews_count: review.reviews_count ? review.reviews_count : '',
-            //                 })),
-            //             },
-            //             fbpixels: {
-            //                 transaction_id: checkoutData.order_number,
-            //                 value: JSON.stringify(data.ordersFilter.data[0].detail[0].grand_total),
-            //                 currency: storeConfig.base_currency_code || 'IDR',
-            //                 contents: itemsProduct.map((product) => ({
-            //                     id: product.sku,
-            //                     quantity: JSON.stringify(product.qty_ordered),
-            //                 })),
-            //                 content_ids: itemsProduct.map((product) => product.sku),
-            //                 content_type: 'product',
-            //             },
-            //         },
-            //     },
-            // });
+            TagManager.dataLayer({
+                dataLayer,
+            });
+            // GA 4 dataLayer
+            TagManager.dataLayer({
+                dataLayer: {
+                    pageType: 'purchase',
+                    pageName: t('thanks:title'),
+                    event: 'purchase',
+                    ecommerce: {
+                        purchase: {
+                            transaction_id: checkoutData.order_number,
+                            affiliation: storeConfig.store_name || 'Swift PWA',
+                            value: JSON.stringify(data.ordersFilter.data[0].detail[0].grand_total),
+                            coupon: data.ordersFilter.data[0].detail[0].coupon.is_use_coupon ? data.ordersFilter.data[0].detail[0].coupon.code : '',
+                            tax: JSON.stringify(data.ordersFilter.data[0].detail[0].tax_amount),
+                            shipping: JSON.stringify(data.ordersFilter.data[0].detail[0].payment.shipping_amount),
+                            currency: storeConfig.base_currency_code || 'IDR',
+                            total_lifetime_value: JSON.stringify(data.ordersFilter.data[0].detail[0].grand_total),
+                            items: itemsProduct.map((product, review) => ({
+                                currency: storeConfig.base_currency_code || 'IDR',
+                                item_name: product.name,
+                                item_id: product.sku,
+                                price: JSON.stringify(product.price),
+                                item_category: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
+                                item_list_name: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
+                                quantity: JSON.stringify(product.qty_ordered),
+                                item_stock_status: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
+                                item_reviews_score: review.rating_summary ? parseInt(review.rating_summary, 0) / 20 : '',
+                                item_reviews_count: review.reviews_count ? review.reviews_count : '',
+                            })),
+                        },
+                        fbpixels: {
+                            transaction_id: checkoutData.order_number,
+                            value: JSON.stringify(data.ordersFilter.data[0].detail[0].grand_total),
+                            currency: storeConfig.base_currency_code || 'IDR',
+                            contents: itemsProduct.map((product) => ({
+                                id: product.sku,
+                                quantity: JSON.stringify(product.qty_ordered),
+                            })),
+                            content_ids: itemsProduct.map((product) => product.sku),
+                            content_type: 'product',
+                        },
+                    },
+                },
+            });
         }
     }, [data]);
 
