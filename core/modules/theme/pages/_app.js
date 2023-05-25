@@ -27,8 +27,7 @@ import { gql } from '@apollo/client';
 import PageProgressLoader from '@common_loaders/PageProgress';
 import graphRequest from '@graphql_request';
 import Notification from '@lib_firebase/notification';
-// import firebase from '@lib_firebase/index';
-import { getMessaging } from '@lib_firebase/messaging';
+import firebase from '@lib_firebase/index';
 import routeMiddleware from '@middleware_route';
 import getConfig from 'next/config';
 import TagManager from 'react-gtm-module';
@@ -245,7 +244,47 @@ class MyApp extends App {
             console.log = () => { };
         }
 
-        this.initFirebaseMessaging().catch((err) => console.log(err));
+        /*
+         * ---------------------------------------------
+         * FIREBASE INITIALIZATION
+         */
+        if (features.firebase.config.apiKey !== '' && features.firebase.pushNotification.enabled) {
+            // initial firebase messaging
+            Notification.init();
+            // handle if have message on focus
+            try {
+                const messaging = firebase.messaging();
+                // Handle incoming messages. Called when:
+                // - a message is received while the app has focus
+                // - the user clicks on an app notification created by a service worker
+                //   `messaging.setBackgroundMessageHandler` handler.
+                messaging.onMessage((payload) => {
+                    navigator.serviceWorker.ready.then((registration) => {
+                        // This prevents to show one notification for each tab
+                        setTimeout(() => {
+                            // eslint-disable-next-line no-console
+                            console.log('[firebase-messaging-sw.js] Received foreground message ', payload);
+                            const lastNotification = localStorage.getItem('lastNotification');
+                            const isDifferentContent = payload.data.updated_date !== lastNotification;
+                            if (isDifferentContent) {
+                                localStorage.setItem('lastNotification', payload.data.updated_date + payload.data.title);
+                                registration.showNotification(payload.data.title, {
+                                    body: payload.data.body,
+                                    vibrate: [200, 100, 200, 100, 200, 100, 200],
+                                    icon: payload.data.icons || '',
+                                    image: payload.data.image || '',
+                                    requireInteraction: true,
+                                    data: payload.data,
+                                });
+                            }
+                        }, Math.random() * 1000);
+                    });
+                });
+            } catch (err) {
+                // eslint-disable-next-line no-console
+                console.log(err);
+            }
+        }
 
         /*
          * LAZY LOADING FONTS
@@ -327,54 +366,6 @@ class MyApp extends App {
                 console.log('Service Worker registration failed: ', err);
             },
         );
-    }
-
-    /*
-     * ---------------------------------------------
-     * FIREBASE INITIALIZATION
-     */
-    async initFirebaseMessaging() {
-        if (features.firebase.config.apiKey !== '' && features.firebase.pushNotification.enabled) {
-            // initial firebase messaging
-            // handle if have message on focus
-            try {
-                await Notification.init();
-                const messaging = await getMessaging();
-                // const messaging = firebase.messaging();
-                // console.log('messaging', messaging);
-                // Handle incoming messages. Called when:
-                // - a message is received while the app has focus
-                // - the user clicks on an app notification created by a service worker
-                //   `messaging.setBackgroundMessageHandler` handler.
-                if (messaging) {
-                    messaging.onMessage((payload) => {
-                        navigator.serviceWorker.ready.then((registration) => {
-                            // This prevents to show one notification for each tab
-                            setTimeout(() => {
-                                // eslint-disable-next-line no-console
-                                console.log('[firebase-messaging-sw.js] Received foreground message ', payload);
-                                const lastNotification = localStorage.getItem('lastNotification');
-                                const isDifferentContent = payload.data.updated_date !== lastNotification;
-                                if (isDifferentContent) {
-                                    localStorage.setItem('lastNotification', payload.data.updated_date + payload.data.title);
-                                    registration.showNotification(payload.data.title, {
-                                        body: payload.data.body,
-                                        vibrate: [200, 100, 200, 100, 200, 100, 200],
-                                        icon: payload.data.icons || '',
-                                        image: payload.data.image || '',
-                                        requireInteraction: true,
-                                        data: payload.data,
-                                    });
-                                }
-                            }, Math.random() * 1000);
-                        });
-                    });
-                }
-            } catch (err) {
-                // eslint-disable-next-line no-console
-                console.log(err);
-            }
-        }
     }
 
     render() {
