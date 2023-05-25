@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable array-callback-return */
 import React from 'react';
 import { getUpsellProduct } from '@core_modules/product/services/graphql';
 import propTypes from 'prop-types';
 import dynamic from 'next/dynamic';
-import TagManager from 'react-gtm-module';
+// import TagManager from 'react-gtm-module';
 
 const View = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer/view'), { ssr: false });
 
@@ -48,7 +49,7 @@ const UpsellDrawer = ({
                     eventLabel: dataProduct.name,
                 },
             };
-            TagManager.dataLayer(tagManagerArgs);
+            // TagManager.dataLayer(tagManagerArgs);
         }
     }, [data]);
 

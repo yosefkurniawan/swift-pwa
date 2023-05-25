@@ -15,7 +15,7 @@ import Layout from '@layout';
 import Cookies from 'js-cookie';
 import Head from 'next/head';
 import Router from 'next/router';
-import TagManager from 'react-gtm-module';
+// import TagManager from 'react-gtm-module';
 import { useApolloClient, useReactiveVar } from '@apollo/client';
 import { modules, nameCheckoutState } from '@config';
 import { getCartCallbackUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '@core_modules/checkout/helpers/config';
@@ -1089,48 +1089,48 @@ const Checkout = (props) => {
     }, [checkout.data.cart]);
 
     // GA 4 dataLayer
-    React.useMemo(() => {
-        if (checkout && checkout.data && checkout.data.cart && checkout.data.cart.items.length > 0) {
-            const { cart } = checkout.data;
-            TagManager.dataLayer({ dataLayer: { ecommerce: null } });
-            TagManager.dataLayer({
-                dataLayer: {
-                    pageName: 'Checkout',
-                    pageType: 'checkout',
-                    event: 'begin_checkout',
-                    cart_total: cart.prices.grand_total.value,
-                    currency: cart.prices.grand_total.currency || storeConfig.base_currency_code,
-                    ecommerce: {
-                        items: cart.items.map((item) => ({
-                            currency: item.prices.price.currency || storeConfig.base_currency_code,
-                            item_name: item.product.name,
-                            item_id: item.product.sku,
-                            price: item.prices.price.value || 0,
-                            item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
-                            item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
-                            quantity: item.quantity,
-                            item_stock_status: item.product.stock_status,
-                        })),
-                        fbpixels: {
-                            content_ids: cart.items.map(({ product }) => product.sku),
-                            quantity: cart.items.length,
-                            value: cart.prices.grand_total.value,
-                            contents: cart.items.map((item) => ({
-                                currency: item.prices.price.currency || storeConfig.base_currency_code,
-                                name: item.product.name,
-                                id: item.product.sku,
-                                price: item.prices.price.value || 0,
-                                category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
-                                list: item.product.categories.length > 0 ? item.product.categories[0].name : '',
-                                quantity: item.quantity,
-                                stock_status: item.product.stock_status,
-                            })),
-                        },
-                    },
-                },
-            });
-        }
-    }, [checkout?.data?.cart?.items]);
+    // React.useMemo(() => {
+    //     if (checkout && checkout.data && checkout.data.cart && checkout.data.cart.items.length > 0) {
+    //         const { cart } = checkout.data;
+    //         TagManager.dataLayer({ dataLayer: { ecommerce: null } });
+    //         TagManager.dataLayer({
+    //             dataLayer: {
+    //                 pageName: 'Checkout',
+    //                 pageType: 'checkout',
+    //                 event: 'begin_checkout',
+    //                 cart_total: cart.prices.grand_total.value,
+    //                 currency: cart.prices.grand_total.currency || storeConfig.base_currency_code,
+    //                 ecommerce: {
+    //                     items: cart.items.map((item) => ({
+    //                         currency: item.prices.price.currency || storeConfig.base_currency_code,
+    //                         item_name: item.product.name,
+    //                         item_id: item.product.sku,
+    //                         price: item.prices.price.value || 0,
+    //                         item_category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+    //                         item_list_name: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+    //                         quantity: item.quantity,
+    //                         item_stock_status: item.product.stock_status,
+    //                     })),
+    //                     fbpixels: {
+    //                         content_ids: cart.items.map(({ product }) => product.sku),
+    //                         quantity: cart.items.length,
+    //                         value: cart.prices.grand_total.value,
+    //                         contents: cart.items.map((item) => ({
+    //                             currency: item.prices.price.currency || storeConfig.base_currency_code,
+    //                             name: item.product.name,
+    //                             id: item.product.sku,
+    //                             price: item.prices.price.value || 0,
+    //                             category: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+    //                             list: item.product.categories.length > 0 ? item.product.categories[0].name : '',
+    //                             quantity: item.quantity,
+    //                             stock_status: item.product.stock_status,
+    //                         })),
+    //                     },
+    //                 },
+    //             },
+    //         });
+    //     }
+    // }, [checkout?.data?.cart?.items]);
 
     const handleOpenMessage = async ({ variant, text }) => {
         const state = { ...checkout };
@@ -1286,9 +1286,9 @@ const Checkout = (props) => {
                         },
                     },
                 };
-                TagManager.dataLayer({ dataLayer });
-                TagManager.dataLayer({ dataLayer: dataLayerOption });
-                TagManager.dataLayer({ dataLayer: dataLayerOpt });
+                // TagManager.dataLayer({ dataLayer });
+                // TagManager.dataLayer({ dataLayer: dataLayerOption });
+                // TagManager.dataLayer({ dataLayer: dataLayerOpt });
 
                 let details = await fetch('/paypal/detail-transaction', {
                     method: 'post',

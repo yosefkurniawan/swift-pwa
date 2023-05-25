@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable object-curly-newline */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
@@ -31,7 +32,7 @@ import Notification from '@lib_firebase/notification';
 import { getMessaging } from '@lib_firebase/messaging';
 import routeMiddleware from '@middleware_route';
 import getConfig from 'next/config';
-import TagManager from 'react-gtm-module';
+// import TagManager from 'react-gtm-module';
 
 import ModalCookies from '@core_modules/theme/components/modalCookies';
 import * as Sentry from '@sentry/node';
@@ -253,6 +254,8 @@ class MyApp extends App {
          */
         // Fonts();
 
+        this.initGTM();
+
         /*
          * ---------------------------------------------
          * REMOVE THE SERVER SIDE INJECTED CSS
@@ -262,43 +265,6 @@ class MyApp extends App {
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
-
-        /*
-         * ---------------------------------------------
-         * GTM INITIALIZATION
-         */
-
-        /* Google Tag Manager
-        * this gtm configuration is enabled via backoffice.
-        * before enable this configuration, firstly you need to import the gtm tags json.
-        * gtm tags json need to be exported from Magento admin in Welpixel GTM configuration.
-        * adjust the tag name if you want before import into GTM dashboard setting.
-        * as reference you can find sample gtm tags in folder "sample/gtm" folder
-        * NOTE: this GTM functionality includes connecting to GA via GTM tag.
-        */
-
-        const storeConfig = storeConfigVar();
-        let GTM = {};
-
-        if (storeConfig && storeConfig.pwa) {
-            GTM = {
-                enable: storeConfig && storeConfig.pwa.gtm_enable,
-                gtmId: {
-                    local: storeConfig && storeConfig.pwa.gtm_id_local ? storeConfig.pwa.gtm_id_local : '',
-                    dev: storeConfig && storeConfig.pwa.gtm_id_dev ? storeConfig.pwa.gtm_id_dev : '',
-                    stage: storeConfig && storeConfig.pwa.gtm_id_stage ? storeConfig.pwa.gtm_id_stage : '',
-                    prod: storeConfig && storeConfig.pwa.gtm_id_prod ? storeConfig.pwa.gtm_id_prod : '',
-                },
-            };
-        }
-
-        const tagManagerArgs = {
-            gtmId:
-                typeof publicRuntimeConfig !== 'undefined' && GTM.gtmId[publicRuntimeConfig.appEnv]
-                    ? GTM.gtmId[publicRuntimeConfig.appEnv]
-                    : GTM.gtmId.dev,
-        };
-        if (GTM.enable) TagManager.initialize(tagManagerArgs);
 
         /*
          * ---------------------------------------------
@@ -374,6 +340,53 @@ class MyApp extends App {
                 // eslint-disable-next-line no-console
                 console.log(err);
             }
+        }
+    }
+
+    async initGTM() {
+        /*
+         * ---------------------------------------------
+         * GTM INITIALIZATION
+         */
+
+        /* Google Tag Manager
+        * this gtm configuration is enabled via backoffice.
+        * before enable this configuration, firstly you need to import the gtm tags json.
+        * gtm tags json need to be exported from Magento admin in Welpixel GTM configuration.
+        * adjust the tag name if you want before import into GTM dashboard setting.
+        * as reference you can find sample gtm tags in folder "sample/gtm" folder
+        * NOTE: this GTM functionality includes connecting to GA via GTM tag.
+        */
+
+        const storeConfig = storeConfigVar();
+        let GTM = {};
+
+        if (storeConfig && storeConfig.pwa) {
+            GTM = {
+                enable: storeConfig && storeConfig.pwa.gtm_enable,
+                gtmId: {
+                    local: storeConfig && storeConfig.pwa.gtm_id_local ? storeConfig.pwa.gtm_id_local : 'GTM-5G5TGZ6',
+                    dev: storeConfig && storeConfig.pwa.gtm_id_dev ? storeConfig.pwa.gtm_id_dev : 'GTM-5G5TGZ6',
+                    stage: storeConfig && storeConfig.pwa.gtm_id_stage ? storeConfig.pwa.gtm_id_stage : '',
+                    prod: storeConfig && storeConfig.pwa.gtm_id_prod ? storeConfig.pwa.gtm_id_prod : '',
+                },
+            };
+        }
+
+        // console.log('GTM', GTM);
+
+        const tagManagerArgs = {
+            gtmId:
+                typeof publicRuntimeConfig !== 'undefined' && GTM.gtmId[publicRuntimeConfig.appEnv]
+                    ? GTM.gtmId[publicRuntimeConfig.appEnv]
+                    : GTM.gtmId.dev,
+        };
+        if (GTM.enable) {
+            // window.dataLayer.push({
+            //     event: 'test',
+            // });
+            // const TagManager = await import('react-gtm-module');
+            // TagManager.initialize(tagManagerArgs);
         }
     }
 

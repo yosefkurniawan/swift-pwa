@@ -3,7 +3,7 @@
 
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 import gqlService from '@core_modules/checkout/services/graphql';
-import TagManager from 'react-gtm-module';
+// import TagManager from 'react-gtm-module';
 
 const DeliveryComp = (props) => {
     const {
@@ -48,80 +48,80 @@ const DeliveryComp = (props) => {
                     window.backdropLoader(false);
                 });
         } else if (delivery === 'pickup') {
-            const selectedShipping = checkout.data.shippingMethods.filter(({ method_code }) => method_code === 'pickup');
-            const dataLayer = {
-                event: 'checkout',
-                ecommerce: {
-                    checkout: {
-                        actionField: {
-                            step: 2,
-                            option: selectedShipping.length > 0 ? selectedShipping[0].label : 'Pickup at Store Pickup at Store',
-                            action: 'checkout',
-                        },
-                        products: checkout.data.cart.items.map(({ quantity, product, prices }) => ({
-                            name: product.name,
-                            id: product.sku,
-                            price: JSON.stringify(prices.price.value),
-                            category: product.categories.length > 0 ? product.categories[0].name : '',
-                            list: product.categories.length > 0 ? product.categories[0].name : '',
-                            quantity: JSON.stringify(quantity),
-                            dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
-                            dimension5: '',
-                            dimension6: '',
-                            dimension7: prices.discount ? 'YES' : 'NO',
-                        })),
-                    },
-                    currencyCode: storeConfig.base_currency_code || 'IDR',
-                },
-            };
-            const dataLayerOption = {
-                event: 'checkoutOption',
-                ecommerce: {
-                    currencyCode: storeConfig.base_currency_code || 'IDR',
-                    checkout_option: {
-                        actionField: {
-                            step: 2,
-                            option: selectedShipping.length > 0 ? selectedShipping[0].label : 'Pickup at Store Pickup at Store',
-                            action: 'checkout_option',
-                        },
-                        fbpixels: {
-                            total_price: checkout.data.cart.prices.grand_total.value,
-                        },
-                    },
-                },
-            };
-            // GA 4 dataLayer
-            const dataLayerOpt = {
-                event: 'add_shipping_info',
-                ecommerce: {
-                    shipping_tier: selectedShipping.length > 0 ? selectedShipping[0].label : 'Pickup at Store Pickup at Store',
-                    items: [
-                        checkout.data.cart.items.map(({ quantity, product, prices }) => ({
-                            currency: storeConfig.base_currency_code || 'IDR',
-                            item_name: product.name,
-                            item_id: product.sku,
-                            price: JSON.stringify(prices.price.value),
-                            item_category: product.categories.length > 0 ? product.categories[0].name : '',
-                            item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
-                            quantity: JSON.stringify(quantity),
-                            item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
-                            item_sale_product: '',
-                            item_reviews_count: '',
-                            item_reviews_score: '',
-                        })),
+            // const selectedShipping = checkout.data.shippingMethods.filter(({ method_code }) => method_code === 'pickup');
+            // const dataLayer = {
+            //     event: 'checkout',
+            //     ecommerce: {
+            //         checkout: {
+            //             actionField: {
+            //                 step: 2,
+            //                 option: selectedShipping.length > 0 ? selectedShipping[0].label : 'Pickup at Store Pickup at Store',
+            //                 action: 'checkout',
+            //             },
+            //             products: checkout.data.cart.items.map(({ quantity, product, prices }) => ({
+            //                 name: product.name,
+            //                 id: product.sku,
+            //                 price: JSON.stringify(prices.price.value),
+            //                 category: product.categories.length > 0 ? product.categories[0].name : '',
+            //                 list: product.categories.length > 0 ? product.categories[0].name : '',
+            //                 quantity: JSON.stringify(quantity),
+            //                 dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+            //                 dimension5: '',
+            //                 dimension6: '',
+            //                 dimension7: prices.discount ? 'YES' : 'NO',
+            //             })),
+            //         },
+            //         currencyCode: storeConfig.base_currency_code || 'IDR',
+            //     },
+            // };
+            // const dataLayerOption = {
+            //     event: 'checkoutOption',
+            //     ecommerce: {
+            //         currencyCode: storeConfig.base_currency_code || 'IDR',
+            //         checkout_option: {
+            //             actionField: {
+            //                 step: 2,
+            //                 option: selectedShipping.length > 0 ? selectedShipping[0].label : 'Pickup at Store Pickup at Store',
+            //                 action: 'checkout_option',
+            //             },
+            //             fbpixels: {
+            //                 total_price: checkout.data.cart.prices.grand_total.value,
+            //             },
+            //         },
+            //     },
+            // };
+            // // GA 4 dataLayer
+            // const dataLayerOpt = {
+            //     event: 'add_shipping_info',
+            //     ecommerce: {
+            //         shipping_tier: selectedShipping.length > 0 ? selectedShipping[0].label : 'Pickup at Store Pickup at Store',
+            //         items: [
+            //             checkout.data.cart.items.map(({ quantity, product, prices }) => ({
+            //                 currency: storeConfig.base_currency_code || 'IDR',
+            //                 item_name: product.name,
+            //                 item_id: product.sku,
+            //                 price: JSON.stringify(prices.price.value),
+            //                 item_category: product.categories.length > 0 ? product.categories[0].name : '',
+            //                 item_list_name: product.categories.length > 0 ? product.categories[0].name : '',
+            //                 quantity: JSON.stringify(quantity),
+            //                 item_stock_status: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+            //                 item_sale_product: '',
+            //                 item_reviews_count: '',
+            //                 item_reviews_score: '',
+            //             })),
 
-                    ],
-                },
-            };
-            TagManager.dataLayer({
-                dataLayer,
-            });
-            TagManager.dataLayer({
-                dataLayer: dataLayerOption,
-            });
-            TagManager.dataLayer({
-                dataLayer: dataLayerOpt,
-            });
+            //         ],
+            //     },
+            // };
+            // TagManager.dataLayer({
+            //     dataLayer,
+            // });
+            // TagManager.dataLayer({
+            //     dataLayer: dataLayerOption,
+            // });
+            // TagManager.dataLayer({
+            //     dataLayer: dataLayerOpt,
+            // });
             window.backdropLoader(false);
             await setCheckout({
                 ...checkout,

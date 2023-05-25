@@ -21,7 +21,7 @@ import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
 import ModalQuickView from '@plugin_productitem/components/QuickView';
 import WeltpixelLabel from '@plugin_productitem/components/WeltpixelLabel';
-import TagManager from 'react-gtm-module';
+// import TagManager from 'react-gtm-module';
 import { priceVar } from '@root/core/services/graphql/cache';
 import dynamic from 'next/dynamic';
 
@@ -185,28 +185,30 @@ const ProductItem = (props) => {
         }
     }, [isLogin, dataUid]);
 
-    const handleFeed = (itemProps) => {
+    const handleFeed = (
+        // itemProps
+    ) => {
         if (isLogin && isLogin !== '') {
             // GA 4 dataLayer
-            TagManager.dataLayer({
-                dataLayer: {
-                    ecommerce: {
-                        action: {
-                            items: [
-                                {
-                                    currency: itemProps.price_range.minimum_price.regular_price.currency,
-                                    item_name: itemProps.name,
-                                    item_id: itemProps.sku,
-                                    price: itemProps.price_range.minimum_price.regular_price.value || 0,
-                                    item_category: itemProps.categories?.length > 0 ? itemProps.categories[0].name : '',
-                                    item_stock_status: itemProps.stock_status,
-                                },
-                            ],
-                        },
-                    },
-                    event: 'add_to_wishlist',
-                },
-            });
+            // TagManager.dataLayer({
+            //     dataLayer: {
+            //         ecommerce: {
+            //             action: {
+            //                 items: [
+            //                     {
+            //                         currency: itemProps.price_range.minimum_price.regular_price.currency,
+            //                         item_name: itemProps.name,
+            //                         item_id: itemProps.sku,
+            //                         price: itemProps.price_range.minimum_price.regular_price.value || 0,
+            //                         item_category: itemProps.categories?.length > 0 ? itemProps.categories[0].name : '',
+            //                         item_stock_status: itemProps.stock_status,
+            //                     },
+            //                 ],
+            //             },
+            //         },
+            //         event: 'add_to_wishlist',
+            //     },
+            // });
             postAddWishlist({
                 variables: {
                     productId: id,
@@ -292,27 +294,29 @@ const ProductItem = (props) => {
         }
     };
 
-    const handleClick = async (itemProps) => {
+    const handleClick = async (
+    // itemProps
+    ) => {
         // GA 4 dataLayer
-        TagManager.dataLayer({
-            dataLayer: {
-                event: 'select_item',
-                ecommerce: {
-                    action: {
-                        items: [
-                            {
-                                currency: itemProps.price_range.minimum_price.regular_price.currency,
-                                item_name: itemProps.name,
-                                item_id: itemProps.sku,
-                                price: itemProps.price_range.minimum_price.regular_price.value || 0,
-                                item_category: itemProps.categories?.length > 0 ? itemProps.categories[0].name : '',
-                                item_stock_status: itemProps.stock_status,
-                            },
-                        ],
-                    },
-                },
-            },
-        });
+        // TagManager.dataLayer({
+        //     dataLayer: {
+        //         event: 'select_item',
+        //         ecommerce: {
+        //             action: {
+        //                 items: [
+        //                     {
+        //                         currency: itemProps.price_range.minimum_price.regular_price.currency,
+        //                         item_name: itemProps.name,
+        //                         item_id: itemProps.sku,
+        //                         price: itemProps.price_range.minimum_price.regular_price.value || 0,
+        //                         item_category: itemProps.categories?.length > 0 ? itemProps.categories[0].name : '',
+        //                         item_stock_status: itemProps.stock_status,
+        //                     },
+        //                 ],
+        //             },
+        //         },
+        //     },
+        // });
         if (!url_key) {
             route.push('/null');
         } else if (modules.checkout.checkoutOnly) {

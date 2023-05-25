@@ -3,7 +3,7 @@ import gqlService from '@core_modules/checkout/services/graphql';
 import Skeleton from '@material-ui/lab/Skeleton';
 import _ from 'lodash';
 import { useEffect } from 'react';
-import TagManager from 'react-gtm-module';
+// import TagManager from 'react-gtm-module';
 
 const Loader = () => (
     <>
@@ -282,45 +282,45 @@ const Address = (props) => {
         }
     }, [defaultAddress]);
 
-    useEffect(() => {
-        if (address) {
-            const option = `${address.firstname} ${address.lastname} ${street} 
-            ${address.city} 
-            ${address.region && address.region.label ? address.region.label : address.region || ''} 
-            ${address.postcode} ${address.telephone}`;
-            const dataLayer = {
-                pageType: 'checkout',
-                pageName: 'Checkout',
-                event: 'checkout',
-                ecommerce: {
-                    checkout: {
-                        actionField: { step: 1, option },
-                        products: checkout.data.cart.items.map(({ quantity, product, prices }) => ({
-                            name: product.name,
-                            id: product.sku,
-                            price: JSON.stringify(prices.price.value),
-                            category: product.categories.length > 0 ? product.categories[0].name : '',
-                            list: product.categories.length > 0 ? product.categories[0].name : '',
-                            quantity: JSON.stringify(quantity),
-                            dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
-                            dimension5: '',
-                            dimension6: '',
-                            dimension7: prices.discount ? 'YES' : 'NO',
-                        })),
-                    },
-                    fbpixels: {
-                        content_ids: checkout.data.cart.items.map(({ product }) => product.sku),
-                        quantity: checkout.data.cart.items.length,
-                        value: checkout.data.cart.prices.grand_total.value,
-                    },
-                    currencyCode: storeConfig.base_currency_code || 'IDR',
-                },
-            };
-            TagManager.dataLayer({
-                dataLayer,
-            });
-        }
-    }, [loading.addresses, loading.all]);
+    // useEffect(() => {
+    //     if (address) {
+    //         const option = `${address.firstname} ${address.lastname} ${street}
+    //         ${address.city}
+    //         ${address.region && address.region.label ? address.region.label : address.region || ''}
+    //         ${address.postcode} ${address.telephone}`;
+    //         const dataLayer = {
+    //             pageType: 'checkout',
+    //             pageName: 'Checkout',
+    //             event: 'checkout',
+    //             ecommerce: {
+    //                 checkout: {
+    //                     actionField: { step: 1, option },
+    //                     products: checkout.data.cart.items.map(({ quantity, product, prices }) => ({
+    //                         name: product.name,
+    //                         id: product.sku,
+    //                         price: JSON.stringify(prices.price.value),
+    //                         category: product.categories.length > 0 ? product.categories[0].name : '',
+    //                         list: product.categories.length > 0 ? product.categories[0].name : '',
+    //                         quantity: JSON.stringify(quantity),
+    //                         dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+    //                         dimension5: '',
+    //                         dimension6: '',
+    //                         dimension7: prices.discount ? 'YES' : 'NO',
+    //                     })),
+    //                 },
+    //                 fbpixels: {
+    //                     content_ids: checkout.data.cart.items.map(({ product }) => product.sku),
+    //                     quantity: checkout.data.cart.items.length,
+    //                     value: checkout.data.cart.prices.grand_total.value,
+    //                 },
+    //                 currencyCode: storeConfig.base_currency_code || 'IDR',
+    //             },
+    //         };
+    //         TagManager.dataLayer({
+    //             dataLayer,
+    //         });
+    //     }
+    // }, [loading.addresses, loading.all]);
 
     return (
         <AddressView
