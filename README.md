@@ -13,7 +13,7 @@ Launching Checklist:
 - [Checkout Only / PWA Checkout mode Checklist](https://teamwork.icubeonline.com/#/projects/120618/notebooks/362538) 
 
 ## Requirements
-- NodeJS v14 or higher
+- NodeJS v16 or higher
 - Each Swift PWA version depends on certain SWIFT Magento version. Please see the [release notes](https://github.com/icubeus/swift-pwa/releases) for the dependency.
 
 ## Pre-Installation
