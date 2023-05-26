@@ -135,9 +135,6 @@ const SingleProduct = (props) => {
                         container
                         justify="center"
                         alignItems={isProductGrid ? 'center' : 'stretch'}
-                        style={{
-                            width: defaultWidth,
-                        }}
                     >
                         <Link href={handleClick} prefetch={false}>
                             <a style={{ width: defaultWidth }}>
