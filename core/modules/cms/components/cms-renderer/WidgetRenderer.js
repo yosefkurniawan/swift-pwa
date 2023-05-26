@@ -3,11 +3,9 @@ import React, { memo } from 'react';
 import parse, { domToReact } from 'html-react-parser';
 import dynamic from 'next/dynamic';
 
-import { strToCSSObject } from '@helpers/text';
-import { generateThumborUrl } from '@helpers/image';
 import WidgetSlider from '@core_modules/cms/components/cms-renderer/widget-slider';
 import WidgetView from '@core_modules/cms/components/cms-renderer/view';
-import Image from '@common_image';
+import ImageRenderer from '@core_modules/cms/components/cms-renderer/image-renderer';
 
 const Newsletter = dynamic(() => import('@plugin_newsletter'));
 const WidgetListProduct = dynamic(() => import('@core_modules/cms/components/cms-renderer/widget-list-product'));
@@ -66,25 +64,7 @@ const WidgetRenderer = (props) => {
         return parse(updatedContent, {
             replace: (domNode) => {
                 if (domNode.name === 'img') {
-                    if(!domNode.attribs.src.includes("thumbor")) {
-                        console.log(domNode);
-                        console.log(storeConfig);
-                        const { src = '', alt = '', style = '', ...attribs } = domNode.attribs;
-                        const optImg = generateThumborUrl(src, 0, 0, true, false, storeConfig.pwa.thumbor_url);
-    
-                        return (
-                            <Image
-                                className={attribs.class}
-                                src={optImg}
-                                alt={alt ?? 'image'}
-                                width={attribs.width ? attribs.width.replace("px","") : 0}
-                                height={attribs.height ? attribs.height.replace("px","") : 0}
-                                storeConfig={storeConfig}
-                            />
-                        )
-                    }else{
-                        return <img src={optImg} alt={alt ?? 'image'} style={strToCSSObject(style)} {...attribs} />;
-                    }
+                    return <ImageRenderer storeConfig={storeConfig} domNode={domNode} />
                 }
 
                 if (domNode.name === DOM_NAME && domNode.attribs) {

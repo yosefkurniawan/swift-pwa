@@ -70,6 +70,7 @@ const Content = (props) => {
                     <div className={classNames(styles.logo, 'hidden-desktop')}>
                         <Thumbor
                             className={styles.imgLogo}
+                            classContainer={styles.imgLogoContainer}
                             src={logoUrl}
                             alt="logo"
                             width={100}

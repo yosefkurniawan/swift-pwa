@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
-/* eslint-disable no-unused-vars */
 import { basePath } from '@config';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import { getHost, getHostProd } from '@helpers/config';
@@ -34,6 +33,7 @@ const CustomImage = ({
     style = {},
     lazy = true,
     storeConfig = {},
+    slickBanner = false,
     ...other
 }) => {
     const enable = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_enable;
@@ -105,6 +105,11 @@ const CustomImage = ({
         };
     }
 
+    if (slickBanner) {
+        styleContainer = {};
+        styleImage = {};
+    }
+
     const onLoad = useCallback((event) => {
         event.target.classList.add('loaded');
     }, []);
@@ -163,7 +168,7 @@ const CustomImage = ({
     }, [imageUrl, imageUrlMobile]);
 
     return (
-        <Container enable={useContainer} className={className} style={styleContainer}>
+        <Container enable={useContainer} className={classContainer} style={styleContainer}>
             <picture>
                 { srcMobile ? (
                     <>
