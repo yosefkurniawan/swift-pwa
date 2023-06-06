@@ -1,5 +1,5 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { GRAY_PRIMARY, WHITE } from '@theme_color';
+import { WHITE } from '@theme_color';
 import { FlexColumn } from '@theme_mixins';
 
 const useStyles = makeStyles(() => ({
@@ -10,7 +10,6 @@ const useStyles = makeStyles(() => ({
     },
     headContainer: {
         position: 'relative',
-        backgroundColor: GRAY_PRIMARY,
         width: '100%',
         height: 'auto',
     },

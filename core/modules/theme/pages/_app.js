@@ -34,6 +34,7 @@ import TagManager from 'react-gtm-module';
 
 import ModalCookies from '@core_modules/theme/components/modalCookies';
 import * as Sentry from '@sentry/node';
+import { getDeviceByUA, getUAString } from '@root/core/helpers/deviceDection';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -69,6 +70,9 @@ class MyApp extends App {
 
     static async getInitialProps(appContex) {
         const { Component, ctx } = appContex;
+        const uastring = getUAString(appContex);
+        const deviceType = getDeviceByUA(uastring);
+
         let { pageProps } = await App.getInitialProps(appContex);
 
         if (Component.getInitialProps) {
@@ -210,6 +214,7 @@ class MyApp extends App {
                 removeDecimalConfig,
                 dataVesMenu,
                 frontendOptions,
+                deviceType,
             },
         };
     }

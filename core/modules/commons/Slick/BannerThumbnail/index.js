@@ -14,7 +14,7 @@ import Min from '@material-ui/icons/Minimize';
 import Slider from 'react-slick';
 import ImageSlide from '@common_slick/Banner/ImageSlider';
 import useStyles from '@common_slick/BannerThumbnail/style';
-import Thumbor from '@common_slick/Banner/Thumbor';
+import Image from '@common_image';
 
 const Banner = ({
     data = [],
@@ -88,12 +88,12 @@ const Banner = ({
                                 sliderRef.slickGoTo(id);
                             }}
                         >
-                            <Thumbor
+                            <Image
                                 src={item.imageUrl}
                                 alt={item.imageAlt}
                                 width={100}
                                 height={100}
-                                quality={100}
+                                quality={80}
                                 className={styles.thumbnailImg}
                                 videoUrl={item.videoUrl}
                                 widthMobile={width || defaultWidthMobile}

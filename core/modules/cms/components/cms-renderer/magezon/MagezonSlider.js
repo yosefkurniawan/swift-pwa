@@ -7,15 +7,14 @@
 
 import React, { useRef, useState } from 'react';
 import Slider from 'react-slick';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import { getStoreHost } from '@helpers/config';
 import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
 import MagezonHeading from '@core_modules/cms/components/cms-renderer/magezon/MagezonHeading';
 import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/MagezonButton';
 import LeftArrowIcon from '@material-ui/icons/ChevronLeft';
 import RightArrowIcon from '@material-ui/icons/ChevronRight';
-import { basePath } from '@config';
+import Image from '@common_image';
+import useStyles from '@common_slick/Banner/style';
 
 const VideoContent = (props) => {
     const {
@@ -65,13 +64,10 @@ const MagezonSliderContent = (props) => {
         youtube_id, vimeo_id, local_link,
         image, background_type, slider_height, button1, button2, button1_bg_color, button2_bg_color,
         button1_color, button2_color, button1_link, button2_link, button1_size, button2_size, button1_border_style, button2_border_style,
-        link_type, slide_link, storeConfig,
+        link_type, slide_link, storeConfig, lazy, width, height,
     } = props;
-    const enable = storeConfig.pwa.thumbor_enable;
-    const useHttpsOrHttp = storeConfig.pwa.thumbor_https_http;
-    const url = storeConfig.pwa.thumbor_url;
     const mediaUrl = `${getStoreHost()}media`;
-    const getImgThumbor = generateThumborUrl(`${mediaUrl}/${image}`, 0, 0, enable, useHttpsOrHttp, url);
+    const styles = useStyles();
 
     return (
         <>
@@ -149,30 +145,28 @@ const MagezonSliderContent = (props) => {
                     <div className="magezon-slide-image">
                         {
                             link_type === 'button' ? (
-                                <picture>
-                                    <source srcSet={getImgThumbor} type="image/webp" />
-                                    <source srcSet={getImageFallbackUrl(getImgThumbor)} type="image/jpeg" />
-                                    <img
-                                        data-pagespeed-no-defer
-                                        className="img-bg"
-                                        src={getImgThumbor}
-                                        onError={(e) => { e.target.onerror = null; e.target.src = `${basePath}/assets/img/placeholder.png`; }}
-                                        alt="gambar"
-                                    />
-                                </picture>
+                                <Image
+                                    src={`${mediaUrl}/${image}`}
+                                    alt={heading}
+                                    width={width}
+                                    height={height}
+                                    useContainer={false}
+                                    storeConfig={storeConfig}
+                                    lazy={lazy}
+                                    className={styles.imageSliderBackground}
+                                />
                             ) : (
                                 <MagezonLink link={slide_link}>
-                                    <picture>
-                                        <source srcSet={getImgThumbor} type="image/webp" />
-                                        <source srcSet={getImageFallbackUrl(getImgThumbor)} type="image/jpeg" />
-                                        <img
-                                            data-pagespeed-no-defer
-                                            className="img-bg"
-                                            src={getImgThumbor}
-                                            onError={(e) => { e.target.onerror = null; e.target.src = `${basePath}/assets/img/placeholder.png`; }}
-                                            alt="gambar"
-                                        />
-                                    </picture>
+                                    <Image
+                                        src={`${mediaUrl}/${image}`}
+                                        alt={heading}
+                                        width={width}
+                                        height={height}
+                                        useContainer={false}
+                                        storeConfig={storeConfig}
+                                        lazy={lazy}
+                                        className={styles.imageSliderBackground}
+                                    />
                                 </MagezonLink>
                             )
                         }
@@ -313,9 +307,8 @@ const MagezonSlider = (props) => {
     } = props;
     const [, setSlideIndex] = useState(0);
     const { unhoverStyle, hoverStyle } = useHoverStyle(image_hover_effect);
-    const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('sm'));
-    let slideHeight = isDesktop ? storeConfig.pwa?.magezon_slider_desktop_height : storeConfig.pwa?.magezon_slider_mobile_height;
-    let slideWidth = isDesktop ? storeConfig.pwa?.magezon_slider_desktop_width : storeConfig.pwa?.magezon_slider_mobile_width;
+    let slideHeight = storeConfig.pwa?.magezon_slider_desktop_height;
+    let slideWidth = storeConfig.pwa?.magezon_slider_desktop_width;
     slideHeight = (typeof slideHeight === 'string') ? parseInt(slideHeight, 0) : slideHeight;
     slideWidth = (typeof slideWidth === 'string') ? parseInt(slideWidth, 0) : slideWidth;
 
@@ -412,7 +405,7 @@ const MagezonSlider = (props) => {
                 <div className="magezon-slider-inner">
                     <Slider ref={(slider) => (sliderRef = slider)} {...settings}>
                         {items.map((item, i) => (
-                            <MagezonSliderContent key={i} slider_height={slider_height} content_position={content_position} storeConfig={storeConfig} {...item} />
+                            <MagezonSliderContent key={i} slider_height={slider_height} content_position={content_position} height={slideHeight} width={slideWidth} storeConfig={storeConfig} {...item} lazy={i !== 0} />
                         ))}
                     </Slider>
                 </div>

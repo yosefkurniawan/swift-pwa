@@ -8,11 +8,10 @@ import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
 import useStyles from '@core_modules/catalog/pages/category/components/style';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
-import dynamic from 'next/dynamic';
 import BreadcrumbView from '@common_breadcrumb';
 import TabView from '@common_tabs';
-
-const BannerView = dynamic(() => import('@common_image/LazyImage'), { ssr: false });
+import BannerView from '@common_image';
+import { MAX_WIDTH } from '@theme_vars';
 
 // sementara di comment dlu, untuk custom filter memakai aggregations product
 // import { getFilter } from '../../../services/graphql';
@@ -29,8 +28,6 @@ const CategoryPage = ({
     data, storeConfig, t, ...other
 }) => {
     const styles = useStyles();
-    const image_product_height = storeConfig?.pwa?.image_product_height;
-    const image_product_width = storeConfig?.pwa?.image_product_width;
     const [value] = React.useState(0);
     const categoryList = data?.categoryList[0];
 
@@ -65,9 +62,12 @@ const CategoryPage = ({
         }
 
         if (dataBanner?.length > 0) {
-            urlString = dataBanner[0]?.imageUrl?.toLowerCase().indexOf(urlDest.hostname) === -1
-                ? `${urlDest.protocol}//${urlDest.hostname}${dataBanner[0]?.imageUrl}`
-                : dataBanner[0].imageUrl;
+            const { imageUrl } = dataBanner[0];
+            if (imageUrl !== '') {
+                urlString = imageUrl.toLowerCase().indexOf(urlDest.hostname) === -1
+                    ? `${urlDest.protocol}//${urlDest.hostname}${dataBanner[0]?.imageUrl}`
+                    : dataBanner[0].imageUrl;
+            }
         }
 
         if (categoryList?.breadcrumbs && categoryList?.breadcrumbs?.length > 0) {
@@ -120,14 +120,14 @@ const CategoryPage = ({
                     {categoryList.name}
                 </Typography>
                 <div className={styles.headContainer} style={{ width: '100%', height: 'auto' }}>
-                    {dataCategory.banner.length > 0
+                    {dataCategory.banner.length > 0 && dataCategory.url !== ''
                         ? (
                             <BannerView
                                 src={dataCategory.url}
-                                width={typeof image_product_width === 'string' ? parseInt(image_product_width, 0) : image_product_width}
-                                height={typeof image_product_height === 'string' ? parseInt(image_product_height, 0) : image_product_height}
-                                showArrow={dataCategory.banner.length > 1}
                                 style={{ width: '100%', height: 'auto' }}
+                                lazy={false}
+                                width={MAX_WIDTH.replace('px', '')}
+                                storeConfig={storeConfig}
                             />
                         ) : null}
                 </div>

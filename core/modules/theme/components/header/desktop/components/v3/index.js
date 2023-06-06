@@ -10,9 +10,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
 import DesktopInstallApp from '@core_modules/theme/components/custom-install-popup/desktop';
 import Menu from '@core_modules/theme/components/header/desktop/components/v3/mcategory';
-import TopMenu from '@core_modules/theme/components/header/desktop/components/mtop';
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
 import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
+import Image from '@common_image';
+import dynamic from 'next/dynamic';
+
+const TopMenu = dynamic(() => import('@core_modules/theme/components/header/desktop/components/mtop'), { ssr: false });
 
 const ViewTopNavigation = (props) => {
     const {
@@ -57,10 +60,17 @@ const ViewTopNavigation = (props) => {
                         <div className="header-middle__left">
                             <div className="box header-middle__logo">
                                 <Link href="/">
-                                    <img
-                                        className="header-middle__logo-link"
-                                        src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
-                                    />
+                                    <a>
+                                        <Image
+                                            className="header-middle__logo-link"
+                                            src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
+                                            alt={storeConfig.default_title}
+                                            width={120}
+                                            height={52}
+                                            storeConfig={storeConfig}
+                                            lazy={false}
+                                        />
+                                    </a>
                                 </Link>
                             </div>
                         </div>

@@ -1,46 +1,36 @@
 /* eslint-disable arrow-body-style */
 
-export const generateThumborUrl = (src = '', width = 400, height = 400, enable, useHttpsOrHttp, url) => {
+export const generateThumborUrl = (
+    src = '',
+    width = 400,
+    height = 400,
+    enable,
+    useHttpsOrHttp,
+    thumborUrl,
+    quality = 80,
+    endpoint,
+    blur,
+    format = 'webp',
+) => {
     if (enable) {
-        if (typeof window !== 'undefined' && navigator && navigator?.appVersion) {
-            const userAgent = navigator.appVersion;
-            const regex = (/iPhone|iPad|iPod|Mac/i);
-            const isIOS = regex.test(userAgent);
-            const newRegex = (/Version/i);
-            const isSafari = newRegex.test(userAgent);
-            if (isIOS) {
-                const version = userAgent.match(/\b[0-9]+_[0-9]+(?:_[0-9]+)?\b/)[0];
-                const majorVersion = version.split('_')[0];
-                // webp is not supported on IOS version 14 and below
-
-                if (isSafari) {
-                    let versionSavari = userAgent.split('Version/');
-                    if (versionSavari && versionSavari.length > 0) {
-                        versionSavari = versionSavari[1].split(' ');
-                        if (versionSavari && versionSavari.length > 0 && parseFloat(versionSavari[0]) < 14) {
-                            return src;
-                        }
-                    }
-                } else if (majorVersion < 14) {
-                    return src;
-                }
-            }
-        }
-
-        if (url) {
+        if (thumborUrl) {
             let source = src;
-            let newurl = url;
-            if (!useHttpsOrHttp) {
-                if (source.includes('http')) {
-                    source = source.replace('http://', '');
+            const domain = (new URL(thumborUrl)).origin;
+            if (source.indexOf(domain) === -1) {
+                const thumborEndpoint = endpoint ? `/${endpoint}` : '';
+                const thumborBlur = blur ? `:blur(${blur})` : '';
+                const params = `/unsafe${thumborEndpoint}/${width}x${height}/filters:format(${format}):quality(${quality})${thumborBlur}/`;
+
+                if (!useHttpsOrHttp) {
+                    if (source.includes('http')) {
+                        source = source.replace('http://', '');
+                    }
+                    if (source.includes('https')) {
+                        source = source.replace('https://', '');
+                    }
                 }
-                if (source.includes('https')) {
-                    source = source.replace('https://', '');
-                }
+                return domain + params + source;
             }
-            newurl = newurl.replace('width', width);
-            newurl = newurl.replace('height', height);
-            return newurl + source;
         }
 
         return src;
@@ -50,7 +40,7 @@ export const generateThumborUrl = (src = '', width = 400, height = 400, enable, 
 };
 
 export const getImageFallbackUrl = (src) => {
-    return src.replace('webp', 'jpeg');
+    return src ? src.replace('webp', 'jpeg') : src;
 };
 
 export const generateImageDimensions = (url = '') => {

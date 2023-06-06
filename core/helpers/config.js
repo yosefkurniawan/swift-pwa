@@ -8,10 +8,15 @@ const getHost = () => {
     return globalHost;
 };
 
+const getHostProd = () => {
+    const HostProd = HOST.prod;
+    return HostProd;
+};
+
 const getStoreHost = (appEnv = getAppEnv()) => {
     let storeHost = graphqlEndpoint[appEnv] || graphqlEndpoint.prod;
     storeHost = storeHost.replace('graphql', '');
     return storeHost;
 };
 
-module.exports = { getHost, getStoreHost };
+module.exports = { getHost, getStoreHost, getHostProd };

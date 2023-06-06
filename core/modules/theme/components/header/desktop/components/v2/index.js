@@ -15,7 +15,7 @@ import DesktopInstallAppV2 from '@core_modules/theme/components/header/desktop/c
 import Menu from '@core_modules/theme/components/header/desktop/components/v2/mcategory';
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
 import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
-
+import Image from '@common_image';
 import SwitcherLanguage from '@common_language';
 import SwitcherCurrency from '@common_currency';
 import Cookies from 'js-cookie';
@@ -47,7 +47,7 @@ const ViewTopNavigation = (props) => {
 
     React.useEffect(() => {
         if (typeof window !== 'undefined' && storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header) {
-            const header = document.getElementById('header');
+            const header = document.getElementById('header-inner');
             const middleSubmenu = document.getElementById('submenu-center');
             const leftSubmenu = document.getElementById('submenu-left');
             const checkScrollTop = () => {
@@ -82,10 +82,17 @@ const ViewTopNavigation = (props) => {
                             <div className="header-middle__left">
                                 <div className="box header-middle__logo">
                                     <Link href="/">
-                                        <img
-                                            className="header-middle__logo-link"
-                                            src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
-                                        />
+                                        <a>
+                                            <Image
+                                                className="header-middle__logo-link"
+                                                src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
+                                                alt={storeConfig.default_title}
+                                                width={120}
+                                                height={52}
+                                                storeConfig={storeConfig}
+                                                lazy={false}
+                                            />
+                                        </a>
                                     </Link>
                                 </div>
                             </div>
@@ -144,10 +151,17 @@ const ViewTopNavigation = (props) => {
                             <div className="header-middle__left">
                                 <div className="box header-middle__logo">
                                     <Link href="/">
-                                        <img
-                                            className="header-middle__logo-link"
-                                            src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
-                                        />
+                                        <a>
+                                            <Image
+                                                className="header-middle__logo-link"
+                                                src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
+                                                alt={storeConfig.default_title}
+                                                width={120}
+                                                height={52}
+                                                storeConfig={storeConfig}
+                                                lazy={false}
+                                            />
+                                        </a>
                                     </Link>
                                 </div>
                             </div>

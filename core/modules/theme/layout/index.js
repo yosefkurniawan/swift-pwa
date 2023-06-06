@@ -77,10 +77,15 @@ const Layout = (props) => {
         isCheckout = false,
         isLoginPage = false,
         isShowChat = true,
+        // deviceType = {},
     } = props;
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
     const appEnv = getAppEnv();
+    const enablePromo = getCookies(features.globalPromo.key_cookies) !== ''
+        ? !!getCookies(features.globalPromo.key_cookies)
+        : storeConfig.global_promo?.enable;
+
     const [state, setState] = useState({
         toastMessage: {
             open: false,
@@ -90,7 +95,7 @@ const Layout = (props) => {
         backdropLoader: false,
     });
     const [restrictionCookies, setRestrictionCookies] = useState(false);
-    const [showGlobalPromo, setShowGlobalPromo] = React.useState(false);
+    const [showGlobalPromo, setShowGlobalPromo] = React.useState(enablePromo);
     const [setCompareList] = createCompareList();
     const frontendCache = useReactiveVar(storeConfigVar);
 
@@ -242,7 +247,6 @@ const Layout = (props) => {
             window.toastMessage = handleSetToast;
             window.backdropLoader = handleLoader;
             const custData = Cookies.getJSON(custDataNameCookie);
-            const enablePromo = getCookies(features.globalPromo.key_cookies);
             const tagManagerArgs = {
                 dataLayer: {
                     pageName: pageConfig.title,
@@ -260,11 +264,6 @@ const Layout = (props) => {
                 tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
             }
             TagManager.dataLayer(tagManagerArgs);
-            if (enablePromo !== '' && storeConfig.global_promo && storeConfig.global_promo.enable) {
-                setShowGlobalPromo(enablePromo);
-            } else if (storeConfig.global_promo && storeConfig.global_promo.enable) {
-                setShowGlobalPromo(true);
-            }
         }
         // setMainMinimumHeight(refFooter.current.clientHeight + refHeader.current.clientHeight);
     }, []);
@@ -521,7 +520,11 @@ const Layout = (props) => {
                     </div>
                 </header>
             )}
-            <main style={{ ...styles, position: classMain === 'checkout-mode' ? 'relative' : '' }} className={classNames(!onlyCms ? 'main-app' : 'main-app main-app-cms', classMain)} id="maincontent">
+            <main
+                style={{ ...styles, position: classMain === 'checkout-mode' ? 'relative' : '' }}
+                className={classNames(!onlyCms ? 'main-app' : 'main-app main-app-cms', classMain)}
+                id="maincontent"
+            >
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}
@@ -542,7 +545,12 @@ const Layout = (props) => {
                     {isLogin ? (
                         <ChatContent />
                     ) : (
-                        <Fab color="primary" size="medium" onClick={() => router.push(`${getHost()}/customer/account/login`)} className={bodyStyles.buttonChat}>
+                        <Fab
+                            color="primary"
+                            size="medium"
+                            onClick={() => router.push(`${getHost()}/customer/account/login`)}
+                            className={bodyStyles.buttonChat}
+                        >
                             <ChatIcon className={bodyStyles.chatIcon} />
                         </Fab>
                     )}

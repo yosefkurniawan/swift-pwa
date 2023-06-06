@@ -1,10 +1,10 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable max-len */
 import CmsPage from '@core_modules/cms/pages/default';
-import useStyles from '@core_modules/home/pages/default/components/style';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
-import * as React from 'react';
+import Thumbor from '@common_image';
+import useStyles from '@core_modules/home/pages/default/components/style';
 
 const BannerSlider = dynamic(() => import('@core_modules/home/pages/default/components/Banner'));
 const FeaturedProducts = dynamic(() => import('@core_modules/home/pages/default/components/FeaturedProducts'));
@@ -68,7 +68,14 @@ const Content = (props) => {
             {props.storeConfig && props.storeConfig.pwa && props.storeConfig.pwa.mobile_navigation !== 'burger_menu' && (
                 <div className={classNames(styles.header)}>
                     <div className={classNames(styles.logo, 'hidden-desktop')}>
-                        <img src={logoUrl} alt="logo" className={styles.imgLogo} />
+                        <Thumbor
+                            className={styles.imgLogo}
+                            src={logoUrl}
+                            alt="logo"
+                            width={100}
+                            height={32}
+                            storeConfig={storeConfig}
+                        />
                     </div>
                 </div>
             )}

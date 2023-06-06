@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 import useStyles from '@common_slick/Banner/style';
-import Thumbor from '@common_slick/Banner/Thumbor';
+import Thumbor from '@common_image';
 import ProductVideo from '@common_slick/Banner/productVideo';
 
 /**
@@ -21,13 +21,13 @@ const ImageSlide = ({
     isSlug = true,
     mobileImageUrl = '',
     contentWidth,
-    customClass = '',
     video,
     videoUrl,
     storeConfig,
     alt = '',
     urlEmbed,
     noLink = false,
+    lazy,
 }) => {
     const styles = useStyles();
     const href = (link && link.includes('http://')) || link.includes('https://') ? link : link[0] === '/' ? link : `/${link}`;
@@ -59,11 +59,9 @@ const ImageSlide = ({
                                 widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
                                 heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
                                 alt={alt}
-                                quality={100}
                                 className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
-                                contentWidth={contentWidth}
-                                customClass={customClass}
                                 storeConfig={storeConfig}
+                                lazy={lazy}
                             />
                         </a>
                     )
@@ -78,11 +76,9 @@ const ImageSlide = ({
                                     widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
                                     heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
                                     alt={alt}
-                                    quality={100}
                                     className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
-                                    contentWidth={contentWidth}
-                                    customClass={customClass}
                                     storeConfig={storeConfig}
+                                    lazy={lazy}
                                 />
                             </a>
                         </Link>
