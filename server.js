@@ -186,6 +186,11 @@ async function renderAndCache(req, res) {
     // geocoding services
     server.post(path.join(basePath, '/geocoding-services'), geocodingServices);
 
+    server.get('*.woff2?', (req, res) => {
+        res.setHeader('Cache-Control', 'public,max-age=31536000');
+        handle(req, res);
+    });
+
     /**
      * configuration firebase messaging
      *   */

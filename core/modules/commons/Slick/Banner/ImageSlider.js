@@ -59,14 +59,20 @@ const ImageSlide = ({
                                 widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
                                 heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
                                 alt={alt}
-                                className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
+                                className={
+                                    classNames(styles.imageSlider, styles.thumborImage, {
+                                        [styles.imageSliderAuto]: contentWidth === 'auto',
+                                        [styles.imageSlider]: contentWidth === 'auto',
+                                    })
+                                }
                                 storeConfig={storeConfig}
                                 lazy={lazy}
+                                slickBanner
                             />
                         </a>
                     )
                     : (
-                        <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })}>
+                        <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })} prefetch={false}>
                             <a>
                                 <Thumbor
                                     src={imageUrl}
@@ -76,9 +82,15 @@ const ImageSlide = ({
                                     widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
                                     heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
                                     alt={alt}
-                                    className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
+                                    className={
+                                        classNames(styles.imageSlider, styles.thumborImage, {
+                                            [styles.imageSliderAuto]: contentWidth === 'auto',
+                                            [styles.imageSlider]: contentWidth === 'auto',
+                                        })
+                                    }
                                     storeConfig={storeConfig}
                                     lazy={lazy}
+                                    slickBanner
                                 />
                             </a>
                         </Link>

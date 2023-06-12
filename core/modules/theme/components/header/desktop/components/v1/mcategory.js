@@ -20,6 +20,7 @@ const MenuChildren = dynamic(() => import('@common_headerdesktop/components/v1/m
 
 const Menu = (props) => {
     const { data, storeConfig } = props;
+
     const cmsPages = storeConfig && storeConfig.cms_page ? storeConfig.cms_page.split(',') : [];
     let menu = storeConfig.pwa.ves_menu_enable ? data?.vesMenu?.items : data?.categoryList[0].children;
     if (!menu) {
@@ -130,7 +131,7 @@ const Menu = (props) => {
                                 {val.link && val.link !== '#' ? (
                                     <>
                                         {val.before_html && <div dangerouslySetInnerHTML={{ __html: val.before_html }} />}
-                                        <Link href={{ pathname: generatedLink[0], query: generatedLink[1] }} as={generatedLink[1]}>
+                                        <Link href={{ pathname: generatedLink[0], query: generatedLink[1] }} as={generatedLink[1]} prefetch={false}>
                                             <a
                                                 onClick={() => handleClick(val)}
                                                 ref={linkEl}

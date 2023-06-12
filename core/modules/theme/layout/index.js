@@ -78,6 +78,7 @@ const Layout = (props) => {
         isLoginPage = false,
         isShowChat = true,
         // deviceType = {},
+        preloadImages = [],
     } = props;
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
@@ -478,6 +479,7 @@ const Layout = (props) => {
                     hrefLang={defaultLang}
                     href={canonicalUrl.substring(0, canonicalUrl.indexOf('?') !== -1 ? canonicalUrl.indexOf('?') : canonicalUrl.length)}
                 />
+                {preloadImages && Object.values(preloadImages).map((_image) => <link rel="preload" as="image" href={_image} />)}
                 {showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />}
             </Head>
             {showPopup && storeConfig && storeConfig.pwa && storeConfig.pwa.header_version !== 'v2' ? (
@@ -496,7 +498,7 @@ const Layout = (props) => {
                         />
                     )}
                     <div className="hidden-mobile">
-                        {headerDesktop ? (
+                        {desktop && headerDesktop ? (
                             <HeaderDesktop
                                 storeConfig={storeConfig}
                                 isLogin={isLogin}
@@ -560,10 +562,12 @@ const Layout = (props) => {
 
             {withLayoutFooter && (
                 <footer className={bodyStyles.footerContainer} ref={refFooter}>
-                    <div className="hidden-mobile">
-                        {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
-                        <Copyright storeConfig={storeConfig} />
-                    </div>
+                    {desktop ? (
+                        <div className="hidden-mobile">
+                            {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
+                            <Copyright storeConfig={storeConfig} />
+                        </div>
+                    ) : null}
                     {footer && storeConfig?.pwa?.enabler_footer_mobile === true ? (
                         <div className="hidden-desktop" style={{ ...footerMobile }}>
                             <Footer storeConfig={storeConfig} t={t} />

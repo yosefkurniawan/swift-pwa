@@ -60,27 +60,27 @@ const ViewTop = (props) => {
             </li>
             {modules.confirmpayment.enabled ? (
                 <li>
-                    <Link href="/confirmpayment">
+                    <Link href="/confirmpayment" prefetch={false}>
                         <a>{t('common:menu:confirmpayment')}</a>
                     </Link>
                 </li>
             ) : null}
             {modules.trackingorder.enabled ? (
                 <li>
-                    <Link href="/sales/order/track">
+                    <Link href="/sales/order/track" prefetch={false}>
                         <a>{t('common:menu:trackingorder')}</a>
                     </Link>
                 </li>
             ) : null}
             {!isLogin ? (
                 <li>
-                    <Link href="/customer/account/login">
+                    <Link href="/customer/account/login" prefetch={false}>
                         <a id="header-menu-btnsign">{t('common:menu:sign')}</a>
                     </Link>
                     {' '}
                     {t('common:menu:or')}
                     {' '}
-                    <Link href="/customer/account/create">
+                    <Link href="/customer/account/create" prefetch={false}>
                         <a id="header-menu-btnregister">{t('common:menu:register')}</a>
                     </Link>
                     {' '}

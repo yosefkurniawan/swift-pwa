@@ -8,9 +8,14 @@ import graphRequest from '@graphql_request';
 import { getHomePageConfig } from '@core_modules/home/service/graphql/schema';
 import { storeConfigVar } from '@root/core/services/graphql/cache';
 
-const Page = dynamic(() => ((!modules.checkout.checkoutOnly)
-    ? import('@core_modules/home/pages/default/core')
-    : import('@module_checkout/pages/default')));
+const Home = dynamic(() => import('@core_modules/home/pages/default/core'));
+const Checkout = dynamic(() => import('@module_checkout/pages/default'));
+
+const Page = (props) => {
+    if (!modules.checkout.checkoutOnly) return <Home {...props} />;
+
+    return <Checkout {...props} />;
+};
 
 Page.getInitialProps = async (ctx) => {
     let homePageConfig;

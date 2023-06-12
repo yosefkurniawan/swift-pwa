@@ -19,11 +19,13 @@ import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { localCompare } from '@services/graphql/schema/local';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
-import CustomizableOption from '@plugin_customizableitem';
 import ModalQuickView from '@plugin_productitem/components/QuickView';
 import WeltpixelLabel from '@plugin_productitem/components/WeltpixelLabel';
 import TagManager from 'react-gtm-module';
 import { priceVar } from '@root/core/services/graphql/cache';
+import dynamic from 'next/dynamic';
+
+const CustomizableOption = dynamic(() => import('@plugin_customizableitem'));
 
 const ProductItem = (props) => {
     const {

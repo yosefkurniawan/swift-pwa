@@ -58,10 +58,14 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'Playfair Display',
         color: WHITE,
     },
+    imgLogoContainer: {
+        paddingTop: 'unset !important',
+    },
     imgLogo: {
         marginTop: '25%',
-        width: 100,
-        height: '100%',
+        width: '100px !important',
+        height: '100% !important',
+        position: 'relative !important',
     },
     imgLogoHamburger: {
         width: 100,

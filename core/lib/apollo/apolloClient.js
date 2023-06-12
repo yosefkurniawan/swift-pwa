@@ -1,5 +1,4 @@
 /* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable no-unused-vars */
 import {
     ApolloClient, ApolloLink, from, HttpLink, InMemoryCache,
 } from '@apollo/client';
@@ -10,21 +9,12 @@ import { removeCookies } from '@root/core/helpers/cookies';
 import {
     graphqlEndpoint, HOST, storeCode, requestTimeout,
 } from '@root/swift.config.js';
-import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { RetryLink } from 'apollo-link-retry';
 import firebase from 'firebase/app';
 import fetch from 'isomorphic-unfetch';
 import cookies from 'js-cookie';
 import ApolloLinkTimeout from './apolloLinkTimeout';
-
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-    introspectionQueryResultData: {
-        __schema: {
-            types: [],
-        },
-    },
-});
 
 const appEnv = getAppEnv();
 
@@ -111,7 +101,6 @@ export default function createApolloClient(initialState, ctx) {
         ssrMode: Boolean(ctx),
         link: from([timeoutLink, middlewareHeader, logoutLink, link]),
         cache: new InMemoryCache({
-            fragmentMatcher,
             possibleTypes: {
                 ProductInterface: [
                     'ConfigurableProduct', 'SimpleProduct', 'BundleProduct',

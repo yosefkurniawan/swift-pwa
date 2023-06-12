@@ -8,7 +8,9 @@ import { getProductList, getProductPrice } from '@core_modules/cms/services/grap
 import { useTranslation } from '@i18n';
 import Grid from '@material-ui/core/Grid';
 import ErrorMessage from '@plugin_productlist/components/ErrorMessage';
-import React, { useMemo } from 'react';
+import React, {
+    useEffect, useMemo, useRef, useState,
+} from 'react';
 import { useRouter } from 'next/router';
 import { priceVar } from '@root/core/services/graphql/cache';
 import { useReactiveVar } from '@apollo/client';
@@ -59,6 +61,8 @@ const MagezonProductList = (props) => {
     const [fetchProductPrice, { data: dataPrice, loading: loadingPrice, error: errorPrice }] = getProductPrice();
     // cache price
     const cachePrice = useReactiveVar(priceVar);
+    const magezonProductRef = useRef();
+    const [display, setDisplay] = useState(false);
 
     const generateIdentifier = () => {
         let identifier = `${router.asPath}-${title}`;
@@ -91,6 +95,20 @@ const MagezonProductList = (props) => {
         }
     }, [dataPrice]);
 
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            if (entries?.length > 0 && entries[0].isIntersecting && !display) {
+                setDisplay(true);
+            }
+        });
+
+        if (magezonProductRef.current) {
+            observer.observe(magezonProductRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, [magezonProductRef]);
+
     const getPrice = () => {
         let productPrice = [];
 
@@ -102,8 +120,6 @@ const MagezonProductList = (props) => {
 
         return productPrice;
     };
-
-    if (loading) return <Skeleton />;
 
     if (type === 'single_product' && data && data.products && data.products.items) {
         content = data?.products?.items[0] && (
@@ -159,7 +175,7 @@ const MagezonProductList = (props) => {
 
     return (
         <>
-            <div className="mgz-product">
+            <div className="mgz-product" ref={magezonProductRef}>
                 {(title || description) && (
                     <div className={`mgz-product-heading ${showLineClass} ${linePosClass}`}>
                         {title && (
@@ -172,7 +188,11 @@ const MagezonProductList = (props) => {
                         <div>{description}</div>
                     </div>
                 )}
-                <div className="mgz-product-content">{content}</div>
+                <div className="mgz-product-content">
+                    {loading || !display ? (
+                        <Skeleton />
+                    ) : content}
+                </div>
                 {error && (
                     <>
                         <div className="mgz-product-error">

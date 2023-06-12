@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
-/* eslint-disable no-unused-vars */
 import { basePath } from '@config';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import { getHost, getHostProd } from '@helpers/config';
@@ -34,6 +33,7 @@ const CustomImage = ({
     style = {},
     lazy = true,
     storeConfig = {},
+    slickBanner = false,
     ...other
 }) => {
     const enable = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_enable;
@@ -78,12 +78,15 @@ const CustomImage = ({
     let styleContainer = {
         width: '100%',
         position: 'relative',
-        // paddingTop: `${(height / width) * 100}%`,
+        paddingTop: `${(height / width) * 100}%`,
         overflow: 'hidden',
         display: 'block',
         ...initStyleContainer,
     };
     let styleImage = {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
         top: '0',
         left: '0',
         objectFit: 'cover',
@@ -100,6 +103,11 @@ const CustomImage = ({
             maxHeight: '100%',
             height: 'auto',
         };
+    }
+
+    if (slickBanner) {
+        styleContainer = {};
+        styleImage = {};
     }
 
     const onLoad = useCallback((event) => {
@@ -160,7 +168,7 @@ const CustomImage = ({
     }, [imageUrl, imageUrlMobile]);
 
     return (
-        <Container enable={useContainer} className={className} style={styleContainer}>
+        <Container enable={useContainer} className={classContainer} style={styleContainer}>
             <picture>
                 { srcMobile ? (
                     <>
