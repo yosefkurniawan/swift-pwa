@@ -50,7 +50,7 @@ const CmsSlug = (props) => {
     const { data: sliderData } = gqlService.getSlider({
         skip: !result,
         variables: {
-            input: { id: parseInt(result?.split('slider_id')[1].split('"')[1], 10) },
+            input: { id: parseInt(result?.split('slider_id')[1]?.split('"')[1], 10) },
         },
     });
     const enable = props?.storeConfig && props?.storeConfig?.pwa && props?.storeConfig?.pwa.thumbor_enable;
