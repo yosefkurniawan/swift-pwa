@@ -22,7 +22,7 @@ const DOM_NAME = 'pwa';
 
 const WidgetRenderer = (props) => {
     const { content, storeConfig } = props;
-    const updatedContent = content.includes('widget') ? content.replace('{{widget', '<pwa').slice(0, -2).concat(' />') : content;
+    const updatedContent = content.includes('widget') ? content.replace('<p>', '').replace('{{widget', '<pwa').slice(0, -4).concat('/>') : content;
 
     React.useEffect(() => {
         const coll = document.getElementsByClassName('collapsible');
