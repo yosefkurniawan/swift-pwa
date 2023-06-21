@@ -4,8 +4,10 @@ const { createSecureHeaders } = require('next-secure-headers');
 const { basePath } = require('./swift.config');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 // const withCSS = require('@zeit/next-css');
+const { i18n } = require('./next-i18next.config')
 
 module.exports = withOffline({
+    i18n,
     basePath,
     // Secure Header
     async headers() {

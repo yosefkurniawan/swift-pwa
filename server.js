@@ -13,7 +13,7 @@ const LRUCache = require('lru-cache');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const remoteSchema = require('./core/api/graphql');
-const nextI18next = require('./core/lib/i18n');
+// const nextI18next = require('./core/lib/i18n');
 const { basePath } = require('./swift.config');
 
 const { json } = express;
@@ -127,7 +127,7 @@ async function renderAndCache(req, res) {
         });
     }
 
-    await nextI18next.initPromise;
+    // await nextI18next.initPromise;
     // server.use(nextI18NextMiddleware(nextI18next));
 
     server.use(
