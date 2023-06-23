@@ -10,7 +10,7 @@ import { localCompare } from '@services/graphql/schema/local';
 import { createCompareList } from '@core_modules/product/services/graphql';
 import { useQuery } from '@apollo/client';
 import Typography from '@common_typography';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 
 const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
     const [getProductCompare, { loading, data: compareList }] = getCompareList({

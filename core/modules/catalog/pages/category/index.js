@@ -1,5 +1,5 @@
 import Core from '@core_modules/catalog/pages/category/core';
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 
 const CategoryPage = (props) => (
     <Core

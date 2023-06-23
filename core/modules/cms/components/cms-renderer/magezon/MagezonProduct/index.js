@@ -5,7 +5,7 @@ import ProductSlider from '@core_modules/cms/components/cms-renderer/magezon/Mag
 import SingleProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/SingleProduct';
 import { generateQueries, getProductListConditions } from '@core_modules/cms/helpers/getProductListConditions';
 import { getProductList, getProductPrice } from '@core_modules/cms/services/graphql';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import Grid from '@material-ui/core/Grid';
 import ErrorMessage from '@plugin_productlist/components/ErrorMessage';
 import React, {

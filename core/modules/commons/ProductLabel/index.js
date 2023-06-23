@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import useStyles from '@common_productlabel/style';
 
 const generateNew = ({ newFromDate, newToDate }) => {

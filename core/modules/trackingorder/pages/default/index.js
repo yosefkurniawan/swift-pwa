@@ -1,4 +1,4 @@
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import Core from '@core_modules/trackingorder/pages/default/core';
 import Skeleton from '@core_modules/trackingorder/pages/default/components/skeletonform';
@@ -17,9 +17,5 @@ const DefaultTracking = (props) => (
         DetailView={DetailView}
     />
 );
-
-DefaultTracking.getInitialProps = async () => ({
-    namespacesRequired: ['trackingorder', 'validate', 'contact'],
-});
 
 export default withApollo({ ssr: true })(withTranslation()(DefaultTracking));

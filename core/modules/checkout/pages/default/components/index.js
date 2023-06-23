@@ -176,7 +176,7 @@ const Content = (props) => {
                         checkoutTokenState={checkoutTokenState}
                         setCheckoutTokenState={setCheckoutTokenState}
                     />
-                    {/* eslint-disable */}
+                    {/* eslint-disable */ }
                     {checkout.selected.delivery === 'home' ? (
                         <Address
                             checkout={checkout}

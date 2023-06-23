@@ -1,4 +1,4 @@
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import dynamic from 'next/dynamic';
 import ItemView from '@core_modules/cart/pages/default/components/item';
@@ -24,9 +24,5 @@ const Page = (props) => (
         Content={Content}
     />
 );
-
-Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'cart', 'checkout'],
-});
 
 export default withApollo({ ssr: true })(withTranslation()(Page));

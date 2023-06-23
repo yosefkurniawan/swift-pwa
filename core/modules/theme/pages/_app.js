@@ -9,7 +9,7 @@
 import { basePath, custDataNameCookie, features, modules, sentry } from '@config';
 import { getLastPathWithoutLogin, getLoginInfo } from '@helper_auth';
 import { getLocalStorage, setLocalStorage, setResolver, testLocalStorage } from '@helper_localstorage';
-import { appWithTranslation } from '@i18n';
+import { appWithTranslation } from 'next-i18next';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { getAppEnv } from '@root/core/helpers/env';

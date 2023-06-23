@@ -32,7 +32,7 @@ import Core from '@core_modules/catalog/pages/category/core';
 import BannerView from '@common_slider';
 import BreadcrumbView from '@common_breadcrumb';
 import TabView from '@common_tabs';
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import Sekeltonview from '@custom/category/components/Skeleton';
 
 const CategoryPage = (props) => (

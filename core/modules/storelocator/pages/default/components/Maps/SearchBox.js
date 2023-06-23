@@ -2,7 +2,7 @@ import { StandaloneSearchBox } from 'react-google-maps/lib/components/places/Sta
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/SearchOutlined';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 
 const SearchBox = React.forwardRef((props, ref) => {
     const { t } = useTranslation(['common']);

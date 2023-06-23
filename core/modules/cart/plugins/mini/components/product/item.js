@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Alert from '@material-ui/lab/Alert';
 import Thumbor from '@common_image';
 import { formatPrice } from '@helper_currency';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 
 const Item = (props) => {
     const {

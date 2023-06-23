@@ -2,7 +2,7 @@
 import Typography from '@common_typography';
 import { useDropzone } from 'react-dropzone';
 import React, { useCallback, useMemo } from 'react';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import propTypes from 'prop-types';
 
 const toBase64 = (file) => new Promise((resolve, reject) => {

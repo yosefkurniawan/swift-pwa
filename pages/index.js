@@ -5,7 +5,6 @@ import { modules } from '@config';
 import graphRequest from '@graphql_request';
 import { getHomePageConfig } from '@core_modules/home/service/graphql/schema';
 import { storeConfigVar } from '@root/core/services/graphql/cache';
-
 import Page from '@core_modules/home/pages/default';
 
 export async function getServerSideProps(ctx) {

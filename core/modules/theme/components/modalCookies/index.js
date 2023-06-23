@@ -1,6 +1,6 @@
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 
 const ModalCookies = () => {
     const { t } = useTranslation();

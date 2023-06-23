@@ -60,7 +60,7 @@ import Skeleton from '@core_modules/rma/pages/new/Skeleton';
 ```node
 
 import CoreBase from '@core_modules/pages/new/core'; //must import core & uses
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import Skeleton from '@core_modules/pages/new/components/Skeleton';  //point to your custom components
 import WarningInfo from '@core_modules/pages/new/components/Info'; //point to your custom components

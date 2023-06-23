@@ -25,7 +25,7 @@ import Core from '@core_modules/product/pages/default/core';
 ### 4. Place it in your page
 #### example code
 ````
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import Content from './components';
 import Page from '@core_modules/product/pages/default';
 

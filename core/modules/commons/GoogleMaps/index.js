@@ -16,7 +16,7 @@ import {
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/SearchOutlined';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 
 const {
     StandaloneSearchBox,

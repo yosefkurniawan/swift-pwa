@@ -8,7 +8,7 @@ import { modules } from '@config';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 import { useProduct } from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/helpers/useProduct';
 import Typography from '@core_modules/commons/Typography';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';

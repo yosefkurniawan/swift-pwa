@@ -1,3 +1,12 @@
 import Page from '@core_modules/rma/pages/new';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+export async function getStaticProps(ctx) {
+    return {
+        props: {
+            ...(await serverSideTranslations(ctx.locale, ['common', 'rma', 'customer'])),
+        },
+    };
+};
 
 export default Page;

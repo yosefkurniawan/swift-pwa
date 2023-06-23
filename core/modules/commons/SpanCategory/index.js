@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import Typography from '@common_typography';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import setDefaultWhenEmpty from '@helper_checkimagesrc';
 import classNames from 'classnames';
 import { setResolver, getResolver } from '@helper_localstorage';

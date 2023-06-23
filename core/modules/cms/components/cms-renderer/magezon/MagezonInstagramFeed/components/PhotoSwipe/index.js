@@ -28,7 +28,7 @@ import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import Link from 'next/link';
 import fscreen from 'fscreen';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import { basePath } from '@config';
 

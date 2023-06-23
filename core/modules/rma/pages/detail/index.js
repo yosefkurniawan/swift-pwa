@@ -1,4 +1,4 @@
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import CoreBase from '@core_modules/rma/pages/detail/core';
 import Skeleton from '@core_modules/rma/pages/detail/components/Skeleton';
@@ -23,9 +23,5 @@ const Page = (props) => (
         {...props}
     />
 );
-
-Page.getInitialProps = async () => ({
-    namespacesRequired: ['rma', 'customer'],
-});
 
 export default withApollo({ ssr: true })(withTranslation()(Page));

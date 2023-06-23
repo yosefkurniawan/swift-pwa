@@ -4,24 +4,21 @@ import { getCmsList } from '@services/graphql/schema/config';
 import graphRequest from '@graphql_request';
 import { storeConfigNameCookie } from '@config';
 
-export async function getServerSideProps(ctx, req) {
-    // const {
-    //     req,
-    // } = ctx;
-
+export async function getServerSideProps(ctx) {
     let cmsList = {};
-    if (typeof window === 'undefined' && !req?.cookies[storeConfigNameCookie]) {
+    if (typeof window === 'undefined' && !ctx.req?.cookies[storeConfigNameCookie]) {
         cmsList = await graphRequest(getCmsList);
     }
-    const allcookie = req ? req.cookies : {};
+    const allcookie = ctx.req ? ctx.req.cookies : {};
     const obj = {
-        slug: req.query.slug,
+        slug: ctx?.query?.slug,
         ...(await serverSideTranslations(ctx.locale, ['common', 'product', 'category', 'validate', 'catalog'])),
-        token: req && req.session ? req.session.token : '',
+        token: ctx.query && ctx.query.session ? ctx.query.session.token : '',
         isLogin: allcookie.isLogin || 0,
-        url_key: req
-            ? `${req.protocol}://${req.get('host')}`
-            : `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`,
+        // url_key: req
+        //     ? `${req.protocol}://${req.get('host')}`
+        //     : `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`,
+        url_key: '',
     };
 
     obj.cms_page = cmsList.storeConfig && cmsList.storeConfig.cms_page ? cmsList.storeConfig.cms_page : '';

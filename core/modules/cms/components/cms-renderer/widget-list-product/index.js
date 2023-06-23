@@ -11,7 +11,7 @@ import { getProductList } from '@core_modules/cms/services/graphql';
 import ProductItem from '@plugin_productitem';
 import ErrorMessage from '@plugin_productlist/components/ErrorMessage';
 import React, { useMemo } from 'react';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 
 /**
  * [CONSTANT] variable

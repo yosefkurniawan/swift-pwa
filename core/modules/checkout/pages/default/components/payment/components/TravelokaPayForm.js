@@ -5,7 +5,7 @@ import TextField from '@common_textfield';
 import Typography from '@common_typography';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 
 const TravelokaPayForm = (props) => {
     const { travelokaPayRef, payment_travelokapay_bin_whitelist } = props;

@@ -1,4 +1,4 @@
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import Button from '@common_button';
 import Typography from '@common_typography';
 import Link from 'next/link';

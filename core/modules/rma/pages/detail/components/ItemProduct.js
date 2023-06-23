@@ -1,7 +1,7 @@
 import Typography from '@common_typography';
 import { formatPrice } from '@helper_currency';
 import React from 'react';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import Image from '@common_image';
 import useStyles from '@core_modules/rma/pages/detail/components/styles';
 
