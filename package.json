@@ -97,6 +97,7 @@
     "yup": "^0.28.3"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^13.4.7",
     "@sentry/webpack-plugin": "^1.12.1",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",

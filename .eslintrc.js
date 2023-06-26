@@ -1,14 +1,10 @@
-const fs = require("fs");
-const path = require("path");
-const projectPath = path.resolve(__dirname, "./");
-
 module.exports = {
     env: {
         browser: true,
         es6: true,
         jest: true,
     },
-    extends: 'airbnb',
+    extends: ['airbnb', 'plugin:@next/next/recommended'],
     globals: {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly',
