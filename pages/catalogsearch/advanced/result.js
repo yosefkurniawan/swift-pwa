@@ -9,6 +9,6 @@ export async function getServerSideProps(ctx) {
             token: ctx.req && ctx.req.session ? ctx.req.session.token : '',
         },
     };
-};
+}
 
 export default Page;

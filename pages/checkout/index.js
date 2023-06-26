@@ -37,6 +37,6 @@ export async function getServerSideProps(ctx) {
             isLogin: data.isLogin || 0,
         },
     };
-};
+}
 
 export default Page;

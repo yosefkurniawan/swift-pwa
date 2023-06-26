@@ -24,6 +24,6 @@ export async function getServerSideProps(ctx) {
             checkoutData: typeof checkoutData === 'string' ? JSON.parse(checkoutData) : checkoutData,
         },
     };
-};
+}
 
 export default Page;

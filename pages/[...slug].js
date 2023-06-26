@@ -28,6 +28,6 @@ export async function getServerSideProps(ctx) {
             ...obj,
         },
     };
-};
+}
 
 export default Page;

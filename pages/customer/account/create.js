@@ -8,6 +8,6 @@ export async function getServerSideProps(ctx) {
             withAuth: true,
         },
     };
-};
+}
 
 export default Page;

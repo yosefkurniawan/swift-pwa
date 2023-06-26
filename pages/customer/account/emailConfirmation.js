@@ -1,7 +1,7 @@
 import Page from '@core_modules/emailconfirmation/pages/default';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-export async function getStaticProps(ctx) {
+export async function getServerSideProps(ctx) {
     if (!ctx.query.id || !ctx.query.token) {
         ctx.res.statusCode = 302;
         ctx.res.setHeader('Location', '/');
@@ -18,6 +18,6 @@ export async function getStaticProps(ctx) {
             ...(await serverSideTranslations(ctx.locale, ['common', 'customer', 'validate', 'register'])),
         },
     };
-};
+}
 
 export default Page;

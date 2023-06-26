@@ -9,6 +9,6 @@ export async function getServerSideProps(ctx) {
             query: ctx.query,
         },
     };
-};
+}
 
 export default Page;

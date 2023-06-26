@@ -7,6 +7,6 @@ export async function getServerSideProps(ctx) {
             ...(await serverSideTranslations(ctx.locale, ['common', 'customer', 'rewardpoint', 'productreview'])),
         },
     };
-};
+}
 
 export default Page;
