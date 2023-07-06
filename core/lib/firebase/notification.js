@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-empty */
+/* eslint-disable no-console */
+
 import { features } from '@config';
 import firebase from './index';
 
@@ -23,10 +25,11 @@ const notification = {
             .then((currentToken) => {
                 if (currentToken) {
                     notification.sendTokenToServer(currentToken);
-                } else {
                 }
             })
-            .catch((err) => {});
+            .catch((err) => {
+                console.log('Unable to retrieve current token ', err);
+            });
     },
     updateTokenFcm() {
         const messaging = firebase.messaging();
@@ -38,7 +41,6 @@ const notification = {
                     notification.sendTokenToServer(refreshedToken);
                 })
                 .catch((err) => {
-                    // eslint-disable-next-line no-console
                     console.log('Unable to retrieve refreshed token ', err);
                 });
         });

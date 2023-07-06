@@ -21,7 +21,7 @@ const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
 
 const {
-    expiredToken, nossrCache, features, assetsVersion,
+    expiredToken, nossrCache, features,
 } = require('./swift.config');
 const generateXml = require('./core/api/rest/xml');
 const captchaValidation = require('./core/api/rest/captcha');
@@ -195,14 +195,6 @@ async function renderAndCache(req, res) {
      * configuration firebase messaging
      *   */
     const serviceWorkers = [
-        {
-            filename: 'firebase-messaging-sw.js',
-            pathfile: `./public/static/firebase/firebase-messaging-sw.${assetsVersion}.js`,
-        },
-        {
-            filename: 'sw.js',
-            pathfile: `./public/static/firebase/sw.${assetsVersion}.js`,
-        },
         {
             filename: '.well-known/assetlinks.json',
             pathfile: './public/static/assetlinks.json',

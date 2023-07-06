@@ -1,12 +1,19 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const withOffline = require('next-offline');
 const { createSecureHeaders } = require('next-secure-headers');
-const { basePath } = require('./swift.config');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-// const withCSS = require('@zeit/next-css');
-const { i18n } = require('./next-i18next.config')
 
-module.exports = withOffline({
+const withPWA = require('next-pwa')({
+    dest: 'public',
+    swSrc: 'core/public/sw.js',
+    sw: 'sw.js',
+    register: true,
+    skipWaiting: true,
+    disable: process.env.NODE_ENV === 'development',
+});
+const { i18n } = require('./next-i18next.config');
+const { basePath } = require('./swift.config');
+
+module.exports = withPWA({
     i18n,
     basePath,
     // Secure Header
@@ -45,14 +52,8 @@ module.exports = withOffline({
         }
         return config;
     },
-    async rewrites() {
-        return [
-            {
-                source: `${basePath}/service-worker.js`,
-                destination: '/_next/static/service-worker.js',
-            },
-        ];
-    },
+    // generateInDevMode: true, // please comment if develop to production
+
     // enable code below on Prod and increase the version everytime before running build script
     // generateBuildId: async () => 'swift-pwa-v1.0.0',
 });

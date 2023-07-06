@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import TagManager from 'react-gtm-module';
 // eslint-disable-next-line object-curly-newline
-import { assetsVersion, basePath, custDataNameCookie, debuging, features, modules } from '@config';
+import { basePath, custDataNameCookie, debuging, features, modules } from '@config';
 import { createCompareList } from '@core_modules/product/services/graphql';
 import useStyles from '@core_modules/theme/layout/style';
 import { getAppEnv } from '@helpers/env';
@@ -480,7 +480,7 @@ const Layout = (props) => {
                     href={canonicalUrl.substring(0, canonicalUrl.indexOf('?') !== -1 ? canonicalUrl.indexOf('?') : canonicalUrl.length)}
                 />
                 {preloadImages && Object.values(preloadImages).map((_image) => <link rel="preload" as="image" href={_image} />)}
-                {showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />}
+                {showPopup && <script src="/install.js" defer />}
             </Head>
             {showPopup && storeConfig && storeConfig.pwa && storeConfig.pwa.header_version !== 'v2' ? (
                 <PopupInstallAppMobile appName={appName} installMessage={installMessage} />

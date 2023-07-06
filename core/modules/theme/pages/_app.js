@@ -6,7 +6,7 @@
 /* eslint-disable func-names */
 /* eslint-disable radix */
 /* eslint-disable max-len */
-import { basePath, custDataNameCookie, features, modules, sentry } from '@config';
+import { custDataNameCookie, features, modules, sentry } from '@config';
 import { getLastPathWithoutLogin, getLoginInfo } from '@helper_auth';
 import { getLocalStorage, setLocalStorage, setResolver, testLocalStorage } from '@helper_localstorage';
 import { appWithTranslation } from 'next-i18next';
@@ -19,7 +19,7 @@ import { getCategories, getVesMenu, storeConfig as ConfigSchema } from '@service
 import { currencyVar, storeConfigVar, cmsPageVar } from '@root/core/services/graphql/cache';
 import theme from '@theme_theme';
 import Cookie from 'js-cookie';
-import { unregister } from 'next-offline/runtime';
+// import { unregister } from 'next-offline/runtime';
 import App from 'next/app';
 import React from 'react';
 
@@ -265,15 +265,14 @@ class MyApp extends App {
                             // eslint-disable-next-line no-console
                             console.log('[firebase-messaging-sw.js] Received foreground message ', payload);
                             const lastNotification = localStorage.getItem('lastNotification');
-                            const isDifferentContent = payload.data.updated_date !== lastNotification;
+                            const isDifferentContent = payload.data.updated_date + payload.data.title !== lastNotification;
                             if (isDifferentContent) {
                                 localStorage.setItem('lastNotification', payload.data.updated_date + payload.data.title);
                                 registration.showNotification(payload.data.title, {
                                     body: payload.data.body,
                                     vibrate: [200, 100, 200, 100, 200, 100, 200],
-                                    icon: payload.data.icons || '',
+                                    icon: payload.data.logo || '',
                                     image: payload.data.image || '',
-                                    requireInteraction: true,
                                     data: payload.data,
                                 });
                             }
@@ -349,21 +348,12 @@ class MyApp extends App {
         }
     }
 
-    componentWillUnmount() {
-        unregister();
-    }
-
     registerServiceWorker() {
-        navigator.serviceWorker.register(`${basePath}/service-worker.js`).then(
-            (registration) => {
-                // eslint-disable-next-line no-console
-                console.log('Service Worker registration successful with scope: ', registration.scope);
-            },
-            (err) => {
-                // eslint-disable-next-line no-console
-                console.log('Service Worker registration failed: ', err);
-            },
-        );
+        // There is no longer custom custom service worker right now
+
+        // Notes: beside the custom service worker, following another services workes are registered automatically by the plugins:
+        // - sw.js by next-pwa. the config is in next.config.js
+        // - firebase-messaging-sw.js by @lib_firebase
     }
 
     render() {
