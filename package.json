@@ -23,7 +23,7 @@
     "test:ci": "jest --ci"
   },
   "dependencies": {
-    "@apollo/client": "^3.1.3",
+    "@apollo/client": "^3.7.17",
     "@date-io/dayjs": "1.x",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@material-ui/core": "^4.11.0",

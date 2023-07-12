@@ -1,10 +1,6 @@
 /* eslint-disable max-len */
 module.exports = {
-    collectCoverageFrom: [
-        '**/(.*)$.{js,jsx,ts,tsx}',
-        '!**/(.*)$.d.ts',
-        '!**/node_modules/(.*)$*',
-    ],
+    collectCoverageFrom: ['**/(.*)$.{js,jsx,ts,tsx}', '!**/(.*)$.d.ts', '!**/node_modules/(.*)$*'],
     moduleNameMapper: {
         // Handle CSS imports (with CSS modules)
         // https://jestjs.io/docs/webpack#mocking-css-modules
@@ -36,6 +32,7 @@ module.exports = {
         '^@next_headcustom': ['<rootDir>/src/nextjs_custom/HeadCustom', '<rootDir>/core/nextjs_custom/HeadCustom'],
         '^@next_nextscriptcustom': ['<rootDir>/src/nextjs_custom/NextScriptCustom', '<rootDir>/core/nextjs_custom/NextScriptCustom'],
         '^@graphql_request': ['<rootDir>/src/api/graphql/request', '<rootDir>/core/api/graphql/request'],
+        '^@graphql_ssr': ['<rootDir>/src/api/graphql/ssr', '<rootDir>/core/api/graphql/ssr'],
 
         '^@lib/(.*)$': ['<rootDir>/src/lib/$1', '<rootDir>/core/lib/$1'],
         '^@lib_apollo': ['<rootDir>/src/lib/apollo', '<rootDir>/core/lib/apollo'],
@@ -85,7 +82,10 @@ module.exports = {
         '^@common_confirmdialog': ['<rootDir>/src/modules/commons/ConfirmDialog', '<rootDir>/core/modules/commons/ConfirmDialog'],
         '^@common_dropfile': ['<rootDir>/src/modules/commons/DropFile', '<rootDir>/core/modules/commons/DropFile'],
         '^@common_googlemaps': ['<rootDir>/src/modules/commons/GoogleMaps', '<rootDir>/core/modules/commons/GoogleMaps'],
-        '^@common_googlemaps_autocomplete': ['<rootDir>/src/modules/commons/GoogleMapsAutocomplete', '<rootDir>/core/modules/commons/GoogleMapsAutocomplete'],
+        '^@common_googlemaps_autocomplete': [
+            '<rootDir>/src/modules/commons/GoogleMapsAutocomplete',
+            '<rootDir>/core/modules/commons/GoogleMapsAutocomplete',
+        ],
         '^@common_gridlist': ['<rootDir>/src/modules/commons/GridList', '<rootDir>/core/modules/commons/GridList'],
         '^@common_priceformat': ['<rootDir>/src/modules/commons/PriceFormat', '<rootDir>/core/modules/commons/PriceFormat'],
         '^@common_ratingstar': ['<rootDir>/src/modules/commons/RatingStar', '<rootDir>/core/modules/commons/RatingStar'],
@@ -106,7 +106,10 @@ module.exports = {
         '^@common_confirmdialog/(.*)$': ['<rootDir>/src/modules/commons/ConfirmDialog/$1', '<rootDir>/core/modules/commons/ConfirmDialog/$1'],
         '^@common_dropfile/(.*)$': ['<rootDir>/src/modules/commons/DropFile/$1', '<rootDir>/core/modules/commons/DropFile/$1'],
         '^@common_googlemaps/(.*)$': ['<rootDir>/src/modules/commons/GoogleMaps/$1', '<rootDir>/core/modules/commons/GoogleMaps/$1'],
-        '^@common_googlemaps_autocomplete/(.*)$': ['<rootDir>/src/modules/commons/GoogleMapsAutocomplete/$1', '<rootDir>/core/modules/commons/GoogleMapsAutocomplete/$1'],
+        '^@common_googlemaps_autocomplete/(.*)$': [
+            '<rootDir>/src/modules/commons/GoogleMapsAutocomplete/$1',
+            '<rootDir>/core/modules/commons/GoogleMapsAutocomplete/$1',
+        ],
         '^@common_gridlist/(.*)$': ['<rootDir>/src/modules/commons/GridList/$1', '<rootDir>/core/modules/commons/GridList/$1'],
         '^@common_priceformat/(.*)$': ['<rootDir>/src/modules/commons/PriceFormat/$1', '<rootDir>/core/modules/commons/PriceFormat/$1'],
         '^@common_ratingstar/(.*)$': ['<rootDir>/src/modules/commons/RatingStar/$1', '<rootDir>/core/modules/commons/RatingStar/$1'],
@@ -146,10 +149,16 @@ module.exports = {
         '^@common_scrolltotop': ['<rootDir>/src/modules/commons/ScrollToTop', '<rootDir>/core/modules/commons/ScrollToTop'],
         '^@common_headermobile': ['<rootDir>/src/modules/theme/components/header/mobile', '<rootDir>/core/modules/theme/components/header/mobile'],
         '^@common_headerdesktop': ['<rootDir>/src/modules/theme/components/header/desktop', '<rootDir>/core/modules/theme/components/header/desktop'],
-        '^@common_restrictionPopup': ['<rootDir>/src/modules/theme/components/restrictionPopup', '<rootDir>/core/modules/theme/components/restrictionPopup'],
+        '^@common_restrictionPopup': [
+            '<rootDir>/src/modules/theme/components/restrictionPopup',
+            '<rootDir>/core/modules/theme/components/restrictionPopup',
+        ],
         '^@common_currency': ['<rootDir>/src/modules/setting/components/currency', '<rootDir>/core/modules/setting/components/currency'],
         '^@common_language': ['<rootDir>/src/modules/setting/components/language', '<rootDir>/core/modules/setting/components/language'],
-        '^@common_bottomnavigation': ['<rootDir>/src/modules/theme/components/bottom-navigation/mobile', '<rootDir>/core/modules/theme/components/bottom-navigation/mobile'],
+        '^@common_bottomnavigation': [
+            '<rootDir>/src/modules/theme/components/bottom-navigation/mobile',
+            '<rootDir>/core/modules/theme/components/bottom-navigation/mobile',
+        ],
         '^@common_footer': ['<rootDir>/src/modules/theme/components/footer/desktop', '<rootDir>/core/modules/theme/components/footer/desktop'],
         '^@common_productlabel': ['<rootDir>/src/modules/commons/ProductLabel', '<rootDir>/core/modules/commons/ProductLabel'],
         '^@common_optionconfigurable': ['<rootDir>/src/modules/commons/OptionConfigurable', '<rootDir>/core/modules/commons/OptionConfigurable'],
@@ -159,15 +168,33 @@ module.exports = {
         '^@common_span/(.*)$': ['<rootDir>/src/modules/commons/Span/$1', '<rootDir>/core/modules/commons/Span/$1'],
         '^@common_skeleton/(.*)$': ['<rootDir>/src/modules/commons/Skeleton/$1', '<rootDir>/core/modules/commons/Skeleton/$1'],
         '^@common_scrolltotop/(.*)$': ['<rootDir>/src/modules/commons/ScrollToTop/$1', '<rootDir>/core/modules/commons/ScrollToTop/$1'],
-        '^@common_headermobile/(.*)$': ['<rootDir>/src/modules/theme/components/header/mobile/$1', '<rootDir>/core/modules/theme/components/header/mobile/$1'],
-        '^@common_headerdesktop/(.*)$': ['<rootDir>/src/modules/theme/components/header/desktop/$1', '<rootDir>/core/modules/theme/components/header/desktop/$1'],
-        '^@common_restrictionPopup/(.*)$': ['<rootDir>/src/modules/theme/components/restrictionPopup/$1', '<rootDir>/core/modules/theme/components/restrictionPopup/$1'],
+        '^@common_headermobile/(.*)$': [
+            '<rootDir>/src/modules/theme/components/header/mobile/$1',
+            '<rootDir>/core/modules/theme/components/header/mobile/$1',
+        ],
+        '^@common_headerdesktop/(.*)$': [
+            '<rootDir>/src/modules/theme/components/header/desktop/$1',
+            '<rootDir>/core/modules/theme/components/header/desktop/$1',
+        ],
+        '^@common_restrictionPopup/(.*)$': [
+            '<rootDir>/src/modules/theme/components/restrictionPopup/$1',
+            '<rootDir>/core/modules/theme/components/restrictionPopup/$1',
+        ],
         '^@common_currency/(.*)$': ['<rootDir>/src/modules/setting/components/currency/$1', '<rootDir>/core/modules/setting/components/currency/$1'],
         '^@common_language/(.*)$': ['<rootDir>/src/modules/setting/components/language/$1', '<rootDir>/core/modules/setting/components/language/$1'],
-        '^@common_bottomnavigation/(.*)$': ['<rootDir>/src/modules/theme/components/bottom-navigation/mobile/$1', '<rootDir>/core/modules/theme/components/bottom-navigation/mobile/$1'],
-        '^@common_footer/(.*)$': ['<rootDir>/src/modules/theme/components/footer/desktop/$1', '<rootDir>/core/modules/theme/components/footer/desktop/$1'],
+        '^@common_bottomnavigation/(.*)$': [
+            '<rootDir>/src/modules/theme/components/bottom-navigation/mobile/$1',
+            '<rootDir>/core/modules/theme/components/bottom-navigation/mobile/$1',
+        ],
+        '^@common_footer/(.*)$': [
+            '<rootDir>/src/modules/theme/components/footer/desktop/$1',
+            '<rootDir>/core/modules/theme/components/footer/desktop/$1',
+        ],
         '^@common_productlabel/(.*)$': ['<rootDir>/src/modules/commons/ProductLabel/$1', '<rootDir>/core/modules/commons/ProductLabel/$1'],
-        '^@common_optionconfigurable/(.*)$': ['<rootDir>/src/modules/commons/OptionConfigurable/$1', '<rootDir>/core/modules/commons/OptionConfigurable/$1'],
+        '^@common_optionconfigurable/(.*)$': [
+            '<rootDir>/src/modules/commons/OptionConfigurable/$1',
+            '<rootDir>/core/modules/commons/OptionConfigurable/$1',
+        ],
 
         '^@plugin_summary': ['<rootDir>/src/modules/cart/plugins/Summary', '<rootDir>/core/modules/cart/plugins/Summary'],
         '^@plugin_summary/(.*)$': ['<rootDir>/src/modules/cart/plugins/Summary/$1', '<rootDir>/core/modules/cart/plugins/Summary/$1'],
@@ -177,32 +204,64 @@ module.exports = {
         '^@plugin_minicart/(.*)$': ['<rootDir>/src/modules/cart/plugins/mini/$1', '<rootDir>/core/modules/cart/plugins/mini/$1'],
 
         '^@plugin_gimmickbanner': ['<rootDir>/src/modules/cart/plugins/GimmickBanner', '<rootDir>/core/modules/cart/plugins/GimmickBanner'],
-        '^@plugin_gimmickbanner/(.*)$': ['<rootDir>/src/modules/cart/plugins/GimmickBanner/$1', '<rootDir>/core/modules/cart/plugins/GimmickBanner/$1'],
+        '^@plugin_gimmickbanner/(.*)$': [
+            '<rootDir>/src/modules/cart/plugins/GimmickBanner/$1',
+            '<rootDir>/core/modules/cart/plugins/GimmickBanner/$1',
+        ],
 
         '^@plugin_productlist': ['<rootDir>/src/modules/catalog/plugins/ProductList', '<rootDir>/core/modules/catalog/plugins/ProductList'],
-        '^@plugin_productlist/(.*)$': ['<rootDir>/src/modules/catalog/plugins/ProductList/$1', '<rootDir>/core/modules/catalog/plugins/ProductList/$1'],
+        '^@plugin_productlist/(.*)$': [
+            '<rootDir>/src/modules/catalog/plugins/ProductList/$1',
+            '<rootDir>/core/modules/catalog/plugins/ProductList/$1',
+        ],
         '^@plugin_productitem': ['<rootDir>/src/modules/catalog/plugins/ProductItem', '<rootDir>/core/modules/catalog/plugins/ProductItem'],
-        '^@plugin_productitem/(.*)$': ['<rootDir>/src/modules/catalog/plugins/ProductItem/$1', '<rootDir>/core/modules/catalog/plugins/ProductItem/$1'],
+        '^@plugin_productitem/(.*)$': [
+            '<rootDir>/src/modules/catalog/plugins/ProductItem/$1',
+            '<rootDir>/core/modules/catalog/plugins/ProductItem/$1',
+        ],
 
         '^@plugin_paypalbutton': ['<rootDir>/src/modules/paypal/plugins/PaypalButton', '<rootDir>/core/modules/paypal/plugins/PaypalButton'],
-        '^@plugin_paypalbutton/(.*)$': ['<rootDir>/src/modules/paypal/plugins/PaypalButton/$1', '<rootDir>/core/modules/paypal/plugins/PaypalButton/$1'],
+        '^@plugin_paypalbutton/(.*)$': [
+            '<rootDir>/src/modules/paypal/plugins/PaypalButton/$1',
+            '<rootDir>/core/modules/paypal/plugins/PaypalButton/$1',
+        ],
 
-        '^@plugin_addressform': ['<rootDir>/src/modules/customer/plugins/AddressFormDialog', '<rootDir>/core/modules/customer/plugins/AddressFormDialog'],
-        '^@plugin_addressform/(.*)$': ['<rootDir>/src/modules/customer/plugins/AddressFormDialog/$1', '<rootDir>/core/modules/customer/plugins/AddressFormDialog/$1'],
+        '^@plugin_addressform': [
+            '<rootDir>/src/modules/customer/plugins/AddressFormDialog',
+            '<rootDir>/core/modules/customer/plugins/AddressFormDialog',
+        ],
+        '^@plugin_addressform/(.*)$': [
+            '<rootDir>/src/modules/customer/plugins/AddressFormDialog/$1',
+            '<rootDir>/core/modules/customer/plugins/AddressFormDialog/$1',
+        ],
         '^@plugin_newsletter': ['<rootDir>/src/modules/customer/plugins/Newsletter', '<rootDir>/core/modules/customer/plugins/Newsletter'],
-        '^@plugin_newsletter/(.*)$': ['<rootDir>/src/modules/customer/plugins/Newsletter/$1', '<rootDir>/core/modules/customer/plugins/Newsletter/$1'],
+        '^@plugin_newsletter/(.*)$': [
+            '<rootDir>/src/modules/customer/plugins/Newsletter/$1',
+            '<rootDir>/core/modules/customer/plugins/Newsletter/$1',
+        ],
         '^@plugin_otp': ['<rootDir>/src/modules/login/plugins/otp', '<rootDir>/core/modules/login/plugins/otp'],
         '^@plugin_otp/(.*)$': ['<rootDir>/src/modules/login/plugins/otp/$1', '<rootDir>/core/modules/login/plugins/otp/$1'],
-        '^@plugin_notificationbell': ['<rootDir>/src/modules/notification/plugins/NotificationBell', '<rootDir>/core/modules/notification/plugins/NotificationBell'],
-        '^@plugin_notificationbell/(.*)$': ['<rootDir>/src/modules/notification/plugins/NotificationBell/$1', '<rootDir>/core/modules/notification/plugins/NotificationBell/$1'],
+        '^@plugin_notificationbell': [
+            '<rootDir>/src/modules/notification/plugins/NotificationBell',
+            '<rootDir>/core/modules/notification/plugins/NotificationBell',
+        ],
+        '^@plugin_notificationbell/(.*)$': [
+            '<rootDir>/src/modules/notification/plugins/NotificationBell/$1',
+            '<rootDir>/core/modules/notification/plugins/NotificationBell/$1',
+        ],
 
         '^@plugin_optionitem': ['<rootDir>/src/modules/product/plugins/OptionItem', '<rootDir>/core/modules/product/plugins/OptionItem'],
         '^@plugin_optionitem/(.*)$': ['<rootDir>/src/modules/product/plugins/OptionItem/$1', '<rootDir>/core/modules/product/plugins/OptionItem/$1'],
-        '^@plugin_customizableitem': ['<rootDir>/src/modules/product/plugins/CustomizableOption', '<rootDir>/core/modules/product/plugins/CustomizableOption'],
-        '^@plugin_customizableitem/(.*)$': ['<rootDir>/src/modules/product/plugins/CustomizableOption/$1', '<rootDir>/core/modules/product/plugins/CustomizableOption/$1'],
+        '^@plugin_customizableitem': [
+            '<rootDir>/src/modules/product/plugins/CustomizableOption',
+            '<rootDir>/core/modules/product/plugins/CustomizableOption',
+        ],
+        '^@plugin_customizableitem/(.*)$': [
+            '<rootDir>/src/modules/product/plugins/CustomizableOption/$1',
+            '<rootDir>/core/modules/product/plugins/CustomizableOption/$1',
+        ],
         '^@plugin_rewardpointinfo': ['<rootDir>/src/modules/rewardpoint/plugins/info', '<rootDir>/core/modules/rewardpoint/plugins/info'],
         '^@plugin_rewardpointinfo/(.*)$': ['<rootDir>/src/modules/rewardpoint/plugins/info/$1', '<rootDir>/core/modules/rewardpoint/plugins/info/$1'],
-
     },
     // Add more setup options before each test is run
     setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
@@ -213,8 +272,5 @@ module.exports = {
         // https://jestjs.io/docs/configuration#transform-objectstring-pathtotransformer--pathtotransformer-object
         '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
     },
-    transformIgnorePatterns: [
-        '/node_modules/',
-        '^.+\\.module\\.(css|sass|scss)$',
-    ],
+    transformIgnorePatterns: ['/node_modules/', '^.+\\.module\\.(css|sass|scss)$'],
 };

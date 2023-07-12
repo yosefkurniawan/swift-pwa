@@ -17,6 +17,7 @@ const Content = (props) => {
     const {
         cmsHome, homePageConfig, storeConfig: config, ...other
     } = props;
+
     let storeConfig = config;
     const useCms = storeConfig?.pwa?.use_cms_page_enable;
 
