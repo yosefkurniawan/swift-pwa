@@ -1,20 +1,24 @@
-/* eslint-disable arrow-body-style */
-/* eslint-disable no-unused-vars */
 import { modules } from '@config';
 import graphRequest from '@graphql_request';
 import { getHomePageConfig } from '@core_modules/home/service/graphql/schema';
 import { storeConfigVar } from '@root/core/services/graphql/cache';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import getSSRCMSProps from '@core_modules/cms/pages/default/ssr';
+import getCmsSSRProps from '@core_modules/cms/pages/default/ssr';
+import getLayoutSSRProps from '@core_modules/theme/layout/ssr';
+import createApolloClient from '@lib/apollo/apolloClient';
 
 const getSSRProps = async (ctx) => {
+    const apolloClient = createApolloClient({}, ctx);
+    // layout
+    await getLayoutSSRProps({ apolloClient });
+
+    // translation
     const translation = await serverSideTranslations(
         ctx.locale,
         modules.checkout.checkoutOnly ? ['common', 'checkout', 'customer', 'validate'] : ['common', 'home'],
     );
 
     let homePageConfig;
-
     if (!modules.checkout.checkoutOnly && ctx && ctx.req) {
         const homeConfig = await graphRequest(getHomePageConfig);
         homePageConfig = homeConfig.storeConfig;
@@ -27,13 +31,16 @@ const getSSRProps = async (ctx) => {
     }
 
     const identifier = homePageConfig?.pwa?.use_cms_page_identifier ?? '';
-    const cms = await getSSRCMSProps(identifier);
+    await getCmsSSRProps({ apolloClient, identifier });
+
+    // for gql ssr cache
+    const apolloState = apolloClient.cache.extract();
 
     return {
         props: {
-            homePageConfig,
             ...translation,
-            ...cms.props,
+            homePageConfig,
+            apolloState,
         },
     };
 };
