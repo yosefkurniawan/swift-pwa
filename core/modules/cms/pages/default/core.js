@@ -87,7 +87,7 @@ const CmsSlug = (props) => {
             preloadImages={images?.length > 0 && images[0]}
         >
             {other.storeConfig.pwa.use_cms_page_enable ? <h1 style={{ display: 'none' }}>{Config.title}</h1> : null}
-            <Content data={data} t={t} loading={error} error={loading} {...other} />
+            <Content data={data} t={t} loading={loading} error={error} {...other} />
         </Layout>
     );
 };
