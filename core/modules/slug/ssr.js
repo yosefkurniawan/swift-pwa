@@ -1,7 +1,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-unused-vars */
 import graphRequest from '@graphql_request';
-import graphqlSSRNoCache from '@graphql_ssr';
+import graphRequestClear from '@graphql_ssr';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { getCmsList } from '@services/graphql/schema/config';
 import { storeConfigNameCookie } from '@config';
@@ -37,16 +37,16 @@ const getSSRProps = async (ctx) => {
     // for cms pages, no need to add suffix
     url += cmsPages.find((cmsPage) => cmsPage === url) ? '' : suffix;
 
-    let urlResolver = await graphqlSSRNoCache(getResolver(url));
+    let urlResolver = await graphRequestClear(getResolver(url));
     urlResolver = urlResolver?.urlResolver ?? null;
     const urlType = urlResolver?.type ?? '';
 
     if (urlType === 'CMS_PAGE') {
         await getCmsSSRProps({ apolloClient, identifier: url });
     } else if (urlType === 'PRODUCT') {
-        //
+        // belum buat ssr product
     } else if (urlType === 'CATEGORY') {
-        //
+        // bebelum buat ssr product lum
     }
 
     const apolloState = apolloClient.cache.extract();

@@ -3,10 +3,9 @@ import React, { memo } from 'react';
 import parse, { domToReact } from 'html-react-parser';
 import dynamic from 'next/dynamic';
 
-import WidgetSlider from '@core_modules/cms/components/cms-renderer/widget-slider';
-import WidgetView from '@core_modules/cms/components/cms-renderer/view';
-import ImageRenderer from '@core_modules/cms/components/cms-renderer/image-renderer';
-
+const WidgetSlider = dynamic(() => import('@core_modules/cms/components/cms-renderer/widget-slider'));
+const WidgetView = dynamic(() => import('@core_modules/cms/components/cms-renderer/view'));
+const ImageRenderer = dynamic(() => import('@core_modules/cms/components/cms-renderer/image-renderer'));
 const Newsletter = dynamic(() => import('@plugin_newsletter'));
 const WidgetListProduct = dynamic(() => import('@core_modules/cms/components/cms-renderer/widget-list-product'));
 const WidgetListBrand = dynamic(() => import('@core_modules/cms/components/cms-renderer/widget-list-brand'));
@@ -64,7 +63,7 @@ const WidgetRenderer = (props) => {
         return parse(updatedContent, {
             replace: (domNode) => {
                 if (domNode.name === 'img') {
-                    return <ImageRenderer storeConfig={storeConfig} domNode={domNode} />
+                    return <ImageRenderer storeConfig={storeConfig} domNode={domNode} />;
                 }
 
                 if (domNode.name === DOM_NAME && domNode.attribs) {

@@ -83,9 +83,8 @@ const Layout = (props) => {
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
     const appEnv = getAppEnv();
-    const enablePromo = getCookies(features.globalPromo.key_cookies) !== ''
-        ? !!getCookies(features.globalPromo.key_cookies)
-        : storeConfig.global_promo?.enable;
+    const enablePromo =
+        getCookies(features.globalPromo.key_cookies) !== '' ? !!getCookies(features.globalPromo.key_cookies) : storeConfig.global_promo?.enable;
 
     const [state, setState] = useState({
         toastMessage: {
@@ -172,8 +171,8 @@ const Layout = (props) => {
 
     if (!ogData['og:image']) {
         ogData['og:image'] = storeConfig.header_logo_src
-        ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
-        : `${getHost()}${basePath}/assets/img/swift-logo.png` || '';
+            ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
+            : `${getHost()}${basePath}/assets/img/swift-logo.png` || '';
     }
 
     if (!ogData['og:url']) {
@@ -479,7 +478,7 @@ const Layout = (props) => {
                     hrefLang={defaultLang}
                     href={canonicalUrl.substring(0, canonicalUrl.indexOf('?') !== -1 ? canonicalUrl.indexOf('?') : canonicalUrl.length)}
                 />
-                {preloadImages && Object.values(preloadImages).map((_image) => <link rel="preload" as="image" href={_image} />)}
+                {preloadImages && Object.values(preloadImages).map((_image, idx) => <link rel="preload" as="image" href={_image} key={idx} />)}
                 {showPopup && <script src="/install.js" defer />}
             </Head>
             {showPopup && storeConfig && storeConfig.pwa && storeConfig.pwa.header_version !== 'v2' ? (

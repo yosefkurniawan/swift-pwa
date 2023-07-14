@@ -45,8 +45,6 @@ const CmsSlug = (props) => {
         },
     });
 
-    console.log('CmsSlug', { sliderCmsData });
-
     const enable = props?.storeConfig && props?.storeConfig?.pwa && props?.storeConfig?.pwa.thumbor_enable;
     const useHttpsOrHttp = props?.storeConfig && props?.storeConfig?.pwa && props?.storeConfig?.pwa.thumbor_https_http;
     const thumborUrl = props?.storeConfig && props?.storeConfig?.pwa && props?.storeConfig?.pwa.thumbor_url;

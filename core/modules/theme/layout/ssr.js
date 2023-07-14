@@ -1,33 +1,37 @@
 import { getCmsBlocks, categories, vesMenu } from '@core_modules/theme/services/graphql/schema';
 import { getStoreName, getCurrencySchema } from '@core_modules/setting/services/graphql/schema';
+import graphRequestClear from '@graphql_ssr';
+import { gql } from '@apollo/client';
 
-// import graphqlSSRNoCache from '@graphql_ssr';
-import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
-import graphRequest from '@graphql_request';
-// import { gql } from '@apollo/client';
+const layoutStoreConfigSchema = gql`
+    {
+        storeConfig {
+            pwa {
+                ves_menu_alias
+                footer_version
+            }
+        }
+    }
+`;
 
 const getSSRProps = async ({ apolloClient }) => {
     // get cms page
-    let storeConfig = await graphRequest(ConfigSchema);
-    // console.log('layout', storeConfig);
+    let storeConfig = await graphRequestClear(layoutStoreConfigSchema);
     storeConfig = storeConfig?.storeConfig ?? null;
 
     if (storeConfig) {
         // header
         if (storeConfig.pwa.ves_menu_enable) {
-            const ves = await apolloClient.query({
+            await apolloClient.query({
                 query: vesMenu,
                 variables: {
                     alias: storeConfig.pwa.ves_menu_alias,
                 },
             });
-            console.log('header ves', ves?.data?.vesMenu?.items);
         } else {
-            const cat = await apolloClient.query({
+            await apolloClient.query({
                 query: categories,
             });
-
-            console.log('header category', cat);
         }
         // header setting currency
         await apolloClient.query({
