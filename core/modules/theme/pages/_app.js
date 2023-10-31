@@ -356,16 +356,16 @@ class MyApp extends App {
     }
 
     registerServiceWorker() {
-        navigator.serviceWorker.register(`${basePath}/service-worker.js`).then(
-            (registration) => {
-                // eslint-disable-next-line no-console
-                console.log('Service Worker registration successful with scope: ', registration.scope);
-            },
-            (err) => {
-                // eslint-disable-next-line no-console
-                console.log('Service Worker registration failed: ', err);
-            },
-        );
+        // navigator.serviceWorker.register(`${basePath}/service-worker.js`).then(
+        //     (registration) => {
+        //         // eslint-disable-next-line no-console
+        //         console.log('Service Worker registration successful with scope: ', registration.scope);
+        //     },
+        //     (err) => {
+        //         // eslint-disable-next-line no-console
+        //         console.log('Service Worker registration failed: ', err);
+        //     },
+        // );
     }
 
     render() {
