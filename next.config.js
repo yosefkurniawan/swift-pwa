@@ -1,11 +1,19 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const withOffline = require('next-offline');
-const { createSecureHeaders } = require('next-secure-headers');
-const { basePath } = require('./swift.config');
+// const withOffline = require('next-offline');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-// const withCSS = require('@zeit/next-css');
+const { createSecureHeaders } = require('next-secure-headers');
+const withPWA = require('next-pwa')({
+    // dest: '.next',
+    // dest: 'public',
+    swSrc: 'core/public/sw.js',
+    sw: 'sw.js',
+    register: true,
+    skipWaiting: true,
+    disable: process.env.NODE_ENV === 'development',
+});
+const { basePath } = require('./swift.config');
 
-module.exports = withOffline({
+module.exports = withPWA({
     basePath,
     // Secure Header
     async headers() {
@@ -16,7 +24,7 @@ module.exports = withOffline({
     future: {
         webpack5: true,
     },
-    dontAutoRegisterSw: true,
+    // dontAutoRegisterSw: true,
     productionBrowserSourceMaps: true,
     publicRuntimeConfig: {
         appEnv: process.env.APP_ENV,
@@ -51,26 +59,6 @@ module.exports = withOffline({
         return config;
     },
     // generateInDevMode: true, // please comment if develop to production
-    workboxOpts: {
-        importScripts: ['./sw.js'], // comment if disabled notifications
-        swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
-        runtimeCaching: [
-            {
-                urlPattern: /facebook/,
-                handler: 'NetworkFirst',
-            },
-            {
-                urlPattern: /_next/,
-                handler: 'NetworkFirst',
-                options: {
-                    cacheName: 'offlineCache',
-                    expiration: {
-                        maxEntries: 200,
-                    },
-                },
-            },
-        ],
-    },
     async rewrites() {
         return [
             {
