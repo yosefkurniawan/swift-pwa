@@ -5,7 +5,7 @@ const path = require('path');
 const requestGraph = require('../graphql/request');
 const { getHost } = require('../../helpers/config');
 
-const baseDir = path.join(__dirname, '../../../public/static/');
+const baseDir = path.join('./public/static/');
 
 const queryProduct = (page, size) => `
 {

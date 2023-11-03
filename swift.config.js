@@ -101,6 +101,7 @@ const nameToken = 'sk';
 const expiredToken = 60 * 60 * 1000;
 const expiredDefault = 365;
 const localResolverKey = 'resolver';
+const customerTokenKey = 'ct';
 
 const keyLocalStorage = {
     home: 'homePageConfig',
@@ -461,4 +462,5 @@ module.exports = {
     translation,
     keyLocalStorage,
     requestTimeout,
+    customerTokenKey,
 };

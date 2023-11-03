@@ -38,8 +38,8 @@ export const routeWithAuth = (path) => {
 };
 
 const setLastPathNoAuth = (req, value = '') => {
-    if (req && req.session) {
-        req.session.lastPathNoAuth = value;
+    if (req && req.cookies) {
+        req.cookies.lastPathNoAuth = value;
     }
 };
 
@@ -56,7 +56,7 @@ const routeMiddleware = (params) => {
             if (typeof window !== 'undefined') {
                 window.location.href = '/';
             } else if (res) {
-                res.writeHead(301, {
+                res.writeHead(302, {
                     Location: '/',
                 });
                 res.end();
@@ -73,15 +73,22 @@ const routeMiddleware = (params) => {
                     Router.push(`${getHost()}/${query.redirect}`);
                     removeLastPathWithoutLogin();
                 } else {
-                    res.redirect(`${getHost()}/${query.redirect}`);
                     setLastPathNoAuth(req, '');
+                    res.writeHead(302, {
+                        Location: `/${query.redirect}`,
+                    });
+                    res.end();
                 }
             } else if (typeof window !== 'undefined') {
                 Router.push(lastPathNoAuth);
                 removeLastPathWithoutLogin();
             } else {
-                res.redirect(lastPathNoAuth);
                 setLastPathNoAuth(req, '');
+                res.writeHead(302, {
+                    Location: lastPathNoAuth,
+                });
+                res.end();
+                res.writeHead(302, { Location: lastPathNoAuth });
             }
         } else {
             typeof window !== 'undefined' ? removeLastPathWithoutLogin() : setLastPathNoAuth(req, '');
@@ -94,7 +101,10 @@ const routeMiddleware = (params) => {
                 setLastPathWithoutLogin(pathname);
             } else {
                 setLastPathNoAuth(req, pathname);
-                res.redirect('/customer/account/login');
+                res.writeHead(302, {
+                    Location: '/customer/account/login',
+                });
+                res.end();
             }
         } else {
             typeof window !== 'undefined' ? removeLastPathWithoutLogin() : setLastPathWithoutLogin(req, '');

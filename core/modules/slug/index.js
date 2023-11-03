@@ -2,7 +2,7 @@ import { withApollo } from '@lib_apollo';
 import { withTranslation } from '@i18n';
 import { getCmsList } from '@services/graphql/schema/config';
 import graphRequest from '@graphql_request';
-import { storeConfigNameCookie } from '@config';
+import { customerTokenKey, storeConfigNameCookie } from '@config';
 import Core from '@core_modules/slug/core';
 
 const Page = (props) => (
@@ -24,10 +24,10 @@ Page.getInitialProps = async ({ query, req }) => {
     const obj = {
         slug: query.slug,
         namespacesRequired: ['common', 'product', 'category', 'validate', 'catalog'],
-        token: req && req.session ? req.session.token : '',
+        token: req && req.cookies ? req.cookies[customerTokenKey] : '',
         isLogin: allcookie.isLogin || 0,
         url_key: req
-            ? `${req.protocol}://${req.get('host')}`
+            ? `${req.protocol}://${req.headers.host}`
             : `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`,
     };
 

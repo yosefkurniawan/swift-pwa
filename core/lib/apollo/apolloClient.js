@@ -7,7 +7,7 @@ import { removeIsLoginFlagging } from '@helper_auth';
 import { removeCartId } from '@helper_cartid';
 import { removeCookies } from '@root/core/helpers/cookies';
 import {
-    graphqlEndpoint, HOST, storeCode, requestTimeout,
+    graphqlEndpoint, storeCode, requestTimeout, customerTokenKey,
 } from '@root/swift.config.js';
 import { onError } from 'apollo-link-error';
 import { RetryLink } from 'apollo-link-retry';
@@ -20,9 +20,6 @@ const appEnv = getAppEnv();
 
 const uri = graphqlEndpoint[appEnv] ? graphqlEndpoint[appEnv] : graphqlEndpoint.dev;
 
-const host = HOST[appEnv] ? HOST[appEnv] : HOST.dev;
-
-const uriInternal = `${host}/graphql`;
 // handle if token expired
 const logoutLink = onError((err) => {
     const { graphQLErrors, networkError } = err;
@@ -47,7 +44,7 @@ const timeoutLink = new ApolloLinkTimeout(requestTimeout); // 10 second timeout
 const link = new RetryLink().split(
     (operation) => operation.getContext().request === 'internal',
     new HttpLink({
-        uri: uriInternal, // Server URL (must be absolute)
+        uri, // Server URL (must be absolute)
         credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
         fetch,
     }),
@@ -65,11 +62,15 @@ export default function createApolloClient(initialState, ctx) {
     let token = '';
     let store_code_storage = cookies.get('store_code_storage');
     if (ctx && ctx.req) {
-        token = ctx.req.session.token;
+        token = ctx.req.cookies[customerTokenKey];
 
         if (typeof window === 'undefined') {
             store_code_storage = ctx.req.cookies.store_code_storage || store_code_storage;
         }
+    }
+
+    if (typeof window !== 'undefined') {
+        token = cookies.get(customerTokenKey);
     }
 
     /**
@@ -79,7 +80,7 @@ export default function createApolloClient(initialState, ctx) {
         const additionalHeader = {};
 
         if (token && token !== '') {
-            additionalHeader.Authorization = token;
+            additionalHeader.Authorization = `Bearer ${token}`;
         }
 
         if (storeCode !== '') {
@@ -87,6 +88,7 @@ export default function createApolloClient(initialState, ctx) {
         } else if (store_code_storage && store_code_storage !== '' && storeCode === '') {
             additionalHeader.store = store_code_storage;
         }
+
         operation.setContext(({ headers = {} }) => ({
             headers: {
                 ...headers,

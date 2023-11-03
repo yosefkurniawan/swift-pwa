@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable object-curly-newline */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
@@ -6,7 +7,7 @@
 /* eslint-disable func-names */
 /* eslint-disable radix */
 /* eslint-disable max-len */
-import { basePath, custDataNameCookie, features, modules, sentry } from '@config';
+import { custDataNameCookie, modules, sentry } from '@config';
 import { getLastPathWithoutLogin, getLoginInfo } from '@helper_auth';
 import { getLocalStorage, setLocalStorage, setResolver, testLocalStorage } from '@helper_localstorage';
 import { appWithTranslation } from '@i18n';
@@ -33,7 +34,7 @@ import getConfig from 'next/config';
 // import TagManager from 'react-gtm-module';
 
 import ModalCookies from '@core_modules/theme/components/modalCookies';
-// import * as Sentry from '@sentry/node';
+import * as Sentry from '@sentry/node';
 import { getDeviceByUA, getUAString } from '@root/core/helpers/deviceDection';
 
 const { publicRuntimeConfig } = getConfig();
@@ -79,7 +80,6 @@ class MyApp extends App {
             pageProps = await Component.getInitialProps(ctx);
         }
         const { res, pathname, query, req } = ctx;
-
         /*
          * ---------------------------------------------
          * MAINTAIN LOGIN FLAG
@@ -97,8 +97,8 @@ class MyApp extends App {
         } else {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
-            lastPathNoAuth = req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
-                ? req.session.lastPathNoAuth
+            lastPathNoAuth = req.cookies && typeof req.cookies !== 'undefined' && req.cookies.lastPathNoAuth && typeof req.cookies.lastPathNoAuth !== 'undefined'
+                ? req.cookies.lastPathNoAuth
                 : '/customer/account';
         }
         isLogin = parseInt(isLogin);
@@ -140,7 +140,10 @@ class MyApp extends App {
             // Handle redirecting to tomaintenance page automatically when GQL is in maintenance mode.
             // We do this here since query storeConfig is the first query and be done in server side
             if (ctx && storeConfig.response && storeConfig.response.status && storeConfig.response.status > 500) {
-                ctx.res.redirect('/maintenance');
+                ctx.res.writeHead(302, {
+                    Location: '/maintenance',
+                });
+                ctx.res.end();
             }
             storeConfig = storeConfig.storeConfig;
             if (!modules.checkout.checkoutOnly) {
@@ -151,7 +154,7 @@ class MyApp extends App {
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null ? storeConfig?.pwa?.remove_decimal_price_enable : false;
         } else if (typeof window !== 'undefined' && !storeConfig) {
             storeConfig = storeConfigVar();
-            if (!storeConfig || storeConfig === '' || storeConfig === {}) {
+            if (!storeConfig || storeConfig === '' || (typeof storeConfig === 'object' && Object.keys(storeConfig).length === 0)) {
                 storeConfig = await pageProps.apolloClient
                     .query({
                         query: gql`
@@ -163,7 +166,7 @@ class MyApp extends App {
                 // Handle redirecting to tomaintenance page automatically when GQL is in maintenance mode.
                 // We do this here since query storeConfig is the first query and be done in server side
                 if (ctx && storeConfig.response && storeConfig.response.status && storeConfig.response.status > 500) {
-                    ctx.res.redirect('/maintenance');
+                    ctx.res.writeHead(302, { Location: '/maintenance' });
                 }
 
                 storeConfig = storeConfig.storeConfig;
@@ -202,6 +205,7 @@ class MyApp extends App {
         if (req && req.session && req.session.token) {
             token = req.session.token;
         }
+
         return {
             pageProps: {
                 ...pageProps,
@@ -337,7 +341,7 @@ class MyApp extends App {
                     ? GTM.gtmId[publicRuntimeConfig.appEnv]
                     : GTM.gtmId.dev,
         };
-        // if (GTM.enable) TagManager.initialize(tagManagerArgs);
+        if (GTM.enable) TagManager.initialize(tagManagerArgs);
 
         /*
          * ---------------------------------------------

@@ -5,8 +5,9 @@ mutation getToken(
     $username: String!,
     $password: String!,
 ) {
-  internalGenerateCustomerToken(username: $username, password: $password){
-      token
+
+    generateCustomerTokenCustom(username: $username, password: $password){
+        token
     }
   }
 `;
@@ -32,27 +33,26 @@ mutation getToken(
     $username: String!,
     $otp: String!,
 ) {
-  internalGenerateCustomerTokenOtp(username: $username, otp: $otp){
-      originalToken
-      token
-      message
+    generateCustomerTokenCustom(username: $username, otp: $otp){
+        token
     }
   }
 `;
 
 export const getCustomerTokenPhoneEmail = gql`
     mutation getToken($username: String!, $password: String!) {
-        internalGenerateCustomerTokenCustom(username: $username, password: $password) {
-            originalToken
+        generateCustomerTokenCustom(
+            username: $username,
+            password: $password
+        ) {
             token
-            message
         }
     }
 `;
 
 export const removeToken = gql`
     mutation {
-        internalDeleteCustomerToken {
+        revokeCustomerToken {
             result
         }
     }

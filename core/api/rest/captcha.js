@@ -9,53 +9,57 @@ module.exports = async (req, res) => {
     const appEnv = await getAppEnv();
     const query = recaptchaConfig;
 
-    const fetchResult = await fetch(graphqlEndpoint[appEnv], {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query }),
-    });
+    try {
+        const fetchResult = await fetch(graphqlEndpoint[appEnv], {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query }),
+        });
 
-    const result = await fetchResult.json();
+        const result = await fetchResult.json();
 
-    if (appEnv === 'local') {
-        secret = result
-            && result.data
-            && result.data.storeConfig
-            && result.data.storeConfig.pwa
-            && result.data.storeConfig.pwa.recaptcha_server_key_local;
-    } else if (appEnv === 'dev') {
-        secret = result
-            && result.data
-            && result.data.storeConfig
-            && result.data.storeConfig.pwa
-            && result.data.storeConfig.pwa.recaptcha_server_key_dev;
-    } else if (appEnv === 'stage') {
-        secret = result
-            && result.data
-            && result.data.storeConfig
-            && result.data.storeConfig.pwa
-            && result.data.storeConfig.pwa.recaptcha_server_key_stage;
-    } else if (appEnv === 'prod') {
-        secret = result
-            && result.data
-            && result.data.storeConfig
-            && result.data.storeConfig.pwa
-            && result.data.storeConfig.pwa.recaptcha_server_key_prod;
-    }
+        if (appEnv === 'local') {
+            secret = result
+                && result.data
+                && result.data.storeConfig
+                && result.data.storeConfig.pwa
+                && result.data.storeConfig.pwa.recaptcha_server_key_local;
+        } else if (appEnv === 'dev') {
+            secret = result
+                && result.data
+                && result.data.storeConfig
+                && result.data.storeConfig.pwa
+                && result.data.storeConfig.pwa.recaptcha_server_key_dev;
+        } else if (appEnv === 'stage') {
+            secret = result
+                && result.data
+                && result.data.storeConfig
+                && result.data.storeConfig.pwa
+                && result.data.storeConfig.pwa.recaptcha_server_key_stage;
+        } else if (appEnv === 'prod') {
+            secret = result
+                && result.data
+                && result.data.storeConfig
+                && result.data.storeConfig.pwa
+                && result.data.storeConfig.pwa.recaptcha_server_key_prod;
+        }
 
-    await fetch('https://www.google.com/recaptcha/api/siteverify', {
-        method: 'post',
-        body: qs.stringify({
-            response,
-            secret,
-        }),
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    })
-        .then((data) => data.json())
-        .then((json) => {
-            res.status(200).json(json);
+        await fetch('https://www.google.com/recaptcha/api/siteverify', {
+            method: 'post',
+            body: qs.stringify({
+                response,
+                secret,
+            }),
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         })
-        .catch((err) => res.status(500).json(err));
+            .then((data) => data.json())
+            .then((json) => {
+                res.status(200).json(json);
+            })
+            .catch((err) => res.status(500).json(err));
+    } catch (error) {
+        res.status(500).json(error);
+    }
 };

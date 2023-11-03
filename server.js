@@ -8,11 +8,10 @@ const next = require('next');
 const http = require('http');
 const blocker = require('express-user-agent-blocker');
 const fs = require('fs');
-const { parse } = require('url');
+// const { parse } = require('url');
 
 const LRUCache = require('lru-cache');
 const cookieParser = require('cookie-parser');
-const path = require('path');
 const remoteSchema = require('./core/api/graphql');
 const nextI18next = require('./core/lib/i18n');
 const { basePath } = require('./swift.config');
@@ -22,15 +21,8 @@ const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
 
 const {
-    expiredToken, nossrCache, features, assetsVersion,
+    expiredToken, nossrCache, features,
 } = require('./swift.config');
-const generateXml = require('./core/api/rest/xml');
-const captchaValidation = require('./core/api/rest/captcha');
-const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
-const geocodingServices = require('./core/api/rest/geocoding');
-
-// paypal
-const getPaypalDetail = require('./core/api/rest/paypal/getDetailTransaction');
 
 // This is where we cache our rendered HTML pages
 const ssrCache = new LRUCache({
@@ -96,37 +88,6 @@ async function renderAndCache(req, res) {
     // disable x-powered-by
     server.disable('x-powered-by');
     // if ssr cache on
-    if (features.ssrCache) {
-        // handle next js request
-        server.get(path.join(basePath, '/_next'), (req, res) => {
-            /* serving _next static content using next.js handler */
-            handle(req, res);
-        });
-
-        server.get(path.join(basePath, '/assets/*'), (req, res) => {
-            /* serving assets static content using next.js handler */
-            handle(req, res);
-        });
-
-        server.get(path.join(basePath, '/static/*'), (req, res) => {
-            /* serving static content using next.js handler */
-            handle(req, res);
-        });
-
-        server.get(path.join(basePath, '/manifest.json'), (req, res) => {
-            /* serving manifest json */
-            handle(req, res);
-        });
-
-        server.get(path.join(basePath, '/favicon.ico'), (req, res) => {
-            /* serving manifest json */
-            handle(req, res);
-        });
-        server.get(path.join(basePath, '/service-worker.js'), (req, res) => {
-            /* serving service-worker */
-            handle(req, res);
-        });
-    }
 
     await nextI18next.initPromise;
     // server.use(nextI18NextMiddleware(nextI18next));
@@ -167,70 +128,6 @@ async function renderAndCache(req, res) {
     });
     // serverGraph.applyMiddleware({ app: server,  });
     serverGraph.applyMiddleware({ app: server, path: `${basePath}/graphql` });
-
-    /**
-     * handle maintenance pave
-     */
-    server.get(path.join(basePath, '/maintenance'), (req, res) => {
-        res.sendFile(path.join(__dirname, '/public/static/maintenance.html'));
-    });
-
-    server.get(path.join(basePath, '/sitemap.xml'), generateXml);
-    server.post(path.join(basePath, '/captcha-validation'), captchaValidation);
-
-    // add firebase validation
-    server.post(path.join(basePath, '/auth/fcm-token'), firebaseValidation);
-
-    // paypal route
-    server.post(path.join(basePath, '/paypal/detail-transaction'), getPaypalDetail);
-
-    // geocoding services
-    server.post(path.join(basePath, '/geocoding-services'), geocodingServices);
-
-    server.get('*.woff2?', (req, res) => {
-        res.setHeader('Cache-Control', 'public,max-age=31536000');
-        handle(req, res);
-    });
-
-    /**
-     * configuration firebase messaging
-     *   */
-    const serviceWorkers = [
-        // {
-        //     filename: 'firebase-messaging-sw.js',
-        //     pathfile: `./public/static/firebase/firebase-messaging-sw.${assetsVersion}.js`,
-        // },
-        // {
-        //     filename: 'sw.js',
-        //     pathfile: './core/public/sw.js',
-        // },
-        // {
-        //     filename: '.well-known/assetlinks.json',
-        //     pathfile: './public/static/assetlinks.json',
-        // },
-    ];
-
-    // serviceWorkers.forEach(({ filename, pathfile }) => {
-    //     // console.log('pathfile', pathfile);
-    //     server.get(path.join(basePath, '.next', filename), (req, res) => {
-    //         app.serveStatic(req, res, pathfile);
-    //     });
-    // });
-
-    // server.get(/(static\/chunks)/g, (req, res) => {
-    //     const filePath = path.join(basePath, '.next', './core/public/sw.js')
-    //     app.serveStatic(req, res, filePath);
-    // });
-
-    server.get(/^(\/static\/chunks)/g, (req, res) => {
-        const parsedUrl = parse(req.originalUrl, true);
-        // console.log('parsedUrl', parsedUrl);
-
-        const { pathname } = parsedUrl;
-
-        const filePath = path.join(basePath, '.next', pathname);
-        app.serveStatic(req, res, filePath);
-    });
 
     // server.get('*', (req, res) => handle(req, res));
     server.get('*', (req, res) => {

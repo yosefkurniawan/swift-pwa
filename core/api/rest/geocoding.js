@@ -1,14 +1,12 @@
 const { decrypt } = require('../../helpers/clientEncryption');
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
     const { query, gmapApiKey } = req.body;
-
-    fetch(`https://gmapkey.sandbox.id/maps/api/geocode/json?address=${query}&key=${decrypt(gmapApiKey)}`)
-        .then((response) => response.json())
-        .then((responseData) => {
-            res.status(200).json(responseData);
-        })
-        .catch((e) => {
-            res.status(500).json(e);
-        });
+    try {
+        const respond = await fetch(`https://gmapkey.sandbox.id/maps/api/geocode/json?address=${query}&key=${decrypt(gmapApiKey)}`);
+        const result = await respond.json();
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json(error);
+    }
 };

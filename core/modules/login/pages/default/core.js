@@ -7,7 +7,7 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable no-shadow */
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { custDataNameCookie, expiredToken } from '@config';
+import { custDataNameCookie, customerTokenKey, expiredToken } from '@config';
 import { getAppEnv } from '@helpers/env';
 import { getLastPathWithoutLogin, setLogin } from '@helper_auth';
 import { getCartId, setCartId } from '@helper_cartid';
@@ -188,7 +188,8 @@ const Login = (props) => {
 
     // handle revoke token
     React.useEffect(() => {
-        if (!isRevokeToken && typeof window !== 'undefined') {
+        const ct = Cookies.get('customerTokenKey');
+        if (!isRevokeToken && ct && typeof window !== 'undefined') {
             setRevokeToken(true);
             deleteTokenGql();
         }
@@ -267,13 +268,14 @@ const Login = (props) => {
                 .then(async (res) => {
                     let token = '';
                     if (formOtp == 'otp') {
-                        token = res.data.internalGenerateCustomerTokenOtp.token;
+                        token = res.data.generateCustomerTokenCustom.token;
                     } else if (formOtp == 'password') {
-                        token = res.data.internalGenerateCustomerToken.token;
+                        token = res.data.generateCustomerTokenCustom.token;
                     } else if (formOtp == 'phoneEmail') {
-                        token = res.data.internalGenerateCustomerTokenCustom.token;
+                        token = res.data.generateCustomerTokenCustom.token;
                     }
                     if (token) {
+                        Cookies.set(customerTokenKey, token);
                         setLogin(1, expired);
                         await setIsLogin(1);
                     }

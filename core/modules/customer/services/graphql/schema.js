@@ -321,7 +321,7 @@ export const getCustomer = (config = {}) => gql`
 
 export const removeToken = gql`
 mutation {
-  internalDeleteCustomerToken{
+  revokeCustomerToken {
     result
   }
 }

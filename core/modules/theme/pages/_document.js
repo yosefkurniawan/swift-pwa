@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
 /* eslint-disable react/no-danger */
 import React from 'react';
@@ -20,10 +21,15 @@ export default class MyDocument extends Document {
                 environment: process.env.APP_ENV || 'prod',
             };
         }
-        // eslint-disable-next-line no-underscore-dangle
-        const currentLang = this.props.__NEXT_DATA__.props.initialLanguage;
+
+        let lang = 'en';
+
+        if (this.props?.__NEXT_DATA__?.props?.initialLanguage) {
+            lang = this.props?.__NEXT_DATA__?.props?.initialLanguage;
+        }
+
         return (
-            <Html lang={currentLang}>
+            <Html lang={lang}>
                 <HeadCustom>
                     {/* PWA primary color */}
                     <meta name="theme-color" content={theme.palette.primary.main} />

@@ -11,7 +11,7 @@ const withPWA = require('next-pwa')({
     skipWaiting: true,
     disable: process.env.NODE_ENV === 'development',
 });
-const { basePath } = require('./swift.config');
+const { basePath, assetsVersion } = require('./swift.config');
 
 module.exports = withPWA({
     basePath,
@@ -62,8 +62,46 @@ module.exports = withPWA({
     async rewrites() {
         return [
             {
-                source: `${basePath}/service-worker.js`,
-                destination: '/_next/static/service-worker.js',
+                source: `${basePath}/firebase-messaging-sw.js`,
+                destination: `/static/firebase/firebase-messaging-sw.${assetsVersion}.js`,
+            },
+            {
+                source: `${basePath}/.well-known/assetlinks.json`,
+                destination: '/static/assetlinks.json',
+            },
+            {
+                source: `${basePath}/maintenance`,
+                destination: '/static/maintenance.html',
+            },
+            {
+                source: `${basePath}/manifest.json`,
+                destination: '/manifest.json',
+            },
+            {
+                source: `${basePath}/favicon.ico`,
+                destination: '/favicon.ico',
+            },
+            {
+                source: `${basePath}/sitemap.xml`,
+                destination: '/api/sitemap',
+            },
+            {
+                source: `${basePath}/captcha-validation`,
+                destination: '/api/captcha-validation',
+            },
+
+            {
+                source: `${basePath}/auth/fcm-token`,
+                destination: '/api/auth/fcm-token',
+            },
+
+            {
+                source: `${basePath}/paypal/detail-transaction`,
+                destination: '/api/paypal/detail-transaction',
+            },
+            {
+                source: `${basePath}/geocoding-services`,
+                destination: '/api/geocoding-services',
             },
         ];
     },
