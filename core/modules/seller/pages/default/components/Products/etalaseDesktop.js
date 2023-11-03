@@ -34,51 +34,51 @@ function EtalaseDesktop({
                                 }}
                                 key={0}
                             >
-                                <a>
-                                    <ListItem
-                                        button
-                                        selected={selectedIndex === 0}
-                                        onClick={(event) => handleListItemClick(event, 0)}
-                                    >
-                                        <ListItemIcon><img src="/assets/img/etalase-product.svg" alt="etalase-product" width="24px" /></ListItemIcon>
-                                        <ListItemText>
-                                            <Typography variant="label" type="regular" size="12">
-                                                {t('seller:allProducts')}
-                                            </Typography>
-                                        </ListItemText>
 
-                                    </ListItem>
-                                </a>
+                                <ListItem
+                                    button
+                                    selected={selectedIndex === 0}
+                                    onClick={(event) => handleListItemClick(event, 0)}
+                                >
+                                    <ListItemIcon><img src="/assets/img/etalase-product.svg" alt="etalase-product" width="24px" /></ListItemIcon>
+                                    <ListItemText>
+                                        <Typography variant="label" type="regular" size="12">
+                                            {t('seller:allProducts')}
+                                        </Typography>
+                                    </ListItemText>
+
+                                </ListItem>
+
                             </Link>
                             { data.map((list) => (
-                                <Link
+                                (<Link
                                     href={{
                                         pathname: url,
                                         query: { filter: list.entity_id },
                                     }}
                                     key={list.entity_id}
                                 >
-                                    <a>
-                                        <ListItem
-                                            button
-                                            selected={selectedIndex === list.entity_id}
-                                            onClick={(event) => handleListItemClick(event, list.entity_id)}
-                                        >
 
-                                            {
-                                                list.image && (
-                                                    <ListItemIcon><img src={list.image} alt={list.name} width="24px" /></ListItemIcon>
-                                                )
-                                            }
-                                            <ListItemText>
-                                                <Typography variant="label" type="regular" size="12">
-                                                    {list.name}
-                                                </Typography>
-                                            </ListItemText>
+                                    <ListItem
+                                        button
+                                        selected={selectedIndex === list.entity_id}
+                                        onClick={(event) => handleListItemClick(event, list.entity_id)}
+                                    >
 
-                                        </ListItem>
-                                    </a>
-                                </Link>
+                                        {
+                                            list.image && (
+                                                <ListItemIcon><img src={list.image} alt={list.name} width="24px" /></ListItemIcon>
+                                            )
+                                        }
+                                        <ListItemText>
+                                            <Typography variant="label" type="regular" size="12">
+                                                {list.name}
+                                            </Typography>
+                                        </ListItemText>
+
+                                    </ListItem>
+
+                                </Link>)
                             ))}
                         </List>
                     )

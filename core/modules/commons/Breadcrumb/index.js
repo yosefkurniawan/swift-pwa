@@ -36,11 +36,11 @@ const ItemBreadcrub = ({
 }) => {
     if (link) {
         return (
-            <Link href={`${link}`} passHref>
-                <a onClick={() => handleClick(link, id)}>
-                    <Chip size="small" label={label} color={active ? 'secondary' : 'default'} />
-                </a>
-            </Link>
+            (<Link href={`${link}`} passHref onClick={() => handleClick(link, id)}>
+
+                <Chip size="small" label={label} color={active ? 'secondary' : 'default'} />
+
+            </Link>)
         );
     }
 
@@ -54,9 +54,9 @@ const CustomBreadcrumb = ({ data = [], variant = 'text' }) => {
     return (
         <Breadcrumbs separator={<NavigateNext fontSize="small" />} className={styles.root}>
             <Link href="/" className={styles.home}>
-                <a>
-                    <Typography variant="p">Home</Typography>
-                </a>
+
+                <Typography variant="p">Home</Typography>
+
             </Link>
             {
                 variant === 'chip' ? data.map(({
@@ -75,15 +75,15 @@ const CustomBreadcrumb = ({ data = [], variant = 'text' }) => {
                     }, index) => {
                         if (link) {
                             return (
-                                <Link
+                                (<Link
                                     href={link}
                                     onClick={index === data.length - 1 ? () => {} : () => handleClick(link, id)}
                                     key={index}
                                 >
-                                    <a>
-                                        <Typography variant="p" type={active ? 'bold' : 'regular'}>{label}</Typography>
-                                    </a>
-                                </Link>
+
+                                    <Typography variant="p" type={active ? 'bold' : 'regular'}>{label}</Typography>
+
+                                </Link>)
                             );
                         }
                         return (

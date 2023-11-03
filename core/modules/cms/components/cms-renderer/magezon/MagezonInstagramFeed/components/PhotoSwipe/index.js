@@ -228,39 +228,31 @@ const PhotoSwipe = (props) => {
                                     <ClickAwayListener onClickAway={handleClose}>
                                         <MenuList autoFocusItem={openShare} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                             <MenuItem onClick={handleClose}>
-                                                <Link
-                                                    href={getLink('fb')}
-                                                >
-                                                    <a target="_blank">
-                                                        {t('common:instagramFeed:shareFb')}
-                                                    </a>
+                                                <Link href={getLink('fb')} target="_blank">
+
+                                                    {t('common:instagramFeed:shareFb')}
+
                                                 </Link>
                                             </MenuItem>
                                             <MenuItem onClick={handleClose}>
-                                                <Link
-                                                    href={getLink('tweet')}
-                                                >
-                                                    <a target="_blank">
-                                                        {t('common:instagramFeed:tweet')}
-                                                    </a>
+                                                <Link href={getLink('tweet')} target="_blank">
+
+                                                    {t('common:instagramFeed:tweet')}
+
                                                 </Link>
                                             </MenuItem>
                                             <MenuItem onClick={handleClose}>
-                                                <Link
-                                                    href={getLink('pin')}
-                                                >
-                                                    <a target="_blank">
-                                                        {t('common:instagramFeed:pinit')}
-                                                    </a>
+                                                <Link href={getLink('pin')} target="_blank">
+
+                                                    {t('common:instagramFeed:pinit')}
+
                                                 </Link>
                                             </MenuItem>
                                             <MenuItem onClick={handleClose}>
-                                                <Link
-                                                    href={data[slideIndex].media_url || '#'}
-                                                >
-                                                    <a target="_blank">
-                                                        {t('common:instagramFeed:downloadImage')}
-                                                    </a>
+                                                <Link href={data[slideIndex].media_url || '#'} target="_blank">
+
+                                                    {t('common:instagramFeed:downloadImage')}
+
                                                 </Link>
                                             </MenuItem>
                                         </MenuList>

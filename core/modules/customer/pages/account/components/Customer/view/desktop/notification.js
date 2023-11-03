@@ -18,57 +18,57 @@ const NotificationView = (props) => {
             query: { notif: item.entityId },
         });
     };
-    return (
-        <>
-            <h2 className={styles.infoTitle}>
-                {t('customer:menu:notification')}
-                <Link href="/inboxnotification/notification">
-                    <a className={styles.desktopLinkHeader}>{t('customer:menu:viewall')}</a>
-                </Link>
-            </h2>
-            <hr />
-            <div className="row notification">
-                <div className="col-sm-12 col-lg-12">
-                    {
-                        notification && notification.items && notification.totalUnread && notification.totalUnread && (
-                            <TableContainer component={Paper}>
-                                <Table aria-label="simple table">
-                                    <TableBody>
-                                        {notification.items ? (
-                                            notification.items.map((val, idx) => {
-                                                if (val.unread) {
-                                                    return (
-                                                        <TableRow
-                                                            className="notification-list"
-                                                            key={idx}
-                                                            onClick={() => handleItemClick(val)}
-                                                        >
-                                                            <TableCell>{val.subject}</TableCell>
-                                                            <TableCell align="right">{formatDate(val.createdAt)}</TableCell>
-                                                        </TableRow>
-                                                    );
-                                                }
-                                                return null;
-                                            })
+    return <>
+        <h2 className={styles.infoTitle}>
+            {t('customer:menu:notification')}
+            <Link
+                href="/inboxnotification/notification"
+                className={styles.desktopLinkHeader}>
+                {t('customer:menu:viewall')}
+            </Link>
+        </h2>
+        <hr />
+        <div className="row notification">
+            <div className="col-sm-12 col-lg-12">
+                {
+                    notification && notification.items && notification.totalUnread && notification.totalUnread && (
+                        <TableContainer component={Paper}>
+                            <Table aria-label="simple table">
+                                <TableBody>
+                                    {notification.items ? (
+                                        notification.items.map((val, idx) => {
+                                            if (val.unread) {
+                                                return (
+                                                    <TableRow
+                                                        className="notification-list"
+                                                        key={idx}
+                                                        onClick={() => handleItemClick(val)}
+                                                    >
+                                                        <TableCell>{val.subject}</TableCell>
+                                                        <TableCell align="right">{formatDate(val.createdAt)}</TableCell>
+                                                    </TableRow>
+                                                );
+                                            }
+                                            return null;
+                                        })
 
-                                        ) : null }
-                                        {!notification.totalUnread || notification.totalUnread === 0
-                                            ? (
-                                                <TableRow>
-                                                    <TableCell align="center" colSpan="2">{t('customer:notHaveNotification')}</TableCell>
-                                                </TableRow>
-                                            )
-                                            : null}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        )
-                    }
+                                    ) : null }
+                                    {!notification.totalUnread || notification.totalUnread === 0
+                                        ? (
+                                            <TableRow>
+                                                <TableCell align="center" colSpan="2">{t('customer:notHaveNotification')}</TableCell>
+                                            </TableRow>
+                                        )
+                                        : null}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    )
+                }
 
-                </div>
             </div>
-        </>
-    );
+        </div>
+    </>;
 };
 
 export default NotificationView;

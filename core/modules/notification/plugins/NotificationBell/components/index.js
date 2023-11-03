@@ -7,15 +7,15 @@ import Link from 'next/link';
 const Content = ({ withLink, totalUnread }) => {
     if (withLink) {
         return (
-            <Link
+            (<Link
                 href={withLink && '/inboxnotification/notification'}
-            >
-                <a style={{ margin: 20, cursor: 'pointer' }}>
-                    <Badge color="secondary" badgeContent={totalUnread || 0}>
-                        <NotificationsIcon color="secondary" />
-                    </Badge>
-                </a>
-            </Link>
+                style={{ margin: 20, cursor: 'pointer' }}>
+
+                <Badge color="secondary" badgeContent={totalUnread || 0}>
+                    <NotificationsIcon color="secondary" />
+                </Badge>
+
+            </Link>)
         );
     }
 

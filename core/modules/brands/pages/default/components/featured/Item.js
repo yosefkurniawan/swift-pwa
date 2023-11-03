@@ -8,31 +8,30 @@ const ItemFeatured = (props) => {
     const {
         key, logo, name, category_url, is_active,
     } = props;
-    return (
-        <>
-            {is_active === 1 ? (
-                <>
-                    {category_url ? (
-                        <Link href="/[...slug]" as={category_url}>
-                            <a
-                                key={key}
-                                className={styles.container}
-                            >
-                                <img className={styles.imgBrand} src={logo} alt={name} />
-                            </a>
-                        </Link>
-                    ) : (
-                        <div
-                            key={key}
-                            className={styles.container}
-                        >
-                            <img className={styles.imgBrand} src={logo} alt={name} />
-                        </div>
-                    )}
-                </>
-            ) : null}
-        </>
-    );
+    return <>
+        {is_active === 1 ? (
+            <>
+                {category_url ? (
+                    (<Link
+                        href="/[...slug]"
+                        as={category_url}
+                        key={key}
+                        className={styles.container}>
+
+                        <img className={styles.imgBrand} src={logo} alt={name} />
+
+                    </Link>)
+                ) : (
+                    <div
+                        key={key}
+                        className={styles.container}
+                    >
+                        <img className={styles.imgBrand} src={logo} alt={name} />
+                    </div>
+                )}
+            </>
+        ) : null}
+    </>;
 };
 
 export default ItemFeatured;

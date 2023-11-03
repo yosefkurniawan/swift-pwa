@@ -18,7 +18,7 @@ const RestrictionPopup = (props) => {
                         {`${cookiesMessage[1]}.`}
                     </Typography>
                     <Typography variant="title" type="semiBold" style={{ cursor: 'pointer', fontSize: 12 }}>
-                        <Link href="/privacy-policy-cookie-restriction-mode">
+                        <Link href="/privacy-policy-cookie-restriction-mode" legacyBehavior>
                             {`${cookiesMessage[2]}.`}
                         </Link>
                     </Typography>

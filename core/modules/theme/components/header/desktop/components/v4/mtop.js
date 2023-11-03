@@ -66,212 +66,210 @@ const ViewTop = (props) => {
         }
     }, [triger]);
 
-    return (
-        <>
-            <ul>
-                <li style={{ padding: '5px 0px !important' }}>
-                    {enablePopupInstallation ? <DesktopInstallAppV4 appName={appName} installMessage={installMessage} /> : null}
-                </li>
-                <li>
-                    {!isLogin ? (
-                        t('common:header:welcome')
-                    ) : (
-                        <>
-                            <Link href="/customer/account">
-                                <a>
-                                    {data.customer
-                                        ? `${t('common:header:hi').replace('$', `${data.customer.firstname} ${data.customer.lastname}`)} 
-                                    ${adminId !== undefined && adminId !== '' ? `(Login By ${JSON.parse(adminId)[1]})` : ''}`
-                                        : null}
-                                </a>
-                            </Link>
-                            <ul>
-                                <li>
-                                    <Link href="/customer/account">
-                                        <a>{t('common:menu:myaccount')}</a>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="/wishlist">
-                                        <a>
-                                            {t('common:menu:mywishlist')}
-                                            ({ data.customer?.wishlists[0].items_v2
-                                                ? data.customer?.wishlists[0].items_v2.items.length : 0} items ){' '}
-                                        </a>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <a href="#" onClick={handleLogout}>
-                                        {t('common:menu:signout')}
+    return <>
+        <ul>
+            <li style={{ padding: '5px 0px !important' }}>
+                {enablePopupInstallation ? <DesktopInstallAppV4 appName={appName} installMessage={installMessage} /> : null}
+            </li>
+            <li>
+                {!isLogin ? (
+                    t('common:header:welcome')
+                ) : (
+                    <>
+                        <Link href="/customer/account" legacyBehavior>
+                            <a>
+                                {data.customer
+                                    ? `${t('common:header:hi').replace('$', `${data.customer.firstname} ${data.customer.lastname}`)} 
+                                ${adminId !== undefined && adminId !== '' ? `(Login By ${JSON.parse(adminId)[1]})` : ''}`
+                                    : null}
+                            </a>
+                        </Link>
+                        <ul>
+                            <li>
+                                <Link href="/customer/account" legacyBehavior>
+                                    <a>{t('common:menu:myaccount')}</a>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/wishlist" legacyBehavior>
+                                    <a>
+                                        {t('common:menu:mywishlist')}
+                                        ({ data.customer?.wishlists[0].items_v2
+                                            ? data.customer?.wishlists[0].items_v2.items.length : 0} items ){' '}
                                     </a>
-                                </li>
-                            </ul>
-                        </>
-                    )}
-                </li>
-                {!isLogin
-                    ? desktop ? (
-                        <li>
-                            <Link href="/customer/account/login">
-                                <a id="header-menu-btnsign">{t('common:menu:sign')}</a>
-                            </Link>
-                            {' '}
-                            {t('common:menu:or')}
-                            {' '}
-                            <Link href="/customer/account/create">
-                                <a id="header-menu-btnregister">{t('common:menu:register')}</a>
-                            </Link>
-                            {' '}
-                        </li>
-                    ) : (
-                        <li>
-                            <Link href="/customer/account">
-                                <a>{t('common:menu:account')}</a>
-                            </Link>
-                        </li>
-                    ) : null}
-                <li>
-                    <SwitcherLanguage {...props} />
-                </li>
-                <li>
-                    <SwitcherCurrency {...props} />
-                </li>
-                <li>
-                    <SwitcherMenu {...props} />
-                </li>
-            </ul>
-            <div className="header-middle__right" id="top-searchbox">
-                <div className="box">
-                    <div className="header-middle__icons">
-                        <div className="notification">
-                            <NotificationBell withLink />
-                        </div>
-                        {modules.productcompare.enabled && (
-                            <div className="shopping-bag">
-                                <ProductCompareIcon withLink isLogin={isLogin} />
-                            </div>
-                        )}
-                        <div id="header-shoppingBag-icon" className="shopping-bag">
-                            <ShoppingBagIcon withLink storeConfig={storeConfig} />
-                        </div>
+                                </Link>
+                            </li>
+                            <li>
+                                <a href="#" onClick={handleLogout}>
+                                    {t('common:menu:signout')}
+                                </a>
+                            </li>
+                        </ul>
+                    </>
+                )}
+            </li>
+            {!isLogin
+                ? desktop ? (
+                    <li>
+                        <Link href="/customer/account/login" legacyBehavior>
+                            <a id="header-menu-btnsign">{t('common:menu:sign')}</a>
+                        </Link>
+                        {' '}
+                        {t('common:menu:or')}
+                        {' '}
+                        <Link href="/customer/account/create" legacyBehavior>
+                            <a id="header-menu-btnregister">{t('common:menu:register')}</a>
+                        </Link>
+                        {' '}
+                    </li>
+                ) : (
+                    <li>
+                        <Link href="/customer/account" legacyBehavior>
+                            <a>{t('common:menu:account')}</a>
+                        </Link>
+                    </li>
+                ) : null}
+            <li>
+                <SwitcherLanguage {...props} />
+            </li>
+            <li>
+                <SwitcherCurrency {...props} />
+            </li>
+            <li>
+                <SwitcherMenu {...props} />
+            </li>
+        </ul>
+        <div className="header-middle__right" id="top-searchbox">
+            <div className="box">
+                <div className="header-middle__icons">
+                    <div className="notification">
+                        <NotificationBell withLink />
                     </div>
-                    <div className="header-middle__search">
-                        <Autocomplete
-                            setValue={setValue}
-                            handleSearch={handleSearch}
-                            OptionsItem={OptionAutocomplete}
-                            t={t}
-                            storeConfig={storeConfig}
-                        />
-                        <div className="search-icon">
-                            <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">
-                                <SearchIcon />
-                            </IconButton>
+                    {modules.productcompare.enabled && (
+                        <div className="shopping-bag">
+                            <ProductCompareIcon withLink isLogin={isLogin} />
                         </div>
+                    )}
+                    <div id="header-shoppingBag-icon" className="shopping-bag">
+                        <ShoppingBagIcon withLink storeConfig={storeConfig} />
+                    </div>
+                </div>
+                <div className="header-middle__search">
+                    <Autocomplete
+                        setValue={setValue}
+                        handleSearch={handleSearch}
+                        OptionsItem={OptionAutocomplete}
+                        t={t}
+                        storeConfig={storeConfig}
+                    />
+                    <div className="search-icon">
+                        <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">
+                            <SearchIcon />
+                        </IconButton>
                     </div>
                 </div>
             </div>
-            <style jsx>
-                {`
-                    ul {
-                        margin: 0;
-                        list-style: none;
-                        padding: 0;
-                        float: left;
-                        font-size: 10px;
-                        text-transform: uppercase;
-                    }
+        </div>
+        <style jsx>
+            {`
+                ul {
+                    margin: 0;
+                    list-style: none;
+                    padding: 0;
+                    float: left;
+                    font-size: 10px;
+                    text-transform: uppercase;
+                }
 
-                    li {
-                        display: inline-block;
-                        padding: 5px 10px;
+                li {
+                    display: inline-block;
+                    padding: 5px 10px;
+                    position: relative;
+                }
+                li:hover > ul {
+                    display: block;
+                }
+                ul ul {
+                    position: absolute;
+                    display: none;
+                    margin: 0;
+                    padding: 5px 10px;
+                    z-index: 999;
+                    background: #fff;
+                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+                }
+                ul ul li {
+                    display: block;
+                }
+
+                ul ul ul {
+                    position: absolute;
+                    top: 0;
+                    left: 100%;
+                }
+                a {
+                    color: ${storeConfig && storeConfig.pwa && storeConfig.pwa.primary_color} !important;
+                    text-decoration: none;
+                }
+
+                a:hover {
+                    border-bottom: 1px dashed #fff;
+                    color: #b9acac;
+                }
+                @media screen and (max-width: 1024px) {
+                    .header-middle__search {
+                        display: flex;
+                        align-items: center;
+                        float: right;
+                        top: -1rem;
+                        right: 1rem;
                         position: relative;
+                        margin-top: unset;
                     }
-                    li:hover > ul {
-                        display: block;
-                    }
-                    ul ul {
-                        position: absolute;
-                        display: none;
-                        margin: 0;
-                        padding: 5px 10px;
-                        z-index: 999;
-                        background: #fff;
-                        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-                    }
-                    ul ul li {
-                        display: block;
-                    }
-
-                    ul ul ul {
-                        position: absolute;
-                        top: 0;
-                        left: 100%;
-                    }
-                    a {
-                        color: ${storeConfig && storeConfig.pwa && storeConfig.pwa.primary_color} !important;
-                        text-decoration: none;
-                    }
-
-                    a:hover {
-                        border-bottom: 1px dashed #fff;
-                        color: #b9acac;
-                    }
-                    @media screen and (max-width: 1024px) {
-                        .header-middle__search {
-                            display: flex;
-                            align-items: center;
-                            float: right;
-                            top: -1rem;
-                            right: 1rem;
-                            position: relative;
-                            margin-top: unset;
-                        }
-                    }
-                    @media screen and (min-width: 1025px) {
-                        .header-middle__search {
-                            display: flex;
-                            align-items: center;
-                            float: right;
-                            position: relative;
-                            margin-top: -0.75rem;
-                        }
-                    }
-                    .search-icon {
-                        position: absolute;
-                        right: -10px;
-                        top: 7px;
-                        background: #fff;
-                        z-index: 9;
-                    }
-                    .header-middle__icons {
+                }
+                @media screen and (min-width: 1025px) {
+                    .header-middle__search {
+                        display: flex;
+                        align-items: center;
+                        float: right;
                         position: relative;
                         margin-top: -0.75rem;
-                        float: right;
-                        padding-left: 4px;
-                        padding-right: 16px;
                     }
-                    .header-middle__icons > div {
-                        margin-right: -5px;
-                        margin-left: 0px;
-                        display: inline-block;
+                }
+                .search-icon {
+                    position: absolute;
+                    right: -10px;
+                    top: 7px;
+                    background: #fff;
+                    z-index: 9;
+                }
+                .header-middle__icons {
+                    position: relative;
+                    margin-top: -0.75rem;
+                    float: right;
+                    padding-left: 4px;
+                    padding-right: 16px;
+                }
+                .header-middle__icons > div {
+                    margin-right: -5px;
+                    margin-left: 0px;
+                    display: inline-block;
+                }
+                .hide-searchbox {
+                    display: none !important;
+                    transition: display 1s ease;
+                }
+            `}
+        </style>
+        <style jsx global>
+            {`
+                @media screen and (max-width: 1024px) {
+                    #top-searchbox .header-middle__search .MuiAutocomplete-root {
+                        width: 10rem !important;
                     }
-                    .hide-searchbox {
-                        display: none !important;
-                        transition: display 1s ease;
-                    }
-                `}
-            </style>
-            <style jsx global>
-                {`
-                    @media screen and (max-width: 1024px) {
-                        #top-searchbox .header-middle__search .MuiAutocomplete-root {
-                            width: 10rem !important;
-                        }
-                    }
-                `}
-            </style>
-        </>
-    );
+                }
+            `}
+        </style>
+    </>;
 };
 export default ViewTop;

@@ -18,8 +18,8 @@ const generateData = (data, { t, styles }) => (
         <br />
         Indonesia
         <br />
-        <Link href="/customer/account/address">
-            <a className={styles.desktopLink}>{t('customer:address:editTitle')}</a>
+        <Link href="/customer/account/address" className={styles.desktopLink}>
+            {t('customer:address:editTitle')}
         </Link>
     </p>
 );
@@ -46,30 +46,28 @@ const AddressView = (props) => {
         }
     }
 
-    return (
-        <>
-            <h2 className={styles.infoTitle}>
-                {t('customer:menu:address')}
-                <Link href="/customer/account/address">
-                    <a className={styles.desktopLinkHeader}>{t('customer:address:editTitle')}</a>
-                </Link>
-            </h2>
-            <hr />
-            {addresses.length > 0 && defaultAddress ? (
-                <div className="row">
-                    <div className="col-sm-6 col-lg-6">
-                        <h3>{t('customer:address:defaultBilling')}</h3>
-                        {generateData(defaultBilling, props)}
-                    </div>
-                    <div className="col-sm-6 col-lg-6">
-                        <h3>{t('customer:address:defaultShiping')}</h3>
-                        {generateData(defaultShiping, props)}
-                    </div>
+    return <>
+        <h2 className={styles.infoTitle}>
+            {t('customer:menu:address')}
+            <Link href="/customer/account/address" className={styles.desktopLinkHeader}>
+                {t('customer:address:editTitle')}
+            </Link>
+        </h2>
+        <hr />
+        {addresses.length > 0 && defaultAddress ? (
+            <div className="row">
+                <div className="col-sm-6 col-lg-6">
+                    <h3>{t('customer:address:defaultBilling')}</h3>
+                    {generateData(defaultBilling, props)}
                 </div>
-            ) : <div style={{ textAlign: 'center' }}>{t('customer:address:emptyMessage')}</div>}
+                <div className="col-sm-6 col-lg-6">
+                    <h3>{t('customer:address:defaultShiping')}</h3>
+                    {generateData(defaultShiping, props)}
+                </div>
+            </div>
+        ) : <div style={{ textAlign: 'center' }}>{t('customer:address:emptyMessage')}</div>}
 
-        </>
-    );
+    </>;
 };
 
 export default AddressView;

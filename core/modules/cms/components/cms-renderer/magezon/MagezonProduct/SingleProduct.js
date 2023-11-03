@@ -37,7 +37,7 @@ const SingleProduct = (props) => {
     const isProductGrid = type === 'product_grid';
     const isSlider = type === 'product_slider';
     const userAgent = navigator && navigator.appVersion;
-    const regex = (/iPhone|iPad|iPod/i);
+    const regex = ((/iPhone|iPad|iPod/i));
     const isIOS = regex.test(userAgent);
     const { t } = useTranslation();
     // prettier-ignore
@@ -118,92 +118,76 @@ const SingleProduct = (props) => {
             </div>
         );
     };
-    return (
-        <>
-            <Grid
-                item={isProductGrid}
-                container
-                direction={isGrid || isProductGrid || isSlider ? 'column' : 'row'}
-                alignItems={isGrid || isSlider ? 'center' : 'stretch'}
-                className={`mgz-single-product-card ${getCol5Classes()}`}
-                {...responsiveProps}
-            >
-                {product_image && (
-                    <Grid
-                        item
-                        xs={isGrid ? 6 : isProductGrid || isSlider ? false : 3}
-                        container
-                        justify="center"
-                        alignItems={isProductGrid ? 'center' : 'stretch'}
-                    >
-                        <Link href={handleClick} prefetch={false}>
-                            <a style={{ width: defaultWidth }}>
-                                <Image
-                                    src={small_image.url}
-                                    width={defaultWidth}
-                                    height={defaultHeight}
-                                    alt={name}
-                                    storeConfig={storeConfig}
-                                />
-                            </a>
-                        </Link>
-                    </Grid>
-                )}
+    return <>
+        <Grid
+            item={isProductGrid}
+            container
+            direction={isGrid || isProductGrid || isSlider ? 'column' : 'row'}
+            alignItems={isGrid || isSlider ? 'center' : 'stretch'}
+            className={`mgz-single-product-card ${getCol5Classes()}`}
+            {...responsiveProps}
+        >
+            {product_image && (
                 <Grid
                     item
-                    xs={!isSlider}
-                    container={!isIOS}
-                    direction="column"
+                    xs={isGrid ? 6 : isProductGrid || isSlider ? false : 3}
+                    container
                     justify="center"
-                    alignItems={isGrid || isProductGrid || isSlider ? 'center' : 'stretch'}
+                    alignItems={isProductGrid ? 'center' : 'stretch'}
                 >
-                    {product_name && (
-                        <Grid item>
-                            <Typography variant="h4" className={styles.productTitle}>{name}</Typography>
-                        </Grid>
-                    )}
-                    {enableMultiSeller && seller.seller_name && (
-                        <div className={styles.infoSeller}>
-                            <StorefrontIcon className={styles.iconSeller} />
-                            <Typography variant="h4">
-                                {seller.seller_name}
-                            </Typography>
-                        </div>
-                    )}
-                    {product_review && (
-                        <Grid item container justify={isGrid || isProductGrid || isSlider ? 'center' : 'flex-start'}>
-                            <RatingStar value={review_count} />
-                            <Typography variant="p" type="regular" letter="capitalize">
-                                {review_count || 0} {review_count > 1 ? `${t('product:review')}s` : t('product:review')}
-                            </Typography>
-                        </Grid>
-                    )}
+                    <Link href={handleClick} prefetch={false} legacyBehavior>
+                        <a style={{ width: defaultWidth }}>
+                            <Image
+                                src={small_image.url}
+                                width={defaultWidth}
+                                height={defaultHeight}
+                                alt={name}
+                                storeConfig={storeConfig}
+                            />
+                        </a>
+                    </Link>
+                </Grid>
+            )}
+            <Grid
+                item
+                xs={!isSlider}
+                container={!isIOS}
+                direction="column"
+                justify="center"
+                alignItems={isGrid || isProductGrid || isSlider ? 'center' : 'stretch'}
+            >
+                {product_name && (
+                    <Grid item>
+                        <Typography variant="h4" className={styles.productTitle}>{name}</Typography>
+                    </Grid>
+                )}
+                {enableMultiSeller && seller.seller_name && (
+                    <div className={styles.infoSeller}>
+                        <StorefrontIcon className={styles.iconSeller} />
+                        <Typography variant="h4">
+                            {seller.seller_name}
+                        </Typography>
+                    </div>
+                )}
+                {product_review && (
                     <Grid item container justify={isGrid || isProductGrid || isSlider ? 'center' : 'flex-start'}>
-                        <Grid item>
-                            {generatePrice(priceData, price)}
-                            {product_shortdescription && (
-                                <Link href={url_key} prefetch={false}>
-                                    <CmsRenderer content={short_description.html} />
-                                </Link>
-                            )}
-                        </Grid>
-                        {(!isGrid && !isSlider) && (
-                            <Grid item style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end' }}>
-                                {modules.wishlist.enabled && product_wishlist && (
-                                    <IconButton className={styles.btnShare} onClick={handleAddtowishlist}>
-                                        {favoritIcon}
-                                    </IconButton>
-                                )}
-                                {modules.productcompare.enabled && product_compare && (
-                                    <IconButton className={styles.btnShare} onClick={() => handleSetCompareList(id)}>
-                                        <CompareArrowsIcon className={styles.iconShare} />
-                                    </IconButton>
-                                )}
-                            </Grid>
+                        <RatingStar value={review_count} />
+                        <Typography variant="p" type="regular" letter="capitalize">
+                            {review_count || 0} {review_count > 1 ? `${t('product:review')}s` : t('product:review')}
+                        </Typography>
+                    </Grid>
+                )}
+                <Grid item container justify={isGrid || isProductGrid || isSlider ? 'center' : 'flex-start'}>
+                    <Grid item>
+                        {generatePrice(priceData, price)}
+                        {product_shortdescription && (
+                            <Link href={url_key} prefetch={false} legacyBehavior>
+                                <CmsRenderer content={short_description.html} />
+                            </Link>
                         )}
                     </Grid>
-                    {(isGrid || isSlider) && (
-                        <Grid item>
+                    {(!isGrid && !isSlider) && (
+                        <Grid item style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end' }}>
                             {modules.wishlist.enabled && product_wishlist && (
                                 <IconButton className={styles.btnShare} onClick={handleAddtowishlist}>
                                     {favoritIcon}
@@ -217,47 +201,61 @@ const SingleProduct = (props) => {
                         </Grid>
                     )}
                 </Grid>
+                {(isGrid || isSlider) && (
+                    <Grid item>
+                        {modules.wishlist.enabled && product_wishlist && (
+                            <IconButton className={styles.btnShare} onClick={handleAddtowishlist}>
+                                {favoritIcon}
+                            </IconButton>
+                        )}
+                        {modules.productcompare.enabled && product_compare && (
+                            <IconButton className={styles.btnShare} onClick={() => handleSetCompareList(id)}>
+                                <CompareArrowsIcon className={styles.iconShare} />
+                            </IconButton>
+                        )}
+                    </Grid>
+                )}
             </Grid>
-            <style jsx>
-                {`
-                    .mgz-single-product-option-item {
-                        margin-top: 10px;
+        </Grid>
+        <style jsx>
+            {`
+                .mgz-single-product-option-item {
+                    margin-top: 10px;
+                }
+                .mgz-single-product-option-item :global(> div:not(div[class*='btnAdd'])) {
+                }
+                .mgz-single-product-option-item :global(div[role='radiogroup']) {
+                    ${isGrid ? 'justify-content: center;' : ''}
+                }
+                .mgz-single-product-price {
+                    ${isGrid || isProductGrid ? 'text-align: center;' : ''}
+                }
+                @media (max-width: 600px) {
+                    .mgz-single-product-option-item :global(div[role='radiogroup'] > div) {
+                        margin: 2px 5px;
                     }
-                    .mgz-single-product-option-item :global(> div:not(div[class*='btnAdd'])) {
+                    .mgz-single-product-option-item :global(div[role='radiogroup'] > div > span) {
+                        font-size: 11px;
                     }
-                    .mgz-single-product-option-item :global(div[role='radiogroup']) {
-                        ${isGrid ? 'justify-content: center;' : ''}
+                    .mgz-single-product-option-item :global(div[class*='btnAdd'] button) {
+                        font-size: 11px;
+                        height: 31px;
                     }
-                    .mgz-single-product-price {
-                        ${isGrid || isProductGrid ? 'text-align: center;' : ''}
-                    }
-                    @media (max-width: 600px) {
-                        .mgz-single-product-option-item :global(div[role='radiogroup'] > div) {
-                            margin: 2px 5px;
-                        }
-                        .mgz-single-product-option-item :global(div[role='radiogroup'] > div > span) {
-                            font-size: 11px;
-                        }
-                        .mgz-single-product-option-item :global(div[class*='btnAdd'] button) {
-                            font-size: 11px;
-                            height: 31px;
-                        }
-                    }
-                `}
-            </style>
-            <style jsx global>
-                {`
-                    .mgz-single-product-card:hover {
-                        ${isProductGrid && `
-                            border: 1px solid #bbbbbb;
-                            position: relative;
-                            z-index: 2;
-                        `}
-                    }
-                `}
-            </style>
-        </>
-    );
+                }
+            `}
+        </style>
+        <style jsx global>
+            {`
+                .mgz-single-product-card:hover {
+                    ${isProductGrid && `
+                        border: 1px solid #bbbbbb;
+                        position: relative;
+                        z-index: 2;
+                    `}
+                }
+            `}
+        </style>
+    </>;
 };
 
 export default SingleProduct;

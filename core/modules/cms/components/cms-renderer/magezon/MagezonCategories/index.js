@@ -55,7 +55,7 @@ const MagezonCategories = (props) => {
                         )
                     }
                 >
-                    <Link href={url_path} onClick={(e) => e.stopPropagation()}>
+                    <Link href={url_path} onClick={(e) => e.stopPropagation()} legacyBehavior>
                         <a className="mgz-categories-link">
                             {category.name}
                             {show_count && `(${category.product_count})`}

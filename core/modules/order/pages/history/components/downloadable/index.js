@@ -85,11 +85,11 @@ const DefaultView = (props) => {
                                                                                 href="/sales/order/view/order_id/[id]"
                                                                                 as={`/sales/order/view/order_id/${val.order_increment_id}`}
                                                                             >
-                                                                                <a>
-                                                                                    <Typography variant="span" type="regular" decoration="underline">
-                                                                                        {val.order_increment_id}
-                                                                                    </Typography>
-                                                                                </a>
+
+                                                                                <Typography variant="span" type="regular" decoration="underline">
+                                                                                    {val.order_increment_id}
+                                                                                </Typography>
+
                                                                             </Link>
                                                                         </Typography>
                                                                     </div>

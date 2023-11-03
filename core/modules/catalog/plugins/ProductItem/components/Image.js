@@ -19,31 +19,32 @@ const ImageDetail = (props) => {
     if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
     if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
     return (
-        <Link
+        (<Link
             href={{
                 pathname: '/[...slug]',
                 query: {
                     slug: urlKey,
                 },
             }}
-        >
-            <a onClick={handleClick} style={{ width: '100%' }}>
-                <Thumbor
-                // eslint-disable-next-line no-nested-ternary
-                    src={spesificProduct.id ? spesificProduct.image.url
-                        : small_image && small_image.url
-                            ? small_image.url
-                            : `${basePath}/assets/img/placeholder.png`}
-                    className={styles.imgProduct}
-                    width={defaultWidth}
-                    height={defaultHeight}
-                    quality={80}
-                    alt={small_image && small_image.url ? small_image.label : name}
-                    storeConfig={storeConfig}
-                    lazy
-                />
-            </a>
-        </Link>
+            onClick={handleClick}
+            style={{ width: '100%' }}>
+
+            <Thumbor
+            // eslint-disable-next-line no-nested-ternary
+                src={spesificProduct.id ? spesificProduct.image.url
+                    : small_image && small_image.url
+                        ? small_image.url
+                        : `${basePath}/assets/img/placeholder.png`}
+                className={styles.imgProduct}
+                width={defaultWidth}
+                height={defaultHeight}
+                quality={80}
+                alt={small_image && small_image.url ? small_image.label : name}
+                storeConfig={storeConfig}
+                lazy
+            />
+
+        </Link>)
     );
 };
 

@@ -12,14 +12,14 @@ const OtherRmaLink = ({
             <Typography color="red">{t('rma:otherRequestRma')}</Typography>
             <div className={styles.listOtherRma}>
                 {other_rma_request.map((number_rma, indx) => (
-                    <Link href="/rma/customer/view/id/[id]" as={`/rma/customer/view/id/${number_rma}`} key={indx}>
-                        <a>
-                            <Typography type="semiBold">
-                                #
-                                {number_rma}
-                            </Typography>
-                        </a>
-                    </Link>
+                    (<Link href="/rma/customer/view/id/[id]" as={`/rma/customer/view/id/${number_rma}`} key={indx}>
+
+                        <Typography type="semiBold">
+                            #
+                            {number_rma}
+                        </Typography>
+
+                    </Link>)
                 ))}
             </div>
         </div>

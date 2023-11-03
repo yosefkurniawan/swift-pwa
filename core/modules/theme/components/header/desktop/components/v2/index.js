@@ -73,464 +73,462 @@ const ViewTopNavigation = (props) => {
         }
     }, [triger]);
 
-    return (
-        <>
-            <div id="header-inner">
-                <main style={{ width: '100%', maxWidth: 'unset' }}>
-                    <div id="submenu-center" className="header-main hidden-submenu">
-                        <div className="header-middle">
-                            <div className="header-middle__left">
-                                <div className="box header-middle__logo">
-                                    <Link href="/">
-                                        <a>
-                                            <Image
-                                                className="header-middle__logo-link"
-                                                src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
-                                                alt={storeConfig.default_title}
-                                                width={120}
-                                                height={52}
-                                                storeConfig={storeConfig}
-                                                lazy={false}
-                                            />
-                                        </a>
-                                    </Link>
-                                </div>
+    return <>
+        <div id="header-inner">
+            <main style={{ width: '100%', maxWidth: 'unset' }}>
+                <div id="submenu-center" className="header-main hidden-submenu">
+                    <div className="header-middle">
+                        <div className="header-middle__left">
+                            <div className="box header-middle__logo">
+                                <Link href="/" legacyBehavior>
+                                    <a>
+                                        <Image
+                                            className="header-middle__logo-link"
+                                            src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
+                                            alt={storeConfig.default_title}
+                                            width={120}
+                                            height={52}
+                                            storeConfig={storeConfig}
+                                            lazy={false}
+                                        />
+                                    </a>
+                                </Link>
                             </div>
-                            <div className="header-middle__center">
-                                <div className="row menu-category">
-                                    <div className="col-xs-12 menu-middle">
-                                        {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
-                                    </div>
-                                </div>
-                                <div className="header-small__menu">
+                        </div>
+                        <div className="header-middle__center">
+                            <div className="row menu-category">
+                                <div className="col-xs-12 menu-middle">
                                     {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
                                 </div>
                             </div>
-                            <div className="header-middle__right">
-                                <div className="box">
-                                    <div className="header-middle__icons">
-                                        <div className="signin">
-                                            <Link href="/customer/account" passHref>
-                                                <Badge color="secondary">
-                                                    <PersonIcon color="secondary" />
-                                                </Badge>
-                                            </Link>
-                                        </div>
-                                        <div className="notification">
-                                            <NotificationBell withLink />
-                                        </div>
-                                        {modules.productcompare.enabled && (
-                                            <div className="shopping-bag">
-                                                <ProductCompareIcon withLink isLogin={isLogin} />
-                                            </div>
-                                        )}
-                                        <div id="header-shoppingBag-icon" className="shopping-bag">
-                                            <ShoppingBagIcon withLink storeConfig={storeConfig} />
-                                        </div>
+                            <div className="header-small__menu">
+                                {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
+                            </div>
+                        </div>
+                        <div className="header-middle__right">
+                            <div className="box">
+                                <div className="header-middle__icons">
+                                    <div className="signin">
+                                        <Link href="/customer/account" passHref legacyBehavior>
+                                            <Badge color="secondary">
+                                                <PersonIcon color="secondary" />
+                                            </Badge>
+                                        </Link>
                                     </div>
-                                    <div className="header-middle__search margin-top-1rem">
-                                        <Autocomplete
-                                            setValue={setValue}
-                                            handleSearch={handleSearch}
-                                            OptionsItem={OptionAutocomplete}
-                                            t={t}
-                                            storeConfig={storeConfig}
-                                        />
-                                        <div className="search-icon">
-                                            <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">
-                                                <SearchIcon />
-                                            </IconButton>
+                                    <div className="notification">
+                                        <NotificationBell withLink />
+                                    </div>
+                                    {modules.productcompare.enabled && (
+                                        <div className="shopping-bag">
+                                            <ProductCompareIcon withLink isLogin={isLogin} />
                                         </div>
+                                    )}
+                                    <div id="header-shoppingBag-icon" className="shopping-bag">
+                                        <ShoppingBagIcon withLink storeConfig={storeConfig} />
+                                    </div>
+                                </div>
+                                <div className="header-middle__search margin-top-1rem">
+                                    <Autocomplete
+                                        setValue={setValue}
+                                        handleSearch={handleSearch}
+                                        OptionsItem={OptionAutocomplete}
+                                        t={t}
+                                        storeConfig={storeConfig}
+                                    />
+                                    <div className="search-icon">
+                                        <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">
+                                            <SearchIcon />
+                                        </IconButton>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="submenu-left" className="header-main">
-                        <div className="header-middle">
-                            <div className="header-middle__left">
-                                <div className="box header-middle__logo">
-                                    <Link href="/">
-                                        <a>
-                                            <Image
-                                                className="header-middle__logo-link"
-                                                src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
-                                                alt={storeConfig.default_title}
-                                                width={120}
-                                                height={52}
-                                                storeConfig={storeConfig}
-                                                lazy={false}
-                                            />
-                                        </a>
-                                    </Link>
-                                </div>
+                </div>
+                <div id="submenu-left" className="header-main">
+                    <div className="header-middle">
+                        <div className="header-middle__left">
+                            <div className="box header-middle__logo">
+                                <Link href="/" legacyBehavior>
+                                    <a>
+                                        <Image
+                                            className="header-middle__logo-link"
+                                            src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
+                                            alt={storeConfig.default_title}
+                                            width={120}
+                                            height={52}
+                                            storeConfig={storeConfig}
+                                            lazy={false}
+                                        />
+                                    </a>
+                                </Link>
                             </div>
-                            <div className="header-middle__right-condensed">
-                                <div className="box">
-                                    <div className="header-middle__icons">
-                                        <ul className="special-ul">
-                                            {enablePopupInstallation ? (
-                                                <DesktopInstallAppV2 appName={appName} installMessage={installMessage} />
-                                            ) : null}
-                                            <li>
-                                                {!isLogin ? (
-                                                    t('common:header:welcome')
-                                                ) : (
-                                                    <>
-                                                        <Link href="/customer/account">
-                                                            <a>
-                                                                {data.customer
-                                                                ? `${t('common:header:hi').replace('$', `${data.customer.firstname} ${data.customer.lastname}`)} 
-                                                                ${adminId !== undefined && adminId !== '' ? `(Login By ${JSON.parse(adminId)[1]})` : ''}`
-                                                                : null}
-                                                            </a>
-                                                        </Link>
-                                                        <ul>
-                                                            <li>
-                                                                <Link href="/customer/account">
-                                                                    <a>{t('common:menu:myaccount')}</a>
-                                                                </Link>
-                                                            </li>
-                                                            <li>
-                                                                <Link href="/wishlist">
-                                                                    <a>
-                                                                        {t('common:menu:mywishlist')} (
-                                                                        { data.customer?.wishlists[0].items_v2
-                                                                        ? data.customer?.wishlists[0].items_v2.items.length : 0} items )
-                                                                        {' '}
-                                                                    </a>
-                                                                </Link>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" onClick={handleLogout}>
-                                                                    {t('common:menu:signout')}
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </>
-                                                )}
-                                            </li>
-                                            {modules.trackingorder.enabled ? (
-                                                <li>
-                                                    <Link href="/sales/order/track">
-                                                        <a>{t('common:menu:trackingorder')}</a>
+                        </div>
+                        <div className="header-middle__right-condensed">
+                            <div className="box">
+                                <div className="header-middle__icons">
+                                    <ul className="special-ul">
+                                        {enablePopupInstallation ? (
+                                            <DesktopInstallAppV2 appName={appName} installMessage={installMessage} />
+                                        ) : null}
+                                        <li>
+                                            {!isLogin ? (
+                                                t('common:header:welcome')
+                                            ) : (
+                                                <>
+                                                    <Link href="/customer/account" legacyBehavior>
+                                                        <a>
+                                                            {data.customer
+                                                            ? `${t('common:header:hi').replace('$', `${data.customer.firstname} ${data.customer.lastname}`)} 
+                                                            ${adminId !== undefined && adminId !== '' ? `(Login By ${JSON.parse(adminId)[1]})` : ''}`
+                                                            : null}
+                                                        </a>
                                                     </Link>
-                                                </li>
-                                            ) : null}
+                                                    <ul>
+                                                        <li>
+                                                            <Link href="/customer/account" legacyBehavior>
+                                                                <a>{t('common:menu:myaccount')}</a>
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <Link href="/wishlist" legacyBehavior>
+                                                                <a>
+                                                                    {t('common:menu:mywishlist')} (
+                                                                    { data.customer?.wishlists[0].items_v2
+                                                                    ? data.customer?.wishlists[0].items_v2.items.length : 0} items )
+                                                                    {' '}
+                                                                </a>
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" onClick={handleLogout}>
+                                                                {t('common:menu:signout')}
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </>
+                                            )}
+                                        </li>
+                                        {modules.trackingorder.enabled ? (
                                             <li>
-                                                <SwitcherLanguage {...props} />
+                                                <Link href="/sales/order/track" legacyBehavior>
+                                                    <a>{t('common:menu:trackingorder')}</a>
+                                                </Link>
                                             </li>
-                                            <li>
-                                                <SwitcherCurrency {...props} />
-                                            </li>
-                                        </ul>
-                                        <div className="signin">
-                                            <Link href="/customer/account" passHref>
-                                                <Badge color="secondary">
-                                                    <PersonIcon color="secondary" />
-                                                </Badge>
-                                            </Link>
-                                        </div>
-                                        <div className="notification">
-                                            <NotificationBell withLink />
-                                        </div>
-                                        {modules.productcompare.enabled && (
-                                            <div className="shopping-bag">
-                                                <ProductCompareIcon withLink isLogin={isLogin} />
-                                            </div>
-                                        )}
-                                        <div id="header-shoppingBag-icon" className="shopping-bag">
-                                            <ShoppingBagIcon withLink storeConfig={storeConfig} />
-                                        </div>
+                                        ) : null}
+                                        <li>
+                                            <SwitcherLanguage {...props} />
+                                        </li>
+                                        <li>
+                                            <SwitcherCurrency {...props} />
+                                        </li>
+                                    </ul>
+                                    <div className="signin">
+                                        <Link href="/customer/account" passHref legacyBehavior>
+                                            <Badge color="secondary">
+                                                <PersonIcon color="secondary" />
+                                            </Badge>
+                                        </Link>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="header-middle second-level-header">
-                            <div className="header-middle__center">
-                                <div className="row menu-category">
-                                    <div className="col-xs-12 menu-middle">
-                                        {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
+                                    <div className="notification">
+                                        <NotificationBell withLink />
                                     </div>
-                                </div>
-                                <div className="header-small__menu">
-                                    {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
-                                </div>
-                            </div>
-                            <div>
-                                <div className="box">
-                                    <div className="header-middle__search">
-                                        <Autocomplete
-                                            setValue={setValue}
-                                            handleSearch={handleSearch}
-                                            OptionsItem={OptionAutocomplete}
-                                            t={t}
-                                            storeConfig={storeConfig}
-                                        />
-                                        <div className="search-icon">
-                                            <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">
-                                                <SearchIcon />
-                                            </IconButton>
+                                    {modules.productcompare.enabled && (
+                                        <div className="shopping-bag">
+                                            <ProductCompareIcon withLink isLogin={isLogin} />
                                         </div>
+                                    )}
+                                    <div id="header-shoppingBag-icon" className="shopping-bag">
+                                        <ShoppingBagIcon withLink storeConfig={storeConfig} />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </main>
-                <style jsx>
-                    {`
-                        .signin {
-                            cursor: pointer;
-                        }
-                        .header-middle__icons > .signin {
-                            margin-left: 10px !important;
-                        }
+                    <div className="header-middle second-level-header">
+                        <div className="header-middle__center">
+                            <div className="row menu-category">
+                                <div className="col-xs-12 menu-middle">
+                                    {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
+                                </div>
+                            </div>
+                            <div className="header-small__menu">
+                                {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
+                            </div>
+                        </div>
+                        <div>
+                            <div className="box">
+                                <div className="header-middle__search">
+                                    <Autocomplete
+                                        setValue={setValue}
+                                        handleSearch={handleSearch}
+                                        OptionsItem={OptionAutocomplete}
+                                        t={t}
+                                        storeConfig={storeConfig}
+                                    />
+                                    <div className="search-icon">
+                                        <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">
+                                            <SearchIcon />
+                                        </IconButton>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <style jsx>
+                {`
+                    .signin {
+                        cursor: pointer;
+                    }
+                    .header-middle__icons > .signin {
+                        margin-left: 10px !important;
+                    }
+                    ul {
+                        margin: 0;
+                        list-style: none;
+                        padding: 0;
+                        float: right;
+                        font-size: 10px;
+                        text-transform: uppercase;
+                        font-family: Montserrat !important;
+                    }
+
+                    .special-ul {
+                        float: left !important;
+                    }
+
+                    li {
+                        display: inline-block;
+                        padding: 5px 10px;
+                        position: relative;
+                    }
+                    li:hover > ul {
+                        display: block;
+                    }
+                    ul ul {
+                        position: absolute;
+                        display: none;
+                        margin: 0;
+                        padding: 5px 10px;
+                        z-index: 999;
+                        background: #fff;
+                        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+                    }
+                    ul ul li {
+                        display: block;
+                    }
+
+                    ul ul ul {
+                        position: absolute;
+                        top: 0;
+                        left: 100%;
+                    }
+                    a {
+                        color: #000;
+                        text-decoration: none;
+                    }
+
+                    a:hover {
+                        border-bottom: 1px dashed #fff;
+                        color: #b9acac;
+                    }
+                    .header-main {
+                        max-width: 1440px;
+                        // background: url('./assets/img/screenshots/header.webp') no-repeat center center;
+                        width: 97%;
+                        margin: 0 auto;
+                    }
+                    @media (min-width: 768px) {
                         ul {
-                            margin: 0;
-                            list-style: none;
-                            padding: 0;
-                            float: right;
-                            font-size: 10px;
-                            text-transform: uppercase;
-                            font-family: Montserrat !important;
+                            // padding-top: 2vh;
                         }
-
-                        .special-ul {
-                            float: left !important;
+                        #header-inner {
+                            ${storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header
+                                ? 'position: fixed;'
+                                : 'position: relative; z-index: 1100;'}
+                            width: 100%;
+                            background-color: transparent;
+                            z-index: 3;
+                            top: ${showGlobalPromo ? '45px' : '0'};
+                            transition: top 1s ease;
                         }
-
-                        li {
-                            display: inline-block;
-                            padding: 5px 10px;
-                            position: relative;
+                        #header-inner.header-inner {
+                            top: 0px;
                         }
-                        li:hover > ul {
-                            display: block;
+                        .header-bgcolor {
+                            background-color: white !important;
+                            transition: background-color 1s ease;
                         }
-                        ul ul {
-                            position: absolute;
+                        .header-middle__center {
                             display: none;
-                            margin: 0;
-                            padding: 5px 10px;
-                            z-index: 999;
-                            background: #fff;
-                            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-                        }
-                        ul ul li {
-                            display: block;
-                        }
-
-                        ul ul ul {
-                            position: absolute;
-                            top: 0;
-                            left: 100%;
-                        }
-                        a {
-                            color: #000;
-                            text-decoration: none;
-                        }
-
-                        a:hover {
-                            border-bottom: 1px dashed #fff;
-                            color: #b9acac;
-                        }
-                        .header-main {
-                            max-width: 1440px;
-                            // background: url('./assets/img/screenshots/header.webp') no-repeat center center;
-                            width: 97%;
-                            margin: 0 auto;
-                        }
-                        @media (min-width: 768px) {
-                            ul {
-                                // padding-top: 2vh;
-                            }
-                            #header-inner {
-                                ${storeConfig && storeConfig.pwa && storeConfig.pwa.enabler_sticky_header
-                                    ? 'position: fixed;'
-                                    : 'position: relative; z-index: 1100;'}
-                                width: 100%;
-                                background-color: transparent;
-                                z-index: 3;
-                                top: ${showGlobalPromo ? '45px' : '0'};
-                                transition: top 1s ease;
-                            }
-                            #header-inner.header-inner {
-                                top: 0px;
-                            }
-                            .header-bgcolor {
-                                background-color: white !important;
-                                transition: background-color 1s ease;
-                            }
-                            .header-middle__center {
-                                display: none;
-                            }
-                            .hidden-submenu {
-                                display: none !important;
-                                opacity: 0;
-                                transition: opacity 5s ease;
-                            }
-                        }
-
-                        main {
-                            background-color: transparent !important;
-                        }
-                        .header-top {
-                            height: 45px;
-                            border-bottom: 1px solid #d6d6d6;
-                            display: flex;
-                            align-items: center;
-                            padding: 10px 0;
-                            margin: 0;
-                        }
-
-                        @media only screen and (max-width: 1023px) and (min-width: 768px) {
-                            .header-top {
-                                height: unset;
-                                padding-top: 0;
-                            }
-                        }
-
-                        @media only screen and (min-width: 1024px) and (max-width: 1200px) {
-                            .header-middle.second-level-header {
-                                padding-top: 10px;
-                                display: grid !important;
-                                grid-template-columns: 2fr 1fr;
-                            }
-
-                            .header-middle__center {
-                                display: block !important;
-                                margin-top: 1rem;
-                            }
-
-                            .header-middle__right {
-                                width: 300px !important;
-                            }
-                        }
-
-                        .header-middle-second-level-header {
-                            padding-bottom: 1rem;
-                            padding-top: 0px;
-                            // display: grid;
-                            // align-items: center;
-                            // justify-content: space-between;
-                        }
-
-                        .second-level-header {
-                            padding-bottom: 1rem;
-                            padding-top: 0px;
-                            // display: grid;
-                        }
-
-                        .header-middle {
-                            padding-top: 10px;
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-                        }
-                        .header-middle__left {
-                            width: 120px;
-                        }
-                        .header-middle__right {
-                            width: 600px;
-                        }
-                        .header-middle__right-condensed {
-                            width: 1024px;
-                        }
-                        .header-small__menu {
-                            display: none;
-                        }
-                        .header-middle img {
-                            width: 120px;
-                        }
-                        .header-middle__logo-link {
-                            cursor: pointer;
-                        }
-                        .header-middle__icons {
-                            float: right;
-                            padding-left: 4px;
-                            padding-right: 16px;
-                        }
-                        .header-middle__icons > div {
-                            margin-right: -5px;
-                            margin-left: 0px;
-                            display: inline-block;
-                        }
-                        .search-icon {
-                            position: absolute;
-                            right: -10px;
-                            top: 7px;
-                            background: transparent;
-                            z-index: 9;
-                        }
-                        .header-middle__search {
-                            display: flex;
-                            align-items: center;
-                            float: right;
-                            position: relative;
-                        }
-
-                        .header-middle__search .margin-top-1rem {
-                            margin-top: -1rem !important;
-                        }
-                        .menu-category {
-                            width: fit-content;
-                            display: block;
-                        }
-                        .global-promo {
-                            height: 45px;
-                            border-bottom: 1px solid #d6d6d6;
-                            display: flex;
-                            align-items: center;
-                            padding: 10px 0;
-                            margin: 0;
-                            background-color: red;
-                        }
-                    `}
-                </style>
-                <style global jsx>
-                    {`
-                        .header-middle__search .MuiAutocomplete-popupIndicator {
-                            display: none !important;
-                        }
-
-                        .header-middle__search .margin-top-1rem .MuiAutocomplete-root {
-                            padding: 2px 5px 15px 5px !important;
                         }
                         .hidden-submenu {
                             display: none !important;
                             opacity: 0;
                             transition: opacity 5s ease;
                         }
+                    }
+
+                    main {
+                        background-color: transparent !important;
+                    }
+                    .header-top {
+                        height: 45px;
+                        border-bottom: 1px solid #d6d6d6;
+                        display: flex;
+                        align-items: center;
+                        padding: 10px 0;
+                        margin: 0;
+                    }
+
+                    @media only screen and (max-width: 1023px) and (min-width: 768px) {
+                        .header-top {
+                            height: unset;
+                            padding-top: 0;
+                        }
+                    }
+
+                    @media only screen and (min-width: 1024px) and (max-width: 1200px) {
+                        .header-middle.second-level-header {
+                            padding-top: 10px;
+                            display: grid !important;
+                            grid-template-columns: 2fr 1fr;
+                        }
+
+                        .header-middle__center {
+                            display: block !important;
+                            margin-top: 1rem;
+                        }
+
+                        .header-middle__right {
+                            width: 300px !important;
+                        }
+                    }
+
+                    .header-middle-second-level-header {
+                        padding-bottom: 1rem;
+                        padding-top: 0px;
+                        // display: grid;
+                        // align-items: center;
+                        // justify-content: space-between;
+                    }
+
+                    .second-level-header {
+                        padding-bottom: 1rem;
+                        padding-top: 0px;
+                        // display: grid;
+                    }
+
+                    .header-middle {
+                        padding-top: 10px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    }
+                    .header-middle__left {
+                        width: 120px;
+                    }
+                    .header-middle__right {
+                        width: 600px;
+                    }
+                    .header-middle__right-condensed {
+                        width: 1024px;
+                    }
+                    .header-small__menu {
+                        display: none;
+                    }
+                    .header-middle img {
+                        width: 120px;
+                    }
+                    .header-middle__logo-link {
+                        cursor: pointer;
+                    }
+                    .header-middle__icons {
+                        float: right;
+                        padding-left: 4px;
+                        padding-right: 16px;
+                    }
+                    .header-middle__icons > div {
+                        margin-right: -5px;
+                        margin-left: 0px;
+                        display: inline-block;
+                    }
+                    .search-icon {
+                        position: absolute;
+                        right: -10px;
+                        top: 7px;
+                        background: transparent;
+                        z-index: 9;
+                    }
+                    .header-middle__search {
+                        display: flex;
+                        align-items: center;
+                        float: right;
+                        position: relative;
+                    }
+
+                    .header-middle__search .margin-top-1rem {
+                        margin-top: -1rem !important;
+                    }
+                    .menu-category {
+                        width: fit-content;
+                        display: block;
+                    }
+                    .global-promo {
+                        height: 45px;
+                        border-bottom: 1px solid #d6d6d6;
+                        display: flex;
+                        align-items: center;
+                        padding: 10px 0;
+                        margin: 0;
+                        background-color: red;
+                    }
+                `}
+            </style>
+            <style global jsx>
+                {`
+                    .header-middle__search .MuiAutocomplete-popupIndicator {
+                        display: none !important;
+                    }
+
+                    .header-middle__search .margin-top-1rem .MuiAutocomplete-root {
+                        padding: 2px 5px 15px 5px !important;
+                    }
+                    .hidden-submenu {
+                        display: none !important;
+                        opacity: 0;
+                        transition: opacity 5s ease;
+                    }
+                    .header-small {
+                        // top: -45px !important;
+                    }
+                    @media (min-width: 1250px) {
+                        .header-small .header-small__menu {
+                            display: block;
+                        }
+                        .header-middle__center {
+                            display: block !important;
+                        }
+                        .header-tab {
+                            display: none;
+                        }
+                        .header-small .menu-category {
+                            display: none;
+                        }
                         .header-small {
-                            // top: -45px !important;
+                            height: 75px !important;
                         }
-                        @media (min-width: 1250px) {
-                            .header-small .header-small__menu {
-                                display: block;
-                            }
-                            .header-middle__center {
-                                display: block !important;
-                            }
-                            .header-tab {
-                                display: none;
-                            }
-                            .header-small .menu-category {
-                                display: none;
-                            }
-                            .header-small {
-                                height: 75px !important;
-                            }
-                            .hidden-submenu {
-                                display: none !important;
-                                transition: display 1s ease;
-                            }
+                        .hidden-submenu {
+                            display: none !important;
+                            transition: display 1s ease;
                         }
-                    `}
-                </style>
-            </div>
-        </>
-    );
+                    }
+                `}
+            </style>
+        </div>
+    </>;
 };
 
 export default ViewTopNavigation;

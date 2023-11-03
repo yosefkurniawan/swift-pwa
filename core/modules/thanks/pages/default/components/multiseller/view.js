@@ -70,11 +70,11 @@ const ViewThanksMultiSeller = (props) => {
                                     </StyledTableCell>
                                     <StyledTableCell align="right">
                                         {isLogin && isLogin === 1 ? (
-                                            <Link href={`/sales/order/view/order_id/${item?.order_number}`} passhref>
-                                                <a>
-                                                    <b>{`#${item?.order_number}`}</b>
-                                                </a>
-                                            </Link>
+                                            (<Link href={`/sales/order/view/order_id/${item?.order_number}`} passhref>
+
+                                                <b>{`#${item?.order_number}`}</b>
+
+                                            </Link>)
                                         ) : (
                                             <b>{`#${item?.order_number}`}</b>
                                         )}
@@ -84,7 +84,7 @@ const ViewThanksMultiSeller = (props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Link href="/sales/order/history" passHref>
+            <Link href="/sales/order/history" passHref legacyBehavior>
                 <Typography size="10" type="bold" color="primary" letter="uppercase" className={styles.txtConfirmMultiseller}>
                     {t('thanks:orderInfo')}
                 </Typography>

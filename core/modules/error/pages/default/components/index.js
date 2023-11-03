@@ -18,7 +18,7 @@ const ErrorContent = (props) => {
             </div>
             {statusCode === 404 ? (
                 <div className={styles.actions}>
-                    <Link href="/">
+                    <Link href="/" legacyBehavior>
                         <Button className={styles.toolbarButton}>Back</Button>
                     </Link>
                 </div>

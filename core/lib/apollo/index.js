@@ -160,10 +160,6 @@ export const withApollo = ({ ssr = false } = {}) => (PageComponent) => {
                             error,
                         );
                     }
-
-                    // getDataFromTree does not call componentWillUnmount
-                    // head side effect therefore need to be cleared manually
-                    Head.rewind();
                 }
             }
 
