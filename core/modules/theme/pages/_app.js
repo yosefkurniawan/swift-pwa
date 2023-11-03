@@ -321,9 +321,10 @@ class MyApp extends App {
 
         if (storeConfig && storeConfig.pwa) {
             GTM = {
-                enable: storeConfig && storeConfig.pwa.gtm_enable,
+                // enable: storeConfig && storeConfig.pwa.gtm_enable,
+                enable: true,
                 gtmId: {
-                    local: storeConfig && storeConfig.pwa.gtm_id_local ? storeConfig.pwa.gtm_id_local : '',
+                    local: 'GTM-5G5TGZ6',
                     dev: storeConfig && storeConfig.pwa.gtm_id_dev ? storeConfig.pwa.gtm_id_dev : '',
                     stage: storeConfig && storeConfig.pwa.gtm_id_stage ? storeConfig.pwa.gtm_id_stage : '',
                     prod: storeConfig && storeConfig.pwa.gtm_id_prod ? storeConfig.pwa.gtm_id_prod : '',
@@ -332,10 +333,7 @@ class MyApp extends App {
         }
 
         const tagManagerArgs = {
-            gtmId:
-                typeof publicRuntimeConfig !== 'undefined' && GTM.gtmId[publicRuntimeConfig.appEnv]
-                    ? GTM.gtmId[publicRuntimeConfig.appEnv]
-                    : GTM.gtmId.dev,
+            gtmId: 'GTM-5G5TGZ6',
         };
         if (GTM.enable) TagManager.initialize(tagManagerArgs);
 
