@@ -315,8 +315,6 @@ const Menu = (props) => {
                     .nav-search input[type='submit']:hover {
                         background-color: #4b4441;
                     }
-
-                    }
                     /* menu dropdown */
                     .mega-menu {
                         background: #fff;
