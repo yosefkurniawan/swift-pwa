@@ -13,17 +13,10 @@ module.exports = withOffline({
     },
     // Disable X-Powered-By
     poweredByHeader: false,
-    future: {
-        webpack5: true,
-    },
-    dontAutoRegisterSw: true,
     productionBrowserSourceMaps: true,
     publicRuntimeConfig: {
         appEnv: process.env.APP_ENV,
         rootDir: __dirname,
-    },
-    optimization: {
-        minimize: process.env.NODE_ENV === 'production', // Update this to true or false
     },
     webpack: (
         config,
@@ -49,27 +42,6 @@ module.exports = withOffline({
             config.resolve.alias['@sentry/node'] = '@sentry/browser';
         }
         return config;
-    },
-    // generateInDevMode: true, // please comment if develop to production
-    workboxOpts: {
-        importScripts: ['./sw.js'], // comment if disabled notifications
-        swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
-        runtimeCaching: [
-            {
-                urlPattern: /facebook/,
-                handler: 'NetworkFirst',
-            },
-            {
-                urlPattern: /_next/,
-                handler: 'NetworkFirst',
-                options: {
-                    cacheName: 'offlineCache',
-                    expiration: {
-                        maxEntries: 200,
-                    },
-                },
-            },
-        ],
     },
     async rewrites() {
         return [
