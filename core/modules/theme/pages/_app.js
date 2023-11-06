@@ -320,8 +320,8 @@ class MyApp extends App {
 
         if (storeConfig && storeConfig.pwa) {
             GTM = {
-                // enable: storeConfig && storeConfig.pwa.gtm_enable,
-                enable: true,
+                enable: storeConfig && storeConfig.pwa.gtm_enable,
+                // enable: true,
                 gtmId: {
                     local: 'GTM-5G5TGZ6',
                     dev: storeConfig && storeConfig.pwa.gtm_id_dev ? storeConfig.pwa.gtm_id_dev : '',

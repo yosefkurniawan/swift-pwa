@@ -2,14 +2,13 @@
 /* eslint-disable no-nested-ternary */
 const { GraphQLClient } = require('graphql-request');
 const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
-const { decrypt } = require('../../../helpers/encryption');
 const { getAppEnv } = require('../../../helpers/env');
 
 function gqlSSR(query, variables = {}, context = {}, config = {}) {
     let token = '';
     if (context.session || context.headers) {
         token = context.session.token
-            ? `Bearer ${decrypt(context.session.token)}`
+            ? context.session.token
             : context.headers.authorization
                 ? context.headers.authorization
                 : '';

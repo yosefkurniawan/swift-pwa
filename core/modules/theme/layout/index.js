@@ -23,7 +23,7 @@ import { getAppEnv } from '@helpers/env';
 import { getHost } from '@helper_config';
 import { getCookies, setCookies } from '@helper_cookies';
 import { breakPointsDown, breakPointsUp } from '@helper_theme';
-import crypto from 'crypto';
+// import crypto from 'crypto';
 import Fab from '@material-ui/core/Fab';
 import ChatIcon from '@material-ui/icons/Chat';
 
@@ -256,12 +256,12 @@ const Layout = (props) => {
             };
             if (custData && custData.email) {
                 const custEmail = custData.email.toLowerCase();
-                tagManagerArgs.dataLayer.eid = crypto.createHash('sha256').update(custEmail).digest('hex');
+                // tagManagerArgs.dataLayer.eid = crypto.createHash('sha256').update(custEmail).digest('hex');
             }
             if (custData && custData.phonenumber && custData.is_phonenumber_valid) {
                 let custPhone = custData.phonenumber;
                 custPhone = `${custPhone}`;
-                tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
+                // tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
             }
             TagManager.dataLayer(tagManagerArgs);
         }

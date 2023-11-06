@@ -3,7 +3,6 @@
 const { GraphQLClient, gql } = require('graphql-request');
 const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
 
-const { decrypt } = require('../../../helpers/encryption');
 const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
 
 function requestGraph(query, variables = {}, context = {}, config = {}) {
@@ -19,7 +18,7 @@ function requestGraph(query, variables = {}, context = {}, config = {}) {
             token = `Bearer ${getAccessEnv()}`;
         } else {
             token = context.session.token
-                ? `Bearer ${decrypt(context.session.token)}`
+                ? context.session.token
                 : context.headers.authorization
                     ? context.headers.authorization
                     : '';
