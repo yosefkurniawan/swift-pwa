@@ -8,6 +8,7 @@ const next = require('next');
 const http = require('http');
 const blocker = require('express-user-agent-blocker');
 const fs = require('fs');
+const { parse } = require('url');
 
 const LRUCache = require('lru-cache');
 const cookieParser = require('cookie-parser');
@@ -205,6 +206,16 @@ async function renderAndCache(req, res) {
         server.get(path.join(basePath, filename), (req, res) => {
             app.serveStatic(req, res, pathfile);
         });
+    });
+
+    server.get(/^(\/static\/chunks)/g, (req, res) => {
+        const parsedUrl = parse(req.originalUrl, true);
+        // console.log('parsedUrl', parsedUrl);
+
+        const { pathname } = parsedUrl;
+
+        const filePath = path.join(basePath, '.next', pathname);
+        app.serveStatic(req, res, filePath);
     });
 
     // server.get('*', (req, res) => handle(req, res));
