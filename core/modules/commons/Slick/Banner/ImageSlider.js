@@ -67,6 +67,7 @@ const ImageSlide = ({
                                 }
                                 storeConfig={storeConfig}
                                 lazy={lazy}
+                                preload={!lazy}
                                 slickBanner
                             />
                         </a>
