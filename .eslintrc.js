@@ -50,6 +50,8 @@ module.exports = {
         ],
         'import/no-extraneous-dependencies': 'off',
         'import/no-unresolved': 'off',
+        'react/forbid-prop-types': 'off',
+        'react/no-unknown-property': 'off',
     },
     settings: {
         'import/ignore': 'node_modules',
