@@ -56,40 +56,19 @@ self.addEventListener('push', (e) => {
     dispatchEvent(newEvent);
 });
 
-// Retrieve an instance of Firebase Messaging so that it can handle background
-// messages.
-const messaging = firebase.messaging();
-
-messaging.onBackgroundMessage((payload) => {
-    console.log(
-        '[firebase-messaging-sw.js] Received background message ',
-        payload,
-    );
-    // Customize notification here
-    const notificationTitle = payload.data.title;
-    const notificationOptions = {
-        body: payload.data.body,
-        icon: payload.data.icons || '/icon.png',
-        requireInteraction: true,
-        data: payload.data,
-    };
-
-    self.registration.showNotification(
-        notificationTitle,
-        notificationOptions,
-    );
-});
-
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-undef */
 self.addEventListener('notificationclick', (event) => {
-    event.notification.close();
-    const data = event.notification;
     console.log(
-        ' Received foreground message ',
+        '[firebase-messaging-sw.js] Notification onclick',
         event,
     );
-    const urlToOpen = new URL(`${self.location.origin}/${data.data.path}`, self.location.origin).href;
+    event.notification.close();
+    const data = event.notification;
+    const urlToOpen = new URL(
+        `${self.location.origin}/${data.data.FCM_MSG ? data.data.FCM_MSG.data.path : data.data.path}`,
+        self.location.origin,
+    ).href;
 
     const promiseChain = clients.matchAll({
         type: 'window',
@@ -113,4 +92,28 @@ self.addEventListener('notificationclick', (event) => {
         });
 
     event.waitUntil(promiseChain);
+});
+
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
+const messaging = firebase.messaging();
+
+messaging.onBackgroundMessage((payload) => {
+    console.log(
+        '[firebase-messaging-sw.js] Received background message ',
+        payload,
+    );
+    // Customize notification here
+    const notificationTitle = payload.data.title;
+    const notificationOptions = {
+        body: payload.data.body,
+        icon: payload.data.icons || '/icon.png',
+        requireInteraction: true,
+        data: payload.data,
+    };
+
+    self.registration.showNotification(
+        notificationTitle,
+        notificationOptions,
+    );
 });

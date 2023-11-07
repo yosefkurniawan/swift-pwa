@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import { subscribeNewsletter } from '@core_modules/customer/services/graphql/schema';
 

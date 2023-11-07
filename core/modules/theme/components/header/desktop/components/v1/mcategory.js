@@ -131,7 +131,11 @@ const Menu = (props) => {
                                 {val.link && val.link !== '#' ? (
                                     <>
                                         {val.before_html && <div dangerouslySetInnerHTML={{ __html: val.before_html }} />}
-                                        <Link href={{ pathname: generatedLink[0], query: generatedLink[1] }} as={generatedLink[1]} prefetch={false}>
+                                        <Link
+                                            href={{ pathname: generatedLink[0], query: generatedLink[1] }}
+                                            as={generatedLink[1]}
+                                            prefetch={false}
+                                            legacyBehavior>
                                             <a
                                                 onClick={() => handleClick(val)}
                                                 ref={linkEl}
@@ -310,8 +314,6 @@ const Menu = (props) => {
                     .nav-search input:focus,
                     .nav-search input[type='submit']:hover {
                         background-color: #4b4441;
-                    }
-
                     }
                     /* menu dropdown */
                     .mega-menu {

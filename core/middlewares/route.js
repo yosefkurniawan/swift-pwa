@@ -47,6 +47,14 @@ const routeMiddleware = (params) => {
     const {
         req, res, query, pathname, isLogin, lastPathNoAuth,
     } = params;
+
+    /*
+    Set Cache Control response header to enable varnish caching
+    */
+    if (typeof window === 'undefined') {
+        res.setHeader('Cache-Control', 'public');
+    }
+
     /**
      * middleware enabled or disabled feature
      */

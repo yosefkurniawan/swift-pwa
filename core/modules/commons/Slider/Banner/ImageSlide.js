@@ -23,21 +23,21 @@ const ImageSlide = ({
     if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
 
     return (
-        <Link
+        (<Link
             href={isSlug ? '/[...slug]' : href}
             {...(isSlug && { as: href })}
         >
-            <a>
-                <Thumbor
-                    src={setDefaultWhenEmpty(imageUrl)}
-                    alt={href}
-                    width={width || defaultWidth}
-                    height={height || defaultHeight}
-                    quality={100}
-                    className={styles.imageSlider}
-                />
-            </a>
-        </Link>
+
+            <Thumbor
+                src={setDefaultWhenEmpty(imageUrl)}
+                alt={href}
+                width={width || defaultWidth}
+                height={height || defaultHeight}
+                quality={100}
+                className={styles.imageSlider}
+            />
+
+        </Link>)
     );
 };
 

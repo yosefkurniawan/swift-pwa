@@ -30,7 +30,7 @@ const MagezonInstagram = (props) => {
                 target="_blank"
                 color="inherit"
                 underline="none"
-            >
+                legacyBehavior>
                 <Typography
                     variant="span"
                     letter="capitalize"

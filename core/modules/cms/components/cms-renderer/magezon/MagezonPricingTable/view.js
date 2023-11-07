@@ -62,7 +62,7 @@ const PricingTable = (props) => {
                         </ul>
                     </div>
                     <div className="mgz-pricing-table-button">
-                        <Link href={item.button_link}><a className="mgz-btn">{item.button_text}</a></Link>
+                        <Link href={item.button_link} legacyBehavior><a className="mgz-btn">{item.button_text}</a></Link>
                     </div>
                 </div>
             </div>

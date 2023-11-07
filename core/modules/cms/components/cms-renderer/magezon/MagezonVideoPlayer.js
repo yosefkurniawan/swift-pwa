@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React from 'react';
 import Typography from '@common_typography';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 
 const MagezonVideoPlayer = (props) => {
     const {

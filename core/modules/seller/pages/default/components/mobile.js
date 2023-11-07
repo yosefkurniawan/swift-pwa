@@ -31,7 +31,7 @@ function MobileContent(props) {
                                     item.widgets[0].type === 'image'
                                         ? (
                                             <div className="col-12" style={{ margin: 'auto' }}>
-                                                <Link href={item.widgets[0].hyperlink ? item.widgets[0].hyperlink : '/#'}><a><img src={item.widgets[0].url} width="100%" alt="img" /></a></Link>
+                                                <Link href={item.widgets[0].hyperlink ? item.widgets[0].hyperlink : '/#'}><img src={item.widgets[0].url} width="100%" alt="img" /></Link>
                                             </div>
                                         )
                                         : (
@@ -53,9 +53,9 @@ function MobileContent(props) {
                                             ? (
                                                 <div className="col-12" style={{ margin: 'auto' }}>
                                                     <Link href={widget.hyperlink ? widget.hyperlink : '/#'}>
-                                                        <a>
-                                                            <img src={widget.url} width="100%" className={styles.imgColumn} alt="img" />
-                                                        </a>
+
+                                                        <img src={widget.url} width="100%" className={styles.imgColumn} alt="img" />
+
                                                     </Link>
                                                 </div>
                                             )

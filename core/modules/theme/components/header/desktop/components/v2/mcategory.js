@@ -129,7 +129,7 @@ const Menu = (props) => {
                             >
                                 {val.link ? (
                                     <>
-                                        <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
+                                        <Link href={generateLink(val)[0]} as={generateLink(val)[1]} legacyBehavior>
                                             <>
                                                 {val.before_html && <div dangerouslySetInnerHTML={{ __html: val.before_html }} />}
                                                 <a

@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import useStyles from '@core_modules/customer/plugins/ChatPlugin/components/style';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import Button from '@material-ui/core/Button';
 import React from 'react';
 import { useDropzone } from 'react-dropzone';

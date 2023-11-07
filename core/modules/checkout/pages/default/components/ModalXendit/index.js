@@ -5,7 +5,7 @@ import { modules } from '@config';
 import { getHost, getStoreHost } from '@helper_config';
 import { removeCheckoutData } from '@helper_cookies';
 import { xenditSimulateQr } from '@core_modules/checkout/services/graphql';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import { getSuccessCallbackUrl } from '@core_modules/checkout/helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
 

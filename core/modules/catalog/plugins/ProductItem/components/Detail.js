@@ -108,10 +108,15 @@ const Detail = (props) => {
                     <CompareArrowsIcon className={styles.iconCompare} />
                 </Button>
             )}
-            <Link href="/[...slug]" as={`/${urlKey}`} className={styles.productLinkButton}>
-                <a onClick={() => handleClick(props)} className={styles.productTitle} id="plugin-productTitle-typography">
-                    {name}
-                </a>
+            <Link
+                href="/[...slug]"
+                as={`/${urlKey}`}
+                className={styles.productLinkButton}
+                onClick={() => handleClick(props)}
+                id="plugin-productTitle-typography">
+
+                {name}
+
             </Link>
             {enableMultiSeller && seller && seller.seller_name && (
                 <div className={styles.infoSeller}>

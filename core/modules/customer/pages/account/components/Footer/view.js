@@ -83,37 +83,37 @@ const FooterView = (props) => {
 
                     {modules.contact.enabled ? (
                         <li className={styles.account_navigation_item}>
-                            <Link href="/contact">
-                                <a className={styles.account_navigation_link}>{t('customer:menu:contactUs')}</a>
+                            <Link href="/contact" className={styles.account_navigation_link}>
+                                {t('customer:menu:contactUs')}
                             </Link>
                         </li>
                     ) : null}
 
                     {modules.blog.enabled ? (
                         <li className={styles.account_navigation_item}>
-                            <Link href="/blog">
-                                <a className={styles.account_navigation_link}>{t('customer:menu:blog')}</a>
+                            <Link href="/blog" className={styles.account_navigation_link}>
+                                {t('customer:menu:blog')}
                             </Link>
                         </li>
                     ) : null}
                     {modules.confirmpayment.enabled ? (
                         <li className={styles.account_navigation_item}>
-                            <Link href="/confirmpayment">
-                                <a className={styles.account_navigation_link}>{t('customer:menu:confirmPayment')}</a>
+                            <Link href="/confirmpayment" className={styles.account_navigation_link}>
+                                {t('customer:menu:confirmPayment')}
                             </Link>
                         </li>
                     ) : null}
                     {modules.storeLocator.enabled ? (
                         <li className={styles.account_navigation_item}>
-                            <Link href="/storelocator">
-                                <a className={styles.account_navigation_link}>{t('customer:menu:findAStore')}</a>
+                            <Link href="/storelocator" className={styles.account_navigation_link}>
+                                {t('customer:menu:findAStore')}
                             </Link>
                         </li>
                     ) : null}
                     {modules.trackingorder.enabled ? (
                         <li className={styles.account_navigation_item}>
-                            <Link href="/sales/order/track">
-                                <a className={styles.account_navigation_link}>{t('customer:menu:trackingOrder')}</a>
+                            <Link href="/sales/order/track" className={styles.account_navigation_link}>
+                                {t('customer:menu:trackingOrder')}
                             </Link>
                         </li>
                     ) : null}
@@ -128,8 +128,8 @@ const FooterView = (props) => {
 
                     {modules.setting.enabled ? (
                         <li className={styles.account_navigation_item}>
-                            <Link href="/setting">
-                                <a className={styles.account_navigation_link}>{t('common:setting:title')}</a>
+                            <Link href="/setting" className={styles.account_navigation_link}>
+                                {t('common:setting:title')}
                             </Link>
                         </li>
                     ) : null}

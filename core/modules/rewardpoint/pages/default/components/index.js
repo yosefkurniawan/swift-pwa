@@ -41,11 +41,11 @@ const DefaultView = (props) => {
                 <Typography variant="p">
                     {t('rewardpoint:learnMore').split('$')[0]}
                     <Link href="/[...slug]" as="/aw-reward-points">
-                        <a>
-                            <Typography variant="span" type="bold">
-                                {t('rewardpoint:learnMore').split('$')[1]}
-                            </Typography>
-                        </a>
+
+                        <Typography variant="span" type="bold">
+                            {t('rewardpoint:learnMore').split('$')[1]}
+                        </Typography>
+
                     </Link>
                 </Typography>
                 <div className={styles.tableOuterContainer}>

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react/destructuring-assignment */
 import CustomTextField from '@common_textfield';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import {
     Autocomplete, GoogleMap, Marker, useJsApiLoader,
 } from '@react-google-maps/api';

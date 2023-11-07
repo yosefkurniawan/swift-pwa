@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Typography from '@common_typography';
 import { formatPrice } from '@helper_currency';
 import useStyles from '@common_priceformat/style';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 
 const getLowestTierPrice = (tier_price) => {
     let lowestTierPrice;

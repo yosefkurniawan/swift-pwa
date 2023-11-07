@@ -44,52 +44,54 @@ const WishlistComp = ({
     if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
     if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
 
-    return (
-        <>
-            <ConfirmationDelete
-                open={openDelete}
-                handleCancel={() => setOpenDelete(!openDelete)}
-                handleYes={handleDelete}
-                message={t('customer:wishlist:warningDelete')}
-            />
-            <div className={styles.card}>
-                <div className={styles.imgItem}>
-                    <Image
-                        src={imageSrc}
-                        className={styles.productImg}
-                        alt={name}
-                        width={defaultWidth}
-                        height={defaultHeight}
-                        quality={80}
-                        storeConfig={storeConfig}
-                    />
-                </div>
-                <div className={styles.content}>
-                    <Link href="/[...slug]" as={`/${url_key}`}>
-                        <a onClick={() => handleClick(`/${url_key}`)} className={styles.productTitle}>
-                            <Typography variant="p">{name}</Typography>
-                        </a>
-                    </Link>
-                    <PriceFormat
-                        variant="p"
-                        priceRange={price_range}
-                        priceTiers={price_tiers}
-                        productType={__typename}
-                        specialFromDate={special_from_date}
-                        specialToDate={special_to_date}
-                    />
-                    <Button className={styles.btnAdd} onClick={handleAddToCart}>
-                        <Typography variant="p" type="bold" letter="uppercase" color="white">
-                            {t('customer:wishlist:addToBag')}
-                        </Typography>
-                    </Button>
-                </div>
-                <IconButton onClick={() => setOpenDelete(!openDelete)}>
-                    <Delete />
-                </IconButton>
+    return <>
+        <ConfirmationDelete
+            open={openDelete}
+            handleCancel={() => setOpenDelete(!openDelete)}
+            handleYes={handleDelete}
+            message={t('customer:wishlist:warningDelete')}
+        />
+        <div className={styles.card}>
+            <div className={styles.imgItem}>
+                <Image
+                    src={imageSrc}
+                    className={styles.productImg}
+                    alt={name}
+                    width={defaultWidth}
+                    height={defaultHeight}
+                    quality={80}
+                    storeConfig={storeConfig}
+                />
             </div>
-        </>
-    );
+            <div className={styles.content}>
+                <Link
+                    href="/[...slug]"
+                    as={`/${url_key}`}
+                    onClick={() => handleClick(`/${url_key}`)}
+                    className={styles.productTitle}>
+
+                    <Typography variant="p">{name}</Typography>
+
+                </Link>
+                <PriceFormat
+                    variant="p"
+                    priceRange={price_range}
+                    priceTiers={price_tiers}
+                    productType={__typename}
+                    specialFromDate={special_from_date}
+                    specialToDate={special_to_date}
+                />
+                <Button className={styles.btnAdd} onClick={handleAddToCart}>
+                    <Typography variant="p" type="bold" letter="uppercase" color="white">
+                        {t('customer:wishlist:addToBag')}
+                    </Typography>
+                </Button>
+            </div>
+            <IconButton onClick={() => setOpenDelete(!openDelete)}>
+                <Delete />
+            </IconButton>
+        </div>
+    </>;
 };
 
 export default WishlistComp;

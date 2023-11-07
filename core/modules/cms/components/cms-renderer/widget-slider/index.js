@@ -1,5 +1,5 @@
 import React from 'react';
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 
 import BannerSliderSkeleton from '@core_modules/home/pages/default/components/Skeleton/BannerSkeleton';
 import BannerView from '@core_modules/home/pages/default/components/Banner/view';

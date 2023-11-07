@@ -1,4 +1,4 @@
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import Core from '@core_modules/searchresult/pages/advanced/core';
 import Content from '@core_modules/searchresult/components';
@@ -9,10 +9,5 @@ const Page = (props) => (
         Content={Content}
     />
 );
-
-Page.getInitialProps = async ({ req }) => ({
-    namespacesRequired: ['common', 'catalog', 'product'],
-    token: req && req.session ? req.session.token : '',
-});
 
 export default withApollo({ ssr: true })(withTranslation()(Page));

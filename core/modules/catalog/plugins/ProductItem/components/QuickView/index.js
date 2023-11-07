@@ -9,7 +9,7 @@ import DesktopOptions from '@core_modules/product/pages/default/components/Optio
 import ItemShare from '@core_modules/product/pages/default/components/SharePopup/item';
 import { getSeller } from '@core_modules/theme/services/graphql';
 import { getHost } from '@helper_config';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';

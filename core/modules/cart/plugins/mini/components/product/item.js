@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Alert from '@material-ui/lab/Alert';
 import Thumbor from '@common_image';
 import { formatPrice } from '@helper_currency';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 
 const Item = (props) => {
     const {
@@ -20,23 +20,27 @@ const Item = (props) => {
     return (
         <li>
             <div id="plugin-minicart-itemsProduct" className="product">
-                <Link href="/[...slug]" as={`/${product.url_key}`} passHref>
-                    <a className="product-item-photo">
-                        <Thumbor
-                            className="product-image-photo"
-                            src={product.small_image.url}
-                            alt={product.small_image.label}
-                            width={75}
-                            height={92}
-                            storeConfig={storeConfig}
-                        />
-                        {custom_price?.row_total_incl_tax?.value === 0 ? <span>{t('common:title:free')}</span> : null}
-                    </a>
+                <Link
+                    href="/[...slug]"
+                    as={`/${product.url_key}`}
+                    passHref
+                    className="product-item-photo">
+
+                    <Thumbor
+                        className="product-image-photo"
+                        src={product.small_image.url}
+                        alt={product.small_image.label}
+                        width={75}
+                        height={92}
+                        storeConfig={storeConfig}
+                    />
+                    {custom_price?.row_total_incl_tax?.value === 0 ? <span>{t('common:title:free')}</span> : null}
+
                 </Link>
                 <div className="product-item-details">
                     <strong className="product-item-name">
                         <Link href="/[...slug]" as={`/${product.url_key}`}>
-                            <a>{product.name}</a>
+                            {product.name}
                         </Link>
                     </strong>
                     {configurable_options && configurable_options.length ? (

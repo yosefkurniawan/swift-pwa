@@ -26,7 +26,7 @@ import Core from '@core_modules/customer/pages/wishlist/core';
 ### 5. Place it in your page
 #### example code
 ````
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import Core from '@core_modules/customer/pages/wishlist/core';
 import Skeleton from '@core_modules/customer/pages/wishlist/components/skeleton';

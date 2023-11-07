@@ -22,10 +22,8 @@ const HOST = {
 
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
-    // local: 'https://swift.testingnow.me/graphql',
-    // dev: 'https://swift.testingnow.me/graphql',
     local: 'https://b2cdemo.getswift.asia/graphql',
-    dev: 'https://b2cdemo.getswift.asia/graphql',
+    dev: 'https://swift.testingnow.me/graphql',
     stage: 'https://b2cdemonew.gcp-staging.testingnow.me/graphql',
     prod: 'https://b2cdemo.getswift.asia/graphql',
 };
@@ -147,20 +145,20 @@ const features = {
     },
     firebase: {
         config: {
-            apiKey: '', // sample: AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw
-            authDomain: '', // sample: swift-pwa-dev.firebaseapp.com
-            databaseURL: '', // sample: https://swiftpwa-firebase.firebaseio.com
-            projectId: '', // sample: swift-pwa-dev
-            storageBucket: '', // sample: swift-pwa-dev.appspot.com
-            messagingSenderId: '', // sample: 1083571104838
-            appId: '', // sample: 1:1083571104838:web:4f06ca5a60b1c1a9efee47
-            measurementId: '', // sample: G-HBHPY22H0H
+            apiKey: '', // sample: AIzaSyBayG_pE-BOs6DU0WAoZOa3EbJMpBlrXBI
+            authDomain: '', // sample: swiftpwa-e6324.firebaseapp.com
+            databaseURL: '', // sample: https://swiftpwa-e6324.firebaseio.com
+            projectId: '', // sample: swiftpwa-e6324
+            storageBucket: '', // sample: swiftpwa-e6324.appspot.com
+            messagingSenderId: '', // sample: 190092779246
+            appId: '', // sample: 1:190092779246:web:d35e1495a66353fafc5dff
+            measurementId: '', // sample: G-VDET2ZQ490
         },
         pushNotification: {
             enabled: false,
             config: {
                 // key from cloud messaging sertificat web push
-                pairKey: '', // sample: BJ2IqpfQQGrckDUAI7TaX8r0_v6aykBSIIEpZUqhlkzZI2e7WVZk9ZB4xOiWBqTbVo6wk44gnpRLAJDemB66zAU
+                pairKey: '', // sample: BJp_5C5jzA06Ouh4mGVExKY_qTT7ODfxzwb8J4XTf5EsPbG1rlwhSIAgYvJ5XGEXfSlnOH4ygkqLt67e7qLKA_A
             },
         },
     },

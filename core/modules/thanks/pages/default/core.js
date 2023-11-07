@@ -133,12 +133,12 @@ const PageStoreCredit = (props) => {
         }
     }, [data]);
 
-    React.useEffect(() => function cleanup() {
+    React.useEffect(() => (function cleanup() {
         if (typeof window !== 'undefined') {
             const cdt = getCheckoutData();
             if (cdt) removeCheckoutData();
         }
-    }, []);
+    }), []);
 
     React.useEffect(() => {
         if (!bankList) {

@@ -2,7 +2,6 @@
 const { print } = require('graphql');
 const { wrapSchema, introspectSchema } = require('@graphql-tools/wrap');
 const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
-const { decrypt } = require('../../../helpers/encryption');
 const { getAppEnv, getAccessEnv } = require('../../../helpers/env');
 const fetchWithTimeout = require('../../../helpers/fetchWithTimeout');
 
@@ -28,13 +27,13 @@ const executor = async ({ document, variables, context }) => {
         }
         const url = graphqlEndpoint[appEnv] || graphqlEndpoint.prod;
         if (token && token !== '') {
-            additionalHeader.Authorization = `Bearer ${decrypt(token)}`;
+            additionalHeader.Authorization = token;
         }
 
         additionalHeader.Authentication = `Bearer ${getAccessEnv()}`;
 
         if (checkoutToken && checkoutToken !== '') {
-            additionalHeader['Checkout-Token'] = `${decrypt(checkoutToken)}`;
+            additionalHeader['Checkout-Token'] = checkoutToken;
         }
         if (adminId !== undefined && adminId !== '') {
             const admin = parseInt(JSON.parse(adminId)[0], 10);

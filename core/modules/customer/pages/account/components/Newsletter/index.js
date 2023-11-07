@@ -1,5 +1,5 @@
 import React from 'react';
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';

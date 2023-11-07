@@ -33,7 +33,7 @@ const ImageSlide = ({
     const href = (link && link.includes('http://')) || link.includes('https://') ? link : link[0] === '/' ? link : `/${link}`;
 
     if (urlEmbed || video) {
-        if (urlEmbed || imageUrl && video) {
+        if (urlEmbed || (imageUrl && video)) {
             return <ProductVideo urlEmbed={urlEmbed} video={video} />;
         }
         if (!imageUrl && video) {
@@ -47,58 +47,47 @@ const ImageSlide = ({
     }
     return (
         <>
-            {
-                noLink
-                    ? (
-                        <a>
-                            <Thumbor
-                                src={imageUrl}
-                                srcMobile={mobileImageUrl}
-                                width={width || storeConfig?.pwa?.home_slider_desktop_width}
-                                height={height || storeConfig?.pwa?.home_slider_desktop_height}
-                                widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
-                                heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
-                                alt={alt}
-                                className={
-                                    classNames(styles.imageSlider, styles.thumborImage, {
-                                        [styles.imageSliderAuto]: contentWidth === 'auto',
-                                        [styles.imageSlider]: contentWidth === 'auto',
-                                    })
-                                }
-                                storeConfig={storeConfig}
-                                lazy={lazy}
-                                preload={!lazy}
-                                slickBanner
-                            />
-                        </a>
-                    )
-                    : (
-                        <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })} prefetch={false}>
-                            <a>
-                                <Thumbor
-                                    src={imageUrl}
-                                    srcMobile={mobileImageUrl}
-                                    width={width || storeConfig?.pwa?.home_slider_desktop_width}
-                                    height={height || storeConfig?.pwa?.home_slider_desktop_height}
-                                    widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
-                                    heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
-                                    alt={alt}
-                                    className={
-                                        classNames(styles.imageSlider, styles.thumborImage, {
-                                            [styles.imageSliderAuto]: contentWidth === 'auto',
-                                            [styles.imageSlider]: contentWidth === 'auto',
-                                        })
-                                    }
-                                    storeConfig={storeConfig}
-                                    lazy={lazy}
-                                    slickBanner
-                                />
-                            </a>
-                        </Link>
-                    )
-            }
+            {noLink ? (
+                <a>
+                    <Thumbor
+                        src={imageUrl}
+                        srcMobile={mobileImageUrl}
+                        width={width || storeConfig?.pwa?.home_slider_desktop_width}
+                        height={height || storeConfig?.pwa?.home_slider_desktop_height}
+                        widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
+                        heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
+                        alt={alt}
+                        className={classNames(styles.imageSlider, styles.thumborImage, {
+                            [styles.imageSliderAuto]: contentWidth === 'auto',
+                            [styles.imageSlider]: contentWidth === 'auto',
+                        })}
+                        storeConfig={storeConfig}
+                        lazy={lazy}
+                        preload={!lazy}
+                        slickBanner
+                    />
+                </a>
+            ) : (
+                <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })} prefetch={false}>
+                    <Thumbor
+                        src={imageUrl}
+                        srcMobile={mobileImageUrl}
+                        width={width || storeConfig?.pwa?.home_slider_desktop_width}
+                        height={height || storeConfig?.pwa?.home_slider_desktop_height}
+                        widthMobile={width || storeConfig?.pwa?.home_slider_mobile_width}
+                        heightMobile={height || storeConfig?.pwa?.home_slider_mobile_height}
+                        alt={alt}
+                        className={classNames(styles.imageSlider, styles.thumborImage, {
+                            [styles.imageSliderAuto]: contentWidth === 'auto',
+                            [styles.imageSlider]: contentWidth === 'auto',
+                        })}
+                        storeConfig={storeConfig}
+                        lazy={lazy}
+                        slickBanner
+                    />
+                </Link>
+            )}
         </>
-
     );
 };
 

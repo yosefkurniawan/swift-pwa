@@ -42,12 +42,15 @@ const MobileView = ({
         <div className={classNames('col-xs-12 row', styles.features)}>
             <div className={classNames('col-xs-12')}>
                 <div className={styles.labelCategory}>
-                    <Link href="/[...slug]" as={`/${url_path}`}>
-                        <a onClick={() => handleClick(`/${url_path}`)}>
-                            <Typography letter="capitalize" type="bold" variant="h1" align="center">
-                                {name || ''}
-                            </Typography>
-                        </a>
+                    <Link
+                        href="/[...slug]"
+                        as={`/${url_path}`}
+                        onClick={() => handleClick(`/${url_path}`)}>
+
+                        <Typography letter="capitalize" type="bold" variant="h1" align="center">
+                            {name || ''}
+                        </Typography>
+
                     </Link>
                 </div>
             </div>
@@ -60,10 +63,14 @@ const MobileView = ({
                 >
                     {category_image ? (
                         <div className={styles.imgFeaturedItem}>
-                            <Link href="/[...slug]" as={`/${url_path}`}>
-                                <a onClick={() => handleClick(`/${url_path}`)} style={{ width: '100%' }}>
-                                    <Image name={name} src={category_image} width={width} height={height} />
-                                </a>
+                            <Link
+                                href="/[...slug]"
+                                as={`/${url_path}`}
+                                onClick={() => handleClick(`/${url_path}`)}
+                                style={{ width: '100%' }}>
+
+                                <Image name={name} src={category_image} width={width} height={height} />
+
                             </Link>
                         </div>
                     ) : null}
@@ -85,11 +92,11 @@ const MobileView = ({
                             <div className={styles.footerFeatured}>
                                 <Button variant="outlined" onClick={() => handleClick(`/${url_path}`)} className={styles.buttonViewAllHome}>
                                     <Link href="/[...slug]" as={`/${url_path}`}>
-                                        <a>
-                                            <Typography type="bold" variant="span" letter="uppercase">
-                                                {t('common:button:viewAll')}
-                                            </Typography>
-                                        </a>
+
+                                        <Typography type="bold" variant="span" letter="uppercase">
+                                            {t('common:button:viewAll')}
+                                        </Typography>
+
                                     </Link>
                                 </Button>
                             </div>

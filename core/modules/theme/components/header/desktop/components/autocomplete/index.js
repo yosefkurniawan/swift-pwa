@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus */
 import { getCategoryByName, getProduct, getSellerByName } from '@core_modules/theme/services/graphql';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Router from 'next/router';

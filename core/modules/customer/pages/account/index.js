@@ -1,4 +1,4 @@
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 
 import Core from '@core_modules/customer/pages/account/core';
@@ -14,9 +14,5 @@ const Page = (props) => (
         GuestView={GuestView}
     />
 );
-
-Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'customer', 'rewardpoint', 'productreview'],
-});
 
 export default withApollo({ ssr: true })(withTranslation()(Page));

@@ -1,6 +1,8 @@
 import React from 'react';
-import MagezonElement from '@core_modules/cms/components/cms-renderer/magezon/index';
-import WidgetRenderer from '@core_modules/cms/components/cms-renderer/WidgetRenderer';
+import dynamic from 'next/dynamic';
+
+const MagezonElement = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/index'));
+const WidgetRenderer = dynamic(() => import('@core_modules/cms/components/cms-renderer/WidgetRenderer'));
 
 const MixedContent = (props) => {
     const {
@@ -23,14 +25,15 @@ const MagezonRenderer = (props) => {
 
     return (
         <>
-            {
-                removeIdentifier && removeIdentifier.elements && removeIdentifier.elements.length > 0
-              && removeIdentifier.elements.map((item, key) => (
-                  mixedContents[0] !== '' || mixedContents[2] !== ''
-                      ? <MixedContent key={key} {...item} storeConfig={storeConfig} contents={mixedContents} />
-                      : <MagezonElement key={key} {...item} storeConfig={storeConfig} />
-              ))
-            }
+            {removeIdentifier
+                && removeIdentifier.elements
+                && removeIdentifier.elements.length > 0
+                && removeIdentifier.elements.map((item, key) =>
+                    (mixedContents[0] !== '' || mixedContents[2] !== '' ? (
+                        <MixedContent key={key} {...item} storeConfig={storeConfig} contents={mixedContents} />
+                    ) : (
+                        <MagezonElement key={key} {...item} storeConfig={storeConfig} />
+                    )))}
         </>
     );
 };

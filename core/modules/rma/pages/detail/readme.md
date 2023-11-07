@@ -68,7 +68,7 @@ import ItemField from '@core_modules/rma/pages/detail/components/ItemField';  //
 import FormComment from '@core_modules/rma/pages/detail/components/FormComment';  // import your custom component
 import Detail from '@core_modules/rma/pages/detail/components/Detail';  // import your custom component
 import Footer from '@core_modules/rma/pages/detail/components/Footer';  // import your custom component
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 
 const Page = (props) => (

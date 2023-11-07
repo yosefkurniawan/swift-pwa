@@ -14,7 +14,7 @@ const LRUCache = require('lru-cache');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const remoteSchema = require('./core/api/graphql');
-const nextI18next = require('./core/lib/i18n');
+// const nextI18next = require('./core/lib/i18n');
 const { basePath } = require('./swift.config');
 
 const { json } = express;
@@ -22,7 +22,7 @@ const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
 
 const {
-    expiredToken, nossrCache, features, assetsVersion,
+    expiredToken, nossrCache, features,
 } = require('./swift.config');
 const generateXml = require('./core/api/rest/xml');
 const captchaValidation = require('./core/api/rest/captcha');
@@ -128,7 +128,7 @@ async function renderAndCache(req, res) {
         });
     }
 
-    await nextI18next.initPromise;
+    // await nextI18next.initPromise;
     // server.use(nextI18NextMiddleware(nextI18next));
 
     server.use(
@@ -195,20 +195,12 @@ async function renderAndCache(req, res) {
     /**
      * configuration firebase messaging
      *   */
-    const serviceWorkers = [
-        // {
-        //     filename: 'firebase-messaging-sw.js',
-        //     pathfile: `./public/static/firebase/firebase-messaging-sw.${assetsVersion}.js`,
-        // },
-        // {
-        //     filename: 'sw.js',
-        //     pathfile: './core/public/sw.js',
-        // },
-        // {
-        //     filename: '.well-known/assetlinks.json',
-        //     pathfile: './public/static/assetlinks.json',
-        // },
-    ];
+    // const serviceWorkers = [
+    //     {
+    //         filename: '.well-known/assetlinks.json',
+    //         pathfile: './public/static/assetlinks.json',
+    //     },
+    // ];
 
     // serviceWorkers.forEach(({ filename, pathfile }) => {
     //     // console.log('pathfile', pathfile);
@@ -217,15 +209,8 @@ async function renderAndCache(req, res) {
     //     });
     // });
 
-    // server.get(/(static\/chunks)/g, (req, res) => {
-    //     const filePath = path.join(basePath, '.next', './core/public/sw.js')
-    //     app.serveStatic(req, res, filePath);
-    // });
-
     server.get(/^(\/static\/chunks)/g, (req, res) => {
         const parsedUrl = parse(req.originalUrl, true);
-        // console.log('parsedUrl', parsedUrl);
-
         const { pathname } = parsedUrl;
 
         const filePath = path.join(basePath, '.next', pathname);

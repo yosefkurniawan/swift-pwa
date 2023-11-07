@@ -15,17 +15,37 @@ const TestimonialItem = (props) => {
 
     const { secure_base_media_url } = storeConfig;
 
-    return (
-        <>
-            {testimonial_type === 'type1' && (
-                <div className="mgz-testimonial-item">
+    return <>
+        {testimonial_type === 'type1' && (
+            <div className="mgz-testimonial-item">
+                <div className="mgz-testimonial-img">
+                    <Image src={`${secure_base_media_url}${image}`} width={image_width} height={image_width} storeConfig={storeConfig} lazy />
+                </div>
+                <div className="mgz-testimonial-content">{content}</div>
+                <div className="mgz-testimonial-meta">
+                    {link ? (
+                        <Link href={link} legacyBehavior>
+                            <a>
+                                <Typography type="bold">{`${name},`}</Typography>
+                            </a>
+                        </Link>
+                    ) : (
+                        <Typography type="bold">{`${name},`}</Typography>
+                    )}
+                    <Typography>{job}</Typography>
+                </div>
+            </div>
+        )}
+        {testimonial_type === 'type2' && (
+            <div className="mgz-testimonial-item">
+                <div className="mgz-testimonial-content">{content}</div>
+                <div className="mgz-testimonial-type2">
                     <div className="mgz-testimonial-img">
                         <Image src={`${secure_base_media_url}${image}`} width={image_width} height={image_width} storeConfig={storeConfig} lazy />
                     </div>
-                    <div className="mgz-testimonial-content">{content}</div>
                     <div className="mgz-testimonial-meta">
                         {link ? (
-                            <Link href={link}>
+                            <Link href={link} legacyBehavior>
                                 <a>
                                     <Typography type="bold">{`${name},`}</Typography>
                                 </a>
@@ -36,94 +56,72 @@ const TestimonialItem = (props) => {
                         <Typography>{job}</Typography>
                     </div>
                 </div>
-            )}
-            {testimonial_type === 'type2' && (
+            </div>
+        )}
+        {testimonial_type === 'type3' && (
+            <>
                 <div className="mgz-testimonial-item">
-                    <div className="mgz-testimonial-content">{content}</div>
-                    <div className="mgz-testimonial-type2">
-                        <div className="mgz-testimonial-img">
-                            <Image src={`${secure_base_media_url}${image}`} width={image_width} height={image_width} storeConfig={storeConfig} lazy />
-                        </div>
-                        <div className="mgz-testimonial-meta">
-                            {link ? (
-                                <Link href={link}>
-                                    <a>
-                                        <Typography type="bold">{`${name},`}</Typography>
-                                    </a>
-                                </Link>
-                            ) : (
-                                <Typography type="bold">{`${name},`}</Typography>
-                            )}
-                            <Typography>{job}</Typography>
-                        </div>
+                    <div className="mgz-testimonial-content type3">{content}</div>
+                </div>
+                <div className="mgz-testimonial-type3">
+                    <div className="mgz-testimonial-img">
+                        <Image src={`${secure_base_media_url}${image}`} width={image_width} height={image_width} storeConfig={storeConfig} lazy />
+                    </div>
+                    <div className="mgz-testimonial-meta">
+                        {link ? (
+                            <Link href={link} legacyBehavior>
+                                <a>
+                                    <Typography type="bold">{`${name},`}</Typography>
+                                </a>
+                            </Link>
+                        ) : (
+                            <Typography type="bold">{`${name},`}</Typography>
+                        )}
+                        <Typography>{job}</Typography>
                     </div>
                 </div>
-            )}
-            {testimonial_type === 'type3' && (
-                <>
-                    <div className="mgz-testimonial-item">
-                        <div className="mgz-testimonial-content type3">{content}</div>
-                    </div>
-                    <div className="mgz-testimonial-type3">
-                        <div className="mgz-testimonial-img">
-                            <Image src={`${secure_base_media_url}${image}`} width={image_width} height={image_width} storeConfig={storeConfig} lazy />
-                        </div>
-                        <div className="mgz-testimonial-meta">
-                            {link ? (
-                                <Link href={link}>
-                                    <a>
-                                        <Typography type="bold">{`${name},`}</Typography>
-                                    </a>
-                                </Link>
-                            ) : (
-                                <Typography type="bold">{`${name},`}</Typography>
-                            )}
-                            <Typography>{job}</Typography>
-                        </div>
-                    </div>
-                </>
-            )}
-            <style jsx>
-                {`
-                    .mgz-testimonial-item {
-                        padding: 25px;
-                        position: relative;
-                        ${box_background_color ? `background-color: ${box_background_color};` : ''}
-                        ${box_color ? `color: ${box_color};` : ''}
-                    }
-                    .mgz-testimonial-meta :global(> *[class*='Typography']) {
-                        ${box_color ? `color: ${box_color};` : ''}
-                    }
-                    .mgz-testimonial-meta :global(a:hover) {
-                        text-decoration: underline;
-                    }
-                    .mgz-testimonial-type2 {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                    }
-                    .mgz-testimonial-type2 .mgz-testimonial-img,
-                    .mgz-testimonial-type3 .mgz-testimonial-img {
-                        margin: 0;
-                        margin-right: 12px;
-                    }
-                    .mgz-testimonial-type2 .mgz-testimonial-meta > :global(*) {
-                        display: block;
-                        text-align: center;
-                    }
-                    .mgz-testimonial-type2 .mgz-testimonial-meta > :global(span:nth-child(1)) {
-                        margin: 0 5px;
-                    }
-                    .mgz-testimonial-type3 {
-                        display: flex;
-                        justify-content: flex-start;
-                        align-items: center;
-                        margin-top: 15px;
-                    }
-                `}
-            </style>
-        </>
-    );
+            </>
+        )}
+        <style jsx>
+            {`
+                .mgz-testimonial-item {
+                    padding: 25px;
+                    position: relative;
+                    ${box_background_color ? `background-color: ${box_background_color};` : ''}
+                    ${box_color ? `color: ${box_color};` : ''}
+                }
+                .mgz-testimonial-meta :global(> *[class*='Typography']) {
+                    ${box_color ? `color: ${box_color};` : ''}
+                }
+                .mgz-testimonial-meta :global(a:hover) {
+                    text-decoration: underline;
+                }
+                .mgz-testimonial-type2 {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .mgz-testimonial-type2 .mgz-testimonial-img,
+                .mgz-testimonial-type3 .mgz-testimonial-img {
+                    margin: 0;
+                    margin-right: 12px;
+                }
+                .mgz-testimonial-type2 .mgz-testimonial-meta > :global(*) {
+                    display: block;
+                    text-align: center;
+                }
+                .mgz-testimonial-type2 .mgz-testimonial-meta > :global(span:nth-child(1)) {
+                    margin: 0 5px;
+                }
+                .mgz-testimonial-type3 {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    margin-top: 15px;
+                }
+            `}
+        </style>
+    </>;
 };
 
 const MagezonTestimonials = (props) => {

@@ -1,19 +1,20 @@
 /* eslint-disable import/no-extraneous-dependencies */
-// const withOffline = require('next-offline');
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { createSecureHeaders } = require('next-secure-headers');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
 const withPWA = require('next-pwa')({
-    // dest: '.next',
-    // dest: 'public',
+    dest: 'public',
     swSrc: 'core/public/sw.js',
     sw: 'sw.js',
     register: true,
     skipWaiting: true,
     disable: process.env.NODE_ENV === 'development',
 });
+const { i18n } = require('./next-i18next.config');
 const { basePath } = require('./swift.config');
 
 module.exports = withPWA({
+    i18n,
     basePath,
     // Secure Header
     async headers() {
@@ -21,17 +22,10 @@ module.exports = withPWA({
     },
     // Disable X-Powered-By
     poweredByHeader: false,
-    future: {
-        webpack5: true,
-    },
-    // dontAutoRegisterSw: true,
     productionBrowserSourceMaps: true,
     publicRuntimeConfig: {
         appEnv: process.env.APP_ENV,
         rootDir: __dirname,
-    },
-    optimization: {
-        minimize: process.env.NODE_ENV === 'production', // Update this to true or false
     },
     webpack: (
         config,
@@ -59,14 +53,6 @@ module.exports = withPWA({
         return config;
     },
     // generateInDevMode: true, // please comment if develop to production
-    async rewrites() {
-        return [
-            {
-                source: `${basePath}/service-worker.js`,
-                destination: '/_next/static/service-worker.js',
-            },
-        ];
-    },
     // enable code below on Prod and increase the version everytime before running build script
     // generateBuildId: async () => 'swift-pwa-v1.0.0',
 });

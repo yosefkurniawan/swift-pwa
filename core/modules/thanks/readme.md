@@ -63,7 +63,7 @@ import Skeleton from '@core_modules/thanks/pages/default/components/Skeleton';
 
 ```node
 
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import { getCheckoutDataFromRequest } from '@helper_cookies';
 import Core from './core';

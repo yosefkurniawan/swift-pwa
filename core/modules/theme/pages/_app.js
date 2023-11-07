@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable object-curly-newline */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
@@ -6,10 +7,10 @@
 /* eslint-disable func-names */
 /* eslint-disable radix */
 /* eslint-disable max-len */
-import { basePath, custDataNameCookie, features, modules, sentry } from '@config';
+import { custDataNameCookie, features, modules, sentry } from '@config';
 import { getLastPathWithoutLogin, getLoginInfo } from '@helper_auth';
 import { getLocalStorage, setLocalStorage, setResolver, testLocalStorage } from '@helper_localstorage';
-import { appWithTranslation } from '@i18n';
+import { appWithTranslation } from 'next-i18next';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { getAppEnv } from '@root/core/helpers/env';
@@ -19,7 +20,7 @@ import { getCategories, getVesMenu, storeConfig as ConfigSchema } from '@service
 import { currencyVar, storeConfigVar, cmsPageVar } from '@root/core/services/graphql/cache';
 import theme from '@theme_theme';
 import Cookie from 'js-cookie';
-import { unregister } from 'next-offline/runtime';
+// import { unregister } from 'next-offline/runtime';
 import App from 'next/app';
 import React from 'react';
 
@@ -29,38 +30,38 @@ import graphRequest from '@graphql_request';
 // import Notification from '@lib_firebase/notification';
 // import firebase from '@lib_firebase/index';
 import routeMiddleware from '@middleware_route';
-import getConfig from 'next/config';
+// import getConfig from 'next/config';
 // import TagManager from 'react-gtm-module';
 
 import ModalCookies from '@core_modules/theme/components/modalCookies';
 // import * as Sentry from '@sentry/node';
 import { getDeviceByUA, getUAString } from '@root/core/helpers/deviceDection';
 
-const { publicRuntimeConfig } = getConfig();
+// const { publicRuntimeConfig } = getConfig();
 
 /*
  * ---------------------------------------------
  * SENTRY INITIALIZATION
  */
-if (sentry.enabled && typeof publicRuntimeConfig !== 'undefined' && sentry.dsn[publicRuntimeConfig.appEnv]) {
-    const distDir = `${publicRuntimeConfig.rootDir}/.next`;
-    Sentry.init({
-        enabled: process.env.NODE_ENV === sentry.enableMode,
-        integrations: [
-            new RewriteFrames({
-                iteratee: (frame) => {
-                    // eslint-disable-next-line no-param-reassign
-                    frame.filename = frame.filename.replace(distDir, 'app:///_next');
-                    return frame;
-                },
-            }),
-            new Integrations.BrowserTracing(),
-        ],
-        environment: publicRuntimeConfig.appEnv,
-        dsn: sentry.dsn[publicRuntimeConfig.appEnv],
-        tracesSampleRate: 0.5,
-    });
-}
+// if (sentry.enabled && typeof publicRuntimeConfig !== 'undefined' && sentry.dsn[publicRuntimeConfig.appEnv]) {
+//     const distDir = `${publicRuntimeConfig.rootDir}/.next`;
+//     Sentry.init({
+//         enabled: process.env.NODE_ENV === sentry.enableMode,
+//         integrations: [
+//             new RewriteFrames({
+//                 iteratee: (frame) => {
+//                     // eslint-disable-next-line no-param-reassign
+//                     frame.filename = frame.filename.replace(distDir, 'app:///_next');
+//                     return frame;
+//                 },
+//             }),
+//             new Integrations.BrowserTracing(),
+//         ],
+//         environment: publicRuntimeConfig.appEnv,
+//         dsn: sentry.dsn[publicRuntimeConfig.appEnv],
+//         tracesSampleRate: 0.5,
+//     });
+// }
 
 class MyApp extends App {
     constructor(props) {
@@ -317,26 +318,24 @@ class MyApp extends App {
         */
 
         const storeConfig = storeConfigVar();
-        let GTM = {};
+        // let GTM = {};
 
         if (storeConfig && storeConfig.pwa) {
-            GTM = {
-                enable: storeConfig && storeConfig.pwa.gtm_enable,
-                gtmId: {
-                    local: storeConfig && storeConfig.pwa.gtm_id_local ? storeConfig.pwa.gtm_id_local : '',
-                    dev: storeConfig && storeConfig.pwa.gtm_id_dev ? storeConfig.pwa.gtm_id_dev : '',
-                    stage: storeConfig && storeConfig.pwa.gtm_id_stage ? storeConfig.pwa.gtm_id_stage : '',
-                    prod: storeConfig && storeConfig.pwa.gtm_id_prod ? storeConfig.pwa.gtm_id_prod : '',
-                },
-            };
+            // GTM = {
+            //     enable: storeConfig && storeConfig.pwa.gtm_enable,
+            //     // enable: true,
+            //     gtmId: {
+            //         local: 'GTM-5G5TGZ6',
+            //         dev: storeConfig && storeConfig.pwa.gtm_id_dev ? storeConfig.pwa.gtm_id_dev : '',
+            //         stage: storeConfig && storeConfig.pwa.gtm_id_stage ? storeConfig.pwa.gtm_id_stage : '',
+            //         prod: storeConfig && storeConfig.pwa.gtm_id_prod ? storeConfig.pwa.gtm_id_prod : '',
+            //     },
+            // };
         }
 
-        const tagManagerArgs = {
-            gtmId:
-                typeof publicRuntimeConfig !== 'undefined' && GTM.gtmId[publicRuntimeConfig.appEnv]
-                    ? GTM.gtmId[publicRuntimeConfig.appEnv]
-                    : GTM.gtmId.dev,
-        };
+        // const tagManagerArgs = {
+        //     gtmId: 'GTM-5G5TGZ6',
+        // };
         // if (GTM.enable) TagManager.initialize(tagManagerArgs);
 
         /*
@@ -349,10 +348,6 @@ class MyApp extends App {
                 setResolver({});
             };
         }
-    }
-
-    componentWillUnmount() {
-        unregister();
     }
 
     registerServiceWorker() {

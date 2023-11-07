@@ -34,7 +34,7 @@ import Skeleton from '@core_modules/order/pages/detail/components/skeleton';
 ### 5. Place it in your page
 #### example code
 ````
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import Page from '@core_modules/order/pages/detail/core';
 // import custom template

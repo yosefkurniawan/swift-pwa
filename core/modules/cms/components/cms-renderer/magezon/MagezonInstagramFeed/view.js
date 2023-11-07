@@ -95,196 +95,190 @@ const MagezonInstagramFeedView = (props) => {
         },
     };
 
-    return (
-        <>
-            { open && data && data.length > 0 && (
-                <Popup
-                    open={open}
-                    setOpen={() => setOpen(false)}
-                    data={data}
-                    imagePosition={imagePosition}
-                    max_items={max_items}
-                />
-            ) }
-            <div className={classInstagram}>
-                <div className="magezone-title-instagram-box">
-                    <Typography
-                        variant={title_tag}
-                        align={title_align}
-                        className="magezon-title-instagram"
-                    >
-                        {title}
-                    </Typography>
-                </div>
-                <div className="row">
-                    {
-                        (onclick && onclick === 'magnific')
-                            ? (
-                                <SimpleReactLightbox>
-                                    <SRLWrapper options={ligtboxSetting}>
-                                        <div className="row">
-                                            {
-                                                data && data.length > 0 && data.map((item, key) => (key < max_items ? (
-                                                    <div
-                                                        key={key}
-                                                        className={`${classItem}`}
-                                                    >
-                                                        <ImageItem
-                                                            src={item.media_url}
-                                                            alt={item.caption || ''}
-                                                            storeConfig={storeConfig}
-                                                        />
-                                                    </div>
-                                                ) : null))
-                                            }
-                                        </div>
-                                    </SRLWrapper>
-                                </SimpleReactLightbox>
-                            )
-                            : data && data.length > 0 && data.map((item, key) => (key < max_items ? (
-                                <div
-                                    key={key}
-                                    className={`${classItem} magezon-instagram-item`}
-                                >
-                                    {
-                                        onclick && onclick === 'photo' ? (
-                                            <Link
-                                                href={item.media_url}
-                                            >
-                                                <a
-                                                    target={link_target}
-                                                >
-                                                    <ImageItem src={item.media_url} alt={item.id} storeConfig={storeConfig} />
-                                                </a>
-                                            </Link>
-                                        ) : (
-                                            <ImageItem
-                                                src={item.media_url}
-                                                alt={item.id}
-                                                onClick={() => handleClick(key)}
-                                                storeConfig={storeConfig}
-                                            />
-                                        )
-                                    }
-                                </div>
-                            ) : null))
-                    }
-                </div>
-
-                <Link
-                    href={`https://instagram.com/${instagram_username}`}
+    return <>
+        { open && data && data.length > 0 && (
+            <Popup
+                open={open}
+                setOpen={() => setOpen(false)}
+                data={data}
+                imagePosition={imagePosition}
+                max_items={max_items}
+            />
+        ) }
+        <div className={classInstagram}>
+            <div className="magezone-title-instagram-box">
+                <Typography
+                    variant={title_tag}
+                    align={title_align}
+                    className="magezon-title-instagram"
                 >
-                    <a
-                        target="_blank"
-                        color="inherit"
-                        underline="none"
-                    >
-                        <Typography
-                            variant="span"
-                            letter="capitalize"
-                            size="14"
-                        >
-                            {link_text}
-                        </Typography>
-                    </a>
-                </Link>
-                <style jsx>
-                    {`
-                        @media only screen and (max-width: 47em) {
-                            .col-xs-5 {
-                                flex: 1 20%;
-                                max-width: 20%;
-                            }
-                        }
-                        @media only screen and (min-width: 48em) and (max-width: 63em) {
-                            .col-sm-5 {
-                                flex: 1 20%;
-                                max-width: 20%;
-                            }
-                        }
-                        @media only screen and (min-width: 64em) and (max-width: 74em) {
-                            .col-md-5 {
-                                flex: 1 20%;
-                                max-width: 20%;
-                            }
-                        }
-                        @media only screen and (min-width: 75em) {
-                            .col-lg-5 {
-                                flex: 1 20%;
-                                max-width: 20%;
-                            }
-                        }
-                    `}
-                </style>
-                <style jsx global>
-                    {`
-                        
-                        @media (max-width: 768px) {
-                            .SRLNextButton {
-                                display: block !important;
-                            }
-                            .SRLPrevButton {
-                                display: block !important;
-                            }
-                        }
-
-                        .magezon-instagram-item {
-                            overflow: hidden !important;
-                            margin: ${gap ? hover_effect === 'zoomin' ? gap / 2 : gap / 4 : 0}px 0px;
-                        }
-                        .magezon-instagram-img {
-                            object-fit: cover;
-                            width: 100%;
-                            transform: scale(1);
-                            ${onclick && onclick !== '' && hover_effect === 'zoomin'
-                                ? 'transition: transform 1s, filter 2s ease-in-out;'
-                                : onclick && onclick !== null && hover_effect === 'zoomout'
-                                    ? 'transition: transform 1s, visibility 1s ease-in-out;'
-                                    : ''
-                            }
-                        }
-                        .magezon-instagram-img:hover {
-                            ${onclick && onclick !== '' && hover_effect === 'zoomin'
-                                ? ' transform: scale(1.1);'
-                                : onclick && onclick !== null && hover_effect === 'zoomout'
-                                    ? 'transform: scale(0.9);'
-                                    : ''
-                            }
-                        }
-                        .magezon-instagram {
-                            width: 100%;
-                            margin-bottom: 20px;
-                        }
-                        .magezone-title-instagram-box {
-                            width:100%;
-                            text-align:${title_align}; 
-                            position: relative;
-                            margin-bottom: 10px;
-                        }
-                        .magezon-title-instagram {        
-                            position:relative; 
-                            padding:12px;
-                            color: ${title_color};
-                            background: #fff;
-                            display: inline-block;
-                            text-transform: uppercase;
-                            z-index: 1
-                        }
-                        .magezone-title-instagram-box::after {
-                            content:'';
-                            position: absolute;
-                            left: 0;
-                            right: 0;
-                            top: ${line_position === 'center' ? '50%' : '100%'};
-                            height: ${line_width}px;
-                            background: ${line_color};
-                            z-index:0;
-                        }
-                    `}
-                </style>
+                    {title}
+                </Typography>
             </div>
-        </>
-    );
+            <div className="row">
+                {
+                    (onclick && onclick === 'magnific')
+                        ? (
+                            <SimpleReactLightbox>
+                                <SRLWrapper options={ligtboxSetting}>
+                                    <div className="row">
+                                        {
+                                            data && data.length > 0 && data.map((item, key) => (key < max_items ? (
+                                                <div
+                                                    key={key}
+                                                    className={`${classItem}`}
+                                                >
+                                                    <ImageItem
+                                                        src={item.media_url}
+                                                        alt={item.caption || ''}
+                                                        storeConfig={storeConfig}
+                                                    />
+                                                </div>
+                                            ) : null))
+                                        }
+                                    </div>
+                                </SRLWrapper>
+                            </SimpleReactLightbox>
+                        )
+                        : data && data.length > 0 && data.map((item, key) => (key < max_items ? (
+                            <div
+                                key={key}
+                                className={`${classItem} magezon-instagram-item`}
+                            >
+                                {
+                                    onclick && onclick === 'photo' ? (
+                                        <Link href={item.media_url} legacyBehavior>
+                                            <a
+                                                target={link_target}
+                                            >
+                                                <ImageItem src={item.media_url} alt={item.id} storeConfig={storeConfig} />
+                                            </a>
+                                        </Link>
+                                    ) : (
+                                        <ImageItem
+                                            src={item.media_url}
+                                            alt={item.id}
+                                            onClick={() => handleClick(key)}
+                                            storeConfig={storeConfig}
+                                        />
+                                    )
+                                }
+                            </div>
+                        ) : null))
+                }
+            </div>
+
+            <Link href={`https://instagram.com/${instagram_username}`} legacyBehavior>
+                <a
+                    target="_blank"
+                    color="inherit"
+                    underline="none"
+                >
+                    <Typography
+                        variant="span"
+                        letter="capitalize"
+                        size="14"
+                    >
+                        {link_text}
+                    </Typography>
+                </a>
+            </Link>
+            <style jsx>
+                {`
+                    @media only screen and (max-width: 47em) {
+                        .col-xs-5 {
+                            flex: 1 20%;
+                            max-width: 20%;
+                        }
+                    }
+                    @media only screen and (min-width: 48em) and (max-width: 63em) {
+                        .col-sm-5 {
+                            flex: 1 20%;
+                            max-width: 20%;
+                        }
+                    }
+                    @media only screen and (min-width: 64em) and (max-width: 74em) {
+                        .col-md-5 {
+                            flex: 1 20%;
+                            max-width: 20%;
+                        }
+                    }
+                    @media only screen and (min-width: 75em) {
+                        .col-lg-5 {
+                            flex: 1 20%;
+                            max-width: 20%;
+                        }
+                    }
+                `}
+            </style>
+            <style jsx global>
+                {`
+                    
+                    @media (max-width: 768px) {
+                        .SRLNextButton {
+                            display: block !important;
+                        }
+                        .SRLPrevButton {
+                            display: block !important;
+                        }
+                    }
+
+                    .magezon-instagram-item {
+                        overflow: hidden !important;
+                        margin: ${gap ? hover_effect === 'zoomin' ? gap / 2 : gap / 4 : 0}px 0px;
+                    }
+                    .magezon-instagram-img {
+                        object-fit: cover;
+                        width: 100%;
+                        transform: scale(1);
+                        ${onclick && onclick !== '' && hover_effect === 'zoomin'
+                            ? 'transition: transform 1s, filter 2s ease-in-out;'
+                            : onclick && onclick !== null && hover_effect === 'zoomout'
+                                ? 'transition: transform 1s, visibility 1s ease-in-out;'
+                                : ''
+                        }
+                    }
+                    .magezon-instagram-img:hover {
+                        ${onclick && onclick !== '' && hover_effect === 'zoomin'
+                            ? ' transform: scale(1.1);'
+                            : onclick && onclick !== null && hover_effect === 'zoomout'
+                                ? 'transform: scale(0.9);'
+                                : ''
+                        }
+                    }
+                    .magezon-instagram {
+                        width: 100%;
+                        margin-bottom: 20px;
+                    }
+                    .magezone-title-instagram-box {
+                        width:100%;
+                        text-align:${title_align}; 
+                        position: relative;
+                        margin-bottom: 10px;
+                    }
+                    .magezon-title-instagram {        
+                        position:relative; 
+                        padding:12px;
+                        color: ${title_color};
+                        background: #fff;
+                        display: inline-block;
+                        text-transform: uppercase;
+                        z-index: 1
+                    }
+                    .magezone-title-instagram-box::after {
+                        content:'';
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        top: ${line_position === 'center' ? '50%' : '100%'};
+                        height: ${line_width}px;
+                        background: ${line_color};
+                        z-index:0;
+                    }
+                `}
+            </style>
+        </div>
+    </>;
 };
 
 export default MagezonInstagramFeedView;

@@ -15,12 +15,12 @@ const ItemOrder = ({
                     {status_label}
                 </Typography>
                 <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${order_number}`}>
-                    <a>
-                        <Typography variant="title" type="regular">
-                            #
-                            {order_number}
-                        </Typography>
-                    </a>
+
+                    <Typography variant="title" type="regular">
+                        #
+                        {order_number}
+                    </Typography>
+
                 </Link>
                 <div className={styles.detailItem}>
                     <div className={`column ${styles.columnLabel}`}>

@@ -99,17 +99,17 @@ const ViewMobile = (props) => {
                         <ul className={styles.account_navigation}>
                             {menu.map(({ href, title }, index) => (
                                 <li className={styles.account_navigation_item} key={index}>
-                                    <Link href={href}>
-                                        <a className={styles.account_navigation_link}>
-                                            <StyledBadge
-                                                color="secondary"
-                                                max={99}
-                                                invisible={!href.includes('notification') || !totalUnread}
-                                                badgeContent={totalUnread}
-                                            >
-                                                {title}
-                                            </StyledBadge>
-                                        </a>
+                                    <Link href={href} className={styles.account_navigation_link}>
+
+                                        <StyledBadge
+                                            color="secondary"
+                                            max={99}
+                                            invisible={!href.includes('notification') || !totalUnread}
+                                            badgeContent={totalUnread}
+                                        >
+                                            {title}
+                                        </StyledBadge>
+
                                     </Link>
                                 </li>
                             ))}
@@ -123,12 +123,14 @@ const ViewMobile = (props) => {
                                 <Typography variant="span" type="bold" letter="capitalize" className={styles.account_wishlist_title}>
                                     Wishlist
                                 </Typography>
-                                <Link href="/wishlist">
-                                    <a className={[styles.account_wishlist_read_more].join(' ')}>
-                                        <Typography variant="span" type="bold" letter="capitalize">
-                                            {t('customer:menu:readMore')}
-                                        </Typography>
-                                    </a>
+                                <Link
+                                    href="/wishlist"
+                                    className={[styles.account_wishlist_read_more].join(' ')}>
+
+                                    <Typography variant="span" type="bold" letter="capitalize">
+                                        {t('customer:menu:readMore')}
+                                    </Typography>
+
                                 </Link>
                             </div>
                         </div>

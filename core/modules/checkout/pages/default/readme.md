@@ -25,7 +25,7 @@ import CashbackInfo from '@core_modules/checkout/pages/default/components/Cashba
 #### example code
 ````
 import Layout from '@layout';
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import Head from 'next/head';
 import { modules } from '@config';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { breakPointsUp } from '@helper_theme';
 import { getBrands } from '@core_modules/brands/services/graphql';
 

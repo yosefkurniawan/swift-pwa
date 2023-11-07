@@ -63,7 +63,7 @@ import CoreBase from '@core_modules/rma/pages/history/core'; // must import and 
 import Skeleton from '@core_modules/rma/pages/history/components/Skeleton'; // point to your custom component
 import WarningInfo from '@core_modules/rma/pages/history/components/Info';  // point to your custom component
 import Content from '@core_modules/rma/pages/history/components';  // point to your custom component
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 
 const Page = (props) => (

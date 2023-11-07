@@ -96,205 +96,203 @@ const MagezonRecentReviews = (props) => {
     if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
     if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
 
-    return (
-        <>
-            <div className="mgz-recent-reviews">
-                <div className={`mgz-recent-reviews-heading ${showLineClass} ${linePosClass}`}>
-                    <div className="mgz-recent-reviews-heading-title">
-                        <Typography variant={title_tag} align={title_align}>
-                            {title.toUpperCase()}
-                        </Typography>
-                    </div>
-                    <div>{description}</div>
+    return <>
+        <div className="mgz-recent-reviews">
+            <div className={`mgz-recent-reviews-heading ${showLineClass} ${linePosClass}`}>
+                <div className="mgz-recent-reviews-heading-title">
+                    <Typography variant={title_tag} align={title_align}>
+                        {title.toUpperCase()}
+                    </Typography>
                 </div>
-                <div className="mgz-recent-reviews-content">
-                    <Slider ref={(slider) => (sliderRef = slider)} {...settings}>
-                        {reviewData.reviews.items.map((review, index) => (
-                            <div key={index} className="mgz-recent-reviews-content-container">
-                                {review_customer && (
-                                    <Typography variant="h3" type="bold" className="review-nickname">
-                                        {review.nickname}
-                                    </Typography>
-                                )}
-                                <div className="rating-star" style={{ display: 'flex' }}>
-                                    {review_rating_star && <RatingStar value={review.ratings_breakdown[0].value} />}
-                                    {review_title && (
-                                        <Link href={reviewData.url_key}>
-                                            <a className="review-link">
-                                                <Typography type="bold">{review.summary}</Typography>
-                                            </a>
-                                        </Link>
-                                    )}
-                                </div>
-                                {review_date && <div className="review-date">{formatDate(review.created_at, 'M/DD/YY')}</div>}
-                                {review_product_name && (
-                                    <Link href={reviewData.url_key}>
+                <div>{description}</div>
+            </div>
+            <div className="mgz-recent-reviews-content">
+                <Slider ref={(slider) => (sliderRef = slider)} {...settings}>
+                    {reviewData.reviews.items.map((review, index) => (
+                        <div key={index} className="mgz-recent-reviews-content-container">
+                            {review_customer && (
+                                <Typography variant="h3" type="bold" className="review-nickname">
+                                    {review.nickname}
+                                </Typography>
+                            )}
+                            <div className="rating-star" style={{ display: 'flex' }}>
+                                {review_rating_star && <RatingStar value={review.ratings_breakdown[0].value} />}
+                                {review_title && (
+                                    <Link href={reviewData.url_key} legacyBehavior>
                                         <a className="review-link">
-                                            <Typography variant="h4" type="bold">
-                                                {reviewData.name}
-                                            </Typography>
+                                            <Typography type="bold">{review.summary}</Typography>
                                         </a>
                                     </Link>
                                 )}
-                                <div style={{ display: 'flex' }}>
-                                    {review_product_image && (
-                                        <div style={{ width: defaultWidth, maxWidth: '20%', display: 'flex' }}>
-                                            <Thumbor
-                                                src={reviewData.small_image.url}
-                                                width={defaultWidth}
-                                                height={defaultHeight}
-                                                storeConfig={storeConfig}
-                                            />
-                                        </div>
-                                    )}
-                                    {review_content && <div className="review-text">{review.text}</div>}
-                                </div>
                             </div>
-                        ))}
-                    </Slider>
-                    {owl_nav && showNav && (
-                        <div className="mgz-recent-reviews-nav">
-                            <div className="mgz-recent-reviews-nav--btn" onClick={() => sliderRef.slickPrev()}>
-                                <LeftArrowIcon />
-                            </div>
-                            <div className="mgz-recent-reviews-nav--btn" onClick={() => sliderRef.slickNext()}>
-                                <RightArrowIcon />
+                            {review_date && <div className="review-date">{formatDate(review.created_at, 'M/DD/YY')}</div>}
+                            {review_product_name && (
+                                <Link href={reviewData.url_key} legacyBehavior>
+                                    <a className="review-link">
+                                        <Typography variant="h4" type="bold">
+                                            {reviewData.name}
+                                        </Typography>
+                                    </a>
+                                </Link>
+                            )}
+                            <div style={{ display: 'flex' }}>
+                                {review_product_image && (
+                                    <div style={{ width: defaultWidth, maxWidth: '20%', display: 'flex' }}>
+                                        <Thumbor
+                                            src={reviewData.small_image.url}
+                                            width={defaultWidth}
+                                            height={defaultHeight}
+                                            storeConfig={storeConfig}
+                                        />
+                                    </div>
+                                )}
+                                {review_content && <div className="review-text">{review.text}</div>}
                             </div>
                         </div>
-                    )}
-                </div>
+                    ))}
+                </Slider>
+                {owl_nav && showNav && (
+                    <div className="mgz-recent-reviews-nav">
+                        <div className="mgz-recent-reviews-nav--btn" onClick={() => sliderRef.slickPrev()}>
+                            <LeftArrowIcon />
+                        </div>
+                        <div className="mgz-recent-reviews-nav--btn" onClick={() => sliderRef.slickNext()}>
+                            <RightArrowIcon />
+                        </div>
+                    </div>
+                )}
             </div>
-            <style jsx>
-                {`
-                    .mgz-recent-reviews-heading {
-                        text-align: ${title_align};
-                        position: relative;
-                        margin-bottom: 10px;
-                        padding-bottom: 10px;
-                    }
-                    .mgz-recent-reviews-heading-line:before {
-                        content: '';
-                        z-index: 0;
-                        display: block;
-                        position: absolute;
-                        bottom: 0;
-                        top: 40%;
-                        width: 100%;
-                        height: ${line_width}px;
-                        background-color: ${line_color};
-                    }
-                    .mgz-recent-reviews-heading-line--bottom:before {
-                        top: auto;
-                        bottom: 0;
-                    }
-                    .mgz-recent-reviews-heading-title {
-                        background-color: #ffffff;
-                        display: inline-block;
-                        position: relative;
-                    }
-                    .mgz-recent-reviews-content .rating-star :global(> div svg) {
-                        color: ${review_star_color || '#ff5501'};
-                    }
-                    .mgz-recent-reviews-content-container > :global(*[class*='Typography']) {
-                        margin: 5px 0;
-                    }
-                    .mgz-recent-reviews-content-container {
-                        padding: 10px;
-                        background-color: ${review_background_color || '#f5f5f5'};
-                    }
-                    .mgz-recent-reviews-content-container :global(.review-nickname),
-                    .review-date,
-                    .review-text {
-                        color: ${review_color || '#000000'};
-                    }
-                    .review-text {
-                        margin-left: 5px;
-                    }
-                    .review-link > :global(*) {
-                        margin: 5px 0;
-                        color: ${review_link_color || '#007bdb'};
-                    }
-                `}
-            </style>
-            <style jsx>
-                {`
-                    .mgz-recent-reviews {
-                        ${isSm ? 'min-height: 600px;' : isXs ? 'min-height: 700px;' : ''}
-                    }
-                    .mgz-recent-reviews :global(.slick-slide > div) {
-                        margin: 0 5px;
-                    }
-                    .mgz-recent-reviews :global(.slick-slider) {
-                        padding: 0 ${owl_stage_padding}px;
-                    }
-                    .mgz-recent-reviews :global(.slick-list) {
-                    }
-                    .mgz-recent-reviews :global(.slick-dots) {
-                        position: relative;
-                        bottom: -70px;
-                    }
-                    .mgz-recent-reviews :global(.slick-track) {
-                    }
-                    .mgz-recent-reviews :global(.custom-slick-dots) {
-                        width: 10px;
-                        height: 10px;
-                        background-color: ${owl_background_color || '#eee'};
-                        border-radius: 50px;
-                    }
-                    .mgz-recent-reviews :global(.slick-active .custom-slick-dots) {
-                        background-color: ${owl_active_background_color || '#000000'};
-                    }
-                    .mgz-recent-reviews :global(.slick-slider li:not(.slick-active) .custom-slick-dots:hover) {
-                        background-color: ${owl_hover_background_color || '#000000'};
-                    }
-                    .mgz-recent-reviews-nav {
-                        position: absolute;
-                        top: ${owl_nav_position.includes('top') ? (isXs || isSm ? '2%' : '10%') : '50%'};
-                        bottom: ${owl_nav_position.includes('bottom') ? '-10%' : '50%'};
-                        display: flex;
-                        width: 100%;
-                        justify-content: ${owl_nav_position === 'top_left' || owl_nav_position === 'bottom_left'
-                            ? 'flex-start'
-                            : owl_nav_position === 'top_right' || owl_nav_position === 'bottom_right'
-                            ? 'flex-end'
-                            : 'space-between'};
-                    }
-                    .mgz-recent-reviews-nav--btn {
-                        display: flex;
-                        z-index: 1;
-                        margin: 0 2px;
-                        ${owl_nav_position === 'center_split' ? 'opacity: 0;' : ''}
-                        align-items: center;
-                        justify-content: center;
-                        width: ${navSize * 2}px;
-                        height: ${navSize * 2}px;
-                        background-color: ${owl_background_color || '#eee'};
-                        transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-                    }
-                    .mgz-recent-reviews:hover .mgz-recent-reviews-nav--btn {
-                        ${owl_nav_position === 'center_split' ? 'opacity: 1;' : ''}
-                    }
-                    .mgz-recent-reviews-nav--btn:hover {
-                        cursor: pointer;
-                        border: 1px solid black;
-                        background-color: ${owl_hover_background_color};
-                    }
-                    .mgz-recent-reviews-nav--btn :global(svg) {
-                        font-size: 15px;
-                        color: ${owl_color};
-                    }
-                    .mgz-recent-reviews-nav--btn:hover :global(svg) {
-                        color: ${owl_hover_color};
-                    }
-                    .mgz-recent-reviews-dots {
-                        display: flex;
-                        justify-content: center;
-                        margin: 5px;
-                    }
-                `}
-            </style>
-        </>
-    );
+        </div>
+        <style jsx>
+            {`
+                .mgz-recent-reviews-heading {
+                    text-align: ${title_align};
+                    position: relative;
+                    margin-bottom: 10px;
+                    padding-bottom: 10px;
+                }
+                .mgz-recent-reviews-heading-line:before {
+                    content: '';
+                    z-index: 0;
+                    display: block;
+                    position: absolute;
+                    bottom: 0;
+                    top: 40%;
+                    width: 100%;
+                    height: ${line_width}px;
+                    background-color: ${line_color};
+                }
+                .mgz-recent-reviews-heading-line--bottom:before {
+                    top: auto;
+                    bottom: 0;
+                }
+                .mgz-recent-reviews-heading-title {
+                    background-color: #ffffff;
+                    display: inline-block;
+                    position: relative;
+                }
+                .mgz-recent-reviews-content .rating-star :global(> div svg) {
+                    color: ${review_star_color || '#ff5501'};
+                }
+                .mgz-recent-reviews-content-container > :global(*[class*='Typography']) {
+                    margin: 5px 0;
+                }
+                .mgz-recent-reviews-content-container {
+                    padding: 10px;
+                    background-color: ${review_background_color || '#f5f5f5'};
+                }
+                .mgz-recent-reviews-content-container :global(.review-nickname),
+                .review-date,
+                .review-text {
+                    color: ${review_color || '#000000'};
+                }
+                .review-text {
+                    margin-left: 5px;
+                }
+                .review-link > :global(*) {
+                    margin: 5px 0;
+                    color: ${review_link_color || '#007bdb'};
+                }
+            `}
+        </style>
+        <style jsx>
+            {`
+                .mgz-recent-reviews {
+                    ${isSm ? 'min-height: 600px;' : isXs ? 'min-height: 700px;' : ''}
+                }
+                .mgz-recent-reviews :global(.slick-slide > div) {
+                    margin: 0 5px;
+                }
+                .mgz-recent-reviews :global(.slick-slider) {
+                    padding: 0 ${owl_stage_padding}px;
+                }
+                .mgz-recent-reviews :global(.slick-list) {
+                }
+                .mgz-recent-reviews :global(.slick-dots) {
+                    position: relative;
+                    bottom: -70px;
+                }
+                .mgz-recent-reviews :global(.slick-track) {
+                }
+                .mgz-recent-reviews :global(.custom-slick-dots) {
+                    width: 10px;
+                    height: 10px;
+                    background-color: ${owl_background_color || '#eee'};
+                    border-radius: 50px;
+                }
+                .mgz-recent-reviews :global(.slick-active .custom-slick-dots) {
+                    background-color: ${owl_active_background_color || '#000000'};
+                }
+                .mgz-recent-reviews :global(.slick-slider li:not(.slick-active) .custom-slick-dots:hover) {
+                    background-color: ${owl_hover_background_color || '#000000'};
+                }
+                .mgz-recent-reviews-nav {
+                    position: absolute;
+                    top: ${owl_nav_position.includes('top') ? (isXs || isSm ? '2%' : '10%') : '50%'};
+                    bottom: ${owl_nav_position.includes('bottom') ? '-10%' : '50%'};
+                    display: flex;
+                    width: 100%;
+                    justify-content: ${owl_nav_position === 'top_left' || owl_nav_position === 'bottom_left'
+                        ? 'flex-start'
+                        : owl_nav_position === 'top_right' || owl_nav_position === 'bottom_right'
+                        ? 'flex-end'
+                        : 'space-between'};
+                }
+                .mgz-recent-reviews-nav--btn {
+                    display: flex;
+                    z-index: 1;
+                    margin: 0 2px;
+                    ${owl_nav_position === 'center_split' ? 'opacity: 0;' : ''}
+                    align-items: center;
+                    justify-content: center;
+                    width: ${navSize * 2}px;
+                    height: ${navSize * 2}px;
+                    background-color: ${owl_background_color || '#eee'};
+                    transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+                }
+                .mgz-recent-reviews:hover .mgz-recent-reviews-nav--btn {
+                    ${owl_nav_position === 'center_split' ? 'opacity: 1;' : ''}
+                }
+                .mgz-recent-reviews-nav--btn:hover {
+                    cursor: pointer;
+                    border: 1px solid black;
+                    background-color: ${owl_hover_background_color};
+                }
+                .mgz-recent-reviews-nav--btn :global(svg) {
+                    font-size: 15px;
+                    color: ${owl_color};
+                }
+                .mgz-recent-reviews-nav--btn:hover :global(svg) {
+                    color: ${owl_hover_color};
+                }
+                .mgz-recent-reviews-dots {
+                    display: flex;
+                    justify-content: center;
+                    margin: 5px;
+                }
+            `}
+        </style>
+    </>;
 };
 
 export default MagezonRecentReviews;

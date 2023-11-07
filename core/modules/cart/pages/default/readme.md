@@ -33,7 +33,7 @@ import Skeleton from '@core_modules/cart/pages/default/components/skeleton';
 #### example code
 ````
 import Layout from '@layout';
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import dynamic from 'next/dynamic';
 import ItemView from '@core_modules/cart/pages/default/components/item';
