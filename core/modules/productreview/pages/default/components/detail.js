@@ -81,12 +81,12 @@ const ProductReview = (props) => {
                                         </Typography>
                                         <Typography variant="p" align="left">
                                             1 &nbsp;
-                                            <Link href={`/${reviewItem.product.url_key}`}>
+                                            <Link href={`/${reviewItem.product.url_key}`} legacyBehavior>
                                                 {t('productreview:review')}
                                             </Link>
                                         </Typography>
                                         <Typography variant="p" align="left">
-                                            <Link href={`/${reviewItem.product.url_key}`}>
+                                            <Link href={`/${reviewItem.product.url_key}`} legacyBehavior>
                                                 {t('productreview:addYourReview')}
                                             </Link>
                                         </Typography>

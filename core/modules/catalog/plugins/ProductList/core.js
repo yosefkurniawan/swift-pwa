@@ -170,7 +170,7 @@ const ProductPagination = (props) => {
      */
     React.useEffect(() => {
         if (storeConfig && storeConfig.pwa) {
-            setPageSize(storeConfig && storeConfig.pwa && parseInt(storeConfig.pwa.page_size, 0));
+            setPageSize(storeConfig && storeConfig.pwa && parseInt(storeConfig.pwa.page_size, 10));
         }
     }, [storeConfig]);
 
@@ -565,7 +565,7 @@ const ProductLoadMore = (props) => {
         config,
         {
             variables: {
-                pageSize: parseInt(storeConfig?.pwa?.page_size, 0) || 10,
+                pageSize: parseInt(storeConfig?.pwa?.page_size, 10) || 10,
                 currentPage: 1,
             },
             context,
@@ -577,7 +577,7 @@ const ProductLoadMore = (props) => {
     const page = data && data.products && data.products.page_info && data.products.page_info.current_page;
     const [getProdPrice, { data: dataPrice, loading: loadPrice, error: errorPrice }] = getProductPrice(config, {
         variables: {
-            pageSize: storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 0) : 10,
+            pageSize: storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 10) : 10,
             currentPage: page,
         },
         context,
@@ -631,8 +631,8 @@ const ProductLoadMore = (props) => {
 
     const handleLoadMore = async () => {
         setFilterSaved(false);
-        const pageSize = storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 0) : 10;
-        const pageTemp = data.products.items.length / (parseInt(storeConfig?.pwa?.page_size, 0) || 10) + 1;
+        const pageSize = storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 10) : 10;
+        const pageTemp = data.products.items.length / (parseInt(storeConfig?.pwa?.page_size, 10) || 10) + 1;
         try {
             if (fetchMore && typeof fetchMore !== 'undefined') {
                 setLoadmore(true);

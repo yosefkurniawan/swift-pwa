@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import TagManager from 'react-gtm-module';
 // eslint-disable-next-line object-curly-newline
-import { assetsVersion, basePath, custDataNameCookie, debuging, features, modules } from '@config';
+import { basePath, custDataNameCookie, debuging, features, modules } from '@config';
 import { createCompareList } from '@core_modules/product/services/graphql';
 import useStyles from '@core_modules/theme/layout/style';
 import { getAppEnv } from '@helpers/env';
@@ -35,8 +35,8 @@ import { getCartId } from '@helper_cartid';
 import { localTotalCart } from '@services/graphql/schema/local';
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
-const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
-const HeaderMobile = dynamic(() => import('@common_headermobile'), { ssr: false });
+const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: true });
+const HeaderMobile = dynamic(() => import('@common_headermobile'), { ssr: true });
 const HeaderDesktop = dynamic(() => import('@common_headerdesktop'), { ssr: true });
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false });
@@ -83,9 +83,8 @@ const Layout = (props) => {
     const { ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true } = pageConfig;
     const router = useRouter();
     const appEnv = getAppEnv();
-    const enablePromo = getCookies(features.globalPromo.key_cookies) !== ''
-        ? !!getCookies(features.globalPromo.key_cookies)
-        : storeConfig.global_promo?.enable;
+    const enablePromo =
+        getCookies(features.globalPromo.key_cookies) !== '' ? !!getCookies(features.globalPromo.key_cookies) : storeConfig.global_promo?.enable;
 
     const [state, setState] = useState({
         toastMessage: {
@@ -172,8 +171,8 @@ const Layout = (props) => {
 
     if (!ogData['og:image']) {
         ogData['og:image'] = storeConfig.header_logo_src
-        ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
-        : `${getHost()}${basePath}/assets/img/swift-logo.png` || '';
+            ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
+            : `${getHost()}${basePath}/assets/img/swift-logo.png` || '';
     }
 
     if (!ogData['og:url']) {
@@ -256,12 +255,12 @@ const Layout = (props) => {
                 },
             };
             if (custData && custData.email) {
-                const custEmail = custData.email.toLowerCase();
+                // const custEmail = custData.email.toLowerCase();
                 // tagManagerArgs.dataLayer.eid = crypto.createHash('sha256').update(custEmail).digest('hex');
             }
             if (custData && custData.phonenumber && custData.is_phonenumber_valid) {
-                let custPhone = custData.phonenumber;
-                custPhone = `${custPhone}`;
+                // let custPhone = custData.phonenumber;
+                // custPhone = `${custPhone}`;
                 // tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
             }
             TagManager.dataLayer(tagManagerArgs);
@@ -479,8 +478,8 @@ const Layout = (props) => {
                     hrefLang={defaultLang}
                     href={canonicalUrl.substring(0, canonicalUrl.indexOf('?') !== -1 ? canonicalUrl.indexOf('?') : canonicalUrl.length)}
                 />
-                {preloadImages && Object.values(preloadImages).map((_image) => <link rel="preload" as="image" href={_image} />)}
-                {showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />}
+                {preloadImages && Object.values(preloadImages).map((_image, idx) => <link rel="preload" as="image" href={_image} key={idx} />)}
+                {showPopup && <script src="/install.js" defer />}
             </Head>
             {showPopup && storeConfig && storeConfig.pwa && storeConfig.pwa.header_version !== 'v2' ? (
                 <PopupInstallAppMobile appName={appName} installMessage={installMessage} />

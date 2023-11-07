@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
@@ -28,7 +29,7 @@ import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import Link from 'next/link';
 import fscreen from 'fscreen';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import { basePath } from '@config';
 
@@ -228,39 +229,31 @@ const PhotoSwipe = (props) => {
                                     <ClickAwayListener onClickAway={handleClose}>
                                         <MenuList autoFocusItem={openShare} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                             <MenuItem onClick={handleClose}>
-                                                <Link
-                                                    href={getLink('fb')}
-                                                >
-                                                    <a target="_blank">
-                                                        {t('common:instagramFeed:shareFb')}
-                                                    </a>
+                                                <Link href={getLink('fb')} target="_blank">
+
+                                                    {t('common:instagramFeed:shareFb')}
+
                                                 </Link>
                                             </MenuItem>
                                             <MenuItem onClick={handleClose}>
-                                                <Link
-                                                    href={getLink('tweet')}
-                                                >
-                                                    <a target="_blank">
-                                                        {t('common:instagramFeed:tweet')}
-                                                    </a>
+                                                <Link href={getLink('tweet')} target="_blank">
+
+                                                    {t('common:instagramFeed:tweet')}
+
                                                 </Link>
                                             </MenuItem>
                                             <MenuItem onClick={handleClose}>
-                                                <Link
-                                                    href={getLink('pin')}
-                                                >
-                                                    <a target="_blank">
-                                                        {t('common:instagramFeed:pinit')}
-                                                    </a>
+                                                <Link href={getLink('pin')} target="_blank">
+
+                                                    {t('common:instagramFeed:pinit')}
+
                                                 </Link>
                                             </MenuItem>
                                             <MenuItem onClick={handleClose}>
-                                                <Link
-                                                    href={data[slideIndex].media_url || '#'}
-                                                >
-                                                    <a target="_blank">
-                                                        {t('common:instagramFeed:downloadImage')}
-                                                    </a>
+                                                <Link href={data[slideIndex].media_url || '#'} target="_blank">
+
+                                                    {t('common:instagramFeed:downloadImage')}
+
                                                 </Link>
                                             </MenuItem>
                                         </MenuList>

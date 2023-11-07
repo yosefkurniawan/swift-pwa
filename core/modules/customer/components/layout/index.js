@@ -74,7 +74,7 @@ const Layout = (props) => {
                                 }
                             >
                                 <Link href={val.href}>
-                                    <a>{val.title}</a>
+                                    {val.title}
                                 </Link>
                             </li>
                         ))}

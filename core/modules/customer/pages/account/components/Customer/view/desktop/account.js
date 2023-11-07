@@ -15,14 +15,14 @@ const AddressView = ({ customer, styles, t }) => (
                     <br />
                     {customer.email}
                     <br />
-                    <Link href="/customer/account/profile">
-                        <a className={styles.desktopLink}>{t('common:button:change')}</a>
+                    <Link href="/customer/account/profile" className={styles.desktopLink}>
+                        {t('common:button:change')}
                     </Link>
                     {' '}
                     |
                     {' '}
-                    <Link href="/customer/account/profile">
-                        <a className={styles.desktopLink}>{t('customer:newPassword:title')}</a>
+                    <Link href="/customer/account/profile" className={styles.desktopLink}>
+                        {t('customer:newPassword:title')}
                     </Link>
                 </p>
             </div>
@@ -31,8 +31,8 @@ const AddressView = ({ customer, styles, t }) => (
                 <p>
                     {customer.is_subscribed ? t('customer:menu:subcription') : t('customer:menu:noSubcription')}
                     <br />
-                    <Link href="/customer/newsletter">
-                        <a className={styles.desktopLink}>{t('common:button:change')}</a>
+                    <Link href="/customer/newsletter" className={styles.desktopLink}>
+                        {t('common:button:change')}
                     </Link>
                 </p>
             </div>

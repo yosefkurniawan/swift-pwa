@@ -1,4 +1,4 @@
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import Core from '@core_modules/order/pages/print/core';
 import Content from '@core_modules/order/pages/print/components';
@@ -7,9 +7,5 @@ import Skeleton from '@core_modules/order/pages/detail/components/skeleton';
 const DefaultOrder = (props) => (
     <Core {...props} Content={Content} Skeleton={Skeleton} />
 );
-
-DefaultOrder.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'order', 'customer', 'trackingorder'],
-});
 
 export default withApollo({ ssr: true })(withTranslation()(DefaultOrder));

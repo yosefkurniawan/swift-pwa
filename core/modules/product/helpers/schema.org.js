@@ -37,9 +37,9 @@ const generate = (product) => {
     if (product.review.rating_summary) {
         schema.aggregateRating = { // sementara di comment soalnya datanya belum
             '@type': 'AggregateRating',
-            bestRating: product.review.rating_summary ? parseInt(product.review.rating_summary, 0) / 20 : 1,
+            bestRating: product.review.rating_summary ? parseInt(product.review.rating_summary, 10) / 20 : 1,
             ratingCount: product.review.reviews_count ? product.review.reviews_count : 1,
-            ratingValue: product.review.rating_summary ? parseInt(product.review.rating_summary, 0) / 20 : 1,
+            ratingValue: product.review.rating_summary ? parseInt(product.review.rating_summary, 10) / 20 : 1,
         };
     }
 

@@ -8,7 +8,7 @@ import { modules } from '@config';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 import { useProduct } from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/helpers/useProduct';
 import Typography from '@core_modules/commons/Typography';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
@@ -37,7 +37,7 @@ const SingleProduct = (props) => {
     const isProductGrid = type === 'product_grid';
     const isSlider = type === 'product_slider';
     const userAgent = navigator && navigator.appVersion;
-    const regex = (/iPhone|iPad|iPod/i);
+    const regex = ((/iPhone|iPad|iPod/i));
     const isIOS = regex.test(userAgent);
     const { t } = useTranslation();
     // prettier-ignore
@@ -90,8 +90,8 @@ const SingleProduct = (props) => {
     let defaultWidth = storeConfig?.pwa?.image_product_width;
     let defaultHeight = storeConfig?.pwa?.image_product_height;
 
-    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
-    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 10);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 10);
 
     const generatePrice = (priceDataItem, priceItem) => {
         // handle if loading price
@@ -136,7 +136,7 @@ const SingleProduct = (props) => {
                         justify="center"
                         alignItems={isProductGrid ? 'center' : 'stretch'}
                     >
-                        <Link href={handleClick} prefetch={false}>
+                        <Link href={handleClick} prefetch={false} legacyBehavior>
                             <a style={{ width: defaultWidth }}>
                                 <Image
                                     src={small_image.url}
@@ -182,7 +182,7 @@ const SingleProduct = (props) => {
                         <Grid item>
                             {generatePrice(priceData, price)}
                             {product_shortdescription && (
-                                <Link href={url_key} prefetch={false}>
+                                <Link href={url_key} prefetch={false} legacyBehavior>
                                     <CmsRenderer content={short_description.html} />
                                 </Link>
                             )}
@@ -220,41 +220,41 @@ const SingleProduct = (props) => {
             </Grid>
             <style jsx>
                 {`
-                    .mgz-single-product-option-item {
-                        margin-top: 10px;
+                .mgz-single-product-option-item {
+                    margin-top: 10px;
+                }
+                .mgz-single-product-option-item :global(> div:not(div[class*='btnAdd'])) {
+                }
+                .mgz-single-product-option-item :global(div[role='radiogroup']) {
+                    ${isGrid ? 'justify-content: center;' : ''}
+                }
+                .mgz-single-product-price {
+                    ${isGrid || isProductGrid ? 'text-align: center;' : ''}
+                }
+                @media (max-width: 600px) {
+                    .mgz-single-product-option-item :global(div[role='radiogroup'] > div) {
+                        margin: 2px 5px;
                     }
-                    .mgz-single-product-option-item :global(> div:not(div[class*='btnAdd'])) {
+                    .mgz-single-product-option-item :global(div[role='radiogroup'] > div > span) {
+                        font-size: 11px;
                     }
-                    .mgz-single-product-option-item :global(div[role='radiogroup']) {
-                        ${isGrid ? 'justify-content: center;' : ''}
+                    .mgz-single-product-option-item :global(div[class*='btnAdd'] button) {
+                        font-size: 11px;
+                        height: 31px;
                     }
-                    .mgz-single-product-price {
-                        ${isGrid || isProductGrid ? 'text-align: center;' : ''}
-                    }
-                    @media (max-width: 600px) {
-                        .mgz-single-product-option-item :global(div[role='radiogroup'] > div) {
-                            margin: 2px 5px;
-                        }
-                        .mgz-single-product-option-item :global(div[role='radiogroup'] > div > span) {
-                            font-size: 11px;
-                        }
-                        .mgz-single-product-option-item :global(div[class*='btnAdd'] button) {
-                            font-size: 11px;
-                            height: 31px;
-                        }
-                    }
-                `}
+                }
+            `}
             </style>
             <style jsx global>
                 {`
-                    .mgz-single-product-card:hover {
-                        ${isProductGrid && `
-                            border: 1px solid #bbbbbb;
-                            position: relative;
-                            z-index: 2;
-                        `}
-                    }
-                `}
+                .mgz-single-product-card:hover {
+                    ${isProductGrid && `
+                        border: 1px solid #bbbbbb;
+                        position: relative;
+                        z-index: 2;
+                    `}
+                }
+            `}
             </style>
         </>
     );

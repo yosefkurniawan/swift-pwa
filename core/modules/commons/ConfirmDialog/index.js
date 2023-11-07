@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@common_button';
 import propTypes from 'prop-types';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 
 const ConfirmationDialog = ({
     open = false, handleYes, handleCancel, message, confirmationMessage, confirmOnly = false, yesNo = false,

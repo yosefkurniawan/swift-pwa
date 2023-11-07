@@ -18,8 +18,8 @@ const generateData = (data, { t, styles }) => (
         <br />
         Indonesia
         <br />
-        <Link href="/customer/account/address">
-            <a className={styles.desktopLink}>{t('customer:address:editTitle')}</a>
+        <Link href="/customer/account/address" className={styles.desktopLink}>
+            {t('customer:address:editTitle')}
         </Link>
     </p>
 );
@@ -50,8 +50,8 @@ const AddressView = (props) => {
         <>
             <h2 className={styles.infoTitle}>
                 {t('customer:menu:address')}
-                <Link href="/customer/account/address">
-                    <a className={styles.desktopLinkHeader}>{t('customer:address:editTitle')}</a>
+                <Link href="/customer/account/address" className={styles.desktopLinkHeader}>
+                    {t('customer:address:editTitle')}
                 </Link>
             </h2>
             <hr />

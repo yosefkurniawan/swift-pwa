@@ -4,7 +4,7 @@ module.exports = (req, res) => {
     const { token } = req.body;
     const topic = process.env.FCM_TOPIC;
     const keyserver = `key=${process.env.FCM_KEY_SERVER}`;
-    if (req.session.fcm_token !== token) {
+    if (req.cookies.fcm_token !== token) {
         fetch(`https://iid.googleapis.com/iid/v1/${token}/rel/topics/${topic}`, {
             method: 'post',
             headers: {
@@ -14,7 +14,7 @@ module.exports = (req, res) => {
             },
         })
             .then((data) => {
-                req.session.fcm_token = token;
+                req.cookies.fcm_token = token;
                 res.status(200).json({
                     status: 200,
                     message: 'success subscribe token',

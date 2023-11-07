@@ -31,9 +31,7 @@ const MagezonInstagramFeedView = (props) => {
                         {title}
                     </Typography>
                 </div>
-                <Link
-                    href={`https://instagram.com/${instagram_username}`}
-                >
+                <Link href={`https://instagram.com/${instagram_username}`} legacyBehavior>
                     <a
                         target="_blank"
                         color="inherit"
@@ -50,37 +48,37 @@ const MagezonInstagramFeedView = (props) => {
                 </Link>
                 <style jsx global>
                     {`
-                        
-                        .magezon-instagram {
-                            width: 100%;
-                            margin-bottom: 20px;
-                        }
-                        .magezone-title-instagram-box {
-                            width:100%;
-                            text-align:${title_align}; 
-                            position: relative;
-                            margin-bottom: 10px;
-                        }
-                        .magezon-title-instagram {        
-                            position:relative; 
-                            padding:12px;
-                            color: ${title_color};
-                            background: #fff;
-                            display: inline-block;
-                            text-transform: uppercase;
-                            z-index: 1
-                        }
-                        .magezone-title-instagram-box::after {
-                            content:'';
-                            position: absolute;
-                            left: 0;
-                            right: 0;
-                            top: ${line_position === 'center' ? '50%' : '100%'};
-                            height: ${line_width}px;
-                            background: ${line_color};
-                            z-index:0;
-                        } 
-                    `}
+                    
+                    .magezon-instagram {
+                        width: 100%;
+                        margin-bottom: 20px;
+                    }
+                    .magezone-title-instagram-box {
+                        width:100%;
+                        text-align:${title_align}; 
+                        position: relative;
+                        margin-bottom: 10px;
+                    }
+                    .magezon-title-instagram {        
+                        position:relative; 
+                        padding:12px;
+                        color: ${title_color};
+                        background: #fff;
+                        display: inline-block;
+                        text-transform: uppercase;
+                        z-index: 1
+                    }
+                    .magezone-title-instagram-box::after {
+                        content:'';
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        top: ${line_position === 'center' ? '50%' : '100%'};
+                        height: ${line_width}px;
+                        background: ${line_color};
+                        z-index:0;
+                    } 
+                `}
                 </style>
             </div>
         </>

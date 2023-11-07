@@ -29,7 +29,7 @@ const OptionsItemConfig = (props) => {
         storeConfig,
     } = props;
 
-    const reviewValue = parseInt(review.rating_summary, 0) / 20;
+    const reviewValue = parseInt(review.rating_summary, 10) / 20;
     const client = useApolloClient();
     const [selectConfigurable, setSelectConfigurable] = React.useState({});
     const [selectedProduct, setSelectedProduct] = React.useState({});

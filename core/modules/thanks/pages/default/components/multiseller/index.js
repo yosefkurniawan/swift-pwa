@@ -152,7 +152,7 @@ const CoreMultiseller = (props) => {
                                     item_list_name: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
                                     quantity: JSON.stringify(product.qty_ordered),
                                     item_stock_status: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
-                                    item_reviews_score: product.rating.value ? parseInt(product.rating.value, 0) / 20 : '',
+                                    item_reviews_score: product.rating.value ? parseInt(product.rating.value, 10) / 20 : '',
                                     item_reviews_count: product.rating.total ? product.rating.total : '',
                                 })),
                             },

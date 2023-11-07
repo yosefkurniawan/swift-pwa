@@ -35,6 +35,7 @@ function EtalaseMobile({
                                 pathname: url,
                             }}
                             key={0}
+                            legacyBehavior
                         >
                             {t('seller:allProducts')}
                         </Link>
@@ -48,6 +49,7 @@ function EtalaseMobile({
                                         query: { filter: list.entity_id },
                                     }}
                                     key={list.entity_id}
+                                    legacyBehavior
                                 >
                                     {list.name}
                                 </Link>

@@ -77,22 +77,22 @@ const ViewTop = (props) => {
                         t('common:header:welcome')
                     ) : (
                         <>
-                            <Link href="/customer/account">
+                            <Link href="/customer/account" legacyBehavior>
                                 <a>
                                     {data.customer
                                         ? `${t('common:header:hi').replace('$', `${data.customer.firstname} ${data.customer.lastname}`)} 
-                                    ${adminId !== undefined && adminId !== '' ? `(Login By ${JSON.parse(adminId)[1]})` : ''}`
+                                ${adminId !== undefined && adminId !== '' ? `(Login By ${JSON.parse(adminId)[1]})` : ''}`
                                         : null}
                                 </a>
                             </Link>
                             <ul>
                                 <li>
-                                    <Link href="/customer/account">
+                                    <Link href="/customer/account" legacyBehavior>
                                         <a>{t('common:menu:myaccount')}</a>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/wishlist">
+                                    <Link href="/wishlist" legacyBehavior>
                                         <a>
                                             {t('common:menu:mywishlist')}
                                             ({ data.customer?.wishlists[0].items_v2
@@ -112,20 +112,20 @@ const ViewTop = (props) => {
                 {!isLogin
                     ? desktop ? (
                         <li>
-                            <Link href="/customer/account/login">
+                            <Link href="/customer/account/login" legacyBehavior>
                                 <a id="header-menu-btnsign">{t('common:menu:sign')}</a>
                             </Link>
                             {' '}
                             {t('common:menu:or')}
                             {' '}
-                            <Link href="/customer/account/create">
+                            <Link href="/customer/account/create" legacyBehavior>
                                 <a id="header-menu-btnregister">{t('common:menu:register')}</a>
                             </Link>
                             {' '}
                         </li>
                     ) : (
                         <li>
-                            <Link href="/customer/account">
+                            <Link href="/customer/account" legacyBehavior>
                                 <a>{t('common:menu:account')}</a>
                             </Link>
                         </li>
@@ -173,103 +173,103 @@ const ViewTop = (props) => {
             </div>
             <style jsx>
                 {`
-                    ul {
-                        margin: 0;
-                        list-style: none;
-                        padding: 0;
-                        float: left;
-                        font-size: 10px;
-                        text-transform: uppercase;
-                    }
+                ul {
+                    margin: 0;
+                    list-style: none;
+                    padding: 0;
+                    float: left;
+                    font-size: 10px;
+                    text-transform: uppercase;
+                }
 
-                    li {
-                        display: inline-block;
-                        padding: 5px 10px;
+                li {
+                    display: inline-block;
+                    padding: 5px 10px;
+                    position: relative;
+                }
+                li:hover > ul {
+                    display: block;
+                }
+                ul ul {
+                    position: absolute;
+                    display: none;
+                    margin: 0;
+                    padding: 5px 10px;
+                    z-index: 999;
+                    background: #fff;
+                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+                }
+                ul ul li {
+                    display: block;
+                }
+
+                ul ul ul {
+                    position: absolute;
+                    top: 0;
+                    left: 100%;
+                }
+                a {
+                    color: ${storeConfig && storeConfig.pwa && storeConfig.pwa.primary_color} !important;
+                    text-decoration: none;
+                }
+
+                a:hover {
+                    border-bottom: 1px dashed #fff;
+                    color: #b9acac;
+                }
+                @media screen and (max-width: 1024px) {
+                    .header-middle__search {
+                        display: flex;
+                        align-items: center;
+                        float: right;
+                        top: -1rem;
+                        right: 1rem;
                         position: relative;
+                        margin-top: unset;
                     }
-                    li:hover > ul {
-                        display: block;
-                    }
-                    ul ul {
-                        position: absolute;
-                        display: none;
-                        margin: 0;
-                        padding: 5px 10px;
-                        z-index: 999;
-                        background: #fff;
-                        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-                    }
-                    ul ul li {
-                        display: block;
-                    }
-
-                    ul ul ul {
-                        position: absolute;
-                        top: 0;
-                        left: 100%;
-                    }
-                    a {
-                        color: ${storeConfig && storeConfig.pwa && storeConfig.pwa.primary_color} !important;
-                        text-decoration: none;
-                    }
-
-                    a:hover {
-                        border-bottom: 1px dashed #fff;
-                        color: #b9acac;
-                    }
-                    @media screen and (max-width: 1024px) {
-                        .header-middle__search {
-                            display: flex;
-                            align-items: center;
-                            float: right;
-                            top: -1rem;
-                            right: 1rem;
-                            position: relative;
-                            margin-top: unset;
-                        }
-                    }
-                    @media screen and (min-width: 1025px) {
-                        .header-middle__search {
-                            display: flex;
-                            align-items: center;
-                            float: right;
-                            position: relative;
-                            margin-top: -0.75rem;
-                        }
-                    }
-                    .search-icon {
-                        position: absolute;
-                        right: -10px;
-                        top: 7px;
-                        background: #fff;
-                        z-index: 9;
-                    }
-                    .header-middle__icons {
+                }
+                @media screen and (min-width: 1025px) {
+                    .header-middle__search {
+                        display: flex;
+                        align-items: center;
+                        float: right;
                         position: relative;
                         margin-top: -0.75rem;
-                        float: right;
-                        padding-left: 4px;
-                        padding-right: 16px;
                     }
-                    .header-middle__icons > div {
-                        margin-right: -5px;
-                        margin-left: 0px;
-                        display: inline-block;
-                    }
-                    .hide-searchbox {
-                        display: none !important;
-                        transition: display 1s ease;
-                    }
-                `}
+                }
+                .search-icon {
+                    position: absolute;
+                    right: -10px;
+                    top: 7px;
+                    background: #fff;
+                    z-index: 9;
+                }
+                .header-middle__icons {
+                    position: relative;
+                    margin-top: -0.75rem;
+                    float: right;
+                    padding-left: 4px;
+                    padding-right: 16px;
+                }
+                .header-middle__icons > div {
+                    margin-right: -5px;
+                    margin-left: 0px;
+                    display: inline-block;
+                }
+                .hide-searchbox {
+                    display: none !important;
+                    transition: display 1s ease;
+                }
+            `}
             </style>
             <style jsx global>
                 {`
-                    @media screen and (max-width: 1024px) {
-                        #top-searchbox .header-middle__search .MuiAutocomplete-root {
-                            width: 10rem !important;
-                        }
+                @media screen and (max-width: 1024px) {
+                    #top-searchbox .header-middle__search .MuiAutocomplete-root {
+                        width: 10rem !important;
                     }
-                `}
+                }
+            `}
             </style>
         </>
     );

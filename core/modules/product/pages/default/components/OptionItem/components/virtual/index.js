@@ -12,7 +12,7 @@ const OptionsItemVirtual = ({
         __typename, sku, name, categories, price_range, stock_status, sale, review,
     }, loading, setLoading, Footer,
 }) => {
-    const reviewValue = parseInt(review.rating_summary, 0) / 20;
+    const reviewValue = parseInt(review.rating_summary, 10) / 20;
     const [qty, setQty] = React.useState(1);
     const client = useApolloClient();
     let cartId = '';

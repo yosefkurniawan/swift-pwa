@@ -33,7 +33,7 @@ import Skeleton from '../../modules/order/history/views/skeleton';
 ### 5. Place it in your page
 #### example code
 ````
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 
 // import your custom template

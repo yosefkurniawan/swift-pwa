@@ -14,9 +14,9 @@ const PromoBannersLite = (props) => {
         let label = storeConfig?.pwa?.promo_banner_lite_label_width;
         let after = storeConfig?.pwa?.promo_banner_lite_after_width;
 
-        top = typeof top === 'string' ? parseInt(top, 0) : top;
-        label = typeof label === 'string' ? parseInt(label, 0) : label;
-        after = typeof after === 'string' ? parseInt(after, 0) : after;
+        top = typeof top === 'string' ? parseInt(top, 10) : top;
+        label = typeof label === 'string' ? parseInt(label, 10) : label;
+        after = typeof after === 'string' ? parseInt(after, 10) : after;
 
         let ratio = 1;
 

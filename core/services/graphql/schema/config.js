@@ -398,6 +398,7 @@ export const getCmsList = `
 {
   storeConfig {
     cms_page  
+    category_url_suffix
   }
 }
 `;

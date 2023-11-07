@@ -97,7 +97,7 @@ const ProductReviewPage = (props) => {
                                                             <b>{t('productreview:productName')}</b>
                                                         </div>
                                                         <div className={styles.value}>
-                                                            <Link href={`/${val.product.url_key}`}>
+                                                            <Link href={`/${val.product.url_key}`} legacyBehavior>
                                                                 {val.product.name}
                                                             </Link>
                                                         </div>

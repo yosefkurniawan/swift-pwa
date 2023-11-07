@@ -32,7 +32,7 @@ import Skeleton from '@core_modules/brands/pages/default/components/skeleton';
 ### 5. Place it in your page
 #### example code
 ````
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import Brand from '@core_modules/brands/pages/default/core';
 

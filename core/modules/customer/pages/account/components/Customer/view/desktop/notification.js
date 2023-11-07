@@ -22,8 +22,11 @@ const NotificationView = (props) => {
         <>
             <h2 className={styles.infoTitle}>
                 {t('customer:menu:notification')}
-                <Link href="/inboxnotification/notification">
-                    <a className={styles.desktopLinkHeader}>{t('customer:menu:viewall')}</a>
+                <Link
+                    href="/inboxnotification/notification"
+                    className={styles.desktopLinkHeader}
+                >
+                    {t('customer:menu:viewall')}
                 </Link>
             </h2>
             <hr />

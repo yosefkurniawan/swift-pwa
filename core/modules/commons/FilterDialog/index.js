@@ -9,7 +9,7 @@ import RadioGroup from '@common_radio';
 import RangeSlider from '@common_rangeslider';
 import Typography from '@common_typography';
 import { getSeller } from '@core_modules/catalog/services/graphql';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import AppBar from '@material-ui/core/AppBar';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';

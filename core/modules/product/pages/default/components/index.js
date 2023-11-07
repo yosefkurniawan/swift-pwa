@@ -241,46 +241,46 @@ const ProductPage = (props) => {
                 </div>
 
                 {bannerLiteObj.top
+                && bannerLiteObj.top.length > 0
+                && bannerLiteObj.top.map((topBanner) => (
+                    <PromoBannersLite
+                        type="top"
+                        key={topBanner.entity_id}
+                        classes={classNames(styles.bannerLiteTop, 'col-xs-12')}
+                        src={topBanner.banner_link}
+                        imgSrc={topBanner.banner_image}
+                        alt={topBanner.banner_alt}
+                        storeConfig={storeConfig}
+                    />
+                ))}
+
+                <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
+                    {bannerLiteObj.top
                     && bannerLiteObj.top.length > 0
                     && bannerLiteObj.top.map((topBanner) => (
                         <PromoBannersLite
                             type="top"
                             key={topBanner.entity_id}
-                            classes={classNames(styles.bannerLiteTop, 'col-xs-12')}
+                            classes={classNames(styles.bannerLiteTopMobile, 'col-xs-12')}
                             src={topBanner.banner_link}
                             imgSrc={topBanner.banner_image}
                             alt={topBanner.banner_alt}
                             storeConfig={storeConfig}
                         />
                     ))}
-
-                <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
-                    {bannerLiteObj.top
-                        && bannerLiteObj.top.length > 0
-                        && bannerLiteObj.top.map((topBanner) => (
+                    <div className="row">
+                        {bannerLiteObj.label
+                        && bannerLiteObj.label.length > 0
+                        && bannerLiteObj.label.map((labelBanner) => (
                             <PromoBannersLite
-                                type="top"
-                                key={topBanner.entity_id}
-                                classes={classNames(styles.bannerLiteTopMobile, 'col-xs-12')}
-                                src={topBanner.banner_link}
-                                imgSrc={topBanner.banner_image}
-                                alt={topBanner.banner_alt}
+                                type="label"
+                                key={labelBanner.entity_id}
+                                classes={classNames(styles.bannerLiteLabel, 'col-xs-6')}
+                                imgSrc={labelBanner.banner_image}
+                                alt={labelBanner.banner_alt}
                                 storeConfig={storeConfig}
                             />
                         ))}
-                    <div className="row">
-                        {bannerLiteObj.label
-                            && bannerLiteObj.label.length > 0
-                            && bannerLiteObj.label.map((labelBanner) => (
-                                <PromoBannersLite
-                                    type="label"
-                                    key={labelBanner.entity_id}
-                                    classes={classNames(styles.bannerLiteLabel, 'col-xs-6')}
-                                    imgSrc={labelBanner.banner_image}
-                                    alt={labelBanner.banner_alt}
-                                    storeConfig={storeConfig}
-                                />
-                            ))}
                     </div>
                     <Banner
                         data={banner}
@@ -430,18 +430,18 @@ const ProductPage = (props) => {
                         </div>
                         <div className="row">
                             {bannerLiteObj.after
-                                && bannerLiteObj.after.length > 0
-                                && bannerLiteObj.after.map((afterBanner) => (
-                                    <PromoBannersLite
-                                        type="after"
-                                        key={afterBanner.entity_id}
-                                        classes={classNames(styles.bannerLiteAfter, 'col-xs-6')}
-                                        src={bannerLiteObj.after.banner_link}
-                                        imgSrc={afterBanner.banner_image}
-                                        alt={afterBanner.banner_alt}
-                                        storeConfig={storeConfig}
-                                    />
-                                ))}
+                            && bannerLiteObj.after.length > 0
+                            && bannerLiteObj.after.map((afterBanner) => (
+                                <PromoBannersLite
+                                    type="after"
+                                    key={afterBanner.entity_id}
+                                    classes={classNames(styles.bannerLiteAfter, 'col-xs-6')}
+                                    src={bannerLiteObj.after.banner_link}
+                                    imgSrc={afterBanner.banner_image}
+                                    alt={afterBanner.banner_alt}
+                                    storeConfig={storeConfig}
+                                />
+                            ))}
                         </div>
                     </div>
                     <div className="hidden-mobile">
@@ -456,18 +456,18 @@ const ProductPage = (props) => {
 
                         <div className="row">
                             {bannerLiteObj.after
-                                && bannerLiteObj.after.length > 0
-                                && bannerLiteObj.after.map((afterBanner) => (
-                                    <PromoBannersLite
-                                        type="after"
-                                        key={afterBanner.entity_id}
-                                        classes={classNames(styles.bannerLiteAfter, 'col-xs-6')}
-                                        src={bannerLiteObj.after.banner_link}
-                                        imgSrc={afterBanner.banner_image}
-                                        alt={afterBanner.banner_alt}
-                                        storeConfig={storeConfig}
-                                    />
-                                ))}
+                            && bannerLiteObj.after.length > 0
+                            && bannerLiteObj.after.map((afterBanner) => (
+                                <PromoBannersLite
+                                    type="after"
+                                    key={afterBanner.entity_id}
+                                    classes={classNames(styles.bannerLiteAfter, 'col-xs-6')}
+                                    src={bannerLiteObj.after.banner_link}
+                                    imgSrc={afterBanner.banner_image}
+                                    alt={afterBanner.banner_alt}
+                                    storeConfig={storeConfig}
+                                />
+                            ))}
                         </div>
 
                         <div className={styles.desktopShareIcon}>

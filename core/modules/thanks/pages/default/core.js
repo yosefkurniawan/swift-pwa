@@ -112,7 +112,7 @@ const PageStoreCredit = (props) => {
                                 item_list_name: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
                                 quantity: JSON.stringify(product.qty_ordered),
                                 item_stock_status: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
-                                item_reviews_score: review.rating_summary ? parseInt(review.rating_summary, 0) / 20 : '',
+                                item_reviews_score: review.rating_summary ? parseInt(review.rating_summary, 10) / 20 : '',
                                 item_reviews_count: review.reviews_count ? review.reviews_count : '',
                             })),
                         },
@@ -133,12 +133,12 @@ const PageStoreCredit = (props) => {
         }
     }, [data]);
 
-    React.useEffect(() => function cleanup() {
+    React.useEffect(() => (function cleanup() {
         if (typeof window !== 'undefined') {
             const cdt = getCheckoutData();
             if (cdt) removeCheckoutData();
         }
-    }, []);
+    }), []);
 
     React.useEffect(() => {
         if (!bankList) {

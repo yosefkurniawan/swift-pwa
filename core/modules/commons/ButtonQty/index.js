@@ -19,7 +19,7 @@ const ButtonQty = ({
             if (onChange) {
                 onChange(localValue - 1);
             }
-            setLocalValue(parseInt(localValue, 0) - 1);
+            setLocalValue(parseInt(localValue, 10) - 1);
         }
     };
     const handlePlus = () => {
@@ -27,12 +27,12 @@ const ButtonQty = ({
             if (onChange) {
                 onChange(localValue + 1);
             }
-            setLocalValue(parseInt(localValue, 0) + 1);
+            setLocalValue(parseInt(localValue, 10) + 1);
         }
     };
 
     const handleLocalChange = (event) => {
-        const val = parseInt(event.target.value, 0);
+        const val = parseInt(event.target.value, 10);
         if (val < 1) {
             window.toastMessage({
                 open: true,
@@ -49,7 +49,7 @@ const ButtonQty = ({
             if (onChange) {
                 onChange(val);
             }
-            setLocalValue(parseInt(val, 0));
+            setLocalValue(parseInt(val, 10));
         }
     };
     const disabledMin = disabled || localValue === 1;

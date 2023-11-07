@@ -16,20 +16,23 @@ const ImageDetail = (props) => {
     let defaultWidth = storeConfig?.pwa?.image_product_width;
     let defaultHeight = storeConfig?.pwa?.image_product_height;
 
-    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
-    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 10);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 10);
     return (
-        <Link
-            href={{
-                pathname: '/[...slug]',
-                query: {
-                    slug: urlKey,
-                },
-            }}
-        >
-            <a onClick={handleClick} style={{ width: '100%' }}>
+        (
+            <Link
+                href={{
+                    pathname: '/[...slug]',
+                    query: {
+                        slug: urlKey,
+                    },
+                }}
+                onClick={handleClick}
+                style={{ width: '100%' }}
+            >
+
                 <Thumbor
-                // eslint-disable-next-line no-nested-ternary
+                    // eslint-disable-next-line no-nested-ternary
                     src={spesificProduct.id ? spesificProduct.image.url
                         : small_image && small_image.url
                             ? small_image.url
@@ -42,8 +45,9 @@ const ImageDetail = (props) => {
                     storeConfig={storeConfig}
                     lazy
                 />
-            </a>
-        </Link>
+
+            </Link>
+        )
     );
 };
 

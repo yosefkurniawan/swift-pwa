@@ -131,6 +131,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '3px',
         padding: '5px',
         cursor: 'pointer',
+        width: '100px',
     },
     thumbnailActive: {
         border: '1px solid #6b6868',

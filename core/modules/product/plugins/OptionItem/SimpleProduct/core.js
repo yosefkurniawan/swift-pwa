@@ -32,7 +32,7 @@ const CoreSimpleOptionItem = ({
         cartId = getCartId();
     }
 
-    const reviewValue = parseInt(review?.rating_summary, 0) / 20;
+    const reviewValue = parseInt(review?.rating_summary, 10) / 20;
     const [addConfigurableProducts] = addConfigurableProductsToCart();
     const [getGuestCartId] = queryGetGuestCartId();
     const cartUser = getCustomerCartId();

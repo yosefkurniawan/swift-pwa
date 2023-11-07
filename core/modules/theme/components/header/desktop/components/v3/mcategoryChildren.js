@@ -19,7 +19,12 @@ const MenuChildren = ({ data, handleClick, generateLink, mainData }) => {
             )}
             <div className="nav-column nav-column-left" style={{ width: '150px' }}>
                 {data.map((val, idx) => (
-                    <Link key={idx} href={generateLink(val)[0]} as={generateLink(val)[1]}>
+                    <Link
+                        key={idx}
+                        href={generateLink(val)[0]}
+                        as={generateLink(val)[1]}
+                        legacyBehavior
+                    >
                         <a onClick={() => handleClick(val)} className={active === idx ? 'active' : ''} onMouseEnter={() => setActive(idx)}>
                             {val.name}
                         </a>
@@ -30,13 +35,13 @@ const MenuChildren = ({ data, handleClick, generateLink, mainData }) => {
                 <div className={`${child.image_path ? 'col-lg-9' : 'col-lg-12'} row`}>
                     {child.children.map((lvl3, id3) => (
                         <div className="col-lg-3" key={id3}>
-                            <Link href={generateLink(lvl3)[0]} as={generateLink(lvl3)[1]}>
+                            <Link href={generateLink(lvl3)[0]} as={generateLink(lvl3)[1]} legacyBehavior>
                                 <a onClick={() => handleClick(lvl3)}>{lvl3.name}</a>
                             </Link>
                             <ul className="list-item__menu">
                                 {lvl3.children.map((lvl4, id4) => (
                                     <li key={id4}>
-                                        <Link href={generateLink(lvl4)[0]} as={generateLink(lvl4)[1]}>
+                                        <Link href={generateLink(lvl4)[0]} as={generateLink(lvl4)[1]} legacyBehavior>
                                             <a onClick={() => handleClick(lvl4)}>{lvl4.name}</a>
                                         </Link>
                                     </li>

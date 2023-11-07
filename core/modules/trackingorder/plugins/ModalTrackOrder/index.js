@@ -72,7 +72,7 @@ const ModalResult = (props) => {
                                     if (secondary !== null && secondary !== '' && secondary.includes('http')) {
                                         secondary = (
                                             <div className="track-link">
-                                                <Link href={secondary}>
+                                                <Link href={secondary} legacyBehavior>
                                                     <a target="_blank" className="item-link">
                                                         <div style={{ display: 'flex', alignItems: 'center' }}>
                                                             <span>{t('trackingorder:track')}</span>

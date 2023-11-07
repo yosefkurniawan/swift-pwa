@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/forbid-prop-types */
 import PropTypes from 'prop-types';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import {
     requestOtpRegister,
     checkOtpRegister,

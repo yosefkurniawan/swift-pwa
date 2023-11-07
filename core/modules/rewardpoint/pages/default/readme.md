@@ -27,7 +27,7 @@ import Skeleton from '@core_modules/rewardpoint/pages/default/components/skeleto
 ## 4. Place it in your page
 ### example code
 ````
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 
 // import your custom template

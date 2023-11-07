@@ -41,7 +41,7 @@ const PrintOrder = (props) => {
                 <div className={classNames(styles.blockHeader)}>
                     <div className="header-middle__left">
                         <div className="box header-middle__logo">
-                            <Link href="/">
+                            <Link href="/" legacyBehavior>
                                 <img
                                     className="header-middle__logo-link"
                                     src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
@@ -71,20 +71,20 @@ const PrintOrder = (props) => {
                 <div className={styles.block}>
                     <div className="row start-xs start-sm start-sm start-md start-lg">
                         {/* <div className="col-xs-12">
-                            <Typography
-                                variant="span"
-                                letter="capitalize"
-                                type="regular"
-                                className={classNames('clear-margin-padding', styles.blockLabel)}
-                            >
-                                {t('order:orderItem')}
-                            </Typography>
-                        </div> */}
+                        <Typography
+                            variant="span"
+                            letter="capitalize"
+                            type="regular"
+                            className={classNames('clear-margin-padding', styles.blockLabel)}
+                        >
+                            {t('order:orderItem')}
+                        </Typography>
+                    </div> */}
                         {/* <div className="col-xs-12">
-                            <div className="hidden-mobile">
-                                <Table data={items} t={t} currency={currency} {...props} />
-                            </div>
-                        </div> */}
+                        <div className="hidden-mobile">
+                            <Table data={items} t={t} currency={currency} {...props} />
+                        </div>
+                    </div> */}
                     </div>
                 </div>
                 <div className={classNames(styles.block)}>
@@ -100,11 +100,11 @@ const PrintOrder = (props) => {
                                 />
                             </div>
                             {/* <div className="hide-desktop">
-                                {items.length > 0
-                                        && items.map((item, key) => (
-                                            <ItemProduct t={t} key={key} {...item} currency={currency} storeConfig={storeConfig} />
-                                        ))}
-                            </div> */}
+                            {items.length > 0
+                                    && items.map((item, key) => (
+                                        <ItemProduct t={t} key={key} {...item} currency={currency} storeConfig={storeConfig} />
+                                    ))}
+                        </div> */}
                         </div>
                         <div className="row end-xs end-sm end-md">
                             <div className="col-md-4 col-sm-4">
@@ -123,15 +123,15 @@ const PrintOrder = (props) => {
                                     </div>
                                 )}
                                 {/* {detail[0].detail[0].tax_amount && (
-                                <div className={styles.listSummary}>
-                                    <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
-                                        {t('order:tax')}
-                                    </Typography>
-                                    <Typography variant="span" letter="capitalize">
-                                        {formatPrice(detail[0].detail[0].tax_amount, currency)}
-                                    </Typography>
-                                </div>
-                            )} */}
+                            <div className={styles.listSummary}>
+                                <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
+                                    {t('order:tax')}
+                                </Typography>
+                                <Typography variant="span" letter="capitalize">
+                                    {formatPrice(detail[0].detail[0].tax_amount, currency)}
+                                </Typography>
+                            </div>
+                        )} */}
                                 {detail[0].detail[0].payment && (
                                     <div className={styles.listSummary}>
                                         <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
@@ -264,13 +264,13 @@ const PrintOrder = (props) => {
                         )}
                         {/* orderstatus */}
                         {/* <div className="col-xs-3">
-                        <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                            {t('order:orderStatus')}
-                        </Typography>
-                        <Typography variant="span" className="clear-margin-padding">
-                            {detail[0].status_label || ''}
-                        </Typography>
-                    </div> */}
+                    <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
+                        {t('order:orderStatus')}
+                    </Typography>
+                    <Typography variant="span" className="clear-margin-padding">
+                        {detail[0].status_label || ''}
+                    </Typography>
+                </div> */}
                         {/* shipping method */}
                         {Object.keys(detail[0].detail[0].shipping_address).length > 0 && (
                             <div className="col-xs-3 col-xs-print-3">
@@ -312,8 +312,8 @@ const PrintOrder = (props) => {
                             {Object.keys(detail[0].detail[0].payment.payment_additional_info).map((item) => {
                                 if (
                                     item !== '__typename'
-                                        && detail[0].detail[0].payment.payment_additional_info[item] !== ''
-                                        && detail[0].detail[0].payment.payment_additional_info[item] !== null
+                                    && detail[0].detail[0].payment.payment_additional_info[item] !== ''
+                                    && detail[0].detail[0].payment.payment_additional_info[item] !== null
                                 ) {
                                     return (
                                         <React.Fragment key={item}>
@@ -333,29 +333,29 @@ const PrintOrder = (props) => {
             </div>
             <style jsx>
                 {`
-                    .header-middle__logo-link {
-                        cursor: pointer;
-                        width: 120px;
-                    }
-                    .header-middle__left {
-                        padding-bottom: 30px;
-                    }
+                .header-middle__logo-link {
+                    cursor: pointer;
+                    width: 120px;
+                }
+                .header-middle__left {
+                    padding-bottom: 30px;
+                }
 
-                    @media only print {
-                        .col-xs-print-4 {
-                            flex-basis: 33.333333%;
-                            max-width: 33.333333%;
-                        }
-                        .col-xs-print-3 {
-                            flex-basis: 25%;
-                            max-width: 25%;
-                        }
-                        .col-xs-print-2 {
-                            flex-basis: 16.666666%;
-                            max-width: 16.666666%;
-                        }
+                @media only print {
+                    .col-xs-print-4 {
+                        flex-basis: 33.333333%;
+                        max-width: 33.333333%;
                     }
-                `}
+                    .col-xs-print-3 {
+                        flex-basis: 25%;
+                        max-width: 25%;
+                    }
+                    .col-xs-print-2 {
+                        flex-basis: 16.666666%;
+                        max-width: 16.666666%;
+                    }
+                }
+            `}
             </style>
         </>
     );

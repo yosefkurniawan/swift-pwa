@@ -16,11 +16,11 @@ const EmptyView = (props) => {
             </div>
             <div className={classNames(styles.butonEmpty, 'col-xs-12')}>
                 <Link href="/">
-                    <a>
-                        <Button className={styles.toolbarButton}>
-                            {t('common:button:continueShopping')}
-                        </Button>
-                    </a>
+
+                    <Button className={styles.toolbarButton}>
+                        {t('common:button:continueShopping')}
+                    </Button>
+
                 </Link>
             </div>
 

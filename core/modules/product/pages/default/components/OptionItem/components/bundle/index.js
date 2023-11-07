@@ -84,7 +84,7 @@ const OptionsItemsBundle = (props) => {
         BundleView,
         Footer,
     } = props;
-    const reviewValue = parseInt(review.rating_summary, 0) / 20;
+    const reviewValue = parseInt(review.rating_summary, 10) / 20;
     const client = useApolloClient();
     const [items, setItems] = React.useState([]);
     const [loadingAdd, setLoadingAdd] = React.useState(false);

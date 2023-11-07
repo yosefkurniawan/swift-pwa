@@ -59,7 +59,7 @@ import Skeleton from '@core_modulescomponents/Skeleton';
 
 ```node
 import React from 'react';
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import CoreBase from '@core_modules/blog/category/core'; // must import and uses core base
 import DefaultContent from '@core_modules/blog/views/Landing';  //import your custom layout content

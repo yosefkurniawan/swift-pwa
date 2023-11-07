@@ -19,18 +19,18 @@ function TabLayout({ noBanner, t, children }) {
                     !noBanner && (
                         <>
                             <Link replace href={{ pathname: `/seller/${sellerId}` }}>
-                                <a>
-                                    <Typography type={isTabOne ? 'bold' : 'regular'} style={isTabOne ? { borderBottom: '2px solid #000' } : null} variant="h2" letter="capitalize">
-                                        {t('seller:home')}
-                                    </Typography>
-                                </a>
+
+                                <Typography type={isTabOne ? 'bold' : 'regular'} style={isTabOne ? { borderBottom: '2px solid #000' } : null} variant="h2" letter="capitalize">
+                                    {t('seller:home')}
+                                </Typography>
+
                             </Link>
                             <Link replace href={{ pathname: `/seller/${sellerId}/product` }}>
-                                <a>
-                                    <Typography style={isTabTwo ? { borderBottom: '2px solid #000' } : null} type={isTabTwo ? 'bold' : 'regular'} variant="h2" letter="capitalize">
-                                        {t('seller:product')}
-                                    </Typography>
-                                </a>
+
+                                <Typography style={isTabTwo ? { borderBottom: '2px solid #000' } : null} type={isTabTwo ? 'bold' : 'regular'} variant="h2" letter="capitalize">
+                                    {t('seller:product')}
+                                </Typography>
+
                             </Link>
                         </>
                     )

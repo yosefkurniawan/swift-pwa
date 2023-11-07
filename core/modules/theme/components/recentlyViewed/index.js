@@ -5,7 +5,7 @@ import useStyles from '@core_modules/theme/components/recentlyViewed/style';
 import { getRecentlyProduct } from '@core_modules/theme/services/graphql';
 import { getLocalStorage } from '@helper_localstorage';
 import { breakPointsUp } from '@helper_theme';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import React from 'react';
 

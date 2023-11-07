@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import Typography from '@common_typography';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import setDefaultWhenEmpty from '@helper_checkimagesrc';
 import classNames from 'classnames';
 import { setResolver, getResolver } from '@helper_localstorage';
@@ -39,50 +39,62 @@ const SpanCategory = (props) => {
     let imageWidth = storeConfig?.pwa?.image_category_width;
     let imageHeight = storeConfig?.pwa?.image_category_height;
 
-    imageWidth = typeof imageWidth === 'string' ? parseInt(imageWidth, 0) : imageWidth;
-    imageHeight = typeof imageHeight === 'string' ? parseInt(imageHeight, 0) : imageHeight;
+    imageWidth = typeof imageWidth === 'string' ? parseInt(imageWidth, 10) : imageWidth;
+    imageHeight = typeof imageHeight === 'string' ? parseInt(imageHeight, 10) : imageHeight;
 
     return (
         <div className={styles.container}>
             <div className={classNames('row center middle-sm', right ? 'reverse' : '')}>
                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <Link href="/[...slug]" as={`/${url}`}>
-                        <a onClick={() => handleClick(`/${url}`, id)}>
-                            <Thumbor
-                                src={setDefaultWhenEmpty(UrlString)}
-                                alt={name}
-                                style={{
-                                    width: '100%',
-                                    maxWidth: '100%',
-                                    maxHeight: '100% !important',
-                                }}
-                                quality={80}
-                                width={imageWidth}
-                                height={imageHeight}
-                                lazy
-                            />
-                        </a>
+                    <Link
+                        href="/[...slug]"
+                        as={`/${url}`}
+                        onClick={() => handleClick(`/${url}`, id)}
+                    >
+
+                        <Thumbor
+                            src={setDefaultWhenEmpty(UrlString)}
+                            alt={name}
+                            style={{
+                                width: '100%',
+                                maxWidth: '100%',
+                                maxHeight: '100% !important',
+                            }}
+                            quality={80}
+                            width={imageWidth}
+                            height={imageHeight}
+                            lazy
+                        />
+
                     </Link>
                 </div>
                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <div className={styles.contentContainer}>
-                        <Link href="/[...slug]" as={`/${url}`}>
-                            <a onClick={() => handleClick(`/${url}`, id)}>
-                                <Typography variant="title" type="bold" align="center">
-                                    {name}
-                                </Typography>
-                            </a>
+                        <Link
+                            href="/[...slug]"
+                            as={`/${url}`}
+                            onClick={() => handleClick(`/${url}`, id)}
+                        >
+
+                            <Typography variant="title" type="bold" align="center">
+                                {name}
+                            </Typography>
+
                         </Link>
                         <Typography size="12" align="center">
                             {/* eslint-disable-next-line react/no-danger */}
                             <div dangerouslySetInnerHTML={{ __html: description }} />
                         </Typography>
-                        <Link href="/[...slug]" as={`/${url}`}>
-                            <a onClick={() => handleClick(`/${url}`, id)}>
-                                <Typography variant="span" type="bold" className={styles.textBtn}>
-                                    {t('common:button:shop')}
-                                </Typography>
-                            </a>
+                        <Link
+                            href="/[...slug]"
+                            as={`/${url}`}
+                            onClick={() => handleClick(`/${url}`, id)}
+                        >
+
+                            <Typography variant="span" type="bold" className={styles.textBtn}>
+                                {t('common:button:shop')}
+                            </Typography>
+
                         </Link>
                     </div>
                 </div>

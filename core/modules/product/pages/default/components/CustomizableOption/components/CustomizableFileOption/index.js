@@ -2,7 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { useQuery } from '@apollo/client';
 import { formatPrice } from '@helpers/currency';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import getPrice from '@core_modules/product/helpers/getPrice';
 import View from '@core_modules/product/pages/default/components/CustomizableOption/components/CustomizableFileOption/view';
 import { getCustomizableFileOption } from '@core_modules/product/services/graphql/customizableSchema';

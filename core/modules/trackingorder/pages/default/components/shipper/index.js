@@ -163,7 +163,7 @@ const ShipperView = (props) => {
                         <div className="list-item">
                             <Typography className="list-item__title">Live Tracking</Typography>
                             <div className="list-item__desc track-link">
-                                <Link href={shipperData.detail.live_tracking || '#'}>
+                                <Link href={shipperData.detail.live_tracking || '#'} legacyBehavior>
                                     <a>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
                                             <span>{t('trackingorder:track')}</span>

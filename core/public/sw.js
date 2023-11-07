@@ -14,7 +14,7 @@ clientsClaim();
 // https://developers.google.com/web/tools/workbox/guides/precache-files/workbox-build#add_an_injection_point
 // eslint-disable-next-line no-underscore-dangle, no-restricted-globals
 const WB_MANIFEST = self.__WB_MANIFEST;
-// // Precache fallback route and image
+// Precache fallback route and image
 WB_MANIFEST.push({
     url: '/fallback',
     revision: '1234567890',
@@ -161,7 +161,6 @@ setDefaultHandler(new StaleWhileRevalidate());
 // This "catch" handler is triggered when any of the other routes fail to
 // generate a response.
 setCatchHandler(({ event }) => {
-    console.log('event', event)
     // The FALLBACK_URL entries must be added to the cache ahead of time, either
     // via runtime or precaching. If they are precached, then call
     // `matchPrecache(FALLBACK_URL)` (from the `workbox-precaching` package)

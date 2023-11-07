@@ -13,7 +13,7 @@ const fs = require('fs');
 const LRUCache = require('lru-cache');
 const cookieParser = require('cookie-parser');
 const remoteSchema = require('./core/api/graphql');
-const nextI18next = require('./core/lib/i18n');
+// const nextI18next = require('./core/lib/i18n');
 const { basePath } = require('./swift.config');
 
 const { json } = express;
@@ -89,7 +89,7 @@ async function renderAndCache(req, res) {
     server.disable('x-powered-by');
     // if ssr cache on
 
-    await nextI18next.initPromise;
+    // await nextI18next.initPromise;
     // server.use(nextI18NextMiddleware(nextI18next));
 
     server.use(
@@ -128,6 +128,27 @@ async function renderAndCache(req, res) {
     });
     // serverGraph.applyMiddleware({ app: server,  });
     serverGraph.applyMiddleware({ app: server, path: `${basePath}/graphql` });
+
+    /**
+     * handle maintenance pave
+     */
+
+    /**
+     * configuration firebase messaging
+     *   */
+    // const serviceWorkers = [
+    //     {
+    //         filename: '.well-known/assetlinks.json',
+    //         pathfile: './public/static/assetlinks.json',
+    //     },
+    // ];
+
+    // serviceWorkers.forEach(({ filename, pathfile }) => {
+    //     // console.log('pathfile', pathfile);
+    //     server.get(path.join(basePath, '.next', filename), (req, res) => {
+    //         app.serveStatic(req, res, pathfile);
+    //     });
+    // });
 
     // server.get('*', (req, res) => handle(req, res));
     server.get('*', (req, res) => {

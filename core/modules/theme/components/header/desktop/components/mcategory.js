@@ -70,7 +70,7 @@ const Menu = (props) => {
                             <li key={idx} role="menuitem" id={`header-menuitem-${idx}`}>
                                 {val.link ? (
                                     <>
-                                        <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
+                                        <Link href={generateLink(val)[0]} as={generateLink(val)[1]} legacyBehavior>
                                             <a onClick={() => handleClick(val)} dangerouslySetInnerHTML={{ __html: val.name }} />
                                         </Link>
                                         {

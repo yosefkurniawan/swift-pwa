@@ -309,8 +309,8 @@ const MagezonSlider = (props) => {
     const { unhoverStyle, hoverStyle } = useHoverStyle(image_hover_effect);
     let slideHeight = storeConfig.pwa?.magezon_slider_desktop_height;
     let slideWidth = storeConfig.pwa?.magezon_slider_desktop_width;
-    slideHeight = (typeof slideHeight === 'string') ? parseInt(slideHeight, 0) : slideHeight;
-    slideWidth = (typeof slideWidth === 'string') ? parseInt(slideWidth, 0) : slideWidth;
+    slideHeight = (typeof slideHeight === 'string') ? parseInt(slideHeight, 10) : slideHeight;
+    slideWidth = (typeof slideWidth === 'string') ? parseInt(slideWidth, 10) : slideWidth;
 
     const navSize = owl_nav_size === 'mini' ? 10 : owl_nav_size === 'small' ? 15 : owl_nav_size === 'normal' ? 20 : 25;
     let sliderRef = useRef();

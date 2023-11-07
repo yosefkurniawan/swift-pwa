@@ -25,8 +25,8 @@ const ListItemCart = (props) => {
     let defaultWidth = storeConfig?.pwa?.image_product_width;
     let defaultHeight = storeConfig?.pwa?.image_product_height;
 
-    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
-    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 10);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 10);
 
     return (
         <div className={classNames('row', styles.containerItem)}>
@@ -35,11 +35,11 @@ const ListItemCart = (props) => {
                     {t('checkout:paypal:itemsCart')}
                 </Typography>
                 <Link href="/checkout/cart">
-                    <a>
-                        <Typography variant="span">
-                            {t('checkout:paypal:editCart')}
-                        </Typography>
-                    </a>
+
+                    <Typography variant="span">
+                        {t('checkout:paypal:editCart')}
+                    </Typography>
+
                 </Link>
             </div>
             <div className="col-xs-12">
@@ -85,17 +85,17 @@ const ListItemCart = (props) => {
                                                                     href="/[...slug]"
                                                                     as={`/${val.product.url_key}`}
                                                                 >
-                                                                    <a>
-                                                                        <Image
-                                                                            src={val.product.small_image.url}
-                                                                            className={styles.productImg}
-                                                                            alt={val.product.name}
-                                                                            width={defaultWidth}
-                                                                            height={defaultHeight}
-                                                                            quality={80}
-                                                                            storeConfig={storeConfig}
-                                                                        />
-                                                                    </a>
+
+                                                                    <Image
+                                                                        src={val.product.small_image.url}
+                                                                        className={styles.productImg}
+                                                                        alt={val.product.name}
+                                                                        width={defaultWidth}
+                                                                        height={defaultHeight}
+                                                                        quality={80}
+                                                                        storeConfig={storeConfig}
+                                                                    />
+
                                                                 </Link>
                                                                 {
                                                                     val.prices.price.value === 0 ? (
@@ -114,11 +114,11 @@ const ListItemCart = (props) => {
                                                                         href="/[...slug]"
                                                                         as={`/${val.product.url_key}`}
                                                                     >
-                                                                        <a>
-                                                                            <Typography variant="span" letter="capitalize">
-                                                                                {val.product.name}
-                                                                            </Typography>
-                                                                        </a>
+
+                                                                        <Typography variant="span" letter="capitalize">
+                                                                            {val.product.name}
+                                                                        </Typography>
+
                                                                     </Link>
                                                                 </div>
                                                                 <div className="col-xs-12 column">

@@ -34,31 +34,32 @@ function EtalaseDesktop({
                                 }}
                                 key={0}
                             >
-                                <a>
-                                    <ListItem
-                                        button
-                                        selected={selectedIndex === 0}
-                                        onClick={(event) => handleListItemClick(event, 0)}
-                                    >
-                                        <ListItemIcon><img src="/assets/img/etalase-product.svg" alt="etalase-product" width="24px" /></ListItemIcon>
-                                        <ListItemText>
-                                            <Typography variant="label" type="regular" size="12">
-                                                {t('seller:allProducts')}
-                                            </Typography>
-                                        </ListItemText>
 
-                                    </ListItem>
-                                </a>
+                                <ListItem
+                                    button
+                                    selected={selectedIndex === 0}
+                                    onClick={(event) => handleListItemClick(event, 0)}
+                                >
+                                    <ListItemIcon><img src="/assets/img/etalase-product.svg" alt="etalase-product" width="24px" /></ListItemIcon>
+                                    <ListItemText>
+                                        <Typography variant="label" type="regular" size="12">
+                                            {t('seller:allProducts')}
+                                        </Typography>
+                                    </ListItemText>
+
+                                </ListItem>
+
                             </Link>
                             { data.map((list) => (
-                                <Link
-                                    href={{
-                                        pathname: url,
-                                        query: { filter: list.entity_id },
-                                    }}
-                                    key={list.entity_id}
-                                >
-                                    <a>
+                                (
+                                    <Link
+                                        href={{
+                                            pathname: url,
+                                            query: { filter: list.entity_id },
+                                        }}
+                                        key={list.entity_id}
+                                    >
+
                                         <ListItem
                                             button
                                             selected={selectedIndex === list.entity_id}
@@ -77,8 +78,9 @@ function EtalaseDesktop({
                                             </ListItemText>
 
                                         </ListItem>
-                                    </a>
-                                </Link>
+
+                                    </Link>
+                                )
                             ))}
                         </List>
                     )

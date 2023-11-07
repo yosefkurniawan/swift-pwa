@@ -3,7 +3,7 @@
 import Button from '@common_button';
 import Typography from '@common_typography';
 import classNames from 'classnames';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 // import { useDispatch, useSelector } from 'react-redux';
 import { getReviews } from '@core_modules/product/services/graphql';
@@ -80,6 +80,12 @@ const ListReviews = (props) => {
             totalCount: 0,
         };
 
+    // eslint-disable-next-line no-unused-vars
+    const [isClient, setIsClient] = useState(false);
+    useEffect(() => {
+        setIsClient(true);
+    }, [loading]);
+
     return (
         <>
             <AddReviewDialog
@@ -117,9 +123,18 @@ const ListReviews = (props) => {
                     <div className={styles.btnLoadReview}>
                         {review && review.totalCount > review.items.length && (
                             <Button variant="text" onClick={handleLoad} disabled={loading || loadMore}>
-                                <Typography variant="span" type="bold" letter="capitalize">
+                                {/* <Typography variant="span" type="bold" letter="capitalize" suppressHydrationWarning>
                                     {loadMore || loading ? 'Loading ...' : props.t('product:moreReview')}
-                                </Typography>
+                                </Typography> */}
+                                {loadMore || loading ? (
+                                    <Typography variant="span" type="bold" letter="capitalize" suppressHydrationWarning>
+                                        Loading...
+                                    </Typography>
+                                ) : (
+                                    <Typography variant="span" type="bold" letter="capitalize" suppressHydrationWarning>
+                                        {props.t('product:moreReview')}
+                                    </Typography>
+                                )}
                             </Button>
                         )}
                     </div>

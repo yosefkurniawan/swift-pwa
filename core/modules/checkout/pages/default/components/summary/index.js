@@ -576,7 +576,7 @@ const Summary = ({
         actUpdateItem({
             variables: {
                 cartId: checkout.data.cart.id,
-                cart_item_id: parseInt(id, 0),
+                cart_item_id: parseInt(id, 10),
                 quantity: qty,
             },
             context: {
@@ -603,7 +603,7 @@ const Summary = ({
         actDeleteItem({
             variables: {
                 cartId: checkout.data.cart.id,
-                cart_item_id: parseInt(id, 0),
+                cart_item_id: parseInt(id, 10),
             },
             context: {
                 request: 'internal',

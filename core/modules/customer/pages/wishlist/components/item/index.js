@@ -41,8 +41,8 @@ const WishlistComp = ({
     let defaultWidth = storeConfig?.pwa?.image_product_width;
     let defaultHeight = storeConfig?.pwa?.image_product_height;
 
-    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
-    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 10);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 10);
 
     return (
         <>
@@ -65,10 +65,15 @@ const WishlistComp = ({
                     />
                 </div>
                 <div className={styles.content}>
-                    <Link href="/[...slug]" as={`/${url_key}`}>
-                        <a onClick={() => handleClick(`/${url_key}`)} className={styles.productTitle}>
-                            <Typography variant="p">{name}</Typography>
-                        </a>
+                    <Link
+                        href="/[...slug]"
+                        as={`/${url_key}`}
+                        onClick={() => handleClick(`/${url_key}`)}
+                        className={styles.productTitle}
+                    >
+
+                        <Typography variant="p">{name}</Typography>
+
                     </Link>
                     <PriceFormat
                         variant="p"

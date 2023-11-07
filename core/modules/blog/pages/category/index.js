@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import DefaultContent from '@core_modules/blog/pages/category/components';
 import CoreBase from '@core_modules/blog/pages/category/core';
@@ -19,9 +19,5 @@ const DefaultCategory = (props) => (
         {...props}
     />
 );
-
-DefaultCategory.getInitialProps = async () => ({
-    namespacesRequired: ['blog'],
-});
 
 export default withApollo({ ssr: true })(withTranslation()(DefaultCategory));

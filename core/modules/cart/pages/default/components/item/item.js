@@ -50,8 +50,8 @@ const ItemView = (props) => {
     let defaultWidth = storeConfig?.pwa?.image_product_width;
     let defaultHeight = storeConfig?.pwa?.image_product_height;
 
-    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
-    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 10);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 10);
 
     const orderNote = (itemId, notes, qty) => {
         const [actUpdateCartItemNote] = updateCartItemNote();
@@ -141,8 +141,8 @@ const ItemView = (props) => {
                 {prices.price_incl_tax.value === 0 ? <span>{t('common:title:free')}</span> : null}
             </div>
             <div className={styles.itemInfo}>
-                <Link href="/[...slug]" as={`/${product.url_key}`}>
-                    <a className={styles.itemName}>{product.name}</a>
+                <Link href="/[...slug]" as={`/${product.url_key}`} className={styles.itemName}>
+                    {product.name}
                 </Link>
                 <div className={styles.itemVariant}>
                     {configurable_options && configurable_options.length > 0 ? <div>{t('common:variant')}</div> : null}

@@ -64,7 +64,7 @@ import Skeleton from '@core_modules/home/pages/default/components/Skeleton';
 ```node
 
 import FeaturedSkeleton from '@common_slider/Carousel/Skeleton';
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import BannerSliderSkeleton from './components/Skeleton/BannerSkeleton';
 import ErrorInfo from './components/ErrorInfo';

@@ -28,7 +28,7 @@ import Skeleton from '@core_modules/trackingorder/pages/components/skeleton';
 #### example code
 
 ````
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { withApollo } from '@lib_apollo';
 import FormView from '@core_modules/trackingorder/pages/components/form/view';
 // custome result view

@@ -31,7 +31,7 @@ const CustomImage = ({
     className = '',
     alt = 'Image',
     quality,
-    style = {},
+    // style = {},
     lazy = true,
     storeConfig = {},
     slickBanner = false,

@@ -27,7 +27,7 @@ const OptionsItemDownload = ({
     price,
     Footer,
 }) => {
-    const reviewValue = parseInt(review.rating_summary, 0) / 20;
+    const reviewValue = parseInt(review.rating_summary, 10) / 20;
     const [qty, setQty] = React.useState(1);
     const client = useApolloClient();
 

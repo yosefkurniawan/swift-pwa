@@ -19,24 +19,24 @@ const ItemLook = (props) => {
     let defaultWidth = storeConfig?.pwa?.image_product_width;
     let defaultHeight = storeConfig?.pwa?.image_product_height;
 
-    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
-    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 10);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 10);
 
     return (
         <div className={classNames('col-xs-12 col-sm-12 col-md-6 col-lg-6', styles.itemLookContainer)}>
-            <Link href="[...slug]" as={`${url_key}`}>
-                <a className={styles.imageLookContainer}>
-                    <Tooltip title={label}>
-                        <Image
-                            src={url}
-                            className={styles.img}
-                            alt={label && url ? label : 'Product'}
-                            width={defaultWidth}
-                            height={defaultHeight}
-                            quality={80}
-                        />
-                    </Tooltip>
-                </a>
+            <Link href="[...slug]" as={`${url_key}`} className={styles.imageLookContainer}>
+
+                <Tooltip title={label}>
+                    <Image
+                        src={url}
+                        className={styles.img}
+                        alt={label && url ? label : 'Product'}
+                        width={defaultWidth}
+                        height={defaultHeight}
+                        quality={80}
+                    />
+                </Tooltip>
+
             </Link>
         </div>
     );

@@ -13,14 +13,18 @@ const ItemFeatured = (props) => {
             {is_active === 1 ? (
                 <>
                     {category_url ? (
-                        <Link href="/[...slug]" as={category_url}>
-                            <a
+                        (
+                            <Link
+                                href="/[...slug]"
+                                as={category_url}
                                 key={key}
                                 className={styles.container}
                             >
+
                                 <img className={styles.imgBrand} src={logo} alt={name} />
-                            </a>
-                        </Link>
+
+                            </Link>
+                        )
                     ) : (
                         <div
                             key={key}

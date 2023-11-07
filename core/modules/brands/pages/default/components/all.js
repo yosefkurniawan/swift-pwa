@@ -23,7 +23,7 @@ const Item = (props) => {
                                 <li key={idx} className={styles.listBrand}>
                                     {val.attribute_id ? (
                                         <Link href={`/catalogsearch/advanced/result?brand[]=${val.attribute_id}`}>
-                                            <a>{val.name}</a>
+                                            {val.name}
                                         </Link>
                                     ) : val.name}
                                 </li>

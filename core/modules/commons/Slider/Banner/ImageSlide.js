@@ -19,15 +19,16 @@ const ImageSlide = ({
     let defaultWidth = storeConfig?.pwa?.home_slider_desktop_width;
     let defaultHeight = storeConfig?.pwa?.home_slider_desktop_height;
 
-    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
-    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 10);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 10);
 
     return (
-        <Link
-            href={isSlug ? '/[...slug]' : href}
-            {...(isSlug && { as: href })}
-        >
-            <a>
+        (
+            <Link
+                href={isSlug ? '/[...slug]' : href}
+                {...(isSlug && { as: href })}
+            >
+
                 <Thumbor
                     src={setDefaultWhenEmpty(imageUrl)}
                     alt={href}
@@ -36,8 +37,9 @@ const ImageSlide = ({
                     quality={100}
                     className={styles.imageSlider}
                 />
-            </a>
-        </Link>
+
+            </Link>
+        )
     );
 };
 

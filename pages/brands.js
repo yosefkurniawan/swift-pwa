@@ -1,6 +1,12 @@
 import Page from '@core_modules/brands/pages/default';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-// if need to custom brands page
-// import Page from '@custom/brands/pages/default';
+export async function getServerSideProps(ctx) {
+    return {
+        props: {
+            ...(await serverSideTranslations(ctx.locale, ['brands'])),
+        },
+    };
+}
 
 export default Page;

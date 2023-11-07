@@ -71,8 +71,8 @@ const Banner = ({
     let defaultWidthMobile = storeConfig?.pwa?.home_slider_desktop_width;
     let defaultHeightMobile = storeConfig?.pwa?.home_slider_desktop_height;
 
-    if (typeof defaultWidthMobile === 'string') defaultWidthMobile = parseInt(defaultWidthMobile, 0);
-    if (typeof defaultHeightMobile === 'string') defaultHeightMobile = parseInt(defaultHeightMobile, 0);
+    if (typeof defaultWidthMobile === 'string') defaultWidthMobile = parseInt(defaultWidthMobile, 10);
+    if (typeof defaultHeightMobile === 'string') defaultHeightMobile = parseInt(defaultHeightMobile, 10);
 
     return (
         <div className={styles.container}>

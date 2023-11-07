@@ -52,7 +52,7 @@ const ViewTopNavigation = (props) => {
                     <div className="header-middle">
                         <div className="header-middle__left">
                             <div className="box header-middle__logo">
-                                <Link href="/">
+                                <Link href="/" legacyBehavior>
                                     <a>
                                         <Image
                                             className="header-middle__logo-link"

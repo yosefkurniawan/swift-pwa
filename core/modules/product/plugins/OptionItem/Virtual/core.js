@@ -38,7 +38,7 @@ const CoreOptionsItemVirtual = ({
         setLoading = setCustomLoading;
     }
 
-    const reviewValue = parseInt(review?.rating_summary, 0) / 20;
+    const reviewValue = parseInt(review?.rating_summary, 10) / 20;
     const [addCartVirtual] = addVirtualProductToCart();
     const [getGuestCartId] = queryGetGuestCartId();
     const cartUser = getCustomerCartId();

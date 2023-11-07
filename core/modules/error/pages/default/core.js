@@ -1,5 +1,5 @@
 import Layout from '@layout';
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import * as Sentry from '@sentry/node';
 import { getLoginInfo } from '@helper_auth';
 

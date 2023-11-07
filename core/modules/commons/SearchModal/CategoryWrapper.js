@@ -1,5 +1,5 @@
 import { debuging } from '@config';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import Alert from '@material-ui/lab/Alert';
 import React from 'react';
 import Router from 'next/router';

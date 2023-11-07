@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
 import Router from 'next/router';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 
 const MagezonSearchForm = (props) => {
     const {

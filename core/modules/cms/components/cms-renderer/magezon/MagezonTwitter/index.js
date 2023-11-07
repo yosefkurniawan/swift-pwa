@@ -1,4 +1,4 @@
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 

@@ -46,59 +46,65 @@ const MagezonLink = (props) => {
                     switch (type) {
                     case 'custom':
                         return (
-                            <Link
-                                href={url}
-                                color="inherit"
-                                underline="none"
-                            >
-                                <a target={(blank === true || blank === 'true' ? '_blank' : '_self')} style={{ width: '100%' }}>
+                            (
+                                <Link
+                                    href={url}
+                                    color="inherit"
+                                    underline="none"
+                                    target={(blank === true || blank === 'true' ? '_blank' : '_self')}
+                                    style={{ width: '100%' }}
+                                >
+
                                     { children || title }
-                                </a>
-                            </Link>
+
+                                </Link>
+                            )
                         );
                     case 'product':
                         return (
-                            <Link
-                                href="/[...slug]"
-                                as={`/${url_key + extra}`}
-                                target={(blank === true || blank === 'true' ? '_blank' : '_self')}
-                            >
-                                <a
+                            (
+                                <Link
+                                    href="/[...slug]"
+                                    as={`/${url_key + extra}`}
                                     target={(blank === true || blank === 'true' ? '_blank' : '_self')}
                                     onClick={() => handleClickProduct(url_key, blank)}
                                     style={{ width: '100%' }}
                                 >
+
                                     { children || title }
-                                </a>
-                            </Link>
+
+                                </Link>
+                            )
                         );
                     case 'category':
                         return (
-                            <Link
-                                href="/[...slug]"
-                                as={`/${(url_path || url_key) + extra}`}
-                            >
-                                <a
+                            (
+                                <Link
+                                    href="/[...slug]"
+                                    as={`/${(url_path || url_key) + extra}`}
                                     target={(blank === true || blank === 'true' ? '_blank' : '_self')}
                                     onClick={() => handleClickCategory(url_key, id, blank)}
                                     style={{ width: '100%' }}
                                 >
+
                                     { children || title }
-                                </a>
-                            </Link>
+
+                                </Link>
+                            )
                         );
                     case 'page':
                         return (
-                            <Link
-                                href={`/${url_key + extra}`}
-                            >
-                                <a
+                            (
+                                <Link
+                                    href={`/${url_key + extra}`}
                                     target={(blank === true || blank === 'true' ? '_blank' : '_self')}
                                     style={{ width: '100%' }}
                                 >
+
                                     { children || title }
-                                </a>
-                            </Link>
+
+                                </Link>
+                            )
                         );
                     default:
                         return null;
@@ -110,11 +116,16 @@ const MagezonLink = (props) => {
 
     if (contentLink && contentLink !== '' && !contentLink.includes(DOM_NAME)) {
         return (
-            <Link href={`${contentLink}`}>
-                <a target={link_target === '_blank' ? '_blank' : '_self'}>
+            (
+                <Link
+                    href={`${contentLink}`}
+                    target={link_target === '_blank' ? '_blank' : '_self'}
+                >
+
                     {children}
-                </a>
-            </Link>
+
+                </Link>
+            )
         );
     }
     return children;

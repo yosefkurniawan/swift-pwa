@@ -1,7 +1,7 @@
 import Typography from '@common_typography';
 import { formatPrice } from '@helper_currency';
 import React from 'react';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import Image from '@common_image';
 import useStyles from '@core_modules/rma/pages/detail/components/styles';
 
@@ -16,8 +16,8 @@ const ItemProduct = (props) => {
     let defaultWidth = storeConfig?.pwa?.image_product_width;
     let defaultHeight = storeConfig?.pwa?.image_product_height;
 
-    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
-    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 10);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 10);
 
     return (
         <div className="column">

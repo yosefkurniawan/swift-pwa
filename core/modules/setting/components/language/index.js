@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-return-assign */
 import React, { useState, useEffect, useRef } from 'react';
-import { withTranslation } from '@i18n';
+import { withTranslation } from 'next-i18next';
 import { translation } from '@config';
 import cookies from 'js-cookie';
 import ViewLanguage from '@core_modules/setting/components/language/view';
@@ -60,7 +60,7 @@ const SwitcherLanguage = (props) => {
                                 label: defaultDataLang && defaultDataLang.label,
                                 value: defaultDataLang && defaultDataLang.value,
                             };
-                        i18n.changeLanguage(getDataCookies.value);
+                        // i18n.changeLanguage(getDataCookies.value);
                         cookies.set(COOKIES_APP_LANG, getDataCookies);
                         setLang(getDataCookies);
                     } else {

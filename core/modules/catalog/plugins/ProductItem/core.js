@@ -1,7 +1,7 @@
 import { debuging, modules } from '@config';
 import { getLoginInfo } from '@helper_auth';
 import { setCookies, getCookies } from '@helper_cookies';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import route, { useRouter } from 'next/router';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import React from 'react';
@@ -374,7 +374,7 @@ const ProductItem = (props) => {
         }
     }, [dataDetailProduct]);
 
-    const ratingValue = review && review.rating_summary ? parseInt(review.rating_summary, 0) / 20 : 0;
+    const ratingValue = review && review.rating_summary ? parseInt(review.rating_summary, 10) / 20 : 0;
     const enableProductCompare = modules.productcompare.enabled;
     const DetailProps = {
         spesificProduct,

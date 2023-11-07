@@ -29,8 +29,8 @@ const OrderView = (props) => {
         <>
             <h2 className={styles.infoTitle}>
                 {t('customer:order:recentOrder')}
-                <Link href="/sales/order/history">
-                    <a className={styles.desktopLinkHeader}>{t('customer:menu:viewall')}</a>
+                <Link href="/sales/order/history" className={styles.desktopLinkHeader}>
+                    {t('customer:menu:viewall')}
                 </Link>
             </h2>
             <hr />
@@ -81,8 +81,11 @@ const OrderView = (props) => {
                                                     {val.status_label}
                                                 </TableCell>
                                                 <TableCell component="td" scope="row">
-                                                    <Link href={`/sales/order/view/order_id/${val.order_number}`}>
-                                                        <a className={styles.desktopLink}>Detail</a>
+                                                    <Link
+                                                        href={`/sales/order/view/order_id/${val.order_number}`}
+                                                        className={styles.desktopLink}
+                                                    >
+                                                        Detail
                                                     </Link>
                                                     <button type="button" className={styles.reorderButton} onClick={() => reOrder(val.order_number)}>
                                                         <a className={styles.desktopLink}>Reorder</a>

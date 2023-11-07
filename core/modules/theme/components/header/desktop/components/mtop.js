@@ -21,7 +21,7 @@ const ViewTop = (props) => {
                     t('common:header:welcome')
                 ) : (
                     <>
-                        <Link href="/customer/account">
+                        <Link href="/customer/account" legacyBehavior>
                             <a>
                                 {data.customer
                                     ? `${t('common:header:hi').replace('$', `${data.customer.firstname} ${data.customer.lastname}`)} 
@@ -31,12 +31,12 @@ const ViewTop = (props) => {
                         </Link>
                         <ul>
                             <li>
-                                <Link href="/customer/account">
+                                <Link href="/customer/account" legacyBehavior>
                                     <a>{t('common:menu:myaccount')}</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/wishlist">
+                                <Link href="/wishlist" legacyBehavior>
                                     <a>
                                         {t('common:menu:mywishlist')}
                                         {' '}
@@ -60,27 +60,27 @@ const ViewTop = (props) => {
             </li>
             {modules.confirmpayment.enabled ? (
                 <li>
-                    <Link href="/confirmpayment" prefetch={false}>
+                    <Link href="/confirmpayment" prefetch={false} legacyBehavior>
                         <a>{t('common:menu:confirmpayment')}</a>
                     </Link>
                 </li>
             ) : null}
             {modules.trackingorder.enabled ? (
                 <li>
-                    <Link href="/sales/order/track" prefetch={false}>
+                    <Link href="/sales/order/track" prefetch={false} legacyBehavior>
                         <a>{t('common:menu:trackingorder')}</a>
                     </Link>
                 </li>
             ) : null}
             {!isLogin ? (
                 <li>
-                    <Link href="/customer/account/login" prefetch={false}>
+                    <Link href="/customer/account/login" prefetch={false} legacyBehavior>
                         <a id="header-menu-btnsign">{t('common:menu:sign')}</a>
                     </Link>
                     {' '}
                     {t('common:menu:or')}
                     {' '}
-                    <Link href="/customer/account/create" prefetch={false}>
+                    <Link href="/customer/account/create" prefetch={false} legacyBehavior>
                         <a id="header-menu-btnregister">{t('common:menu:register')}</a>
                     </Link>
                     {' '}

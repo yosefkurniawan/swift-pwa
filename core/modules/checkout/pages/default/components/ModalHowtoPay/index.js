@@ -12,7 +12,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import gqlService from '@core_modules/checkout/services/graphql';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 import useStyles from '@core_modules/checkout/pages/default/components/ModalHowtoPay/style';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />

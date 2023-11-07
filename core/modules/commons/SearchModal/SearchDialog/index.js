@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import TextField from '@common_forms/TextField';
 import Typography from '@common_typography';
-import { useTranslation } from '@i18n';
+import { useTranslation } from 'next-i18next';
 import Dialog from '@material-ui/core/Dialog';
 import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
