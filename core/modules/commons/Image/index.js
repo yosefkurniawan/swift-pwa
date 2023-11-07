@@ -5,6 +5,7 @@ import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import { getHost, getHostProd } from '@helpers/config';
 import React, { useEffect, useState, useCallback } from 'react';
 import { BREAKPOINTS } from '@theme_vars';
+import Head from 'next/head';
 
 function gcd(a, b) {
     return (b === 0) ? a : gcd(b, a % b);
@@ -30,12 +31,15 @@ const CustomImage = ({
     className = '',
     alt = 'Image',
     quality,
-    style = {},
+    // style = {},
     lazy = true,
     storeConfig = {},
     slickBanner = false,
+    deviceType,
+    preload = false,
     ...other
 }) => {
+    // console.log('deviceType', deviceType);
     const enable = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_enable;
     const useHttpsOrHttp = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_https_http;
     const thumborUrl = storeConfig && storeConfig.pwa && storeConfig.pwa.thumbor_url;
@@ -167,8 +171,21 @@ const CustomImage = ({
         }
     }, [imageUrl, imageUrlMobile]);
 
+    const imgTagDimensions = {
+        width: !deviceType?.isMobile ? width || null : widthMobile || null,
+        height: !deviceType?.isMobile ? height || null : heightMobile || null,
+    };
+
     return (
         <Container enable={useContainer} className={classContainer} style={styleContainer}>
+            {
+                preload && (
+                    <Head>
+                        <link rel="preload" as="image" href={imgSource} />
+                        { srcMobile && <link rel="preload" as="image" href={imgSourceMobile} />}
+                    </Head>
+                )
+            }
             <picture>
                 { srcMobile ? (
                     <>
@@ -193,8 +210,9 @@ const CustomImage = ({
                     className={`img ${className}`}
                     src={getImageFallbackUrl(imgSource)}
                     alt={alt}
-                    width={width !== 0 ? width : null}
-                    height={height !== 0 ? height : null}
+                    // width={width !== 0 && desktop ? width : widthMobile}
+                    // height={height !== 0 && desktop ? height : heightMobile}
+                    {...imgTagDimensions}
                     onLoad={lazy ? onLoad : null}
                     onError={lazy ? onError : null}
                     {...other}

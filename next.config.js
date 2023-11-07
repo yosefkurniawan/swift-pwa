@@ -53,7 +53,6 @@ module.exports = withPWA({
         return config;
     },
     // generateInDevMode: true, // please comment if develop to production
-
     // enable code below on Prod and increase the version everytime before running build script
     // generateBuildId: async () => 'swift-pwa-v1.0.0',
 });

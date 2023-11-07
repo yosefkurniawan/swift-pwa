@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable object-curly-newline */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
@@ -13,8 +14,8 @@ import { appWithTranslation } from 'next-i18next';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { getAppEnv } from '@root/core/helpers/env';
-import { RewriteFrames } from '@sentry/integrations';
-import { Integrations } from '@sentry/tracing';
+// import { RewriteFrames } from '@sentry/integrations';
+// import { Integrations } from '@sentry/tracing';
 import { getCategories, getVesMenu, storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import { currencyVar, storeConfigVar, cmsPageVar } from '@root/core/services/graphql/cache';
 import theme from '@theme_theme';
@@ -26,41 +27,41 @@ import React from 'react';
 import { gql } from '@apollo/client';
 import PageProgressLoader from '@common_loaders/PageProgress';
 import graphRequest from '@graphql_request';
-import Notification from '@lib_firebase/notification';
-import firebase from '@lib_firebase/index';
+// import Notification from '@lib_firebase/notification';
+// import firebase from '@lib_firebase/index';
 import routeMiddleware from '@middleware_route';
-import getConfig from 'next/config';
-import TagManager from 'react-gtm-module';
+// import getConfig from 'next/config';
+// import TagManager from 'react-gtm-module';
 
 import ModalCookies from '@core_modules/theme/components/modalCookies';
-import * as Sentry from '@sentry/node';
+// import * as Sentry from '@sentry/node';
 import { getDeviceByUA, getUAString } from '@root/core/helpers/deviceDection';
 
-const { publicRuntimeConfig } = getConfig();
+// const { publicRuntimeConfig } = getConfig();
 
 /*
  * ---------------------------------------------
  * SENTRY INITIALIZATION
  */
-if (sentry.enabled && typeof publicRuntimeConfig !== 'undefined' && sentry.dsn[publicRuntimeConfig.appEnv]) {
-    const distDir = `${publicRuntimeConfig.rootDir}/.next`;
-    Sentry.init({
-        enabled: process.env.NODE_ENV === sentry.enableMode,
-        integrations: [
-            new RewriteFrames({
-                iteratee: (frame) => {
-                    // eslint-disable-next-line no-param-reassign
-                    frame.filename = frame.filename.replace(distDir, 'app:///_next');
-                    return frame;
-                },
-            }),
-            new Integrations.BrowserTracing(),
-        ],
-        environment: publicRuntimeConfig.appEnv,
-        dsn: sentry.dsn[publicRuntimeConfig.appEnv],
-        tracesSampleRate: 0.5,
-    });
-}
+// if (sentry.enabled && typeof publicRuntimeConfig !== 'undefined' && sentry.dsn[publicRuntimeConfig.appEnv]) {
+//     const distDir = `${publicRuntimeConfig.rootDir}/.next`;
+//     Sentry.init({
+//         enabled: process.env.NODE_ENV === sentry.enableMode,
+//         integrations: [
+//             new RewriteFrames({
+//                 iteratee: (frame) => {
+//                     // eslint-disable-next-line no-param-reassign
+//                     frame.filename = frame.filename.replace(distDir, 'app:///_next');
+//                     return frame;
+//                 },
+//             }),
+//             new Integrations.BrowserTracing(),
+//         ],
+//         environment: publicRuntimeConfig.appEnv,
+//         dsn: sentry.dsn[publicRuntimeConfig.appEnv],
+//         tracesSampleRate: 0.5,
+//     });
+// }
 
 class MyApp extends App {
     constructor(props) {
@@ -248,42 +249,43 @@ class MyApp extends App {
          * ---------------------------------------------
          * FIREBASE INITIALIZATION
          */
-        if (features.firebase.config.apiKey !== '' && features.firebase.pushNotification.enabled) {
-            // initial firebase messaging
-            Notification.init();
-            // handle if have message on focus
-            try {
-                const messaging = firebase.messaging();
-                // Handle incoming messages. Called when:
-                // - a message is received while the app has focus
-                // - the user clicks on an app notification created by a service worker
-                //   `messaging.setBackgroundMessageHandler` handler.
-                messaging.onMessage((payload) => {
-                    navigator.serviceWorker.ready.then((registration) => {
-                        // This prevents to show one notification for each tab
-                        setTimeout(() => {
-                            // eslint-disable-next-line no-console
-                            console.log('[firebase-messaging-sw.js] Received foreground message ', payload);
-                            const lastNotification = localStorage.getItem('lastNotification');
-                            const isDifferentContent = payload.data.updated_date + payload.data.title !== lastNotification;
-                            if (isDifferentContent) {
-                                localStorage.setItem('lastNotification', payload.data.updated_date + payload.data.title);
-                                registration.showNotification(payload.data.title, {
-                                    body: payload.data.body,
-                                    vibrate: [200, 100, 200, 100, 200, 100, 200],
-                                    icon: payload.data.logo || '',
-                                    image: payload.data.image || '',
-                                    data: payload.data,
-                                });
-                            }
-                        }, Math.random() * 1000);
-                    });
-                });
-            } catch (err) {
-                // eslint-disable-next-line no-console
-                console.log(err);
-            }
-        }
+        // if (features.firebase.config.apiKey !== '' && features.firebase.pushNotification.enabled) {
+        //     // initial firebase messaging
+        //     Notification.init();
+        //     // handle if have message on focus
+        //     try {
+        //         const messaging = firebase.messaging();
+        //         // Handle incoming messages. Called when:
+        //         // - a message is received while the app has focus
+        //         // - the user clicks on an app notification created by a service worker
+        //         //   `messaging.setBackgroundMessageHandler` handler.
+        //         messaging.onMessage((payload) => {
+        //             navigator.serviceWorker.ready.then((registration) => {
+        //                 // This prevents to show one notification for each tab
+        //                 setTimeout(() => {
+        //                     // eslint-disable-next-line no-console
+        //                     console.log('[firebase-messaging-sw.js] Received foreground message ', payload);
+        //                     const lastNotification = localStorage.getItem('lastNotification');
+        //                     const isDifferentContent = payload.data.updated_date !== lastNotification;
+        //                     if (isDifferentContent) {
+        //                         localStorage.setItem('lastNotification', payload.data.updated_date + payload.data.title);
+        //                         registration.showNotification(payload.data.title, {
+        //                             body: payload.data.body,
+        //                             vibrate: [200, 100, 200, 100, 200, 100, 200],
+        //                             icon: payload.data.icons || '',
+        //                             image: payload.data.image || '',
+        //                             requireInteraction: true,
+        //                             data: payload.data,
+        //                         });
+        //                     }
+        //                 }, Math.random() * 1000);
+        //             });
+        //         });
+        //     } catch (err) {
+        //         // eslint-disable-next-line no-console
+        //         console.log(err);
+        //     }
+        // }
 
         /*
          * LAZY LOADING FONTS
@@ -316,25 +318,25 @@ class MyApp extends App {
         */
 
         const storeConfig = storeConfigVar();
-        let GTM = {};
+        // let GTM = {};
 
         if (storeConfig && storeConfig.pwa) {
-            GTM = {
-                enable: storeConfig && storeConfig.pwa.gtm_enable,
-                // enable: true,
-                gtmId: {
-                    local: 'GTM-5G5TGZ6',
-                    dev: storeConfig && storeConfig.pwa.gtm_id_dev ? storeConfig.pwa.gtm_id_dev : '',
-                    stage: storeConfig && storeConfig.pwa.gtm_id_stage ? storeConfig.pwa.gtm_id_stage : '',
-                    prod: storeConfig && storeConfig.pwa.gtm_id_prod ? storeConfig.pwa.gtm_id_prod : '',
-                },
-            };
+            // GTM = {
+            //     enable: storeConfig && storeConfig.pwa.gtm_enable,
+            //     // enable: true,
+            //     gtmId: {
+            //         local: 'GTM-5G5TGZ6',
+            //         dev: storeConfig && storeConfig.pwa.gtm_id_dev ? storeConfig.pwa.gtm_id_dev : '',
+            //         stage: storeConfig && storeConfig.pwa.gtm_id_stage ? storeConfig.pwa.gtm_id_stage : '',
+            //         prod: storeConfig && storeConfig.pwa.gtm_id_prod ? storeConfig.pwa.gtm_id_prod : '',
+            //     },
+            // };
         }
 
-        const tagManagerArgs = {
-            gtmId: 'GTM-5G5TGZ6',
-        };
-        if (GTM.enable) TagManager.initialize(tagManagerArgs);
+        // const tagManagerArgs = {
+        //     gtmId: 'GTM-5G5TGZ6',
+        // };
+        // if (GTM.enable) TagManager.initialize(tagManagerArgs);
 
         /*
          * ---------------------------------------------
@@ -349,11 +351,16 @@ class MyApp extends App {
     }
 
     registerServiceWorker() {
-        // There is no longer custom custom service worker right now
-
-        // Notes: beside the custom service worker, following another services workes are registered automatically by the plugins:
-        // - sw.js by next-pwa. the config is in next.config.js
-        // - firebase-messaging-sw.js by @lib_firebase
+        // navigator.serviceWorker.register(`${basePath}/service-worker.js`).then(
+        //     (registration) => {
+        //         // eslint-disable-next-line no-console
+        //         console.log('Service Worker registration successful with scope: ', registration.scope);
+        //     },
+        //     (err) => {
+        //         // eslint-disable-next-line no-console
+        //         console.log('Service Worker registration failed: ', err);
+        //     },
+        // );
     }
 
     render() {
