@@ -209,25 +209,8 @@ async function renderAndCache(req, res) {
     //     });
     // });
 
-    // server.get(/(static\/chunks)/g, (req, res) => {
-    //     const filePath = path.join(basePath, '.next', './core/public/sw.js')
-    //     app.serveStatic(req, res, filePath);
-    // });
-
     server.get(/^(\/static\/chunks)/g, (req, res) => {
         const parsedUrl = parse(req.originalUrl, true);
-        // console.log('parsedUrl', parsedUrl);
-
-        const { pathname } = parsedUrl;
-
-        const filePath = path.join(basePath, '.next', pathname);
-        app.serveStatic(req, res, filePath);
-    });
-
-    server.get(/^(\/static\/chunks)/g, (req, res) => {
-        const parsedUrl = parse(req.originalUrl, true);
-        // console.log('parsedUrl', parsedUrl);
-
         const { pathname } = parsedUrl;
 
         const filePath = path.join(basePath, '.next', pathname);
