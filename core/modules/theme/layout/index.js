@@ -35,8 +35,8 @@ import { getCartId } from '@helper_cartid';
 import { localTotalCart } from '@services/graphql/schema/local';
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
-const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
-const HeaderMobile = dynamic(() => import('@common_headermobile'), { ssr: false });
+const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: true });
+const HeaderMobile = dynamic(() => import('@common_headermobile'), { ssr: true });
 const HeaderDesktop = dynamic(() => import('@common_headerdesktop'), { ssr: true });
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false });
@@ -255,12 +255,12 @@ const Layout = (props) => {
                 },
             };
             if (custData && custData.email) {
-                const custEmail = custData.email.toLowerCase();
+                // const custEmail = custData.email.toLowerCase();
                 // tagManagerArgs.dataLayer.eid = crypto.createHash('sha256').update(custEmail).digest('hex');
             }
             if (custData && custData.phonenumber && custData.is_phonenumber_valid) {
-                let custPhone = custData.phonenumber;
-                custPhone = `${custPhone}`;
+                // let custPhone = custData.phonenumber;
+                // custPhone = `${custPhone}`;
                 // tagManagerArgs.dataLayer.pid = crypto.createHash('sha256').update(custPhone).digest('hex');
             }
             TagManager.dataLayer(tagManagerArgs);
