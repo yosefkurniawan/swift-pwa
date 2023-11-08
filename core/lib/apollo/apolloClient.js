@@ -2,6 +2,7 @@
 import {
     ApolloClient, ApolloLink, from, HttpLink, InMemoryCache,
 } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import { getAppEnv } from '@helpers/env';
 import { removeIsLoginFlagging } from '@helper_auth';
 import { removeCartId } from '@helper_cartid';
@@ -56,6 +57,18 @@ const link = new RetryLink().split(
     }),
 );
 
+const authLink = setContext((_, { headers }) => {
+    // get the authentication token from local storage if it exists
+    const token = cookies.get(customerTokenKey);
+    // return the headers to the context so httpLink can read them
+    return {
+        headers: {
+            ...headers,
+            authorization: token ? `Bearer ${token}` : '',
+        },
+    };
+});
+
 export default function createApolloClient(initialState, ctx) {
     // The `ctx` (NextPageContext) will only be present on the server.
     // use it to extract auth headers (ctx.req) or similar.
@@ -101,7 +114,7 @@ export default function createApolloClient(initialState, ctx) {
 
     return new ApolloClient({
         ssrMode: Boolean(ctx),
-        link: from([timeoutLink, middlewareHeader, logoutLink, link]),
+        link: from([timeoutLink, middlewareHeader, logoutLink, authLink, link]),
         cache: new InMemoryCache({
             possibleTypes: {
                 ProductInterface: [
