@@ -52,7 +52,9 @@ const routeMiddleware = (params) => {
     Set Cache Control response header to enable varnish caching
     */
     if (typeof window === 'undefined') {
-        res.setHeader('Cache-Control', 'public');
+        res.setHeader('Vercel-CDN-Cache-Control', 'max-age=3600');
+        res.setHeader('CDN-Cache-Control', 'max-age=60');
+        res.setHeader('Cache-Control', 'max-age=10');
     }
 
     /**
