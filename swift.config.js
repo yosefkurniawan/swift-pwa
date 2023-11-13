@@ -17,7 +17,7 @@ const HOST = {
     local: `http://localhost:3000${basePath}`,
     dev: `https://swiftpwa.testingnow.me${basePath}`,
     stage: `https://getswift-pwa.gcp-staging.testingnow.me${basePath}`,
-    prod: `https://pwa.getswift.asia${basePath}`,
+    prod: `https://swift-pwa-one.vercel.app${basePath}`,
 };
 
 /* Magento GraphQL Endpoint */
